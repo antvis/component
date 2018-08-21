@@ -3,7 +3,7 @@ process.env.DEBUG = 'app:*';
 const debug = require('debug')('app:screenshot');
 const MAX_POOL_SIZE = require('os').cpus().length;
 const Nightmare = require('nightmare');
-const _ = require('lodash');
+const Util = require('@antv/util');
 const commander = require('commander');
 const connect = require('connect');
 const getPort = require('get-port');
@@ -44,7 +44,7 @@ getPort().then(port => {
   const files = ls(src).filter(filename => (extname(filename) === '.html'));
   files.forEach(filename => {
     const name = basename(filename, '.html');
-    if (_.isString(commander.filter) && filename.indexOf(commander.filter) === -1) {
+    if (Util.isString(commander.filter) && filename.indexOf(commander.filter) === -1) {
       debug(`>>>>>>>>> skipping because filename not matched: ${name}`);
       return;
     }
