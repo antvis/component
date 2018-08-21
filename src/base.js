@@ -1,49 +1,49 @@
+/**
+ * @fileOverview Chart、View、Geometry 的基类
+ * @author dxq613@gmail.com
+ */
 
-class Component {
-  // 配置
+const EventEmitter = require('wolfy87-eventemitter');
+const Util = require('./util');
+
+class Base extends EventEmitter {
   getDefaultCfg() {
-    return {
-      // 顶层标志位
-      _id: '', // 用于动画
-      name: '', // 用于上层注册自定义组件用
-      // 容器
-      canvas: null,
-      container: null, // html，可选
-      group: null, // G Group，可选
-      // 交互属性
-      capture: false,
-      // props
-      coord: null,
-      offset: [ 0, 0 ],
-      plotRange: null, // BBox
-      position: [ 0, 0 ],
-      visible: true,
-      zIndex: 1
-    };
+    return {};
   }
 
-  // 基础生命周期
-  _init() { }
-  clear() { }
-  destroy() { }
+  constructor(cfg) {
+    super();
+    const self = this;
+    const attrs = {
+      visible: true
+    };
+    const defaultCfg = self.getDefaultCfg();
+    self._attrs = attrs;
+    Util.mix(attrs, defaultCfg, cfg);
+  }
 
-  // 绘图
-  beforeRender() { }
-  render() { } // 初始化、绑事件和绘图
-  afterRender() { }
-  beforeDraw() { }
-  draw() { } // 单纯更新视图
-  afterDraw() { }
+  get(name) {
+    return this._attrs[name];
+  }
 
-  // visibility
-  show() { }
-  hide() { }
+  set(name, value) {
+    this._attrs[name] = value;
+  }
 
-  // props operating syntactic sugar
-  setOffset() { }
-  setPosition() { }
-  setVisible() { }
-  setZIndex() { }
+  /**
+   * @protected
+   * @param {Boolean} visible 是否可见
+   * 显示、隐藏
+   */
+  changeVisible(/* visible */) {
+  }
+
+  destroy() {
+    const self = this;
+    self._attrs = {};
+    self.removeAllListeners();
+    self.destroyed = true;
+  }
 }
 
-module.exports = Component;
+module.exports = Base;
