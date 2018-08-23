@@ -60,6 +60,12 @@ class Label extends Component {
     }
     super.clear();
   }
+  destroy() {
+    const group = this.get('group');
+    if (!group.destroy) {
+      group.destroy();
+    }
+  }
   render() {
     this.clear();
     this._init();
