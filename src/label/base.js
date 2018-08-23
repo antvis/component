@@ -21,7 +21,9 @@ class Label extends Component {
        * 文本样式
        * @type {(Object|Function)}
        */
-      textStyle: null,
+      textStyle: {
+        fill: '#000'
+      },
       /**
        * 文本显示格式化回调函数
        * @type {Function}
@@ -190,9 +192,12 @@ class Label extends Component {
   }
   lineToLabel(label) {
     const self = this;
-    const lineStyle = self.get('labelLine');
+    let lineStyle = self.get('labelLine');
+    if (typeof lineStyle === 'boolean') {
+      lineStyle = {};
+    }
     if (!lineStyle.path) {
-      const start = label._originPoints;
+      const start = label._originPoint;
       lineStyle.path = [
         [ 'M', start.x, start.y ],
         [ 'L', label.x, label.y ]
@@ -208,7 +213,7 @@ class Label extends Component {
     const lineShape = lineGroup.addShape('path', {
       attrs: Util.mix({
         fill: null,
-        stroke: label.color
+        stroke: label.color || '#000'
       }, lineStyle)
     });
     // label 对应线的动画关闭
@@ -257,6 +262,11 @@ class Label extends Component {
         wrapper.style.position = 'relative';
         wrapper.appendChild(container);
         this.set('container', container);
+      }
+    } else {
+      if (!this.get('group')) {
+        const group = this.get('canvas').addGroup({ id: 'label-group' });
+        this.set('group', group);
       }
     }
   }
