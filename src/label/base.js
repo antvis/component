@@ -186,32 +186,39 @@ class Label extends Component {
    */
   drawLines() {
     const self = this;
+    const lineStyle = self.get('labelLine');
+    if (typeof lineStyle === 'boolean') {
+      self.set('labelLine', {});
+    }
+    let lineGroup = self.get('lineGroup');
+    if (!lineGroup) {
+      lineGroup = self.get('canvas').addGroup({
+        elCls: 'x-line-group'
+      });
+      self.set('lineGroup', lineGroup);
+    } else {
+      lineGroup.clear();
+    }
     Util.each(self.get('items'), label => {
-      self.lineToLabel(label);
+      self.lineToLabel(label, lineGroup);
     });
   }
-  lineToLabel(label) {
+  lineToLabel(label, lineGroup) {
     const self = this;
-    let lineStyle = self.get('labelLine');
-    if (typeof lineStyle === 'boolean') {
-      lineStyle = {};
-    }
-    if (!lineStyle.path) {
+    const lineStyle = self.get('labelLine');
+    let path = null;
+    if (lineStyle.path) {
+      path = lineStyle.path(label);
+    } else {
       const start = label._originPoint;
-      lineStyle.path = [
+      path = [
         [ 'M', start.x, start.y ],
         [ 'L', label.x, label.y ]
       ];
     }
-    let lineGroup = self.get('lineGroup');
-    if (!lineGroup) {
-      lineGroup = self.get('group').addGroup({
-        elCls: 'x-line-group'
-      });
-      self.set('lineGroup', lineGroup);
-    }
     const lineShape = lineGroup.addShape('path', {
       attrs: Util.mix({
+        path,
         fill: null,
         stroke: label.color || '#000'
       }, lineStyle)
