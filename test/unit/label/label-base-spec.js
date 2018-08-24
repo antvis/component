@@ -39,8 +39,8 @@ describe('new default label', () => {
     expect(label.get('group').get('children')[0].attr('fill') === '#000');
     label.clear();
     expect(label.get('group').get('children').length === 0);
-    label.destroy();
-    expect(label.get('group').destroyed);
+    /* label.destroy();
+    expect(label.get('group').destroyed);*/
   });
 
   it('update labels', () => {
@@ -59,7 +59,7 @@ describe('new default label', () => {
     expect(label.get('group').get('children').length === 9);
   });
 
-  it('default labelLine', () => {
+  it('add labelLine', () => {
     const label = new Label({
       canvas,
       items,
@@ -70,5 +70,10 @@ describe('new default label', () => {
     const lineGroup = label.get('lineGroup');
     expect(lineGroup).not.to.be.undefined;
     expect(lineGroup.get('children').length === 9);
+    label.set('labelLine', { strokeStyle: '#999', lineDash: [ 5 ] });
+    label.draw();
+    expect(lineGroup.get('children')[0].attr('strokeStyle') === '#999');
+    expect(lineGroup.get('children')[0].attr('lineDash') === [ 5 ]);
   });
+
 });
