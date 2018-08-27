@@ -1,0 +1,545 @@
+const Util = require('../util');
+const Legend = require('./base');
+// const DomUtil = Util.DomUtil;
+const Event = Util.Event;
+const Group = Util.Group;
+// const Global = require('../../global');
+
+// const CONTAINER_CLASS = 'g2-legend';
+
+function findItem(items, refer) {
+  let rst = null;
+  const value = (refer instanceof Group) ? refer.get('value') : refer;
+  Util.each(items, function(item) {
+    if (item.value === value) {
+      rst = item;
+      return false;
+    }
+  });
+  return rst;
+}
+
+function findShapeByName(group, name) {
+  return group.findBy(node => {
+    return node.name === name;
+  });
+}
+
+class Category extends Legend {
+  getDefaultCfg() {
+    const cfg = super.getDefaultCfg();
+    return Util.mix({}, cfg, {
+      /**
+       * type标识
+       * @type {String}
+       */
+      type: 'category-legend',
+      /**
+       * 子项集合
+       * @type {Array}
+       */
+      items: null,
+      /**
+       * TODO：rename
+       * 图例项水平方向的间距
+       * @type {Number}
+       */
+      itemGap: 5,
+      /**
+       * TODO：rename
+       * 图例标题距离图例项的距离
+       * @type {Number}
+       */
+      titleGap: 15,
+      /**
+       * TODO：rename
+       * 图例项垂直方向的间距
+       * @type {Number}
+       */
+      itemMarginBottom: 8,
+      /**
+       * 图例项图组
+       * @type {Group}
+       */
+      itemsGroup: null,
+      /**
+       * 布局方式： horizontal，vertical
+       * @type {String}
+       */
+      layout: 'horizontal',
+      /**
+       * 是否允许全部取消，默认 false，即必须保留一个被选中
+       * @type {Boolean}
+       */
+      allowAllCanceled: false,
+      /**
+       * 边框内边距
+       * @type {Array}
+       */
+      backPadding: [ 0, 0, 0, 0 ],
+      /**
+       * 图例项取消选中的颜色
+       * @type {String}
+       */
+      unCheckColor: '#ccc',
+      /**
+       * 图例背景层属性设置
+       * @type {Obejct}
+       */
+      background: {
+        fill: '#fff',
+        fillOpacity: 0
+      },
+      /**
+       * 图例项的宽度，当图例有很多图例项，并且用户想要这些图例项在同一平面内垂直对齐，此时这个属性可帮用户实现此效果
+       * @type {Number}
+       */
+      itemWidth: null,
+      textStyle: {
+        fill: '#333',
+        fontSize: 12,
+        textAlign: 'start',
+        textBaseline: 'middle',
+        fontFamily: '"-apple-system", BlinkMacSystemFont, "Segoe UI", Roboto,"Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",SimSun, "sans-serif"' // Global.fontFamily
+      },
+      /**
+       * marker 和文字的距离
+       * @type {Number}
+       */
+      _wordSpaceing: 8,
+      container: null,
+      /**
+       * 图例项是否可点击，默认为 true
+       * @type {Boolean}
+       */
+      clickable: true,
+      /**
+       * TODO: rename
+       * 图例项的选择模式，多选和单选 multiple、single
+       * @type {String}
+       */
+      selectedMode: 'multiple',
+      /**
+       * 图例项的顺序是否要逆序，默认为 false
+       * @type {Boolean}
+       */
+      reversed: false,
+      /**
+       * 是否自动换行
+       * @type {Boolean}
+       */
+      autoWrap: true
+    });
+  }
+
+  _beforeRenderUI() {
+    super._beforeRenderUI();
+  }
+
+  _renderUI() {
+    super._renderUI();
+    this._renderItems();
+    this.get('autoWrap') && this._adjustItems(); // 默认自动换行
+  }
+
+  _bindUI() {
+    if (this.get('hoverable')) {
+      this.on('mousemove', Util.wrapBehavior(this, '_onMousemove'));
+      this.on('mouseleave', Util.wrapBehavior(this, '_onMouseleave'));
+    }
+
+    if (this.get('clickable')) {
+      this.on('click', Util.wrapBehavior(this, '_onClick'));
+    }
+  }
+
+  _getLegendItem(target) {
+    const item = target.get('parent');
+    if (item && (item.name === 'legendGroup')) {
+      return item;
+    }
+    return null;
+  }
+
+  activateItem(value) {
+    const itemsGroup = this.get('itemsGroup');
+    const children = itemsGroup.get('children');
+    let markerItem;
+    children.forEach(child => {
+      markerItem = findShapeByName(child, 'legend-marker');
+      if (child.get('value') !== value) {
+        markerItem.attr('fillOpacity', 0.5);
+      } else {
+        markerItem.attr('fillOpacity', 1);
+      }
+    });
+    this.get('canvas').draw();
+    return;
+  }
+
+  unActivateItem() {
+    const itemsGroup = this.get('itemsGroup');
+    const children = itemsGroup.get('children');
+    let markerItem;
+    children.forEach(child => {
+      markerItem = findShapeByName(child, 'legend-marker');
+      markerItem.attr('fillOpacity', 1);
+    });
+    this.get('canvas').draw();
+    return;
+  }
+
+  _onMousemove(ev) {
+    const item = this._getLegendItem(ev.currentTarget);
+    const itemsGroup = this.get('itemsGroup');
+    const children = itemsGroup.get('children');
+    let markerItem;
+    if (item && item.get('checked')) {
+      const items = this.get('items');
+      const itemhover = new Event('itemhover', ev, true, true);
+      itemhover.item = findItem(items, item);
+      itemhover.checked = item.get('checked');
+      itemhover.currentTarget = ev.currentTarget;
+      this.emit('itemhover', itemhover);
+
+      // change the opacity of other items
+      Util.each(children, child => {
+        markerItem = findShapeByName(child, 'legend-marker');
+        if (child !== item && child.get('checked')) {
+          markerItem.attr('fillOpacity', 0.5);
+        } else {
+          markerItem.attr('fillOpacity', 1);
+
+        }
+      });
+    } else {
+      Util.each(children, child => {
+        markerItem = findShapeByName(child, 'legend-marker');
+        markerItem.attr('fillOpacity', 1);
+      });
+      this.emit('itemunhover', ev);
+    }
+    this.get('canvas').draw();
+    return;
+  }
+
+  _onMouseleave(ev) {
+    const itemsGroup = this.get('itemsGroup');
+    const children = itemsGroup.get('children');
+    let markerItem;
+    Util.each(children, child => {
+      markerItem = findShapeByName(child, 'legend-marker');
+      markerItem.attr('fillOpacity', 1);
+    });
+    this.get('canvas').draw();
+    this.emit('itemunhover', ev);
+    return;
+  }
+
+  _onClick(ev) {
+    const clickedItem = this._getLegendItem(ev.currentTarget);
+    const items = this.get('items');
+    if (clickedItem && !clickedItem.get('destroyed')) {
+      const checked = clickedItem.get('checked');
+      if (!this.get('allowAllCanceled') && checked && this.getCheckedCount() === 1) {
+        return;
+      }
+      const mode = this.get('selectedMode');
+      const item = findItem(items, clickedItem);
+      const itemclick = new Event('itemclick', ev, true, true);
+      itemclick.item = item;
+      itemclick.currentTarget = clickedItem;
+      itemclick.appendInfo = ev.currentTarget.get('appendInfo');
+      itemclick.checked = (mode === 'single') ? true : !checked;
+
+      const unCheckColor = this.get('unCheckColor');
+      const checkColor = this.get('textStyle').fill;
+      let markerItem;
+      let textItem;
+      let legendItem;
+      if (mode === 'single') {
+        const itemsGroup = this.get('itemsGroup');
+        const children = itemsGroup.get('children');
+        Util.each(children, child => {
+          markerItem = findShapeByName(child, 'legend-marker');
+          textItem = findShapeByName(child, 'legend-text');
+          legendItem = findShapeByName(child, 'legend-item');
+          if (child !== clickedItem) {
+            if (markerItem.attr('fill')) {
+              markerItem.attr('fill', unCheckColor);
+            }
+            if (markerItem.attr('stroke')) {
+              markerItem.attr('stroke', unCheckColor);
+            }
+            textItem.attr('fill', unCheckColor);
+            markerItem.setSilent('checked', false);
+            textItem.setSilent('checked', false);
+            legendItem.setSilent('checked', false);
+            child.setSilent('checked', false);
+          } else {
+            if (markerItem.attr('fill')) {
+              markerItem.attr('fill', item.marker.fill);
+            }
+            if (markerItem.attr('stroke')) {
+              markerItem.attr('stroke', item.marker.stroke);
+            }
+            textItem.attr('fill', checkColor);
+            markerItem.setSilent('checked', true);
+            textItem.setSilent('checked', true);
+            legendItem.setSilent('checked', true);
+            child.setSilent('checked', true);
+          }
+        });
+      } else {
+        markerItem = findShapeByName(clickedItem, 'legend-marker');
+        textItem = findShapeByName(clickedItem, 'legend-text');
+        legendItem = findShapeByName(clickedItem, 'legend-item');
+
+        if (markerItem.attr('fill')) {
+          markerItem.attr('fill', checked ? unCheckColor : item.marker.fill);
+        }
+        if (markerItem.attr('stroke')) {
+          markerItem.attr('stroke', checked ? unCheckColor : item.marker.stroke);
+        }
+        textItem.attr('fill', checked ? unCheckColor : checkColor);
+        clickedItem.setSilent('checked', !checked);
+        markerItem.setSilent('checked', !checked);
+        textItem.setSilent('checked', !checked);
+        legendItem.setSilent('checked', !checked);
+      }
+      this.emit('itemclick', itemclick);
+    }
+    this.get('canvas').draw();
+    return;
+  }
+  _renderItems() {
+    const items = this.get('items');
+    if (this.get('reversed')) {
+      items.reverse();
+    }
+    Util.each(items, (item, index) => {
+      this._addItem(item, index);
+    });
+  }
+
+  _formatItemValue(value) {
+    const formatter = this.get('itemFormatter');
+    if (formatter) {
+      value = formatter.call(this, value);
+    }
+    return value;
+  }
+
+  _getNextX() {
+    const layout = this.get('layout');
+    const itemGap = this.get('itemGap');
+    const itemsGroup = this.get('itemsGroup');
+    const itemWidth = this.get('itemWidth');
+    const children = itemsGroup.get('children');
+    let nextX = 0;
+
+    if (layout === 'horizontal') { // 水平布局
+      Util.each(children, function(v) {
+        nextX += (itemWidth ? itemWidth : v.getBBox().width) + itemGap;
+      });
+    }
+    return nextX;
+  }
+
+  _getNextY() {
+    const itemMarginBottom = this.get('itemMarginBottom');
+    const titleGap = this.get('titleShape') ? this.get('titleGap') : 0;
+    const layout = this.get('layout');
+    const itemsGroup = this.get('itemsGroup');
+    const titleShape = this.get('titleShape');
+    const children = itemsGroup.get('children');
+    let nextY = titleGap;
+    if (titleShape) {
+      nextY += titleShape.getBBox().height;
+    }
+    if (layout === 'vertical') { // 竖直布局
+      Util.each(children, function(v) {
+        nextY += v.getBBox().height + itemMarginBottom;
+      });
+    }
+    return nextY;
+  }
+
+  _addItem(item) {
+    const itemsGroup = this.get('itemsGroup');
+    const x = this._getNextX();
+    const y = this._getNextY();
+    const unCheckColor = this.get('unCheckColor');
+    const itemGroup = itemsGroup.addGroup({
+      x,
+      y,
+      value: item.value,
+      checked: item.checked
+    });
+    itemGroup.set('viewId', itemsGroup.get('viewId'));
+
+    const textStyle = this.get('textStyle');
+    const wordSpace = this.get('_wordSpaceing');
+    let startX = 0;
+
+    if (item.marker) { // 如果有marker添加marker
+      const markerAttrs = Util.mix({}, item.marker, {
+        x: item.marker.radius + x,
+        y
+      });
+
+      if (!item.checked) {
+        if (markerAttrs.fill) {
+          markerAttrs.fill = unCheckColor;
+        }
+        if (markerAttrs.stroke) {
+          markerAttrs.stroke = unCheckColor;
+        }
+      }
+
+      const markerShape = itemGroup.addShape('marker', {
+        type: 'marker',
+        attrs: markerAttrs
+      });
+      markerShape.attr('cursor', 'pointer');
+      markerShape.name = 'legend-marker';
+      startX += markerShape.getBBox().width + wordSpace;
+    }
+    const textAttrs = Util.mix({}, textStyle, {
+      x: startX + x,
+      y,
+      text: this._formatItemValue(item.value)
+    });
+    if (!item.checked) {
+      Util.mix(textAttrs, {
+        fill: unCheckColor
+      });
+    }
+    const textShape = itemGroup.addShape('text', {
+      attrs: textAttrs
+    });
+    textShape.attr('cursor', 'pointer');
+    textShape.name = 'legend-text';
+    this.get('appendInfo') && textShape.setSilent('appendInfo', this.get('appendInfo'));
+
+    // 添加一个包围矩形，用于事件支持
+    const bbox = itemGroup.getBBox();
+    const itemWidth = this.get('itemWidth');
+    const wrapperShape = itemGroup.addShape('rect', {
+      attrs: {
+        x,
+        y: y - bbox.height / 2,
+        fill: '#fff',
+        fillOpacity: 0,
+        width: itemWidth || bbox.width,
+        height: bbox.height
+      }
+    });
+    wrapperShape.attr('cursor', 'pointer');
+    wrapperShape.setSilent('origin', item); // 保存图例项相关的数据，便于事件操作
+    wrapperShape.name = 'legend-item';
+    this.get('appendInfo') && wrapperShape.setSilent('appendInfo', this.get('appendInfo'));
+    itemGroup.name = 'legendGroup';
+    return itemGroup;
+  }
+
+  _adjustHorizontal() {
+    const itemsGroup = this.get('itemsGroup');
+    const children = itemsGroup.get('children');
+    const maxLength = this.get('maxLength');
+    const itemGap = this.get('itemGap');
+    const itemMarginBottom = this.get('itemMarginBottom');
+    const titleGap = this.get('titleShape') ? this.get('titleGap') : 0;
+    let row = 0;
+    let rowLength = 0;
+    let width;
+    let height;
+    let box;
+    const itemWidth = this.get('itemWidth');
+    if (itemsGroup.getBBox().width > maxLength) {
+      Util.each(children, function(child) {
+        box = child.getBBox();
+        width = itemWidth || box.width;
+        height = box.height + itemMarginBottom;
+
+        if (maxLength - rowLength < width) {
+          row++;
+          rowLength = 0;
+        }
+        child.move(rowLength, row * height + titleGap);
+        rowLength += width + itemGap;
+      });
+    }
+    return;
+  }
+
+  _adjustVertical() {
+    const itemsGroup = this.get('itemsGroup');
+    const titleShape = this.get('titleShape');
+    const children = itemsGroup.get('children');
+    const maxLength = this.get('maxLength'); // 垂直布局，则 maxLength 代表容器的高度
+    const itemGap = this.get('itemGap');
+    const itemMarginBottom = this.get('itemMarginBottom');
+    const titleGap = this.get('titleGap');
+    const titleHeight = titleShape ? titleShape.getBBox().height + titleGap : 0;
+    const itemWidth = this.get('itemWidth');
+    let colLength = titleHeight;
+    let width;
+    let height;
+    let box;
+    let maxItemWidth = 0;
+    let totalLength = 0;
+
+    if (itemsGroup.getBBox().height > maxLength) {
+      Util.each(children, function(v) {
+        box = v.getBBox();
+        width = box.width;
+        height = box.height;
+
+        if (itemWidth) {
+          maxItemWidth = itemWidth + itemGap;
+        } else if (width > maxItemWidth) {
+          maxItemWidth = width + itemGap;
+        }
+
+        if (maxLength - colLength < height) {
+          colLength = titleHeight;
+          totalLength += maxItemWidth;
+          v.move(totalLength, titleHeight);
+        } else {
+          v.move(totalLength, colLength);
+        }
+
+        colLength += height + itemMarginBottom;
+      });
+    }
+    return;
+  }
+
+  _adjustItems() {
+    const layout = this.get('layout');
+    if (layout === 'horizontal') {
+      this._adjustHorizontal();
+    } else {
+      this._adjustVertical();
+    }
+  }
+
+  getWidth() {
+    return super.getWidth();
+  }
+
+  getHeight() {
+    return super.getHeight();
+  }
+
+  move(x, y) {
+    super.move(x, y);
+  }
+
+  remove() {
+    super.remove(); // must be called
+  }
+}
+
+module.exports = Category;

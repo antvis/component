@@ -61,7 +61,7 @@
     "ci": "npm run lint && npm run test",
     "compress": "uglifyjs -c -m -o dist/component.min.js -- build/component.js",
     "coverage": "npm run coverage-generator && npm run coverage-viewer",
-    "coverage-generator": "torch --compile --coverage --renderer --source-pattern src/*.js,src/**/*.js --recursive test/unit",
+    "coverage-generator": "torch --compile --coverage --renderer --source-pattern src/*.js,src/**/*.js --recursive test/unit/legend/catPageHtml-spec.js",
     "coverage-viewer": "torch-coverage",
     "demos": "electron ./demos/app.js",
     "demos-web": "node ./demos/app.js --web --port 2046",
@@ -77,7 +77,7 @@
     "test-all": "npm --compile run test && npm run test-bugs",
     "test-bugs": "torch --compile --renderer --recursive ./test/bugs",
     "test-bugs-live": "torch --compile --interactive --watch --recursive ./test/bugs",
-    "test-live": "torch --compile --interactive --watch --recursive ./test/unit",
+    "test-live": "torch --compile --interactive --watch --recursive ./test/unit/legend/catPageHtml-spec.js",
     "watch": "webpack --config webpack-dev.config.js",
     "win-dev": "node ./bin/win-dev.js"
   },
@@ -91,6 +91,7 @@
   },
   "dependencies": {
     "@antv/g": "~3.1.2",
-    "@antv/util": "~1.1.1"
+    "@antv/util": "~1.1.1",
+    "@antv/attr": "~0.0.6"
   }
 }

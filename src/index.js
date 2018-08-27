@@ -1,5 +1,8 @@
 
 module.exports = {
   Component: require('./base'),
-  Axis: require('./axis')
+  Axis: require('./axis'),
+  Legend: require('./legend'),
+  Util: require('./util'),
+  G: require('@antv/g')
 };

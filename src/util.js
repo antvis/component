@@ -12,7 +12,9 @@ const Util = CommonUtil.assign({
   MatrixUtil: G.MatrixUtil,
   PathUtil: G.PathUtil,
   isFinite,
-  isNaN
+  isNaN,
+  Group: G.Group,
+  Event: G.Event
 }, Utils, CommonUtil);
 
 module.exports = Util;
