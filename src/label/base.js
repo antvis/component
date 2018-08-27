@@ -72,8 +72,12 @@ class Label extends Component {
    */
   destroy() {
     const group = this.get('group');
+    const container = this.get('container');
     if (!group.destroy) {
       group.destroy();
+    }
+    if (container) {
+      container.innerHTML = '';
     }
   }
 
