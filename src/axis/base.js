@@ -1,5 +1,5 @@
 
-const Component = require('../base');
+const Component = require('../component');
 
 class Axis extends Component {
 }
