@@ -74,6 +74,10 @@ class CanvasTooltip extends Tooltip {
         stroke: '#e2e2e2',
         lineWidth: 1
       },
+      /**
+       * 默认title样式
+       * @type {Object}
+       */
       titleStyle: {
         fontFamily: 'PingFang SC',
         text: '',
@@ -83,9 +87,17 @@ class CanvasTooltip extends Tooltip {
         lineHeight: 20,
         padding: 20
       },
+      /**
+       * 默认marker样式
+       * @type {Object}
+       */
       markerStyle: {
         radius: 4
       },
+      /**
+       * 默认name样式
+       * @type {Object}
+       */
       nameStyle: {
         fontFamily: 'PingFang SC',
         fontSize: 12,
@@ -94,6 +106,10 @@ class CanvasTooltip extends Tooltip {
         textAlign: 'start',
         padding: 8
       },
+      /**
+       * 默认value样式
+       * @type {Object}
+       */
       valueStyle: {
         fontFamily: 'PingFang SC',
         fontSize: 12,
@@ -102,8 +118,20 @@ class CanvasTooltip extends Tooltip {
         textAlign: 'start',
         padding: 30
       },
+      /**
+       * 默认padding值
+       * @type {Object}
+       */
       padding: { top: 20, right: 20, bottom: 20, left: 20 },
+      /**
+       * 默认item之间的gap
+       * @type {Number}
+       */
       itemGap: 10,
+      /**
+       * 默认tooltip位置移动动画的时长
+       * @type {Number}
+       */
       animationDuration: 200
     });
   }

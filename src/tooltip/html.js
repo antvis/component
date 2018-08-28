@@ -10,6 +10,8 @@ const MARKER_CLASS = 'g2-tooltip-marker';
 const VALUE_CLASS = 'g2-tooltip-value';
 const LIST_ITEM_CLASS = 'g2-tooltip-list-item';
 
+const GAP = 20;
+
 function find(dom, cls) {
   return dom.getElementsByClassName(cls)[0];
 }
@@ -17,35 +19,33 @@ function find(dom, cls) {
 function constraintPositionInBoundary(x, y, el, viewWidth, viewHeight) {
   const width = el.clientWidth;
   const height = el.clientHeight;
-  const gap = 20;
 
-  if (x + width + gap > viewWidth) {
-    x -= width + gap;
+  if (x + width + GAP > viewWidth) {
+    x -= width + GAP;
     x = x < 0 ? 0 : x;
-  } else if (x + gap < 0) {
-    x = gap;
+  } else if (x + GAP < 0) {
+    x = GAP;
   } else {
-    x += gap;
+    x += GAP;
   }
 
-  if (y + height + gap > viewHeight) {
-    y -= (height + gap);
+  if (y + height + GAP > viewHeight) {
+    y -= (height + GAP);
     y = y < 0 ? 0 : y;
-  } else if (y + gap < 0) {
-    y = gap;
+  } else if (y + GAP < 0) {
+    y = GAP;
   } else {
-    y += gap;
+    y += GAP;
   }
 
   return [ x, y ];
 }
 
 function constraintPositionInPlot(x, y, el, plotRange, onlyHorizontal) {
-  const gap = 20;
   const width = el.clientWidth;
   const height = el.clientHeight;
   if (x + width > plotRange.tr.x) {
-    x -= (width + 2 * gap);
+    x -= (width + 2 * GAP);
   }
 
   if (x < plotRange.tl.x) {
@@ -54,7 +54,7 @@ function constraintPositionInPlot(x, y, el, plotRange, onlyHorizontal) {
 
   if (!onlyHorizontal) {
     if (y + height > plotRange.bl.y) {
-      y -= height + 2 * gap;
+      y -= height + 2 * GAP;
     }
 
     if (y < plotRange.tl.y) {
@@ -108,12 +108,12 @@ class HtmlTooltip extends Tooltip {
     const self = this;
     self.style = self.get('viewTheme') || TooltipTheme;
     const containerTpl = self.get('containerTpl');
-    const outterNode = self.get('canvas').get('el').parentNode;
     let container;
     if (/^\#/.test(containerTpl)) { // 如果传入 dom 节点的 id
       const id = containerTpl.replace('#', '');
       container = document.getElementById(id);
     } else {
+      const outterNode = self.get('canvas').get('el').parentNode;
       container = DomUtil.createDom(containerTpl);
       DomUtil.modifyCSS(container, self.style[CONTAINER_CLASS]);
       outterNode.appendChild(container);

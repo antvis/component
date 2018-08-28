@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
-const G = require('@antv/g');
-const HtmlTooltip = require('../../../src/tooltip/htmlTooltip');
+const G = require('@antv/g/lib');
+const HtmlTooltip = require('../../../src/tooltip/html');
 
 const div = document.createElement('div');
 div.id = 'tooltip-container';

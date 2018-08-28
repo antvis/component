@@ -43,7 +43,7 @@ class Tooltip extends Component {
        * x轴上，移动到位置的偏移量
        * @type {Number}
        */
-      offset: 10,
+      offset: 10, // TODO:支持xy两个方向上的offset
       /**
        * 时间戳
        * @type {Number}
