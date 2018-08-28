@@ -106,13 +106,13 @@ class CatHtml extends Category {
        */
       tipStyle: {
         display: 'none',
-        fontSize: 12,
+        fontSize: '12px',
         backgroundColor: '#fff',
         position: 'absolute',
         width: 'auto',
-        height: '20px',
+        height: 'auto',
         padding: '3px',
-        boxShadow: '2px 2px 5px #888888'
+        boxShadow: '2px 2px 5px #888'
       }
     });
   }
@@ -473,14 +473,14 @@ class CatHtml extends Category {
         textDom.innerText = text;
 
         itemDom.addEventListener('mouseover', () => {
-          const tipDom = findNodeByClass(legendWrapper, 'textTip');
+          const tipDom = findNodeByClass(legendWrapper.parentNode, 'textTip');
           tipDom.style.display = 'block';
           tipDom.style.left = itemDom.offsetLeft + itemDom.offsetWidth + 'px';
           tipDom.style.top = itemDom.offsetTop + 15 + 'px';
           tipDom.innerText = value;
         });
         itemDom.addEventListener('mouseout', () => {
-          const tipDom = findNodeByClass(legendWrapper, 'textTip');
+          const tipDom = findNodeByClass(legendWrapper.parentNode, 'textTip');
           tipDom.style.display = 'none';
         });
       }
@@ -492,7 +492,7 @@ class CatHtml extends Category {
       const tipDom = DomUtil.createDom(tipTpl);
       const tipDomStyle = this.get('tipStyle');
       DomUtil.modifyCSS(tipDom, tipDomStyle);
-      legendWrapper.appendChild(tipDom);
+      legendWrapper.parentNode.appendChild(tipDom);
       tipDom.addEventListener('mouseover', () => {
         tipDom.style.display = 'none';
       });
