@@ -42,11 +42,6 @@ class Continuous extends Legend {
        */
       height: 156,
       /**
-       * 标题偏移量
-       * @type {Number}
-       */
-      titleGap: 15,
-      /**
        * 默认文本图形属性
        * @type {ATTRS}
        */
@@ -54,7 +49,7 @@ class Continuous extends Legend {
         fill: '#333',
         textAlign: 'center',
         textBaseline: 'middle',
-        fontFamily: '"-apple-system", BlinkMacSystemFont, "Segoe UI", Roboto,"Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",SimSun, "sans-serif"' // Global.fontFamily
+        fontFamily: '"-apple-system", BlinkMacSystemFont, "Segoe UI", Roboto,"Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",SimSun, "sans-serif"'
       },
       /**
        * 连续图例是否可滑动
@@ -62,11 +57,16 @@ class Continuous extends Legend {
        */
       slidable: true,
       /**
-       * 滑块的样式
-       * @type {ATTRS}
+       * 两头滑块的样式
+       * @type {object}
        */
       triggerAttr: {
-        fill: '#4E7CCC' // '#4E7CCC'
+        fill: '#fff',
+        shadowOffsetX: -2,
+        shadowOffsetY: 2,
+        shadowBlur: 10,
+        shadowColor: '#ccc',
+        radius: 3
       },
       /**
        * slider 的范围
@@ -171,7 +171,6 @@ class Continuous extends Legend {
     const layout = this.get('layout');
     const textStyle = this.get('textStyle');
     const triggerAttr = this.get('triggerAttr');
-    // const attrType = this.get('type');
 
     const minBlockAttr = Util.mix({}, triggerAttr);
     const maxBlockAttr = Util.mix({}, triggerAttr);
@@ -198,7 +197,7 @@ class Continuous extends Legend {
     const button = trigger.addShape('rect', {
       attrs: Util.mix({
         x: (width / 2 - TRIGGER_WIDTH - 2),
-        y: type === 'min' ? 0 : TRIGGER_WIDTH - 3 * width / 2,
+        y: type === 'min' ? 0 : -TRIGGER_WIDTH,
         width: 2 * TRIGGER_WIDTH + 2,
         height: TRIGGER_WIDTH
       }, blockAttr)

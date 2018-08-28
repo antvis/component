@@ -1,7 +1,7 @@
 const expect = require('chai').expect;
 const G = require('@antv/g/src');
 const Canvas = G.Canvas;
-const Legend = require('../../../src/legend/size');
+const Legend = require('../../../src/legend/sizeCircle');
 
 
 const div = document.createElement('div');
@@ -37,7 +37,7 @@ describe('连续图例 - Size', function() {
     legend.move(10, 10);
     canvas.draw();
     expect(legend.get('slider')).to.be.undefined;
-    expect(legend.get('type')).to.equal('size-legend');
+    expect(legend.get('type')).to.equal('size-circle-legend');
   });
 
   it('水平大小图例，不可筛选', function() {
@@ -56,7 +56,7 @@ describe('连续图例 - Size', function() {
     legend.move(10, 10);
     canvas.draw();
     expect(legend.get('slider')).to.be.undefined;
-    expect(legend.get('type')).to.equal('size-legend');
+    expect(legend.get('type')).to.equal('size-circle-legend');
   });
 
   it('水平大小图例，可筛选', function() {
@@ -75,7 +75,7 @@ describe('连续图例 - Size', function() {
     legend.move(200, 10);
     canvas.draw();
     expect(legend.get('slider')).not.to.be.undefined;
-    expect(legend.get('type')).to.equal('size-legend');
+    expect(legend.get('type')).to.equal('size-circle-legend');
 
     // 模拟筛选事件
     const slider = legend.get('slider');
@@ -101,7 +101,7 @@ describe('连续图例 - Size', function() {
     legend.move(200, 100);
     canvas.draw();
     expect(legend.get('slider')).not.to.be.undefined;
-    expect(legend.get('type')).to.equal('size-legend');
+    expect(legend.get('type')).to.equal('size-circle-legend');
 
     // 模拟筛选事件
     const slider = legend.get('slider');

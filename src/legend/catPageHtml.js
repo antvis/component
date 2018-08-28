@@ -19,12 +19,47 @@ class CatPageHtml extends CatHtml {
        * @type {String}
        */
       type: 'category-page-legend',
-      container: null
+      container: null,
+      /**
+       * 向上 / 下翻页图标的样式
+       * @type {ATTRS}
+       */
+      caretStyle: {
+        width: '15px',
+        display: 'inline-block',
+        cursor: 'pointer'
+      },
+      /**
+       * 页码文字的样式
+       * @type {ATTRS}
+       */
+      pageNumStyle: {
+        display: 'inline-block',
+        fontSize: '12px',
+        fontFamily: this.fontFamily,
+        cursor: 'default'
+      },
+      /**
+       * 翻页块 DOM 的样式
+       * @type {ATTRS}
+       */
+      slipDomStyle: {
+        width: 'auto',
+        height: 'auto',
+        position: 'absolute'
+      },
+      /**
+       * 翻页块 DOM
+       * @type {String}
+       */
+      slipTpl:
+        '<div class="' + SLIP_CLASS + '" >' +
+          '<img class="caret-up" src = "https://gw.alipayobjects.com/zos/rmsportal/AyRvHCJjiOBzJWErvzWz.png"/>' +
+          '<p class="cur-pagenum" style = "display:inline-block;">1</p>' +
+          '<p class="next-pagenum" style = "display:inline-block;">/2</p>' +
+          '<img class="caret-down" src = "https://gw.alipayobjects.com/zos/rmsportal/LbdlxWIqCtpCbvRDaMgq.png"/>' +
+        '</div>'
     });
-  }
-
-  _beforeRenderUI() {
-    super._beforeRenderUI();
   }
 
   _renderUI() {
@@ -32,9 +67,6 @@ class CatPageHtml extends CatHtml {
     this._renderFlipPage();
   }
 
-  _bindUI() {
-    super._bindUI();
-  }
   _renderFlipPage() {
     const legendWrapper = document.getElementsByClassName(CONTAINER_CLASS)[0];
     // ul
@@ -47,42 +79,26 @@ class CatPageHtml extends CatHtml {
     // 翻页
     if (legendWrapper.scrollHeight > legendWrapper.offsetHeight) {
       // append a slip div
-      const slipTpl = '<div class="' + SLIP_CLASS + '" >' +
-      '<img class="caret-up" src = "https://gw.alipayobjects.com/zos/rmsportal/AyRvHCJjiOBzJWErvzWz.png"/>' +
-      '<p class="cur-pagenum" style = "display:inline-block;">1</p>' +
-      '<p class="next-pagenum" style = "display:inline-block;">/2</p>' +
-      '<img class="caret-down" src = "https://gw.alipayobjects.com/zos/rmsportal/LbdlxWIqCtpCbvRDaMgq.png"/>' +
-      '</div>';
+      const slipTpl = this.get('slipTpl');
       const slipDom = DomUtil.createDom(slipTpl);
       const caretUpDom = findNodeByClass(slipDom, 'caret-up');
       const caretDownDom = findNodeByClass(slipDom, 'caret-down');
-      const caretStyle = {
-        width: '15px',
-        display: 'inline-block',
-        cursor: 'pointer'
-      };
-      DomUtil.modifyCSS(caretUpDom, caretStyle);
-      DomUtil.modifyCSS(caretDownDom, caretStyle);
+      DomUtil.modifyCSS(caretUpDom, this.get('caretStyle'));
+      DomUtil.modifyCSS(caretDownDom, this.get('caretStyle'));
       const curPageNumDom = findNodeByClass(slipDom, 'cur-pagenum');
       const totalPageNumDom = findNodeByClass(slipDom, 'next-pagenum');
-      const pageNumStyle = {
-        display: 'inline-block',
-        fontSize: '12px',
-        fontFamily: this.fontFamily,
-        cursor: 'default'
-      };
+      const pageNumStyle = this.get('pageNumStyle');
       DomUtil.modifyCSS(curPageNumDom, Util.mix({}, pageNumStyle, { paddingLeft: '10px' }));
       DomUtil.modifyCSS(totalPageNumDom, Util.mix({}, pageNumStyle, { opacity: 0.3, paddingRight: '10px' }));
 
+      // layout at the center-bottom of the legendWrapper
       let slipLeft = legendWrapper.offsetWidth / 2 - 45;
       slipLeft = slipLeft > 0 ? slipLeft : 0;
-      DomUtil.modifyCSS(slipDom, {
-        width: 'auto',
-        height: 'auto',
-        position: 'absolute',
+      DomUtil.modifyCSS(slipDom, Util.mix({}, this.get('slipDomStyle'), {
         top: legendWrapper.offsetHeight + 10 + 'px',
         left: slipLeft + 'px'
-      });
+      })
+      );
 
       legendWrapper.parentNode.appendChild(slipDom);
       const li = itemListDom.childNodes;
@@ -158,26 +174,6 @@ class CatPageHtml extends CatHtml {
         curPageNumDom.innerText = (Number.parseInt(curPageNumDom.innerText, 10) + 1);
       });
     }
-  }
-
-  _formatItemValue(value) {
-    return super._formatItemValue(value);
-  }
-
-  getWidth() {
-    return super.getWidth();
-  }
-
-  getHeight() {
-    return super.getHeight();
-  }
-
-  move(x, y) {
-    super.move(x, y);
-  }
-
-  remove() {
-    super.remove();
   }
 }
 

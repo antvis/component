@@ -9,11 +9,7 @@ class Legend extends Group {
        * 图例标题配置
        * @type {Object}
        */
-      title: {
-        fill: '#333',
-        textBaseline: 'middle',
-        fontFamily: '"-apple-system", BlinkMacSystemFont, "Segoe UI", Roboto,"Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",SimSun, "sans-serif"' // viewTheme.fontFamily
-      },
+      title: null,
       /**
        * 图例项文本格式化
        * @type {Function}
@@ -38,7 +34,13 @@ class Legend extends Group {
        * 鼠标 hover 到图例上的默认交互是否开启
        * @type {Boolean}
        */
-      hoverable: true
+      hoverable: true,
+      /**
+       * TODO：rename
+       * 图例标题距离图例项的距离
+       * @type {Number}
+       */
+      titleGap: 15
     };
   }
 
@@ -57,12 +59,14 @@ class Legend extends Group {
     const title = this.get('title');
     let titleGap = this.get('titleGap');
     titleGap = titleGap || 0;
-    // const viewTheme = this.get('viewTheme'); // || Global;
     if (title && title.text) {
       const titleShape = this.addShape('text', {
         attrs: Util.mix({
           x: 0,
-          y: 0 - titleGap
+          y: 0 - titleGap,
+          fill: '#333',
+          textBaseline: 'middle',
+          fontFamily: '"-apple-system", BlinkMacSystemFont, "Segoe UI", Roboto,"Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",SimSun, "sans-serif"' // viewTheme.fontFamily
         }, title)
       });
       titleShape.name = 'legend-title';

@@ -83,12 +83,16 @@ class CatHtml extends Category {
        * @type {Boolean}
        */
       legendStyle: {},
+      /**
+       * 图例文字样式
+       * @type {ATTRS}
+       */
       textStyle: {
         fill: '#333',
         fontSize: 12,
         textAlign: 'middle',
         textBaseline: 'top',
-        fontFamily: '"-apple-system", BlinkMacSystemFont, "Segoe UI", Roboto,"Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",SimSun, "sans-serif"' // Global.fontFamily
+        fontFamily: '"-apple-system", BlinkMacSystemFont, "Segoe UI", Roboto,"Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",SimSun, "sans-serif"'
       },
       /**
        * 当文本太长时是否进行缩略
@@ -115,10 +119,6 @@ class CatHtml extends Category {
         boxShadow: '2px 2px 5px #888'
       }
     });
-  }
-
-  _beforeRenderUI() {
-    super._beforeRenderUI();
   }
 
   _renderUI() {
@@ -510,10 +510,6 @@ class CatHtml extends Category {
     }
 
     this.set('legendWrapper', legendWrapper);
-  }
-
-  _formatItemValue(value) {
-    return super._formatItemValue(value);
   }
 
   getWidth() {

@@ -47,12 +47,6 @@ class Category extends Legend {
       itemGap: 5,
       /**
        * TODO：rename
-       * 图例标题距离图例项的距离
-       * @type {Number}
-       */
-      titleGap: 15,
-      /**
-       * TODO：rename
        * 图例项垂直方向的间距
        * @type {Number}
        */
@@ -95,12 +89,16 @@ class Category extends Legend {
        * @type {Number}
        */
       itemWidth: null,
+      /**
+       * 图例文字样式
+       * @type {ATTRS}
+       */
       textStyle: {
         fill: '#333',
         fontSize: 12,
         textAlign: 'start',
         textBaseline: 'middle',
-        fontFamily: '"-apple-system", BlinkMacSystemFont, "Segoe UI", Roboto,"Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",SimSun, "sans-serif"' // Global.fontFamily
+        fontFamily: '"-apple-system", BlinkMacSystemFont, "Segoe UI", Roboto,"Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",SimSun, "sans-serif"'
       },
       /**
        * marker 和文字的距离
