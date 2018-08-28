@@ -22,13 +22,21 @@ class Color extends Continuous {
        * @type {String}
        */
       layout: 'vertical',
+      /**
+       * offset between the label and the slider
+       * @type {nubmer}
+       */
       labelOffset: 15,
+      /**
+       * line segment to seperate the unslidable slider blocks
+       * @type {object}
+       */
       lineStyle: {
         lineWidth: 1,
         stroke: '#fff'
       },
       /**
-       * 两头 trigger 的样式
+       * 两头滑块的样式
        * @type {object}
        */
       triggerAttr: {
@@ -46,7 +54,7 @@ class Color extends Continuous {
       isSegment: false
     });
   }
-
+  // render the slider while slidable === true
   _renderSliderShape() {
     const slider = this.get('slider');
     const backgroundElement = slider.get('backgroundElement');
@@ -57,6 +65,7 @@ class Color extends Continuous {
     let fill = '';
     let rgbColor;
 
+    // gradient color distributed according to the percentage
     if (layout === 'vertical') {
       fill += 'l (90) ';
       Util.each(items, function(v) {
@@ -80,6 +89,7 @@ class Color extends Continuous {
     });
   }
 
+  // render the silder while slidable === false
   _renderUnslidable() {
     const titleShape = this.get('titleShape');
     let titleGap = this.get('titleGap');
@@ -95,7 +105,7 @@ class Color extends Continuous {
     const bgGroup = this.addGroup();
     const isize = items.length;
 
-    // sliderable = false 时的前景渐变色条
+    // gradient color distributed according to the percentage
     if (layout === 'vertical') {
       fill += 'l (90) ';
       for (let i = 0; i < isize; i += 1) {
@@ -105,10 +115,12 @@ class Color extends Continuous {
         }
         rgbColor = ColorUtil.toRGB(items[i].attrValue);
         fill += (1 - items[i].percentage) + ':' + rgbColor + ' ';
-        if (this.get('isSegment') && i > 0) {
+
+        if (this.get('isSegment') && i > 0) { // one color instead of gradient color for a block while isSegment === true
           const preRgbColor = ColorUtil.toRGB(items[i - 1].attrValue);
           fill += (1 - items[i].percentage) + ':' + preRgbColor + ' ';
         }
+
         bgGroup.addShape('text', {
           attrs: Util.mix({}, {
             x: width + this.get('labelOffset') / 2,
@@ -119,7 +131,7 @@ class Color extends Continuous {
           })
         });
       }
-    } else {
+    } else { // horizontal
       fill += 'l (0) ';
       for (let i = 0; i < isize; i += 1) {
         if (i !== 0 && (i !== isize - 1)) {
@@ -141,6 +153,7 @@ class Color extends Continuous {
         });
       }
     }
+
     bgGroup.addShape('rect', {
       attrs: {
         x: 0,
@@ -152,11 +165,12 @@ class Color extends Continuous {
       }
     });
 
-    // bgGroup.addShape('path', {
-    //   attrs: Util.mix({
-    //     path
-    //   }, this.get('lineStyle'))
-    // });
+    // the white line segment to seperate color blocks
+    bgGroup.addShape('path', {
+      attrs: Util.mix({
+        path
+      }, this.get('lineStyle'))
+    });
 
     bgGroup.move(0, titleGap);
   }

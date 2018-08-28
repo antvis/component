@@ -20,14 +20,6 @@ class CatPageHtml extends CatHtml {
        */
       type: 'category-page-legend',
       container: null
-      /**
-       * 使用html时的外层模板
-       * @type {String}
-       */
-      // containerTpl: '<div class="' + CONTAINER_CLASS + '">' +
-      //   '<h4 class="' + TITLE_CLASS + '"></h4>' +
-      //   '<ul class="' + LIST_CLASS + '"></ul>' +
-      //   '</div>'
     });
   }
 

@@ -12,7 +12,7 @@ const ITEM_CLASS = 'g2-legend-list-item';
 const TEXT_CLASS = 'g2-legend-text';
 const MARKER_CLASS = 'g2-legend-marker';
 
-
+// find a dom node from the chidren of the node with className.
 function findNodeByClass(node, className) {
   return node.getElementsByClassName(className)[0];
 }
@@ -125,6 +125,7 @@ class CatHtml extends Category {
     this._renderHTML();
   }
 
+  // user interaction
   _bindUI() {
     const legendWrapper = this.get('legendWrapper');
     const itemListDom = findNodeByClass(legendWrapper, LIST_CLASS);
@@ -137,6 +138,8 @@ class CatHtml extends Category {
     }
   }
 
+  // mouse move listener of an item
+  // when mouse over an item, reduce the opacity of the other items.
   _onMousemove(ev) {
     const items = this.get('items');
     const target = ev.target;
@@ -182,12 +185,12 @@ class CatHtml extends Category {
     return;
   }
 
+  // mouse leave listener of an item
   _onMouseleave(ev) {
     const legendWrapper = this.get('legendWrapper');
     const itemListDom = findNodeByClass(legendWrapper, LIST_CLASS);
     const childNodes = itemListDom.childNodes;
-
-    // restore the opacity of all the items
+    // restore the opacity of all the items when mouse leave
     Util.each(childNodes, child => {
       const childMarkerDom = findNodeByClass(child, MARKER_CLASS);
       childMarkerDom && (childMarkerDom.style.opacity = 1);
@@ -196,6 +199,7 @@ class CatHtml extends Category {
     return;
   }
 
+  // the click listener of an item
   _onClick(ev) {
     const legendWrapper = this.get('legendWrapper');
     const itemListDom = findNodeByClass(legendWrapper, LIST_CLASS);
@@ -278,7 +282,8 @@ class CatHtml extends Category {
     return;
   }
 
-
+  // activate an item by reduce the opacity of other items.
+  // it is reserved for bi-direction interaction between charts / graph and legend
   activateItem(value) {
     const items = this.get('items');
     const item = findItem(items, value);
@@ -299,6 +304,8 @@ class CatHtml extends Category {
     return;
   }
 
+  // restore the opacity of items
+  // it is reserved for bi-direction interaction between charts / graph and legend
   unActivateItem() {
     const legendWrapper = this.get('legendWrapper');
     const itemListDom = findNodeByClass(legendWrapper, LIST_CLASS);
@@ -451,8 +458,9 @@ class CatHtml extends Category {
         }
       }
       itemListDom.appendChild(itemDom);
-      if (this.get('abridgeText')) {
 
+      // abridge the text if the width of the text exceeds the width of the item
+      if (this.get('abridgeText')) {
         let text = value;
         // const itemWidth = parseFloat(this.get(ITEM_CLASS).width.substr(0, this.get(ITEM_CLASS).width.length - 2));
         const itemWidth = itemDom.offsetWidth;
@@ -472,6 +480,7 @@ class CatHtml extends Category {
         }
         textDom.innerText = text;
 
+        // show the text tip while mouse hovering an item
         itemDom.addEventListener('mouseover', () => {
           const tipDom = findNodeByClass(legendWrapper.parentNode, 'textTip');
           tipDom.style.display = 'block';
@@ -479,6 +488,7 @@ class CatHtml extends Category {
           tipDom.style.top = itemDom.offsetTop + 15 + 'px';
           tipDom.innerText = value;
         });
+        // hide the text tip while mouse leave the item
         itemDom.addEventListener('mouseout', () => {
           const tipDom = findNodeByClass(legendWrapper.parentNode, 'textTip');
           tipDom.style.display = 'none';
@@ -486,13 +496,14 @@ class CatHtml extends Category {
       }
     });
 
-    // append the tip div, display = block while mouse entering
+    // append the tip div as a brother node of legend dom
     if (this.get('abridgeText')) {
       const tipTpl = this.get('tipTpl');
       const tipDom = DomUtil.createDom(tipTpl);
       const tipDomStyle = this.get('tipStyle');
       DomUtil.modifyCSS(tipDom, tipDomStyle);
       legendWrapper.parentNode.appendChild(tipDom);
+      // hide the tip while mouse entering the tip dom
       tipDom.addEventListener('mouseover', () => {
         tipDom.style.display = 'none';
       });

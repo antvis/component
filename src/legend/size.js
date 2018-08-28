@@ -22,38 +22,39 @@ class Size extends Continuous {
       type: 'size-legend',
       width: 100,
       height: 200,
-      _circleStyle: {
+      /**
+       * 不能滑动时圈的样式
+       * @type {ATTRS}
+       */
+      _unslidableCircleStyle: {
         stroke: '#4E7CCC',
         fill: '#fff',
         fillOpacity: 0
       },
-      textStyle: {
-        fill: '#333',
-        textAlign: 'start',
-        textBaseline: 'middle',
-        fontFamily: '"-apple-system", BlinkMacSystemFont, "Segoe UI", Roboto,"Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",SimSun, "sans-serif"'// Global.fontFamily
-      },
-      inRange: {
+      /**
+       * 滑块的样式
+       * @type {ATTRS}
+       */
+      triggerStyle: {
         fill: 'white',
         shadowOffsetX: -2,
         shadowOffsetY: 2,
         shadowBlur: 10,
         shadowColor: '#ccc'
       },
-      inRangeSlider: {
+      /**
+       * 中间 bar 的前景颜色
+       * @type {ATTRS}
+       */
+      frontMiddleBarStyle: {
         fill: 'rgb(64, 141, 251)'
-      },
-      backgroundCircle: {
-        stroke: '#ccc',
-        fill: 'white',
-        lineWidth: 2
       }
     });
   }
 
+  // render the slider shape
   _renderSliderShape() {
     const minRadius = MIN_SIZE;
-    // const maxRadius = MAX_SIZE;
     const slider = this.get('slider');
     const backgroundElement = slider.get('backgroundElement');
     const layout = this.get('layout');
@@ -61,9 +62,8 @@ class Size extends Continuous {
     const height = (layout === 'vertical') ? this.get('height') : SLIDER_HEIGHT;
     const x = minRadius;
     const y = this.get('height') / 2;
-    const inRangeSlider = this.get('inRangeSlider');
-
-    // background bar
+    const frontMiddleBarStyle = this.get('frontMiddleBarStyle');
+    // background of middle bar
     const points = (layout === 'vertical') ? [
       [ 0, 0 ],
       [ width, 0 ],
@@ -77,10 +77,10 @@ class Size extends Continuous {
     ];
     return this._addMiddleBar(backgroundElement, 'Polygon', Util.mix({
       points
-    }, inRangeSlider));
+    }, frontMiddleBarStyle));
   }
 
-
+  // triggers while layout === horizontal
   _addHorizontalTrigger(type, blockAttr, textAttr, radius) {
     const slider = this.get('slider');
     const trigger = slider.get(type + 'HandleElement');
@@ -108,6 +108,7 @@ class Size extends Continuous {
     this.set(type + 'TextElement', text);
   }
 
+  // triggers while layout === vertical
   _addVerticalTrigger(type, blockAttr, textAttr, radius) {
     const slider = this.get('slider');
     const trigger = slider.get(type + 'HandleElement');
@@ -134,14 +135,15 @@ class Size extends Continuous {
     this.set(type + 'TextElement', text);
   }
 
+  // render the triggers
   _renderTrigger() {
     const min = this.get('firstItem');
     const max = this.get('lastItem');
     const layout = this.get('layout');
     const textStyle = this.get('textStyle');
-    const inRange = this.get('inRange');
-    const minBlockAttr = Util.mix({}, inRange);
-    const maxBlockAttr = Util.mix({}, inRange);
+    const triggerStyle = this.get('triggerStyle');
+    const minBlockAttr = Util.mix({}, triggerStyle);
+    const maxBlockAttr = Util.mix({}, triggerStyle);
     const minRadius = MIN_SIZE;
     const maxRadius = MAX_SIZE;
 
@@ -160,6 +162,7 @@ class Size extends Continuous {
     }
   }
 
+  // user interactions
   _bindUI() {
     if (this.get('slidable')) {
       const slider = this.get('slider');
@@ -179,20 +182,20 @@ class Size extends Continuous {
     }
   }
 
+  // update the triggers
   _updateElement(min, max, minR, maxR) {
+    // update the text of the triggers
+    super._updateElement(min, max);
     const minTextElement = this.get('minTextElement');
     const maxTextElement = this.get('maxTextElement');
     const minCircleElement = this.get('minButtonElement');
     const maxCircleElement = this.get('maxButtonElement');
-    if (max > 1) { // 对于大于 1 的值，默认显示为整数
-      min = parseInt(min, 10);
-      max = parseInt(max, 10);
-    }
-    minTextElement.attr('text', this._formatItemValue(min) + '');
-    maxTextElement.attr('text', this._formatItemValue(max) + '');
+
+    // update the radius of the triggers
     minCircleElement.attr('r', minR);
     maxCircleElement.attr('r', maxR);
 
+    // update the text position of the triggers
     const layout = this.get('layout');
     if (layout === 'vertical') {
       minTextElement.attr('x', minR + 10);
@@ -204,10 +207,10 @@ class Size extends Continuous {
     }
   }
 
-  // not slidable
+  // add a circle for slidable === false
   _addCircle(x, y, r, text, maxWidth) {
     const group = this.addGroup();
-    const circleStyle = this.get('_circleStyle');
+    const circleStyle = this.get('_unslidableCircleStyle');
     const textStyle = this.get('textStyle');
     const titleShape = this.get('titleShape');
     let titleGap = this.get('titleGap');
@@ -232,7 +235,7 @@ class Size extends Continuous {
     });
   }
 
-// slidable = false 时绘制三个圈
+  // the circles while slidable === false
   _renderUnslidable() {
     const minRadius = this.get('firstItem').attrValue;
     const maxRadius = this.get('lastItem').attrValue;

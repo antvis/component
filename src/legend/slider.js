@@ -16,9 +16,13 @@ class Slider extends Group {
       range: null,
       /**
        * 中滑块属性
+       * 透明的，用于用户交互
        * @type {ATTRS}
        */
-      middleAttr: null,
+      middleAttr: {
+        fill: '#fff',
+        fillOpacity: 0
+      },
       /**
        * 背景
        * @type {G-Element}
@@ -35,7 +39,8 @@ class Slider extends Group {
        */
       maxHandleElement: null,
       /**
-       * 中块
+       * 中块，
+       * 透明的，用于用户交互
        * @type {G-Element}
        */
       middleHandleElement: null,
@@ -72,6 +77,7 @@ class Slider extends Group {
     };
   }
 
+  // arrange the zindex and cursors of each element
   _beforeRenderUI() {
     const layout = this.get('layout');
     const backgroundElement = this.get('backgroundElement');
@@ -94,6 +100,7 @@ class Slider extends Group {
     this.sort();
   }
 
+  // rendering
   _renderUI() {
     if (this.get('layout') === 'horizontal') {
       this._renderHorizontal();
@@ -148,7 +155,8 @@ class Slider extends Group {
     this.on('mousedown', Util.wrapBehavior(this, '_onMouseDown'));
   }
 
-  _isElement(target, name) { // 判断是否是该元素
+  // if the target matches name
+  _isElement(target, name) {
     const element = this.get(name);
     if (target === element) {
       return true;
@@ -160,6 +168,8 @@ class Slider extends Group {
     return false;
   }
 
+  // get the result range after adding diff to range
+  // insure that the result out of the interval [0, 100]
   _getRange(diff, range) {
     let rst = diff + range;
     rst = rst > 100 ? 100 : rst;
@@ -177,27 +187,34 @@ class Slider extends Group {
     const layout = this.get('layout');
     const sign = layout === 'vertical' ? -1 : 1;
     const currentPage = ev[ 'page' + dim ];
+    // the distance of the mouse dragging
     const diffPage = currentPage - page;
     const diffRange = (diffPage / totalLength) * 100 * sign;
     let diffStashRange;
 
+    // the min and max trigger overlap, range[0] and range[1] change together
     if (range[1] <= range[0]) {
       if (this._isElement(currentTarget, 'minHandleElement') || this._isElement(currentTarget, 'maxHandleElement')) {
         range[0] = this._getRange(diffRange, range[0]);
         range[1] = this._getRange(diffRange, range[0]);
       }
     } else {
+      // user drags the min trigger
       if (this._isElement(currentTarget, 'minHandleElement')) {
         range[0] = this._getRange(diffRange, range[0]);
       }
+      // user drags the max trigger
       if (this._isElement(currentTarget, 'maxHandleElement')) {
         range[1] = this._getRange(diffRange, range[1]);
       }
     }
 
+    // the user drags the middle bar
     if (this._isElement(currentTarget, 'middleHandleElement')) {
+      // the diffrence between min and max trigger while mouse down
       diffStashRange = (rangeStash[1] - rangeStash[0]);
       range[0] = this._getRange(diffRange, range[0]);
+      // keep the diffStashRange
       range[1] = range[0] + diffStashRange;
       if (range[1] > 100) {
         range[1] = 100;
@@ -214,6 +231,7 @@ class Slider extends Group {
     return;
   }
 
+  // the listener of mouse down
   _onMouseDown(ev) {
     const currentTarget = ev.currentTarget;
     const originEvent = ev.event;
@@ -223,6 +241,7 @@ class Slider extends Group {
     this.set('pageX', originEvent.pageX);
     this.set('pageY', originEvent.pageY);
     this.set('currentTarget', currentTarget);
+    // stash the range
     this.set('rangeStash', [ range[0], range[1] ]);
     this._bindCanvasEvents();
   }
@@ -234,7 +253,7 @@ class Slider extends Group {
     this.onMouseLeaveListener = DomUtil.addEventListener(containerDOM, 'mouseleave', Util.wrapBehavior(this, '_onCanvasMouseUp'));
   }
 
-    // click and move = drag
+  // listener of mouse click and move = drag
   _onCanvasMouseMove(ev) {
     if (!this._mouseOutArea(ev)) {
       const layout = this.get('layout');
@@ -246,15 +265,18 @@ class Slider extends Group {
     }
   }
 
+  // listener of mouse up
   _onCanvasMouseUp() {
     this._removeDocumentEvents();
   }
 
+  // remove listeners
   _removeDocumentEvents() {
     this.onMouseMoveListener.remove();
     this.onMouseUpListener.remove();
   }
 
+  // if the mouse is out of the area
   _mouseOutArea(ev) {
     const el = this.get('canvas').get('el');
     const el_bbox = el.getBoundingClientRect();

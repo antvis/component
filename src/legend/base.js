@@ -11,7 +11,8 @@ class Legend extends Group {
        */
       title: {
         fill: '#333',
-        textBaseline: 'middle'
+        textBaseline: 'middle',
+        fontFamily: '"-apple-system", BlinkMacSystemFont, "Segoe UI", Roboto,"Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",SimSun, "sans-serif"' // viewTheme.fontFamily
       },
       /**
        * 图例项文本格式化
@@ -51,6 +52,7 @@ class Legend extends Group {
     this._renderTitle();
   }
 
+  // render the title of the legend
   _renderTitle() {
     const title = this.get('title');
     let titleGap = this.get('titleGap');
@@ -60,10 +62,7 @@ class Legend extends Group {
       const titleShape = this.addShape('text', {
         attrs: Util.mix({
           x: 0,
-          y: 0 - titleGap,
-          fill: '#333', // 默认样式
-          textBaseline: 'middle',
-          fontFamily: '"-apple-system", BlinkMacSystemFont, "Segoe UI", Roboto,"Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",SimSun, "sans-serif"' // viewTheme.fontFamily
+          y: 0 - titleGap
         }, title)
       });
       titleShape.name = 'legend-title';
@@ -72,6 +71,7 @@ class Legend extends Group {
     }
   }
 
+  // return the count of checked items
   getCheckedCount() {
     const itemsGroup = this.get('itemsGroup');
     const items = itemsGroup.get('children');
@@ -81,12 +81,14 @@ class Legend extends Group {
     return checkedArr.length;
   }
 
+  // set items for the legend
   setItems(items) {
     this.set('items', items);
     this.clearItems();
     this._renderUI();
   }
 
+  // add an item into the legend
   addItem(item) {
     const items = this.get('items');
     items.push(item);
@@ -94,16 +96,19 @@ class Legend extends Group {
     this._renderUI();
   }
 
+  // clear all the items of the legend
   clearItems() {
     const itemsGroup = this.get('itemsGroup');
     itemsGroup.clear();
   }
 
+  // return the width of the legend
   getWidth() {
     const bbox = this.getBBox();
     return bbox.width;
   }
 
+  // return the height of the legend
   getHeight() {
     const bbox = this.getBBox();
     return bbox.height;

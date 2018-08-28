@@ -62,22 +62,22 @@ class Continuous extends Legend {
        */
       slidable: true,
       /**
-       * 范围内颜色
+       * 滑块的样式
        * @type {ATTRS}
        */
-      inRange: {
-        fill: '#4E7CCC'
+      triggerAttr: {
+        fill: '#4E7CCC' // '#4E7CCC'
       },
+      /**
+       * slider 的范围
+       * @type {array}}
+       */
       _range: [ 0, 100 ],
       /**
-       * 中滑块属性
+       * 中间 bar 背景灰色
        * @type {ATTRS}
        */
-      middleAttr: {
-        fill: '#fff',
-        fillOpacity: 0
-      },
-      outRangeStyle: {
+      middleBackgroundStyle: {
         fill: '#D9D9D9'
       },
       labelOffset: 10 // ToDO: 文本同渐变背景的距离
@@ -134,7 +134,6 @@ class Continuous extends Legend {
       minHandleElement,
       maxHandleElement,
       backgroundElement,
-      middleAttr: this.get('middleAttr'),
       layout: this.get('layout'),
       range: this.get('_range'),
       width: this.get('width'),
@@ -148,12 +147,19 @@ class Continuous extends Legend {
     this._renderTrigger();
   }
 
+  // render the slider shape, must be implemented in children class
+  _renderSliderShape() {
+  }
+  // render the slider while slidable === false, must be implemented in children class
+  _renderUnslidable() {
+  }
+
   _addMiddleBar(parent, name, attrs) {
-    // background middle bar
+    // background of the middle bar
     parent.addShape(name, {
-      attrs: Util.mix({}, attrs, this.get('outRangeStyle'))
+      attrs: Util.mix({}, attrs, this.get('middleBackgroundStyle'))
     });
-    // frontground middle bar
+    // frontground of the middle bar
     return parent.addShape(name, {
       attrs
     });
@@ -164,18 +170,12 @@ class Continuous extends Legend {
     const max = this.get('lastItem');
     const layout = this.get('layout');
     const textStyle = this.get('textStyle');
-    const inRange = this.get('inRange');
-    const attrType = this.get('type');
-    let minBlockAttr;
-    let maxBlockAttr;
+    const triggerAttr = this.get('triggerAttr');
+    // const attrType = this.get('type');
 
-    if (attrType === 'color-legend') {
-      minBlockAttr = this.get('triggerAttr');
-      maxBlockAttr = this.get('triggerAttr');
-    } else {
-      minBlockAttr = Util.mix({}, inRange);
-      maxBlockAttr = Util.mix({}, inRange);
-    }
+    const minBlockAttr = Util.mix({}, triggerAttr);
+    const maxBlockAttr = Util.mix({}, triggerAttr);
+
     const minTextAttr = Util.mix({
       text: this._formatItemValue(min.value) + ''
     }, textStyle);
@@ -263,6 +263,8 @@ class Continuous extends Legend {
       });
     }
   }
+
+  // update the text of min and max trigger
   _updateElement(min, max) {
     const minTextElement = this.get('minTextElement');
     const maxTextElement = this.get('maxTextElement');

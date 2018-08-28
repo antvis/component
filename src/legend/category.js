@@ -136,23 +136,25 @@ class Category extends Legend {
     super._beforeRenderUI();
   }
 
+  // rendering
   _renderUI() {
     super._renderUI();
     this._renderItems();
     this.get('autoWrap') && this._adjustItems(); // 默认自动换行
   }
 
+  // user iteraction
   _bindUI() {
     if (this.get('hoverable')) {
       this.on('mousemove', Util.wrapBehavior(this, '_onMousemove'));
       this.on('mouseleave', Util.wrapBehavior(this, '_onMouseleave'));
     }
-
     if (this.get('clickable')) {
       this.on('click', Util.wrapBehavior(this, '_onClick'));
     }
   }
 
+  // return the target's parent legend object
   _getLegendItem(target) {
     const item = target.get('parent');
     if (item && (item.name === 'legendGroup')) {
@@ -161,6 +163,8 @@ class Category extends Legend {
     return null;
   }
 
+  // activate an item by reduce the opacity of other items.
+  // it is reserved for bi-direction interaction between charts / graph and legend
   activateItem(value) {
     const itemsGroup = this.get('itemsGroup');
     const children = itemsGroup.get('children');
@@ -177,6 +181,8 @@ class Category extends Legend {
     return;
   }
 
+  // restore the opacity of items
+  // it is reserved for bi-direction interaction between charts / graph and legend
   unActivateItem() {
     const itemsGroup = this.get('itemsGroup');
     const children = itemsGroup.get('children');
@@ -189,6 +195,8 @@ class Category extends Legend {
     return;
   }
 
+  // mouse move listener of an item
+  // when mouse over an item, reduce the opacity of the other items.
   _onMousemove(ev) {
     const item = this._getLegendItem(ev.currentTarget);
     const itemsGroup = this.get('itemsGroup');
@@ -223,6 +231,7 @@ class Category extends Legend {
     return;
   }
 
+  // mouse leave listener of an item
   _onMouseleave(ev) {
     const itemsGroup = this.get('itemsGroup');
     const children = itemsGroup.get('children');
@@ -236,6 +245,7 @@ class Category extends Legend {
     return;
   }
 
+  // the click listener of an item
   _onClick(ev) {
     const clickedItem = this._getLegendItem(ev.currentTarget);
     const items = this.get('items');
@@ -312,6 +322,8 @@ class Category extends Legend {
     this.get('canvas').draw();
     return;
   }
+
+  // render the items
   _renderItems() {
     const items = this.get('items');
     if (this.get('reversed')) {
@@ -322,6 +334,7 @@ class Category extends Legend {
     });
   }
 
+  // format the item value
   _formatItemValue(value) {
     const formatter = this.get('itemFormatter');
     if (formatter) {
@@ -330,6 +343,7 @@ class Category extends Legend {
     return value;
   }
 
+  // find x of next item
   _getNextX() {
     const layout = this.get('layout');
     const itemGap = this.get('itemGap');
@@ -346,6 +360,7 @@ class Category extends Legend {
     return nextX;
   }
 
+  // find y of next item
   _getNextY() {
     const itemMarginBottom = this.get('itemMarginBottom');
     const titleGap = this.get('titleShape') ? this.get('titleGap') : 0;
@@ -365,6 +380,7 @@ class Category extends Legend {
     return nextY;
   }
 
+  // add an item to the canvas
   _addItem(item) {
     const itemsGroup = this.get('itemsGroup');
     const x = this._getNextX();
@@ -443,6 +459,7 @@ class Category extends Legend {
     return itemGroup;
   }
 
+  // auto break the line for horizontal layout
   _adjustHorizontal() {
     const itemsGroup = this.get('itemsGroup');
     const children = itemsGroup.get('children');
@@ -473,6 +490,7 @@ class Category extends Legend {
     return;
   }
 
+  // auto break the column for vertical layout
   _adjustVertical() {
     const itemsGroup = this.get('itemsGroup');
     const titleShape = this.get('titleShape');
@@ -516,6 +534,7 @@ class Category extends Legend {
     return;
   }
 
+  // automatically break the line / column while the width / height exceeds maxLength
   _adjustItems() {
     const layout = this.get('layout');
     if (layout === 'horizontal') {

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,height=device-height">
+    <title>Category Legend</title>
+    <style>::-webkit-scrollbar{display:none;}html,body{overflow:hidden;height:100%;margin:0;}</style>
+</head>
+<body>
+<div id="mountNode"></div>
+<!-- Fixing iframe window.innerHeight 0 issue in Safari -->
+<script>
+  document.body.clientHeight;
+</script>
+<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g2-3.2.7-beta.4/dist/g2.min.js"></script>
+<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.data-set-0.8.9/dist/data-set.min.js"></script>
+<script src="../build/component.js"></script>
+<script src="https://gw.alipayobjects.com/os/antv/assets/lib/jquery-3.2.1.min.js"></script>
+<script>
+  const Util = component.Util;
+  const G = component.G;
+  const Legend = component.Legend;
+  const canvas = new G.Canvas({
+    containerId: 'mountNode',
+    width: 500,
+    height: 500
+  });
+  const range = [ 10, 50 ];
+  const domain = [ 88, 99, 100 ];
+  const items = [];
+  const domainStep = (domain[domain.length - 1] - domain[0]) / (range.length - 1);
+
+  Util.each(range, (val, i) => {
+    const dom = domain[0] + domainStep * i;
+    items.push({
+      attrValue: val,
+      value: dom // the number label of the slider
+    });
+  });
+  const cfg = {
+    items,
+    title: {
+      text: 'Score'
+    },
+    layout: 'horizontal',
+    height: 15,
+    width: 150,
+    slidable: true
+  };
+  const legend = canvas.addGroup(Legend.Size, cfg);
+
+  const bbox = legend.getBBox();
+  const padding = 6;
+  const legendWidth = bbox.maxX - bbox.minX;
+  const legendHeight = bbox.maxY - bbox.minY;
+  legend.move(-bbox.minX + padding, -bbox.minY + padding);
+  canvas.changeSize(legendWidth + 2 * padding, legendHeight + 2 * padding);
+  legend.get('canvas').draw();
+</script>
+</body>
+</html>
