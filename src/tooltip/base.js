@@ -82,7 +82,7 @@ class Tooltip extends Component {
   }
 
   setContent(title, items) {
-    const timeStamp = +new Date();
+    const timeStamp = (new Date()).valueOf();
     this.set('items', items);
     this.set('titleContent', title);
     this.set('timeStamp', timeStamp);
