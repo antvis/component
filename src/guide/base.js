@@ -26,14 +26,8 @@ class Guide extends Component {
 
   render() {}
 
-  // TODO，重绘
-  // beforeDraw() { }
-  // draw() { } // 单纯更新视图
-  // afterDraw() { }
-  // TODO
-
   /**
-   * 清理图形、元素
+   * clear container
    * @override
    */
   clear() {
@@ -43,9 +37,9 @@ class Guide extends Component {
   }
 
   /**
-   * 显示、隐藏
+   * show or hide
    * @protected
-   * @param {Boolean} visible 是否可见
+   * @param {Boolean} visible true means show, false means hide
    */
   changeVisible(visible) {
     const self = this;
@@ -61,31 +55,26 @@ class Guide extends Component {
   }
 
   /**
-   * 将原始数值转换成坐标系上的点
+   * calculate the canvas coordinate value
    * @protected
-   * @param  {Coord} coord  坐标系
-   * @param  {Object | Array | Function} position 位置点
-   * @return {Object} 转换成坐标系上的点
+   * @param  {Coordinate} coord  the instance of Coordinate class
+   * @param  {Object | Array | Function} position the value need to convert
+   * @return {Object} return the result
    */
   parsePoint(coord, position) {
     const self = this;
     const xScales = self.get('xScales');
     const yScales = self.get('yScales');
     if (Util.isFunction(position)) {
-      position = position(xScales, yScales); // position 必须是对象
+      position = position(xScales, yScales);
     }
 
     let x;
     let y;
 
-    // 如果数据格式是 ['50%', '50%'] 的格式
-    if (Util.isArray(position) && Util.isString(position[0]) && position[0].indexOf('%') !== -1) {
-      return this._parsePercentPoint(coord, position);
-    }
-
-    if (Util.isArray(position)) { // 数组  [2, 1]
+    if (Util.isArray(position)) { // Array，suuport for mixing of keyword, percent and value
       x = self._getNormalizedValue(position[0], getFirstScale(xScales));
-      y = self._getNormalizedValue(position[1], getFirstScale(yScales));
+      y = self._getNormalizedValue(position[1], getFirstScale(yScales), 'y');
     } else {
       for (const field in position) {
         const value = position[field];
@@ -108,16 +97,17 @@ class Guide extends Component {
   }
 
   /**
-   * 将原始数值归一化
-   * @param  {string | number} val   原始值
-   * @param  {Scale} scale 度量对象
-   * @return {Number}       返回归一化后的数值
+   * Normalized the value
+   * @param  {String | Number} val   param
+   * @param  {Scale} scale the instance of Scale
+   * @param  {String} direct which axis dose the value in
+   * @return {Number}       return the normalized value
    */
-  _getNormalizedValue(val, scale) {
+  _getNormalizedValue(val, scale, direct) {
     let result;
-    if (Util.indexOf(KEYWORDS, val) !== -1) { // 分类则对应索引值
+    if (Util.indexOf(KEYWORDS, val) !== -1) { // keyword
       let scaleValue;
-      if (val === 'start') { // 坐标系开始的位置
+      if (val === 'start') { // the start of coordinate
         result = 0;
       } else if (val === 'end') {
         result = 1;
@@ -132,34 +122,14 @@ class Guide extends Component {
         }
         result = scale.scale(scaleValue);
       }
-    } else {
+    } else if (Util.isString(val) && val.indexOf('%') !== -1) { // percent, just like '50%'
+      val = parseFloat(val) / 100;
+      result = direct === 'y' ? (1 - val) : val; // origin point is top-left
+    } else { // 数值
       result = scale.scale(val);
     }
 
     return result;
-  }
-
-  /**
-   * 如果传入的值是百分比的格式，根据坐标系的起始点和宽高计算
-   * @param {Coord} coord 坐标系对象
-   * @param {Array} position 百分比数组
-   * @return {Object}       返回解析后的对象
-   */
-  _parsePercentPoint(coord, position) {
-    const xPercent = parseFloat(position[0]) / 100;
-    const yPercent = parseFloat(position[1]) / 100;
-    const start = coord.start;
-    const end = coord.end;
-    const topLeft = {
-      x: Math.min(start.x, end.x),
-      y: Math.min(start.y, end.y)
-    };
-    const x = coord.width * xPercent + topLeft.x;
-    const y = coord.height * yPercent + topLeft.y;
-    return {
-      x,
-      y
-    };
   }
 }
 
