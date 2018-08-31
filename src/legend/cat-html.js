@@ -71,17 +71,12 @@ class CatHtml extends Category {
         '<ul class="' + LIST_CLASS + '"></ul>' +
         '</div>',
       /**
-       * 默认的图例项 html 模板
-       * @type {String}
-       */
-      _defaultItemTpl: '<li class="' + ITEM_CLASS + ' item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
-        '<i class="' + MARKER_CLASS + '" style="background-color:{color};"></i>' +
-        '<span class="' + TEXT_CLASS + '">{value}</span></li>',
-      /**
-       * 用户设置的图例项 html 模板
+       * html 模板
        * @type {String|Function}
        */
-      itemTpl: null,
+      itemTpl: '<li class="' + ITEM_CLASS + ' item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
+      '<i class="' + MARKER_CLASS + '" style="background-color:{color};"></i>' +
+      '<span class="' + TEXT_CLASS + '">{value}</span></li>',
       /**
        * html style
        * @type {Boolean}
@@ -138,7 +133,7 @@ class CatHtml extends Category {
   }
 
   // user interaction
-  _bindUI() {
+  _bindEvents() {
     const legendWrapper = this.get('legendWrapper');
     const itemListDom = findNodeByClass(legendWrapper, LIST_CLASS);
     if (this.get('hoverable')) {
@@ -161,10 +156,9 @@ class CatHtml extends Category {
       return;
     }
     const parentDom = getParentNode(target, ITEM_CLASS);
-    const domClass = parentDom.className;
     const hoveredItem = findItem(items, parentDom.getAttribute('data-value'));
 
-    if (hoveredItem && domClass.includes('checked')) {
+    if (hoveredItem) {
       // change the opacity of other items
       this.unactivate();
       this.activate(parentDom.getAttribute('data-value'));
@@ -237,10 +231,10 @@ class CatHtml extends Category {
         }
       });
     } else { // 混合模式
-      const clickedItemChecked = domClass.includes('checked');
+      const clickedItemChecked = (domClass.indexOf('checked') !== -1);// domClass.includes('checked');
       let count = 0;
       Util.each(childNodes, child => {
-        if (child.className.includes('checked')) {
+        if (child.className.indexOf('checked') !== -1) { // .includes('checked')
           count++;
         }
       });
@@ -333,8 +327,7 @@ class CatHtml extends Category {
     const containerTpl = this.get('containerTpl');
     const legendWrapper = DomUtil.createDom(containerTpl);
     const titleDom = findNodeByClass(legendWrapper, TITLE_CLASS);
-    // ul
-    const itemListDom = findNodeByClass(legendWrapper, LIST_CLASS);
+    const itemListDom = findNodeByClass(legendWrapper, LIST_CLASS); // ul
     const unCheckedColor = this.get('unCheckColor');
     const LEGEND_STYLE = Util.mix({}, {
       CONTAINER_CLASS: {
@@ -412,11 +405,7 @@ class CatHtml extends Category {
 
     // 开始渲染图例项
     const items = this.get('items');
-    let itemTpl = this.get('_defaultItemTpl');
-    const userItemTpl = this.get('itemTpl');
-    if (userItemTpl && userItemTpl !== itemTpl) {
-      itemTpl = userItemTpl;
-    }
+    const itemTpl = this.get('itemTpl');
 
     const position = this.get('position');
     const layout = this.get('layout');

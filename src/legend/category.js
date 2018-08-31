@@ -142,7 +142,7 @@ class Category extends Legend {
   }
 
   // user iteraction
-  _bindUI() {
+  _bindEvents() {
     if (this.get('hoverable')) {
       this.get('group').on('mousemove', Util.wrapBehavior(this, '_onMousemove'));
       this.get('group').on('mouseleave', Util.wrapBehavior(this, '_onMouseleave'));

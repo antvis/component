@@ -1,7 +1,7 @@
 const expect = require('chai').expect;
 const G = require('@antv/g/src');
 const Canvas = G.Canvas;
-const Legend = require('../../../src/legend/sizeCircle');
+const Legend = require('../../../src/legend/size-circle');
 
 
 const div = document.createElement('div');

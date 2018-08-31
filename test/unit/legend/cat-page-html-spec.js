@@ -1,5 +1,5 @@
 const expect = require('chai').expect;
-const Legend = require('../../../src/legend/catPageHtml');
+const Legend = require('../../../src/legend/cat-page-html');
 
 const LIST_CLASS = 'g2-legend-list';
 const SLIP_CLASS = 'g2-slip';

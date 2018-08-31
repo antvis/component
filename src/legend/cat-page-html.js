@@ -1,5 +1,5 @@
 const Util = require('../util');
-const CatHtml = require('./catHtml');
+const CatHtml = require('./cat-html');
 const DomUtil = Util.DomUtil;
 
 const LIST_CLASS = 'g2-legend-list';

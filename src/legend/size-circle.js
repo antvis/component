@@ -164,7 +164,7 @@ class Size extends Continuous {
   }
 
   // user interactions
-  _bindUI() {
+  _bindEvents() {
     if (this.get('slidable')) {
       const slider = this.get('slider');
       slider.on('sliderchange', ev => {

@@ -59,7 +59,7 @@ class Legend extends Component {
     this.beforeRender();
     this.render();
     this._adjustPositionOffset();
-    this._bindUI();
+    this._bindEvents();
   }
 
   _init() {

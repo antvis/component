@@ -151,7 +151,7 @@ class Slider extends Group {
     this._transform('vertical');
   }
 
-  _bindUI() {
+  _bindEvents() {
     this.on('mousedown', Util.wrapBehavior(this, '_onMouseDown'));
   }
 
