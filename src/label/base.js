@@ -31,19 +31,24 @@ class Label extends Component {
       formatter: null,
       /**
        * 使用 html 渲染文本
+       * @type {Boolean}
+       */
+      useHtml: false,
+      /**
+       * 使用 html 渲染文本
        * @type {(String|Function)}
        */
-      htmlTemplate: null,
+      htmlContent: null,
       /**
        * html 渲染时用的容器的模板，必须存在 class = "g-labels"
        * @type {String}
        */
-      _containerTpl: '<div class="g-labels" style="position:absolute;top:0;left:0;"></div>',
+      containerTpl: '<div class="g-labels" style="position:absolute;top:0;left:0;"></div>',
       /**
-       * html 渲染时单个 label 的模板，必须存在 class = "g-label"，如果 htmlTemplate 为字符串，则使用 htmlTemplate
+       * html 渲染时单个 label 的模板，必须存在 class = "g-label"，如果 htmlContent 为字符串，则使用 htmlContent
        * @type {String}
        */
-      _itemTpl: '<div class="g-label" style="position:absolute;">{text}</div>',
+      itemTpl: '<div class="g-label" style="position:absolute;">{text}</div>',
       /**
        * label牵引线
        * @type {Object|Boolean}
@@ -107,9 +112,9 @@ class Label extends Component {
     Util.each(items, function(item, index) {
       if (index < count) {
         const label = children[index];
-        self.changeLabel(label, item, index);
+        self.changeLabel(label, item);
       } else {
-        const labelShape = self._addLabel(item, index);
+        const labelShape = self._addLabel(item);
         if (labelShape) {
           labelShape._id = item._id;
           labelShape.set('coord', item.coord);
@@ -132,27 +137,25 @@ class Label extends Component {
    * newLabel label data
    * index items中的下标
    */
-  changeLabel(oldLabel, newLabel, index) {
+  changeLabel(oldLabel, newLabel) {
     if (!oldLabel) {
       return;
     }
-    const htmlTemplate = this.get('htmlTemplate');
-    const cfg = this._getLabelCfg(newLabel, index);
-    if (htmlTemplate) {
-      const node = this._createDom(cfg);
+    if (this.get('useHtml')) {
+      const node = this._createDom(newLabel);
       oldLabel.innerHTML = node.innerHTML;
-      this._setCustomPosition(cfg, oldLabel);
+      this._setCustomPosition(newLabel, oldLabel);
     } else {
       oldLabel._id = newLabel._id;
-      oldLabel.attr('text', cfg.text);
-      if (oldLabel.attr('x') !== cfg.x || oldLabel.attr('y') !== cfg.y) {
+      oldLabel.attr('text', newLabel.text);
+      if (oldLabel.attr('x') !== newLabel.x || oldLabel.attr('y') !== newLabel.y) {
         const rotate = oldLabel.get('attrs').rotate;
         if (rotate) {
           oldLabel.rotateAtStart(-rotate);
-          oldLabel.attr(cfg);
+          oldLabel.attr(newLabel);
           oldLabel.rotateAtStart(rotate);
         } else {
-          oldLabel.attr(cfg);
+          oldLabel.attr(newLabel);
         }
       }
     }
@@ -214,7 +217,10 @@ class Label extends Component {
     if (lineStyle.path) {
       path = lineStyle.path(label);
     } else {
-      const start = label._originPoint;
+      const start = {
+        x: label.x - label._offset.x,
+        y: label.y - label._offset.y
+      };
       path = [
         [ 'M', start.x, start.y ],
         [ 'L', label.x, label.y ]
@@ -249,16 +255,15 @@ class Label extends Component {
   }
 
   // 先计算label的所有配置项，然后生成label实例
-  _addLabel(item, index) {
-    const cfg = this._getLabelCfg(item, index);
-    return this._createText(cfg);
+  _addLabel(item) {
+    return this._createText(item);
   }
 
   /**
    * label初始化，主要针对html容器
    */
   _init() {
-    if (this.get('htmlTemplate')) {
+    if (this.get('useHtml')) {
       let container = this.get('container');
       if (Util.isString(container)) {
         container = document.getElementById(container);
@@ -267,7 +272,7 @@ class Label extends Component {
         }
       }
       if (!container) {
-        const containerTpl = this.get('_containerTpl');
+        const containerTpl = this.get('containerTpl');
         const wrapper = this.get('canvas').get('el').parentNode;
         container = DomUtil.createDom(containerTpl);
         wrapper.style.position = 'relative';
@@ -281,50 +286,12 @@ class Label extends Component {
       }
     }
   }
-  // 计算label的configs
-  _getLabelCfg(item, index) {
-    const self = this;
-    let textStyle = self.get('textStyle') || {};
-    const formatter = self.get('formatter');
-    const htmlTemplate = self.get('htmlTemplate');
-
-    if (!Util.isObject(item)) {
-      const tmp = item;
-      item = {};
-      item.text = tmp;
-    }
-
-    if (Util.isFunction(textStyle)) {
-      textStyle = textStyle(item.text, item, index);
-    }
-
-    if (formatter) {
-      item.text = formatter(item.text, item, index);
-    }
-
-    if (Util.isFunction(htmlTemplate)) {
-      item.text = htmlTemplate(item.text, item, index);
-    }
-
-    if (Util.isNil(item.text)) {
-      item.text = '';
-    }
-
-    item.text += '';
-
-    const cfg = Util.mix({}, item, textStyle, {
-      x: item.x || 0,
-      y: item.y || 0
-    });
-    return cfg;
-  }
   // 分html dom和G shape两种情况生成label实例
   _createText(cfg) {
-    const htmlTemplate = this.get('htmlTemplate');
     const container = this.get('container');
     let labelShape;
 
-    if (htmlTemplate) {
+    if (this.get('useHtml')) {
       const node = this._createDom(cfg);
       container.appendChild(node);
       this._setCustomPosition(cfg, node);
@@ -333,7 +300,9 @@ class Label extends Component {
       const group = this.get('group');
       delete cfg.point; // 临时解决，否则影响动画
       labelShape = group.addShape('text', {
-        attrs: cfg
+        attrs: Util.mix({
+          fill: '#000'
+        }, cfg)
       });
       labelShape.setSilent('origin', origin);
       labelShape.name = 'label'; // 用于事件标注
@@ -342,10 +311,10 @@ class Label extends Component {
     }
   }
   _createDom(cfg) {
-    const itemTpl = this.get('_itemTpl');
+    const itemTpl = this.get('itemTpl');
     const htmlTemplate = this.get('htmlTemplate');
 
-    if (Util.isString(htmlTemplate)) {
+    if (!this.get('htmlContent') && htmlTemplate) {
       cfg.text = Util.substitute(htmlTemplate, { text: cfg.text });
     }
     const str = Util.substitute(itemTpl, { text: cfg.text });
