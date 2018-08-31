@@ -7,8 +7,8 @@ const Util = require('../util');
 // const Global = require('../../global');
 const Continuous = require('./continuous');
 const SLIDER_HEIGHT = 2;
-const CIRCLE_GAP = 8;
-const MAX_SIZE = 15;
+const CIRCLE_GAP = 16;
+const MAX_SIZE = 16;
 const MIN_SIZE = 5;
 
 class Size extends Continuous {
@@ -27,9 +27,10 @@ class Size extends Continuous {
        * @type {ATTRS}
        */
       _unslidableCircleStyle: {
-        stroke: '#4E7CCC',
-        fill: '#fff',
-        fillOpacity: 0
+        stroke: 'rgb(99, 161, 248)',
+        fill: 'rgb(99, 161, 248)',
+        fillOpacity: 0.3,
+        lineWidth: 1.5
       },
       /**
        * 滑块的样式
@@ -209,7 +210,8 @@ class Size extends Continuous {
 
   // add a circle for slidable === false
   _addCircle(x, y, r, text, maxWidth) {
-    const group = this.addGroup();
+    const group = this.get('group');
+    const circleGroup = group.addGroup();
     const circleStyle = this.get('_unslidableCircleStyle');
     const textStyle = this.get('textStyle');
     const titleShape = this.get('titleShape');
@@ -219,7 +221,7 @@ class Size extends Continuous {
       titleGap += titleShape.getBBox().height;
     }
 
-    group.addShape('circle', {
+    circleGroup.addShape('circle', {
       attrs: Util.mix({
         x,
         y: y + titleGap,
@@ -227,18 +229,18 @@ class Size extends Continuous {
       }, circleStyle)
     });
     if (this.get('layout') === 'vertical') {
-      group.addShape('text', {
+      circleGroup.addShape('text', {
         attrs: Util.mix({
-          x: maxWidth + 15,
+          x: maxWidth + 20 + this.get('textOffset'),
           y: y + titleGap,
           text: text === 0 ? '0' : text
         }, textStyle)
       });
     } else {
-      group.addShape('text', {
+      circleGroup.addShape('text', {
         attrs: Util.mix({
           x,
-          y: y + titleGap + maxWidth - 10,
+          y: y + titleGap + maxWidth + 13 + this.get('textOffset'),
           text: text === 0 ? '0' : text
         }, textStyle)
       });
@@ -247,10 +249,21 @@ class Size extends Continuous {
 
   // the circles while slidable === false
   _renderUnslidable() {
-    const minText = this.get('firstItem').attrValue;
-    const maxText = this.get('lastItem').attrValue;
-    const minRadius = this.get('firstItem').attrValue < (MIN_SIZE / 2) ? (MIN_SIZE / 2) : this.get('firstItem').attrValue;
-    const maxRadius = this.get('lastItem').attrValue > (MAX_SIZE * 2) ? (MAX_SIZE * 2) : this.get('firstItem').attrValue;
+    let firstItemValue = this.get('firstItem').value;
+    let lastItemValue = this.get('lastItem').value;
+    if (firstItemValue > lastItemValue) {
+      const tmp = lastItemValue;
+      lastItemValue = firstItemValue;
+      firstItemValue = tmp;
+    }
+    const minText = this._formatItemValue(firstItemValue);
+    const maxText = this._formatItemValue(lastItemValue);
+    let minRadius = firstItemValue < (MIN_SIZE) ? (MIN_SIZE) : firstItemValue;
+    let maxRadius = lastItemValue > (MAX_SIZE) ? (MAX_SIZE) : lastItemValue;
+    if (minRadius > maxRadius) {
+      minRadius = MIN_SIZE;
+      maxRadius = MAX_SIZE;
+    }
     if (this.get('layout') === 'vertical') {
       this._addCircle(maxRadius, maxRadius, minRadius, minText, 2 * maxRadius); // min
       this._addCircle(maxRadius, maxRadius * 2 + CIRCLE_GAP + minRadius, maxRadius, maxText, 2 * maxRadius);  // max
@@ -258,7 +271,13 @@ class Size extends Continuous {
       this._addCircle(maxRadius, maxRadius, minRadius, minText, 2 * maxRadius); // min
       this._addCircle(maxRadius * 2 + CIRCLE_GAP + minRadius, maxRadius, maxRadius, maxText, 2 * maxRadius);  // max
     }
+  }
 
+  activate(value) {
+    if (!this.get('slidable')) {
+      return;
+    }
+    super.activate(value);
   }
 
 }

@@ -22,19 +22,11 @@ class Color extends Continuous {
        * @type {String}
        */
       layout: 'vertical',
-      /**
-       * offset between the label and the slider
-       * @type {nubmer}
-       */
-      labelOffset: 15,
-      /**
-       * line segment to seperate the unslidable slider blocks
-       * @type {object}
-       */
-      lineStyle: {
-        lineWidth: 1,
-        stroke: '#fff'
-      },
+      // /**
+      //  * offset between the label and the slider
+      //  * @type {nubmer}
+      //  */
+      // textOffset: 15,
       /**
        * 两头滑块的样式
        * @type {object}
@@ -54,8 +46,19 @@ class Color extends Continuous {
       isSegment: false
     });
   }
+  _setPercentage() {
+    const items = this.get('items');
+    if (items[0].percentage) return;
+    const min = items[0].value;
+    const max = items[items.length - 1].value;
+    Util.each(items, it => {
+      it.percentage = (it.value - min) / (max - min);
+    });
+    return;
+  }
   // render the slider while slidable === true
   _renderSliderShape() {
+    this._setPercentage();
     const slider = this.get('slider');
     const backgroundElement = slider.get('backgroundElement');
     const width = this.get('width');
@@ -69,13 +72,13 @@ class Color extends Continuous {
     if (layout === 'vertical') {
       fill += 'l (90) ';
       Util.each(items, function(v) {
-        rgbColor = ColorUtil.toRGB(v.attrValue);
+        rgbColor = ColorUtil.toRGB(v.color);
         fill += (1 - v.percentage) + ':' + rgbColor + ' ';
       });
     } else {
       fill += 'l (0) ';
       Util.each(items, function(v) {
-        rgbColor = ColorUtil.toRGB(v.attrValue);
+        rgbColor = ColorUtil.toRGB(v.color);
         fill += v.percentage + ':' + rgbColor + ' ';
       });
     }
@@ -91,6 +94,7 @@ class Color extends Continuous {
 
   // render the silder while slidable === false
   _renderUnslidable() {
+    this._setPercentage();
     const titleShape = this.get('titleShape');
     let titleGap = this.get('titleGap');
     titleGap = titleShape ? titleShape.getBBox().height + titleGap : titleGap;
@@ -102,7 +106,8 @@ class Color extends Continuous {
     let rgbColor;
 
     const path = [];
-    const bgGroup = this.addGroup();
+    const group = this.get('group');
+    const bgGroup = group.addGroup();
     const isize = items.length;
 
     // gradient color distributed according to the percentage
@@ -113,17 +118,17 @@ class Color extends Continuous {
           path.push([ 'M', 0, height - items[i].percentage * height ]);
           path.push([ 'L', width, height - items[i].percentage * height ]);
         }
-        rgbColor = ColorUtil.toRGB(items[i].attrValue);
-        fill += (1 - items[i].percentage) + ':' + rgbColor + ' ';
 
+        rgbColor = ColorUtil.toRGB(items[i].color);
+        fill += (1 - items[i].percentage) + ':' + rgbColor + ' ';
         if (this.get('isSegment') && i > 0) { // one color instead of gradient color for a block while isSegment === true
-          const preRgbColor = ColorUtil.toRGB(items[i - 1].attrValue);
+          const preRgbColor = ColorUtil.toRGB(items[i - 1].color);
           fill += (1 - items[i].percentage) + ':' + preRgbColor + ' ';
         }
 
         bgGroup.addShape('text', {
           attrs: Util.mix({}, {
-            x: width + this.get('labelOffset') / 2,
+            x: width + this.get('textOffset') / 2,
             y: height - items[i].percentage * height,
             text: this._formatItemValue(items[i].value) + '' // 以字符串格式展示
           }, this.get('textStyle'), {
@@ -138,16 +143,16 @@ class Color extends Continuous {
           path.push([ 'M', items[i].percentage * width, 0 ]);
           path.push([ 'L', items[i].percentage * width, height ]);
         }
-        rgbColor = ColorUtil.toRGB(items[i].attrValue);
+        rgbColor = ColorUtil.toRGB(items[i].color);
         if (this.get('isSegment') && i > 0) {
-          const preRgbColor = ColorUtil.toRGB(items[i - 1].attrValue);
+          const preRgbColor = ColorUtil.toRGB(items[i - 1].color);
           fill += items[i].percentage + ':' + preRgbColor + ' ';
         }
         fill += items[i].percentage + ':' + rgbColor + ' ';
         bgGroup.addShape('text', {
           attrs: Util.mix({}, {
             x: items[i].percentage * width,
-            y: height + this.get('labelOffset'),
+            y: height + 5 + this.get('textOffset'),
             text: this._formatItemValue(items[i].value) + '' // 以字符串格式展示
           }, this.get('textStyle'))
         });

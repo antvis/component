@@ -53,10 +53,14 @@ class CatHtml extends Category {
     const cfg = super.getDefaultCfg();
     return Util.mix({}, cfg, {
       /**
-       * type标识
+       * type 标识
        * @type {String}
        */
       type: 'category-legend',
+      /**
+       * html 容器
+       * @type {DOM}
+       */
       container: null,
       /**
        * 使用html时的外层模板
@@ -121,7 +125,15 @@ class CatHtml extends Category {
     });
   }
 
-  _renderUI() {
+  _init() {
+    return;
+  }
+
+  beforeRender() {
+    return;
+  }
+
+  render() {
     this._renderHTML();
   }
 
@@ -152,34 +164,18 @@ class CatHtml extends Category {
     const domClass = parentDom.className;
     const hoveredItem = findItem(items, parentDom.getAttribute('data-value'));
 
-    const legendWrapper = this.get('legendWrapper');
-    const itemListDom = findNodeByClass(legendWrapper, LIST_CLASS);
-    const childNodes = itemListDom.childNodes;
-
     if (hoveredItem && domClass.includes('checked')) {
       // change the opacity of other items
-      Util.each(childNodes, child => {
-        const childMarkerDom = findNodeByClass(child, MARKER_CLASS);
-        const childItem = findItem(items, child.getAttribute('data-value'));
-        if (child !== parentDom && childItem.checked) {
-          childMarkerDom && (childMarkerDom.style.opacity = 0.5);
-        } else {
-          childMarkerDom && (childMarkerDom.style.opacity = 1);
-        }
-      });
+      this.unactivate();
+      this.activate(parentDom.getAttribute('data-value'));
       this.emit('itemhover', {
         item: hoveredItem,
         currentTarget: parentDom,
         checked: hoveredItem.checked
       });
     } else if (!hoveredItem) {
-
       // restore the opacity of all the items
-      Util.each(childNodes, child => {
-        const childMarkerDom = findNodeByClass(child, MARKER_CLASS);
-        childMarkerDom && (childMarkerDom.style.opacity = 1);
-      });
-
+      this.unactivate();
       this.emit('itemunhover', ev);
     }
     return;
@@ -187,14 +183,8 @@ class CatHtml extends Category {
 
   // mouse leave listener of an item
   _onMouseleave(ev) {
-    const legendWrapper = this.get('legendWrapper');
-    const itemListDom = findNodeByClass(legendWrapper, LIST_CLASS);
-    const childNodes = itemListDom.childNodes;
     // restore the opacity of all the items when mouse leave
-    Util.each(childNodes, child => {
-      const childMarkerDom = findNodeByClass(child, MARKER_CLASS);
-      childMarkerDom && (childMarkerDom.style.opacity = 1);
-    });
+    this.unactivate();
     this.emit('itemunhover', ev);
     return;
   }
@@ -284,7 +274,7 @@ class CatHtml extends Category {
 
   // activate an item by reduce the opacity of other items.
   // it is reserved for bi-direction interaction between charts / graph and legend
-  activateItem(value) {
+  activate(value) {
     const items = this.get('items');
     const item = findItem(items, value);
 
@@ -295,31 +285,50 @@ class CatHtml extends Category {
     childNodes.forEach(child => {
       const childMarkerDom = findNodeByClass(child, MARKER_CLASS);
       const childItem = findItem(items, child.getAttribute('data-value'));
-      if (childItem !== item && childItem.checked) {
-        childMarkerDom.style.opacity = 0.5;
+      if (this.get('highlight')) {
+        if (childItem === item && childItem.checked) {
+          childMarkerDom.style.border = '1px solid #333';
+          return;
+        }
       } else {
-        childMarkerDom.style.opacity = 1;
+        if (childItem === item) {
+          childMarkerDom.style.opacity = 1;
+        } else {
+          if (childItem.checked) childMarkerDom.style.opacity = 0.5;
+        }
       }
+      // if (childItem !== item && childItem.checked) {
+      //   if (this.get('highlight')) {
+      //     childMarkerDom.style.border = '1px solid #fff';
+      //   } else childMarkerDom.style.opacity = 0.5;
+      // } else {
+      //   if (this.get('highlight')) {
+      //     childMarkerDom.style.border = '1px solid #333';
+      //   } else childMarkerDom.style.opacity = 1;
+      // }
     });
     return;
   }
 
   // restore the opacity of items
   // it is reserved for bi-direction interaction between charts / graph and legend
-  unActivateItem() {
+  unactivate() {
     const legendWrapper = this.get('legendWrapper');
     const itemListDom = findNodeByClass(legendWrapper, LIST_CLASS);
     const childNodes = itemListDom.childNodes;
     childNodes.forEach(child => {
       const childMarkerDom = findNodeByClass(child, MARKER_CLASS);
-      childMarkerDom.style.opacity = 1;
+      if (this.get('highlight')) {
+        childMarkerDom.style.border = '1px solid #fff';
+      } else childMarkerDom.style.opacity = 1;
     });
     return;
   }
 
   _renderHTML() {
-    const canvas = this.get('canvas');
-    const outterNode = canvas.get('el').parentNode;
+    // const canvas = this.get('canvas');
+    let container = this.get('container');
+    // const outterNode = container.parentNode;
     const title = this.get('title');
     const containerTpl = this.get('containerTpl');
     const legendWrapper = DomUtil.createDom(containerTpl);
@@ -367,27 +376,26 @@ class CatHtml extends Category {
     }, this.get('legendStyle'));
 
     // fix：IE 9 兼容问题，先加入 legendWrapper
-    let container = this.get('container');
-    if (/^\#/.test(container)) { // 如果传入 dom 节点的 id
+    // let container = this.get('container');
+    if ((/^\#/.test(container)) || ((typeof container === 'string') && container.constructor === String)) { // 如果传入 dom 节点的 id
       const id = container.replace('#', '');
       container = document.getElementById(id);
       container.appendChild(legendWrapper);
     } else {
       const position = this.get('position');
-      const canvas = this.get('canvas');
       let rangeStyle = {};
       if (position === 'left' || position === 'right') {
         rangeStyle = {
-          maxHeight: (this.get('maxLength') || canvas.get('height')) + 'px'
+          maxHeight: (this.get('maxLength') || container.offsetHeight) + 'px'
         };
       } else {
         rangeStyle = {
-          maxWidth: (this.get('maxLength') || canvas.get('width')) + 'px'
+          maxWidth: (this.get('maxLength') || container.offsetWidth) + 'px'
         };
       }
 
       DomUtil.modifyCSS(legendWrapper, Util.mix({}, LEGEND_STYLE.CONTAINER_CLASS, rangeStyle, this.get(CONTAINER_CLASS)));
-      outterNode.appendChild(legendWrapper);
+      container.appendChild(legendWrapper);
     }
 
     DomUtil.modifyCSS(itemListDom, Util.mix({}, LEGEND_STYLE.LIST_CLASS, this.get(LIST_CLASS)));
@@ -410,10 +418,6 @@ class CatHtml extends Category {
       itemTpl = userItemTpl;
     }
 
-    if (this.get('reversed')) {
-      items.reverse();
-    }
-
     const position = this.get('position');
     const layout = this.get('layout');
     const itemDisplay = ((position === 'right' || position === 'left') || layout === 'vertical') ? 'block' : 'inline-block';
@@ -433,7 +437,7 @@ class CatHtml extends Category {
         domStr = itemTpl;
       }
 
-      const itemDiv = Util.substitute(domStr, {
+      const itemDiv = Util.substitute(domStr, Util.mix({}, item, {
         index,
         checked: checked ? 'checked' : 'unChecked',
         value,
@@ -441,7 +445,7 @@ class CatHtml extends Category {
         originColor: markerColor,
         // @2018-07-09 by blue.lb 修复如果legend值中存在双引号"时, 导致的无法点击触发legend正常操作bug
         originValue: item.value.replace(/\"/g, '&quot;')
-      });
+      }));
       // li
       const itemDom = DomUtil.createDom(itemDiv);
       itemDom.style.color = this.get('textStyle').fill;
@@ -476,7 +480,6 @@ class CatHtml extends Category {
           text = '';
         } else if (itemWidth < textWidth) { // replace the tail as '...
           if (letterNum > 1) text = text.substr(0, letterNum - 1) + '...';
-          else text = '...';
         }
         textDom.innerText = text;
 
@@ -512,6 +515,17 @@ class CatHtml extends Category {
     this.set('legendWrapper', legendWrapper);
   }
 
+  _adjustPositionOffset() {
+    const position = this.get('position');
+    const offset = this.get('offset');
+    const legendWrapper = this.get('legendWrapper');
+    legendWrapper.style.left = position[0] + 'px';
+    legendWrapper.style.top = position[1] + 'px';
+    legendWrapper.style.marginLeft = offset[0] + 'px';
+    legendWrapper.style.marginTop = offset[1] + 'px';
+  }
+
+
   getWidth() {
     return DomUtil.getOuterWidth(this.get('legendWrapper'));
   }
@@ -533,12 +547,11 @@ class CatHtml extends Category {
     }
   }
 
-  remove() {
+  destroy() {
     const legendWrapper = this.get('legendWrapper');
     if (legendWrapper && legendWrapper.parentNode) {
       legendWrapper.parentNode.removeChild(legendWrapper);
     }
-    super.remove(); // must be called
   }
 }
 

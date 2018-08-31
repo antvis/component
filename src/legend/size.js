@@ -79,7 +79,6 @@ class Color extends Continuous {
     const layout = this.get('layout');
     const width = this.get('width');
     const height = this.get('height');
-    const y = this.get('height') / 2;
     const frontMiddleBarStyle = this.get('frontMiddleBarStyle');
     const points = (layout === 'vertical') ? [
       [ 0, 0 ],
@@ -87,58 +86,60 @@ class Color extends Continuous {
       [ width, height ],
       [ width - 4, height ]
     ] : [
-      [ 0, y + height / 2 ],
-      [ 0, y + height / 2 - 4 ],
-      [ width, y - height / 2 ],
-      [ width, y + height / 2 ]
+      [ 0, height ],
+      [ 0, height - 4 ],
+      [ width, 0 ],
+      [ width, height ]
     ];
-    const bgGroup = this.addGroup();
+    const group = this.get('group');
+    const bgGroup = group.addGroup();
     bgGroup.addShape('Polygon', {
       attrs: Util.mix({
         points
       }, frontMiddleBarStyle)
     });
 
-    const minText = this.get('firstItem').attrValue;
-    const maxText = this.get('lastItem').attrValue;
+    const minText = this._formatItemValue(this.get('firstItem').value);
+    const maxText = this._formatItemValue(this.get('lastItem').value);
     if (this.get('layout') === 'vertical') {
       this._addText(width + 10, height - 3, minText); // min
       this._addText(width + 10, 3, maxText);  // max
     } else {
-      this._addText(0, 10, minText); // min
-      this._addText(width, 10, maxText);  // max
+      this._addText(0, height, minText); // min
+      this._addText(width, height, maxText);  // max
     }
   }
   // add min and max text while slidable === false
   _addText(x, y, text) {
-    const group = this.addGroup();
+    const group = this.get('group');
+    const textGroup = group.addGroup();
     const textStyle = this.get('textStyle');
     const titleShape = this.get('titleShape');
     let titleGap = this.get('titleGap');
-
     if (titleShape) {
       titleGap += titleShape.getBBox().height;
     }
 
     if (this.get('layout') === 'vertical') {
-      group.addShape('text', {
+      textGroup.addShape('text', {
+        attrs: Util.mix({
+          x: x + this.get('textOffset'),
+          y,
+          text: text === 0 ? '0' : text
+        }, textStyle)
+      });
+    } else {
+      y += titleGap + this.get('textOffset') - 20;
+      if (!titleShape) y += 10;
+      textGroup.addShape('text', {
         attrs: Util.mix({
           x,
           y,
           text: text === 0 ? '0' : text
         }, textStyle)
       });
-    } else {
-      group.addShape('text', {
-        attrs: Util.mix({
-          x,
-          y: y + titleGap - 10,
-          text: text === 0 ? '0' : text
-        }, textStyle)
-      });
     }
   }
-
 }
 
 module.exports = Color;

@@ -49,6 +49,8 @@ class Continuous extends Legend {
         fill: '#333',
         textAlign: 'center',
         textBaseline: 'middle',
+        stroke: '#fff',
+        lineWidth: 5,
         fontFamily: '"-apple-system", BlinkMacSystemFont, "Segoe UI", Roboto,"Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",SimSun, "sans-serif"'
       },
       /**
@@ -80,7 +82,27 @@ class Continuous extends Legend {
       middleBackgroundStyle: {
         fill: '#D9D9D9'
       },
-      labelOffset: 10 // ToDO: 文本同渐变背景的距离
+      /**
+       * 文本与图例间距
+       * @type {Number}
+       */
+      textOffset: 4,
+      /**
+       * line segment to seperate the unslidable slider blocks
+       * @type {object}
+       */
+      lineStyle: {
+        lineWidth: 1,
+        stroke: '#fff'
+      },
+      /**
+       * the pointer while activate the legend by mouse hovering or called by outside
+       * @type {object}
+       */
+      pointerStyle: {
+        // color: '#ccc',
+        fill: 'rgb(230, 230, 230)'
+      }
     });
   }
 
@@ -94,16 +116,15 @@ class Continuous extends Legend {
       const titleBox = titleShape.getBBox();
       start.y += titleBox.height;
     }
-
     return start;
   }
 
-  _beforeRenderUI() {
+  beforeRender() {
     const items = this.get('items');
     if (!Util.isArray(items) || Util.isEmpty(items)) {
       return;
     }
-    super._beforeRenderUI();
+    super.beforeRender();
     this.set('firstItem', items[0]);
     this.set('lastItem', items[items.length - 1]);
   }
@@ -116,8 +137,8 @@ class Continuous extends Legend {
     return value;
   }
 
-  _renderUI() {
-    super._renderUI();
+  render() {
+    super.render();
     if (this.get('slidable')) {
       this._renderSlider();
     } else {
@@ -130,7 +151,8 @@ class Continuous extends Legend {
     const maxHandleElement = new Group();
     const backgroundElement = new Group();
     const start = this._calStartPoint();
-    const slider = this.addGroup(Slider, {
+    const group = this.get('group');
+    const slider = group.addGroup(Slider, {
       minHandleElement,
       maxHandleElement,
       backgroundElement,
@@ -147,13 +169,7 @@ class Continuous extends Legend {
     this._renderTrigger();
   }
 
-  // render the slider shape, must be implemented in children class
-  _renderSliderShape() {
-  }
-  // render the slider while slidable === false, must be implemented in children class
-  _renderUnslidable() {
-  }
-
+  // the middle bar
   _addMiddleBar(parent, name, attrs) {
     // background of the middle bar
     parent.addShape(name, {
@@ -204,7 +220,7 @@ class Continuous extends Legend {
     });
     const text = trigger.addShape('text', {
       attrs: Util.mix(textAttr, {
-        x: width + 8,
+        x: width + this.get('textOffset'),
         y: type === 'max' ? -4 : 4,
         textAlign: 'start',
         lineHeight: 1,
@@ -225,7 +241,7 @@ class Continuous extends Legend {
     const button = trigger.addShape('rect', {
       attrs: Util.mix({
         x: type === 'min' ? -TRIGGER_WIDTH : 0,
-        y: -TRIGGER_WIDTH - 8,
+        y: -TRIGGER_WIDTH - this.get('height') / 2,
         width: TRIGGER_WIDTH,
         height: 2 * TRIGGER_WIDTH
       }, blockAttr)
@@ -233,7 +249,7 @@ class Continuous extends Legend {
     const text = trigger.addShape('text', {
       attrs: Util.mix(textAttr, {
         x: type === 'min' ? -TRIGGER_WIDTH - 4 : TRIGGER_WIDTH + 4,
-        y: TRIGGER_WIDTH / 2,
+        y: TRIGGER_WIDTH / 2 + this.get('textOffset') + 10,
         textAlign: type === 'min' ? 'end' : 'start',
         textBaseline: 'middle'
       })
@@ -260,6 +276,9 @@ class Continuous extends Legend {
         itemFiltered.range = [ minValue, maxValue ];
         this.emit('itemfilter', itemFiltered);
       });
+    } else {
+      this.get('group').on('mousemove', Util.wrapBehavior(this, '_onMouseMove'));
+      this.get('group').on('mouseleave', Util.wrapBehavior(this, '_onMouseLeave'));
     }
   }
 
@@ -273,6 +292,155 @@ class Continuous extends Legend {
     }
     minTextElement.attr('text', this._formatItemValue(min) + '');
     maxTextElement.attr('text', this._formatItemValue(max) + '');
+  }
+
+  _onMouseLeave() {
+    const hoverPointer = this.get('group').findById('hoverPointer');
+    hoverPointer && hoverPointer.destroy();
+    const hoverText = this.get('group').findById('hoverText');
+    hoverText && hoverText.destroy();
+    this.get('canvas').draw();
+  }
+  // activate the legend while mouse moving
+  _onMouseMove(ev) {
+    const height = this.get('height');
+    const width = this.get('width');
+    const items = this.get('items');
+    const el = this.get('canvas').get('el');
+    const el_bbox = el.getBoundingClientRect();
+    const bbox = this.get('group').getBBox();
+
+    let value;
+
+    if (this.get('layout') === 'vertical') {
+      let valuePadding = 5;
+      if (this.get('type') === 'color-legend') {
+        valuePadding = 30;
+      }
+      let titleOffset = this.get('titleGap');
+      const titleShape = this.get('titleShape');
+      if (titleShape) titleOffset += (titleShape.getBBox().maxY - titleShape.getBBox().minY);
+      let currentPage = ev.clientY || ev.event.clientY;
+      currentPage = currentPage - el_bbox.y - this.get('group').attr('matrix')[7] + bbox.y - valuePadding + titleOffset;
+      value = items[0].value + (1 - (currentPage) / height) * (items[items.length - 1].value - items[0].value);
+    } else {
+      let currentPage = ev.clientX || ev.event.clientX;
+      currentPage = currentPage - el_bbox.x - this.get('group').attr('matrix')[6];
+      value = items[0].value + ((currentPage) / width) * (items[items.length - 1].value - items[0].value);
+    }
+    value = value.toFixed(2);
+    this.activate(value);
+    this.emit('mousehover', { value });
+  }
+
+  // activated by mouse moving or being called
+  activate(value) {
+    let hoverPointer = this.get('group').findById('hoverPointer');
+    let hoverText = this.get('group').findById('hoverText');
+
+    const items = this.get('items');
+    if (value < items[0].value || value > items[items.length - 1].value) {
+      return;
+    }
+    const height = this.get('height');
+    const width = this.get('width');
+
+    const titleShape = this.get('titleShape');
+    const titleGap = this.get('titleGap');
+
+    let points = [];
+    let page = (value - items[0].value) / (items[items.length - 1].value - items[0].value);
+    let textStyle;
+
+    if (this.get('layout') === 'vertical') {
+
+      // revise the offset
+      let paddingY = 0,
+        paddingX = 0;
+      if (this.get('type') === 'color-legend') {
+        paddingY = titleGap;
+        if (titleShape) paddingY += titleShape.getBBox().height;
+      }
+      if (this.get('slidable')) {
+        if (this.get('type') === 'color-legend') {
+          paddingY -= 13;
+        } else {
+          paddingY = titleGap - 15;
+          if (titleShape) paddingY += titleShape.getBBox().height;
+        }
+        paddingX += 10;
+      }
+
+      page = (1 - page) * height;
+      points = [
+        [ paddingX, page + paddingY ],
+        [ paddingX - 10, page + paddingY - 5 ],
+        [ paddingX - 10, page + paddingY + 5 ]
+      ];
+      textStyle = Util.mix({}, {
+        x: width + this.get('textOffset') / 2 + paddingX,
+        y: page + paddingY,
+        text: this._formatItemValue(value) + '' // 以字符串格式展示
+      }, this.get('textStyle'), {
+        textAlign: 'start'
+      });
+    } else {
+      let paddingY = 0,
+        paddingX = 0;
+      if (this.get('type') === 'color-legend') {
+        paddingY = titleGap;
+        if (titleShape) paddingY += titleShape.getBBox().height;
+      }
+      if (this.get('slidable')) {
+        if (this.get('type') === 'color-legend') {
+          paddingY -= 13;
+        } else {
+          paddingY = titleGap;
+          if (!titleShape) paddingY -= 10;
+        }
+        paddingX += 10;
+      }
+
+      page *= width;
+      points = [
+        [ page + paddingX, paddingY ],
+        [ page + paddingX - 4.5, paddingY - 11.5 ],
+        [ page + paddingX + 4.5, paddingY - 11.5 ]
+      ];
+      textStyle = Util.mix({}, {
+        x: page + paddingX,
+        y: height + 5 + this.get('textOffset') + paddingY,
+        text: this._formatItemValue(value) + '' // 以字符串格式展示
+      }, this.get('textStyle'));
+    }
+
+    if (!hoverText) { // mouse enter the legend, add hoverText
+      hoverText = this.get('group').addShape('text', { attrs: textStyle });
+      hoverText.set('id', 'hoverText');
+    } else { // mouse move, update hoverText
+      hoverText.attr(textStyle);
+    }
+    if (!hoverPointer) { // mouse enter the legend, add hoverPointer
+      hoverPointer = this.get('group').addShape('Polygon', {
+        attrs: Util.mix({
+          points
+        }, this.get('pointerStyle'))
+      });
+      hoverPointer.set('id', 'hoverPointer');
+    } else { // mouse move, update hoverPointer
+      hoverPointer.attr(Util.mix({
+        points
+      }, this.get('pointerStyle')));
+    }
+    this.get('canvas').draw();
+  }
+
+  unactivate() {
+    const hoverPointer = this.get('group').findById('hoverPointer');
+    hoverPointer && hoverPointer.destroy();
+    const hoverText = this.get('group').findById('hoverText');
+    hoverText && hoverText.destroy();
+    this.get('canvas').draw();
   }
 }
 

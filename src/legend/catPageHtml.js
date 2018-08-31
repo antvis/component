@@ -19,6 +19,10 @@ class CatPageHtml extends CatHtml {
        * @type {String}
        */
       type: 'category-page-legend',
+      /**
+       * html 容器
+       * @type {DOM}
+       */
       container: null,
       /**
        * 向上 / 下翻页图标的样式
@@ -62,7 +66,7 @@ class CatPageHtml extends CatHtml {
     });
   }
 
-  _renderUI() {
+  render() {
     super._renderHTML();
     this._renderFlipPage();
   }
@@ -173,7 +177,16 @@ class CatPageHtml extends CatHtml {
         // change the page number
         curPageNumDom.innerText = (Number.parseInt(curPageNumDom.innerText, 10) + 1);
       });
+      this.set('slipDom', slipDom);
     }
+  }
+  destroy() {
+    super.destroy();
+    const slipDom = this.get('slipDom');
+    if (slipDom && slipDom.parentNode) {
+      slipDom.parentNode.removeChild(slipDom);
+    }
+
   }
 }
 

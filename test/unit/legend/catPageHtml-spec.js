@@ -1,6 +1,4 @@
 const expect = require('chai').expect;
-const G = require('@antv/g/src');
-const Canvas = G.Canvas;
 const Legend = require('../../../src/legend/catPageHtml');
 
 const LIST_CLASS = 'g2-legend-list';
@@ -11,12 +9,6 @@ const div = document.createElement('div');
 div.id = 'legend';
 div.style.margin = '20px';
 document.body.appendChild(div);
-
-const canvas = new Canvas({
-  containerId: 'legend',
-  width: 500,
-  height: 500
-});
 
 const symbols = [ 'circle', 'diamond', 'square', 'triangle', 'triangle-down' ];
 const colors = [ '#ff6600', '#b01111', '#ac5724', '#572d8a', '#333333', '#7bab12', '#c25e5e', '#a6c96a', '#133960', '#2586e7' ];
@@ -32,7 +24,7 @@ describe('HTML 分类图例 翻页', function() {
     for (let i = 0; i < 5; i++) {
       items.push({
         value: 'test ' + i,
-        attrValue: colors[i % 10],
+        color: colors[i % 10],
         marker: {
           symbol: symbols[i % 5],
           radius: 5,
@@ -42,8 +34,9 @@ describe('HTML 分类图例 翻页', function() {
       });
     }
 
-    const legend = canvas.addGroup(Legend, {
+    const cfg = {
       items,
+      container: div,
       title: {
         text: '图例标题'
       },
@@ -61,8 +54,8 @@ describe('HTML 分类图例 翻页', function() {
         }
       },
       reversed: true
-    });
-    canvas.draw();
+    };
+    const legend = new Legend(cfg);
 
     const legendWrapper = legend.get('legendWrapper');
     const itemListDom = findNodeByClass(legendWrapper, LIST_CLASS);
@@ -97,11 +90,7 @@ describe('HTML 分类图例 翻页', function() {
     caretDownDom.click(clickDown2);
     caretDownDom.click(clickDown2);
     caretDownDom.click(clickDown2);
-
-    // const legendDom = div.getElementsByClassName('g2-legend')[0];
-    // div.removeChild(legendDom);
-    // div.removeChild(slipDom);
-    legend.remove();
+    legend.destroy();
   });
 
   it('获取宽和高', function() {
@@ -109,7 +98,7 @@ describe('HTML 分类图例 翻页', function() {
     for (let i = 0; i < 5; i++) {
       items.push({
         value: 'test ' + i,
-        attrValue: colors[i % 10],
+        color: colors[i % 10],
         marker: {
           symbol: symbols[i % 5],
           radius: 5,
@@ -119,20 +108,19 @@ describe('HTML 分类图例 翻页', function() {
       });
     }
 
-    const legend = canvas.addGroup(Legend, {
+    const cfg = {
       items,
+      container: div,
       title: {
         text: '图例标题'
       }
-    });
+    };
+    const legend = new Legend(cfg);
     legend.move(0, 0);
-    canvas.draw();
     const width = legend.getWidth();
     const height = legend.getHeight();
     expect(Math.floor(width)).eql(346);
     expect(Math.floor(height)).eql(75);
-    // const legendDom = div.getElementsByClassName('g2-legend')[0];
-    // div.removeChild(legendDom);
-    legend.remove();
+    legend.destroy();
   });
 });

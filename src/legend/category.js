@@ -9,7 +9,7 @@ const Group = Util.Group;
 
 function findItem(items, refer) {
   let rst = null;
-  const value = (refer instanceof Group) ? refer.get('value') : refer;
+  const value = refer instanceof Group || refer.name === 'legendGroup' ? refer.get('value') : refer;
   Util.each(items, function(item) {
     if (item.value === value) {
       rst = item;
@@ -105,7 +105,6 @@ class Category extends Legend {
        * @type {Number}
        */
       _wordSpaceing: 8,
-      container: null,
       /**
        * 图例项是否可点击，默认为 true
        * @type {Boolean}
@@ -126,7 +125,8 @@ class Category extends Legend {
        * 是否自动换行
        * @type {Boolean}
        */
-      autoWrap: true
+      autoWrap: true,
+      highlight: false
     });
   }
 
@@ -135,8 +135,8 @@ class Category extends Legend {
   }
 
   // rendering
-  _renderUI() {
-    super._renderUI();
+  render() {
+    super.render();
     this._renderItems();
     this.get('autoWrap') && this._adjustItems(); // 默认自动换行
   }
@@ -144,11 +144,11 @@ class Category extends Legend {
   // user iteraction
   _bindUI() {
     if (this.get('hoverable')) {
-      this.on('mousemove', Util.wrapBehavior(this, '_onMousemove'));
-      this.on('mouseleave', Util.wrapBehavior(this, '_onMouseleave'));
+      this.get('group').on('mousemove', Util.wrapBehavior(this, '_onMousemove'));
+      this.get('group').on('mouseleave', Util.wrapBehavior(this, '_onMouseleave'));
     }
     if (this.get('clickable')) {
-      this.on('click', Util.wrapBehavior(this, '_onClick'));
+      this.get('group').on('click', Util.wrapBehavior(this, '_onClick'));
     }
   }
 
@@ -163,16 +163,27 @@ class Category extends Legend {
 
   // activate an item by reduce the opacity of other items.
   // it is reserved for bi-direction interaction between charts / graph and legend
-  activateItem(value) {
+  activate(value) {
     const itemsGroup = this.get('itemsGroup');
     const children = itemsGroup.get('children');
-    let markerItem;
-    children.forEach(child => {
+    let markerItem = void 0;
+    children.forEach(function(child) {
       markerItem = findShapeByName(child, 'legend-marker');
-      if (child.get('value') !== value) {
-        markerItem.attr('fillOpacity', 0.5);
+      if (!markerItem) return;
+      const checked = child.get('checked');
+      if (this.get('highlight')) {
+        // change stroke color
+        if (child.get('value') === value && checked) {
+          markerItem.attr('stroke', '#333');
+          return;
+        }
       } else {
-        markerItem.attr('fillOpacity', 1);
+        // change opacity
+        if (child.get('value') === value) {
+          markerItem.attr('fillOpacity', 1);
+        } else {
+          checked && markerItem.attr('fillOpacity', 0.5);
+        }
       }
     });
     this.get('canvas').draw();
@@ -181,13 +192,20 @@ class Category extends Legend {
 
   // restore the opacity of items
   // it is reserved for bi-direction interaction between charts / graph and legend
-  unActivateItem() {
+  unactivate() {
     const itemsGroup = this.get('itemsGroup');
     const children = itemsGroup.get('children');
-    let markerItem;
-    children.forEach(child => {
+    let markerItem = void 0;
+    const unCheckColor = this.get('unCheckColor');
+    children.forEach(function(child) {
       markerItem = findShapeByName(child, 'legend-marker');
-      markerItem.attr('fillOpacity', 1);
+      if (!markerItem) return;
+      if (this.get('highlight')) {
+        let oriStroke = markerItem.get('oriStroke');
+        const checked = child.get('checked');
+        if (oriStroke && !checked) oriStroke = unCheckColor; else oriStroke = '';
+        markerItem.attr('stroke', oriStroke);
+      } else markerItem.attr('fillOpacity', 1);
     });
     this.get('canvas').draw();
     return;
@@ -197,32 +215,19 @@ class Category extends Legend {
   // when mouse over an item, reduce the opacity of the other items.
   _onMousemove(ev) {
     const item = this._getLegendItem(ev.currentTarget);
-    const itemsGroup = this.get('itemsGroup');
-    const children = itemsGroup.get('children');
-    let markerItem;
     if (item && item.get('checked')) {
       const items = this.get('items');
       const itemhover = new Event('itemhover', ev, true, true);
       itemhover.item = findItem(items, item);
       itemhover.checked = item.get('checked');
       itemhover.currentTarget = ev.currentTarget;
-      this.emit('itemhover', itemhover);
 
       // change the opacity of other items
-      Util.each(children, child => {
-        markerItem = findShapeByName(child, 'legend-marker');
-        if (child !== item && child.get('checked')) {
-          markerItem.attr('fillOpacity', 0.5);
-        } else {
-          markerItem.attr('fillOpacity', 1);
-
-        }
-      });
+      this.unactivate();
+      this.activate(item.get('value'));
+      this.emit('itemhover', itemhover);
     } else {
-      Util.each(children, child => {
-        markerItem = findShapeByName(child, 'legend-marker');
-        markerItem.attr('fillOpacity', 1);
-      });
+      this.unactivate();
       this.emit('itemunhover', ev);
     }
     this.get('canvas').draw();
@@ -231,13 +236,7 @@ class Category extends Legend {
 
   // mouse leave listener of an item
   _onMouseleave(ev) {
-    const itemsGroup = this.get('itemsGroup');
-    const children = itemsGroup.get('children');
-    let markerItem;
-    Util.each(children, child => {
-      markerItem = findShapeByName(child, 'legend-marker');
-      markerItem.attr('fillOpacity', 1);
-    });
+    this.unactivate();
     this.get('canvas').draw();
     this.emit('itemunhover', ev);
     return;
@@ -258,17 +257,17 @@ class Category extends Legend {
       itemclick.item = item;
       itemclick.currentTarget = clickedItem;
       itemclick.appendInfo = ev.currentTarget.get('appendInfo');
-      itemclick.checked = (mode === 'single') ? true : !checked;
+      itemclick.checked = mode === 'single' ? true : !checked;
 
       const unCheckColor = this.get('unCheckColor');
       const checkColor = this.get('textStyle').fill;
-      let markerItem;
-      let textItem;
-      let legendItem;
+      let markerItem = void 0;
+      let textItem = void 0;
+      let legendItem = void 0;
       if (mode === 'single') {
         const itemsGroup = this.get('itemsGroup');
         const children = itemsGroup.get('children');
-        Util.each(children, child => {
+        Util.each(children, function(child) {
           markerItem = findShapeByName(child, 'legend-marker');
           textItem = findShapeByName(child, 'legend-text');
           legendItem = findShapeByName(child, 'legend-item');
@@ -286,10 +285,10 @@ class Category extends Legend {
             child.setSilent('checked', false);
           } else {
             if (markerItem.attr('fill')) {
-              markerItem.attr('fill', item.marker.fill);
+              item && item.marker && markerItem.attr('fill', item.marker.fill);
             }
             if (markerItem.attr('stroke')) {
-              markerItem.attr('stroke', item.marker.stroke);
+              item && item.marker && markerItem.attr('stroke', item.marker.stroke);
             }
             textItem.attr('fill', checkColor);
             markerItem.setSilent('checked', true);
@@ -304,10 +303,10 @@ class Category extends Legend {
         legendItem = findShapeByName(clickedItem, 'legend-item');
 
         if (markerItem.attr('fill')) {
-          markerItem.attr('fill', checked ? unCheckColor : item.marker.fill);
+          item && item.marker && markerItem.attr('fill', checked ? unCheckColor : item.marker.fill);
         }
         if (markerItem.attr('stroke')) {
-          markerItem.attr('stroke', checked ? unCheckColor : item.marker.stroke);
+          item && item.marker && markerItem.attr('stroke', checked ? unCheckColor : item.marker.stroke);
         }
         textItem.attr('fill', checked ? unCheckColor : checkColor);
         clickedItem.setSilent('checked', !checked);
@@ -327,9 +326,21 @@ class Category extends Legend {
     if (this.get('reversed')) {
       items.reverse();
     }
-    Util.each(items, (item, index) => {
+    Util.each(items, function(item, index) {
       this._addItem(item, index);
     });
+    if (this.get('highlight')) {
+      const itemsGroup = this.get('itemsGroup');
+      const children = itemsGroup.get('children');
+      let markerItem = void 0;
+      children.forEach(function(child) {
+        markerItem = findShapeByName(child, 'legend-marker');
+        const oriStroke = markerItem.get('oriStroke');
+        if (!oriStroke) {
+          if (markerItem.attr('stroke')) markerItem.set('oriStroke', markerItem.attr('stroke')); else markerItem.set('oriStroke', '');
+        }
+      });
+    }
   }
 
   // format the item value
@@ -350,7 +361,8 @@ class Category extends Legend {
     const children = itemsGroup.get('children');
     let nextX = 0;
 
-    if (layout === 'horizontal') { // 水平布局
+    if (layout === 'horizontal') {
+      // 水平布局
       Util.each(children, function(v) {
         nextX += (itemWidth ? itemWidth : v.getBBox().width) + itemGap;
       });
@@ -370,7 +382,8 @@ class Category extends Legend {
     if (titleShape) {
       nextY += titleShape.getBBox().height;
     }
-    if (layout === 'vertical') { // 竖直布局
+    if (layout === 'vertical') {
+      // 竖直布局
       Util.each(children, function(v) {
         nextY += v.getBBox().height + itemMarginBottom;
       });
@@ -390,13 +403,13 @@ class Category extends Legend {
       value: item.value,
       checked: item.checked
     });
-    itemGroup.set('viewId', itemsGroup.get('viewId'));
 
     const textStyle = this.get('textStyle');
     const wordSpace = this.get('_wordSpaceing');
     let startX = 0;
 
-    if (item.marker) { // 如果有marker添加marker
+    if (item.marker) {
+      // 如果有marker添加marker
       const markerAttrs = Util.mix({}, item.marker, {
         x: item.marker.radius + x,
         y
@@ -419,7 +432,13 @@ class Category extends Legend {
       markerShape.name = 'legend-marker';
       startX += markerShape.getBBox().width + wordSpace;
     }
-    const textAttrs = Util.mix({}, textStyle, {
+    const textAttrs = Util.mix({}, {
+      fill: '#333',
+      fontSize: 12,
+      textAlign: 'start',
+      textBaseline: 'middle',
+      fontFamily: '"-apple-system", BlinkMacSystemFont, "Segoe UI", Roboto,"Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",SimSun, "sans-serif"'
+    }, textStyle, {
       x: startX + x,
       y,
       text: this._formatItemValue(item.value)
@@ -467,9 +486,9 @@ class Category extends Legend {
     const titleGap = this.get('titleShape') ? this.get('titleGap') : 0;
     let row = 0;
     let rowLength = 0;
-    let width;
-    let height;
-    let box;
+    let width = void 0;
+    let height = void 0;
+    let box = void 0;
     const itemWidth = this.get('itemWidth');
     if (itemsGroup.getBBox().width > maxLength) {
       Util.each(children, function(child) {
@@ -500,9 +519,9 @@ class Category extends Legend {
     const titleHeight = titleShape ? titleShape.getBBox().height + titleGap : 0;
     const itemWidth = this.get('itemWidth');
     let colLength = titleHeight;
-    let width;
-    let height;
-    let box;
+    let width = void 0;
+    let height = void 0;
+    let box = void 0;
     let maxItemWidth = 0;
     let totalLength = 0;
 

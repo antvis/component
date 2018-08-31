@@ -32,7 +32,7 @@ describe('分类图例', function() {
     for (let i = 0; i < 5; i++) {
       items.push({
         value: 'test ' + i,
-        attrValue: colors[i],
+        color: colors[i],
         marker: i !== 2 ? {
           symbol: symbols[i],
           radius: 5,
@@ -43,8 +43,9 @@ describe('分类图例', function() {
       });
     }
 
-    const legend = canvas.addGroup(Legend, {
+    const cfg = {
       items,
+      container: canvas,
       itemGap: 10,
       title: {
         fill: '#f80',
@@ -53,12 +54,13 @@ describe('分类图例', function() {
         textBaseline: 'top',
         text: '水平图例'
       }
-    });
+    };
+    const legend = new Legend(cfg);
 
-    canvas.draw();
+    legend.draw();
     const itemsGroup = legend.get('itemsGroup');
     // expect(legend.get('children')[0].get('type')).to.equal('rect');
-    expect(legend.getCount()).to.equal(2);
+    expect(legend.get('group').getCount()).to.equal(2);
     expect(itemsGroup.getCount()).to.equal(5);
     expect(legend._wrap__onClick).to.be.an.instanceof(Function);
     // expect(legend._wrap__onMousemove).to.be.an.instanceof(Function);
@@ -71,7 +73,7 @@ describe('分类图例', function() {
     }, true, true);
     event1.currentTarget = targetItem.get('children')[0];
     expect(targetItem.get('checked')).to.be.true;
-    legend.trigger('click', [ event1 ]);
+    legend.get('group').trigger('click', [ event1 ]);
     expect(itemsGroup.get('children')[0].get('checked')).to.be.false;
     expect(itemsGroup.get('children')[1].get('checked')).to.be.false;
     expect(itemsGroup.get('children')[2].get('checked')).to.be.true;
@@ -85,7 +87,7 @@ describe('分类图例', function() {
     }, true, true);
     event2.currentTarget = itemsGroup.get('children')[0].get('children')[2];
     expect(targetItem.get('checked')).to.be.true;
-    legend.trigger('click', [ event2 ]);
+    legend.get('group').trigger('click', [ event2 ]);
     expect(itemsGroup.get('children')[0].get('checked')).to.be.true;
     expect(itemsGroup.get('children')[1].get('checked')).to.be.false;
     expect(itemsGroup.get('children')[2].get('checked')).to.be.true;
@@ -99,7 +101,7 @@ describe('分类图例', function() {
     for (let i = 0; i < 5; i++) {
       items.push({
         value: 'test ' + i,
-        attrValue: colors[i],
+        color: colors[i],
         marker: {
           symbol: symbols[i],
           radius: 5,
@@ -109,8 +111,9 @@ describe('分类图例', function() {
       });
     }
 
-    const legend = canvas.addGroup(Legend, {
+    const cfg = {
       items,
+      container: canvas,
       allowAllCanceled: true,
       itemGap: 10,
       title: null,
@@ -118,7 +121,9 @@ describe('分类图例', function() {
       itemFormatter: val => {
         return '(' + val + ')';
       }
-    });
+    };
+
+    const legend = new Legend(cfg);
     legend.move(0, 50);
     legend.id = '2';
 
@@ -128,11 +133,12 @@ describe('分类图例', function() {
   });
 
   it('默认，只可单次点击。', function() {
+    canvas.clear();
     const items = [];
     for (let i = 0; i < 5; i++) {
       items.push({
         value: 'test ' + i,
-        attrValue: colors[i],
+        color: colors[i],
         marker: {
           symbol: symbols[i],
           radius: 5,
@@ -143,8 +149,9 @@ describe('分类图例', function() {
       });
     }
 
-    const legend = canvas.addGroup(Legend, {
+    const cfg = {
       items,
+      container: canvas,
       allowAllCanceled: true,
       itemGap: 10,
       title: {
@@ -155,12 +162,13 @@ describe('分类图例', function() {
         text: '水平图例'
       },
       selectedMode: 'single'
-    });
+    };
+    const legend = new Legend(cfg);
     legend.id = '3';
 
     legend.move(0, 100);
 
-    canvas.draw();
+    legend.draw();
     const itemGroups = legend.get('itemsGroup').get('children');
     expect(itemGroups[0].get('checked')).to.be.false;
     expect(itemGroups[1].get('checked')).to.be.false;
@@ -173,8 +181,8 @@ describe('分类图例', function() {
       clientX: 100,
       clientY: 316
     }, true, true);
-    unusedEvent.currentTarget = legend.get('children')[0];
-    legend.trigger('click', [ unusedEvent ]);
+    unusedEvent.currentTarget = legend.get('group').get('children')[0];
+    legend.get('group').trigger('click', [ unusedEvent ]);
     expect(itemGroups[0].get('checked')).to.be.false;
     expect(itemGroups[1].get('checked')).to.be.false;
     expect(itemGroups[2].get('checked')).to.be.true;
@@ -187,7 +195,7 @@ describe('分类图例', function() {
       clientY: 316
     }, true, true);
     event.currentTarget = itemGroups[1].get('children')[0];
-    legend.trigger('click', [ event ]);
+    legend.get('group').trigger('click', [ event ]);
     expect(itemGroups[0].get('checked')).to.be.false;
     expect(itemGroups[1].get('checked')).to.be.true;
     expect(itemGroups[2].get('checked')).to.be.false;
@@ -196,11 +204,12 @@ describe('分类图例', function() {
   });
 
   it('垂直布局图例', function() {
+    canvas.clear();
     const items = [];
     for (let i = 0; i < 5; i++) {
       items.push({
         value: 'test ' + i,
-        attrValue: colors[i],
+        color: colors[i],
         marker: {
           symbol: symbols[i],
           radius: 5,
@@ -210,8 +219,9 @@ describe('分类图例', function() {
       });
     }
 
-    const legend = canvas.addGroup(Legend, {
+    const cfg = {
       items,
+      container: canvas,
       allowAllCanceled: true,
       itemGap: 15,
       layout: 'vertical',
@@ -233,12 +243,12 @@ describe('分类图例', function() {
       textStyle: {
         fill: '#000'
       }
-    });
+    };
+    const legend = new Legend(cfg);
     legend.move(0, 150);
-    canvas.draw();
-    expect(legend.getCount()).to.equal(2);
+    legend.draw();
+    expect(legend.get('group').getCount()).to.equal(2);
     const itemsGroup = legend.get('itemsGroup');
-    // expect(Util.snapEqual(itemsGroup.getBBox().width, 50.34765625)).to.be.true;
     expect(itemsGroup.getCount()).to.equal(5);
     const children = itemsGroup.get('children');
     expect(children[0].get('children')[0].attr('fill')).to.equal('#ff6600');
@@ -251,48 +261,11 @@ describe('分类图例', function() {
       clientX: 100,
       clientY: 316
     }, true, true);
-    event.currentTarget = children[0].get('children')[0];
-    legend.trigger('click', [ event ]);
+    event.currentTarget = children[0].get('children')[2];
+    legend.get('group').trigger('click', [ event ]);
     expect(children[0].get('children')[0].attr('fill')).to.equal('#ccc');
     expect(children[0].get('checked')).to.be.false;
   });
-
-  // it('水平布局，但是总长度超出了容器宽度，自动换行', function() {
-  //   canvas.clear();
-  //   const items = [];
-  //   for (let i = 0; i < 25; i++) {
-  //     items.push({
-  //       value: 'test ' + i,
-  //       attrValue: colors[i % 10],
-  //       marker: {
-  //         symbol: symbols[i % 5],
-  //         radius: 5,
-  //         fill: colors[i % 10]
-  //       },
-  //       checked: !(i >= 20)
-  //     });
-  //   }
-
-  //   const legend = canvas.addGroup(Legend, {
-  //     items,
-  //     allowAllCanceled: true,
-  //     itemGap: 20,
-  //     itemMarginBottom: 20,
-  //     title: {
-  //       fill: '#f80',
-  //       fontSize: 16,
-  //       textAlign: 'start',
-  //       textBaseline: 'top',
-  //       text: 'Legend-title'
-  //     },
-  //     maxLength: 500
-  //   });
-  //   canvas.draw();
-  //   const legendBBox = legend.getBBox();
-  //   const legendItems = legend.get('itemsGroup');
-  //   expect(legendBBox.width).to.be.below(500);
-  //   expect(legendItems.getCount()).to.equal(25);
-  // });
 
   it('水平布局，但是总长度超出了容器宽度，自动换行，且每行列对齐', function() {
     canvas.clear();
@@ -301,7 +274,7 @@ describe('分类图例', function() {
     for (let i = 0; i < 25; i++) {
       items.push({
         value: 'test ' + i,
-        attrValue: colors[i % 10],
+        color: colors[i % 10],
         marker: {
           symbol: symbols[i % 5],
           radius: 5,
@@ -311,8 +284,9 @@ describe('分类图例', function() {
       });
     }
 
-    const legend = canvas.addGroup(Legend, {
+    const cfg = {
       items,
+      container: canvas,
       allowAllCanceled: true,
       itemGap: 10,
       title: {
@@ -330,11 +304,10 @@ describe('分类图例', function() {
       },
       itemMarginBottom: 5,
       itemWidth: 60
-    });
-    canvas.draw();
-    // const legendBBox = legend.getBBox();
+    };
+    const legend = new Legend(cfg);
+    legend.draw();
     const legendItems = legend.get('itemsGroup');
-    // expect(legendBBox.width).to.be.equal(482);
     expect(legendItems.getCount()).to.equal(25);
   });
 
@@ -345,7 +318,7 @@ describe('分类图例', function() {
     for (let i = 0; i < 25; i++) {
       items.push({
         value: 'test ' + i,
-        attrValue: colors[i % 10],
+        color: colors[i % 10],
         marker: {
           symbol: symbols[i % 5],
           radius: 5,
@@ -355,8 +328,9 @@ describe('分类图例', function() {
       });
     }
 
-    const legend = canvas.addGroup(Legend, {
+    const cfg = {
       items,
+      container: canvas,
       allowAllCanceled: true,
       itemGap: 10, // 水平距离
       itemMarginBottom: 20, // 垂直距离
@@ -371,11 +345,12 @@ describe('分类图例', function() {
         text: '垂直图例1'
       },
       maxLength: 200
-    });
+    };
+    const legend = new Legend(cfg);
 
     legend.move(50, 0);
-    canvas.draw();
-    const legendBBox = legend.getBBox();
+    legend.draw();
+    const legendBBox = legend.get('group').getBBox();
     expect(legendBBox.height).to.be.equal(196.5);
   });
 
@@ -386,7 +361,7 @@ describe('分类图例', function() {
     for (let i = 0; i < 15; i++) {
       items.push({
         value: i + '',
-        attrValue: colors[ i % 10 ],
+        color: colors[ i % 10 ],
         marker: {
           symbol: symbols[ i % 5 ],
           radius: 5,
@@ -396,8 +371,9 @@ describe('分类图例', function() {
       });
     }
 
-    const legend = canvas.addGroup(Legend, {
+    const cfg = {
       items,
+      container: canvas,
       allowAllCanceled: true,
       itemGap: 10, // 水平距离
       itemMarginBottom: 20, // 垂直距离
@@ -409,13 +385,11 @@ describe('分类图例', function() {
         lineWidth: 1,
         stroke: '#ccc'
       }
-    });
-
-    // legend.move(50, 0);
-    canvas.draw();
-    const legendBBox = legend.getBBox();
+    };
+    const legend = new Legend(cfg);
+    legend.draw();
+    const legendBBox = legend.get('group').getBBox();
     expect(legendBBox.height).to.be.equal(82);
-    // expect(legendBBox.width).to.equal(192.34765625);
   });
 
   it('激活某个项，为外部向本组件联动留出的接口', function() {
@@ -425,7 +399,7 @@ describe('分类图例', function() {
     for (let i = 0; i < 15; i++) {
       items.push({
         value: i + '',
-        attrValue: colors[ i % 10 ],
+        color: colors[ i % 10 ],
         marker: {
           symbol: symbols[ i % 5 ],
           radius: 5,
@@ -435,20 +409,21 @@ describe('分类图例', function() {
       });
     }
 
-    const legend = canvas.addGroup(Legend, {
-      items
+    const legend = new Legend({
+      items,
+      container: canvas
     });
     legend.move(50, 0);
-    canvas.draw();
+    legend.draw();
     const itemGroups = legend.get('itemsGroup').get('children');
 
-    legend.activateItem(items[0].value);
+    legend.activate(items[0].value);
     let markerItem = findShapeByName(itemGroups[0], 'legend-marker');
     expect(markerItem._attrs.fillOpacity).eql(1);
     markerItem = findShapeByName(itemGroups[1], 'legend-marker');
     expect(markerItem._attrs.fillOpacity).eql(0.5);
 
-    legend.unActivateItem();
+    legend.unactivate();
     markerItem = findShapeByName(itemGroups[0], 'legend-marker');
     expect(markerItem._attrs.fillOpacity).eql(1);
     markerItem = findShapeByName(itemGroups[1], 'legend-marker');
@@ -461,7 +436,7 @@ describe('分类图例', function() {
     for (let i = 0; i < 5; i++) {
       items.push({
         value: 'test ' + i,
-        attrValue: colors[i],
+        color: colors[i],
         marker: {
           symbol: symbols[i],
           radius: 5,
@@ -471,8 +446,9 @@ describe('分类图例', function() {
       });
     }
 
-    const legend = canvas.addGroup(Legend, {
+    const cfg = {
       items,
+      container: canvas,
       allowAllCanceled: true,
       itemGap: 10,
       title: {
@@ -483,12 +459,13 @@ describe('分类图例', function() {
         text: '水平图例'
       },
       selectedMode: 'single'
-    });
+    };
+    const legend = new Legend(cfg);
     legend.id = '3';
 
     legend.move(0, 100);
 
-    canvas.draw();
+    legend.draw();
     const itemGroups = legend.get('itemsGroup').get('children');
 
     const event = new Event('mousemove', {
@@ -496,13 +473,13 @@ describe('分类图例', function() {
       clientY: 316
     }, true, true);
     event.currentTarget = itemGroups[0].get('children')[0];
-    legend.trigger('mousemove', [ event ]);
+    legend.get('group').trigger('mousemove', [ event ]);
     let markerItem = findShapeByName(itemGroups[0], 'legend-marker');
     expect(markerItem._attrs.fillOpacity).eql(1);
     markerItem = findShapeByName(itemGroups[1], 'legend-marker');
     expect(markerItem._attrs.fillOpacity).eql(0.5);
 
-    legend.trigger('mouseleave', [ event ]);
+    legend.get('group').trigger('mouseleave', [ event ]);
     markerItem = findShapeByName(itemGroups[0], 'legend-marker');
     expect(markerItem._attrs.fillOpacity).eql(1);
     markerItem = findShapeByName(itemGroups[1], 'legend-marker');
@@ -514,21 +491,89 @@ describe('分类图例', function() {
       clientY: 316
     }, true, true);
     event2.currentTarget = itemGroups[3].get('children')[0];
-    legend.trigger('mousemove', [ event2 ]);
+    legend.get('group').trigger('mousemove', [ event2 ]);
     markerItem = findShapeByName(itemGroups[0], 'legend-marker');
     expect(markerItem._attrs.fillOpacity).eql(1);
     markerItem = findShapeByName(itemGroups[3], 'legend-marker');
     expect(markerItem._attrs.fillOpacity).eql(1);
   });
 
+  it('鼠标移动和鼠标移开某个项的高亮效果 highlight 样式', function() {
+    canvas.clear();
+    const items = [];
+    for (let i = 0; i < 5; i++) {
+      items.push({
+        value: 'test ' + i,
+        color: colors[i],
+        marker: {
+          symbol: symbols[i],
+          radius: 5,
+          fill: colors[i]
+        },
+        checked: i <= 2
+      });
+    }
+
+    const cfg = {
+      items,
+      container: canvas,
+      allowAllCanceled: true,
+      itemGap: 10,
+      highlight: true,
+      title: {
+        fill: '#f80',
+        fontSize: 12,
+        textAlign: 'start',
+        textBaseline: 'top',
+        text: '水平图例'
+      },
+      selectedMode: 'single'
+    };
+    const legend = new Legend(cfg);
+    legend.id = '3';
+
+    legend.move(0, 100);
+
+    legend.draw();
+    const itemGroups = legend.get('itemsGroup').get('children');
+
+    const event = new Event('mousemove', {
+      clientX: 100,
+      clientY: 316
+    }, true, true);
+    event.currentTarget = itemGroups[0].get('children')[0];
+    legend.get('group').trigger('mousemove', [ event ]);
+    let markerItem = findShapeByName(itemGroups[0], 'legend-marker');
+    expect(markerItem._attrs.stroke).eql('#333');
+    markerItem = findShapeByName(itemGroups[1], 'legend-marker');
+    expect(markerItem._attrs.stroke).eql('');
+
+    legend.get('group').trigger('mouseleave', [ event ]);
+    markerItem = findShapeByName(itemGroups[0], 'legend-marker');
+    expect(markerItem._attrs.stroke).eql('');
+    markerItem = findShapeByName(itemGroups[1], 'legend-marker');
+    expect(markerItem._attrs.stroke).eql('');
+
+    // 移动到 checked = false 的项上
+    const event2 = new Event('mousemove', {
+      clientX: 100,
+      clientY: 316
+    }, true, true);
+    event2.currentTarget = itemGroups[3].get('children')[0];
+    legend.get('group').trigger('mousemove', [ event2 ]);
+    markerItem = findShapeByName(itemGroups[0], 'legend-marker');
+    expect(markerItem._attrs.stroke).eql('');
+    markerItem = findShapeByName(itemGroups[3], 'legend-marker');
+    expect(markerItem._attrs.stroke).eql('');
+  });
+
   it('获取宽和高', function() {
     canvas.clear();
-
     const items = [];
     for (let i = 0; i < 15; i++) {
       items.push({
         value: i + '',
-        attrValue: colors[ i % 10 ],
+        color: colors[ i % 10 ],
         marker: {
           symbol: symbols[ i % 5 ],
           radius: 5,
@@ -538,14 +583,15 @@ describe('分类图例', function() {
       });
     }
 
-    const legend = canvas.addGroup(Legend, {
-      items
+    const legend = new Legend({
+      items,
+      container: canvas
     });
-    canvas.draw();
+    legend.draw();
     const width = legend.getWidth();
     const height = legend.getHeight();
     expect(Math.floor(width)).eql(521);
     expect(Math.floor(height)).eql(14);
-    canvas.clear();
+    legend.destroy();
   });
 });
