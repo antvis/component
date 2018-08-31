@@ -57,7 +57,7 @@ describe('连续图例 - Color', function() {
         textBaseline: 'middle',
         fill: '#333'
       },
-      itemFormatter(val) {
+      formatter(val) {
         return val + '℃';
       },
       slidable: false

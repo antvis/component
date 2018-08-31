@@ -19,7 +19,7 @@ class Legend extends Component {
        * 图例项文本格式化
        * @type {Function}
        */
-      itemFormatter: null,
+      formatter: null,
       /**
        * useHtml 为 true 时生效，用于自动定位
        * @type {[type]}

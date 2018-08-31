@@ -118,7 +118,7 @@ describe('分类图例', function() {
       itemGap: 10,
       title: null,
       clickable: false,
-      itemFormatter: val => {
+      formatter: val => {
         return '(' + val + ')';
       }
     };

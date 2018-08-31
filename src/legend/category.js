@@ -345,7 +345,7 @@ class Category extends Legend {
 
   // format the item value
   _formatItemValue(value) {
-    const formatter = this.get('itemFormatter');
+    const formatter = this.get('formatter');
     if (formatter) {
       value = formatter.call(this, value);
     }
