@@ -164,5 +164,8 @@ describe('Guide: 辅助图片', function() {
 
     img.clear();
     expect(img.get('el').get('destroyed')).to.be.true;
+
+    canvas.destroy();
+    document.body.removeChild(div);
   });
 });

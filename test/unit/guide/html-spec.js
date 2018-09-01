@@ -4,7 +4,7 @@ const Html = require('../../../src/guide/html');
 const Scale = require('@antv/scale');
 
 const div = document.createElement('div');
-div.id = 'c1';
+div.id = 'html';
 document.body.appendChild(div);
 
 describe('Guide: 辅助 html', function() {
@@ -28,7 +28,7 @@ describe('Guide: 辅助 html', function() {
   };
 
   const canvas = new Canvas({
-    containerId: 'c1',
+    containerId: 'html',
     width: 500,
     height: 500,
     pixelRatio: 2
@@ -315,6 +315,8 @@ describe('Guide: 辅助 html', function() {
     expect(dom[10].style.top).to.equal('220px');
     html.changeVisible();
     expect(html.get('el').style.display).to.equal('none');
+
+    canvas.destroy();
     document.body.removeChild(div);
   });
 });

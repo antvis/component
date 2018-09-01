@@ -59,9 +59,10 @@ class Guide extends Component {
    * @protected
    * @param  {Coordinate} coord  the instance of Coordinate class
    * @param  {Object | Array | Function} position the value need to convert
+   * @param  {Boolean} needConvert wether convert to canvas coord
    * @return {Object} return the result
    */
-  parsePoint(coord, position) {
+  parsePoint(coord, position, needConvert = true) {
     const self = this;
     const xScales = self.get('xScales');
     const yScales = self.get('yScales');
@@ -88,12 +89,17 @@ class Guide extends Component {
       }
     }
 
-    if (!Util.isNil(x) && !Util.isNil(y)) {
+    if (needConvert) {
       return coord.convert({
         x,
         y
       });
     }
+
+    return {
+      x,
+      y
+    };
   }
 
   /**

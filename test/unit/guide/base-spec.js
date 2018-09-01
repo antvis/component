@@ -10,7 +10,10 @@ describe('Guide', () => {
     height: 400,
     width: 400,
     convert(point) {
-      return point;
+      return {
+        x: point.x * 100,
+        y: point.y * 100
+      };
     }
   };
 
@@ -36,7 +39,7 @@ describe('Guide', () => {
     expect(guide.get('visible')).to.be.false;
   });
 
-  it('guide.parsePoint(coord, point)', function() {
+  it('guide.parsePoint(coord, point, needConvert)', function() {
     guide.set('xScales', {
       x: xScale
     });
@@ -47,45 +50,45 @@ describe('Guide', () => {
     let parseResult;
     let point = { x: 1, y: 600 }; // 数值对象
     parseResult = guide.parsePoint(coord, point);
-    expect(parseResult).to.eql({ x: 0.25, y: 0.5 });
+    expect(parseResult).to.eql({ x: 25, y: 50 });
 
     point = [ '10%', '50%' ]; // 百分比
     parseResult = guide.parsePoint(coord, point);
-    expect(parseResult).to.eql({ x: 0.1, y: 0.5 });
+    expect(parseResult).to.eql({ x: 10, y: 50 });
 
     point = [ '三月', 1200 ]; // 数值数组
     parseResult = guide.parsePoint(coord, point);
-    expect(parseResult).to.eql({ x: 0.5, y: 1 });
+    expect(parseResult).to.eql({ x: 50, y: 100 });
 
     point = [ 'start', 'end' ]; // 带有关键字
     parseResult = guide.parsePoint(coord, point);
-    expect(parseResult).to.eql({ x: 0, y: 1 });
+    expect(parseResult).to.eql({ x: 0, y: 100 });
 
     point = [ 'median', 'median' ]; // 带有关键字
     parseResult = guide.parsePoint(coord, point);
-    expect(parseResult).to.eql({ x: 0.5, y: 0.5 });
+    expect(parseResult).to.eql({ x: 50, y: 50 });
 
     point = [ 'max', 'min' ]; // 带有关键字
     parseResult = guide.parsePoint(coord, point);
-    expect(parseResult).to.eql({ x: 1, y: 0 });
+    expect(parseResult).to.eql({ x: 100, y: 0 });
 
     point = [ 'max', 1200 ]; // 关键字和数值混用
     parseResult = guide.parsePoint(coord, point);
-    expect(parseResult).to.eql({ x: 1, y: 1 });
+    expect(parseResult).to.eql({ x: 100, y: 100 });
 
     point = [ 'max', '20%' ]; // 关键字和百分比混用
     parseResult = guide.parsePoint(coord, point);
-    expect(parseResult).to.eql({ x: 1, y: 0.8 });
+    expect(parseResult).to.eql({ x: 100, y: 80 });
 
     point = [ '20%', 600 ]; // 百分比和数值混用
-    parseResult = guide.parsePoint(coord, point);
+    parseResult = guide.parsePoint(coord, point, false);
     expect(parseResult).to.eql({ x: 0.2, y: 0.5 });
 
     point = function() {
       return [ 3, 600 ];
     };
     parseResult = guide.parsePoint(coord, point);
-    expect(parseResult).to.eql({ x: 0.75, y: 0.5 });
+    expect(parseResult).to.eql({ x: 75, y: 50 });
   });
 
   it('guide.render()', function() {

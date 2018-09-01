@@ -171,6 +171,7 @@ describe('Guide: 辅助圆弧线', function() {
     arc.clear();
     expect(arc.get('el').get('destroyed')).to.be.true;
 
+    canvas.destroy();
     document.body.removeChild(div);
   });
 });
