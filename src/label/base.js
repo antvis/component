@@ -18,28 +18,6 @@ class Label extends Component {
        */
       items: null,
       /**
-       * 文本样式
-       * @type {(Object|Function)}
-       */
-      textStyle: {
-        fill: '#000'
-      },
-      /**
-       * 文本显示格式化回调函数
-       * @type {Function}
-       */
-      formatter: null,
-      /**
-       * 使用 html 渲染文本
-       * @type {Boolean}
-       */
-      useHtml: false,
-      /**
-       * 使用 html 渲染文本
-       * @type {(String|Function)}
-       */
-      htmlContent: null,
-      /**
        * html 渲染时用的容器的模板，必须存在 class = "g-labels"
        * @type {String}
        */
@@ -48,12 +26,7 @@ class Label extends Component {
        * html 渲染时单个 label 的模板，必须存在 class = "g-label"，如果 htmlContent 为字符串，则使用 htmlContent
        * @type {String}
        */
-      itemTpl: '<div class="g-label" style="position:absolute;">{text}</div>',
-      /**
-       * label牵引线
-       * @type {Object|Boolean}
-       */
-      labelLine: false
+      itemTpl: '<div class="g-label" style="position:absolute;">{text}</div>'
     });
   }
 
@@ -263,35 +236,36 @@ class Label extends Component {
    * label初始化，主要针对html容器
    */
   _init() {
-    if (this.get('useHtml')) {
-      let container = this.get('container');
-      if (Util.isString(container)) {
-        container = document.getElementById(container);
-        if (container) {
-          this.set('container', container);
-        }
-      }
-      if (!container) {
-        const containerTpl = this.get('containerTpl');
-        const wrapper = this.get('canvas').get('el').parentNode;
-        container = DomUtil.createDom(containerTpl);
-        wrapper.style.position = 'relative';
-        wrapper.appendChild(container);
+    if (!this.get('group')) {
+      const group = this.get('canvas').addGroup({ id: 'label-group' });
+      this.set('group', group);
+    }
+  }
+  initHtmlContainer() {
+    let container = this.get('container');
+    if (!container) {
+      const containerTpl = this.get('containerTpl');
+      const wrapper = this.get('canvas').get('el').parentNode;
+      container = DomUtil.createDom(containerTpl);
+      wrapper.style.position = 'relative';
+      wrapper.appendChild(container);
+      this.set('container', container);
+    } else if (Util.isString(container)) {
+      container = document.getElementById(container);
+      if (container) {
         this.set('container', container);
       }
-    } else {
-      if (!this.get('group')) {
-        const group = this.get('canvas').addGroup({ id: 'label-group' });
-        this.set('group', group);
-      }
     }
+    return container;
   }
   // 分html dom和G shape两种情况生成label实例
   _createText(cfg) {
-    const container = this.get('container');
+    let container = this.get('container');
     let labelShape;
-
-    if (this.get('useHtml')) {
+    if (cfg.useHtml) {
+      if (!container) {
+        container = this.initHtmlContainer();
+      }
       const node = this._createDom(cfg);
       container.appendChild(node);
       this._setCustomPosition(cfg, node);
@@ -301,8 +275,11 @@ class Label extends Component {
       delete cfg.point; // 临时解决，否则影响动画
       labelShape = group.addShape('text', {
         attrs: Util.mix({
-          fill: '#000'
-        }, cfg)
+          fill: '#000',
+          x: cfg.x,
+          y: cfg.y,
+          textAlign: cfg.textAlign
+        }, cfg.textStyle)
       });
       labelShape.setSilent('origin', origin);
       labelShape.name = 'label'; // 用于事件标注
@@ -312,11 +289,6 @@ class Label extends Component {
   }
   _createDom(cfg) {
     const itemTpl = this.get('itemTpl');
-    const htmlTemplate = this.get('htmlTemplate');
-
-    if (!this.get('htmlContent') && htmlTemplate) {
-      cfg.text = Util.substitute(htmlTemplate, { text: cfg.text });
-    }
     const str = Util.substitute(itemTpl, { text: cfg.text });
     return DomUtil.createDom(str);
   }
