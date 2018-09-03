@@ -228,10 +228,51 @@ class Label extends Component {
   }
 
   // 先计算label的所有配置项，然后生成label实例
-  _addLabel(item) {
-    return this._createText(item);
+  _addLabel(item, index) {
+    const cfg = this._getLabelCfg(item, index);
+    return this._createText(cfg);
   }
+  _getLabelCfg(item, index) {
+    let textStyle = this.get('textStyle') || {};
+    const formatter = this.get('formatter');
+    const htmlTemplate = this.get('htmlTemplate');
+    // 如果是 geom.label(fields, () => {...}) 形式定义的label,mix自定义样式后直接画
+    if (item._offset && item.textStyle) {
+      item.textStyle = Util.mix({}, textStyle, item.textStyle);
+      return item;
+    }
 
+    if (!Util.isObject(item)) {
+      const tmp = item;
+      item = {};
+      item.text = tmp;
+    }
+
+    if (Util.isFunction(textStyle)) {
+      textStyle = textStyle(item.text, item, index);
+    }
+
+    if (formatter) {
+      item.text = formatter(item.text, item, index);
+    }
+
+    if (Util.isFunction(htmlTemplate)) {
+      item.text = htmlTemplate(item.text, item, index);
+    }
+
+    if (Util.isNil(item.text)) {
+      item.text = '';
+    }
+
+    item.text = item.text + ''; // ? 为什么转换为字符串
+
+    const cfg = Util.mix({}, item, textStyle, {
+      x: item.x || 0,
+      y: item.y || 0
+    });
+
+    return cfg;
+  }
   /**
    * label初始化，主要针对html容器
    */
@@ -273,15 +314,18 @@ class Label extends Component {
       const origin = cfg.point;
       const group = this.get('group');
       delete cfg.point; // 临时解决，否则影响动画
-      labelShape = group.addShape('text', {
-        attrs: Util.mix({
-          fill: '#000',
+      if (cfg.textStyle) {
+        cfg = Util.mix({
           x: cfg.x,
           y: cfg.y,
-          textAlign: cfg.textAlign
-        }, cfg.textStyle)
+          textAlign: cfg.textAlign,
+          text: cfg.text
+        }, cfg.textStyle);
+      }
+      labelShape = group.addShape('text', {
+        attrs: cfg
       });
-      labelShape.setSilent('origin', origin);
+      labelShape.setSilent('origin', origin || cfg);
       labelShape.name = 'label'; // 用于事件标注
       this.get('appendInfo') && labelShape.setSilent('appendInfo', this.get('appendInfo'));
       return labelShape;
