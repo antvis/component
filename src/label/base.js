@@ -13,20 +13,40 @@ class Label extends Component {
        */
       type: 'default',
       /**
+       * 默认文本样式
+       * @type {Array}
+       */
+      textStyle: null,
+      /**
+       * 文本显示格式化回调函数
+       * @type {Function}
+       */
+      formatter: null,
+      /**
        * 显示的文本集合
        * @type {Array}
        */
       items: null,
+      /**
+       * 是否使用html渲染label
+       * @type {String}
+       */
+      useHtml: false,
       /**
        * html 渲染时用的容器的模板，必须存在 class = "g-labels"
        * @type {String}
        */
       containerTpl: '<div class="g-labels" style="position:absolute;top:0;left:0;"></div>',
       /**
-       * html 渲染时单个 label 的模板，必须存在 class = "g-label"，如果 htmlContent 为字符串，则使用 htmlContent
+       * html 渲染时单个 label 的模板，必须存在 class = "g-label"
        * @type {String}
        */
-      itemTpl: '<div class="g-label" style="position:absolute;">{text}</div>'
+      itemTpl: '<div class="g-label" style="position:absolute;">{text}</div>',
+      /**
+       * label牵引线定义
+       * @type {String || Object}
+       */
+      labelLine: false
     });
   }
 
@@ -98,7 +118,7 @@ class Label extends Component {
       children[i].remove();
     }
     this._adjustLabels();
-    if (self.get('labelLine')) {
+    if (self.get('labelLine') || items[0].labelLine) {
       self.drawLines();
     }
     this.get('canvas').draw();
@@ -185,11 +205,12 @@ class Label extends Component {
   }
   lineToLabel(label, lineGroup) {
     const self = this;
-    const lineStyle = self.get('labelLine');
-    let path = null;
-    if (lineStyle.path) {
+    const lineStyle = label.labelLine || self.get('labelLine');
+    let path = lineStyle.path;
+    if (path && Util.isFunction(lineStyle.path)) {
       path = lineStyle.path(label);
-    } else {
+    }
+    if (!path) {
       const start = {
         x: label.x - label._offset.x,
         y: label.y - label._offset.y
