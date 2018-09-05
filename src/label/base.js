@@ -13,45 +13,38 @@ class Label extends Component {
        */
       type: 'default',
       /**
-       * 显示的文本集合
+       * 默认文本样式
        * @type {Array}
        */
-      items: null,
-      /**
-       * 文本样式
-       * @type {(Object|Function)}
-       */
-      textStyle: {
-        fill: '#000'
-      },
+      textStyle: null,
       /**
        * 文本显示格式化回调函数
        * @type {Function}
        */
       formatter: null,
       /**
-       * 使用 html 渲染文本
-       * @type {Boolean}
+       * 显示的文本集合
+       * @type {Array}
+       */
+      items: null,
+      /**
+       * 是否使用html渲染label
+       * @type {String}
        */
       useHtml: false,
-      /**
-       * 使用 html 渲染文本
-       * @type {(String|Function)}
-       */
-      htmlContent: null,
       /**
        * html 渲染时用的容器的模板，必须存在 class = "g-labels"
        * @type {String}
        */
       containerTpl: '<div class="g-labels" style="position:absolute;top:0;left:0;"></div>',
       /**
-       * html 渲染时单个 label 的模板，必须存在 class = "g-label"，如果 htmlContent 为字符串，则使用 htmlContent
+       * html 渲染时单个 label 的模板，必须存在 class = "g-label"
        * @type {String}
        */
       itemTpl: '<div class="g-label" style="position:absolute;">{text}</div>',
       /**
-       * label牵引线
-       * @type {Object|Boolean}
+       * label牵引线定义
+       * @type {String || Object}
        */
       labelLine: false
     });
@@ -125,7 +118,7 @@ class Label extends Component {
       children[i].remove();
     }
     this._adjustLabels();
-    if (self.get('labelLine')) {
+    if (self.get('labelLine') || items[0].labelLine) {
       self.drawLines();
     }
     this.get('canvas').draw();
@@ -212,11 +205,12 @@ class Label extends Component {
   }
   lineToLabel(label, lineGroup) {
     const self = this;
-    const lineStyle = self.get('labelLine');
-    let path = null;
-    if (lineStyle.path) {
+    const lineStyle = label.labelLine || self.get('labelLine');
+    let path = lineStyle.path;
+    if (path && Util.isFunction(lineStyle.path)) {
       path = lineStyle.path(label);
-    } else {
+    }
+    if (!path) {
       const start = {
         x: label.x - label._offset.x,
         y: label.y - label._offset.y
@@ -255,43 +249,85 @@ class Label extends Component {
   }
 
   // 先计算label的所有配置项，然后生成label实例
-  _addLabel(item) {
-    return this._createText(item);
+  _addLabel(item, index) {
+    const cfg = this._getLabelCfg(item, index);
+    return this._createText(cfg);
   }
+  _getLabelCfg(item, index) {
+    let textStyle = this.get('textStyle') || {};
+    const formatter = this.get('formatter');
+    const htmlTemplate = this.get('htmlTemplate');
+    // 如果是 geom.label(fields, () => {...}) 形式定义的label,mix自定义样式后直接画
+    if (item._offset && item.textStyle) {
+      item.textStyle = Util.mix({}, textStyle, item.textStyle);
+      return item;
+    }
 
+    if (!Util.isObject(item)) {
+      const tmp = item;
+      item = {};
+      item.text = tmp;
+    }
+
+    if (Util.isFunction(textStyle)) {
+      textStyle = textStyle(item.text, item, index);
+    }
+
+    if (formatter) {
+      item.text = formatter(item.text, item, index);
+    }
+
+    if (Util.isFunction(htmlTemplate)) {
+      item.text = htmlTemplate(item.text, item, index);
+    }
+
+    if (Util.isNil(item.text)) {
+      item.text = '';
+    }
+
+    item.text = item.text + ''; // ? 为什么转换为字符串
+
+    const cfg = Util.mix({}, item, textStyle, {
+      x: item.x || 0,
+      y: item.y || 0
+    });
+
+    return cfg;
+  }
   /**
    * label初始化，主要针对html容器
    */
   _init() {
-    if (this.get('useHtml')) {
-      let container = this.get('container');
-      if (Util.isString(container)) {
-        container = document.getElementById(container);
-        if (container) {
-          this.set('container', container);
-        }
-      }
-      if (!container) {
-        const containerTpl = this.get('containerTpl');
-        const wrapper = this.get('canvas').get('el').parentNode;
-        container = DomUtil.createDom(containerTpl);
-        wrapper.style.position = 'relative';
-        wrapper.appendChild(container);
+    if (!this.get('group')) {
+      const group = this.get('canvas').addGroup({ id: 'label-group' });
+      this.set('group', group);
+    }
+  }
+  initHtmlContainer() {
+    let container = this.get('container');
+    if (!container) {
+      const containerTpl = this.get('containerTpl');
+      const wrapper = this.get('canvas').get('el').parentNode;
+      container = DomUtil.createDom(containerTpl);
+      wrapper.style.position = 'relative';
+      wrapper.appendChild(container);
+      this.set('container', container);
+    } else if (Util.isString(container)) {
+      container = document.getElementById(container);
+      if (container) {
         this.set('container', container);
       }
-    } else {
-      if (!this.get('group')) {
-        const group = this.get('canvas').addGroup({ id: 'label-group' });
-        this.set('group', group);
-      }
     }
+    return container;
   }
   // 分html dom和G shape两种情况生成label实例
   _createText(cfg) {
-    const container = this.get('container');
+    let container = this.get('container');
     let labelShape;
-
-    if (this.get('useHtml')) {
+    if (cfg.useHtml) {
+      if (!container) {
+        container = this.initHtmlContainer();
+      }
       const node = this._createDom(cfg);
       container.appendChild(node);
       this._setCustomPosition(cfg, node);
@@ -299,12 +335,18 @@ class Label extends Component {
       const origin = cfg.point;
       const group = this.get('group');
       delete cfg.point; // 临时解决，否则影响动画
+      if (cfg.textStyle) {
+        cfg = Util.mix({
+          x: cfg.x,
+          y: cfg.y,
+          textAlign: cfg.textAlign,
+          text: cfg.text
+        }, cfg.textStyle);
+      }
       labelShape = group.addShape('text', {
-        attrs: Util.mix({
-          fill: '#000'
-        }, cfg)
+        attrs: cfg
       });
-      labelShape.setSilent('origin', origin);
+      labelShape.setSilent('origin', origin || cfg);
       labelShape.name = 'label'; // 用于事件标注
       this.get('appendInfo') && labelShape.setSilent('appendInfo', this.get('appendInfo'));
       return labelShape;
@@ -312,11 +354,6 @@ class Label extends Component {
   }
   _createDom(cfg) {
     const itemTpl = this.get('itemTpl');
-    const htmlTemplate = this.get('htmlTemplate');
-
-    if (!this.get('htmlContent') && htmlTemplate) {
-      cfg.text = Util.substitute(htmlTemplate, { text: cfg.text });
-    }
     const str = Util.substitute(itemTpl, { text: cfg.text });
     return DomUtil.createDom(str);
   }
