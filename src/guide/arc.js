@@ -1,4 +1,4 @@
-const Util = require('../../src/util');
+const Util = require('../util');
 const Guide = require('./base');
 
 const PI = Math.PI;
@@ -65,18 +65,20 @@ class Arc extends Guide {
       + (start.y - coordCenter.y) * (start.y - coordCenter.y));
     let path;
     // 处理整圆的情况
-    if (Util.isNumberEqual(start.x, end.x) && Util.isNumberEqual(start.y, end.y)) {
+    const startAngle = calculateAngle(start, coordCenter);
+    let endAngle = calculateAngle(end, coordCenter);
+    if (endAngle < startAngle) {
+      endAngle += (PI * 2);
+    }
+
+    if (Util.isNumberEqual(start.x, end.x) && Util.isNumberEqual(start.y, end.y) &&
+      (self.get('start')[0] !== self.get('end')[0] || self.get('start')[1] !== self.get('end')[1])) {
       path = [
         [ 'M', start.x, start.y ],
         [ 'A', radius, radius, 0, 1, 1, 2 * coordCenter.x - start.x, 2 * coordCenter.y - start.y ],
         [ 'A', radius, radius, 0, 1, 1, start.x, start.y ]
       ];
     } else {
-      const startAngle = calculateAngle(start, coordCenter);
-      let endAngle = calculateAngle(end, coordCenter);
-      if (endAngle < startAngle) {
-        endAngle += (PI * 2);
-      }
       const dAngle = (endAngle - startAngle) % (PI * 2);
       const largeArc = dAngle > PI ? 1 : 0;
       path = [

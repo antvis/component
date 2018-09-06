@@ -138,7 +138,7 @@ describe('Guide: 辅助圆弧线', function() {
         temp: 1200
       },
       end: {
-        month: 4,
+        month: 0,
         temp: 1200
       },
       style: {
@@ -153,9 +153,9 @@ describe('Guide: 辅助圆弧线', function() {
     expect(children.length).to.equal(2);
     const el = arc.get('el');
     expect(el.name).to.equal('guide-arc');
-    expect(el.attr('path').length).to.equal(3);
-    expect(el.getBBox().width).to.equal(338);
-    expect(el.getBBox().height).to.equal(338);
+    expect(el.attr('path').length).to.equal(2);
+    expect(el.getBBox().width).to.equal(-Infinity);
+    expect(el.getBBox().height).to.equal(-Infinity);
     expect(el.get('appendInfo')).to.equal('Arc');
   });
 
