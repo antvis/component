@@ -1,4 +1,4 @@
-const Util = require('../../src/util');
+const Util = require('../util');
 const DomUtil = Util.DomUtil;
 const Guide = require('./base');
 
