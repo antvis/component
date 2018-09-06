@@ -2,10 +2,12 @@
 const Component = require('../component');
 const Util = require('../util');
 const Grid = require('./grid');
+const Label = require('../label/base');
 
 class Axis extends Component {
   getDefaultCfg() {
-    return {
+    const cfg = super.getDefaultCfg();
+    return Object.assign({}, cfg, {
       /**
        * 用于动画，唯一标识的 id
        * @type {[type]}
@@ -60,7 +62,7 @@ class Axis extends Component {
         textStyle: {} // 坐标轴标题样式
       },
       autoPaint: true
-    };
+    });
   }
 
   beforeRender() {
@@ -434,38 +436,75 @@ class Axis extends Component {
    * @return {[type]} [description]
    */
   getSideVector() {}
+
+  renderLabels() {
+    const labelCfg = this.get('label');
+
+    if (Util.isNil(labelCfg)) {
+      return;
+    }
+
+    if (Util.isNil(labelCfg.items)) {
+      labelCfg.items = [];
+    }
+
+    const labelsGroup = new Label(labelCfg);
+    this.set('labelsGroup', labelsGroup);
+  }
+
+  resetLabels(items) {
+    const self = this;
+    const labelCfg = self.get('label');
+
+    if (!labelCfg) {
+      return;
+    }
+
+    const labelsGroup = self.get('labelsGroup');
+    const children = labelsGroup.getLabels();
+    const count = children.length;
+    items = items || labelCfg.items;
+    Util.each(items, function(item, index) {
+      if (index < count) {
+        const label = children[index];
+        labelsGroup.changeLabel(label, item);
+      } else {
+        const labelShape = self.addLabel(item.text, item);
+        if (labelShape) {
+          labelShape._id = item._id;
+          labelShape.set('coord', item.coord);
+        }
+      }
+    });
+    for (let i = count - 1; i >= items.length; i--) {
+      children[i].remove();
+    }
+  }
+
+  addLabel(value, offsetPoint) {
+    const self = this;
+    const labelsGroup = self.get('labelsGroup');
+    const label = {};
+    let rst;
+    if (labelsGroup) {
+      label.text = value;
+      label.x = offsetPoint.x;
+      label.y = offsetPoint.y;
+      label.point = offsetPoint;
+      label.textAlign = offsetPoint.textAlign;
+      if (offsetPoint.rotate) {
+        label.rotate = offsetPoint.rotate;
+      }
+      rst = labelsGroup._addLabel(label);
+    }
+    return rst;
+  }
+
+  removeLabels() {
+    const labelsGroup = this.get('labelsGroup');
+    labelsGroup && labelsGroup.destroy();
+    this.set('labelsGroup', null);
+  }
 }
-
-// Util.assign(Axis.prototype, LabelsRenderer, {
-//   addLabel(tick, point, index) {
-//     const labelsGroup = this.get('labelsGroup');
-//     const label = {};
-//     let rst;
-
-//     if (labelsGroup) {
-//       let offset = this.get('_labelOffset');
-//       if (!Util.isNil(this.get('label').offset)) {
-//         offset = this.get('label').offset;
-//       }
-//       const vector = this.getSideVector(offset, point, index);
-//       point = {
-//         x: point.x + vector[0],
-//         y: point.y + vector[1]
-//       };
-//       label.text = tick.text;
-//       label.x = point.x;
-//       label.y = point.y;
-//       label.textAlign = this.getTextAnchor(vector);
-//       rst = labelsGroup.addLabel(label);
-//       if (rst) {
-//         rst.name = 'axis-label';
-//         rst._id = this.get('_id') + '-' + tick.tickValue;
-//         rst.set('coord', this.get('coord'));
-//         this.get('appendInfo') && rst.setSilent('appendInfo', this.get('appendInfo'));
-//       }
-//     }
-//     return rst;
-//   }
-// });
 
 module.exports = Axis;
