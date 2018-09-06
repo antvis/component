@@ -56,7 +56,7 @@ describe('Guide: 辅助 html', function() {
         month: 3,
         temp: 600
       },
-      html: '<div style="border: none;width: 54.2px;height: 54.2px;"></div>'
+      htmlContent: '<div style="border: none;width: 54.2px;height: 54.2px;"></div>'
     });
     html.render(coord, group);
     canvas.draw();
@@ -80,7 +80,7 @@ describe('Guide: 辅助 html', function() {
         temp: 600
       },
       alignY: 'top',
-      html: '<div style="border: none;width: 60px;height: 60px;"</div>',
+      htmlContent: '<div style="border: none;width: 60px;height: 60px;"</div>',
       offsetY: 5,
       zIndex: 2
     });
@@ -104,7 +104,7 @@ describe('Guide: 辅助 html', function() {
         temp: 600
       },
       alignY: 'bottom',
-      html: '<div style="border: none;width: 60px;height: 60px;"</div>',
+      htmlContent: '<div style="border: none;width: 60px;height: 60px;"</div>',
       offsetY: -5
     });
     html.render(coord, group);
@@ -128,7 +128,7 @@ describe('Guide: 辅助 html', function() {
       },
       alignX: 'left',
       offsetX: 5,
-      html: '<div style="border: none;width: 60px;height: 60px;"></div>'
+      htmlContent: '<div style="border: none;width: 60px;height: 60px;"></div>'
     });
     html.render(coord, group);
     canvas.draw();
@@ -151,7 +151,7 @@ describe('Guide: 辅助 html', function() {
       },
       alignX: 'right',
       offsetX: -5,
-      html: '<div style="border: none;width: 60px;height: 60px;"></div>'
+      htmlContent: '<div style="border: none;width: 60px;height: 60px;"></div>'
     });
     html.render(coord, group);
     canvas.draw();
@@ -174,7 +174,7 @@ describe('Guide: 辅助 html', function() {
       },
       alignX: 'left',
       alignY: 'top',
-      html: '<div style="border: none;width: 55px;height: 55px;"></div>'
+      htmlContent: '<div style="border: none;width: 55px;height: 55px;"></div>'
     });
     html.render(coord, group);
     canvas.draw();
@@ -221,7 +221,7 @@ describe('Guide: 辅助 html', function() {
       alignX: 'left',
       alignY: 'bottom',
       offsetY: -5,
-      html: '<div style="border: none;width: 55px;height: 55px;"></div>'
+      htmlContent: '<div style="border: none;width: 55px;height: 55px;"></div>'
     });
     html.render(coord, group);
     canvas.draw();

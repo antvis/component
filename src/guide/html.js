@@ -51,7 +51,7 @@ class Html extends Guide {
     const wrapperNode = DomUtil.createDom('<div class="g-guide"></div>');
     parentNode.appendChild(wrapperNode);
 
-    let html = self.get('html'); // TODO: html or htmlContent
+    let html = self.get('htmlContent') || self.get('html');
     if (Util.isFunction(html)) {
       const xScales = self.get('xScales');
       const yScales = self.get('yScales');
