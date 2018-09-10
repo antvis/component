@@ -44,7 +44,7 @@ class DataMarker extends Guide {
     const point = self.parsePoint(coord, self.get('position'));
     // container
     const markerGroup = group.addGroup();
-    markerGroup.name = 'marker-group';
+    markerGroup.name = 'guide-data-marker';
     // markerGroup.translate(point.x, point.y);
     const positions = self._getElementPosition(point);
     const display = self.get('display');

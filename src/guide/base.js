@@ -84,7 +84,7 @@ class Guide extends Component {
         }
 
         if (yScales[field]) {
-          y = self._getNormalizedValue(value, yScales[field]);
+          y = self._getNormalizedValue(value, yScales[field], 'y');
         }
       }
     }
