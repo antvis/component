@@ -1,5 +1,5 @@
 const expect = require('chai').expect;
-const PathUtil = require('../../../src/guide/path-util');
+const PathUtil = require('../../../../src/guide/util/path');
 
 describe('convertPolarPath', () => {
   it('convertPolarPath', function() {

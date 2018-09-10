@@ -1,18 +1,8 @@
 const Util = require('../util');
+const Helper = require('./util/helper');
 const Component = require('../component');
 
 const KEYWORDS = [ 'min', 'max', 'median', 'start', 'end' ];
-
-function getFirstScale(scales) {
-  let firstScale;
-  Util.each(scales, scale => {
-    if (scale) {
-      firstScale = scale;
-      return false;
-    }
-  });
-  return firstScale;
-}
 
 class Guide extends Component {
   getDefaultCfg() {
@@ -74,8 +64,8 @@ class Guide extends Component {
     let y;
 
     if (Util.isArray(position)) { // Array，suuport for mixing of keyword, percent and value
-      x = self._getNormalizedValue(position[0], getFirstScale(xScales));
-      y = self._getNormalizedValue(position[1], getFirstScale(yScales), 'y');
+      x = self._getNormalizedValue(position[0], Helper.getFirstScale(xScales));
+      y = self._getNormalizedValue(position[1], Helper.getFirstScale(yScales), 'y');
     } else {
       for (const field in position) {
         const value = position[field];

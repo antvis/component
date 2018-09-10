@@ -1,5 +1,5 @@
 const Util = require('../util');
-const PathUtil = require('./path-util');
+const PathUtil = require('./util/path');
 const Guide = require('./base');
 const { vec2 } = Util.MatrixUtil;
 

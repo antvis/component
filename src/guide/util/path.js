@@ -2,7 +2,7 @@
  * @fileOverview 计算path 使用的工具方法
  * @author dxq613@gmail.com
  */
-const Util = require('../util');
+const Util = require('../../util');
 
 function getPointRadius(coord, point) {
   const center = coord.getCenter();

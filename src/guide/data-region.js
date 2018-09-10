@@ -1,17 +1,6 @@
 const Util = require('../util');
+const Helper = require('./util/helper');
 const Guide = require('./base');
-
-// TODO: Guide 的公共方法抽取
-function getFirstScale(scales) {
-  let firstScale;
-  Util.each(scales, scale => {
-    if (scale) {
-      firstScale = scale;
-      return false;
-    }
-  });
-  return firstScale;
-}
 
 class DataRegion extends Guide {
   getDefaultCfg() {
@@ -87,8 +76,8 @@ class DataRegion extends Guide {
     const self = this;
     const start = self.get('start');
     const end = self.get('end');
-    const xField = getFirstScale(self.get('xScales')).field;
-    const yField = getFirstScale(self.get('yScales')).field;
+    const xField = Helper.getFirstScale(self.get('xScales')).field;
+    const yField = Helper.getFirstScale(self.get('yScales')).field;
     const startXValue = Util.isArray(start) ? start[0] : start[xField];
     const endXValue = Util.isArray(end) ? end[0] : end[xField];
     let startIndex;
