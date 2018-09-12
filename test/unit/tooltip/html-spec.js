@@ -1,6 +1,7 @@
 const expect = require('chai').expect;
 const G = require('@antv/g/lib');
 const HtmlTooltip = require('../../../src/tooltip/html');
+const Util = require('../../../src/util');
 
 const div = document.createElement('div');
 div.id = 'tooltip-container';
@@ -15,9 +16,9 @@ const canvas = new G.Canvas({
 
 const title = 'a tooltip title';
 const items = [
-    { color: 'red', name: 'name1', value: '1222333' },
-    { color: 'blue', name: 'n2', value: '1233' },
-    { color: 'yellow', name: 'name3', value: 'swww - afas' }
+    { color: 'red', name: '累计下载量', value: '7008.17' },
+    { color: 'blue', name: '累计注册成功量', value: '7008.17' },
+    { color: 'yellow', name: '累计下单成功量', value: '7008.17' }
 ];
 const plotRange = {
   tl: { x: 25, y: 50 },
@@ -193,6 +194,7 @@ describe('HtmlTooltip测试', () => {
     tooltip.show();
     const width = tooltip.get('container').clientWidth;
     expect(tooltip.get('x')).to.equal(320 - width - 40);
+    tooltip.destroy();
   });
 
   it('in plot - top', () => {
@@ -267,4 +269,90 @@ describe('HtmlTooltip测试', () => {
     tooltip.destroy();
   });
 
+  it('crosshair', () => {
+    const tooltip = new HtmlTooltip({
+      x: 0,
+      y: 0,
+      plotRange,
+      titleContent: title,
+      showTitle: true,
+      visible: true,
+      items,
+      canvas,
+      backPlot: canvas.addGroup(),
+      frontPlot: canvas.addGroup(),
+      crosshair: { type: 'cross' }
+    });
+    tooltip.setPosition(50, 80);
+    tooltip.show();
+    canvas.draw();
+    tooltip.destroy();
+    canvas.draw();
+  });
+
+  it('html', () => {
+    const tooltip = new HtmlTooltip({
+      x: 10,
+      y: 10,
+      plotRange,
+      titleContent: title,
+      showTitle: true,
+      visible: true,
+      items,
+      canvas,
+      frontPlot: canvas.addGroup(),
+      htmlContent: (title, items) => {
+        let list = '<ul>';
+        for (let i = 0; i < items.length; i++) {
+          const li = '<li>' + items[i].name + ':' + items[i].value + '</li>';
+          list += li;
+        }
+        list += '</li>';
+        return '<div style="position:absolute;">' + title + list + '</div>';
+      }
+    });
+    tooltip.setPosition(100, 40);
+    tooltip.show();
+    const container = tooltip.get('container');
+    const type = Util.typeUtil.getType(container);
+    expect(type).to.equal('HTMLDivElement');
+    tooltip.destroy();
+  });
+
+  it('html setContent', () => {
+    const tooltip = new HtmlTooltip({
+      x: 10,
+      y: 10,
+      plotRange,
+      titleContent: title,
+      showTitle: true,
+      visible: true,
+      items,
+      canvas,
+      frontPlot: canvas.addGroup(),
+      htmlContent: (title, items) => {
+        let list = '<ul>';
+        for (let i = 0; i < items.length; i++) {
+          const li = '<li class="item' + i + '">' + items[i].name + ':' + items[i].value + '</li>';
+          list += li;
+        }
+        list += '</li>';
+        return '<div style="position:absolute;">' + title + list + '</div>';
+      }
+    });
+    tooltip.show();
+    const title_new = 'new title';
+    const items_new = [
+      { color: 'red', name: 'change1', value: '223' },
+      { color: 'blue', name: 'change2', value: '404' },
+      { color: 'yellow', name: 'change3', value: '419' }
+    ];
+    tooltip.setContent(title_new, items_new);
+    const container = tooltip.get('container');
+    const firstItem = container.getElementsByClassName('item0')[0];
+    expect(firstItem.innerHTML).to.equal('change1:223');
+    tooltip.destroy();
+  });
+
 });
+

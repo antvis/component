@@ -53,7 +53,12 @@ class Tooltip extends Component {
        * 将 tooltip 展示在指定区域内
        * @type {Boolean}
        */
-      inPlot: true
+      inPlot: true,
+      /**
+       * tooltip 辅助线配置
+       * @type {Object}
+       */
+      crosshairs: null
     });
   }
 

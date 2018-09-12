@@ -1,5 +1,5 @@
 const expect = require('chai').expect;
-const Tooltip = require('../../../src/tooltip/index');
+const Tooltip = require('../../../src/tooltip');
 
 const div = document.createElement('div');
 div.id = 'tooltip-container';

@@ -3,58 +3,8 @@ const DomUtil = Util.DomUtil;
 const G = require('@antv/g');
 const MatrixUtil = G.MatrixUtil;
 const Tooltip = require('./base');
+const PositionMixin = require('./mixin/position');
 
-function constraintPositionInBoundary(x, y, el, viewWidth, viewHeight) {
-  const bbox = el.getBBox();
-  const width = bbox.width;
-  const height = bbox.height;
-  const gap = 20;
-
-  if (x + width + gap > viewWidth) {
-    x -= width + gap;
-    x = x < 0 ? 0 : x;
-  } else if (x + gap < 0) {
-    x = gap;
-  } else {
-    x += gap;
-  }
-
-  if (y + height + gap > viewHeight) {
-    y -= (height + gap);
-    y = y < 0 ? 0 : y;
-  } else if (y + gap < 0) {
-    y = gap;
-  } else {
-    y += gap;
-  }
-
-  return [ x, y ];
-}
-
-function constraintPositionInPlot(x, y, el, plotRange, onlyHorizontal) {
-  const bbox = el.getBBox();
-  const width = bbox.width;
-  const height = bbox.height;
-  const gap = 20;
-  if (x + width > plotRange.tr.x) {
-    x -= (width + 2 * gap);
-  }
-
-  if (x < plotRange.tl.x) {
-    x = plotRange.tl.x;
-  }
-
-  if (!onlyHorizontal) {
-    if (y + height > plotRange.bl.y) {
-      y -= height + 2 * gap;
-    }
-
-    if (y < plotRange.tl.y) {
-      y = plotRange.tl.y;
-    }
-  }
-  return [ x, y ];
-}
 
 class CanvasTooltip extends Tooltip {
   getDefaultCfg() {
@@ -138,6 +88,7 @@ class CanvasTooltip extends Tooltip {
 
   constructor(cfg) {
     super(cfg);
+    Util.assign(this, PositionMixin);
     this._init_();
     if (this.get('items')) {
       this.render();
@@ -168,6 +119,7 @@ class CanvasTooltip extends Tooltip {
       self.set('titleShape', titleShape);
       titleShape.name = 'tooltip-title';
     }
+    // items
     const itemsGroup = container.addGroup();
     itemsGroup.move(padding.left, padding.top + titleStyle.lineHeight + titleStyle.padding);
     self.set('itemsGroup', itemsGroup);
@@ -223,6 +175,7 @@ class CanvasTooltip extends Tooltip {
     super.show();
     container.attr('visible', true);
     container.set('visible', true);
+    this.get('canvas').draw();
   }
 
   hide() {
@@ -230,6 +183,7 @@ class CanvasTooltip extends Tooltip {
     super.hide();
     container.attr('visible', false);
     container.set('visible', false);
+    this.get('canvas').draw();
   }
 
   destroy() {
@@ -243,15 +197,18 @@ class CanvasTooltip extends Tooltip {
     const outterNode = this.get('canvas').get('el');
     const viewWidth = DomUtil.getWidth(outterNode);
     const viewHeight = DomUtil.getHeight(outterNode);
+    const bbox = container.getBBox();
+    const containerWidth = bbox.width;
+    const containerHeight = bbox.height;
 
     let position;
-    position = constraintPositionInBoundary(x, y, container, viewWidth, viewHeight);
+    position = this.constraintPositionInBoundary(x, y, containerWidth, containerHeight, viewWidth, viewHeight);
     x = position[0];
     y = position[1];
 
     if (this.get('inPlot')) { // tooltip 必须限制在绘图区域内
       const plotRange = this.get('plotRange');
-      position = constraintPositionInPlot(x, y, container, plotRange, this.get('enterable'));
+      position = this.constraintPositionInPlot(x, y, containerWidth, containerHeight, plotRange, this.get('enterable'));
       x = position[0];
       y = position[1];
     }
@@ -259,6 +216,7 @@ class CanvasTooltip extends Tooltip {
     const mat = MatrixUtil.transform(ulMatrix, [
         [ 't', x, y ]
     ]);
+    container.stopAnimate();
     container.animate({
       matrix: mat
     }, this.get('animationDuration'));
@@ -312,8 +270,6 @@ class CanvasTooltip extends Tooltip {
     });
   }
 
-
 }
-
 
 module.exports = CanvasTooltip;
