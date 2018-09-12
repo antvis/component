@@ -287,7 +287,6 @@ describe('HtmlTooltip测试', () => {
     tooltip.show();
     canvas.draw();
     tooltip.destroy();
-    canvas.draw();
   });
 
   it('html', () => {
@@ -351,6 +350,41 @@ describe('HtmlTooltip测试', () => {
     const container = tooltip.get('container');
     const firstItem = container.getElementsByClassName('item0')[0];
     expect(firstItem.innerHTML).to.equal('change1:223');
+    tooltip.destroy();
+  });
+
+  it('markergroup', () => {
+    const markerItems = [
+      { color: 'blue', x: 50, y: 30 },
+      { color: 'red', x: 50, y: 60 },
+      { color: 'green', x: 50, y: 90 }
+    ];
+    const tooltip = new HtmlTooltip({
+      x: 0,
+      y: 0,
+      plotRange,
+      titleContent: title,
+      showTitle: true,
+      visible: true,
+      items,
+      canvas,
+      backPlot: canvas.addGroup(),
+      frontPlot: canvas.addGroup(),
+      crosshair: { type: 'cross' }
+    });
+    tooltip.setMarkers(markerItems, { radius: 5 });
+    tooltip.setPosition(50, 80);
+    tooltip.show();
+    const markergroup = tooltip.get('markerGroup');
+    const children = markergroup.get('children');
+    expect(children.length).to.equal(3);
+    expect(children[0].attr('fill')).to.equal('blue');
+    expect(children[0].attr('x')).to.equal(50);
+    expect(children[0].attr('y')).to.equal(30);
+    tooltip.hide();
+    expect(markergroup.get('visible')).to.equal(false);
+    tooltip.show();
+    expect(markergroup.get('visible')).to.equal(true);
     tooltip.destroy();
   });
 

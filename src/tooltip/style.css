@@ -1,7 +1,0 @@
-body {font-family: "-apple-system", BlinkMacSystemFont, "Segoe UI", Roboto,"Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",SimSun, "sans-serif"}
-.item0{ width:150px; height:100%; position: relative; float: left; margin-right: 30px; border-left-style: solid; border-left-width:5px; border-left-color:#2593fc;}
-.item1{ width:150px; height:100%; position: relative; float: left; margin-right: 30px; border-left-style: solid; border-left-width:5px; border-left-color:#38c060;}
-.item2{ width:150px; height:100%; position: relative; float: left; margin-right: 30px; border-left-style: solid; border-left-width:5px; border-left-color:#fecc4c;}
-
-.name{width: 80%; height: 20px; position: absolute; top:0px; left: 10px; color:#8c8c8c; font-size:12px;}
-.value{width: 80%; height: 20px; position: absolute; bottom:0px; left: 10px; color:#595959; font-size:20px;}

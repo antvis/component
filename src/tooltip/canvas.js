@@ -3,7 +3,9 @@ const DomUtil = Util.DomUtil;
 const G = require('@antv/g');
 const MatrixUtil = G.MatrixUtil;
 const Tooltip = require('./base');
+const Crosshair = require('./crosshair');
 const PositionMixin = require('./mixin/position');
+const MarkergroupMixin = require('./mixin/markergroup');
 
 
 class CanvasTooltip extends Tooltip {
@@ -89,9 +91,21 @@ class CanvasTooltip extends Tooltip {
   constructor(cfg) {
     super(cfg);
     Util.assign(this, PositionMixin);
+    Util.assign(this, MarkergroupMixin);
     this._init_();
     if (this.get('items')) {
       this.render();
+    }
+    // crosshair
+    const crosshair = this.get('crosshair');
+    if (crosshair) {
+      const plot = crosshair.type === 'rect' ? this.get('backPlot') : this.get('frontPlot');
+      const crosshairGroup = new Crosshair(Util.mix({
+        plot,
+        plotRange: this.get('plotRange'),
+        canvas: this.get('canvas')
+      }, this.get('crosshair')));
+      this.set('crosshairGroup', crosshairGroup);
     }
   }
 
@@ -172,22 +186,32 @@ class CanvasTooltip extends Tooltip {
 
   show() {
     const container = this.get('container');
+    container.show();
+    const crosshairGroup = this.get('crosshairGroup');
+    crosshairGroup && crosshairGroup.show();
+    const markerGroup = this.get('markerGroup');
+    markerGroup && markerGroup.show();
     super.show();
-    container.attr('visible', true);
-    container.set('visible', true);
     this.get('canvas').draw();
   }
 
   hide() {
     const container = this.get('container');
+    container.hide();
+    const crosshairGroup = this.get('crosshairGroup');
+    crosshairGroup && crosshairGroup.hide();
+    const markerGroup = this.get('markerGroup');
+    markerGroup && markerGroup.hide();
     super.hide();
-    container.attr('visible', false);
-    container.set('visible', false);
     this.get('canvas').draw();
   }
 
   destroy() {
     const container = this.get('container');
+    const crosshairGroup = this.get('crosshairGroup');
+    crosshairGroup && crosshairGroup.destroy();
+    const markerGroup = this.get('markerGroup');
+    markerGroup && markerGroup.remove();
     super.destroy();
     container.remove();
   }
@@ -201,6 +225,9 @@ class CanvasTooltip extends Tooltip {
     const containerWidth = bbox.width;
     const containerHeight = bbox.height;
 
+    const endx = x;
+    const endy = y;
+
     let position;
     position = this.constraintPositionInBoundary(x, y, containerWidth, containerHeight, viewWidth, viewHeight);
     x = position[0];
@@ -212,6 +239,7 @@ class CanvasTooltip extends Tooltip {
       x = position[0];
       y = position[1];
     }
+
     const ulMatrix = [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ];
     const mat = MatrixUtil.transform(ulMatrix, [
         [ 't', x, y ]
@@ -220,6 +248,12 @@ class CanvasTooltip extends Tooltip {
     container.animate({
       matrix: mat
     }, this.get('animationDuration'));
+
+    const crosshairGroup = this.get('crosshairGroup');
+    if (crosshairGroup) {
+      const items = this.get('items');
+      crosshairGroup.setPosition(endx, endy, items);
+    }
     super.setPosition(x, y);
   }
 
@@ -269,7 +303,6 @@ class CanvasTooltip extends Tooltip {
       valueText.attr('x', x);
     });
   }
-
 }
 
 module.exports = CanvasTooltip;

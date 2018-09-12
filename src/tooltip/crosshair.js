@@ -210,9 +210,7 @@ class Crosshair extends Component {
     if (crosshairsRectShape) {
       this._updateRectShape(items);
     }
-
   }
-
 }
 
 module.exports = Crosshair;

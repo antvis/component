@@ -4,6 +4,7 @@ const DomUtil = Util.DomUtil;
 const TooltipTheme = require('./theme');
 const Crosshair = require('./crosshair');
 const PositionMixin = require('./mixin/position');
+const MarkergroupMixin = require('./mixin/markergroup');
 
 const CONTAINER_CLASS = 'g2-tooltip';
 const TITLE_CLASS = 'g2-tooltip-title';
@@ -57,6 +58,7 @@ class HtmlTooltip extends Tooltip {
   constructor(cfg) {
     super(cfg);
     Util.assign(this, PositionMixin);
+    Util.assign(this, MarkergroupMixin);
     this._init_();
     if (this.get('items')) {
       this.render();
@@ -144,32 +146,30 @@ class HtmlTooltip extends Tooltip {
         listDom.innerHTML = '';
       }
       const crosshairGroup = this.get('crosshairGroup');
-      if (crosshairGroup) {
-        crosshairGroup.clear();
-      }
+      crosshairGroup && crosshairGroup.clear();
     }
   }
 
   show() {
     const container = this.get('container');
-    super.show();
     container.style.visibility = 'visible';
     const crosshairGroup = this.get('crosshairGroup');
-    if (crosshairGroup) {
-      crosshairGroup.show();
-      this.get('canvas').draw();
-    }
+    crosshairGroup && crosshairGroup.show();
+    const markerGroup = this.get('markerGroup');
+    markerGroup && markerGroup.show();
+    super.show();
+    this.get('canvas').draw();
   }
 
   hide() {
     const container = this.get('container');
     container.style.visibility = 'hidden';
     const crosshairGroup = this.get('crosshairGroup');
-    if (crosshairGroup) {
-      crosshairGroup.hide();
-      this.get('canvas').draw();
-    }
+    crosshairGroup && crosshairGroup.hide();
+    const markerGroup = this.get('markerGroup');
+    markerGroup && markerGroup.hide();
     super.hide();
+    this.get('canvas').draw();
   }
 
   destroy() {
@@ -180,9 +180,9 @@ class HtmlTooltip extends Tooltip {
       container.parentNode.removeChild(container);
     }
     const crosshairGroup = this.get('crosshairGroup');
-    if (crosshairGroup) {
-      crosshairGroup.destroy();
-    }
+    crosshairGroup && crosshairGroup.destroy();
+    const markerGroup = this.get('markerGroup');
+    markerGroup && markerGroup.remove();
     super.destroy();
   }
 
@@ -221,6 +221,9 @@ class HtmlTooltip extends Tooltip {
     const containerWidth = container.clientWidth;
     const containerHeight = container.clientHeight;
 
+    const endx = x;
+    const endy = y;
+
     let position;
     const prePosition = this.get('prePosition') || { x: 0, y: 0 };
     if (this.get('enterable')) {
@@ -250,7 +253,7 @@ class HtmlTooltip extends Tooltip {
     const crosshairGroup = this.get('crosshairGroup');
     if (crosshairGroup) {
       const items = this.get('items');
-      crosshairGroup.setPosition(x, y, items);
+      crosshairGroup.setPosition(endx, endy, items);
     }
     super.setPosition(x, y);
   }
