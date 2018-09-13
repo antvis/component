@@ -1,5 +1,6 @@
 const expect = require('chai').expect;
 const { Canvas, Group } = require('@antv/g');
+const Coord = require('@antv/coord');
 const Line = require('../../../src/guide/line');
 const Scale = require('@antv/scale');
 
@@ -8,35 +9,10 @@ div.id = 'c1';
 document.body.appendChild(div);
 
 describe('Guide: 辅助线', function() {
-  const coord = {
+  const coord = new Coord.Rect({
     start: { x: 60, y: 460 },
-    end: { x: 460, y: 60 },
-    center: { x: 260, y: 260 },
-    isRect: true,
-    isTransposed: false,
-    x: { start: 60, end: 460 },
-    y: { start: 460, end: 60 },
-    convertDim(percent, dim) {
-      const { start, end } = this[dim];
-      return start + percent * (end - start);
-    },
-    convert(point) {
-      let x;
-      let y;
-      if (this.isTransposed) {
-        x = point.y;
-        y = point.x;
-      } else {
-        x = point.x;
-        y = point.y;
-      }
-
-      return {
-        x: this.convertDim(x, 'x'),
-        y: this.convertDim(y, 'y')
-      };
-    }
-  };
+    end: { x: 460, y: 60 }
+  });
 
   const canvas = new Canvas({
     containerId: 'c1',
@@ -461,51 +437,12 @@ describe('Guide: 辅助线', function() {
 
   it('guide line in polar', () => {
     group.clear();
-    const coord = {
+    const coord = new Coord.Polar({
       start: { x: 0, y: 0 },
       end: { x: 200, y: 200 },
-      center: { x: 100, y: 100 },
-      circleCentre: { x: 100, y: 100 },
       startAngle: -0.5 * Math.PI,
-      endAngle: 1.5 * Math.PI,
-      isPolar: true,
-      isTransposed: false,
-      x: { start: -0.5 * Math.PI, end: 1.5 * Math.PI },
-      y: { start: 0, end: 100 },
-      convertDim(percent, dim) {
-        const { start, end } = this[dim];
-        return start + percent * (end - start);
-      },
-      convert(point) {
-        const center = this.center;
-        let x = this.isTransposed ? point.y : point.x;
-        let y = this.isTransposed ? point.x : point.y;
-
-        x = this.convertDim(x, 'x');
-        y = this.convertDim(y, 'y');
-
-        return {
-          x: center.x + Math.cos(x) * y,
-          y: center.y + Math.sin(x) * y
-        };
-      },
-      convertPoint(point) {
-        const center = this.center;
-        let x = this.isTransposed ? point.y : point.x;
-        let y = this.isTransposed ? point.x : point.y;
-
-        x = this.convertDim(x, 'x');
-        y = this.convertDim(y, 'y');
-
-        return {
-          x: center.x + Math.cos(x) * y,
-          y: center.y + Math.sin(x) * y
-        };
-      },
-      getCenter() {
-        return this.circleCentre;
-      }
-    };
+      endAngle: 1.5 * Math.PI
+    });
     line = new Line({
       xScales: {
         month: xScale

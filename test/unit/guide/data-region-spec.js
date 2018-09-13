@@ -1,5 +1,6 @@
 const expect = require('chai').expect;
 const { Canvas } = require('@antv/g');
+const Coord = require('@antv/coord');
 const DataRegion = require('../../../src/guide/data-region');
 const Scale = require('@antv/scale');
 
@@ -8,18 +9,17 @@ div.id = 'c1';
 document.body.appendChild(div);
 
 describe('Guide.DataRegion', () => {
-  const coord = {
+  const coord = new Coord.Rect({
+    start: { x: 60, y: 460 },
+    end: { x: 460, y: 60 }
+  });
+
+  const polarCoord = new Coord.Polar({
     start: { x: 60, y: 460 },
     end: { x: 460, y: 60 },
-    convert(point) {
-      const { start, end } = this;
-      const { x, y } = point;
-      return {
-        x: start.x + x * (end.x - start.x),
-        y: end.y + (1 - y) * (start.y - end.y)
-      };
-    }
-  };
+    startAngle: -0.5 * Math.PI,
+    endAngle: 1.5 * Math.PI
+  });
 
   const canvas = new Canvas({
     containerId: 'c1',
@@ -76,8 +76,10 @@ describe('Guide.DataRegion', () => {
       },
       lineLength: 30,
       style: {
-        fill: '#1890ff',
-        opacity: 0.05
+        region: {
+          fill: '#1890ff',
+          opacity: 0.05
+        }
       },
       appendInfo: 'data-region'
     });
@@ -92,19 +94,51 @@ describe('Guide.DataRegion', () => {
     expect(el.get('children').length).to.equal(1);
     const pathShape = el.get('children')[0];
     expect(pathShape.attr('path')).to.eql([
-      [ 'M', 169.09090909090907, 96.66666666666666 ],
+      [ 'M', 169.09090909090907, 96.66666666666663 ],
       [ 'L', 169.09090909090907, 293.3333333333333 ],
       [ 'L', 205.45454545454547, 310 ],
       [ 'L', 241.8181818181818, 243.33333333333334 ],
       [ 'L', 278.18181818181813, 223.33333333333334 ],
-      [ 'L', 314.5454545454545, 193.33333333333334 ],
+      [ 'L', 314.5454545454545, 193.33333333333337 ],
       [ 'L', 350.90909090909093, 239.99999999999997 ],
-      [ 'L', 387.2727272727273, 126.66666666666666 ],
-      [ 'L', 387.2727272727273, 96.66666666666666 ]
+      [ 'L', 387.2727272727273, 126.66666666666663 ],
+      [ 'L', 387.2727272727273, 96.66666666666663 ]
     ]);
   });
 
+  it('DataRegion without text in polar coordinate', () => {
+    group.clear();
+
+    dataRegion = new DataRegion({
+      xScales: {
+        x: xScale
+      },
+      yScales: {
+        y: yScale
+      },
+      start: {
+        x: '四月',
+        y: 500
+      },
+      end: {
+        x: '十月',
+        y: 1000
+      },
+      lineLength: 30,
+      style: {
+        region: {
+          fill: '#1890ff',
+          opacity: 0.05
+        }
+      }
+    });
+
+    dataRegion.render(polarCoord, group, data);
+    canvas.draw();
+  });
+
   it('DataRegion which is empty', () => {
+    group.clear();
     dataRegion = new DataRegion({
       xScales: {
         x: xScale

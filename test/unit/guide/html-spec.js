@@ -1,5 +1,6 @@
 const expect = require('chai').expect;
 const { Canvas } = require('@antv/g');
+const Coord = require('@antv/coord');
 const Html = require('../../../src/guide/html');
 const Scale = require('@antv/scale');
 
@@ -8,7 +9,7 @@ div.id = 'html';
 document.body.appendChild(div);
 
 describe('Guide: 辅助 html', function() {
-  const coord = {
+  const coord = new Coord.Rect({
     start: {
       x: 60,
       y: 460
@@ -16,16 +17,8 @@ describe('Guide: 辅助 html', function() {
     end: {
       x: 460,
       y: 60
-    },
-    convert(point) {
-      const { start, end } = this;
-      const { x, y } = point;
-      return {
-        x: start.x + x * (end.x - start.x),
-        y: end.y + (1 - y) * (start.y - end.y)
-      };
     }
-  };
+  });
 
   const canvas = new Canvas({
     containerId: 'html',

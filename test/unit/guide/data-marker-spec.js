@@ -1,5 +1,6 @@
 const expect = require('chai').expect;
 const { Canvas } = require('@antv/g');
+const Coord = require('@antv/coord');
 const DataMarker = require('../../../src/guide/data-marker');
 const Scale = require('@antv/scale');
 
@@ -8,18 +9,10 @@ div.id = 'c1';
 document.body.appendChild(div);
 
 describe('Guide.DataMarker', () => {
-  const coord = {
+  const coord = new Coord.Rect({
     start: { x: 60, y: 460 },
-    end: { x: 460, y: 60 },
-    convert(point) {
-      const { start, end } = this;
-      const { x, y } = point;
-      return {
-        x: start.x + x * (end.x - start.x),
-        y: end.y + (1 - y) * (start.y - end.y)
-      };
-    }
-  };
+    end: { x: 460, y: 60 }
+  });
 
   const canvas = new Canvas({
     containerId: 'c1',

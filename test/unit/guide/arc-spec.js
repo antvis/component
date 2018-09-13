@@ -1,5 +1,6 @@
 const expect = require('chai').expect;
 const { Canvas } = require('@antv/g');
+const Coord = require('@antv/coord');
 const Arc = require('../../../src/guide/arc');
 const Scale = require('@antv/scale');
 
@@ -29,38 +30,12 @@ describe('Guide: 辅助圆弧线', function() {
   let arc;
 
   it('guide arc', function() {
-    const coord = {
+    const coord = new Coord.Polar({
       start: { x: 60, y: 460 },
       end: { x: 460, y: 60 },
-      center: { x: 260, y: 260 },
-      circleCentre: { x: 260, y: 260 },
       startAngle: -1 / 2 * Math.PI,
-      endAngle: Math.PI,
-      isPolar: true,
-      isTransposed: false,
-      x: { start: -1 / 2 * Math.PI, end: Math.PI },
-      y: { start: 0, end: 200 },
-      convertDim(percent, dim) {
-        const { start, end } = this[dim];
-        return start + percent * (end - start);
-      },
-      convert(point) {
-        const center = this.center;
-        let x = this.isTransposed ? point.y : point.x;
-        let y = this.isTransposed ? point.x : point.y;
-
-        x = this.convertDim(x, 'x');
-        y = this.convertDim(y, 'y');
-
-        return {
-          x: center.x + Math.cos(x) * y,
-          y: center.y + Math.sin(x) * y
-        };
-      },
-      getCenter() {
-        return this.circleCentre;
-      }
-    };
+      endAngle: Math.PI
+    });
     arc = new Arc({
       xScales: {
         month: xScale
@@ -94,38 +69,12 @@ describe('Guide: 辅助圆弧线', function() {
   });
 
   it('circle as arc', function() {
-    const coord = {
+    const coord = new Coord.Polar({
       start: { x: 80, y: 355 },
       end: { x: 480, y: 20 },
-      center: { x: 280, y: 187.5 },
-      circleCentre: { x: 280, y: 187.5 },
       startAngle: 0,
-      endAngle: 2 * Math.PI,
-      isPolar: true,
-      isTransposed: false,
-      x: { start: 0, end: 2 * Math.PI },
-      y: { start: 0, end: 167.5 },
-      convertDim(percent, dim) {
-        const { start, end } = this[dim];
-        return start + percent * (end - start);
-      },
-      convert(point) {
-        const center = this.center;
-        let x = this.isTransposed ? point.y : point.x;
-        let y = this.isTransposed ? point.x : point.y;
-
-        x = this.convertDim(x, 'x');
-        y = this.convertDim(y, 'y');
-
-        return {
-          x: center.x + Math.cos(x) * y,
-          y: center.y + Math.sin(x) * y
-        };
-      },
-      getCenter() {
-        return this.circleCentre;
-      }
-    };
+      endAngle: 2 * Math.PI
+    });
     arc = new Arc({
       xScales: {
         month: xScale

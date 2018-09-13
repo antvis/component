@@ -1,5 +1,6 @@
 const expect = require('chai').expect;
 const { Canvas } = require('@antv/g');
+const Coord = require('@antv/coord');
 const Region = require('../../../src/guide/region');
 const Scale = require('@antv/scale');
 
@@ -12,7 +13,7 @@ function snapEqual(a, b) {
 }
 
 describe('Guide: 辅助背景框', function() {
-  const coord = {
+  const coord = new Coord.Rect({
     start: {
       x: 60,
       y: 460
@@ -20,16 +21,8 @@ describe('Guide: 辅助背景框', function() {
     end: {
       x: 460,
       y: 60
-    },
-    convert(point) {
-      const { start, end } = this;
-      const { x, y } = point;
-      return {
-        x: start.x + x * (end.x - start.x),
-        y: end.y + (1 - y) * (start.y - end.y)
-      };
     }
-  };
+  });
 
   const canvas = new Canvas({
     containerId: 'c1',
@@ -87,51 +80,12 @@ describe('Guide: 辅助背景框', function() {
 
   it('guide region in polar', function() {
     group.clear();
-    const coord = {
+    const coord = new Coord.Polar({
       start: { x: 0, y: 0 },
       end: { x: 200, y: 200 },
-      center: { x: 100, y: 100 },
-      circleCentre: { x: 100, y: 100 },
       startAngle: -0.5 * Math.PI,
-      endAngle: 1.5 * Math.PI,
-      isPolar: true,
-      isTransposed: false,
-      x: { start: -0.5 * Math.PI, end: 1.5 * Math.PI },
-      y: { start: 0, end: 100 },
-      convertDim(percent, dim) {
-        const { start, end } = this[dim];
-        return start + percent * (end - start);
-      },
-      convert(point) {
-        const center = this.center;
-        let x = this.isTransposed ? point.y : point.x;
-        let y = this.isTransposed ? point.x : point.y;
-
-        x = this.convertDim(x, 'x');
-        y = this.convertDim(y, 'y');
-
-        return {
-          x: center.x + Math.cos(x) * y,
-          y: center.y + Math.sin(x) * y
-        };
-      },
-      convertPoint(point) {
-        const center = this.center;
-        let x = this.isTransposed ? point.y : point.x;
-        let y = this.isTransposed ? point.x : point.y;
-
-        x = this.convertDim(x, 'x');
-        y = this.convertDim(y, 'y');
-
-        return {
-          x: center.x + Math.cos(x) * y,
-          y: center.y + Math.sin(x) * y
-        };
-      },
-      getCenter() {
-        return this.circleCentre;
-      }
-    };
+      endAngle: 1.5 * Math.PI
+    });
     region = new Region({
       xScales: {
         month: xScale

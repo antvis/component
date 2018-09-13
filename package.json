@@ -20,6 +20,8 @@
   "author": "https://github.com/orgs/antvis/people",
   "license": "MIT",
   "devDependencies": {
+    "@antv/coord": "~0.0.3",
+    "@antv/scale": "~0.0.8",
     "babel-cli": "~6.26.0",
     "babel-core": "~6.26.0",
     "babel-eslint": "~8.0.3",
