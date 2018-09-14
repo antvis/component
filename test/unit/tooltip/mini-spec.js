@@ -39,7 +39,6 @@ describe('MiniTooltip测试', () => {
     const container = tooltip.get('container');
     expect(tooltip).be.an.instanceof(MiniTooltip);
     expect(container.get('visible')).to.equal(true);
-    expect(container.attr('visible')).to.equal(true);
     tooltip.destroy();
     canvas.draw();
   });
@@ -113,7 +112,7 @@ describe('MiniTooltip测试', () => {
     canvas.draw();
   });
 
-  it.only('multi position', () => {
+  it('multi position', () => {
     const tooltip = new MiniTooltip({
       x: 10,
       y: 10,
