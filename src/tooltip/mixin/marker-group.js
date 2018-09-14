@@ -1,6 +1,6 @@
 const Util = require('../../util');
 
-const MarkergroupMixin = {
+const MarkerGroupMixin = {
   setMarkers(markerItems, markerCfg) {
     const self = this;
     let markerGroup = self.get('markerGroup');
@@ -36,5 +36,5 @@ const MarkergroupMixin = {
   }
 
 };
-module.exports = MarkergroupMixin;
+module.exports = MarkerGroupMixin;
 

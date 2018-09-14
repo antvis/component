@@ -4,7 +4,7 @@ const DomUtil = Util.DomUtil;
 const TooltipTheme = require('./theme');
 const Crosshair = require('./crosshair');
 const PositionMixin = require('./mixin/position');
-const MarkergroupMixin = require('./mixin/markergroup');
+const MarkerGroupMixin = require('./mixin/marker-group');
 
 const CONTAINER_CLASS = 'g2-tooltip';
 const TITLE_CLASS = 'g2-tooltip-title';
@@ -58,7 +58,7 @@ class HtmlTooltip extends Tooltip {
   constructor(cfg) {
     super(cfg);
     Util.assign(this, PositionMixin);
-    Util.assign(this, MarkergroupMixin);
+    Util.assign(this, MarkerGroupMixin);
     this._init_();
     if (this.get('items')) {
       this.render();

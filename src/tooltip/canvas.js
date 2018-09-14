@@ -5,7 +5,7 @@ const MatrixUtil = G.MatrixUtil;
 const Tooltip = require('./base');
 const Crosshair = require('./crosshair');
 const PositionMixin = require('./mixin/position');
-const MarkergroupMixin = require('./mixin/markergroup');
+const MarkerGroupMixin = require('./mixin/marker-group');
 
 
 class CanvasTooltip extends Tooltip {
@@ -91,7 +91,7 @@ class CanvasTooltip extends Tooltip {
   constructor(cfg) {
     super(cfg);
     Util.assign(this, PositionMixin);
-    Util.assign(this, MarkergroupMixin);
+    Util.assign(this, MarkerGroupMixin);
     this._init_();
     if (this.get('items')) {
       this.render();
