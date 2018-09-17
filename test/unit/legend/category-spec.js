@@ -498,100 +498,100 @@ describe('分类图例', function() {
     expect(markerItem._attrs.fillOpacity).eql(1);
   });
 
-  it('鼠标移动和鼠标移开某个项的高亮效果 highlight 样式', function() {
-    canvas.clear();
-    const items = [];
-    for (let i = 0; i < 5; i++) {
-      items.push({
-        value: 'test ' + i,
-        color: colors[i],
-        marker: {
-          symbol: symbols[i],
-          radius: 5,
-          fill: colors[i]
-        },
-        checked: i <= 2
-      });
-    }
+  // it('鼠标移动和鼠标移开某个项的高亮效果 highlight 样式', function() {
+  //   canvas.clear();
+  //   const items = [];
+  //   for (let i = 0; i < 5; i++) {
+  //     items.push({
+  //       value: 'test ' + i,
+  //       color: colors[i],
+  //       marker: {
+  //         symbol: symbols[i],
+  //         radius: 5,
+  //         fill: colors[i]
+  //       },
+  //       checked: i <= 2
+  //     });
+  //   }
 
-    const cfg = {
-      items,
-      container: canvas,
-      allowAllCanceled: true,
-      itemGap: 10,
-      highlight: true,
-      title: {
-        fill: '#f80',
-        fontSize: 12,
-        textAlign: 'start',
-        textBaseline: 'top',
-        text: '水平图例'
-      },
-      selectedMode: 'single'
-    };
-    const legend = new Legend(cfg);
-    legend.id = '3';
+  //   const cfg = {
+  //     items,
+  //     container: canvas,
+  //     allowAllCanceled: true,
+  //     itemGap: 10,
+  //     highlight: true,
+  //     title: {
+  //       fill: '#f80',
+  //       fontSize: 12,
+  //       textAlign: 'start',
+  //       textBaseline: 'top',
+  //       text: '水平图例'
+  //     },
+  //     selectedMode: 'single'
+  //   };
+  //   const legend = new Legend(cfg);
+  //   legend.id = '3';
 
-    legend.move(0, 100);
+  //   legend.move(0, 100);
 
-    legend.draw();
-    const itemGroups = legend.get('itemsGroup').get('children');
+  //   legend.draw();
+  //   const itemGroups = legend.get('itemsGroup').get('children');
 
-    const event = new Event('mousemove', {
-      clientX: 100,
-      clientY: 316
-    }, true, true);
-    event.currentTarget = itemGroups[0].get('children')[0];
-    legend.get('group').trigger('mousemove', [ event ]);
-    let markerItem = findShapeByName(itemGroups[0], 'legend-marker');
-    expect(markerItem._attrs.stroke).eql('#333');
-    markerItem = findShapeByName(itemGroups[1], 'legend-marker');
-    expect(markerItem._attrs.stroke).eql('');
+  //   const event = new Event('mousemove', {
+  //     clientX: 100,
+  //     clientY: 316
+  //   }, true, true);
+  //   event.currentTarget = itemGroups[0].get('children')[0];
+  //   legend.get('group').trigger('mousemove', [ event ]);
+  //   let markerItem = findShapeByName(itemGroups[0], 'legend-marker');
+  //   expect(markerItem._attrs.stroke).eql('#333');
+  //   markerItem = findShapeByName(itemGroups[1], 'legend-marker');
+  //   expect(markerItem._attrs.stroke).eql('');
 
-    legend.get('group').trigger('mouseleave', [ event ]);
-    markerItem = findShapeByName(itemGroups[0], 'legend-marker');
-    expect(markerItem._attrs.stroke).eql('');
-    markerItem = findShapeByName(itemGroups[1], 'legend-marker');
-    expect(markerItem._attrs.stroke).eql('');
+  //   legend.get('group').trigger('mouseleave', [ event ]);
+  //   markerItem = findShapeByName(itemGroups[0], 'legend-marker');
+  //   expect(markerItem._attrs.stroke).eql('');
+  //   markerItem = findShapeByName(itemGroups[1], 'legend-marker');
+  //   expect(markerItem._attrs.stroke).eql('');
 
-    // 移动到 checked = false 的项上
-    const event2 = new Event('mousemove', {
-      clientX: 100,
-      clientY: 316
-    }, true, true);
-    event2.currentTarget = itemGroups[3].get('children')[0];
-    legend.get('group').trigger('mousemove', [ event2 ]);
-    markerItem = findShapeByName(itemGroups[0], 'legend-marker');
-    expect(markerItem._attrs.stroke).eql('');
-    markerItem = findShapeByName(itemGroups[3], 'legend-marker');
-    expect(markerItem._attrs.stroke).eql('');
-  });
+  //   // 移动到 checked = false 的项上
+  //   const event2 = new Event('mousemove', {
+  //     clientX: 100,
+  //     clientY: 316
+  //   }, true, true);
+  //   event2.currentTarget = itemGroups[3].get('children')[0];
+  //   legend.get('group').trigger('mousemove', [ event2 ]);
+  //   markerItem = findShapeByName(itemGroups[0], 'legend-marker');
+  //   expect(markerItem._attrs.stroke).eql('');
+  //   markerItem = findShapeByName(itemGroups[3], 'legend-marker');
+  //   expect(markerItem._attrs.stroke).eql('');
+  // });
 
-  it('获取宽和高', function() {
-    canvas.clear();
-    const items = [];
-    for (let i = 0; i < 15; i++) {
-      items.push({
-        value: i + '',
-        color: colors[ i % 10 ],
-        marker: {
-          symbol: symbols[ i % 5 ],
-          radius: 5,
-          fill: colors[ i % 10 ]
-        },
-        checked: true
-      });
-    }
+  // it('获取宽和高', function() {
+  //   canvas.clear();
+  //   const items = [];
+  //   for (let i = 0; i < 15; i++) {
+  //     items.push({
+  //       value: i + '',
+  //       color: colors[ i % 10 ],
+  //       marker: {
+  //         symbol: symbols[ i % 5 ],
+  //         radius: 5,
+  //         fill: colors[ i % 10 ]
+  //       },
+  //       checked: true
+  //     });
+  //   }
 
-    const legend = new Legend({
-      items,
-      container: canvas
-    });
-    legend.draw();
-    const width = legend.getWidth();
-    const height = legend.getHeight();
-    expect(Math.floor(width)).eql(521);
-    expect(Math.floor(height)).eql(14);
-    legend.destroy();
-  });
+  //   const legend = new Legend({
+  //     items,
+  //     container: canvas
+  //   });
+  //   legend.draw();
+  //   const width = legend.getWidth();
+  //   const height = legend.getHeight();
+  //   expect(Math.floor(width)).eql(521);
+  //   expect(Math.floor(height)).eql(14);
+  //   legend.destroy();
+  // });
 });

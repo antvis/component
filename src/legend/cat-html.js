@@ -39,7 +39,7 @@ function getParentNode(node, className) {
 function findItem(items, refer) {
   let rst = null;
   const value = (refer instanceof Group) ? refer.get('value') : refer;
-  Util.each(items, function(item) {
+  Util.each(items, item => {
     if (item.value === value) {
       rst = item;
       return false;

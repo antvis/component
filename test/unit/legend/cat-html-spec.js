@@ -70,7 +70,7 @@ describe('HTML 分类图例', function() {
 
     let count = 0;
     legend.on('itemhover', function() {
-      count = 1;
+      count++;
     });
 
     // 模拟 hover 事件
@@ -80,11 +80,11 @@ describe('HTML 分类图例', function() {
       cancelable: true
     });
     legendItem.dispatchEvent(hoverEvent);
-    expect(count).to.equal(0);
+    expect(count).to.equal(1);
 
     const hoveredLegendItem = div.getElementsByClassName('g2-legend-list-item')[2];
     hoveredLegendItem.dispatchEvent(hoverEvent);
-    expect(count).to.equal(1);
+    expect(count).to.equal(2);
 
     // leave event
     const leaveEvent = new MouseEvent('mouseout', {

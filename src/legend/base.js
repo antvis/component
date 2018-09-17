@@ -118,7 +118,7 @@ class Legend extends Component {
   getCheckedCount() {
     const itemsGroup = this.get('itemsGroup');
     const items = itemsGroup.get('children');
-    const checkedArr = Util.filter(items, function(item) {
+    const checkedArr = Util.filter(items, item => {
       return item.get('checked');
     });
     return checkedArr.length;

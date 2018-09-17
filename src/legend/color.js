@@ -71,13 +71,13 @@ class Color extends Continuous {
     // gradient color distributed according to the percentage
     if (layout === 'vertical') {
       fill += 'l (90) ';
-      Util.each(items, function(v) {
+      Util.each(items, v => {
         rgbColor = ColorUtil.toRGB(v.color);
         fill += (1 - v.percentage) + ':' + rgbColor + ' ';
       });
     } else {
       fill += 'l (0) ';
-      Util.each(items, function(v) {
+      Util.each(items, v => {
         rgbColor = ColorUtil.toRGB(v.color);
         fill += v.percentage + ':' + rgbColor + ' ';
       });

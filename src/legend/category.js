@@ -10,7 +10,7 @@ const Group = Util.Group;
 function findItem(items, refer) {
   let rst = null;
   const value = refer instanceof Group || refer.name === 'legendGroup' ? refer.get('value') : refer;
-  Util.each(items, function(item) {
+  Util.each(items, item => {
     if (item.value === value) {
       rst = item;
       return false;
@@ -167,7 +167,7 @@ class Category extends Legend {
     const itemsGroup = this.get('itemsGroup');
     const children = itemsGroup.get('children');
     let markerItem = void 0;
-    children.forEach(function(child) {
+    children.forEach(child => {
       markerItem = findShapeByName(child, 'legend-marker');
       if (!markerItem) return;
       const checked = child.get('checked');
@@ -197,7 +197,7 @@ class Category extends Legend {
     const children = itemsGroup.get('children');
     let markerItem = void 0;
     const unCheckColor = this.get('unCheckColor');
-    children.forEach(function(child) {
+    children.forEach(child => {
       markerItem = findShapeByName(child, 'legend-marker');
       if (!markerItem) return;
       if (this.get('highlight')) {
@@ -267,7 +267,7 @@ class Category extends Legend {
       if (mode === 'single') {
         const itemsGroup = this.get('itemsGroup');
         const children = itemsGroup.get('children');
-        Util.each(children, function(child) {
+        Util.each(children, child => {
           markerItem = findShapeByName(child, 'legend-marker');
           textItem = findShapeByName(child, 'legend-text');
           legendItem = findShapeByName(child, 'legend-item');
@@ -326,14 +326,14 @@ class Category extends Legend {
     if (this.get('reversed')) {
       items.reverse();
     }
-    Util.each(items, function(item, index) {
+    Util.each(items, (item, index) => {
       this._addItem(item, index);
     });
     if (this.get('highlight')) {
       const itemsGroup = this.get('itemsGroup');
       const children = itemsGroup.get('children');
       let markerItem = void 0;
-      children.forEach(function(child) {
+      children.forEach(child => {
         markerItem = findShapeByName(child, 'legend-marker');
         const oriStroke = markerItem.get('oriStroke');
         if (!oriStroke) {
@@ -363,7 +363,7 @@ class Category extends Legend {
 
     if (layout === 'horizontal') {
       // 水平布局
-      Util.each(children, function(v) {
+      Util.each(children, v => {
         nextX += (itemWidth ? itemWidth : v.getBBox().width) + itemGap;
       });
     }
@@ -384,7 +384,7 @@ class Category extends Legend {
     }
     if (layout === 'vertical') {
       // 竖直布局
-      Util.each(children, function(v) {
+      Util.each(children, v => {
         nextY += v.getBBox().height + itemMarginBottom;
       });
     }
@@ -491,7 +491,7 @@ class Category extends Legend {
     let box = void 0;
     const itemWidth = this.get('itemWidth');
     if (itemsGroup.getBBox().width > maxLength) {
-      Util.each(children, function(child) {
+      Util.each(children, child => {
         box = child.getBBox();
         width = itemWidth || box.width;
         height = box.height + itemMarginBottom;
@@ -526,7 +526,7 @@ class Category extends Legend {
     let totalLength = 0;
 
     if (itemsGroup.getBBox().height > maxLength) {
-      Util.each(children, function(v) {
+      Util.each(children, v => {
         box = v.getBBox();
         width = box.width;
         height = box.height;
