@@ -68,5 +68,7 @@ temp
 demos/assets/screenshots
 lib
 
+package.json
+
 *.sw*
 *.un~
