@@ -19,7 +19,7 @@ class Base extends EventEmitter {
     };
     const defaultCfg = self.getDefaultCfg();
     self._attrs = attrs;
-    Util.mix(attrs, defaultCfg, cfg);
+    Util.deepMix(attrs, defaultCfg, cfg);
   }
 
   get(name) {

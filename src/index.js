@@ -1,5 +1,6 @@
-
 module.exports = {
+  Axis: require('./axis/'),
   Component: require('./base'),
-  Axis: require('./axis')
+  Guide: require('./guide/'),
+  Tooltip: require('./tooltip')
 };
