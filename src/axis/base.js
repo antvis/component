@@ -7,7 +7,7 @@ const Label = require('../label/base');
 class Axis extends Component {
   getDefaultCfg() {
     const cfg = super.getDefaultCfg();
-    return Object.assign({}, cfg, {
+    return Util.mix({}, cfg, {
       /**
        * 用于动画，唯一标识的 id
        * @type {[type]}

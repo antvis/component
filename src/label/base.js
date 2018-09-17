@@ -5,7 +5,7 @@ const Component = require('../component');
 class Label extends Component {
   getDefaultCfg() {
     const cfg = super.getDefaultCfg();
-    return Object.assign({}, cfg, {
+    return Util.mix({}, cfg, {
       name: 'label',
       /**
        * label类型
