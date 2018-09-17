@@ -103,8 +103,8 @@ describe('Guide: 辅助圆弧线', function() {
     const el = arc.get('el');
     expect(el.name).to.equal('guide-arc');
     expect(el.attr('path').length).to.equal(2);
-    expect(el.getBBox().width).to.equal(-Infinity);
-    expect(el.getBBox().height).to.equal(-Infinity);
+    expect(el.getBBox().width).to.equal(0);
+    expect(el.getBBox().height).to.equal(0);
     expect(el.get('appendInfo')).to.equal('Arc');
   });
 
