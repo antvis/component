@@ -5,16 +5,12 @@
 const G = require('@antv/g/lib');
 const Utils = require('@antv/util/lib');
 
-const CommonUtil = G.CommonUtil;
-
-const Util = CommonUtil.assign({
-  DomUtil: G.DomUtil,
-  MatrixUtil: G.MatrixUtil,
-  PathUtil: G.PathUtil,
+const Util = Utils.mix({
+  assign: Utils.mix,
   isFinite,
   isNaN,
   Group: G.Group,
   Event: G.Event
-}, Utils, CommonUtil);
+}, Utils);
 
 module.exports = Util;

@@ -1,8 +1,8 @@
 const Util = require('../util');
 const DomUtil = Util.DomUtil;
-const G = require('@antv/g');
-const MatrixUtil = G.MatrixUtil;
 const CanvasTooltip = require('./canvas');
+
+const MatrixUtil = Util.MatrixUtil;
 
 class MiniTooltip extends CanvasTooltip {
   getDefaultCfg() {

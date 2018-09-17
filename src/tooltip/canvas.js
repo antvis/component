@@ -1,11 +1,12 @@
-const Util = require('../util');
-const DomUtil = Util.DomUtil;
-const G = require('@antv/g');
-const MatrixUtil = G.MatrixUtil;
-const Tooltip = require('./base');
+const G = require('@antv/g/lib');
 const Crosshair = require('./crosshair');
-const PositionMixin = require('./mixin/position');
 const MarkerGroupMixin = require('./mixin/marker-group');
+const PositionMixin = require('./mixin/position');
+const Tooltip = require('./base');
+const Util = require('../util');
+
+const DomUtil = Util.DomUtil;
+const MatrixUtil = Util.MatrixUtil;
 
 
 class CanvasTooltip extends Tooltip {
