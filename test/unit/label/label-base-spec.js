@@ -67,11 +67,12 @@ describe('new default label', () => {
       labelLine: true
     });
     label.render();
-    const lineGroup = label.get('lineGroup');
+    let lineGroup = label.get('lineGroup');
     expect(lineGroup).not.to.be.undefined;
     expect(lineGroup.get('children').length === 9);
     label.set('labelLine', { strokeStyle: '#999', lineDash: [ 5 ] });
     label.draw();
+    lineGroup = label.get('lineGroup');
     expect(lineGroup.get('children')[0].attr('strokeStyle') === '#999');
     expect(lineGroup.get('children')[0].attr('lineDash') === [ 5 ]);
   });
