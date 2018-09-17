@@ -4,7 +4,8 @@ const Util = require('../util');
 
 class Grid extends Base {
   getDefaultCfg() {
-    return {
+    const cfg = super.getDefaultCfg();
+    return Util.mix({}, cfg, {
       zIndex: 1,
       /**
        * 栅格线的类型
@@ -52,7 +53,7 @@ class Grid extends Base {
         stroke: '#000',
         lineDash: [ 0, 0 ]
       }
-    };
+    });
   }
 
   render() {

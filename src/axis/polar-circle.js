@@ -5,7 +5,6 @@ const { vec2 } = Util.MatrixUtil;
 class Circle extends Base {
   getDefaultCfg() {
     const cfg = super.getDefaultCfg();
-
     return Util.mix({}, cfg, {
       /**
        * 坐标轴的类型
