@@ -46,7 +46,12 @@ class Label extends Component {
        * label牵引线定义
        * @type {String || Object}
        */
-      labelLine: false
+      labelLine: false,
+      /**
+       * label牵引线容器
+       * @type Object
+       */
+      lineGroup: null
     });
   }
 
@@ -191,8 +196,8 @@ class Label extends Component {
       self.set('labelLine', {});
     }
     let lineGroup = self.get('lineGroup');
-    if (!lineGroup) {
-      lineGroup = self.get('canvas').addGroup({
+    if (!lineGroup || lineGroup.get('destroyed')) {
+      lineGroup = self.get('group').addGroup({
         elCls: 'x-line-group'
       });
       self.set('lineGroup', lineGroup);
