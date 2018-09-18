@@ -173,16 +173,16 @@ class Circle extends Base {
   autoRotateLabels() {
     const self = this;
     const ticks = self.get('ticks');
-    const labelsGroup = self.get('labelsGroup');
-    if (labelsGroup && ticks.length > 12) { // 小于12个文本时文本不旋转
+    const labelRenderer = self.get('labelRenderer');
+    if (labelRenderer && ticks.length > 12) { // 小于12个文本时文本不旋转
       const radius = self.get('radius');
       const startAngle = self.get('startAngle');
       const endAngle = self.get('endAngle');
       const totalAngle = (endAngle - startAngle);
       const avgAngle = totalAngle / (ticks.length - 1);
       const avgWidth = Math.sin(avgAngle / 2) * radius * 2;
-      const maxLength = self.getMaxLabelWidth(labelsGroup);
-      Util.each(labelsGroup.get('children'), function(label, index) {
+      const maxLength = self.getMaxLabelWidth(labelRenderer);
+      Util.each(labelRenderer.get('group').get('children'), function(label, index) {
         const tick = ticks[index];
         let angle = tick.value * totalAngle + startAngle;
         const mode = angle % (Math.PI * 2);

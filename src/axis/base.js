@@ -49,10 +49,12 @@ class Axis extends Component {
        * @type {Object}
        */
       label: {
-        textStyle: {}, // 坐标轴文本样式
+        textStyle: {
+        }, // 坐标轴文本样式
         autoRotate: true,
         formatter: null // 坐标轴文本格式化回调函数
       },
+      labelItems: [],
       /**
        * 坐标轴标题配置
        * @type {Object}
@@ -118,7 +120,22 @@ class Axis extends Component {
     if (!Util.isNil(self.get('title'))) {
       self.renderTitle();
     }
-    self.sort();
+    self.get('group').sort();
+  }
+
+  renderLabels() {
+    const self = this;
+    const group = self.get('group');
+    const labelCfg = self.get('label');
+    const labelRenderer = new Label();
+    self.set('labelRenderer', labelRenderer);
+    labelRenderer.set('labelCfg', labelCfg);
+    if (labelCfg.labelLine) {
+      labelRenderer.set('labelLine', labelCfg.labelLine);
+    }
+    labelRenderer.set('coord', self.get('coord'));
+    labelRenderer.set('group', group.addGroup());
+    labelRenderer.set('canvas', self.get('canvas'));
   }
 
   _parseTicks(ticks) {
@@ -178,19 +195,21 @@ class Axis extends Component {
   }
 
   _renderLine() {
-    let lineCfg = this.get('line');
+    const self = this;
+    let lineCfg = self.get('line');
     let path;
     if (lineCfg) {
-      path = this.getLinePath();
+      path = self.getLinePath();
       lineCfg = Util.mix({
         path
       }, lineCfg);
-      const lineShape = this.addShape('path', {
+      const group = self.get('group');
+      const lineShape = group.addShape('path', {
         attrs: lineCfg
       });
       lineShape.name = 'axis-line';
-      this.get('appendInfo') && lineShape.setSilent('appendInfo', this.get('appendInfo'));
-      this.set('lineShape', lineShape);
+      self.get('appendInfo') && lineShape.setSilent('appendInfo', self.get('appendInfo'));
+      self.set('lineShape', lineShape);
     }
   }
 
@@ -239,6 +258,25 @@ class Axis extends Component {
     });
   }
 
+  addLabel(value, offsetPoint) {
+    const self = this;
+    const labelItems = self.get('labelItems');
+    const labelRenderer = self.get('labelRenderer');
+    const label = Util.mix({}, self.get('label'));
+    let rst;
+    if (labelRenderer) {
+      label.text = value.text;
+      label.x = offsetPoint.x;
+      label.y = offsetPoint.y;
+      label.point = offsetPoint;
+      label.textAlign = offsetPoint.textAlign;
+      if (offsetPoint.rotate) {
+        label.rotate = offsetPoint.rotate;
+      }
+      labelItems.push(label);
+    }
+    return rst;
+  }
 
   _processTicks() {
     const self = this;
@@ -295,7 +333,8 @@ class Axis extends Component {
     });
     delete cfg.length;
     cfg.path = path;
-    const tickShape = self.addShape('path', {
+    const group = self.get('group');
+    const tickShape = group.addShape('path', {
       attrs: cfg
     });
     tickShape.name = 'axis-ticks';
@@ -327,7 +366,18 @@ class Axis extends Component {
     }
     grid.coord = this.get('coord');
     grid.appendInfo = this.get('appendInfo');
-    this.set('gridGroup', this.addGroup(Grid, grid));
+    const group = this.get('group');
+    this.set('gridGroup', group.addGroup(Grid, grid));
+  }
+
+  _renderLabels() {
+    const self = this;
+    const labelRenderer = self.get('labelRenderer');
+    const labelItems = self.get('labelItems');
+    if (labelRenderer) {
+      labelRenderer.set('items', labelItems);
+      labelRenderer.render();
+    }
   }
 
   paint() {
@@ -346,6 +396,7 @@ class Axis extends Component {
     }
     this._renderTicks();
     this._renderGrid();
+    this._renderLabels();
     const labelCfg = this.get('label');
     if (labelCfg && labelCfg.autoRotate) {
       this.autoRotateLabels();
@@ -375,8 +426,8 @@ class Axis extends Component {
     return align;
   }
 
-  getMaxLabelWidth(labelsGroup) {
-    const labels = labelsGroup.get('children');
+  getMaxLabelWidth(labelRenderer) {
+    const labels = labelRenderer.get('group').get('children');
     let max = 0;
     Util.each(labels, function(label) {
       const bbox = label.getBBox();
@@ -388,11 +439,12 @@ class Axis extends Component {
     return max;
   }
 
-  remove() {
-    super.remove();
+  destroy() {
+    super.destroy();
     const gridGroup = this.get('gridGroup');
     gridGroup && gridGroup.remove();
-    this.removeLabels();
+    const labelRenderer = this.get('labelRenderer');
+    labelRenderer && labelRenderer.destroy();
   }
 
   /**
@@ -436,75 +488,6 @@ class Axis extends Component {
    * @return {[type]} [description]
    */
   getSideVector() {}
-
-  renderLabels() {
-    const labelCfg = this.get('label');
-
-    if (Util.isNil(labelCfg)) {
-      return;
-    }
-
-    if (Util.isNil(labelCfg.items)) {
-      labelCfg.items = [];
-    }
-
-    const labelsGroup = new Label(labelCfg);
-    this.set('labelsGroup', labelsGroup);
-  }
-
-  resetLabels(items) {
-    const self = this;
-    const labelCfg = self.get('label');
-
-    if (!labelCfg) {
-      return;
-    }
-
-    const labelsGroup = self.get('labelsGroup');
-    const children = labelsGroup.getLabels();
-    const count = children.length;
-    items = items || labelCfg.items;
-    Util.each(items, function(item, index) {
-      if (index < count) {
-        const label = children[index];
-        labelsGroup.changeLabel(label, item);
-      } else {
-        const labelShape = self.addLabel(item.text, item);
-        if (labelShape) {
-          labelShape._id = item._id;
-          labelShape.set('coord', item.coord);
-        }
-      }
-    });
-    for (let i = count - 1; i >= items.length; i--) {
-      children[i].remove();
-    }
-  }
-
-  addLabel(value, offsetPoint) {
-    const self = this;
-    const labelsGroup = self.get('labelsGroup');
-    const label = {};
-    let rst;
-    if (labelsGroup) {
-      label.text = value;
-      label.x = offsetPoint.x;
-      label.y = offsetPoint.y;
-      label.point = offsetPoint;
-      label.textAlign = offsetPoint.textAlign;
-      if (offsetPoint.rotate) {
-        label.rotate = offsetPoint.rotate;
-      }
-      rst = labelsGroup._addLabel(label);
-    }
-    return rst;
-  }
-
-  removeLabels() {
-    const labelsGroup = this.get('labelsGroup');
-    labelsGroup && labelsGroup.destroy();
-    this.set('labelsGroup', null);
-  }
 }
 
 module.exports = Axis;

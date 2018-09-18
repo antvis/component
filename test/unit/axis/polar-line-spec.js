@@ -1,6 +1,5 @@
-/*
 const expect = require('chai').expect;
-const { Canvas, Group } = require('@antv/g/lib');
+const { Canvas } = require('@antv/g/lib');
 const LineAxis = require('../../../src/axis/polar-line');
 
 const div = document.createElement('div');
@@ -13,7 +12,6 @@ const canvas = new Canvas({
   height: 600,
   pixelRatio: 2
 });
-
 canvas.draw();
 
 function findByName(group, name) {
@@ -23,7 +21,10 @@ function findByName(group, name) {
 }
 
 describe('测试底部坐标轴生成', function() {
-  const axis = canvas.addGroup(LineAxis, {
+  const group = canvas.addGroup();
+  const axis = new LineAxis({
+    group,
+    canvas,
     start: {
       x: 60,
       y: 460
@@ -88,33 +89,34 @@ describe('测试底部坐标轴生成', function() {
       stroke: 'yellow'
     }
   });
+  axis.render();
   canvas.draw();
 
   it('测试坐标轴生成', function() {
     expect(axis).not.to.be.undefined;
-    expect(axis).to.be.an.instanceof(Group);
+    expect(axis).to.be.an.instanceof(LineAxis);
   });
 
   it('测试线生成', function() {
     const line = axis.get('lineShape');
     const path = line.attr('path');
-    expect(findByName(axis, 'axis-line')).not.to.be.null;
+    expect(findByName(axis.get('group'), 'axis-line')).not.to.be.null;
     expect(path[0][1]).to.equal(60);
     expect(path[0][2]).to.equal(460);
   });
 
   it('测试点生成', function() {
-    expect(findByName(axis, 'axis-ticks')).not.to.be.null;
+    expect(findByName(axis.get('group'), 'axis-ticks')).not.to.be.null;
   });
 
   it('测试label生成', function() {
-    const labelsGroup = axis.get('labelsGroup');
-    expect(labelsGroup).not.to.be.undefined;
-    expect(labelsGroup.get('children').length).to.equal(axis.get('ticks').length);
+    const labelRenderer = axis.get('labelRenderer');
+    expect(labelRenderer).not.to.be.undefined;
+    expect(labelRenderer.get('group').get('children').length).to.equal(axis.get('ticks').length);
   });
 
   it('测试title', function() {
-    const title = findByName(axis, 'axis-title');
+    const title = findByName(axis.get('group'), 'axis-title');
     expect(title).not.to.be.null;
     expect(title.attr('y')).to.equal(510);
   });
@@ -130,18 +132,20 @@ describe('测试底部坐标轴生成', function() {
   it('测试网格线生成', function() {
     const gridGroup = axis.get('gridGroup');
     expect(gridGroup).not.to.be.undefined;
-    expect(findByName(axis, 'axis-grid')).not.to.be.null;
+    expect(findByName(axis.get('group'), 'axis-grid')).not.to.be.null;
   });
 
   it('测试移除', function() {
-    axis.remove();
+    axis.destroy();
     expect(canvas.contain(axis)).to.be.false;
   });
 });
 
 describe('测试顶部坐标轴', function() {
-
-  const axis = canvas.addGroup(LineAxis, {
+  const group = canvas.addGroup();
+  const axis = new LineAxis({
+    canvas,
+    group,
     isVertical: false,
     factor: -1,
     start: {
@@ -173,7 +177,7 @@ describe('测试顶部坐标轴', function() {
       }
     }
   });
-
+  axis.render();
   canvas.draw();
 
   it('测试线生成', function() {
@@ -193,14 +197,17 @@ describe('测试顶部坐标轴', function() {
   });
 
   it('测试 tite 位置', function() {
-    const title = findByName(axis, 'axis-title');
+    const title = findByName(axis.get('group'), 'axis-title');
     expect(title).not.to.be.null;
     expect(title.attr('y')).to.equal(30);
   });
 });
 
 describe('测试左侧坐标轴', function() {
-  const axis = canvas.addGroup(LineAxis, {
+  const group = canvas.addGroup();
+  const axis = new LineAxis({
+    canvas,
+    group,
     isVertical: true,
     factor: -1,
     start: {
@@ -239,6 +246,7 @@ describe('测试左侧坐标轴', function() {
       offset: 30
     }
   });
+  axis.render();
 
   canvas.sort();
   canvas.draw();
@@ -266,14 +274,17 @@ describe('测试左侧坐标轴', function() {
   });
 
   it('测试tite位置', function() {
-    const text = findByName(axis, 'axis-title');
+    const text = findByName(axis.get('group'), 'axis-title');
     expect(text).not.to.be.null;
     expect(text.attr('x')).to.equal(20);
   });
 });
 
 describe('测试右侧坐标轴', function() {
-  const axis = canvas.addGroup(LineAxis, {
+  const group = canvas.addGroup();
+  const axis = new LineAxis({
+    canvas,
+    group,
     isVertical: true,
     factor: 1,
     start: {
@@ -295,7 +306,7 @@ describe('测试右侧坐标轴', function() {
     },
     label: null
   });
-
+  axis.render();
   canvas.draw();
 
   it('测试线生成', function() {
@@ -318,10 +329,8 @@ describe('测试右侧坐标轴', function() {
     expect(labelsGroup).to.be.undefined;
   });
   it('测试tite位置', function() {
-    const text = findByName(axis, 'axis-title');
+    const text = findByName(axis.get('group'), 'axis-title');
     expect(text).not.to.null;
     expect(text.attr('x')).to.equal(500);
   });
 });
-
-*/

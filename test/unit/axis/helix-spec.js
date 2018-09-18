@@ -1,4 +1,3 @@
-/*
 const expect = require('chai').expect;
 const { Canvas } = require('@antv/g/lib');
 const Coord = require('@antv/coord/lib');
@@ -27,7 +26,11 @@ const canvas = new Canvas({
 });
 
 describe('Helix 螺旋坐标轴', function() {
-  const xAxis = canvas.addGroup(HelixAxis, {
+  const group = canvas.addGroup();
+  const xAxis = new HelixAxis({
+    inner: 0,
+    canvas,
+    group,
     center: {
       x: 260,
       y: 260
@@ -77,6 +80,8 @@ describe('Helix 螺旋坐标轴', function() {
     axisStart: coord.convertPoint({ x: 0, y: 0 })
   });
 
+  xAxis.render();
+
   canvas.draw();
 
   it('测试坐标轴生成', function() {
@@ -86,7 +91,6 @@ describe('Helix 螺旋坐标轴', function() {
 
   it('测试线', function() {
     const lineShape = xAxis.get('lineShape');
-    console.log(xAxis);
     expect(lineShape).not.to.be.undefined;
     expect(lineShape.attr('path').length).not.to.equal(0);
   });
@@ -97,9 +101,9 @@ describe('Helix 螺旋坐标轴', function() {
   });
 
   it('测试 labels', function() {
-    const labelsGroup = xAxis.get('labelsGroup');
-    expect(labelsGroup).not.to.null;
-    expect(labelsGroup.getCount()).to.equal(5);
+    const labelRenderer = xAxis.get('labelRenderer');
+    expect(labelRenderer).not.to.null;
+    expect(labelRenderer.get('items').length).to.equal(5);
   });
 
   it('测试栅格', function() {
@@ -110,6 +114,4 @@ describe('Helix 螺旋坐标轴', function() {
 });
 
 // describe('Helix 设置了 radius 和 innerRadiuss', function() {
-
 // });
-*/

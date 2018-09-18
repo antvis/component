@@ -1,11 +1,11 @@
 
-const Base = require('../base');
+const { Group } = require('@antv/g/lib');
 const Util = require('../util');
 
-class Grid extends Base {
+class Grid extends Group {
   getDefaultCfg() {
-    const cfg = super.getDefaultCfg();
-    return Util.mix({}, cfg, {
+    // const cfg = super.getDefaultCfg();
+    return {
       zIndex: 1,
       /**
        * 栅格线的类型
@@ -53,10 +53,11 @@ class Grid extends Base {
         stroke: '#000',
         lineDash: [ 0, 0 ]
       }
-    });
+    };
   }
 
-  render() {
+  _renderUI() {
+    super._renderUI();
     this._drawLines();
   }
 

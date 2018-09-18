@@ -1,4 +1,3 @@
-/*
 const expect = require('chai').expect;
 const { Canvas } = require('@antv/g/lib');
 const PolylineAxis = require('../../../src/axis/polyline');
@@ -20,8 +19,11 @@ describe('Polyline 多段线坐标系', function() {
     height: 500,
     pixelRatio: 2
   });
+  const group = canvas.addGroup();
 
-  const axis = canvas.addGroup(PolylineAxis, {
+  const axis = new PolylineAxis({
+    canvas,
+    group,
     start: {
       x: 60,
       y: 460
@@ -54,6 +56,7 @@ describe('Polyline 多段线坐标系', function() {
       }
     }
   });
+  axis.render();
   canvas.draw();
 
   it('测试坐标轴生成', function() {
@@ -62,17 +65,16 @@ describe('Polyline 多段线坐标系', function() {
   });
 
   it('测试线生成', function() {
-    expect(findByName(axis, 'axis-line')).not.to.be.null;
+    expect(findByName(axis.get('group'), 'axis-line')).not.to.be.null;
   });
 
   it('测试点生成', function() {
-    expect(findByName(axis, 'axis-ticks')).not.to.be.null;
+    expect(findByName(axis.get('group'), 'axis-ticks')).not.to.be.null;
   });
 
   it('测试label生成', function() {
-    const labelsGroup = axis.get('labelsGroup');
-    expect(labelsGroup).not.to.be.undefined;
-    expect(labelsGroup.get('children').length).to.equal(axis.get('ticks').length);
+    const labelRenderer = axis.get('labelRenderer');
+    expect(labelRenderer).not.to.be.undefined;
+    expect(labelRenderer.get('group').get('children').length).to.equal(axis.get('ticks').length);
   });
 });
-*/

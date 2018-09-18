@@ -7,6 +7,7 @@ class Helix extends Base {
   getDefaultCfg() {
     const cfg = super.getDefaultCfg();
     return Util.mix({}, cfg, {
+      inner: 0,
       type: 'helix',
       line: { // @type {Attrs} 坐标轴线的图形属性,如果设置成null，则不显示轴线
         lineWidth: 1,

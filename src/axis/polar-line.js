@@ -24,8 +24,8 @@ class Rect extends Base {
     });
   }
 
-  _getAvgLabelLength(labelsGroup) {
-    const labels = labelsGroup.get('children');
+  _getAvgLabelLength(labelRenderer) {
+    const labels = labelRenderer.get('group').get('children');
     return labels[1].attr('x') - labels[0].attr('x');
   }
 
@@ -144,7 +144,8 @@ class Rect extends Base {
       cfg.y = point.y;
       cfg.text = title.text;
 
-      const titleShape = self.addShape('Text', {
+      const group = self.get('group');
+      const titleShape = group.addShape('Text', {
         zIndex: 2,
         attrs: cfg
       });

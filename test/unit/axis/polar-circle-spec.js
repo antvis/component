@@ -1,4 +1,3 @@
-/*
 const expect = require('chai').expect;
 const { Canvas } = require('@antv/g/lib');
 const Util = require('../../../src/util');
@@ -15,15 +14,17 @@ function findByName(group, name) {
   });
 }
 
-const canvas = new Canvas({
-  containerId: 'c1',
-  width: 500,
-  height: 500,
-  pixelRatio: 2
-});
-
 describe('测试中轴坐标系', function() {
-  const xAxis = canvas.addGroup(CircleAxis, {
+  const canvas = new Canvas({
+    containerId: 'c1',
+    width: 500,
+    height: 500,
+    pixelRatio: 2
+  });
+  const group = canvas.addGroup();
+  const xAxis = new CircleAxis({
+    group,
+    canvas,
     radius: 200,
     inner: 0,
     center: {
@@ -59,7 +60,9 @@ describe('测试中轴坐标系', function() {
       ]
     }
   });
-  const yAxis = canvas.addGroup(RadiusAxis, {
+  const yAxis = new RadiusAxis({
+    group,
+    canvas,
     factor: -1,
     start: {
       x: 260,
@@ -99,6 +102,10 @@ describe('测试中轴坐标系', function() {
     },
     subTickCount: 5
   });
+
+  xAxis.render();
+  yAxis.render();
+
   canvas.draw();
 
   describe('测试中轴坐标系', function() {
@@ -120,16 +127,16 @@ describe('测试中轴坐标系', function() {
     });
     it('测试ticks', function() {
       const ticks = xAxis.get('ticks');
-      const tickShape = findByName(xAxis, 'axis-ticks');
+      const tickShape = findByName(xAxis.get('group'), 'axis-ticks');
 
       expect(ticks.length).to.equal(5);
       expect(tickShape).not.to.be.undefined;
       expect(tickShape.attr('path')).not.to.be.undefined;
     });
     it('测试lables', function() {
-      const labelsGroup = xAxis.get('labelsGroup');
-      expect(labelsGroup).not.to.equal(null);
-      expect(labelsGroup.getCount()).to.equal(5);
+      const labelRenderer = xAxis.get('labelRenderer');
+      expect(labelRenderer).not.to.equal(null);
+      expect(labelRenderer.get('items').length).to.equal(5);
     });
 
     it('测试栅格', function() {
@@ -157,8 +164,11 @@ describe('测试中轴坐标系2', function() {
     width: 500,
     height: 500
   });
+  const group = canvas.addGroup();
 
-  const xAxis = canvas.addGroup(CircleAxis, {
+  const xAxis = new CircleAxis({
+    canvas,
+    group,
     radius: 200,
     inner: 0,
     center: {
@@ -168,7 +178,6 @@ describe('测试中轴坐标系2', function() {
     ticks: [ '一月', '二月', '三', '四月', '五月', '六月' ],
     label: {
       textStyle: {
-
       }
     },
     grid: {
@@ -186,7 +195,9 @@ describe('测试中轴坐标系2', function() {
     subTickCount: 5
   });
 
-  const yAxis = canvas.addGroup(RadiusAxis, {
+  const yAxis = new RadiusAxis({
+    canvas,
+    group,
     factor: -1,
     start: {
       x: 260,
@@ -211,9 +222,12 @@ describe('测试中轴坐标系2', function() {
       }
     },
     label: {
-      labelStyle: {}
     }
   });
+
+  xAxis.render();
+  yAxis.render();
+
   canvas.draw();
   describe('测试中轴坐标系', function() {
     it('测试坐标轴生成', function() {
@@ -230,10 +244,9 @@ describe('测试中轴坐标系2', function() {
     });
 
     it('测试labels', function() {
-      const labelsGroup = xAxis.get('labelsGroup');
-
-      expect(labelsGroup).not.to.equal(null);
-      expect(labelsGroup.getCount()).to.equal(6);
+      const labelRenderer = xAxis.get('labelRenderer');
+      expect(labelRenderer).not.to.equal(null);
+      expect(labelRenderer.get('items').length).to.equal(6);
     });
 
     it('测试栅格', function() {
@@ -258,6 +271,14 @@ describe('测试中轴坐标系2', function() {
 });
 
 describe('测试圆轴', function() {
+  const canvas = new Canvas({
+    containerId: 'c1',
+    width: 500,
+    height: 500,
+    pixelRatio: 2
+  });
+  const group = canvas.addGroup();
+
   const simpleAxisCfg = {
     radius: 200,
     inner: 0,
@@ -301,6 +322,8 @@ describe('测试圆轴', function() {
 
   it('测试文本自动旋转－情况1', function() {
     const cfg = Util.mix({}, simpleAxisCfg, {
+      canvas,
+      group,
       radius: 200,
       inner: 0,
       center: {
@@ -340,14 +363,13 @@ describe('测试圆轴', function() {
         autoRotate: true
       }
     });
-    const axis = canvas.addGroup(CircleAxis, cfg);
+    const axis = new CircleAxis(cfg);
+    axis.render();
     canvas.draw();
-    const children = axis.get('children');
-    const textChildren = children[children.length - 1];
+    const children = axis.get('group').get('children');
+    const textChildren = children[0];
 
     expect(textChildren.get('children')[0].attr('matrix')).not.eql([ 1, 0, 0, 0, 1, 0, 0, 0, 1 ]);
     expect(textChildren.get('children')[1].attr('matrix')).to.eql([ 1, 0, 0, 0, 1, 0, 0, 0, 1 ]);
   });
 });
-
-*/
