@@ -572,10 +572,6 @@ class Category extends Legend {
   move(x, y) {
     super.move(x, y);
   }
-
-  remove() {
-    super.remove(); // must be called
-  }
 }
 
 module.exports = Category;

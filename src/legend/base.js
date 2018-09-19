@@ -74,12 +74,12 @@ class Legend extends Component {
   _adjustPositionOffset() {
     const position = this.get('position');
     const offset = this.get('offset');
-    const canvas = this.get('canvas');
+    // const canvas = this.get('canvas');
     const bbox = this.get('group').getBBox();
-    const legendWidth = bbox.maxX - bbox.minX;
-    const legendHeight = bbox.maxY - bbox.minY;
+    // const legendWidth = bbox.maxX - bbox.minX;
+    // const legendHeight = bbox.maxY - bbox.minY;
     this.move(-bbox.minX + position[0] + offset[0], -bbox.minY + position[1] + offset[1]);
-    canvas.changeSize(legendWidth + 2 * (position[0] + offset[0]), legendHeight + 2 * (position[1]) + offset[1]);
+    // canvas.changeSize(legendWidth + 2 * (position[0] + offset[0]), legendHeight + 2 * (position[1]) + offset[1]);
   }
 
   beforeRender() {

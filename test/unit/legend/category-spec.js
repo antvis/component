@@ -42,7 +42,6 @@ describe('分类图例', function() {
         checked: i === 2// 选中状态
       });
     }
-
     const cfg = {
       items,
       container: canvas,
