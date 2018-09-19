@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "",
   "browser": "build/component.js",
-  "main": "lib/component.js",
+  "main": "lib/index.js",
   "module": "src/index.js",
   "repository": {
     "type": "git",
