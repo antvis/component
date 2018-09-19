@@ -22,7 +22,7 @@ const items = [
   { value: 100, color: 'red' }
 ];
 
-describe('slider', function() {
+describe('base', function() {
   it('水平渐变图例可筛选 拖动最大值滑块', function() {
     const cfg = {
       items,
