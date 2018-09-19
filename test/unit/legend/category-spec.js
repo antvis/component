@@ -496,6 +496,7 @@ describe('分类图例', function() {
     expect(markerItem._attrs.fillOpacity).eql(1);
     markerItem = findShapeByName(itemGroups[3], 'legend-marker');
     expect(markerItem._attrs.fillOpacity).eql(1);
+    canvas.clear();
   });
 
   // it('鼠标移动和鼠标移开某个项的高亮效果 highlight 样式', function() {

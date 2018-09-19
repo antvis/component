@@ -24,16 +24,6 @@ const items = [
 
 describe('base', function() {
   it('水平渐变图例可筛选 拖动最大值滑块', function() {
-    canvas.addShape('rect', {
-      attrs: {
-        x: 0,
-        y: 0,
-        width: 100,
-        height: 100,
-        fill: '#191A1A'
-      }
-    });
-    // const legendGroup = canvas.addGroup();
     const cfg = {
       items,
       container: canvas,
@@ -66,7 +56,7 @@ describe('base', function() {
 
     expect(legend.get('slider')).to.be.undefined;
 
-    // legend.destroy();
-    // document.body.removeChild(div);
+    legend.destroy();
+    document.body.removeChild(div);
   });
 });
