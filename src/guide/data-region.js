@@ -29,7 +29,7 @@ class DataRegion extends Guide {
   render(coord, group, data) {
     const self = this;
     // draw region
-    const lineLength = self.get('lineLength'); // TODO: 如何命名
+    const lineLength = self.get('lineLength') || 0; // TODO: 如何命名
     const regionData = self._getRegionData(coord, data);
 
     if (!regionData.length) return;
