@@ -5,8 +5,7 @@ class Component extends Base {
   getDefaultCfg() {
     return {
       // 顶层标志位
-      _id: '', // 用于动画
-      name: '', // 用于上层注册自定义组件用
+      _id: null, // 用于动画
       // 容器
       canvas: null,
       container: null, // html，可选

@@ -5,7 +5,7 @@ const Component = require('../component');
 class Label extends Component {
   getDefaultCfg() {
     const cfg = super.getDefaultCfg();
-    return Object.assign({}, cfg, {
+    return Util.mix({}, cfg, {
       name: 'label',
       /**
        * label类型
@@ -123,7 +123,7 @@ class Label extends Component {
       children[i].remove();
     }
     this._adjustLabels();
-    if (self.get('labelLine') || items[0].labelLine) {
+    if (self.get('labelLine') || (items && items.length && items[0].labelLine)) {
       self.drawLines();
     }
     this.get('canvas').draw();
