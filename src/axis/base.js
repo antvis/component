@@ -251,7 +251,7 @@ class Axis extends Component {
       const p1 = tick.value + tickSeg;
       points.push(p, p0, p1);
     }
-    const range = Util.Array.getRange(points);
+    const range = Util.arrayUtil.getRange(points);
     return points.map(p => {
       const norm = (p - range.min) / (range.max - range.min);
       return norm;
