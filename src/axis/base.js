@@ -448,7 +448,11 @@ class Axis extends Component {
   }
 
   clear() {
-    this.destroy();
+    const self = this;
+    const gridGroup = self.get('gridGroup');
+    gridGroup && gridGroup.clear();
+    const labelRenderer = this.get('labelRenderer');
+    labelRenderer && labelRenderer.clear();
   }
 
   /**
