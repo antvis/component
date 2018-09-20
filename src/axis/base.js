@@ -447,6 +447,10 @@ class Axis extends Component {
     labelRenderer && labelRenderer.destroy();
   }
 
+  clear() {
+    this.destroy();
+  }
+
   /**
    * 旋转文本
    * @abstract
