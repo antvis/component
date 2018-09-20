@@ -61,7 +61,7 @@ class Label extends Component {
   clear() {
     const group = this.get('group');
     const container = this.get('container');
-    if (group) {
+    if (group && !group.get('destroyed')) {
       group.clear();
     }
     if (container) {
