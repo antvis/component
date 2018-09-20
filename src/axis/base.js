@@ -450,23 +450,29 @@ class Axis extends Component {
 
   destroy() {
     const self = this;
-    super.destroy();
-    const gridGroup = self.get('gridGroup');
-    gridGroup && gridGroup.remove();
-    const labelRenderer = this.get('labelRenderer');
-    labelRenderer && labelRenderer.destroy();
-    const group = self.get('group');
-    group.destroy();
+    if (!self.destroyed) {
+      super.destroy();
+      const gridGroup = self.get('gridGroup');
+      gridGroup && gridGroup.remove();
+      const labelRenderer = this.get('labelRenderer');
+      labelRenderer && labelRenderer.destroy();
+      const group = self.get('group');
+      group.destroy();
+      self.destroyed = true;
+    }
   }
 
   clear() {
     const self = this;
-    const gridGroup = self.get('gridGroup');
-    gridGroup && gridGroup.clear();
-    const labelRenderer = this.get('labelRenderer');
-    labelRenderer && labelRenderer.clear();
     const group = self.get('group');
-    group.clear();
+    if (!group.get('destroyed') && group.get('children').length) {
+      const gridGroup = self.get('gridGroup');
+      gridGroup && gridGroup.clear();
+      const labelRenderer = this.get('labelRenderer');
+      labelRenderer && labelRenderer.clear();
+      const group = self.get('group');
+      group.clear();
+    }
   }
 
   /**
