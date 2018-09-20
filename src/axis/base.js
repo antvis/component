@@ -258,20 +258,29 @@ class Axis extends Component {
     });
   }
 
-  addLabel(value, offsetPoint) {
+  addLabel(tick, point, index) {
     const self = this;
     const labelItems = self.get('labelItems');
     const labelRenderer = self.get('labelRenderer');
     const label = Util.mix({}, self.get('label'));
     let rst;
     if (labelRenderer) {
-      label.text = value.text;
-      label.x = offsetPoint.x;
-      label.y = offsetPoint.y;
-      label.point = offsetPoint;
-      label.textAlign = offsetPoint.textAlign;
-      if (offsetPoint.rotate) {
-        label.rotate = offsetPoint.rotate;
+      let offset = self.get('_labelOffset');
+      if (!Util.isNil(self.get('label').offset)) {
+        offset = self.get('label').offset;
+      }
+      const vector = self.getSideVector(offset, point, index);
+      point = {
+        x: point.x + vector[0],
+        y: point.y + vector[1]
+      };
+      label.text = tick.text;
+      label.x = point.x;
+      label.y = point.y;
+      label.point = point;
+      label.textAlign = self.getTextAnchor(vector);
+      if (point.rotate) {
+        label.rotate = point.rotate;
       }
       labelItems.push(label);
     }
@@ -440,11 +449,14 @@ class Axis extends Component {
   }
 
   destroy() {
+    const self = this;
     super.destroy();
-    const gridGroup = this.get('gridGroup');
+    const gridGroup = self.get('gridGroup');
     gridGroup && gridGroup.remove();
     const labelRenderer = this.get('labelRenderer');
     labelRenderer && labelRenderer.destroy();
+    const group = self.get('group');
+    group.destroy();
   }
 
   clear() {
@@ -453,6 +465,8 @@ class Axis extends Component {
     gridGroup && gridGroup.clear();
     const labelRenderer = this.get('labelRenderer');
     labelRenderer && labelRenderer.clear();
+    const group = self.get('group');
+    group.clear();
   }
 
   /**
