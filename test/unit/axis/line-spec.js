@@ -1,24 +1,18 @@
 const expect = require('chai').expect;
 const { Canvas } = require('@antv/g/lib');
-const LineAxis = require('../../../src/axis/polar-line');
+const LineAxis = require('../../../src/axis/line');
+const findByName = require('../../helper/find-element-by-name');
 
 const div = document.createElement('div');
-div.id = 'c1';
 document.body.appendChild(div);
 
 const canvas = new Canvas({
-  containerId: 'c1',
+  containerDOM: div,
   width: 600,
   height: 600,
   pixelRatio: 2
 });
 canvas.draw();
-
-function findByName(group, name) {
-  return group.findBy(function(node) {
-    return node.name === name;
-  });
-}
 
 describe('测试底部坐标轴生成', function() {
   const group = canvas.addGroup();
@@ -203,7 +197,7 @@ describe('测试顶部坐标轴', function() {
   });
 });
 
-describe('测试左侧坐标轴', function() {
+describe('line axis on left', function() {
   const group = canvas.addGroup();
   const axis = new LineAxis({
     canvas,
@@ -280,7 +274,7 @@ describe('测试左侧坐标轴', function() {
   });
 });
 
-describe('测试右侧坐标轴', function() {
+describe('right', function() {
   const group = canvas.addGroup();
   const axis = new LineAxis({
     canvas,
