@@ -71,7 +71,7 @@ class HtmlTooltip extends Tooltip {
         plot,
         plotRange: this.get('plotRange'),
         canvas: this.get('canvas')
-      }, this.get('crosshair')));
+      }, this.get('crosshairs')));
       this.set('crosshairGroup', crosshairGroup);
     }
   }
@@ -82,19 +82,19 @@ class HtmlTooltip extends Tooltip {
     const containerTpl = self.get('containerTpl');
     const outterNode = self.get('canvas').get('el').parentNode;
     let container;
-    if (this.get('htmlContent')) {
-      container = this._getHtmlContent();
-      outterNode.appendChild(container);
-    } else if (/^\#/.test(containerTpl)) { // 如果传入 dom 节点的 id
-      const id = containerTpl.replace('#', '');
-      container = document.getElementById(id);
-    } else {
-      container = DomUtil.createDom(containerTpl);
-      DomUtil.modifyCSS(container, self.style[CONTAINER_CLASS]);
-      outterNode.appendChild(container);
-      outterNode.style.position = 'relative';
+    if (!this.get('htmlContent')) {
+      if (/^\#/.test(containerTpl)) {
+        // 如果传入 dom 节点的 id
+        const id = containerTpl.replace('#', '');
+        container = document.getElementById(id);
+      } else {
+        container = DomUtil.createDom(containerTpl);
+        DomUtil.modifyCSS(container, self.style[CONTAINER_CLASS]);
+        outterNode.appendChild(container);
+        outterNode.style.position = 'relative';
+      }
+      self.set('container', container);
     }
-    self.set('container', container);
   }
 
   render() {
@@ -135,7 +135,7 @@ class HtmlTooltip extends Tooltip {
   clear() {
     const container = this.get('container');
     if (this.get('htmlContent')) {
-      container.remove();
+      container && container.remove();
     } else {
       const titleDom = find(container, TITLE_CLASS);
       const listDom = find(container, LIST_CLASS);
@@ -145,8 +145,6 @@ class HtmlTooltip extends Tooltip {
       if (listDom) {
         listDom.innerHTML = '';
       }
-      const crosshairGroup = this.get('crosshairGroup');
-      crosshairGroup && crosshairGroup.clear();
     }
   }
 

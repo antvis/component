@@ -101,7 +101,7 @@ class CanvasTooltip extends Tooltip {
         plot,
         plotRange: this.get('plotRange'),
         canvas: this.get('canvas')
-      }, this.get('crosshair')));
+      }, this.get('crosshairs')));
       crosshairGroup.hide();
       this.set('crosshairGroup', crosshairGroup);
     }
