@@ -93,12 +93,8 @@ class CanvasTooltip extends Tooltip {
     super(cfg);
     Util.assign(this, PositionMixin);
     Util.assign(this, MarkerGroupMixin);
-    this._init_();
-    if (this.get('items')) {
-      this.render();
-    }
     // crosshair
-    const crosshair = this.get('crosshair');
+    const crosshair = this.get('crosshairs');
     if (crosshair) {
       const plot = crosshair.type === 'rect' ? this.get('backPlot') : this.get('frontPlot');
       const crosshairGroup = new Crosshair(Util.mix({
@@ -106,7 +102,13 @@ class CanvasTooltip extends Tooltip {
         plotRange: this.get('plotRange'),
         canvas: this.get('canvas')
       }, this.get('crosshair')));
+      crosshairGroup.hide();
       this.set('crosshairGroup', crosshairGroup);
+    }
+
+    this._init_();
+    if (this.get('items')) {
+      this.render();
     }
   }
 
@@ -114,8 +116,14 @@ class CanvasTooltip extends Tooltip {
     const self = this;
     const padding = self.get('padding');
     const parent = self.get('frontPlot');
+    // marker group
+    const markerGroup = parent.addGroup({
+      capture: false
+    });
+    self.set('markerGroup', markerGroup);
     // container
     const container = parent.addGroup();
+    container.hide();
     self.set('container', container);
     // board
     const board = container.addShape('rect', {
@@ -181,8 +189,11 @@ class CanvasTooltip extends Tooltip {
   clear() {
     const titleShape = this.get('titleShape');
     const itemsGroup = this.get('itemsGroup');
+    const board = this.get('board');
     titleShape.text = '';
     itemsGroup.clear();
+    board.attr('width', 0);
+    board.attr('height', 0);
   }
 
   show() {
@@ -226,8 +237,8 @@ class CanvasTooltip extends Tooltip {
     const containerWidth = bbox.width;
     const containerHeight = bbox.height;
 
-    const endx = x;
-    const endy = y;
+    let endx = x;
+    let endy = y;
 
     let position;
     position = this.constraintPositionInBoundary(x, y, containerWidth, containerHeight, viewWidth, viewHeight);
@@ -239,6 +250,12 @@ class CanvasTooltip extends Tooltip {
       position = this.constraintPositionInPlot(x, y, containerWidth, containerHeight, plotRange, this.get('enterable'));
       x = position[0];
       y = position[1];
+    }
+
+    const markerItems = this.get('markerItems');
+    if (!Util.isEmpty(markerItems)) {
+      endx = markerItems[0].x;
+      endy = markerItems[0].y;
     }
 
     const ulMatrix = [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ];
@@ -260,22 +277,23 @@ class CanvasTooltip extends Tooltip {
 
   _addItem(item) {
     const group = new G.Group();
+    let markerRadius = this.get('markerStyle').radius;
     // marker
-    const markerStyle = this.get('markerStyle');
-    const markerAttr = Util.mix({
-      symbol: item.marker ? item.marker : 'circle',
-      fill: item.color,
-      x: markerStyle.radius / 2,
-      y: 0
-    }, markerStyle);
-    group.addShape('marker', {
-      attrs: markerAttr
-    });
+    if (item.marker) {
+      const markerAttrs = Util.mix({}, item.marker, {
+        x: item.marker.radius / 2,
+        y: 0
+      });
+      group.addShape('marker', {
+        attrs: markerAttrs
+      });
+      markerRadius = item.marker.radius;
+    }
     // name
     const nameStyle = this.get('nameStyle');
     group.addShape('text', {
       attrs: Util.mix({
-        x: markerStyle.radius + nameStyle.padding,
+        x: markerRadius + nameStyle.padding,
         y: 0,
         text: item.name
       }, nameStyle)
