@@ -151,7 +151,7 @@ class Slider extends Group {
     this._transform('vertical');
   }
 
-  _bindEvents() {
+  _bindUI() {
     this.on('mousedown', Util.wrapBehavior(this, '_onMouseDown'));
   }
 
@@ -248,6 +248,7 @@ class Slider extends Group {
 
   _bindCanvasEvents() {
     const containerDOM = this.get('canvas').get('containerDOM');
+    // this.on('mousemove', Util.wrapBehavior(this, '_onCanvasMouseMove'));
     this.onMouseMoveListener = DomUtil.addEventListener(containerDOM, 'mousemove', Util.wrapBehavior(this, '_onCanvasMouseMove'));
     this.onMouseUpListener = DomUtil.addEventListener(containerDOM, 'mouseup', Util.wrapBehavior(this, '_onCanvasMouseUp'));
     this.onMouseLeaveListener = DomUtil.addEventListener(containerDOM, 'mouseleave', Util.wrapBehavior(this, '_onCanvasMouseUp'));
