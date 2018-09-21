@@ -385,7 +385,7 @@ class Axis extends Component {
     const labelItems = self.get('labelItems');
     if (labelRenderer) {
       labelRenderer.set('items', labelItems);
-      labelRenderer.render();
+      labelRenderer._dryDraw();
     }
   }
 

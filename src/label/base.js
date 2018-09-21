@@ -95,19 +95,12 @@ class Label extends Component {
     this.afterDraw();
   }
 
-  /**
-   * 更新label
-   * 1. 将items与group中的children对比，更新/新增/删除labels
-   * 2. labels布局优化
-   * 3. 画label连接线
-   * 4. 绘制到画布
-   */
-  draw() {
+  _dryDraw() {
     const self = this;
     const items = self.get('items');
     const children = self.getLabels();
     const count = children.length;
-    Util.each(items, function(item, index) {
+    Util.each(items, (item, index) => {
       if (index < count) {
         const label = children[index];
         self.changeLabel(label, item);
@@ -122,10 +115,21 @@ class Label extends Component {
     for (let i = count - 1; i >= items.length; i--) {
       children[i].remove();
     }
-    this._adjustLabels();
+    self._adjustLabels();
     if (self.get('labelLine') || (items && items.length && items[0].labelLine)) {
       self.drawLines();
     }
+  }
+
+  /**
+   * 更新label
+   * 1. 将items与group中的children对比，更新/新增/删除labels
+   * 2. labels布局优化
+   * 3. 画label连接线
+   * 4. 绘制到画布
+   */
+  draw() {
+    this._dryDraw();
     this.get('canvas').draw();
   }
 
