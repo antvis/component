@@ -1,7 +1,7 @@
 const Util = require('../util');
 const DomUtil = Util.DomUtil;
 const Component = require('../component');
-const PlacementUtil = require('./utils/placement-util');
+const SimulateAnneal = require('./utils/simulate-anneal');
 
 class Label extends Component {
   getDefaultCfg() {
@@ -262,7 +262,7 @@ class Label extends Component {
     shapes.sort((a, b) => a.get('index') > b.get('index'));
 
     if (type === 'points') {
-      const placement = new PlacementUtil();
+      const placement = new SimulateAnneal();
       placement.adjust(labels, shapes);
     } /* else if (type === 'polygon') {
 

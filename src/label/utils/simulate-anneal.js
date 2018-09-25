@@ -1,6 +1,6 @@
 const Base = require('../../base');
 
-class PlacementUtil extends Base {
+class SimulateAnneal extends Base {
   getDefaultCfg() {
     return {
       // 最大移动距离
@@ -18,7 +18,7 @@ class PlacementUtil extends Base {
       // 迭代次数
       iteration: 200,
       // 退火阈值
-      threshold: 0.3
+      threshold: 0.1
     };
   }
   // 简单的图形碰撞检测
@@ -141,4 +141,4 @@ class PlacementUtil extends Base {
   }
 }
 
-module.exports = PlacementUtil;
+module.exports = SimulateAnneal;
