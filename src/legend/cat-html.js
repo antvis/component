@@ -239,6 +239,11 @@ class CatHtml extends Category {
         }
       });
       if (!this.get('allowAllCanceled') && clickedItemChecked && count === 1) {
+        this.emit('clicklastitem', {
+          item: clickedItem,
+          currentTarget: parentDom,
+          checked: (mode === 'single') ? true : clickedItem.checked
+        });
         return;
       }
       // 在判断最后一个图例后再更新checked状态，防止点击最后一个图例item时图例样式没有变化但是checked状态改变了 fix #422

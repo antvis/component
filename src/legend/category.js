@@ -248,9 +248,6 @@ class Category extends Legend {
     const items = this.get('items');
     if (clickedItem && !clickedItem.get('destroyed')) {
       const checked = clickedItem.get('checked');
-      if (!this.get('allowAllCanceled') && checked && this.getCheckedCount() === 1) {
-        return;
-      }
       const mode = this.get('selectedMode');
       const item = findItem(items, clickedItem);
       const itemclick = new Event('itemclick', ev, true, true);
@@ -258,7 +255,10 @@ class Category extends Legend {
       itemclick.currentTarget = clickedItem;
       itemclick.appendInfo = ev.currentTarget.get('appendInfo');
       itemclick.checked = mode === 'single' ? true : !checked;
-
+      if (!this.get('allowAllCanceled') && checked && this.getCheckedCount() === 1) {
+        this.emit('clicklastitem', itemclick);
+        return;
+      }
       const unCheckColor = this.get('unCheckColor');
       const checkColor = this.get('textStyle').fill;
       let markerItem = void 0;
