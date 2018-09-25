@@ -5,7 +5,7 @@
 const Util = require('../util');
 const Continuous = require('./continuous');
 
-class Color extends Continuous {
+class Size extends Continuous {
   getDefaultCfg() {
     const cfg = super.getDefaultCfg();
     return Util.mix({}, cfg, {
@@ -142,4 +142,4 @@ class Color extends Continuous {
   }
 }
 
-module.exports = Color;
+module.exports = Size;

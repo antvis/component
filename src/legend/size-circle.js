@@ -11,7 +11,7 @@ const CIRCLE_GAP = 16;
 const MAX_SIZE = 16;
 const MIN_SIZE = 5;
 
-class Size extends Continuous {
+class CircleSize extends Continuous {
   getDefaultCfg() {
     const cfg = super.getDefaultCfg();
     return Util.mix({}, cfg, {
@@ -282,4 +282,4 @@ class Size extends Continuous {
 
 }
 
-module.exports = Size;
+module.exports = CircleSize;
