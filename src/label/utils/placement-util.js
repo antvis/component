@@ -16,7 +16,9 @@ class PlacementUtil extends Base {
       // 标签偏移
       orient: 3,
       // 迭代次数
-      iteration: 1000
+      iteration: 200,
+      // 退火阈值
+      threshold: 0.3
     };
   }
   // 简单的图形碰撞检测
@@ -74,18 +76,18 @@ class PlacementUtil extends Base {
       tempShapeBBox = tempShape.getBBox();
       // 标签与标签碰撞增加能量
       if (i !== index) {
-        overlap = self._intersect(shape.attr('x'), label.attr('x'), shapes[i].attr('x'), temp.attr('x'),
-          shape.attr('y'), label.attr('y'), shape[i].attr('y'), temp.attr('y'));
+        overlap = self._intersect(shape.attr('x'), label.attr('x'), tempShape.attr('x'), temp.attr('x'),
+          shape.attr('y'), label.attr('y'), tempShape.attr('y'), temp.attr('y'));
         if (overlap) {
           energy += self.get('intersect');
         }
-        overlapX = Math.max(0, Math.min(tempBBox.maxX, bbox.maxX) - Math.max(tempBBox.minX, temp.minX));
-        overlapY = Math.max(0, Math.min(tempBBox.maxY, bbox.maxY) - Math.max(tempBBox.minY, temp.minY));
+        overlapX = Math.max(0, Math.min(tempBBox.maxX, bbox.maxX) - Math.max(tempBBox.minX, bbox.minX));
+        overlapY = Math.max(0, Math.min(tempBBox.maxY, bbox.maxY) - Math.max(tempBBox.minY, bbox.minY));
         energy += overlapX * overlapY * self.get('labelToLabel');
       }
       // 标签与shape碰撞能量
-      overlapX = Math.max(0, Math.min(tempShapeBBox.maxX, bbox.maxX) - Math.max(tempShapeBBox.minX, temp.minX));
-      overlapY = Math.max(0, Math.min(tempShapeBBox.maxY, bbox.maxY) - Math.max(tempShapeBBox.minY, temp.minY));
+      overlapX = Math.max(0, Math.min(tempShapeBBox.maxX, bbox.maxX) - Math.max(tempShapeBBox.minX, bbox.minX));
+      overlapY = Math.max(0, Math.min(tempShapeBBox.maxY, bbox.maxY) - Math.max(tempShapeBBox.minY, bbox.minY));
       energy += overlapX * overlapY * self.get('labelToShape');
     }
     return energy;
@@ -132,6 +134,9 @@ class PlacementUtil extends Base {
         self.move(currentTime);
       }
       currentTime = self.cooling(currentTime, initTime, iteration);
+      if (currentTime < self.get('threshold')) {
+        break;
+      }
     }
   }
 }
