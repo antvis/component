@@ -96,7 +96,7 @@ class CatPageHtml extends CatHtml {
       DomUtil.modifyCSS(totalPageNumDom, Util.mix({}, pageNumStyle, { opacity: 0.3, paddingRight: '10px' }));
 
       // layout at the center-bottom of the legendWrapper
-      let slipLeft = legendWrapper.offsetWidth / 2 - slipDom.offsetWidth / 2;
+      let slipLeft = legendWrapper.offsetWidth / 2 - 30;
       slipLeft = slipLeft > 0 ? slipLeft : 0;
       DomUtil.modifyCSS(slipDom, Util.mix({}, this.get('slipDomStyle'), {
         top: legendWrapper.offsetHeight + 10 + 'px',
