@@ -43,7 +43,7 @@ describe('CanvasTooltip测试', () => {
     // tooltip.show();
     const container = tooltip.get('container');
     expect(tooltip).be.an.instanceof(CanvasTooltip);
-    expect(container.get('visible')).to.equal(true);
+    expect(container.get('visible')).to.equal(false);
     tooltip.destroy();
   });
 

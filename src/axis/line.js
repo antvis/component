@@ -3,7 +3,7 @@ const Util = require('../util');
 const MatrixUtil = Util.MatrixUtil;
 const vec2 = MatrixUtil.vec2;
 
-class Rect extends Base {
+class Line extends Base {
   getDefaultCfg() {
     const cfg = super.getDefaultCfg();
     return Util.mix({}, cfg, {
@@ -156,9 +156,11 @@ class Rect extends Base {
 
   autoRotateLabels() {
     const self = this;
-    const labelsGroup = self.get('labelsGroup');
+    const labelRenderer = self.get('labelRenderer');
     const title = self.get('title');
-    if (labelsGroup) {
+    if (labelRenderer) {
+      const labelGroup = labelRenderer.get('group');
+      const labels = labelGroup.get('children');
       const offset = self.get('label').offset;
       const append = 12;
       const titleOffset = title ? title.offset : 48;
@@ -169,13 +171,13 @@ class Rect extends Base {
       let angle;
       let maxWidth;
       if (Util.snapEqual(vector[0], 0) && title && title.text) { // 坐标轴垂直，由于不知道边距，只能防止跟title重合，如果title不存在，则不自动旋转
-        maxWidth = self.getMaxLabelWidth(labelsGroup);
+        maxWidth = self.getMaxLabelWidth(labelRenderer);
         if ((maxWidth) > (titleOffset - offset - append)) {
           angle = Math.acos((titleOffset - offset - append) / (maxWidth)) * -1;
         }
-      } else if (Util.snapEqual(vector[1], 0) && labelsGroup.getCount() > 1) { // 坐标轴水平，不考虑边距，根据最长的和平均值进行翻转
-        const avgWidth = Math.abs(self._getAvgLabelLength(labelsGroup));
-        maxWidth = self.getMaxLabelWidth(labelsGroup);
+      } else if (Util.snapEqual(vector[1], 0) && labels.length > 1) { // 坐标轴水平，不考虑边距，根据最长的和平均值进行翻转
+        const avgWidth = Math.abs(self._getAvgLabelLength(labelRenderer));
+        maxWidth = self.getMaxLabelWidth(labelRenderer);
         if (maxWidth > avgWidth) {
           angle = Math.asin((titleOffset - offset - append) * 1.25 / (maxWidth));
         }
@@ -183,7 +185,7 @@ class Rect extends Base {
 
       if (angle) {
         const factor = self.get('factor');
-        Util.each(labelsGroup.get('children'), function(label) {
+        Util.each(labels, label => {
           label.rotateAtStart(angle);
           if (Util.snapEqual(vector[1], 0)) {
             if (factor > 0) {
@@ -198,4 +200,4 @@ class Rect extends Base {
   }
 }
 
-module.exports = Rect;
+module.exports = Line;

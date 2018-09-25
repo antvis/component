@@ -64,7 +64,7 @@ class HtmlTooltip extends Tooltip {
       this.render();
     }
     // crosshair
-    const crosshair = this.get('crosshair');
+    const crosshair = this.get('crosshairs');
     if (crosshair) {
       const plot = crosshair.type === 'rect' ? this.get('backPlot') : this.get('frontPlot');
       const crosshairGroup = new Crosshair(Util.mix({
@@ -221,8 +221,8 @@ class HtmlTooltip extends Tooltip {
     const containerWidth = container.clientWidth;
     const containerHeight = container.clientHeight;
 
-    const endx = x;
-    const endy = y;
+    let endx = x;
+    let endy = y;
 
     let position;
     const prePosition = this.get('prePosition') || { x: 0, y: 0 };
@@ -246,6 +246,12 @@ class HtmlTooltip extends Tooltip {
       x = position[0];
       y = position[1];
     }
+    const markerItems = this.get('markerItems');
+    if (!Util.isEmpty(markerItems)) {
+      endx = markerItems[0].x;
+      endy = markerItems[0].y;
+    }
+
     this.set('prePosition', position); // 记录上次的位置
     const follow = this.get('follow');
     container.style.left = follow ? (x + 'px') : 0;

@@ -1,22 +1,16 @@
 const expect = require('chai').expect;
 const { Canvas } = require('@antv/g/lib');
 const Util = require('../../../src/util');
-const CircleAxis = require('../../../src/axis/polar-circle');
-const RadiusAxis = require('../../../src/axis/polar-line');
+const CircleAxis = require('../../../src/axis/circle');
+const LineAxis = require('../../../src/axis/line');
+const findByName = require('../../helper/find-element-by-name');
 
 const div = document.createElement('div');
-div.id = 'c1';
 document.body.appendChild(div);
-
-function findByName(group, name) {
-  return group.findBy(function(node) {
-    return node.name === name;
-  });
-}
 
 describe('测试中轴坐标系', function() {
   const canvas = new Canvas({
-    containerId: 'c1',
+    containerDOM: div,
     width: 500,
     height: 500,
     pixelRatio: 2
@@ -60,7 +54,7 @@ describe('测试中轴坐标系', function() {
       ]
     }
   });
-  const yAxis = new RadiusAxis({
+  const yAxis = new LineAxis({
     group,
     canvas,
     factor: -1,
@@ -160,7 +154,7 @@ describe('测试中轴坐标系', function() {
 
 describe('测试中轴坐标系2', function() {
   const canvas = new Canvas({
-    containerId: 'c1',
+    containerDOM: div,
     width: 500,
     height: 500
   });
@@ -195,7 +189,7 @@ describe('测试中轴坐标系2', function() {
     subTickCount: 5
   });
 
-  const yAxis = new RadiusAxis({
+  const yAxis = new LineAxis({
     canvas,
     group,
     factor: -1,
@@ -272,7 +266,7 @@ describe('测试中轴坐标系2', function() {
 
 describe('测试圆轴', function() {
   const canvas = new Canvas({
-    containerId: 'c1',
+    containerDOM: div,
     width: 500,
     height: 500,
     pixelRatio: 2

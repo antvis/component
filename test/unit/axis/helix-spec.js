@@ -3,29 +3,25 @@ const { Canvas } = require('@antv/g/lib');
 const Coord = require('@antv/coord/lib');
 const HelixAxis = require('../../../src/axis/helix');
 
-const div = document.createElement('div');
-div.id = 'c1';
-document.body.appendChild(div);
-
-const coord = new Coord.Helix({
-  start: {
-    x: 60,
-    y: 460
-  },
-  end: {
-    x: 460,
-    y: 60
-  }
-});
-
-const canvas = new Canvas({
-  containerId: 'c1',
-  width: 500,
-  height: 500,
-  pixelRatio: 2
-});
-
-describe('Helix 螺旋坐标轴', function() {
+describe('Helix Axis for Helix Coord', function() {
+  const div = document.createElement('div');
+  document.body.appendChild(div);
+  const coord = new Coord.Helix({
+    start: {
+      x: 60,
+      y: 460
+    },
+    end: {
+      x: 460,
+      y: 60
+    }
+  });
+  const canvas = new Canvas({
+    containerDOM: div,
+    width: 500,
+    height: 500,
+    pixelRatio: 2
+  });
   const group = canvas.addGroup();
   const xAxis = new HelixAxis({
     inner: 0,
@@ -81,37 +77,33 @@ describe('Helix 螺旋坐标轴', function() {
   });
 
   xAxis.render();
-
   canvas.draw();
 
-  it('测试坐标轴生成', function() {
+  it('init', function() {
     expect(xAxis).not.to.be.undefined;
     expect(xAxis.get('type')).to.equal('helix');
   });
 
-  it('测试线', function() {
+  it('line', function() {
     const lineShape = xAxis.get('lineShape');
     expect(lineShape).not.to.be.undefined;
     expect(lineShape.attr('path').length).not.to.equal(0);
   });
 
-  it('测试 ticks', function() {
+  it('ticks', function() {
     const ticks = xAxis.get('ticks');
     expect(ticks.length).to.equal(5);
   });
 
-  it('测试 labels', function() {
+  it('labels', function() {
     const labelRenderer = xAxis.get('labelRenderer');
     expect(labelRenderer).not.to.null;
     expect(labelRenderer.get('items').length).to.equal(5);
   });
 
-  it('测试栅格', function() {
+  it('grid', function() {
     const gridGroup = xAxis.get('gridGroup');
     expect(gridGroup).not.to.be.undefined;
     expect(gridGroup.getCount()).to.equal(4);
   });
 });
-
-// describe('Helix 设置了 radius 和 innerRadiuss', function() {
-// });

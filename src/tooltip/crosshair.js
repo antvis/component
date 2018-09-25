@@ -95,7 +95,7 @@ class Crosshair extends Component {
   }
 
   _renderBackground(canvas, plotRange) {
-    const { style } = this.get('rectStyle');
+    const style = this.get('rectStyle');
     const container = this.get('container');
     const attrs = Util.mix({
       x: plotRange ? plotRange.tl.x : 0,
