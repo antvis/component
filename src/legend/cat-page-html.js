@@ -104,7 +104,7 @@ class CatPageHtml extends CatHtml {
       })
       );
 
-      legendWrapper.parentNode.appendChild(slipDom);
+      legendWrapper.appendChild(slipDom);
       const li = itemListDom.childNodes;
       let curHeight = 0;
       // find the total page number
