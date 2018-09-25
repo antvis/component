@@ -211,7 +211,7 @@ class HtmlTooltip extends Tooltip {
     return ele;
   }
 
-  setPosition(x, y) {
+  setPosition(x, y, target) {
     const container = this.get('container');
     const outterNode = this.get('canvas').get('el');
     const viewWidth = DomUtil.getWidth(outterNode);
@@ -232,15 +232,21 @@ class HtmlTooltip extends Tooltip {
       } else {
         x += 1;
       }
+    } else if (this.get('position')) {
+      const containerWidth = container.clientWidth;
+      const containerHeight = container.clientHeight;
+      position = this._calcTooltipPosition(x, y, this.get('position'), containerWidth, containerHeight, target);
+      x = position[0];
+      y = position[1];
     } else {
-      position = this.constraintPositionInBoundary(x, y, containerWidth, containerHeight, viewWidth, viewHeight);
+      position = this._constraintPositionInBoundary(x, y, containerWidth, containerHeight, viewWidth, viewHeight);
       x = position[0];
       y = position[1];
     }
 
     if (this.get('inPlot')) { // tooltip 必须限制在绘图区域内
       const plotRange = this.get('plotRange');
-      position = this.constraintPositionInPlot(x, y, containerWidth, containerHeight, plotRange, this.get('enterable'));
+      position = this._constraintPositionInPlot(x, y, containerWidth, containerHeight, plotRange, this.get('enterable'));
       x = position[0];
       y = position[1];
     }

@@ -228,7 +228,7 @@ class CanvasTooltip extends Tooltip {
     container.remove();
   }
 
-  setPosition(x, y) {
+  setPosition(x, y, target) {
     const container = this.get('container');
     const outterNode = this.get('canvas').get('el');
     const viewWidth = DomUtil.getWidth(outterNode);
@@ -241,13 +241,22 @@ class CanvasTooltip extends Tooltip {
     let endy = y;
 
     let position;
-    position = this.constraintPositionInBoundary(x, y, containerWidth, containerHeight, viewWidth, viewHeight);
-    x = position[0];
-    y = position[1];
+    if (this.get('position')) {
+      const containerWidth = bbox.width;
+      const containerHeight = bbox.height;
+      position = this._calcTooltipPosition(x, y, this.get('position'), containerWidth, containerHeight, target);
+      x = position[0];
+      y = position[1];
+    } else {
+      position = this._constraintPositionInBoundary(x, y, containerWidth, containerHeight, viewWidth, viewHeight);
+      x = position[0];
+      y = position[1];
+    }
+
 
     if (this.get('inPlot')) { // tooltip 必须限制在绘图区域内
       const plotRange = this.get('plotRange');
-      position = this.constraintPositionInPlot(x, y, containerWidth, containerHeight, plotRange, this.get('enterable'));
+      position = this._constraintPositionInPlot(x, y, containerWidth, containerHeight, plotRange, this.get('enterable'));
       x = position[0];
       y = position[1];
     }
