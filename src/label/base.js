@@ -1,6 +1,7 @@
 const Util = require('../util');
 const DomUtil = Util.DomUtil;
 const Component = require('../component');
+const PlacementUtil = require('./utils/placement-util');
 
 class Label extends Component {
   getDefaultCfg() {
@@ -51,7 +52,12 @@ class Label extends Component {
        * label牵引线容器
        * @type Object
        */
-      lineGroup: null
+      lineGroup: null,
+      /**
+       * 需添加label的shape
+       * @type Object
+       */
+      shapes: null
     });
   }
 
@@ -242,8 +248,26 @@ class Label extends Component {
     lineShape._id = label._id && label._id.replace('glabel', 'glabelline');
     lineShape.set('coord', self.get('coord'));
   }
-  // TODO 区分label的type or 定成一个配置项用util方法？
-  _adjustLabels() {}
+
+  // 根据type对label布局
+  _adjustLabels() {
+    const self = this;
+    const type = self.get('type');
+    const labels = self.getLabels();
+    const shapes = self.get('shapes');
+    if (type === 'default' || !shapes) {
+      return;
+    }
+    // 将shapes根据index排序,与items一一对应
+    shapes.sort((a, b) => a.get('index') > b.get('index'));
+
+    if (type === 'points') {
+      const placement = new PlacementUtil();
+      placement.adjust(labels, shapes);
+    } /* else if (type === 'polygon') {
+
+    }*/
+  }
 
   /**
    * 获取当前所有label实例
