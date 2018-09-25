@@ -98,7 +98,7 @@ class MiniTooltip extends CanvasTooltip {
     valueShape.attr('text', '');
   }
 
-  setPosition(x, y) {
+  setPosition(x, y, target) {
     const self = this;
     const container = self.get('container');
     const plotRange = self.get('plotRange');
@@ -107,6 +107,10 @@ class MiniTooltip extends CanvasTooltip {
     const height = bbox.height;
 
     x -= width / 2;
+    if (target) {
+      const targetY = target.getBBox().y;
+      y = targetY;
+    }
     y -= height;
 
     if (this.get('inPlot')) { // constrain in plot
