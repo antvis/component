@@ -62,7 +62,17 @@ class CatPageHtml extends CatHtml {
           '<p class="cur-pagenum" style = "display:inline-block;">1</p>' +
           '<p class="next-pagenum" style = "display:inline-block;">/2</p>' +
           '<img class="caret-down" src = "https://gw.alipayobjects.com/zos/rmsportal/LbdlxWIqCtpCbvRDaMgq.png"/>' +
-        '</div>'
+        '</div>',
+      /**
+       * 翻页块的宽度，用于设置翻页块相对于 legend 的位置
+       * @type {Number}
+       */
+      slipWidth: 65,
+      /**
+       * legend 内容超出容器的处理方式
+       * @type {String}
+       */
+      legendOverflow: 'unset'
     });
   }
 
@@ -96,15 +106,19 @@ class CatPageHtml extends CatHtml {
       DomUtil.modifyCSS(totalPageNumDom, Util.mix({}, pageNumStyle, { opacity: 0.3, paddingRight: '10px' }));
 
       // layout at the center-bottom of the legendWrapper
-      let slipLeft = legendWrapper.offsetWidth / 2 - 45;
+      let slipWidth = slipDom.offsetWidth;
+      if (!slipWidth) slipWidth = this.get('slipWidth');
+      let slipLeft = legendWrapper.offsetWidth / 2 - slipWidth / 2;
+      slipLeft = (slipLeft + slipWidth) < legendWrapper.offsetWidth ? slipLeft : (legendWrapper.offsetWidth - slipWidth);
       slipLeft = slipLeft > 0 ? slipLeft : 0;
       DomUtil.modifyCSS(slipDom, Util.mix({}, this.get('slipDomStyle'), {
-        top: legendWrapper.offsetHeight + 10 + 'px',
+        top: legendWrapper.offsetHeight + 'px',
         left: slipLeft + 'px'
       })
       );
 
-      legendWrapper.parentNode.appendChild(slipDom);
+      legendWrapper.style.overflow = this.get('legendOverflow');
+      legendWrapper.appendChild(slipDom);
       const li = itemListDom.childNodes;
       let curHeight = 0;
       // find the total page number

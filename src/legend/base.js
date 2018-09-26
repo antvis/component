@@ -50,7 +50,17 @@ class Legend extends Component {
        * legend 在 position 位置上的偏移量
        * @type {Array}
        */
-      offset: [ 0, 0 ]
+      offset: [ 0, 0 ],
+      /**
+       * legend 在 position 位置上沿 x 轴的偏移量。若同时设置了 offset 和 offsetX， 以 offsetX 为准
+       * @type {Number}
+       */
+      offsetX: null,
+      /**
+       * legend 在 position 位置上沿 y 轴的偏移量。若同时设置了 offset 和 offsetY， 以 offsetY 为准
+       * @type {Number}
+       */
+      offsetY: null
     };
   }
   constructor(cfg) {
@@ -74,12 +84,12 @@ class Legend extends Component {
   _adjustPositionOffset() {
     const position = this.get('position');
     const offset = this.get('offset');
-    // const canvas = this.get('canvas');
+    const offsetX = this.get('offsetX');
+    const offsetY = this.get('offsetY');
+    if (offsetX) offset[0] = offsetX;
+    if (offsetY) offset[1] = offsetY;
     const bbox = this.get('group').getBBox();
-    // const legendWidth = bbox.maxX - bbox.minX;
-    // const legendHeight = bbox.maxY - bbox.minY;
     this.move(-bbox.minX + position[0] + offset[0], -bbox.minY + position[1] + offset[1]);
-    // canvas.changeSize(legendWidth + 2 * (position[0] + offset[0]), legendHeight + 2 * (position[1]) + offset[1]);
   }
 
   beforeRender() {

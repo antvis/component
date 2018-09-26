@@ -11,7 +11,7 @@ const CIRCLE_GAP = 16;
 const MAX_SIZE = 16;
 const MIN_SIZE = 5;
 
-class Size extends Continuous {
+class CircleSize extends Continuous {
   getDefaultCfg() {
     const cfg = super.getDefaultCfg();
     return Util.mix({}, cfg, {
@@ -36,7 +36,7 @@ class Size extends Continuous {
        * 滑块的样式
        * @type {ATTRS}
        */
-      triggerStyle: {
+      triggerAttr: {
         fill: 'white',
         shadowOffsetX: -2,
         shadowOffsetY: 2,
@@ -142,9 +142,9 @@ class Size extends Continuous {
     const max = this.get('lastItem');
     const layout = this.get('layout');
     const textStyle = this.get('textStyle');
-    const triggerStyle = this.get('triggerStyle');
-    const minBlockAttr = Util.mix({}, triggerStyle);
-    const maxBlockAttr = Util.mix({}, triggerStyle);
+    const triggerAttr = this.get('triggerAttr');
+    const minBlockAttr = Util.mix({}, triggerAttr);
+    const maxBlockAttr = Util.mix({}, triggerAttr);
     const minRadius = MIN_SIZE;
     const maxRadius = MAX_SIZE;
 
@@ -282,4 +282,4 @@ class Size extends Continuous {
 
 }
 
-module.exports = Size;
+module.exports = CircleSize;
