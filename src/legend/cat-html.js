@@ -510,6 +510,10 @@ class CatHtml extends Category {
   _adjustPositionOffset() {
     const position = this.get('position');
     const offset = this.get('offset');
+    const offsetX = this.get('offsetX');
+    const offsetY = this.get('offsetY');
+    if (offsetX) offset[0] = offsetX;
+    if (offsetY) offset[1] = offsetY;
     const legendWrapper = this.get('legendWrapper');
     legendWrapper.style.left = position[0] + 'px';
     legendWrapper.style.top = position[1] + 'px';
