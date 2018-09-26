@@ -1,7 +1,8 @@
 const Util = require('../util');
 const DomUtil = Util.DomUtil;
 const Component = require('../component');
-const SimulateAnneal = require('./utils/simulate-anneal');
+const Greedy = require('./utils/greedy');
+// const SimulateAnneal = require('./utils/simulate-anneal');
 
 class Label extends Component {
   getDefaultCfg() {
@@ -262,8 +263,9 @@ class Label extends Component {
     shapes.sort((a, b) => a.get('index') > b.get('index'));
 
     if (type === 'points') {
-      const placement = new SimulateAnneal();
-      placement.adjust(labels, shapes);
+      /* const placement = new SimulateAnneal();*/
+      const placement = new Greedy();
+      placement.adjust(labels, shapes, self.get('canvas'));
     } /* else if (type === 'polygon') {
 
     }*/
@@ -373,7 +375,8 @@ class Label extends Component {
           x: cfg.x,
           y: cfg.y,
           textAlign: cfg.textAlign,
-          text: cfg.text
+          text: cfg.text,
+          rotate: cfg.rotate
         }, cfg.textStyle);
       }
       labelShape = group.addShape('text', {
