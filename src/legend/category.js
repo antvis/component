@@ -126,6 +126,10 @@ class Category extends Legend {
        * @type {Boolean}
        */
       autoWrap: true,
+      /**
+       * 是否以增加 border 的方式高亮 hover 的 item。若为 false ，则降低其他 item 的透明度。
+       * @type {Boolean}
+       */
       highlight: false
     });
   }

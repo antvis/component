@@ -1,9 +1,7 @@
 const Util = require('../util');
 const Category = require('./category');
 const DomUtil = Util.DomUtil;
-// const Event = Util.Event;
 const Group = Util.Group;
-// const Global = require('../../global');
 
 const CONTAINER_CLASS = 'g2-legend';
 const TITLE_CLASS = 'g2-legend-title';
@@ -79,7 +77,7 @@ class CatHtml extends Category {
       '<span class="' + TEXT_CLASS + '">{value}</span></li>',
       /**
        * html style
-       * @type {Boolean}
+       * @type {Attrs}
        */
       legendStyle: {},
       /**
@@ -105,7 +103,7 @@ class CatHtml extends Category {
       tipTpl: '<div class="textTip"></div>',
       /**
        * abridgeText 为 true 时，鼠标放置在 item 上时显示全称的悬浮 div 的样式
-       * @type {Object}
+       * @type {Attrs}
        */
       tipStyle: {
         display: 'none',
