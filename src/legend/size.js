@@ -25,18 +25,6 @@ class Size extends Continuous {
         fillOpacity: 1
       },
       /**
-       * 滑块的样式
-       * @type {ATTRS}
-       */
-      triggerStyle: {
-        fill: '#fff',
-        shadowOffsetX: -2,
-        shadowOffsetY: 2,
-        shadowBlur: 10,
-        shadowColor: '#ccc',
-        radius: 3
-      },
-      /**
        * 中间 bar 的前景颜色
        * @type {ATTRS}
        */

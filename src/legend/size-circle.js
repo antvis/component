@@ -36,7 +36,7 @@ class CircleSize extends Continuous {
        * 滑块的样式
        * @type {ATTRS}
        */
-      triggerStyle: {
+      triggerAttr: {
         fill: 'white',
         shadowOffsetX: -2,
         shadowOffsetY: 2,
@@ -142,9 +142,9 @@ class CircleSize extends Continuous {
     const max = this.get('lastItem');
     const layout = this.get('layout');
     const textStyle = this.get('textStyle');
-    const triggerStyle = this.get('triggerStyle');
-    const minBlockAttr = Util.mix({}, triggerStyle);
-    const maxBlockAttr = Util.mix({}, triggerStyle);
+    const triggerAttr = this.get('triggerAttr');
+    const minBlockAttr = Util.mix({}, triggerAttr);
+    const maxBlockAttr = Util.mix({}, triggerAttr);
     const minRadius = MIN_SIZE;
     const maxRadius = MAX_SIZE;
 
