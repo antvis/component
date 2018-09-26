@@ -71,7 +71,7 @@ class HtmlTooltip extends Tooltip {
         plot,
         plotRange: this.get('plotRange'),
         canvas: this.get('canvas')
-      }, this.get('crosshair')));
+      }, this.get('crosshairs')));
       this.set('crosshairGroup', crosshairGroup);
     }
   }
@@ -82,19 +82,19 @@ class HtmlTooltip extends Tooltip {
     const containerTpl = self.get('containerTpl');
     const outterNode = self.get('canvas').get('el').parentNode;
     let container;
-    if (this.get('htmlContent')) {
-      container = this._getHtmlContent();
-      outterNode.appendChild(container);
-    } else if (/^\#/.test(containerTpl)) { // 如果传入 dom 节点的 id
-      const id = containerTpl.replace('#', '');
-      container = document.getElementById(id);
-    } else {
-      container = DomUtil.createDom(containerTpl);
-      DomUtil.modifyCSS(container, self.style[CONTAINER_CLASS]);
-      outterNode.appendChild(container);
-      outterNode.style.position = 'relative';
+    if (!this.get('htmlContent')) {
+      if (/^\#/.test(containerTpl)) {
+        // 如果传入 dom 节点的 id
+        const id = containerTpl.replace('#', '');
+        container = document.getElementById(id);
+      } else {
+        container = DomUtil.createDom(containerTpl);
+        DomUtil.modifyCSS(container, self.style[CONTAINER_CLASS]);
+        outterNode.appendChild(container);
+        outterNode.style.position = 'relative';
+      }
+      self.set('container', container);
     }
-    self.set('container', container);
   }
 
   render() {
@@ -135,7 +135,7 @@ class HtmlTooltip extends Tooltip {
   clear() {
     const container = this.get('container');
     if (this.get('htmlContent')) {
-      container.remove();
+      container && container.remove();
     } else {
       const titleDom = find(container, TITLE_CLASS);
       const listDom = find(container, LIST_CLASS);
@@ -145,8 +145,6 @@ class HtmlTooltip extends Tooltip {
       if (listDom) {
         listDom.innerHTML = '';
       }
-      const crosshairGroup = this.get('crosshairGroup');
-      crosshairGroup && crosshairGroup.clear();
     }
   }
 
@@ -213,7 +211,7 @@ class HtmlTooltip extends Tooltip {
     return ele;
   }
 
-  setPosition(x, y) {
+  setPosition(x, y, target) {
     const container = this.get('container');
     const outterNode = this.get('canvas').get('el');
     const viewWidth = DomUtil.getWidth(outterNode);
@@ -234,15 +232,21 @@ class HtmlTooltip extends Tooltip {
       } else {
         x += 1;
       }
+    } else if (this.get('position')) {
+      const containerWidth = container.clientWidth;
+      const containerHeight = container.clientHeight;
+      position = this._calcTooltipPosition(x, y, this.get('position'), containerWidth, containerHeight, target);
+      x = position[0];
+      y = position[1];
     } else {
-      position = this.constraintPositionInBoundary(x, y, containerWidth, containerHeight, viewWidth, viewHeight);
+      position = this._constraintPositionInBoundary(x, y, containerWidth, containerHeight, viewWidth, viewHeight);
       x = position[0];
       y = position[1];
     }
 
     if (this.get('inPlot')) { // tooltip 必须限制在绘图区域内
       const plotRange = this.get('plotRange');
-      position = this.constraintPositionInPlot(x, y, containerWidth, containerHeight, plotRange, this.get('enterable'));
+      position = this._constraintPositionInPlot(x, y, containerWidth, containerHeight, plotRange, this.get('enterable'));
       x = position[0];
       y = position[1];
     }

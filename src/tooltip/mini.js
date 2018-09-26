@@ -38,7 +38,7 @@ class MiniTooltip extends CanvasTooltip {
        * 默认padding值
        * @type {Object}
        */
-      padding: { top: 5, right: 5, bottom: 5, left: 5 },
+      padding: { top: 5, right: 5, bottom: 10, left: 5 },
       triangleWidth: 10,
       triangleHeight: 6
     });
@@ -76,7 +76,6 @@ class MiniTooltip extends CanvasTooltip {
   render() {
     const self = this;
     self.clear();
-    const container = self.get('container');
     const board = self.get('board');
     const valueShape = self.get('valueShape');
     const padding = self.get('padding');
@@ -85,9 +84,9 @@ class MiniTooltip extends CanvasTooltip {
       valueShape.attr('text', item.value);
     }
     // update board based on bbox
-    const bbox = container.getBBox();
-    const width = padding.top + bbox.width;
-    const height = padding.left + bbox.height + padding.bottom;
+    const bbox = valueShape ? valueShape.getBBox() : { width: 80, height: 30 };
+    const width = padding.left + bbox.width + padding.right;
+    const height = padding.top + bbox.height + padding.bottom;
     board.attr('width', width);
     board.attr('height', height);
     // update triangle shape
@@ -99,7 +98,7 @@ class MiniTooltip extends CanvasTooltip {
     valueShape.attr('text', '');
   }
 
-  setPosition(x, y) {
+  setPosition(x, y, target) {
     const self = this;
     const container = self.get('container');
     const plotRange = self.get('plotRange');
@@ -108,6 +107,10 @@ class MiniTooltip extends CanvasTooltip {
     const height = bbox.height;
 
     x -= width / 2;
+    if (target && (target.name === 'point' || target.name === 'interval')) {
+      const targetY = target.getBBox().y;
+      y = targetY;
+    }
     y -= height;
 
     if (this.get('inPlot')) { // constrain in plot

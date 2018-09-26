@@ -105,7 +105,8 @@ class Crosshair extends Component {
     }, style);
 
     const shape = container.addShape('rect', {
-      attrs
+      attrs,
+      capture: false
     });
     // shape.hide();
     this.set('crosshairsRectShape', shape);
