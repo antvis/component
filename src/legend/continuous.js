@@ -130,7 +130,7 @@ class Continuous extends Legend {
   }
 
   _formatItemValue(value) {
-    const formatter = this.get('formatter');
+    const formatter = this.get('formatter') || this.get('itemFormatter');
     if (formatter) {
       value = formatter.call(this, value);
     }

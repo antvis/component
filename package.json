@@ -1,6 +1,6 @@
 {
   "name": "@antv/component",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "",
   "browser": "build/component.js",
   "main": "lib/index.js",
@@ -95,6 +95,6 @@
     "@antv/attr": "~0.0.7",
     "@antv/g": "~3.2.2",
     "@antv/util": "~1.2.5",
-    "wolfy87-eventemitter": "~5.2.5"
+    "wolfy87-eventemitter": "~5.1.0"
   }
 }

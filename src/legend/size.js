@@ -5,7 +5,7 @@
 const Util = require('../util');
 const Continuous = require('./continuous');
 
-class Color extends Continuous {
+class Size extends Continuous {
   getDefaultCfg() {
     const cfg = super.getDefaultCfg();
     return Util.mix({}, cfg, {
@@ -23,18 +23,6 @@ class Color extends Continuous {
       _unslidableElementStyle: {
         fill: '#4E7CCC',
         fillOpacity: 1
-      },
-      /**
-       * 滑块的样式
-       * @type {ATTRS}
-       */
-      triggerStyle: {
-        fill: '#fff',
-        shadowOffsetX: -2,
-        shadowOffsetY: 2,
-        shadowBlur: 10,
-        shadowColor: '#ccc',
-        radius: 3
       },
       /**
        * 中间 bar 的前景颜色
@@ -142,4 +130,4 @@ class Color extends Continuous {
   }
 }
 
-module.exports = Color;
+module.exports = Size;

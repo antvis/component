@@ -1,9 +1,7 @@
 const Util = require('../util');
 const Category = require('./category');
 const DomUtil = Util.DomUtil;
-// const Event = Util.Event;
 const Group = Util.Group;
-// const Global = require('../../global');
 
 const CONTAINER_CLASS = 'g2-legend';
 const TITLE_CLASS = 'g2-legend-title';
@@ -79,7 +77,7 @@ class CatHtml extends Category {
       '<span class="' + TEXT_CLASS + '">{value}</span></li>',
       /**
        * html style
-       * @type {Boolean}
+       * @type {Attrs}
        */
       legendStyle: {},
       /**
@@ -105,7 +103,7 @@ class CatHtml extends Category {
       tipTpl: '<div class="textTip"></div>',
       /**
        * abridgeText 为 true 时，鼠标放置在 item 上时显示全称的悬浮 div 的样式
-       * @type {Object}
+       * @type {Attrs}
        */
       tipStyle: {
         display: 'none',
@@ -239,6 +237,11 @@ class CatHtml extends Category {
         }
       });
       if (!this.get('allowAllCanceled') && clickedItemChecked && count === 1) {
+        this.emit('clicklastitem', {
+          item: clickedItem,
+          currentTarget: parentDom,
+          checked: (mode === 'single') ? true : clickedItem.checked
+        });
         return;
       }
       // 在判断最后一个图例后再更新checked状态，防止点击最后一个图例item时图例样式没有变化但是checked状态改变了 fix #422
@@ -507,6 +510,10 @@ class CatHtml extends Category {
   _adjustPositionOffset() {
     const position = this.get('position');
     const offset = this.get('offset');
+    const offsetX = this.get('offsetX');
+    const offsetY = this.get('offsetY');
+    if (offsetX) offset[0] = offsetX;
+    if (offsetY) offset[1] = offsetY;
     const legendWrapper = this.get('legendWrapper');
     legendWrapper.style.left = position[0] + 'px';
     legendWrapper.style.top = position[1] + 'px';
