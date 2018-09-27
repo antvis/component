@@ -375,13 +375,19 @@ class Label extends Component {
           x: cfg.x,
           y: cfg.y,
           textAlign: cfg.textAlign,
-          text: cfg.text,
-          rotate: cfg.rotate
+          text: cfg.text
         }, cfg.textStyle);
       }
       labelShape = group.addShape('text', {
         attrs: cfg
       });
+      if (cfg.rotate) {
+        labelShape.transform([
+          [ 't', -cfg.x, -cfg.y ],
+          [ 'r', cfg.rotate ],
+          [ 't', cfg.x, cfg.y ]
+        ]);
+      }
       labelShape.setSilent('origin', origin || cfg);
       labelShape.name = 'label'; // 用于事件标注
       this.get('appendInfo') && labelShape.setSilent('appendInfo', this.get('appendInfo'));
