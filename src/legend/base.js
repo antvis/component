@@ -7,7 +7,7 @@ class Legend extends Component {
     return {
       /**
        * Group 容器
-       * @type {Number}
+       * @type {Object}
        */
       container: null,
       /**
@@ -20,16 +20,6 @@ class Legend extends Component {
        * @type {Function}
        */
       formatter: null,
-      /**
-       * useHtml 为 true 时生效，用于自动定位
-       * @type {[type]}
-       */
-      autoPosition: true,
-      /**
-       * 图例是否绘制在绘图区域内
-       * @type {Boolean}
-       */
-      inPlot: false,
       /**
        * 鼠标 hover 到图例上的默认交互是否开启
        * @type {Boolean}

@@ -22,11 +22,6 @@ class Color extends Continuous {
        * @type {String}
        */
       layout: 'vertical',
-      // /**
-      //  * offset between the label and the slider
-      //  * @type {nubmer}
-      //  */
-      // textOffset: 15,
       /**
        * 两头滑块的样式
        * @type {object}
