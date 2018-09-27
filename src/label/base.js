@@ -282,7 +282,7 @@ class Label extends Component {
       VisualCenter(labels, shapes);
     }
     if (type === 'treemap') {
-      canLabelFill();
+      canLabelFill(labels, shapes);
     } else {
       const greedyPlacement = new Greedy();
       greedyPlacement.adjust(labels, shapes, type);
