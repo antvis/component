@@ -1,8 +1,24 @@
 const Util = require('../util');
 const DomUtil = Util.DomUtil;
 const Component = require('../component');
+const VisualCenter = require('./utils/visual-center');
 const Greedy = require('./utils/greedy');
-// const SimulateAnneal = require('./utils/simulate-anneal');
+
+function canLabelFill(labels, shapes) {
+  let labelBBox,
+    shapeBBox;
+  const toBeRemoved = [];
+  for (let i = 0; i < labels.length; i++) {
+    labelBBox = labels[i].getBBox();
+    shapeBBox = shapes[i].getBBox();
+    if (labelBBox.width * labelBBox.height > shapeBBox.width * shapeBBox.height) {
+      toBeRemoved.push(labels[i]);
+    }
+  }
+  for (let i = 0; i < toBeRemoved.length; i++) {
+    toBeRemoved[i].remove();
+  }
+}
 
 class Label extends Component {
   getDefaultCfg() {
@@ -260,15 +276,17 @@ class Label extends Component {
       return;
     }
     // 将shapes根据index排序,与items一一对应
-    shapes.sort((a, b) => a.get('index') > b.get('index'));
+    shapes.sort((a, b) => a.get('index') - b.get('index'));
 
-    if (type === 'points') {
-      /* const placement = new SimulateAnneal();*/
-      const placement = new Greedy();
-      placement.adjust(labels, shapes, self.get('canvas'));
-    } /* else if (type === 'polygon') {
-
-    }*/
+    if (type === 'map') {
+      VisualCenter(labels, shapes);
+    }
+    if (type === 'treemap') {
+      canLabelFill();
+    } else {
+      const greedyPlacement = new Greedy();
+      greedyPlacement.adjust(labels, shapes, type);
+    }
   }
 
   /**
@@ -399,7 +417,7 @@ class Label extends Component {
     const str = Util.substitute(itemTpl, { text: cfg.text });
     return DomUtil.createDom(str);
   }
-  // 根据文本对齐方式确定dom位置
+  // 根据文本对齐方式确定dom位 置
   _setCustomPosition(cfg, htmlDom) {
     const textAlign = cfg.textAlign || 'left';
     let top = cfg.y;
