@@ -219,8 +219,8 @@ describe('连续图例 - Size', function() {
   it('activate 图例，可筛选', function() {
     canvas.clear();
     const items2 = [
-      { value: 40 },
-      { value: 20 }
+      { value: 20 },
+      { value: 40 }
     ];
     const cfg = {
       items: items2,

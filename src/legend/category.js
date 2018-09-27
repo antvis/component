@@ -134,10 +134,6 @@ class Category extends Legend {
     });
   }
 
-  _beforeRenderUI() {
-    super._beforeRenderUI();
-  }
-
   // rendering
   render() {
     super.render();
@@ -349,7 +345,7 @@ class Category extends Legend {
 
   // format the item value
   _formatItemValue(value) {
-    const formatter = this.get('formatter');
+    const formatter = this.get('formatter') || this.get('itemFormatter');
     if (formatter) {
       value = formatter.call(this, value);
     }
