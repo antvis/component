@@ -29,6 +29,17 @@ class Greedy {
       }
     }
   }
+
+  /*
+   *  根据如下规则尝试放置label
+   *                5
+   *        ------------------
+   *        |    1   |   0   |
+   *    6   ——————————————————   4
+   *        |    2   |   3   |
+   *        ——————————————————
+   *                 7
+   */
   adjustLabelPosition(label, x, y, index) {
     const bbox = label.getBBox();
     const width = bbox.width;
@@ -80,21 +91,28 @@ class Greedy {
       bbox,
       x,
       y;
-    const results = [];
+    const toBeRemoved = [];
+    let canFill;
     for (let i = 0; i < labels.length; i++) {
       label = labels[i];
+      canFill = false;
       x = label.attr('x');
       y = label.attr('y');
       for (let j = 0; j < 8; j++) {
         bbox = self.adjustLabelPosition(label, x, y, j);
         if (self.hasGap(bbox)) {
           self.fillGap(bbox);
-          results.push(label);
+          canFill = true;
           break;
         }
       }
+      if (!canFill) {
+        toBeRemoved.push(label);
+      }
     }
-    results[0].get('parent')._cfg.children = results;
+    for (let i = 0; i < toBeRemoved.length; i++) {
+      toBeRemoved[i].remove();
+    }
   }
 }
 
