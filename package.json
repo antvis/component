@@ -1,6 +1,6 @@
 {
   "name": "@antv/component",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "",
   "browser": "build/component.js",
   "main": "lib/index.js",
