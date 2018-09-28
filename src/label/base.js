@@ -1,8 +1,14 @@
 const Util = require('../util');
 const DomUtil = Util.DomUtil;
 const Component = require('../component');
-const VisualCenter = require('./utils/visual-center');
-const Greedy = require('./utils/greedy');
+const positionAdjust = require('./utils/position-adjust');
+const spirialAdjust = require('./utils/spiral-adjust');
+
+const LAYOUTS = {
+  scatter: positionAdjust,
+  map: spirialAdjust,
+  treemap: canLabelFill
+};
 
 function canLabelFill(labels, shapes) {
   let labelBBox,
@@ -272,21 +278,13 @@ class Label extends Component {
     const type = self.get('type');
     const labels = self.getLabels();
     const shapes = self.get('shapes');
-    if (type === 'default' || !shapes) {
+    const layout = LAYOUTS[type];
+    if (type === 'default' || !layout) {
       return;
     }
     // 将shapes根据index排序,与items一一对应
     shapes.sort((a, b) => a.get('index') - b.get('index'));
-
-    if (type === 'map') {
-      VisualCenter(labels, shapes);
-    }
-    if (type === 'treemap') {
-      canLabelFill(labels, shapes);
-    } else {
-      const greedyPlacement = new Greedy();
-      greedyPlacement.adjust(labels, shapes, type);
-    }
+    layout(labels, shapes);
   }
 
   /**
@@ -417,7 +415,7 @@ class Label extends Component {
     const str = Util.substitute(itemTpl, { text: cfg.text });
     return DomUtil.createDom(str);
   }
-  // 根据文本对齐方式确定dom位 置
+  // 根据文本对齐方式确定dom位置
   _setCustomPosition(cfg, htmlDom) {
     const textAlign = cfg.textAlign || 'left';
     let top = cfg.y;
