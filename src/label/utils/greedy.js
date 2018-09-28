@@ -6,14 +6,16 @@ class Greedy {
   hasGap(bbox) {
     let hasGap = true;
     const bitmap = this.bitmap;
+    const minX = Math.floor(bbox.minX);
+    const maxX = Math.ceil(bbox.maxX);
     const minY = Math.floor(bbox.minY);
     const maxY = Math.ceil(bbox.maxY) - 1;
-    for (let i = Math.floor(bbox.minX); i < Math.ceil(bbox.maxX); i++) {
+    for (let i = minX; i < maxX; i++) {
       if (!bitmap[i]) {
         bitmap[i] = [];
         continue;
       }
-      if (i === 0 || i === Math.ceil(bbox.maxX)) {
+      if (i === minX || i === maxX - 1) {
         for (let j = minY; j <= maxY; j++) {
           if (bitmap[i][j]) {
             hasGap = false;
@@ -31,13 +33,18 @@ class Greedy {
   }
   fillGap(bbox) {
     const bitmap = this.bitmap;
-    for (let i = Math.floor(bbox.minX); i < Math.ceil(bbox.maxX); i++) {
-      for (let j = Math.floor(bbox.minY); j < Math.ceil(bbox.maxY); j++) {
+    const maxX = Math.ceil(bbox.maxX) - 1;
+    const minY = Math.floor(bbox.minY);
+    const maxY = Math.ceil(bbox.maxY) - 1;
+    for (let i = Math.floor(bbox.minX); i <= maxX; i++) {
+      for (let j = minY; j < maxY; j += 8) {
         if (!bitmap[i]) {
           bitmap[i] = [];
         }
         bitmap[i][j] = true;
       }
+      bitmap[i][minY] = true;
+      bitmap[i][maxY] = true;
     }
   }
 }
