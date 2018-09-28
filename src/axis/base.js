@@ -130,9 +130,18 @@ class Axis extends Component {
     const labelRenderer = new Label();
     self.set('labelRenderer', labelRenderer);
     labelRenderer.set('labelCfg', labelCfg);
-    if (labelCfg.labelLine) {
-      labelRenderer.set('labelLine', labelCfg.labelLine);
-    }
+    const cfgs2copy = [
+      'formatter',
+      'htmlTemplate',
+      'labelLine',
+      'textStyle',
+      'useHtml'
+    ];
+    Util.each(cfgs2copy, cfg => {
+      if (labelCfg[cfg]) {
+        labelRenderer.set(cfg, labelCfg[cfg]);
+      }
+    });
     labelRenderer.set('coord', self.get('coord'));
     labelRenderer.set('group', group.addGroup());
     labelRenderer.set('canvas', self.get('canvas'));
