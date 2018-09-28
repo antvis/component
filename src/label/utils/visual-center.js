@@ -1,55 +1,5 @@
 const SQRT = Math.SQRT2;
 
-function _adjust(shape, x, y) {
-  const bbox = shape.getBBox();
-  const cellSize = Math.min(bbox.width, bbox.height);
-  const points = [[]];
-  let index = 0;
-  const path = shape.attr('path');
-  path.forEach((segment, i) => {
-    if (segment[0] === 'z' || segment[0] === 'Z' && i !== path.length - 1) {
-      points.push([]);
-      index += 1;
-    }
-    if (segment.length === 3) {
-      points[index].push([ segment[1], segment[2] ]);
-    }
-  });
-  let h = cellSize / 2;
-  const cellQueue = [];
-  if (cellSize === 0) {
-    return { x, y };
-  }
-  for (let i = bbox.minX; i < bbox.maxX; i += cellSize) {
-    for (let j = bbox.minY; j < bbox.maxY; j += cellSize) {
-      cellQueue.push(getCell(i + h, j + h, h, points));
-    }
-  }
-  let best = getCell(x, y, 0, points);
-  const boxCell = getCell(bbox.minX + bbox.width / 2, bbox.minY + bbox.height / 2, 0, points);
-  if (boxCell > best.d) {
-    best = boxCell;
-  }
-  let cell;
-  while (cellQueue.length) {
-    cell = cellQueue.pop();
-
-    if (cell.d > best.d) {
-      best = cell;
-    }
-    if (cell.max - best.d <= 1) {
-      continue;
-    }
-
-    h = cell.h / 2;
-    cellQueue.push(getCell(cell.x - h, cell.y - h, h, points));
-    cellQueue.push(getCell(cell.x + h, cell.y - h, h, points));
-    cellQueue.push(getCell(cell.x - h, cell.y + h, h, points));
-    cellQueue.push(getCell(cell.x + h, cell.y + h, h, points));
-  }
-  return { x: best.x, y: best.y };
-}
-
 function getCell(x, y, h, points) {
   const d = _calcDist(x, y, points);
   return {
@@ -59,6 +9,27 @@ function getCell(x, y, h, points) {
     d,
     max: d + h * SQRT
   };
+}
+
+function getCentroidCell(polygon) {
+  let area = 0;
+  let x = 0;
+  let y = 0;
+  let a,
+    b,
+    f;
+  const points = polygon[0];
+
+  for (let i = 0, len = points.length, j = len - 1; i < len; j = i++) {
+    a = points[i];
+    b = points[j];
+    f = a[0] * b[1] - b[0] * a[1];
+    x += (a[0] + b[0]) * f;
+    y += (a[1] + b[1]) * f;
+    area += f * 3;
+  }
+  if (area === 0) return getCell(points[0][0], points[0][1], 0, polygon);
+  return getCell(x / area, y / area, 0, polygon);
 }
 
 function _segmentDist(px, py, a, b) {
@@ -106,15 +77,67 @@ function _calcDist(x, y, points) {
   return (inside ? 1 : -1) * Math.sqrt((minDist));
 }
 
-module.exports = function adjust(labels, shapes) {
-  let label,
-    shape,
-    position;
-  for (let i = 0; i < labels.length; i++) {
-    label = labels[i];
-    shape = shapes[i];
-    position = _adjust(shape, label.attr('x'), label.attr('y'));
-    label.attr(position);
+/**
+ * 计算polygon视觉中心
+ * @param {Array}  points  polygon点数组
+ * @param {Object} bbox    polygon的bbox
+ * @return {{x: *, y: *}} 返回视觉中心坐标
+ */
+module.exports = function visualCenter(points, bbox) {
+  if (!bbox) {
+    let minX = Infinity,
+      minY = Infinity,
+      maxX = -Infinity,
+      maxY = -Infinity,
+      p;
+    for (let i = 0; i < points[0].length; i++) {
+      p = points[0][i];
+      if (!i || p[0] < minX) minX = p[0];
+      if (!i || p[1] < minY) minY = p[1];
+      if (!i || p[0] > maxX) maxX = p[0];
+      if (!i || p[1] > maxY) maxY = p[1];
+    }
+    bbox = {
+      minX, minY, maxX, maxY, width: maxX - minX, height: maxY - minY
+    };
   }
+  const cellSize = Math.min(bbox.width, bbox.height);
+  let h = cellSize / 2;
+  const cellQueue = [];
+  const boxCenter = {
+    x: bbox.minX + bbox.width / 2,
+    y: bbox.minY + bbox.height / 2
+  };
+  if (cellSize === 0) {
+    return boxCenter;
+  }
+  for (let i = bbox.minX; i < bbox.maxX; i += cellSize) {
+    for (let j = bbox.minY; j < bbox.maxY; j += cellSize) {
+      cellQueue.push(getCell(i + h, j + h, h, points));
+    }
+  }
+  let best = getCentroidCell(points);
+  const boxCell = getCell(boxCenter.x, boxCenter.y, 0, points);
+  if (boxCell > best.d) {
+    best = boxCell;
+  }
+  let cell;
+  while (cellQueue.length) {
+    cell = cellQueue.pop();
+
+    if (cell.d > best.d) {
+      best = cell;
+    }
+    if (cell.max - best.d <= 1) {
+      continue;
+    }
+
+    h = cell.h / 2;
+    cellQueue.push(getCell(cell.x - h, cell.y - h, h, points));
+    cellQueue.push(getCell(cell.x + h, cell.y - h, h, points));
+    cellQueue.push(getCell(cell.x - h, cell.y + h, h, points));
+    cellQueue.push(getCell(cell.x + h, cell.y + h, h, points));
+  }
+  return { x: best.x, y: best.y };
 };
 
