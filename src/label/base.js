@@ -337,7 +337,6 @@ class Label extends Component {
     }
 
     item.text = item.text + ''; // ? 为什么转换为字符串
-
     const cfg = Util.mix({}, item, textStyle, {
       x: item.x || 0,
       y: item.y || 0
@@ -386,6 +385,7 @@ class Label extends Component {
       const origin = cfg.point;
       const group = this.get('group');
       delete cfg.point; // 临时解决，否则影响动画
+      const rotate = cfg.rotate;
       if (cfg.textStyle) {
         cfg = Util.mix({
           x: cfg.x,
@@ -397,10 +397,10 @@ class Label extends Component {
       labelShape = group.addShape('text', {
         attrs: cfg
       });
-      if (cfg.rotate) {
+      if (rotate) {
         labelShape.transform([
           [ 't', -cfg.x, -cfg.y ],
-          [ 'r', cfg.rotate ],
+          [ 'r', rotate ],
           [ 't', cfg.x, cfg.y ]
         ]);
       }

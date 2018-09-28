@@ -33,18 +33,22 @@ class Greedy {
   }
   fillGap(bbox) {
     const bitmap = this.bitmap;
+    const minX = Math.floor(bbox.minX);
     const maxX = Math.ceil(bbox.maxX) - 1;
     const minY = Math.floor(bbox.minY);
     const maxY = Math.ceil(bbox.maxY) - 1;
-    for (let i = Math.floor(bbox.minX); i <= maxX; i++) {
+    for (let i = minX; i <= maxX; i++) {
       for (let j = minY; j < maxY; j += 8) {
         if (!bitmap[i]) {
           bitmap[i] = [];
         }
         bitmap[i][j] = true;
       }
-      bitmap[i][minY] = true;
       bitmap[i][maxY] = true;
+    }
+    for (let i = minY; i <= maxY; i++) {
+      bitmap[minX][i] = true;
+      bitmap[maxX][i] = true;
     }
   }
 }
