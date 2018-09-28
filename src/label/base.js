@@ -282,8 +282,6 @@ class Label extends Component {
     if (type === 'default' || !layout) {
       return;
     }
-    // 将shapes根据index排序,与items一一对应
-    shapes.sort((a, b) => a.get('index') - b.get('index'));
     layout(labels, shapes);
   }
 
