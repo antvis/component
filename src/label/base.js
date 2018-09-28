@@ -1,6 +1,30 @@
 const Util = require('../util');
 const DomUtil = Util.DomUtil;
 const Component = require('../component');
+const positionAdjust = require('./utils/position-adjust');
+const spirialAdjust = require('./utils/spiral-adjust');
+
+const LAYOUTS = {
+  scatter: positionAdjust,
+  map: spirialAdjust,
+  treemap: canLabelFill
+};
+
+function canLabelFill(labels, shapes) {
+  let labelBBox,
+    shapeBBox;
+  const toBeRemoved = [];
+  for (let i = 0; i < labels.length; i++) {
+    labelBBox = labels[i].getBBox();
+    shapeBBox = shapes[i].getBBox();
+    if (labelBBox.width * labelBBox.height > shapeBBox.width * shapeBBox.height) {
+      toBeRemoved.push(labels[i]);
+    }
+  }
+  for (let i = 0; i < toBeRemoved.length; i++) {
+    toBeRemoved[i].remove();
+  }
+}
 
 class Label extends Component {
   getDefaultCfg() {
@@ -51,7 +75,12 @@ class Label extends Component {
        * label牵引线容器
        * @type Object
        */
-      lineGroup: null
+      lineGroup: null,
+      /**
+       * 需添加label的shape
+       * @type Object
+       */
+      shapes: null
     });
   }
 
@@ -242,8 +271,21 @@ class Label extends Component {
     lineShape._id = label._id && label._id.replace('glabel', 'glabelline');
     lineShape.set('coord', self.get('coord'));
   }
-  // TODO 区分label的type or 定成一个配置项用util方法？
-  _adjustLabels() {}
+
+  // 根据type对label布局
+  _adjustLabels() {
+    const self = this;
+    const type = self.get('type');
+    const labels = self.getLabels();
+    const shapes = self.get('shapes');
+    const layout = LAYOUTS[type];
+    if (type === 'default' || !layout) {
+      return;
+    }
+    // 将shapes根据index排序,与items一一对应
+    shapes.sort((a, b) => a.get('index') - b.get('index'));
+    layout(labels, shapes);
+  }
 
   /**
    * 获取当前所有label实例
@@ -355,6 +397,13 @@ class Label extends Component {
       labelShape = group.addShape('text', {
         attrs: cfg
       });
+      if (cfg.rotate) {
+        labelShape.transform([
+          [ 't', -cfg.x, -cfg.y ],
+          [ 'r', cfg.rotate ],
+          [ 't', cfg.x, cfg.y ]
+        ]);
+      }
       labelShape.setSilent('origin', origin || cfg);
       labelShape.name = 'label'; // 用于事件标注
       this.get('appendInfo') && labelShape.setSilent('appendInfo', this.get('appendInfo'));
