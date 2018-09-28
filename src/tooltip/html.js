@@ -72,6 +72,7 @@ class HtmlTooltip extends Tooltip {
         plotRange: this.get('plotRange'),
         canvas: this.get('canvas')
       }, this.get('crosshairs')));
+      crosshairGroup.hide();
       this.set('crosshairGroup', crosshairGroup);
     }
   }
