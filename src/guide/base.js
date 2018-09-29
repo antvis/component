@@ -63,9 +63,14 @@ class Guide extends Component {
     let x;
     let y;
 
+    // 如果数据格式是 ['50%', '50%'] 的格式
+    if (Util.isArray(position) && Util.isString(position[0]) && position[0].indexOf('%') !== -1) {
+      return this._parsePercentPoint(coord, position);
+    }
+
     if (Util.isArray(position)) { // Array，suuport for mixing of keyword, percent and value
       x = self._getNormalizedValue(position[0], Helper.getFirstScale(xScales));
-      y = self._getNormalizedValue(position[1], Helper.getFirstScale(yScales), 'y');
+      y = self._getNormalizedValue(position[1], Helper.getFirstScale(yScales));
     } else {
       for (const field in position) {
         const value = position[field];
@@ -96,10 +101,9 @@ class Guide extends Component {
    * Normalized the value
    * @param  {String | Number} val   param
    * @param  {Scale} scale the instance of Scale
-   * @param  {String} direct which axis dose the value in
    * @return {Number}       return the normalized value
    */
-  _getNormalizedValue(val, scale, direct) {
+  _getNormalizedValue(val, scale) {
     let result;
     if (Util.indexOf(KEYWORDS, val) !== -1) { // keyword
       let scaleValue;
@@ -118,15 +122,29 @@ class Guide extends Component {
         }
         result = scale.scale(scaleValue);
       }
-    } else if (Util.isString(val) && val.indexOf('%') !== -1) { // percent, just like '50%'
-      val = parseFloat(val) / 100;
-      result = direct === 'y' ? (1 - val) : val; // origin point is top-left
     } else { // 数值
       result = scale.scale(val);
     }
 
     return result;
   }
+
+  _parsePercentPoint(coord, position) {
+    const xPercent = parseFloat(position[0]) / 100;
+    const yPercent = parseFloat(position[1]) / 100;
+    const { start, end } = coord;
+    const topLeft = {
+      x: Math.min(start.x, end.x),
+      y: Math.min(start.y, end.y)
+    };
+    const x = coord.width * xPercent + topLeft.x;
+    const y = coord.height * yPercent + topLeft.y;
+    return {
+      x,
+      y
+    };
+  }
+
 }
 
 module.exports = Guide;

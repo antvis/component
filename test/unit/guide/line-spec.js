@@ -450,8 +450,8 @@ describe('Guide: 辅助线', function() {
       yScales: {
         temp: yScale
       },
-      start: [ '25%', 600 ],
-      end: [ '75%', 600 ],
+      start: [ '二月', 600 ],
+      end: [ '四月', 600 ],
       lineStyle: {
         stroke: '#1890ff',
         lineWidth: 2,

@@ -69,13 +69,13 @@ describe('Guide', () => {
     parseResult = guide.parsePoint(coord, point);
     expect(parseResult).to.eql({ x: 460, y: 60 });
 
-    point = [ 'max', '20%' ]; // 关键字和百分比混用
-    parseResult = guide.parsePoint(coord, point);
-    expect(parseResult).to.eql({ x: 460, y: 140 });
+    // point = [ 'max', '20%' ]; // 关键字和百分比混用
+    // parseResult = guide.parsePoint(coord, point);
+    // expect(parseResult).to.eql({ x: 460, y: 140 });
 
-    point = [ '20%', 600 ]; // 百分比和数值混用
-    parseResult = guide.parsePoint(coord, point, false);
-    expect(parseResult).to.eql({ x: 0.2, y: 0.5 });
+    // point = [ '20%', 600 ]; // 百分比和数值混用
+    // parseResult = guide.parsePoint(coord, point, false);
+    // expect(parseResult).to.eql({ x: 0.2, y: 0.5 });
 
     point = function() {
       return [ 3, 600 ];

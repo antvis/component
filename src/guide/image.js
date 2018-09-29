@@ -49,8 +49,8 @@ class Image extends Guide {
       cfg.height = self.get('height') || 32;
     } else {
       const end = self.parsePoint(coord, self.get('end'));
-      cfg.width = end.x - start.x;
-      cfg.height = end.y - start.y;
+      cfg.width = Math.abs(end.x - start.x);
+      cfg.height = Math.abs(end.y - start.y);
     }
 
     if (self.get('offsetX')) {
