@@ -1,5 +1,4 @@
 const Util = require('../util');
-const PathUtil = require('./util/path');
 const Guide = require('./base');
 const { vec2 } = Util.MatrixUtil;
 
@@ -50,38 +49,27 @@ class Line extends Guide {
 
   render(coord, group) {
     const self = this;
-    const start = self.parsePoint(coord, self.get('start'), false);
-    const end = self.parsePoint(coord, self.get('end'), false);
+    const start = self.parsePoint(coord, self.get('start'));
+    const end = self.parsePoint(coord, self.get('end'));
     const guideLineGroup = group.addGroup({
       viewId: group.get('viewId')
     });
 
-    self._drawLines(start, end, guideLineGroup, coord);
+    self._drawLines(start, end, guideLineGroup);
 
     const text = self.get('text');
     if (text && text.content) {
-      self._drawText(start, end, guideLineGroup, coord);
+      self._drawText(start, end, guideLineGroup);
     }
 
     self.set('el', guideLineGroup);
   }
 
-  _drawLines(start, end, group, coord) {
-    let path;
-    if (coord.isPolar) {
-      path = [
-        [ 'M', start.x, start.y ],
-        [ 'L', end.x, end.y ]
-      ];
-      path = PathUtil.convertPolarPath(coord, path);
-    } else {
-      start = coord.convert(start);
-      end = coord.convert(end);
-      path = [
-        [ 'M', start.x, start.y ],
-        [ 'L', end.x, end.y ]
-      ];
-    }
+  _drawLines(start, end, group) {
+    const path = [
+      [ 'M', start.x, start.y ],
+      [ 'L', end.x, end.y ]
+    ];
 
     const guideLine = group.addShape('Path', {
       attrs: Util.mix({
@@ -92,9 +80,7 @@ class Line extends Guide {
     this.get('appendInfo') && guideLine.setSilent('appendInfo', this.get('appendInfo'));
   }
 
-  _drawText(start, end, group, coord) {
-    start = coord.convert(start);
-    end = coord.convert(end);
+  _drawText(start, end, group) {
     const textCfg = this.get('text');
     const position = textCfg.position;
     const textStyle = textCfg.style || {};
