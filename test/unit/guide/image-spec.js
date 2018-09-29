@@ -79,8 +79,8 @@ describe('Guide: 辅助图片', function() {
       yScales: {
         temp: yScale
       },
-      start: [ '三月', '0%' ],
-      end: [ '五月', '100%' ],
+      start: [ '三月', 0 ],
+      end: [ '五月', 1200 ],
       src: 'https://zos.alipayobjects.com/rmsportal/gbwjstijrvcgTWOPCirr.png',
       offsetX: -100,
       offsetY: 100,
@@ -95,7 +95,7 @@ describe('Guide: 辅助图片', function() {
       expect(el.attr('width')).to.equal(200);
       expect(el.attr('height')).to.equal(400);
       expect(el.attr('x')).to.equal(160);
-      expect(el.attr('y')).to.equal(160);
+      expect(el.attr('y')).to.equal(560);
       expect(el.name).to.equal('guide-image');
       expect(el.get('appendInfo')).to.equal(img.get('appendInfo'));
       done();
