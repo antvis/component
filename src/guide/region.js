@@ -1,5 +1,4 @@
 const Util = require('../util');
-const PathUtil = require('./util/path');
 const Guide = require('./base');
 
 class Region extends Guide {
@@ -37,31 +36,17 @@ class Region extends Guide {
 
   _getPath(coord) {
     const self = this;
-    let start = self.parsePoint(coord, self.get('start'), false);
-    let end = self.parsePoint(coord, self.get('end'), false);
+    const start = self.parsePoint(coord, self.get('start'));
+    const end = self.parsePoint(coord, self.get('end'));
 
-    let path;
-    if (coord.isPolar) {
-      path = [
-        [ 'M', start.x, start.y ],
-        [ 'L', end.x, start.y ],
-        [ 'L', end.x, end.y ],
-        [ 'L', start.x, end.y ],
-        [ 'z' ]
-      ];
-      path = PathUtil.convertPolarPath(coord, path);
-    } else {
-      start = coord.convert(start);
-      end = coord.convert(end);
+    const path = [
+      [ 'M', start.x, start.y ],
+      [ 'L', end.x, start.y ],
+      [ 'L', end.x, end.y ],
+      [ 'L', start.x, end.y ],
+      [ 'z' ]
+    ];
 
-      path = [
-        [ 'M', start.x, start.y ],
-        [ 'L', end.x, start.y ],
-        [ 'L', end.x, end.y ],
-        [ 'L', start.x, end.y ],
-        [ 'z' ]
-      ];
-    }
     return path;
   }
 }

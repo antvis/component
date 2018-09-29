@@ -78,53 +78,53 @@ describe('Guide: 辅助背景框', function() {
     expect(snapEqual(path[0][2] - path[3][2], 200)).to.be.true;
   });
 
-  it('guide region in polar', function() {
-    group.clear();
-    const coord = new Coord.Polar({
-      start: { x: 0, y: 0 },
-      end: { x: 200, y: 200 },
-      startAngle: -0.5 * Math.PI,
-      endAngle: 1.5 * Math.PI
-    });
-    region = new Region({
-      xScales: {
-        month: xScale
-      },
-      yScales: {
-        temp: yScale
-      },
-      start: {
-        month: 1,
-        temp: 'min'
-      },
-      end: {
-        month: 3,
-        temp: 'max'
-      },
-      style: {
-        lineWidth: 1,
-        fill: '#CCD7EB',
-        fillOpacity: 0.4,
-        stroke: 'blue'
-      },
-      appendInfo: 'Guide-region'
-    });
-    region.render(coord, group);
-    canvas.draw();
-    const children = group.get('children');
-    const el = region.get('el');
-    expect(children[0]).to.eql(el);
+  // it('guide region in polar', function() {
+  //   group.clear();
+  //   const coord = new Coord.Polar({
+  //     start: { x: 0, y: 0 },
+  //     end: { x: 200, y: 200 },
+  //     startAngle: -0.5 * Math.PI,
+  //     endAngle: 1.5 * Math.PI
+  //   });
+  //   region = new Region({
+  //     xScales: {
+  //       month: xScale
+  //     },
+  //     yScales: {
+  //       temp: yScale
+  //     },
+  //     start: {
+  //       month: 1,
+  //       temp: 'min'
+  //     },
+  //     end: {
+  //       month: 3,
+  //       temp: 'max'
+  //     },
+  //     style: {
+  //       lineWidth: 1,
+  //       fill: '#CCD7EB',
+  //       fillOpacity: 0.4,
+  //       stroke: 'blue'
+  //     },
+  //     appendInfo: 'Guide-region'
+  //   });
+  //   region.render(coord, group);
+  //   canvas.draw();
+  //   const children = group.get('children');
+  //   const el = region.get('el');
+  //   expect(children[0]).to.eql(el);
 
-    const path = el.attr('path');
-    expect(el.name).to.equal('guide-region');
-    expect(el.get('appendInfo')).to.equal(region.get('appendInfo'));
-    expect(path).to.eql([
-      [ 'M', 100, 100 ],
-      [ 'L', 0, 100.00000000000001 ],
-      [ 'A', 100, 100, 0, 0, 0, 200, 100 ],
-      [ 'z' ]
-    ]);
-  });
+  //   const path = el.attr('path');
+  //   expect(el.name).to.equal('guide-region');
+  //   expect(el.get('appendInfo')).to.equal(region.get('appendInfo'));
+  //   expect(path).to.eql([
+  //     [ 'M', 100, 100 ],
+  //     [ 'L', 0, 100.00000000000001 ],
+  //     [ 'A', 100, 100, 0, 0, 0, 200, 100 ],
+  //     [ 'z' ]
+  //   ]);
+  // });
 
   it('changeVisible', () => {
     const el = region.get('el');
