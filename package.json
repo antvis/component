@@ -93,7 +93,7 @@
   },
   "dependencies": {
     "@antv/attr": "~0.0.7",
-    "@antv/g": "~3.2.2",
+    "@antv/g": "~3.3.0",
     "@antv/util": "~1.2.5",
     "wolfy87-eventemitter": "~5.1.0"
   }
