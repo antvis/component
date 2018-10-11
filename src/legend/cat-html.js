@@ -114,7 +114,12 @@ class CatHtml extends Category {
         height: 'auto',
         padding: '3px',
         boxShadow: '2px 2px 5px #888'
-      }
+      },
+      /**
+       * useHtml 为 true 时生效，用于自动定位
+       * @type {[type]}
+       */
+      autoPosition: true
     });
   }
 
