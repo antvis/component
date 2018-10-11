@@ -109,11 +109,11 @@ class Tooltip extends Component {
   }
 
   show() {
-
+    this.set('visible', true);
   }
 
   hide() {
-
+    this.set('visible', false);
   }
 
   destroy() {
