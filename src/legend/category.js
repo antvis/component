@@ -180,9 +180,7 @@ class Category extends Legend {
       } else {
         // change opacity
         if (child.get('value') === value) {
-          markerItem.attr('fillOpacity', 1);
-        } else {
-          checked && markerItem.attr('fillOpacity', 0.5);
+          markerItem.attr('fillOpacity', 0.5);
         }
       }
     });
