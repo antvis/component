@@ -14,7 +14,7 @@ const canvas = new Canvas({
 });
 canvas.draw();
 
-describe('测试底部坐标轴生成', function() {
+describe('line axis on bottom', function() {
   const group = canvas.addGroup();
   const axis = new LineAxis({
     group,
@@ -86,12 +86,12 @@ describe('测试底部坐标轴生成', function() {
   axis.render();
   canvas.draw();
 
-  it('测试坐标轴生成', function() {
+  it('Axis instance', function() {
     expect(axis).not.to.be.undefined;
     expect(axis).to.be.an.instanceof(LineAxis);
   });
 
-  it('测试线生成', function() {
+  it('line group', function() {
     const line = axis.get('lineShape');
     const path = line.attr('path');
     expect(findByName(axis.get('group'), 'axis-line')).not.to.be.null;
@@ -99,43 +99,43 @@ describe('测试底部坐标轴生成', function() {
     expect(path[0][2]).to.equal(460);
   });
 
-  it('测试点生成', function() {
+  it('ticks group', function() {
     expect(findByName(axis.get('group'), 'axis-ticks')).not.to.be.null;
   });
 
-  it('测试label生成', function() {
+  it('label', function() {
     const labelRenderer = axis.get('labelRenderer');
     expect(labelRenderer).not.to.be.undefined;
     expect(labelRenderer.get('group').get('children').length).to.equal(axis.get('ticks').length);
   });
 
-  it('测试title', function() {
+  it('title', function() {
     const title = findByName(axis.get('group'), 'axis-title');
     expect(title).not.to.be.null;
     expect(title.attr('y')).to.equal(510);
   });
 
-  it('ticks 生成', function() {
+  it('tickItems', function() {
     expect(axis.get('tickItems').length).to.equal(axis.get('ticks').length);
   });
 
-  it('subTicks 生成', function() {
+  it('subTickItems', function() {
     expect(axis.get('subTickItems').length).to.equal((axis.get('ticks').length - 1) * (axis.get('subTickCount')));
   });
 
-  it('测试网格线生成', function() {
+  it('grid', function() {
     const gridGroup = axis.get('gridGroup');
     expect(gridGroup).not.to.be.undefined;
     expect(findByName(axis.get('group'), 'axis-grid')).not.to.be.null;
   });
 
-  it('测试移除', function() {
+  it('destroy', function() {
     axis.destroy();
     expect(canvas.contain(axis)).to.be.false;
   });
 });
 
-describe('测试顶部坐标轴', function() {
+describe('line axis on top', function() {
   const group = canvas.addGroup();
   const axis = new LineAxis({
     canvas,
@@ -174,7 +174,7 @@ describe('测试顶部坐标轴', function() {
   axis.render();
   canvas.draw();
 
-  it('测试线生成', function() {
+  it('line', function() {
     const line = axis.get('lineShape');
     const path = line.attr('path');
 
@@ -182,7 +182,7 @@ describe('测试顶部坐标轴', function() {
     expect(path[0][2]).to.equal(60);
   });
 
-  it('测试点生成位置', function() {
+  it('tics', function() {
     const line = axis.get('lineShape');
     const path = line.attr('path');
 
@@ -190,7 +190,7 @@ describe('测试顶部坐标轴', function() {
     expect(path[1][2]).to.equal(60);
   });
 
-  it('测试 tite 位置', function() {
+  it('tite', function() {
     const title = findByName(axis.get('group'), 'axis-title');
     expect(title).not.to.be.null;
     expect(title.attr('y')).to.equal(30);
@@ -218,9 +218,9 @@ describe('line axis on left', function() {
         fill: 'red',
         textAlign: 'center'
       },
-      text: '左侧 Y 轴',
-      autoRotate: false,
-      position: 'start',
+      text: 'axis left',
+      autoRotate: true,
+      position: 'center',
       offset: 40
     },
     grid: {
@@ -245,7 +245,7 @@ describe('line axis on left', function() {
   canvas.sort();
   canvas.draw();
 
-  it('测试线生成', function() {
+  it('line', function() {
     const line = axis.get('lineShape');
     const path = line.attr('path');
 
@@ -253,7 +253,7 @@ describe('line axis on left', function() {
     expect(path[1][2]).to.equal(460);
   });
 
-  it('测试点生成位置', function() {
+  it('ticks', function() {
     const line = axis.get('lineShape');
     const path = line.attr('path');
 
@@ -261,20 +261,20 @@ describe('line axis on left', function() {
     expect(path[1][1]).to.equal(60);
   });
 
-  it('测试栅格', function() {
+  it('grid', function() {
     const gridGroup = axis.get('gridGroup');
     expect(gridGroup).not.to.be.null;
     expect(findByName(gridGroup, 'axis-grid')).not.to.be.null;
   });
 
-  it('测试tite位置', function() {
+  it('title', function() {
     const text = findByName(axis.get('group'), 'axis-title');
     expect(text).not.to.be.null;
     expect(text.attr('x')).to.equal(20);
   });
 });
 
-describe('right', function() {
+describe('line axis on right', function() {
   const group = canvas.addGroup();
   const axis = new LineAxis({
     canvas,
@@ -303,7 +303,7 @@ describe('right', function() {
   axis.render();
   canvas.draw();
 
-  it('测试线生成', function() {
+  it('line', function() {
     const line = axis.get('lineShape');
     const path = line.attr('path');
     expect(path[0][1]).to.equal(460);
@@ -312,17 +312,17 @@ describe('right', function() {
     expect(path[1][2]).to.equal(460);
   });
 
-  it('测试点生成位置', function() {
+  it('ticks', function() {
     const line = axis.get('lineShape');
     const path = line.attr('path');
     expect(path[0][1]).to.equal(460);
     expect(path[1][1]).to.equal(460);
   });
-  it('测试label生成位置', function() {
+  it('label', function() {
     const labelsGroup = axis.get('labelsGroup');
     expect(labelsGroup).to.be.undefined;
   });
-  it('测试tite位置', function() {
+  it('title', function() {
     const text = findByName(axis.get('group'), 'axis-title');
     expect(text).not.to.null;
     expect(text.attr('x')).to.equal(500);
