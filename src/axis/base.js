@@ -72,9 +72,9 @@ class Axis extends Component {
     const title = self.get('title');
     const label = self.get('label');
     const grid = self.get('grid');
-    const viewTheme = self.get('viewTheme');
+    const viewTheme = self.get('viewTheme') || {};
     if (title) {
-      self.setSilent('title', Util.deepMix({
+      self.set('title', Util.deepMix({
         autoRotate: true,
         textStyle: {
           fontSize: 12,
@@ -87,7 +87,7 @@ class Axis extends Component {
       }, title));
     }
     if (label) {
-      self.setSilent('label', Util.deepMix({
+      self.set('label', Util.deepMix({
         autoRotate: true,
         textStyle: {
           fontSize: 12,
@@ -99,7 +99,7 @@ class Axis extends Component {
       }, label));
     }
     if (grid) {
-      self.setSilent('grid', Util.deepMix({
+      self.set('grid', Util.deepMix({
         lineStyle: {
           lineWidth: 1,
           stroke: '#C0D0E0'
@@ -110,6 +110,7 @@ class Axis extends Component {
 
   render() {
     const self = this;
+    self.beforeRender();
     const labelCfg = self.get('label');
     if (labelCfg) {
       self.renderLabels();

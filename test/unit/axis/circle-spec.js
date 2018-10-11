@@ -8,7 +8,7 @@ const findByName = require('../../helper/find-element-by-name');
 const div = document.createElement('div');
 document.body.appendChild(div);
 
-describe('测试中轴坐标系', function() {
+describe('axis in the middle', function() {
   const canvas = new Canvas({
     containerDOM: div,
     width: 500,
@@ -102,11 +102,11 @@ describe('测试中轴坐标系', function() {
 
   canvas.draw();
 
-  describe('测试中轴坐标系', function() {
-    it('测试坐标轴生成', function() {
+  describe('axis in the middle', function() {
+    it('Axis instance', function() {
       expect(xAxis).not.to.be.undefined;
     });
-    it('测试半径,圆心', function() {
+    it('radius, center of the circle', function() {
       const center = xAxis.get('center');
       const r = xAxis.get('radius');
 
@@ -114,12 +114,12 @@ describe('测试中轴坐标系', function() {
       expect(center.y).to.equal(260);
       expect(r).to.equal(200);
     });
-    it('测试线', function() {
+    it('line', function() {
       const lineShape = xAxis.get('lineShape');
       expect(lineShape).not.to.be.undefined;
       expect(lineShape.attr('path').length).not.to.equal(0);
     });
-    it('测试ticks', function() {
+    it('ticks', function() {
       const ticks = xAxis.get('ticks');
       const tickShape = findByName(xAxis.get('group'), 'axis-ticks');
 
@@ -127,32 +127,32 @@ describe('测试中轴坐标系', function() {
       expect(tickShape).not.to.be.undefined;
       expect(tickShape.attr('path')).not.to.be.undefined;
     });
-    it('测试lables', function() {
+    it('labels', function() {
       const labelRenderer = xAxis.get('labelRenderer');
       expect(labelRenderer).not.to.equal(null);
       expect(labelRenderer.get('items').length).to.equal(5);
     });
 
-    it('测试栅格', function() {
+    it('grid', function() {
       const gridGroup = xAxis.get('gridGroup');
       expect(gridGroup).not.to.be.undefined;
       expect(gridGroup.getCount()).to.equal(4);
     });
 
   });
-  describe('测试半径坐标轴', function() {
-    it('测试坐标轴生成', function() {
+  describe('axis around circle', function() {
+    it('Axis instance', function() {
       expect(yAxis).not.to.be.undefined;
     });
 
-    it('测试栅格', function() {
+    it('grid', function() {
       const gridGroup = xAxis.get('gridGroup');
       expect(gridGroup).not.to.be.undefined;
     });
   });
 });
 
-describe('测试中轴坐标系2', function() {
+describe('axis in the middle - 2', function() {
   const canvas = new Canvas({
     containerDOM: div,
     width: 500,
@@ -223,12 +223,12 @@ describe('测试中轴坐标系2', function() {
   yAxis.render();
 
   canvas.draw();
-  describe('测试中轴坐标系', function() {
-    it('测试坐标轴生成', function() {
+  describe('axis in the middle', function() {
+    it('Axis instance', function() {
       expect(xAxis).not.to.be.undefined;
     });
 
-    it('测试半径,圆心', function() {
+    it('radius, center of the circle', function() {
       const center = xAxis.get('center');
       const r = xAxis.get('radius');
 
@@ -237,26 +237,25 @@ describe('测试中轴坐标系2', function() {
       expect(r).to.equal(200);
     });
 
-    it('测试labels', function() {
+    it('labels', function() {
       const labelRenderer = xAxis.get('labelRenderer');
       expect(labelRenderer).not.to.equal(null);
       expect(labelRenderer.get('items').length).to.equal(6);
     });
 
-    it('测试栅格', function() {
+    it('grid', function() {
       const gridGroup = xAxis.get('gridGroup');
       expect(gridGroup).not.to.be.undefined;
       expect(gridGroup.getCount()).to.equal(1);
     });
   });
 
-  describe('测试半径坐标轴', function() {
-
-    it('测试坐标轴生成', function() {
+  describe('axis around circle', function() {
+    it('Axis instance', function() {
       expect(yAxis).not.to.be.undefined;
     });
 
-    it('测试栅格', function() {
+    it('grid', function() {
       const gridGroup = xAxis.get('gridGroup');
       expect(gridGroup).not.to.be.undefined;
       canvas.clear();
@@ -264,7 +263,7 @@ describe('测试中轴坐标系2', function() {
   });
 });
 
-describe('测试圆轴', function() {
+describe('axis around circle', function() {
   const canvas = new Canvas({
     containerDOM: div,
     width: 500,
@@ -314,7 +313,7 @@ describe('测试圆轴', function() {
     }
   };
 
-  it('测试文本自动旋转－情况1', function() {
+  it('label autorotate - 1', function() {
     const cfg = Util.mix({}, simpleAxisCfg, {
       canvas,
       group,
