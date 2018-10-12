@@ -328,3 +328,81 @@ describe('line axis on right', function() {
     expect(text.attr('x')).to.equal(500);
   });
 });
+
+describe('line axis label offset', () => {
+  const group = canvas.addGroup();
+  const axis = new LineAxis({
+    canvas,
+    group,
+    isVertical: true,
+    factor: 1,
+    start: {
+      x: 230,
+      y: 60
+    },
+    end: {
+      x: 230,
+      y: 460
+    },
+    ticks: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
+    label: {
+      textStyle: {
+        fill: '#f80',
+        textAlign: 'center'
+      },
+      formatter(value) {
+        return value;
+      },
+      offset: [ 200, 50 ]
+    }
+  });
+  axis.render();
+  canvas.draw();
+
+  it('vertical axis label', function() {
+    const labelRenderer = axis.get('labelRenderer');
+    expect(labelRenderer).not.to.be.undefined;
+    const bbox = axis.get('group').getBBox();
+    const labelAttrs = labelRenderer.get('group').get('children')[0]._attrs;
+    expect(labelAttrs.x > (bbox.minX + 200)).to.be.true;
+    expect(labelAttrs.x > (bbox.minY + 50)).to.be.true;
+  });
+
+  const axis2 = new LineAxis({
+    canvas,
+    group,
+    isVertical: false,
+    factor: 1,
+    start: {
+      x: 60,
+      y: 120
+    },
+    end: {
+      x: 460,
+      y: 120
+    },
+    ticks: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
+    label: {
+      textStyle: {
+        fill: '#f80',
+        textAlign: 'center'
+      },
+      formatter(value) {
+        return value;
+      },
+      offset: [ 200, 50 ]
+    }
+  });
+  axis2.render();
+  canvas.draw();
+
+  it('horizontal axis label', function() {
+    const labelRenderer = axis2.get('labelRenderer');
+    expect(labelRenderer).not.to.be.undefined;
+    const bbox = axis2.get('group').getBBox();
+    const labelAttrs = labelRenderer.get('group').get('children')[0]._attrs;
+    expect(labelAttrs.x > (bbox.minX + 200)).to.be.true;
+    expect(labelAttrs.x > (bbox.minY + 50)).to.be.true;
+  });
+
+});

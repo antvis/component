@@ -37,8 +37,11 @@ class Line extends Base {
    */
   getSideVector(offset) {
     const self = this;
-    const factor = self.get('factor');
     const isVertical = self.get('isVertical');
+    const factor = self.get('factor');
+    if (Util.isArray(offset)) {
+      return offset.map(value => value * factor);
+    }
     const start = self.get('start');
     const end = self.get('end');
     const axisVector = self.getAxisVector();
