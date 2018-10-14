@@ -335,6 +335,9 @@ class Continuous extends Legend {
 
   // activated by mouse moving or being called
   activate(value) {
+    if (!value) {
+      return;
+    }
     let hoverPointer = this.get('group').findById('hoverPointer');
     let hoverText = this.get('group').findById('hoverText');
 
@@ -393,10 +396,10 @@ class Continuous extends Legend {
       }
       if (this.get('slidable')) {
         if (this.get('type') === 'color-legend') {
-          paddingY -= 13;
+          paddingY -= 7;
         } else {
           paddingY = titleGap;
-          if (!titleShape) paddingY -= 10;
+          if (!titleShape) paddingY -= 7;
         }
         paddingX += 10;
       }
@@ -404,12 +407,12 @@ class Continuous extends Legend {
       page *= width;
       points = [
         [ page + paddingX, paddingY ],
-        [ page + paddingX - 4.5, paddingY - 11.5 ],
-        [ page + paddingX + 4.5, paddingY - 11.5 ]
+        [ page + paddingX - 5, paddingY - 10 ],
+        [ page + paddingX + 5, paddingY - 10 ]
       ];
       textStyle = Util.mix({}, {
         x: page + paddingX,
-        y: height + 5 + this.get('textOffset') + paddingY,
+        y: height + this.get('textOffset') + paddingY,
         text: this._formatItemValue(value) + '' // 以字符串格式展示
       }, this.get('textStyle'));
     }
