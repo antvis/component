@@ -112,6 +112,8 @@ class MiniTooltip extends CanvasTooltip {
     if (target && (target.name === 'point' || target.name === 'interval')) {
       const targetY = target.getBBox().y;
       y = targetY;
+    }else{
+      return;
     }
     y -= height;
 
@@ -134,7 +136,6 @@ class MiniTooltip extends CanvasTooltip {
       }
 
     } else { // constrain in dom
-
       const outterNode = this.get('canvas').get('el');
       const viewWidth = DomUtil.getWidth(outterNode);
       const viewHeight = DomUtil.getHeight(outterNode);
