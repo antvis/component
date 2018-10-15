@@ -337,7 +337,7 @@ class CatHtml extends Category {
     const titleDom = findNodeByClass(legendWrapper, TITLE_CLASS);
     const itemListDom = findNodeByClass(legendWrapper, LIST_CLASS); // ul
     const unCheckedColor = this.get('unCheckColor');
-    const LEGEND_STYLE = Util.mix({}, {
+    const LEGEND_STYLE = Util.deepMix({}, {
       CONTAINER_CLASS: {
         height: 'auto',
         width: 'auto',
@@ -450,7 +450,7 @@ class CatHtml extends Category {
       const textDom = findNodeByClass(itemDom, TEXT_CLASS);
       DomUtil.modifyCSS(itemDom, itemStyle);
       markerDom && DomUtil.modifyCSS(markerDom, markerStyle);
-      textDom && DomUtil.modifyCSS(textDom, this.get('textStyle'));
+      // textDom && DomUtil.modifyCSS(textDom, this.get('textStyle'));
 
       if (!checked) {
         itemDom.style.color = unCheckedColor;

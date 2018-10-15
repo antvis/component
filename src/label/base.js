@@ -3,28 +3,13 @@ const DomUtil = Util.DomUtil;
 const Component = require('../component');
 const positionAdjust = require('./utils/position-adjust');
 const spirialAdjust = require('./utils/spiral-adjust');
+const bboxAdjust = require('./utils/bbox-adjust');
 
 const LAYOUTS = {
   scatter: positionAdjust,
   map: spirialAdjust,
-  treemap: canLabelFill
+  treemap: bboxAdjust
 };
-
-function canLabelFill(labels, shapes) {
-  let labelBBox,
-    shapeBBox;
-  const toBeRemoved = [];
-  for (let i = 0; i < labels.length; i++) {
-    labelBBox = labels[i].getBBox();
-    shapeBBox = shapes[i].getBBox();
-    if (labelBBox.width * labelBBox.height > shapeBBox.width * shapeBBox.height) {
-      toBeRemoved.push(labels[i]);
-    }
-  }
-  for (let i = 0; i < toBeRemoved.length; i++) {
-    toBeRemoved[i].remove();
-  }
-}
 
 class Label extends Component {
   getDefaultCfg() {
