@@ -175,12 +175,15 @@ class Category extends Legend {
         // change stroke color
         if (child.get('value') === value && checked) {
           markerItem.attr('stroke', '#333');
-          return;
+        } else {
+          markerItem.attr('stroke', null);
         }
       } else {
         // change opacity
         if (child.get('value') === value) {
           markerItem.attr('fillOpacity', 0.5);
+        } else {
+          markerItem.attr('fillOpacity', 1);
         }
       }
     });
