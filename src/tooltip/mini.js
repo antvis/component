@@ -112,8 +112,6 @@ class MiniTooltip extends CanvasTooltip {
     if (target && (target.name === 'point' || target.name === 'interval')) {
       const targetY = target.getBBox().y;
       y = targetY;
-    } else {
-      return;
     }
     y -= height;
 
