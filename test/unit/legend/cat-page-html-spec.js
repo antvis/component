@@ -62,34 +62,36 @@ describe('HTML 分类图例 翻页', function() {
     const childNodes = itemListDom.childNodes;
 
     const slipDom = document.getElementsByClassName(SLIP_CLASS)[0];
-    const caretUpDom = findNodeByClass(slipDom, 'caret-up');
-    const caretDownDom = findNodeByClass(slipDom, 'caret-down');
+    const caretUpDom = findNodeByClass(slipDom, 'g2-caret-up');
+    const caretDownDom = findNodeByClass(slipDom, 'g2-caret-down');
 
-    const clickUp1 = new Event('click', {
-      clientX: 0,
-      clientY: 0
-    }, true, true);
-    caretUpDom.click(clickUp1);
+    const clickUp1 = new MouseEvent('click', {
+      view: window,
+      bubbles: true,
+      cancelable: true
+    });
+    caretUpDom.dispatchEvent(clickUp1);
     expect(childNodes[0].style.display).not.eql('none');
 
     const clickDown2 = new Event('click', {
       clientX: 0,
       clientY: 0
     }, true, true);
-    caretDownDom.click(clickDown2);
+    caretDownDom.dispatchEvent(clickDown2);
     expect(childNodes[0].style.display).eql('none');
 
-    const clickUp2 = new Event('click', {
-      clientX: 0,
-      clientY: 0
-    }, true, true);
-    caretUpDom.click(clickUp2);
+    const clickUp2 = new MouseEvent('click', {
+      view: window,
+      bubbles: true,
+      cancelable: true
+    });
+    caretUpDom.dispatchEvent(clickUp2);
     expect(childNodes[0].style.display).not.eql('none');
 
-    caretDownDom.click(clickDown2);
-    caretDownDom.click(clickDown2);
-    caretDownDom.click(clickDown2);
-    caretDownDom.click(clickDown2);
+    caretDownDom.dispatchEvent(clickDown2);
+    caretDownDom.dispatchEvent(clickDown2);
+    caretDownDom.dispatchEvent(clickDown2);
+    caretDownDom.dispatchEvent(clickDown2);
     legend.destroy();
   });
 

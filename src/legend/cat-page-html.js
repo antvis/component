@@ -5,6 +5,10 @@ const DomUtil = Util.DomUtil;
 const LIST_CLASS = 'g2-legend-list';
 const CONTAINER_CLASS = 'g2-legend';
 const SLIP_CLASS = 'g2-slip';
+const CARET_UP_CLASS = 'g2-caret-up';
+const CARET_DOWN_CLASS = 'g2-caret-down';
+const ENABLED_CARET_COLOR = 'rgba(0,0,0,0.65)';
+const DISABLED_CARET_COLOR = 'rgba(0,0,0,0.25)';
 
 function findNodeByClass(node, className) {
   return node.getElementsByClassName(className)[0];
@@ -29,9 +33,7 @@ class CatPageHtml extends CatHtml {
        * @type {ATTRS}
        */
       caretStyle: {
-        width: '15px',
-        display: 'inline-block',
-        cursor: 'pointer'
+        fill: 'rgba(0,0,0,0.65)'
       },
       /**
        * 页码文字的样式
@@ -57,12 +59,16 @@ class CatPageHtml extends CatHtml {
        * @type {String}
        */
       slipTpl:
-        '<div class="' + SLIP_CLASS + '" >' +
-          '<img class="caret-up" src = "https://gw.alipayobjects.com/zos/rmsportal/AyRvHCJjiOBzJWErvzWz.png"/>' +
-          '<p class="cur-pagenum" style = "display:inline-block;">1</p>' +
-          '<p class="next-pagenum" style = "display:inline-block;">/2</p>' +
-          '<img class="caret-down" src = "https://gw.alipayobjects.com/zos/rmsportal/LbdlxWIqCtpCbvRDaMgq.png"/>' +
-        '</div>',
+      '<div class="' + SLIP_CLASS + '" >' +
+      '<svg viewBox="64 64 896 896" class="g2-caret-up" data-icon="left" width="1em" height="1em" aria-hidden="true">' +
+      '<path d="M724 218.3V141c0-6.7-7.7-10.4-12.9-6.3L260.3 486.8a31.86 31.86 0 0 0 0 50.3l450.8 352.1c5.3 4.1 12.9.4 12.9-6.3v-77.3c0-4.9-2.3-9.6-6.1-12.6l-360-281 360-281.1c3.8-3 6.1-7.7 6.1-12.6z"></path>' +
+      '</svg>' +
+      '<p class="cur-pagenum" style = "display:inline-block;">1</p>' +
+      '<p class="next-pagenum" style = "display:inline-block;">/2</p>' +
+      '<svg viewBox="64 64 896 896" class="g2-caret-down" data-icon="right" width="1em" height="1em" aria-hidden="true">' +
+      '<path d="M765.7 486.8L314.9 134.7A7.97 7.97 0 0 0 302 141v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1a31.96 31.96 0 0 0 0-50.4z"></path>' +
+      '</svg>' +
+      '</div>',
       /**
        * 翻页块的宽度，用于设置翻页块相对于 legend 的位置
        * @type {Number}
@@ -95,9 +101,10 @@ class CatPageHtml extends CatHtml {
       // append a slip div
       const slipTpl = this.get('slipTpl');
       const slipDom = DomUtil.createDom(slipTpl);
-      const caretUpDom = findNodeByClass(slipDom, 'caret-up');
-      const caretDownDom = findNodeByClass(slipDom, 'caret-down');
+      const caretUpDom = findNodeByClass(slipDom, CARET_UP_CLASS);
+      const caretDownDom = findNodeByClass(slipDom, CARET_DOWN_CLASS);
       DomUtil.modifyCSS(caretUpDom, this.get('caretStyle'));
+      DomUtil.modifyCSS(caretUpDom, { fill: 'rgba(0,0,0,0.25)' });
       DomUtil.modifyCSS(caretDownDom, this.get('caretStyle'));
       const curPageNumDom = findNodeByClass(slipDom, 'cur-pagenum');
       const totalPageNumDom = findNodeByClass(slipDom, 'next-pagenum');
@@ -139,7 +146,7 @@ class CatPageHtml extends CatHtml {
           l.style.display = 'none';
         }
       });
-      // down button listener
+      // 上翻事件
       caretUpDom.addEventListener('click', () => {
         // it is the 1st page
         if (li[0].style.display === itemDisplay) return;
@@ -160,10 +167,17 @@ class CatPageHtml extends CatHtml {
           } else break;
         }
         // change the page number
-        curPageNumDom.innerText = (Number.parseInt(curPageNumDom.innerText, 10) - 1);
+        const currentPage = Number.parseInt(curPageNumDom.innerText, 10) - 1;
+        if (currentPage === 1) {
+          caretUpDom.style.fill = DISABLED_CARET_COLOR;
+        } else {
+          caretUpDom.style.fill = ENABLED_CARET_COLOR;
+        }
+        caretDownDom.style.fill = ENABLED_CARET_COLOR;
+        curPageNumDom.innerText = currentPage;
       });
 
-      // up button listener
+      // 下翻事件
       caretDownDom.addEventListener('click', () => {
         // it is the last page
         if (li[li.length - 1].style.display === itemDisplay) return;
@@ -183,7 +197,14 @@ class CatPageHtml extends CatHtml {
           else break;
         }
         // change the page number
-        curPageNumDom.innerText = (Number.parseInt(curPageNumDom.innerText, 10) + 1);
+        const currentPage = Number.parseInt(curPageNumDom.innerText, 10) + 1;
+        if (currentPage === itemDisplay) {
+          caretDownDom.style.fill = DISABLED_CARET_COLOR;
+        } else {
+          caretDownDom.style.fill = ENABLED_CARET_COLOR;
+        }
+        caretUpDom.style.fill = ENABLED_CARET_COLOR;
+        curPageNumDom.innerText = currentPage;
       });
       this.set('slipDom', slipDom);
     }
