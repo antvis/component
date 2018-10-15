@@ -8,7 +8,7 @@ const Legend = require('./base');
 const Event = Util.Event;
 const Group = Util.Group;
 const Slider = require('./slider');
-const TRIGGER_WIDTH = 12;
+const TRIGGER_WIDTH = 8;
 
 class Continuous extends Legend {
   getDefaultCfg() {
@@ -53,6 +53,9 @@ class Continuous extends Legend {
         lineWidth: 5,
         fontFamily: '"-apple-system", BlinkMacSystemFont, "Segoe UI", Roboto,"Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",SimSun, "sans-serif"'
       },
+      hoverTextStyle: {
+        fill: 'rgba(0,0,0,0.25)'
+      },
       /**
        * 连续图例是否可滑动
        * @type {Boolean}
@@ -64,11 +67,11 @@ class Continuous extends Legend {
        */
       triggerAttr: {
         fill: '#fff',
-        shadowOffsetX: -2,
-        shadowOffsetY: 2,
+        // shadowOffsetX: -2,
+        // shadowOffsetY: 2,
         shadowBlur: 10,
-        shadowColor: '#ccc',
-        radius: 3
+        shadowColor: 'rgba(0,0,0,0.65)',
+        radius: 2
       },
       /**
        * slider 的范围
@@ -276,7 +279,8 @@ class Continuous extends Legend {
         itemFiltered.range = [ minValue, maxValue ];
         this.emit('itemfilter', itemFiltered);
       });
-    } else {
+    }
+    if (this.get('hoverable')) {
       this.get('group').on('mousemove', Util.wrapBehavior(this, '_onMouseMove'));
       this.get('group').on('mouseleave', Util.wrapBehavior(this, '_onMouseLeave'));
     }
@@ -411,17 +415,17 @@ class Continuous extends Legend {
         [ page + paddingX + 5, paddingY - 10 ]
       ];
       textStyle = Util.mix({}, {
-        x: page + paddingX,
+        x: page - 5,
         y: height + this.get('textOffset') + paddingY,
         text: this._formatItemValue(value) + '' // 以字符串格式展示
       }, this.get('textStyle'));
     }
-
+    const hoverTextStyle = Util.mix(textStyle, this.get('hoverTextStyle'));
     if (!hoverText) { // mouse enter the legend, add hoverText
-      hoverText = this.get('group').addShape('text', { attrs: textStyle });
+      hoverText = this.get('group').addShape('text', { attrs: hoverTextStyle });
       hoverText.set('id', 'hoverText');
     } else { // mouse move, update hoverText
-      hoverText.attr(textStyle);
+      hoverText.attr(hoverTextStyle);
     }
     if (!hoverPointer) { // mouse enter the legend, add hoverPointer
       hoverPointer = this.get('group').addShape('Polygon', {
