@@ -17,7 +17,9 @@ function canLabelFill(labels, shapes) {
   for (let i = 0; i < labels.length; i++) {
     labelBBox = labels[i].getBBox();
     shapeBBox = shapes[i].getBBox();
-    if (labelBBox.width * labelBBox.height > shapeBBox.width * shapeBBox.height) {
+    if (labelBBox.width > shapeBBox.width) {
+      toBeRemoved.push(labels[i]);
+    } else if (labelBBox.width * labelBBox.height > shapeBBox.width * shapeBBox.height * 0.6) {
       toBeRemoved.push(labels[i]);
     }
   }
