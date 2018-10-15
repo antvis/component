@@ -400,6 +400,7 @@ class Continuous extends Legend {
       }
       if (this.get('slidable')) {
         if (this.get('type') === 'color-legend') {
+          // hoverPointer三角形的高
           paddingY -= 7;
         } else {
           paddingY = titleGap;
