@@ -119,7 +119,7 @@ class Label extends Component {
         const label = children[index];
         self.changeLabel(label, item);
       } else {
-        const labelShape = self._addLabel(item);
+        const labelShape = self._addLabel(item, index);
         if (labelShape) {
           labelShape._id = item._id;
           labelShape.set('coord', item.coord);
