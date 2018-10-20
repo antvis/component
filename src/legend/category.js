@@ -405,6 +405,8 @@ class Category extends Legend {
       checked: item.checked
     });
 
+    // @2018-10-20 by blue.lb 需要设置viewId，否则在emit的时候，parent获取不到viewId
+    itemGroup.set('viewId', this.get('viewId'));
     const textStyle = this.get('textStyle');
     const wordSpace = this.get('_wordSpaceing');
     let startX = 0;
