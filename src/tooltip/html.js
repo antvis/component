@@ -18,6 +18,15 @@ function find(dom, cls) {
   return dom.getElementsByClassName(cls)[0];
 }
 
+function mergeStyles(styles, cfg) {
+  Object.keys(styles).forEach(function(k) {
+    if (cfg[k]) {
+      styles[k] = Util.mix(styles[k], cfg[k]);
+    }
+  });
+  return styles;
+}
+
 class HtmlTooltip extends Tooltip {
   getDefaultCfg() {
     const cfg = super.getDefaultCfg();
@@ -59,6 +68,8 @@ class HtmlTooltip extends Tooltip {
     super(cfg);
     Util.assign(this, PositionMixin);
     Util.assign(this, MarkerGroupMixin);
+    const style = this.get('viewTheme') || TooltipTheme;
+    this.style = mergeStyles(style, cfg);
     this._init_();
     if (this.get('items')) {
       this.render();
@@ -79,7 +90,6 @@ class HtmlTooltip extends Tooltip {
 
   _init_() {
     const self = this;
-    self.style = self.get('viewTheme') || TooltipTheme;
     const containerTpl = self.get('containerTpl');
     const outterNode = self.get('canvas').get('el').parentNode;
     let container;
