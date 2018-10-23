@@ -44,13 +44,13 @@ class Grid extends Group {
        * 0基线不在轴线上时，是否强调0基线
        * @type {Boolean}
        */
-      hightLightZero: true,
+      hightLightZero: false,
       /**
        * 0基线样式
        * @type {Object}
        */
       zeroLineStyle: {
-        stroke: '#000',
+        stroke: '#595959',
         lineDash: [ 0, 0 ]
       }
     };
