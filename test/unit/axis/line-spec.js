@@ -14,7 +14,7 @@ const canvas = new Canvas({
 });
 canvas.draw();
 
-describe.only('line axis on bottom', function() {
+describe('line axis on bottom', function() {
   const group = canvas.addGroup();
   const axis = new LineAxis({
     group,
