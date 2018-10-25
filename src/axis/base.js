@@ -55,7 +55,7 @@ class Axis extends Component {
         textStyle: {
         }, // 坐标轴文本样式
         autoRotate: true,
-        autoHide: true,
+        autoHide: false,
         formatter: null // 坐标轴文本格式化回调函数
       },
       labelItems: [],
