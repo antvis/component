@@ -1,6 +1,9 @@
 
 const Util = require('../util');
 const Component = require('../component');
+const {
+  FONT_FAMILY
+} = require('../const');
 
 class Legend extends Component {
   getDefaultCfg() {
@@ -109,7 +112,7 @@ class Legend extends Component {
           y: 0 - titleGap,
           fill: '#333',
           textBaseline: 'middle',
-          fontFamily: '"-apple-system", BlinkMacSystemFont, "Segoe UI", Roboto,"Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",SimSun, "sans-serif"' // viewTheme.fontFamily
+          fontFamily: FONT_FAMILY
         }, title)
       });
       titleShape.name = 'legend-title';

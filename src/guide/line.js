@@ -1,6 +1,9 @@
 const Util = require('../util');
 const Guide = require('./base');
 const { vec2 } = Util.MatrixUtil;
+const {
+  FONT_FAMILY
+} = require('../const');
 
 class Line extends Guide {
   getDefaultCfg() {
@@ -40,7 +43,7 @@ class Line extends Guide {
           fill: '#999',
           fontSize: 12,
           fontWeight: 500,
-          fontFamily: 'sans-serif'
+          fontFamily: FONT_FAMILY
         }, // 辅助文本的样式
         content: null // 辅助文本的文字
       }

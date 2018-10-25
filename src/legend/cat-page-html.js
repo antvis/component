@@ -1,7 +1,10 @@
 const Util = require('../util');
 const CatHtml = require('./cat-html');
-const DomUtil = Util.DomUtil;
+const {
+  FONT_FAMILY
+} = require('../const');
 
+const DomUtil = Util.DomUtil;
 const LIST_CLASS = 'g2-legend-list';
 const CONTAINER_CLASS = 'g2-legend';
 const SLIP_CLASS = 'g2-slip';
@@ -42,7 +45,7 @@ class CatPageHtml extends CatHtml {
       pageNumStyle: {
         display: 'inline-block',
         fontSize: '12px',
-        fontFamily: this.fontFamily,
+        fontFamily: FONT_FAMILY,
         cursor: 'default'
       },
       /**

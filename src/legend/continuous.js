@@ -3,12 +3,15 @@
  * @author sima.zhang
  */
 const Util = require('../util');
-// const Global = require('../../global');
 const Legend = require('./base');
+const Slider = require('./slider');
+const {
+  FONT_FAMILY
+} = require('../const');
+
+const TRIGGER_WIDTH = 8;
 const Event = Util.Event;
 const Group = Util.Group;
-const Slider = require('./slider');
-const TRIGGER_WIDTH = 8;
 
 class Continuous extends Legend {
   getDefaultCfg() {
@@ -51,7 +54,7 @@ class Continuous extends Legend {
         textBaseline: 'middle',
         stroke: '#fff',
         lineWidth: 5,
-        fontFamily: '"-apple-system", BlinkMacSystemFont, "Segoe UI", Roboto,"Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",SimSun, "sans-serif"'
+        fontFamily: FONT_FAMILY
       },
       hoverTextStyle: {
         fill: 'rgba(0,0,0,0.25)'

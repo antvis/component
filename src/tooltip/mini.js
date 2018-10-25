@@ -1,7 +1,10 @@
 const Util = require('../util');
-const DomUtil = Util.DomUtil;
 const CanvasTooltip = require('./canvas');
+const {
+  FONT_FAMILY
+} = require('../const');
 
+const DomUtil = Util.DomUtil;
 const MatrixUtil = Util.MatrixUtil;
 
 class MiniTooltip extends CanvasTooltip {
@@ -28,7 +31,7 @@ class MiniTooltip extends CanvasTooltip {
         x: 0,
         y: 0,
         text: '',
-        fontFamily: 'PingFang SC',
+        fontFamily: FONT_FAMILY,
         fontSize: 12,
         stroke: '#fff',
         lineWidth: 2,
