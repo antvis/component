@@ -161,19 +161,6 @@ class Axis extends Component {
     return ticks;
   }
 
-  _parseCatTicks(ticks) {
-    ticks = ticks || [];
-    const ticksLength = ticks.length;
-    for (let i = 0; i < ticksLength; i++) {
-      const item = ticks[i];
-      if (!Util.isObject(item)) {
-        ticks[i] = this.parseTick(item, i, ticksLength);
-      }
-    }
-    this.set('ticks', ticks);
-    return ticks;
-  }
-
   _addTickItem(index, point, length, type = '') {
     let tickItems = this.get('tickItems');
     let subTickItems = this.get('subTickItems');
