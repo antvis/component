@@ -502,7 +502,7 @@ class Axis extends Component {
   autoRotateLabels() {}
 
   /**
-   * 旋转文本
+   * 文本自动防遮罩
    * @abstract
    * @return {[type]} [description]
    */
