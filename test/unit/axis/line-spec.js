@@ -14,7 +14,7 @@ const canvas = new Canvas({
 });
 canvas.draw();
 
-describe('line axis on bottom', function() {
+describe.only('line axis on bottom', function() {
   const group = canvas.addGroup();
   const axis = new LineAxis({
     group,
@@ -164,7 +164,8 @@ describe('line axis on top', function() {
       offset: 30
     },
     label: {
-      autoRotate: true,
+      autoRotate: false,
+      autoHide: true,
       textStyle: {
         fill: '#444',
         textAlign: 'center'

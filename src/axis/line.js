@@ -29,6 +29,11 @@ class Line extends Base {
     return labels[1].attr('x') - labels[0].attr('x');
   }
 
+  _getAvgLabelHeightSpace(labelRenderer) {
+    const labels = labelRenderer.get('group').get('children');
+    return labels[1].attr('y') - labels[0].attr('y');
+  }
+
   /**
    * 获取距离坐标轴的向量
    * @override
@@ -196,6 +201,46 @@ class Line extends Base {
             } else {
               label.attr('textAlign', 'right');
             }
+          }
+        });
+      }
+    }
+  }
+
+  autoHideLabels() {
+    const self = this;
+    const labelRenderer = self.get('labelRenderer');
+    let labelSpace;
+    let tickStep;
+    const append = 8;
+    if (labelRenderer) {
+      const labelGroup = labelRenderer.get('group');
+      const labels = labelGroup.get('children');
+      const vector = self.getAxisVector(); // 坐标轴的向量，仅处理水平或者垂直的场景
+      if (labels.length < 2) {
+        return;
+      }
+      if (Util.snapEqual(vector[0], 0)) { // 坐标轴垂直
+        const maxHeight = self.getMaxLabelHeight(labelRenderer) + append;
+        const avgHeight = Math.abs(self._getAvgLabelHeightSpace(labelRenderer));
+        if (maxHeight > avgHeight) {
+          labelSpace = maxHeight;
+          tickStep = avgHeight;
+        }
+      } else if (Util.snapEqual(vector[1], 0) && labels.length > 1) { // 坐标轴水平
+        const maxWidth = self.getMaxLabelWidth(labelRenderer) + append;
+        const avgWidth = Math.abs(self._getAvgLabelLength(labelRenderer));
+        if (maxWidth > avgWidth) {
+          labelSpace = maxWidth;
+          tickStep = avgWidth;
+        }
+      }
+
+      if (labelSpace && tickStep) {
+        const ratio = Math.ceil(labelSpace / tickStep);
+        Util.each(labels, (label, i) => {
+          if (i % ratio !== 0) {
+            label.attr('text', '');
           }
         });
       }
