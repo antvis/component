@@ -269,8 +269,11 @@ class HtmlTooltip extends Tooltip {
 
     this.set('prePosition', position); // 记录上次的位置
     const follow = this.get('follow');
-    container.style.left = follow ? (x + 'px') : 0;
-    container.style.top = follow ? (y + 'px') : 0;
+
+    if (follow) {
+      container.style.left = x + 'px';
+      container.style.top = y + 'px';
+    }
     const crosshairGroup = this.get('crosshairGroup');
     if (crosshairGroup) {
       const items = this.get('items');
