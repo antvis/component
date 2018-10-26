@@ -441,7 +441,7 @@ class Axis extends Component {
   }
 
   getMaxLabelWidth(labelRenderer) {
-    const labels = labelRenderer.get('group').get('children');
+    const labels = labelRenderer.getLabels();
     let max = 0;
     Util.each(labels, function(label) {
       const bbox = label.getBBox();
@@ -454,7 +454,7 @@ class Axis extends Component {
   }
 
   getMaxLabelHeight(labelRenderer) {
-    const labels = labelRenderer.get('group').get('children');
+    const labels = labelRenderer.getLabels();
     let max = 0;
     Util.each(labels, function(label) {
       const bbox = label.getBBox();
