@@ -76,5 +76,19 @@ describe('new default label', () => {
     expect(lineGroup.get('children')[0].attr('strokeStyle') === '#999');
     expect(lineGroup.get('children')[0].attr('lineDash') === [ 5 ]);
   });
-
+  it('label name', () => {
+    const label = new Label({
+      canvas,
+      items,
+      coord,
+      name: 'labelTest'
+    });
+    label.render();
+    let labels = label.getLabels();
+    expect(labels[0].name).to.equal('labelTest');
+    label.set('name', 'labelTest2');
+    label.render();
+    labels = label.getLabels();
+    expect(labels[0].name).to.equal('labelTest2');
+  });
 });
