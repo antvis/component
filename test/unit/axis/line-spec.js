@@ -354,7 +354,8 @@ describe('line axis label offset', () => {
       formatter(value) {
         return value;
       },
-      offset: [ 200, 50 ]
+      offsetX: 200,
+      offsetY: 50
     }
   });
   axis.render();
@@ -391,7 +392,8 @@ describe('line axis label offset', () => {
       formatter(value) {
         return value;
       },
-      offset: [ 200, 50 ]
+      offsetX: 200,
+      offsetY: 50
     }
   });
   axis2.render();

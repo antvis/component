@@ -44,8 +44,11 @@ class Line extends Base {
     const self = this;
     const isVertical = self.get('isVertical');
     const factor = self.get('factor');
-    if (Util.isArray(offset)) {
-      return offset.map(value => value * factor);
+    // if (Util.isArray(offset)) {
+    //   return offset.map(value => value * factor);
+    // }
+    if (!Util.isNumber(offset)) {
+      return [ 0, 0 ];
     }
     const start = self.get('start');
     const end = self.get('end');
