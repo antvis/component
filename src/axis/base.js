@@ -52,6 +52,9 @@ class Axis extends Component {
        * @type {Object}
        */
       label: {
+        offset: 0,
+        offsetX: 0,
+        offsetY: 0,
         textStyle: {
         }, // 坐标轴文本样式
         autoRotate: true,
@@ -272,8 +275,8 @@ class Axis extends Component {
       }
       const vector = self.getSideVector(offset, point, index);
       point = {
-        x: point.x + vector[0],
-        y: point.y + vector[1]
+        x: point.x + vector[0] + label.offsetX,
+        y: point.y + vector[1] + label.offsetY
       };
       label.text = tick.text;
       label.x = point.x;
