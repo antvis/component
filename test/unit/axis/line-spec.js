@@ -164,7 +164,8 @@ describe('line axis on top', function() {
       offset: 30
     },
     label: {
-      autoRotate: true,
+      autoRotate: false,
+      autoHide: true,
       textStyle: {
         fill: '#444',
         textAlign: 'center'

@@ -68,7 +68,7 @@ class HtmlTooltip extends Tooltip {
     super(cfg);
     Util.assign(this, PositionMixin);
     Util.assign(this, MarkerGroupMixin);
-    const style = this.get('viewTheme') || TooltipTheme;
+    const style = TooltipTheme;
     this.style = mergeStyles(style, cfg);
     this._init_();
     if (this.get('items')) {

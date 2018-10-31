@@ -3,6 +3,9 @@ const Component = require('../component');
 const Util = require('../util');
 const Grid = require('./grid');
 const Label = require('../label/base');
+const {
+  FONT_FAMILY
+} = require('../const');
 
 class Axis extends Component {
   getDefaultCfg() {
@@ -52,6 +55,7 @@ class Axis extends Component {
         textStyle: {
         }, // 坐标轴文本样式
         autoRotate: true,
+        autoHide: false,
         formatter: null // 坐标轴文本格式化回调函数
       },
       labelItems: [],
@@ -72,7 +76,6 @@ class Axis extends Component {
     const title = self.get('title');
     const label = self.get('label');
     const grid = self.get('grid');
-    const viewTheme = self.get('viewTheme') || {};
     if (title) {
       self.set('title', Util.deepMix({
         autoRotate: true,
@@ -80,7 +83,7 @@ class Axis extends Component {
           fontSize: 12,
           fill: '#ccc',
           textBaseline: 'middle',
-          fontFamily: viewTheme.fontFamily,
+          fontFamily: FONT_FAMILY,
           textAlign: 'center'
         },
         offset: 48
@@ -89,11 +92,12 @@ class Axis extends Component {
     if (label) {
       self.set('label', Util.deepMix({
         autoRotate: true,
+        autoHide: true,
         textStyle: {
           fontSize: 12,
           fill: '#ccc',
           textBaseline: 'middle',
-          fontFamily: viewTheme.fontFamily
+          fontFamily: FONT_FAMILY
         },
         offset: 10
       }, label));
@@ -149,19 +153,6 @@ class Axis extends Component {
   }
 
   _parseTicks(ticks) {
-    ticks = ticks || [];
-    const ticksLength = ticks.length;
-    for (let i = 0; i < ticksLength; i++) {
-      const item = ticks[i];
-      if (!Util.isObject(item)) {
-        ticks[i] = this.parseTick(item, i, ticksLength);
-      }
-    }
-    this.set('ticks', ticks);
-    return ticks;
-  }
-
-  _parseCatTicks(ticks) {
     ticks = ticks || [];
     const ticksLength = ticks.length;
     for (let i = 0; i < ticksLength; i++) {
@@ -400,25 +391,29 @@ class Axis extends Component {
   }
 
   paint() {
-    const tickLineCfg = this.get('tickLine');
+    const self = this;
+    const tickLineCfg = self.get('tickLine');
     let alignWithLabel = true;
     if (tickLineCfg && tickLineCfg.hasOwnProperty('alignWithLabel')) {
       alignWithLabel = tickLineCfg.alignWithLabel;
     }
-    this._renderLine();
-    const type = this.get('type');
+    self._renderLine();
+    const type = self.get('type');
     const isCat = (type === 'cat' || type === 'timeCat');
     if (isCat && alignWithLabel === false) {
-      this._processCatTicks();
+      self._processCatTicks();
     } else {
-      this._processTicks();
+      self._processTicks();
     }
-    this._renderTicks();
-    this._renderGrid();
-    this._renderLabels();
+    self._renderTicks();
+    self._renderGrid();
+    self._renderLabels();
     const labelCfg = this.get('label');
     if (labelCfg && labelCfg.autoRotate) {
-      this.autoRotateLabels();
+      self.autoRotateLabels();
+    }
+    if (labelCfg && labelCfg.autoHide) {
+      self.autoHideLabels();
     }
   }
 
@@ -446,7 +441,7 @@ class Axis extends Component {
   }
 
   getMaxLabelWidth(labelRenderer) {
-    const labels = labelRenderer.get('group').get('children');
+    const labels = labelRenderer.getLabels();
     let max = 0;
     Util.each(labels, function(label) {
       const bbox = label.getBBox();
@@ -457,6 +452,20 @@ class Axis extends Component {
     });
     return max;
   }
+
+  getMaxLabelHeight(labelRenderer) {
+    const labels = labelRenderer.getLabels();
+    let max = 0;
+    Util.each(labels, function(label) {
+      const bbox = label.getBBox();
+      const height = bbox.height;
+      if (max < height) {
+        max = height;
+      }
+    });
+    return max;
+  }
+
 
   destroy() {
     const self = this;
@@ -491,6 +500,13 @@ class Axis extends Component {
    * @return {[type]} [description]
    */
   autoRotateLabels() {}
+
+  /**
+   * 文本自动防遮罩
+   * @abstract
+   * @return {[type]} [description]
+   */
+  autoHideLabels() {}
 
   /**
    * 渲染标题

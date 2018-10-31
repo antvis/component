@@ -1,5 +1,9 @@
 const Util = require('../util');
 const Legend = require('./base');
+const {
+  FONT_FAMILY
+} = require('../const');
+
 // const DomUtil = Util.DomUtil;
 const Event = Util.Event;
 const Group = Util.Group;
@@ -98,7 +102,7 @@ class Category extends Legend {
         fontSize: 12,
         textAlign: 'start',
         textBaseline: 'middle',
-        fontFamily: '"-apple-system", BlinkMacSystemFont, "Segoe UI", Roboto,"Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",SimSun, "sans-serif"'
+        fontFamily: FONT_FAMILY
       },
       /**
        * marker 和文字的距离
@@ -440,7 +444,7 @@ class Category extends Legend {
       fontSize: 12,
       textAlign: 'start',
       textBaseline: 'middle',
-      fontFamily: '"-apple-system", BlinkMacSystemFont, "Segoe UI", Roboto,"Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",SimSun, "sans-serif"'
+      fontFamily: FONT_FAMILY
     }, textStyle, {
       x: startX + x,
       y,
