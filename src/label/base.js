@@ -251,7 +251,7 @@ class Label extends Component {
       }, lineStyle)
     });
     // label 对应线的动画关闭
-    lineShape.name = 'labelLine';
+    lineShape.name = self.get('name');
     // generate labelLine id according to label id
     lineShape._id = label._id && label._id.replace('glabel', 'glabelline');
     lineShape.set('coord', self.get('coord'));
@@ -365,6 +365,7 @@ class Label extends Component {
       container.appendChild(node);
       this._setCustomPosition(cfg, node);
     } else {
+      const name = this.get('name');
       const origin = cfg.point;
       const group = this.get('group');
       delete cfg.point; // 临时解决，否则影响动画
@@ -388,7 +389,7 @@ class Label extends Component {
         ]);
       }
       labelShape.setSilent('origin', origin || cfg);
-      labelShape.name = 'label'; // 用于事件标注
+      labelShape.name = name; // 用于事件标注
       this.get('appendInfo') && labelShape.setSilent('appendInfo', this.get('appendInfo'));
       return labelShape;
     }
