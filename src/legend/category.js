@@ -130,7 +130,17 @@ class Category extends Legend {
        * 是否以增加 border 的方式高亮 hover 的 item。若为 false ，则降低其他 item 的透明度。
        * @type {Boolean}
        */
-      highlight: false
+      highlight: false,
+      /**
+       * 非highlight方式下，鼠标hover到legend样式
+       * @type {Number}
+       */
+      activeOpacity: 0.7,
+      /**
+       * 非highlight方式下，非鼠标hover到的legend样式
+       * @type {Number}
+       */
+      inactiveOpacity: 1
     });
   }
 
@@ -164,7 +174,8 @@ class Category extends Legend {
   // activate an item by reduce the opacity of other items.
   // it is reserved for bi-direction interaction between charts / graph and legend
   activate(value) {
-    const itemsGroup = this.get('itemsGroup');
+    const self = this;
+    const itemsGroup = self.get('itemsGroup');
     const children = itemsGroup.get('children');
     let markerItem = void 0;
     children.forEach(child => {
@@ -180,7 +191,7 @@ class Category extends Legend {
       } else {
         // change opacity
         if (child.get('value') === value) {
-          markerItem.attr('fillOpacity', 0.5);
+          markerItem.attr('fillOpacity', self.get('activeOpacity'));
         }
       }
     });
@@ -190,8 +201,9 @@ class Category extends Legend {
 
   // restore the opacity of items
   // it is reserved for bi-direction interaction between charts / graph and legend
-  unactivate() {
-    const itemsGroup = this.get('itemsGroup');
+  deactivate() {
+    const self = this;
+    const itemsGroup = self.get('itemsGroup');
     const children = itemsGroup.get('children');
     let markerItem = void 0;
     const unCheckColor = this.get('unCheckColor');
@@ -203,7 +215,9 @@ class Category extends Legend {
         const checked = child.get('checked');
         if (oriStroke && !checked) oriStroke = unCheckColor; else oriStroke = '';
         markerItem.attr('stroke', oriStroke);
-      } else markerItem.attr('fillOpacity', 1);
+      } else {
+        markerItem.attr('fillOpacity', self.get('inactiveOpacity'));
+      }
     });
     this.get('canvas').draw();
     return;
@@ -221,11 +235,11 @@ class Category extends Legend {
       itemhover.currentTarget = ev.currentTarget;
 
       // change the opacity of other items
-      this.unactivate();
+      this.deactivate();
       this.activate(item.get('value'));
       this.emit('itemhover', itemhover);
     } else {
-      this.unactivate();
+      this.deactivate();
       this.emit('itemunhover', ev);
     }
     this.get('canvas').draw();
@@ -234,7 +248,7 @@ class Category extends Legend {
 
   // mouse leave listener of an item
   _onMouseleave(ev) {
-    this.unactivate();
+    this.deactivate();
     this.get('canvas').draw();
     this.emit('itemunhover', ev);
     return;

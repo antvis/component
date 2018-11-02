@@ -180,7 +180,7 @@ describe('连续图例 - Color', function() {
     legend.move(200, 100);
     legend.draw();
     legend.activate(30);
-    legend.unactivate();
+    legend.deactivate();
   });
 
   it('不可滑动的水平分块图例, mousemove 和 mouseleave', function() {

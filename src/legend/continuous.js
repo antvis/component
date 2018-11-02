@@ -435,7 +435,7 @@ class Continuous extends Legend {
     this.get('canvas').draw();
   }
 
-  unactivate() {
+  deactivate() {
     const hoverPointer = this.get('group').findById('hoverPointer');
     hoverPointer && hoverPointer.destroy();
     const hoverText = this.get('group').findById('hoverText');

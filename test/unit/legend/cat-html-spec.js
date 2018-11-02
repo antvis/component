@@ -279,11 +279,11 @@ describe('HTML 分类图例', function() {
 
     legend.activate(items[0].value);
     let childMarkerDom = findNodeByClass(childNodes[0], MARKER_CLASS);
-    expect(childMarkerDom.style.opacity).eql('1');
+    expect(childMarkerDom.style.opacity).eql('0.7');
     childMarkerDom = findNodeByClass(childNodes[1], MARKER_CLASS);
-    expect(childMarkerDom.style.opacity).eql('0.5');
+    expect(childMarkerDom.style.opacity).eql('1');
 
-    legend.unactivate();
+    legend.deactivate();
     childMarkerDom = findNodeByClass(childNodes[0], MARKER_CLASS);
     expect(childMarkerDom.style.opacity).eql('1');
     childMarkerDom = findNodeByClass(childNodes[1], MARKER_CLASS);
@@ -330,7 +330,7 @@ describe('HTML 分类图例', function() {
     childMarkerDom = findNodeByClass(childNodes[1], MARKER_CLASS);
     expect(childMarkerDom.style.border).eql('');
 
-    legend.unactivate();
+    legend.deactivate();
     childMarkerDom = findNodeByClass(childNodes[0], MARKER_CLASS);
     expect(childMarkerDom.style.border).eql('1px solid rgb(255, 255, 255)');
     childMarkerDom = findNodeByClass(childNodes[1], MARKER_CLASS);
