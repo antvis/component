@@ -419,11 +419,11 @@ describe('分类图例', function() {
 
     legend.activate(items[0].value);
     let markerItem = findShapeByName(itemGroups[0], 'legend-marker');
-    expect(markerItem._attrs.fillOpacity).eql(0.5);
+    expect(markerItem._attrs.fillOpacity).eql(0.7);
     markerItem = findShapeByName(itemGroups[1], 'legend-marker');
     expect(markerItem._attrs.fillOpacity).eql(1);
 
-    legend.unactivate();
+    legend.deactivate();
     markerItem = findShapeByName(itemGroups[0], 'legend-marker');
     expect(markerItem._attrs.fillOpacity).eql(1);
     markerItem = findShapeByName(itemGroups[1], 'legend-marker');
@@ -475,7 +475,7 @@ describe('分类图例', function() {
     event.currentTarget = itemGroups[0].get('children')[0];
     legend.get('group').trigger('mousemove', [ event ]);
     let markerItem = findShapeByName(itemGroups[0], 'legend-marker');
-    expect(markerItem._attrs.fillOpacity).eql(0.5);
+    expect(markerItem._attrs.fillOpacity).eql(0.7);
     markerItem = findShapeByName(itemGroups[1], 'legend-marker');
     expect(markerItem._attrs.fillOpacity).eql(1);
 

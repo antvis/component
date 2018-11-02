@@ -166,7 +166,7 @@ class CatHtml extends Category {
 
     if (hoveredItem) {
       // change the opacity of other items
-      this.unactivate();
+      this.deactivate();
       this.activate(parentDom.getAttribute('data-value'));
       this.emit('itemhover', {
         item: hoveredItem,
@@ -175,7 +175,7 @@ class CatHtml extends Category {
       });
     } else if (!hoveredItem) {
       // restore the opacity of all the items
-      this.unactivate();
+      this.deactivate();
       this.emit('itemunhover', ev);
     }
     return;
@@ -184,7 +184,7 @@ class CatHtml extends Category {
   // mouse leave listener of an item
   _onMouseleave(ev) {
     // restore the opacity of all the items when mouse leave
-    this.unactivate();
+    this.deactivate();
     this.emit('itemunhover', ev);
     return;
   }
@@ -280,10 +280,11 @@ class CatHtml extends Category {
   // activate an item by reduce the opacity of other items.
   // it is reserved for bi-direction interaction between charts / graph and legend
   activate(value) {
-    const items = this.get('items');
+    const self = this;
+    const items = self.get('items');
     const item = findItem(items, value);
 
-    const legendWrapper = this.get('legendWrapper');
+    const legendWrapper = self.get('legendWrapper');
     const itemListDom = findNodeByClass(legendWrapper, LIST_CLASS);
     const childNodes = itemListDom.childNodes;
 
@@ -297,9 +298,9 @@ class CatHtml extends Category {
         }
       } else {
         if (childItem === item) {
-          childMarkerDom.style.opacity = 1;
+          childMarkerDom.style.opacity = self.get('activeOpacity');
         } else {
-          if (childItem.checked) childMarkerDom.style.opacity = 0.5;
+          if (childItem.checked) childMarkerDom.style.opacity = self.get('inactiveOpacity');
         }
       }
       // if (childItem !== item && childItem.checked) {
@@ -317,15 +318,18 @@ class CatHtml extends Category {
 
   // restore the opacity of items
   // it is reserved for bi-direction interaction between charts / graph and legend
-  unactivate() {
-    const legendWrapper = this.get('legendWrapper');
+  deactivate() {
+    const self = this;
+    const legendWrapper = self.get('legendWrapper');
     const itemListDom = findNodeByClass(legendWrapper, LIST_CLASS);
     const childNodes = itemListDom.childNodes;
     childNodes.forEach(child => {
       const childMarkerDom = findNodeByClass(child, MARKER_CLASS);
       if (this.get('highlight')) {
         childMarkerDom.style.border = '1px solid #fff';
-      } else childMarkerDom.style.opacity = 1;
+      } else {
+        childMarkerDom.style.opacity = self.get('inactiveOpacity');
+      }
     });
     return;
   }
