@@ -1,5 +1,8 @@
 const Util = require('../util');
 const Category = require('./category');
+const {
+  FONT_FAMILY
+} = require('../const');
 const DomUtil = Util.DomUtil;
 const Group = Util.Group;
 
@@ -89,7 +92,7 @@ class CatHtml extends Category {
         fontSize: 12,
         textAlign: 'middle',
         textBaseline: 'top',
-        fontFamily: '"-apple-system", BlinkMacSystemFont, "Segoe UI", Roboto,"Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",SimSun, "sans-serif"'
+        fontFamily: FONT_FAMILY
       },
       /**
        * 当文本太长时是否进行缩略
@@ -341,14 +344,14 @@ class CatHtml extends Category {
     const titleDom = findNodeByClass(legendWrapper, TITLE_CLASS);
     const itemListDom = findNodeByClass(legendWrapper, LIST_CLASS); // ul
     const unCheckedColor = this.get('unCheckColor');
-    const LEGEND_STYLE = Util.mix({}, {
+    const LEGEND_STYLE = Util.deepMix({}, {
       CONTAINER_CLASS: {
         height: 'auto',
         width: 'auto',
         position: 'absolute',
         overflowY: 'auto',
         fontSize: '12px',
-        fontFamily: this.fontFamily,
+        fontFamily: FONT_FAMILY,
         lineHeight: '20px',
         color: '#8C8C8C'
       },
@@ -357,7 +360,7 @@ class CatHtml extends Category {
         fontSize: '12px',
         color: '#333', // 默认样式
         textBaseline: 'middle',
-        fontFamily: this.fontFamily
+        fontFamily: FONT_FAMILY
       },
       LIST_CLASS: {
         listStyleType: 'none',
@@ -454,7 +457,7 @@ class CatHtml extends Category {
       const textDom = findNodeByClass(itemDom, TEXT_CLASS);
       DomUtil.modifyCSS(itemDom, itemStyle);
       markerDom && DomUtil.modifyCSS(markerDom, markerStyle);
-      textDom && DomUtil.modifyCSS(textDom, this.get('textStyle'));
+      // textDom && DomUtil.modifyCSS(textDom, this.get('textStyle'));
 
       if (!checked) {
         itemDom.style.color = unCheckedColor;

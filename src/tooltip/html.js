@@ -18,6 +18,15 @@ function find(dom, cls) {
   return dom.getElementsByClassName(cls)[0];
 }
 
+function mergeStyles(styles, cfg) {
+  Object.keys(styles).forEach(function(k) {
+    if (cfg[k]) {
+      styles[k] = Util.mix(styles[k], cfg[k]);
+    }
+  });
+  return styles;
+}
+
 class HtmlTooltip extends Tooltip {
   getDefaultCfg() {
     const cfg = super.getDefaultCfg();
@@ -59,6 +68,8 @@ class HtmlTooltip extends Tooltip {
     super(cfg);
     Util.assign(this, PositionMixin);
     Util.assign(this, MarkerGroupMixin);
+    const style = TooltipTheme;
+    this.style = mergeStyles(style, cfg);
     this._init_();
     if (this.get('items')) {
       this.render();
@@ -79,7 +90,6 @@ class HtmlTooltip extends Tooltip {
 
   _init_() {
     const self = this;
-    self.style = self.get('viewTheme') || TooltipTheme;
     const containerTpl = self.get('containerTpl');
     const outterNode = self.get('canvas').get('el').parentNode;
     let container;
@@ -259,8 +269,11 @@ class HtmlTooltip extends Tooltip {
 
     this.set('prePosition', position); // 记录上次的位置
     const follow = this.get('follow');
-    container.style.left = follow ? (x + 'px') : 0;
-    container.style.top = follow ? (y + 'px') : 0;
+
+    if (follow) {
+      container.style.left = x + 'px';
+      container.style.top = y + 'px';
+    }
     const crosshairGroup = this.get('crosshairGroup');
     if (crosshairGroup) {
       const items = this.get('items');

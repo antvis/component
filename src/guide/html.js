@@ -59,6 +59,11 @@ class Html extends Guide {
     }
     const htmlNode = DomUtil.createDom(html);
     wrapperNode.appendChild(htmlNode);
+
+    DomUtil.modifyCSS(wrapperNode, {
+      position: 'absolute' // to fix dom in the document stream to get the true width
+    });
+
     self._setDomPosition(wrapperNode, htmlNode, position);
     self.set('el', wrapperNode);
   }
@@ -110,7 +115,6 @@ class Html extends Guide {
     }
 
     DomUtil.modifyCSS(parentDom, {
-      position: 'absolute',
       top: Math.round(position.y) + 'px',
       left: Math.round(position.x) + 'px',
       visibility: 'visible',

@@ -4,6 +4,9 @@ const MarkerGroupMixin = require('./mixin/marker-group');
 const PositionMixin = require('./mixin/position');
 const Tooltip = require('./base');
 const Util = require('../util');
+const {
+  FONT_FAMILY
+} = require('../const');
 
 const DomUtil = Util.DomUtil;
 const MatrixUtil = Util.MatrixUtil;
@@ -32,7 +35,7 @@ class CanvasTooltip extends Tooltip {
        * @type {Object}
        */
       titleStyle: {
-        fontFamily: 'PingFang SC',
+        fontFamily: FONT_FAMILY,
         text: '',
         textBaseline: 'top',
         fontSize: 12,
@@ -52,7 +55,7 @@ class CanvasTooltip extends Tooltip {
        * @type {Object}
        */
       nameStyle: {
-        fontFamily: 'PingFang SC',
+        fontFamily: FONT_FAMILY,
         fontSize: 12,
         fill: 'rgb(87, 87, 87)',
         textBaseline: 'middle',
@@ -64,7 +67,7 @@ class CanvasTooltip extends Tooltip {
        * @type {Object}
        */
       valueStyle: {
-        fontFamily: 'PingFang SC',
+        fontFamily: FONT_FAMILY,
         fontSize: 12,
         fill: 'rgb(87, 87, 87)',
         textBaseline: 'middle',

@@ -3,28 +3,13 @@ const DomUtil = Util.DomUtil;
 const Component = require('../component');
 const positionAdjust = require('./utils/position-adjust');
 const spirialAdjust = require('./utils/spiral-adjust');
+const bboxAdjust = require('./utils/bbox-adjust');
 
 const LAYOUTS = {
   scatter: positionAdjust,
   map: spirialAdjust,
-  treemap: canLabelFill
+  treemap: bboxAdjust
 };
-
-function canLabelFill(labels, shapes) {
-  let labelBBox,
-    shapeBBox;
-  const toBeRemoved = [];
-  for (let i = 0; i < labels.length; i++) {
-    labelBBox = labels[i].getBBox();
-    shapeBBox = shapes[i].getBBox();
-    if (labelBBox.width * labelBBox.height > shapeBBox.width * shapeBBox.height) {
-      toBeRemoved.push(labels[i]);
-    }
-  }
-  for (let i = 0; i < toBeRemoved.length; i++) {
-    toBeRemoved[i].remove();
-  }
-}
 
 class Label extends Component {
   getDefaultCfg() {
@@ -134,7 +119,7 @@ class Label extends Component {
         const label = children[index];
         self.changeLabel(label, item);
       } else {
-        const labelShape = self._addLabel(item);
+        const labelShape = self._addLabel(item, index);
         if (labelShape) {
           labelShape._id = item._id;
           labelShape.set('coord', item.coord);
@@ -266,7 +251,7 @@ class Label extends Component {
       }, lineStyle)
     });
     // label 对应线的动画关闭
-    lineShape.name = 'labelLine';
+    lineShape.name = self.get('name');
     // generate labelLine id according to label id
     lineShape._id = label._id && label._id.replace('glabel', 'glabelline');
     lineShape.set('coord', self.get('coord'));
@@ -380,6 +365,7 @@ class Label extends Component {
       container.appendChild(node);
       this._setCustomPosition(cfg, node);
     } else {
+      const name = this.get('name');
       const origin = cfg.point;
       const group = this.get('group');
       delete cfg.point; // 临时解决，否则影响动画
@@ -403,7 +389,7 @@ class Label extends Component {
         ]);
       }
       labelShape.setSilent('origin', origin || cfg);
-      labelShape.name = 'label'; // 用于事件标注
+      labelShape.name = name; // 用于事件标注
       this.get('appendInfo') && labelShape.setSilent('appendInfo', this.get('appendInfo'));
       return labelShape;
     }

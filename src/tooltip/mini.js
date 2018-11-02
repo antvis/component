@@ -1,7 +1,10 @@
 const Util = require('../util');
-const DomUtil = Util.DomUtil;
 const CanvasTooltip = require('./canvas');
+const {
+  FONT_FAMILY
+} = require('../const');
 
+const DomUtil = Util.DomUtil;
 const MatrixUtil = Util.MatrixUtil;
 
 class MiniTooltip extends CanvasTooltip {
@@ -17,7 +20,7 @@ class MiniTooltip extends CanvasTooltip {
         y: 0,
         width: 0,
         height: 0,
-        fill: 'rgba(50, 50, 50, 1)',
+        // fill: 'rgba(50, 50, 50, 1)',
         radius: 3
       },
       /**
@@ -28,9 +31,11 @@ class MiniTooltip extends CanvasTooltip {
         x: 0,
         y: 0,
         text: '',
-        fontFamily: 'PingFang SC',
-        fontSize: 14,
-        fill: 'white',
+        fontFamily: FONT_FAMILY,
+        fontSize: 12,
+        stroke: '#fff',
+        lineWidth: 2,
+        fill: 'black',
         textBaseline: 'top',
         textAlign: 'start'
       },
@@ -38,9 +43,9 @@ class MiniTooltip extends CanvasTooltip {
        * 默认padding值
        * @type {Object}
        */
-      padding: { top: 5, right: 5, bottom: 10, left: 5 },
+      padding: { top: 5, right: 5, bottom: 0, left: 5 },
       triangleWidth: 10,
-      triangleHeight: 6
+      triangleHeight: 4
     });
   }
 
@@ -132,7 +137,6 @@ class MiniTooltip extends CanvasTooltip {
       }
 
     } else { // constrain in dom
-
       const outterNode = this.get('canvas').get('el');
       const viewWidth = DomUtil.getWidth(outterNode);
       const viewHeight = DomUtil.getHeight(outterNode);

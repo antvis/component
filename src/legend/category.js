@@ -1,5 +1,9 @@
 const Util = require('../util');
 const Legend = require('./base');
+const {
+  FONT_FAMILY
+} = require('../const');
+
 // const DomUtil = Util.DomUtil;
 const Event = Util.Event;
 const Group = Util.Group;
@@ -98,7 +102,7 @@ class Category extends Legend {
         fontSize: 12,
         textAlign: 'start',
         textBaseline: 'middle',
-        fontFamily: '"-apple-system", BlinkMacSystemFont, "Segoe UI", Roboto,"Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",SimSun, "sans-serif"'
+        fontFamily: FONT_FAMILY
       },
       /**
        * marker 和文字的距离
@@ -186,7 +190,8 @@ class Category extends Legend {
         // change stroke color
         if (child.get('value') === value && checked) {
           markerItem.attr('stroke', '#333');
-          return;
+        } else {
+          markerItem.attr('stroke', null);
         }
       } else {
         // change opacity
@@ -416,6 +421,8 @@ class Category extends Legend {
       checked: item.checked
     });
 
+    // @2018-10-20 by blue.lb 需要设置viewId，否则在emit的时候，parent获取不到viewId
+    itemGroup.set('viewId', this.get('viewId'));
     const textStyle = this.get('textStyle');
     const wordSpace = this.get('_wordSpaceing');
     let startX = 0;
@@ -449,7 +456,7 @@ class Category extends Legend {
       fontSize: 12,
       textAlign: 'start',
       textBaseline: 'middle',
-      fontFamily: '"-apple-system", BlinkMacSystemFont, "Segoe UI", Roboto,"Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",SimSun, "sans-serif"'
+      fontFamily: FONT_FAMILY
     }, textStyle, {
       x: startX + x,
       y,

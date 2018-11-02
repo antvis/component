@@ -93,7 +93,7 @@ describe('Guide: 辅助图片', function() {
 
     setTimeout(function() {
       expect(el.attr('width')).to.equal(200);
-      expect(el.attr('height')).to.equal(400);
+      expect(el.attr('height')).to.equal(-400);
       expect(el.attr('x')).to.equal(160);
       expect(el.attr('y')).to.equal(560);
       expect(el.name).to.equal('guide-image');
