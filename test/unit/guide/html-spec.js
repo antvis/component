@@ -270,6 +270,29 @@ describe('Guide: 辅助 html', function() {
     expect(dom[9].style.top).to.equal('230px');
   });
 
+  it('guide html, the parent element of html is undefined width.', function() {
+    const html = new Html({
+      xScales: {
+        month: xScale
+      },
+      yScales: {
+        temp: yScale
+      },
+      position: {
+        month: 1,
+        temp: 600
+      },
+      htmlContent: `<div>
+        <i style="display: inline-block;width: 10px;height: 10px;background-color:red;">
+      </div>`
+    });
+    html.render(coord, group);
+    canvas.draw();
+    const dom = document.getElementsByClassName('g-guide');
+    expect(dom[10].style.left).to.equal('155px');
+    expect(dom[10].style.top).to.equal('251px');
+  });
+
   it('guide html, clear', function() {
     const html = new Html({
       xScales: {
@@ -284,10 +307,10 @@ describe('Guide: 辅助 html', function() {
     html.render(coord, group);
     canvas.draw();
     const dom = document.getElementsByClassName('g-guide');
-    expect(dom.length).to.equal(11);
+    expect(dom.length).to.equal(12);
 
     html.clear();
-    expect(document.getElementsByClassName('g-guide').length).to.equal(10);
+    expect(document.getElementsByClassName('g-guide').length).to.equal(11);
   });
 
   it('guide html, changeVisible', function() {
@@ -304,8 +327,8 @@ describe('Guide: 辅助 html', function() {
     html.render(coord, group);
     canvas.draw();
     const dom = document.getElementsByClassName('g-guide');
-    expect(dom[10].style.left).to.equal('210px');
-    expect(dom[10].style.top).to.equal('220px');
+    expect(dom[11].style.left).to.equal('210px');
+    expect(dom[11].style.top).to.equal('220px');
     html.changeVisible();
     expect(html.get('el').style.display).to.equal('none');
 
