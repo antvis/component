@@ -291,7 +291,7 @@ class Label extends Component {
     const htmlTemplate = this.get('htmlTemplate');
     // 如果是 geom.label(fields, () => {...}) 形式定义的label,mix自定义样式后直接画
     if (item._offset && item.textStyle) {
-      item.textStyle = Util.mix({}, textStyle, item.textStyle);
+      item.textStyle = Util.deepMix({}, { textStyle }, item.textStyle);
       return item;
     }
 
@@ -318,7 +318,7 @@ class Label extends Component {
     }
 
     item.text = item.text + ''; // ? 为什么转换为字符串
-    const cfg = Util.mix({}, item, textStyle, {
+    const cfg = Util.mix({}, item, { textStyle }, {
       x: item.x || 0,
       y: item.y || 0
     });
