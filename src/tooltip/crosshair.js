@@ -202,13 +202,13 @@ class Crosshair extends Component {
     const crossLineShapeX = this.get('crossLineShapeX');
     const crossLineShapeY = this.get('crossLineShapeY');
     const crosshairsRectShape = this.get('crosshairsRectShape');
-    if (crossLineShapeY) { // 第一次进入时，画布需要单独绘制，所以需要先设定corss的位置
+    if (crossLineShapeY && !crossLineShapeY.get('destroyed')) { // 第一次进入时，画布需要单独绘制，所以需要先设定corss的位置
       crossLineShapeY.move(x, 0);
     }
-    if (crossLineShapeX) {
+    if (crossLineShapeX && !crossLineShapeX.get('destroyed')) {
       crossLineShapeX.move(0, y);
     }
-    if (crosshairsRectShape) {
+    if (crosshairsRectShape && !crosshairsRectShape.get('destroyed')) {
       this._updateRectShape(items);
     }
   }
