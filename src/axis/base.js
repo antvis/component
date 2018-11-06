@@ -266,7 +266,7 @@ class Axis extends Component {
     const self = this;
     const labelItems = self.get('labelItems');
     const labelRenderer = self.get('labelRenderer');
-    const label = Util.mix({}, self.get('label'));
+    const label = Util.deepMix({}, self.get('label'));
     let rst;
     if (labelRenderer) {
       let offset = self.get('_labelOffset');
