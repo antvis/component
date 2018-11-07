@@ -289,9 +289,6 @@ class Label extends Component {
     let textStyle = this.get('textStyle') || {};
     const formatter = this.get('formatter');
     const htmlTemplate = this.get('htmlTemplate');
-    if (htmlTemplate) {
-      this.set('useHtml', true);
-    }
     // 如果是 geom.label(fields, () => {...}) 形式定义的label,mix自定义样式后直接画
     if (item._offset && item.textStyle) {
       item.textStyle = Util.deepMix({}, { textStyle }, item.textStyle);
@@ -357,7 +354,7 @@ class Label extends Component {
   _createText(cfg) {
     let container = this.get('container');
     let labelShape;
-    if (cfg.useHtml) {
+    if (cfg.useHtml || cfg.htmlTemplate) {
       if (!container) {
         container = this.initHtmlContainer();
       }
