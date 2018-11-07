@@ -165,14 +165,12 @@ class Label extends Component {
       oldLabel._id = newLabel._id;
       oldLabel.attr('text', newLabel.text);
       if (oldLabel.attr('x') !== newLabel.x || oldLabel.attr('y') !== newLabel.y) {
-        const rotate = oldLabel.get('attrs').rotate;
-        if (rotate) {
-          oldLabel.rotateAtStart(-rotate);
-          oldLabel.attr(newLabel);
-          oldLabel.rotateAtStart(rotate);
-        } else {
-          oldLabel.attr(newLabel);
+        oldLabel.resetMatrix();
+        if (newLabel.textStyle.rotate) {
+          oldLabel.rotateAtStart(newLabel.textStyle.rotate);
+          delete newLabel.textStyle.rotate;
         }
+        oldLabel.attr(newLabel);
       }
     }
   }
@@ -293,7 +291,7 @@ class Label extends Component {
     const htmlTemplate = this.get('htmlTemplate');
     // 如果是 geom.label(fields, () => {...}) 形式定义的label,mix自定义样式后直接画
     if (item._offset && item.textStyle) {
-      item.textStyle = Util.mix({}, textStyle, item.textStyle);
+      item.textStyle = Util.deepMix({}, { textStyle }, item.textStyle);
       return item;
     }
 
@@ -320,11 +318,10 @@ class Label extends Component {
     }
 
     item.text = item.text + ''; // ? 为什么转换为字符串
-    const cfg = Util.mix({}, item, textStyle, {
+    const cfg = Util.mix({}, item, { textStyle }, {
       x: item.x || 0,
       y: item.y || 0
     });
-
     return cfg;
   }
   /**
@@ -369,8 +366,13 @@ class Label extends Component {
       const origin = cfg.point;
       const group = this.get('group');
       delete cfg.point; // 临时解决，否则影响动画
-      const rotate = cfg.rotate;
+      let rotate = cfg.rotate;
+      // textStyle中的rotate虽然可以正常画出，但是在做动画的时候可能会导致动画异常。移出，在定义好shape后通过transform实现效果。
       if (cfg.textStyle) {
+        if (cfg.textStyle.rotate) {
+          rotate = cfg.textStyle.rotate;
+          delete cfg.textStyle.rotate;
+        }
         cfg = Util.mix({
           x: cfg.x,
           y: cfg.y,
@@ -382,6 +384,11 @@ class Label extends Component {
         attrs: cfg
       });
       if (rotate) {
+        // rotate是用角度定义的，转换为弧度
+        if (Math.abs(rotate) > Math.PI * 2) {
+          rotate = rotate / 180 * Math.PI;
+
+        }
         labelShape.transform([
           [ 't', -cfg.x, -cfg.y ],
           [ 'r', rotate ],
