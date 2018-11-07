@@ -43,6 +43,24 @@ describe('new default label', () => {
     expect(label.get('group').destroyed);
   });
 
+  it('htmlTemplate', () => {
+    const label1 = new Label({
+      canvas,
+      items,
+      coord
+    });
+    label1.render();
+    const label2 = new Label({
+      canvas,
+      items,
+      coord,
+      htmlTemplate: '<div class="g-label" style="position:absolute;">{text}</div>'
+    });
+    label2.render();
+    expect(label1.get('useHtml') === false);
+    expect(label2.get('useHtml') === true);
+  });
+
   it('update labels', () => {
     const label = new Label({
       canvas,
