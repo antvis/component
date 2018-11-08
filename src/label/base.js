@@ -157,7 +157,7 @@ class Label extends Component {
     if (!oldLabel) {
       return;
     }
-    if (this.get('useHtml')) {
+    if (oldLabel.tagName) {
       const node = this._createDom(newLabel);
       oldLabel.innerHTML = node.innerHTML;
       this._setCustomPosition(newLabel, oldLabel);
@@ -308,9 +308,11 @@ class Label extends Component {
     if (formatter) {
       item.text = formatter(item.text, item, index);
     }
-
-    if (Util.isFunction(htmlTemplate)) {
-      item.text = htmlTemplate(item.text, item, index);
+    if (htmlTemplate) {
+      item.useHtml = true;
+      if (Util.isFunction(htmlTemplate)) {
+        item.text = htmlTemplate(item.text, item, index);
+      }
     }
 
     if (Util.isNil(item.text)) {
@@ -354,7 +356,7 @@ class Label extends Component {
   _createText(cfg) {
     let container = this.get('container');
     let labelShape;
-    if (cfg.useHtml) {
+    if (cfg.useHtml || cfg.htmlTemplate) {
       if (!container) {
         container = this.initHtmlContainer();
       }

@@ -84,11 +84,67 @@ describe('new default label', () => {
       name: 'labelTest'
     });
     label.render();
+
     let labels = label.getLabels();
     expect(labels[0].name).to.equal('labelTest');
     label.set('name', 'labelTest2');
     label.render();
     labels = label.getLabels();
     expect(labels[0].name).to.equal('labelTest2');
+  });
+
+  it('htmlTemplate', () => {
+    const label1 = new Label({
+      canvas,
+      items,
+      coord
+    });
+    label1.render();
+    const label2 = new Label({
+      canvas,
+      items,
+      coord,
+      htmlTemplate: '<div class="g-label" style="position:absolute;">{text}</div>'
+    });
+
+    label2.render();
+    expect(label2.get('container')).not.to.be.undefined;
+    expect(label2.get('container').childNodes.length).to.equal(9);
+
+  });
+
+  it('htmlTemplate only', () => {
+    const items1 = [
+      { year: '1991',
+        value: 15468,
+        x: 80,
+        y: 196.10128,
+        text: '15468',
+        _offset: { x: 0, y: -20 },
+        _originPoint: { x: 80, y: 216.10128 },
+        textAlign: 'center',
+        _id: 'chart-geom1-line-glabel-0-15468',
+        htmlTemplate: '<div class="g-label" style="position:absolute;">{text}</div>'
+      }, {
+        year: '1992',
+        value: 16100,
+        x: 191.25,
+        y: 189.756,
+        text: '16100',
+        _offset: { x: 0, y: -20 },
+        _originPoint: { x: 191.25, y: 209.756 },
+        textAlign: 'center',
+        _id: 'chart-geom1-line-glabel-0-16100'
+      }];
+    const label = new Label({
+      canvas,
+      items: items1,
+      coord
+    });
+    label.render();
+    expect(label.get('container')).not.to.be.undefined;
+    expect(label.get('container').childNodes.length).to.equal(1);
+    expect(label.get('group')).not.to.be.undefined;
+    expect(label.get('group')._cfg.children.length).to.equal(1);
   });
 });
