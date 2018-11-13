@@ -246,11 +246,15 @@ class Label extends Component {
         [ 'L', label.x, label.y ]
       ];
     }
+    let stroke = label.color;
+    if (!stroke && label.textStyle) {
+      stroke = label.textStyle.fill || '#000';
+    }
     const lineShape = lineGroup.addShape('path', {
       attrs: Util.mix({
         path,
         fill: null,
-        stroke: label.color || label.textStyle ? label.textStyle.fill : '#000'
+        stroke
       }, lineStyle),
       capture: false
     });
