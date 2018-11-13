@@ -254,7 +254,7 @@ class Label extends Component {
       attrs: Util.mix({
         path,
         fill: null,
-        stroke
+        stroke: stroke || '#000'
       }, lineStyle),
       capture: false
     });
