@@ -70,7 +70,12 @@ class Label extends Component {
        * 默认为true。为false时指定直接用items渲染文本，不进行config
        * @type Object
        */
-      config: true
+      config: true,
+      /**
+       * 是否进行拾取
+       * @type Object
+       */
+      capture: true
     });
   }
 
@@ -232,6 +237,7 @@ class Label extends Component {
   lineToLabel(label, lineGroup) {
     const self = this;
     const lineStyle = label.labelLine || self.get('labelLine');
+    const capture = typeof label.capture === 'undefined' ? self.get('capture') : label.capture;
     let path = lineStyle.path;
     if (path && Util.isFunction(lineStyle.path)) {
       path = lineStyle.path(label);
@@ -247,16 +253,20 @@ class Label extends Component {
       ];
     }
     let stroke = label.color;
-    if (!stroke && label.textStyle) {
-      stroke = label.textStyle.fill || '#000';
+    if (!stroke) {
+      if (label.textStyle && label.textStyle.fill) {
+        stroke = label.textStyle.fill;
+      } else {
+        stroke = '#000';
+      }
     }
     const lineShape = lineGroup.addShape('path', {
       attrs: Util.mix({
         path,
         fill: null,
-        stroke: stroke || '#000'
+        stroke
       }, lineStyle),
-      capture: false
+      capture
     });
     // label 对应线的动画关闭
     lineShape.name = self.get('name');
@@ -363,6 +373,7 @@ class Label extends Component {
   // 分html dom和G shape两种情况生成label实例
   _createText(cfg) {
     let container = this.get('container');
+    const capture = typeof cfg.capture === 'undefined' ? this.get('capture') : cfg.capture;
     let labelShape;
     if (cfg.useHtml || cfg.htmlTemplate) {
       if (!container) {
@@ -392,7 +403,7 @@ class Label extends Component {
       }
       labelShape = group.addShape('text', {
         attrs: cfg,
-        capture: false
+        capture
       });
       if (rotate) {
         // rotate是用角度定义的，转换为弧度
