@@ -65,7 +65,12 @@ class Label extends Component {
        * 需添加label的shape
        * @type Object
        */
-      shapes: null
+      shapes: null,
+      /**
+       * 默认为true。为false时指定直接用items渲染文本，不进行config
+       * @type Object
+       */
+      config: true
     });
   }
 
@@ -232,7 +237,7 @@ class Label extends Component {
       path = lineStyle.path(label);
     }
     if (!path) {
-      const start = {
+      const start = label.start || {
         x: label.x - label._offset.x,
         y: label.y - label._offset.y
       };
@@ -245,7 +250,7 @@ class Label extends Component {
       attrs: Util.mix({
         path,
         fill: null,
-        stroke: label.color || '#000'
+        stroke: label.color || label.textStyle ? label.textStyle.fill : '#000'
       }, lineStyle)
     });
     // label 对应线的动画关闭
@@ -282,18 +287,16 @@ class Label extends Component {
 
   // 先计算label的所有配置项，然后生成label实例
   _addLabel(item, index) {
-    const cfg = this._getLabelCfg(item, index);
+    let cfg = item;
+    if (this.get('config')) {
+      cfg = this._getLabelCfg(item, index);
+    }
     return this._createText(cfg);
   }
   _getLabelCfg(item, index) {
     let textStyle = this.get('textStyle') || {};
     const formatter = this.get('formatter');
     const htmlTemplate = this.get('htmlTemplate');
-    // 如果是 geom.label(fields, () => {...}) 形式定义的label,mix自定义样式后直接画
-    if (item._offset && item.textStyle) {
-      item.textStyle = Util.deepMix({}, { textStyle }, item.textStyle);
-      return item;
-    }
 
     if (!Util.isObject(item)) {
       const tmp = item;
