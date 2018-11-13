@@ -251,7 +251,8 @@ class Label extends Component {
         path,
         fill: null,
         stroke: label.color || label.textStyle ? label.textStyle.fill : '#000'
-      }, lineStyle)
+      }, lineStyle),
+      capture: false
     });
     // label 对应线的动画关闭
     lineShape.name = self.get('name');
@@ -386,7 +387,8 @@ class Label extends Component {
         }, cfg.textStyle);
       }
       labelShape = group.addShape('text', {
-        attrs: cfg
+        attrs: cfg,
+        capture: false
       });
       if (rotate) {
         // rotate是用角度定义的，转换为弧度
