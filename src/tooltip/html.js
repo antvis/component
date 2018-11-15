@@ -162,6 +162,7 @@ class HtmlTooltip extends Tooltip {
   show() {
     const container = this.get('container');
     container.style.visibility = 'visible';
+    container.style.display = 'block';
     const crosshairGroup = this.get('crosshairGroup');
     crosshairGroup && crosshairGroup.show();
     const markerGroup = this.get('markerGroup');
@@ -173,6 +174,7 @@ class HtmlTooltip extends Tooltip {
   hide() {
     const container = this.get('container');
     container.style.visibility = 'hidden';
+    container.style.display = 'none';
     const crosshairGroup = this.get('crosshairGroup');
     crosshairGroup && crosshairGroup.hide();
     const markerGroup = this.get('markerGroup');
