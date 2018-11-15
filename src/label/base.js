@@ -140,7 +140,7 @@ class Label extends Component {
       children[i].remove();
     }
     self._adjustLabels();
-    if (self.get('labelLine') || (items && items.length && items[0].labelLine)) {
+    if (self.get('labelLine') || (!self.get('config'))) {
       self.drawLines();
     }
   }
@@ -236,6 +236,9 @@ class Label extends Component {
   }
   lineToLabel(label, lineGroup) {
     const self = this;
+    if (!self.get('config') && !label.labelLine) {
+      return;
+    }
     const lineStyle = label.labelLine || self.get('labelLine');
     const capture = typeof label.capture === 'undefined' ? self.get('capture') : label.capture;
     let path = lineStyle.path;
