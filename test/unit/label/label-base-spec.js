@@ -147,4 +147,38 @@ describe('new default label', () => {
     expect(label.get('group')).not.to.be.undefined;
     expect(label.get('group')._cfg.children.length).to.equal(1);
   });
+
+  it('labelLine render', () => {
+    const items = [
+      { year: '1991',
+        value: 15468,
+        x: 80,
+        y: 196.10128,
+        text: '15468',
+        start: { x: 80, y: 216.10128 },
+        textAlign: 'center',
+        _id: 'chart-geom1-line-glabel-0-15468',
+        labelLine: false,
+        htmlTemplate: '<div class="g-label" style="position:absolute;">{text}</div>'
+      }, {
+        year: '1992',
+        value: 16100,
+        x: 191.25,
+        y: 189.756,
+        text: '16100',
+        start: { x: 191.25, y: 209.756 },
+        textAlign: 'center',
+        labelLine: true,
+        _id: 'chart-geom1-line-glabel-0-16100'
+      }];
+    const label = new Label({
+      canvas,
+      items,
+      coord,
+      config: false
+    });
+    label.render();
+    expect(label.get('lineGroup')).not.to.be.undefined;
+    expect(label.get('lineGroup')._cfg.children.length).to.equal(1);
+  });
 });
