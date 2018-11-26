@@ -72,7 +72,7 @@ class Crosshair extends Component {
   }
 
   _renderHorizontalLine(canvas, plotRange) {
-    const style = this.get('lineStyle');
+    const style = Util.mix(this.get('lineStyle'), this.get('style'));
     const attrs = Util.mix({
       x1: plotRange ? plotRange.bl.x : canvas.get('width'),
       y1: 0,
@@ -83,7 +83,7 @@ class Crosshair extends Component {
   }
 
   _renderVerticalLine(canvas, plotRange) {
-    const style = this.get('lineStyle');
+    const style = Util.mix(this.get('lineStyle'), this.get('style'));
     const attrs = Util.mix({
       x1: 0,
       y1: plotRange ? plotRange.bl.y : canvas.get('height'),
@@ -95,7 +95,7 @@ class Crosshair extends Component {
   }
 
   _renderBackground(canvas, plotRange) {
-    const style = this.get('rectStyle');
+    const style = Util.mix(this.get('rectStyle'), this.get('style'));
     const container = this.get('container');
     const attrs = Util.mix({
       x: plotRange ? plotRange.tl.x : 0,
