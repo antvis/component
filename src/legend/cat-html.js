@@ -520,6 +520,11 @@ class CatHtml extends Category {
   }
 
   _adjustPositionOffset() {
+    const autoPosition = this.get('autoPosition');
+    // @2018-12-29 by maplor. if autoPosition is false, don't set inline-style
+    if (autoPosition === false) {
+      return;
+    }
     const position = this.get('position');
     const offset = this.get('offset');
     const offsetX = this.get('offsetX');
