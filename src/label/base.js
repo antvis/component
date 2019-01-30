@@ -374,7 +374,9 @@ class Label extends Component {
     return container;
   }
   // 分html dom和G shape两种情况生成label实例
-  _createText(cfg) {
+  _createText(config) {
+    // @2018-11-29 by blue.lb 这里由于使用delete导致之后的配置无法获取到point和rotate，出现问题，深拷贝一次比较好
+    let cfg = Util.deepMix({}, config);
     let container = this.get('container');
     const capture = typeof cfg.capture === 'undefined' ? this.get('capture') : cfg.capture;
     let labelShape;
