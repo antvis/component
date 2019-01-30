@@ -229,14 +229,21 @@ class HtmlTooltip extends Tooltip {
     const outterNode = this.get('canvas').get('el');
     const viewWidth = DomUtil.getWidth(outterNode);
     const viewHeight = DomUtil.getHeight(outterNode);
-    const containerWidth = container.clientWidth;
-    const containerHeight = container.clientHeight;
+    let containerWidth = container.clientWidth;
+    let containerHeight = container.clientHeight;
 
     let endx = x;
     let endy = y;
 
     let position;
     const prePosition = this.get('prePosition') || { x: 0, y: 0 };
+    // @2019-01-30 by blue.lb 由于display:none的元素获取clientWidth和clientHeight的值为0，这里强制显隐一下，其实直接在show和hide中去掉display设置最好，猜测为了更好的兼容浏览器
+    if (!containerWidth) {
+      container.style.display = 'block';
+      containerWidth = container.clientWidth;
+      containerHeight = container.clientHeight;
+      container.style.display = 'none';
+    }
     if (this.get('enterable')) {
       y = y - container.clientHeight / 2;
       position = [ x, y ];
@@ -246,8 +253,9 @@ class HtmlTooltip extends Tooltip {
         x += 1;
       }
     } else if (this.get('position')) {
-      const containerWidth = container.clientWidth;
-      const containerHeight = container.clientHeight;
+      // @2019-01-30 by blue.lb 这里应该是多余代码
+      // const containerWidth = container.clientWidth;
+      // const containerHeight = container.clientHeight;
       position = this._calcTooltipPosition(x, y, this.get('position'), containerWidth, containerHeight, target);
       x = position[0];
       y = position[1];
