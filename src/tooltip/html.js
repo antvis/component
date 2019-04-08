@@ -161,6 +161,9 @@ class HtmlTooltip extends Tooltip {
 
   show() {
     const container = this.get('container');
+    if (!container) {
+      return;
+    }
     container.style.visibility = 'visible';
     container.style.display = 'block';
     const crosshairGroup = this.get('crosshairGroup');
@@ -173,6 +176,10 @@ class HtmlTooltip extends Tooltip {
 
   hide() {
     const container = this.get('container');
+    // relative: https://github.com/antvis/g2/issues/1221
+    if (!container) {
+      return;
+    }
     container.style.visibility = 'hidden';
     container.style.display = 'none';
     const crosshairGroup = this.get('crosshairGroup');
