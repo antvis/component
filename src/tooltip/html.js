@@ -1,3 +1,4 @@
+const G = require('@antv/g/lib');
 const Tooltip = require('./base');
 const Util = require('../util');
 const DomUtil = Util.DomUtil;
@@ -12,6 +13,8 @@ const LIST_CLASS = 'g2-tooltip-list';
 const MARKER_CLASS = 'g2-tooltip-marker';
 const VALUE_CLASS = 'g2-tooltip-value';
 const LIST_ITEM_CLASS = 'g2-tooltip-list-item';
+const MARKER_SIZE = 5;
+const { Marker } = G;
 
 
 function find(dom, cls) {
@@ -43,9 +46,9 @@ class HtmlTooltip extends Tooltip {
      * tooltip 列表项模板
      * @type {String}
      */
-      itemTpl: '<li data-index={index}>'
-    + '<span style="background-color:{color};" class=' + MARKER_CLASS + '></span>'
-    + '{name}<span class=' + VALUE_CLASS + '>{value}</span></li>',
+      itemTpl: `<li data-index={index}>
+      <svg viewBox="0 0 ${MARKER_SIZE} ${MARKER_SIZE}" class="${MARKER_CLASS}"></svg>
+      {name}<span class="${VALUE_CLASS}">{value}</span></li>`,
     /**
      * tooltip html内容
      * @type {String}
@@ -133,7 +136,6 @@ class HtmlTooltip extends Tooltip {
       DomUtil.modifyCSS(titleDom, self.style[TITLE_CLASS]);
       titleDom.innerHTML = titleContent;
     }
-
     if (listDom) {
       DomUtil.modifyCSS(listDom, self.style[LIST_CLASS]);
       Util.each(items, (item, index) => {
@@ -204,6 +206,28 @@ class HtmlTooltip extends Tooltip {
     super.destroy();
   }
 
+  _getMarkerSvg(item) {
+    const marker = item.marker || {};
+    const symbol = marker.activeSymbol || marker.symbol;
+    let method;
+
+    if (Util.isFunction(symbol)) {
+      method = symbol;
+    } else if (Util.isString(symbol)) {
+      method = Marker.Symbols[symbol];
+    }
+
+    method = Util.isFunction(method) ? method : Marker.Symbols.circle;
+
+    const pathArr = method(MARKER_SIZE / 2, MARKER_SIZE / 2, MARKER_SIZE / 2);
+    const path = pathArr.reduce((res, arr) => {
+      return `${res}${arr[0]}${arr.slice(1).join(',')}`;
+    }, '');
+
+    return `<path d="${path}" fill="${marker.fill || 'none'}" stroke="${marker.stroke || 'none'}" />`;
+
+  }
+
   _addItem(item, index) {
     const itemTpl = this.get('itemTpl'); // TODO: 有可能是个回调函数
     const itemDiv = Util.substitute(itemTpl, Util.mix({
@@ -212,8 +236,13 @@ class HtmlTooltip extends Tooltip {
     const itemDOM = DomUtil.createDom(itemDiv);
     DomUtil.modifyCSS(itemDOM, this.style[LIST_ITEM_CLASS]);
     const markerDom = find(itemDOM, MARKER_CLASS);
+
     if (markerDom) {
-      DomUtil.modifyCSS(markerDom, this.style[MARKER_CLASS]);
+      DomUtil.modifyCSS(markerDom, { ...this.style[MARKER_CLASS], borderRadius: 'unset' });
+
+      const markerPath = this._getMarkerSvg(item);
+
+      markerDom.innerHTML = markerPath;
     }
     const valueDom = find(itemDOM, VALUE_CLASS);
     if (valueDom) {
