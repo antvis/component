@@ -135,7 +135,9 @@ class Axis extends Component {
     const self = this;
     const group = self.get('group');
     const labelCfg = self.get('label');
-    const labelRenderer = new Label();
+    const labelRenderer = new Label({
+      name: 'axis-label'
+    });
     self.set('labelRenderer', labelRenderer);
     labelRenderer.set('labelCfg', labelCfg);
     const cfgs2copy = [
