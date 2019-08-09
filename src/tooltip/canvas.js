@@ -294,8 +294,10 @@ class CanvasTooltip extends Tooltip {
     if (item.marker) {
       const markerAttrs = Util.mix({}, item.marker, {
         x: item.marker.radius / 2,
-        y: 0
+        y: 0,
+        symbol: item.marker.activeSymbol || item.marker.symbol
       });
+
       group.addShape('marker', {
         attrs: markerAttrs
       });

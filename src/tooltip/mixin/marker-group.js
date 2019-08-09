@@ -23,7 +23,9 @@ const MarkerGroupMixin = {
           shadowColor: item.color
         }, markerCfg, {
           x: item.x,
-          y: item.y
+          y: item.y,
+          // geom 对应的tooltip marker
+          symbol: item.marker && item.marker.activeSymbol
         })
       });
     });
