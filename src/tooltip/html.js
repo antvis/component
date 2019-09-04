@@ -118,6 +118,7 @@ class HtmlTooltip extends Tooltip {
       const outterNode = self.get('canvas').get('el').parentNode;
       const container = self._getHtmlContent();
       outterNode.appendChild(container);
+      DomUtil.modifyCSS(container, self.style[CONTAINER_CLASS]);
       self.set('container', container);
     } else {
       self._renderTpl();
