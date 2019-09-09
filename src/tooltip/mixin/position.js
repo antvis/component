@@ -62,16 +62,22 @@ const PositionMixin = {
     return [ x, y ];
   },
 
-  _constraintPositionInPlot(x, y, width, height, plotRange, onlyHorizontal) {
+  _constraintPositionInPlot(x, y, width, height, plotRange, enterable) {
     if (x + width > plotRange.tr.x) {
-      x -= (width + 2 * GAP);
+      if (enterable) {
+        // fix: https://github.com/antvis/g2/issues/1414
+        // 当 enterable 开启时，如果设置 tooltip 与鼠标的间距过大根本就追逐不上 tooltip
+        x -= width + 1;
+      } else {
+        x -= (width + 2 * GAP);
+      }
     }
 
     if (x < plotRange.tl.x) {
       x = plotRange.tl.x;
     }
 
-    if (!onlyHorizontal) {
+    if (!enterable) {
       if (y + height > plotRange.bl.y) {
         y -= height + 2 * GAP;
       }
