@@ -1,5 +1,16 @@
 [
   {
+    "timestamp": 1569319295211,
+    "files": [
+      {
+        "filename": "component.js",
+        "previous": 81974,
+        "size": 81978,
+        "diff": 4
+      }
+    ]
+  },
+  {
     "timestamp": 1568002716152,
     "files": [
       {
