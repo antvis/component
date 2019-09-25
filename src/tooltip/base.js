@@ -115,11 +115,6 @@ class Tooltip extends Component {
   hide() {
     this.set('visible', false);
   }
-
-  destroy() {
-
-  }
-
 }
 
 module.exports = Tooltip;

@@ -153,11 +153,34 @@ describe('Guide: 辅助图片', function() {
     img.render(coord, group);
     canvas.draw();
 
-    expect(img.get('el').get('destroyed')).to.be.false;
 
+    const el = img.get('el');
+    expect(el.get('destroyed')).to.be.false;
     img.clear();
-    expect(img.get('el').get('destroyed')).to.be.true;
-
+    expect(el.get('destroyed')).to.be.true;
+  });
+  it('invalid', () => {
+    const count = group.getCount();
+    const img = new Image({
+      xScales: {
+        month: xScale
+      },
+      yScales: {
+        temp: yScale
+      },
+      start: {
+        month: 'test',
+        temp: 600
+      },
+      src: 'https://zos.alipayobjects.com/rmsportal/YZsqDCAvphpUzpNHMqvv.png',
+      width: 32,
+      height: 32
+    });
+    img.render(coord, group);
+    expect(group.getCount()).eql(count);
+    expect(img.get('el')).equal(null);
+  });
+  it('destroy', () => {
     canvas.destroy();
     document.body.removeChild(div);
   });

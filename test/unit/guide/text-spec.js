@@ -149,11 +149,14 @@ describe('Guide: 辅助文本', function() {
   });
 
   it('clear', () => {
-    expect(text.get('el').get('destroyed')).to.be.false;
+    const el = text.get('el');
+    expect(el.get('destroyed')).to.be.false;
 
     text.clear();
-    expect(text.get('el').get('destroyed')).to.be.true;
-
+    expect(el.get('destroyed')).to.be.true;
+    text.set('position', [ 'test', 1 ]);
+    text.render(coord, group);
+    expect(text.get('el')).eql(null);
     canvas.destroy();
     document.body.removeChild(div);
   });

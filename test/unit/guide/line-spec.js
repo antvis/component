@@ -510,11 +510,20 @@ describe('Guide: 辅助线', function() {
   });
 
   it('clear', () => {
-    expect(line.get('el').get('destroyed')).to.be.false;
+    const el = line.get('el');
+    expect(el.get('destroyed')).to.be.false;
 
     line.clear();
-    expect(line.get('el').get('destroyed')).to.be.true;
+    expect(el.get('destroyed')).to.be.true;
 
+  });
+  it('invalid position', () => {
+    line.set('start', [ 'test', 10 ]);
+    line.render(coord, group);
+    expect(line.get('el')).eql(null);
+  });
+
+  it('destroy', () => {
     canvas.destroy();
     document.body.removeChild(div);
   });
