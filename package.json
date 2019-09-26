@@ -72,6 +72,6 @@
       "!**/node_modules/**",
       "!**/vendor/**"
     ],
-    "testRegex": "/__tests__/.*spec\\.ts?$"
+    "testRegex": "/tests/.*spec\\.ts?$"
   }
 }
