@@ -565,6 +565,7 @@ class CatHtml extends Category {
     if (legendWrapper && legendWrapper.parentNode) {
       legendWrapper.parentNode.removeChild(legendWrapper);
     }
+    super.destroy();
   }
 }
 

@@ -475,14 +475,14 @@ class Axis extends Component {
   destroy() {
     const self = this;
     if (!self.destroyed) {
-      super.destroy();
+
       const gridGroup = self.get('gridGroup');
       gridGroup && gridGroup.remove();
       const labelRenderer = this.get('labelRenderer');
       labelRenderer && labelRenderer.destroy();
       const group = self.get('group');
       group.destroy();
-      self.destroyed = true;
+      super.destroy(); // 要最后调用 super.destroy 否则 get 属性会无效
     }
   }
 

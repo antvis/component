@@ -137,11 +137,22 @@ describe('Guide: 辅助背景框', function() {
   });
 
   it('clear', () => {
-    expect(region.get('el').get('destroyed')).to.be.false;
+    const el = region.get('el');
+    expect(el.get('destroyed')).to.be.false;
 
     region.clear();
-    expect(region.get('el').get('destroyed')).to.be.true;
+    expect(el.get('destroyed')).to.be.true;
+  });
 
+  it('invalid', () => {
+    region.set('start', [ 'test', 10 ]);
+    region.render(coord, group);
+    expect(region.get('el')).equal(null);
+  });
+
+  it('destroy', () => {
+    region.destroy();
+    expect(region.destroyed).equal(true);
     canvas.destroy();
     document.body.removeChild(div);
   });

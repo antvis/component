@@ -46,7 +46,9 @@ class Html extends Guide {
   render(coord, container) {
     const self = this;
     const position = self.parsePoint(coord, self.get('position'));
-
+    if (!position) {
+      return;
+    }
     const parentNode = container.get('canvas').get('el').parentNode;
     const wrapperNode = DomUtil.createDom('<div class="g-guide"></div>');
     parentNode.appendChild(wrapperNode);
@@ -66,6 +68,7 @@ class Html extends Guide {
 
     self._setDomPosition(wrapperNode, htmlNode, position);
     self.set('el', wrapperNode);
+
   }
 
   _setDomPosition(parentDom, childDom, point) {

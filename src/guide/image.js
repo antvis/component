@@ -37,7 +37,9 @@ class Image extends Guide {
   render(coord, group) {
     const self = this;
     const start = self.parsePoint(coord, self.get('start'));
-
+    if (!start) {
+      return;
+    }
     const cfg = {
       x: start.x,
       y: start.y
@@ -49,6 +51,9 @@ class Image extends Guide {
       cfg.height = self.get('height') || 32;
     } else {
       const end = self.parsePoint(coord, self.get('end'));
+      if (!end) {
+        return;
+      }
       // cfg.width = Math.abs(end.x - start.x);
       // cfg.height = Math.abs(end.y - start.y);
       cfg.width = end.x - start.x;

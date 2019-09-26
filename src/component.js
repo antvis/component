@@ -25,7 +25,9 @@ class Component extends Base {
   // 基础生命周期
   _init() { }
   clear() { }
-  destroy() { }
+  destroy() { // 之前未指定销毁
+    super.destroy();
+  }
 
   // 绘图
   beforeRender() { }

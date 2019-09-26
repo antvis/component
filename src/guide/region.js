@@ -22,7 +22,9 @@ class Region extends Guide {
     const self = this;
     const rectStyle = self.get('style');
     const path = self._getPath(coord);
-
+    if (!path.length) { // path 为空时不绘制
+      return;
+    }
     const regionGroup = group.addShape('path', {
       zIndex: self.get('zIndex'),
       attrs: Util.mix({
@@ -38,7 +40,9 @@ class Region extends Guide {
     const self = this;
     const start = self.parsePoint(coord, self.get('start'));
     const end = self.parsePoint(coord, self.get('end'));
-
+    if (!start || !end) {
+      return [];
+    }
     const path = [
       [ 'M', start.x, start.y ],
       [ 'L', end.x, start.y ],

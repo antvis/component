@@ -42,6 +42,9 @@ class DataMarker extends Guide {
   render(coord, group) {
     const self = this;
     const point = self.parsePoint(coord, self.get('position'));
+    if (!point) {
+      return;
+    }
     // container
     const markerGroup = group.addGroup();
     markerGroup.name = 'guide-data-marker';

@@ -337,6 +337,7 @@ describe('Guide.DataMarker', () => {
     expect(bbox.maxX).to.gt(coord.end.x);
   });
 
+
   it('changeVisible', function() {
     expect(dataMarker.get('visible')).to.be.true;
 
@@ -346,9 +347,34 @@ describe('Guide.DataMarker', () => {
   });
 
   it('clear', function() {
+    const el = dataMarker.get('el');
     dataMarker.clear();
-    expect(dataMarker.get('el').get('destroyed')).to.be.true;
+    expect(el.get('destroyed')).to.be.true;
+    expect(dataMarker.get('el')).eql(null);
 
+  });
+
+  it('invalid point', () => {
+    dataMarker = new DataMarker({
+      xScales: {
+        month: xScale
+      },
+      yScales: {
+        temp: yScale
+      },
+      position: {
+        month: 'error',
+        temp: '1200'
+      },
+      content: 'Guide to designing a site using a design system by Meng To\n Please have fun.'
+    });
+    dataMarker.render(coord, group);
+    expect(dataMarker.get('el')).equal(null);
+  });
+  it('destroy', () => {
+    dataMarker.destroy();
+    expect(dataMarker.destroyed).equal(true);
+    expect(dataMarker._attrs).eqls({});
     canvas.destroy();
     document.body.removeChild(div);
   });

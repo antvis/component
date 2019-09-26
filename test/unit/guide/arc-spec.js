@@ -116,10 +116,29 @@ describe('Guide: 辅助圆弧线', function() {
     expect(arc.get('el').get('visible')).to.be.false;
   });
 
-  it('clear', function() {
-    arc.clear();
-    expect(arc.get('el').get('destroyed')).to.be.true;
 
+  it('clear', function() {
+    const el = arc.get('el');
+    arc.clear();
+    expect(el.get('destroyed')).to.be.true;
+    expect(arc.get('el')).eqls(null);
+  });
+
+  it('guide point invalid', () => {
+    const coord = new Coord.Polar({
+      start: { x: 60, y: 460 },
+      end: { x: 460, y: 60 },
+      startAngle: -1 / 2 * Math.PI,
+      endAngle: Math.PI
+    });
+    arc.set('start', {
+      month: 'test',
+      temp: 1200
+    });
+    arc.render(coord, group);
+    expect(arc.get('el')).eqls(null);
+  });
+  after('destroy', () => {
     canvas.destroy();
     document.body.removeChild(div);
   });

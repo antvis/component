@@ -222,9 +222,14 @@ describe('Guide.DataRegion', () => {
   });
 
   it('clear', function() {
+    const el = dataRegion.get('el');
     dataRegion.clear();
-    expect(dataRegion.get('el').get('destroyed')).to.be.true;
+    expect(el.get('destroyed')).to.be.true;
+  });
 
+  it('destroy', () => {
+    dataRegion.destroy();
+    expect(dataRegion.destroyed).equal(true);
     canvas.destroy();
     document.body.removeChild(div);
   });

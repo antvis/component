@@ -60,6 +60,10 @@ class Arc extends Guide {
     const self = this;
     const start = self.parsePoint(coord, self.get('start'));
     const end = self.parsePoint(coord, self.get('end'));
+    // 只要有一个点无意义，则不绘制
+    if (!start || !end) {
+      return;
+    }
     const coordCenter = coord.getCenter();
     const radius = Math.sqrt((start.x - coordCenter.x) * (start.x - coordCenter.x)
       + (start.y - coordCenter.y) * (start.y - coordCenter.y));

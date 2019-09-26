@@ -24,6 +24,12 @@ class Guide extends Component {
     const self = this;
     const el = self.get('el');
     el && el.remove();
+    this.set('el', null);
+  }
+
+  destroy() {
+    this.clear();
+    super.destroy();
   }
 
   /**
@@ -83,12 +89,13 @@ class Guide extends Component {
       }
     }
 
-    if (!Util.isNil(x) && !Util.isNil(y)) {
+    if (!Util.isNil(x) && !Util.isNil(y) && !isNaN(x) && !isNaN(y)) {
       return coord.convert({
         x,
         y
       });
     }
+    return null;
   }
 
   /**
