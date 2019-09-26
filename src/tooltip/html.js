@@ -164,7 +164,7 @@ class HtmlTooltip extends Tooltip {
 
   show() {
     const container = this.get('container');
-    if (!container) {
+    if (!container || this.destroyed) { // 防止容器不存在或者被销毁时报错
       return;
     }
     container.style.visibility = 'visible';
@@ -180,7 +180,7 @@ class HtmlTooltip extends Tooltip {
   hide() {
     const container = this.get('container');
     // relative: https://github.com/antvis/g2/issues/1221
-    if (!container) {
+    if (!container || this.destroyed) {
       return;
     }
     container.style.visibility = 'hidden';
