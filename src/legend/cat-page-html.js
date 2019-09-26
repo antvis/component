@@ -6,7 +6,6 @@ const {
 
 const DomUtil = Util.DomUtil;
 const LIST_CLASS = 'g2-legend-list';
-const CONTAINER_CLASS = 'g2-legend';
 const SLIP_CLASS = 'g2-slip';
 const CARET_UP_CLASS = 'g2-caret-up';
 const CARET_DOWN_CLASS = 'g2-caret-down';
@@ -91,7 +90,7 @@ class CatPageHtml extends CatHtml {
   }
 
   _renderFlipPage() {
-    const legendWrapper = document.getElementsByClassName(CONTAINER_CLASS)[0];
+    const legendWrapper = this.get('legendWrapper');
     // ul
     const itemListDom = findNodeByClass(legendWrapper, LIST_CLASS);
 
