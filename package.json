@@ -1,6 +1,6 @@
 {
   "name": "@antv/component",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "",
   "browser": "build/component.js",
   "main": "lib/index.js",
@@ -75,7 +75,7 @@
     "prepublishOnly": "npm run build-lib && npm run dist",
     "screenshot": "node ./bin/screenshot.js",
     "start": "npm run dev",
-    "test": "torch --compile --renderer --recursive ./test/unit/",
+    "test": "torch --compile --renderer --recursive ./test/",
     "test-all": "npm --compile run test && npm run test-bugs",
     "test-bugs": "torch --compile --renderer --recursive ./test/bugs",
     "test-bugs-live": "torch --compile --interactive --watch --recursive ./test/bugs",
