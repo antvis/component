@@ -89,7 +89,9 @@ class DataRegion extends Guide {
       }
 
       if (i >= startIndex) {
-        arr.push(self.parsePoint(coord, [ item[xField], item[yField] ]));
+        const point = self.parsePoint(coord, [ item[xField], item[yField] ]);
+        // 判断是否是有效点
+        point && arr.push(point);
       }
 
       if (item[xField] === endXValue) {

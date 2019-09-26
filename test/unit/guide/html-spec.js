@@ -301,7 +301,7 @@ describe('Guide: 辅助 html', function() {
       yScales: {
         temp: yScale
       },
-      position: [ 'start', '100%' ],
+      position: [ 'start', 'start' ],
       html: '<p style="width: 100px;height: 80px;font-size: 20px;">Hoooray</p>'
     });
     html.render(coord, group);
@@ -331,7 +331,25 @@ describe('Guide: 辅助 html', function() {
     expect(dom[11].style.top).to.equal('220px');
     html.changeVisible();
     expect(html.get('el').style.display).to.equal('none');
+  });
+  it('guide html, unvalid position', () => {
+    const html = new Html({
+      xScales: {
+        month: xScale
+      },
+      yScales: {
+        temp: yScale
+      },
+      position: [ 'test', '50%' ],
+      html: '<p style="width: 100px;height: 80px;font-size: 20px;">Hoooray</p>'
+    });
+    const dom = document.getElementsByClassName('g-guide');
+    html.render(coord, group);
 
+    expect(document.getElementsByClassName('g-guide').length).to.equal(dom.length);
+  });
+
+  after('destroy', () => {
     canvas.destroy();
     document.body.removeChild(div);
   });

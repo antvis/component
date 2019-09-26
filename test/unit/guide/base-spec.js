@@ -84,8 +84,16 @@ describe('Guide', () => {
     expect(parseResult).to.eql({ x: 360, y: 260 });
   });
 
+  it('parsePoint null', () => {
+    expect(guide.parsePoint(coord, [ 'test', 100 ])).eql(null);
+  });
+
   it('guide.render()', function() {
     expect(guide.render).be.an.instanceof(Function);
     expect(guide.render()).to.be.undefined;
+  });
+  it('destroy', () => {
+    guide.destroy();
+    expect(guide.destroyed).equal(true);
   });
 });

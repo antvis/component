@@ -98,8 +98,8 @@ describe('CanvasTooltip测试', () => {
       canvas,
       frontPlot: canvas.addGroup()
     });
-    tooltip.destroy();
     const container = tooltip.get('container');
+    tooltip.destroy();
     expect(container.get('destroyed')).to.equal(true);
   });
 

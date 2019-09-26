@@ -54,6 +54,9 @@ class Line extends Guide {
     const self = this;
     const start = self.parsePoint(coord, self.get('start'));
     const end = self.parsePoint(coord, self.get('end'));
+    if (!start || !end) {
+      return;
+    }
     const guideLineGroup = group.addGroup({
       viewId: group.get('viewId')
     });

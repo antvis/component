@@ -213,12 +213,12 @@ class CatPageHtml extends CatHtml {
     }
   }
   destroy() {
-    super.destroy();
+
     const slipDom = this.get('slipDom');
     if (slipDom && slipDom.parentNode) {
       slipDom.parentNode.removeChild(slipDom);
     }
-
+    super.destroy();
   }
 }
 

@@ -39,8 +39,9 @@ describe('new default label', () => {
     expect(label.get('group').get('children')[0].attr('fill') === '#000');
     label.clear();
     expect(label.get('group').get('children').length === 0);
+    const group = label.get('group');
     label.destroy();
-    expect(label.get('group').destroyed);
+    expect(group.destroyed);
   });
 
   it('update labels', () => {
