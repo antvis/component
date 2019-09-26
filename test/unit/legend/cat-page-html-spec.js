@@ -8,6 +8,7 @@ const SLIP_CLASS = 'g2-slip';
 const div = document.createElement('div');
 div.id = 'legend';
 div.style.margin = '20px';
+div.style.position = 'relative';
 document.body.appendChild(div);
 
 const symbols = [ 'circle', 'diamond', 'square', 'triangle', 'triangle-down' ];
@@ -37,9 +38,6 @@ describe('HTML 分类图例 翻页', function() {
     const cfg = {
       items,
       container: div,
-      title: {
-        text: '图例标题'
-      },
       flip: true,
       legendStyle: {
         CONTAINER_CLASS: {
@@ -60,6 +58,7 @@ describe('HTML 分类图例 翻页', function() {
     const legendWrapper = legend.get('legendWrapper');
     const itemListDom = findNodeByClass(legendWrapper, LIST_CLASS);
     const childNodes = itemListDom.childNodes;
+
 
     const slipDom = document.getElementsByClassName(SLIP_CLASS)[0];
     const caretUpDom = findNodeByClass(slipDom, 'g2-caret-up');

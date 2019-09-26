@@ -62,12 +62,12 @@ class CatPageHtml extends CatHtml {
        */
       slipTpl:
       '<div class="' + SLIP_CLASS + '" >' +
-      '<svg viewBox="64 64 896 896" class="g2-caret-up" data-icon="left" width="1em" height="1em" aria-hidden="true">' +
+      '<svg viewBox="64 64 896 896" class="g2-caret-up" data-icon="left" style = "display:inline-block;vertical-align:middle;" width="1em" height="1em" aria-hidden="true">' +
       '<path d="M724 218.3V141c0-6.7-7.7-10.4-12.9-6.3L260.3 486.8a31.86 31.86 0 0 0 0 50.3l450.8 352.1c5.3 4.1 12.9.4 12.9-6.3v-77.3c0-4.9-2.3-9.6-6.1-12.6l-360-281 360-281.1c3.8-3 6.1-7.7 6.1-12.6z"></path>' +
       '</svg>' +
-      '<p class="cur-pagenum" style = "display:inline-block;">1</p>' +
-      '<p class="next-pagenum" style = "display:inline-block;">/2</p>' +
-      '<svg viewBox="64 64 896 896" class="g2-caret-down" data-icon="right" width="1em" height="1em" aria-hidden="true">' +
+      '<p class="cur-pagenum" style = "display:inline-block;vertical-align:middle;">1</p>' +
+      '<p class="next-pagenum" style = "display:inline-block;vertical-align:middle;"">/2</p>' +
+      '<svg viewBox="64 64 896 896" class="g2-caret-down" data-icon="right" style = "display:inline-block;vertical-align:middle;" width="1em" height="1em" aria-hidden="true">' +
       '<path d="M765.7 486.8L314.9 134.7A7.97 7.97 0 0 0 302 141v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1a31.96 31.96 0 0 0 0-50.4z"></path>' +
       '</svg>' +
       '</div>',
@@ -96,10 +96,12 @@ class CatPageHtml extends CatHtml {
 
     const position = this.get('position');
     const layout = this.get('layout');
-    const itemDisplay = ((position === 'right' || position === 'left') || layout === 'vertical') ? 'block' : 'inline-block';
+    const isVertical = position === 'right' || position === 'left' || layout === 'vertical';
+    const itemDisplay = isVertical ? 'block' : 'inline-block';
+    const legengWrapperHeight = legendWrapper.offsetHeight;
 
     // 翻页
-    if (legendWrapper.scrollHeight > legendWrapper.offsetHeight) {
+    if (legendWrapper.scrollHeight > legengWrapperHeight) {
       // append a slip div
       const slipTpl = this.get('slipTpl');
       const slipDom = DomUtil.createDom(slipTpl);
@@ -115,13 +117,24 @@ class CatPageHtml extends CatHtml {
       DomUtil.modifyCSS(totalPageNumDom, Util.mix({}, pageNumStyle, { opacity: 0.3, paddingRight: '10px' }));
 
       // layout at the center-bottom of the legendWrapper
-      DomUtil.modifyCSS(slipDom, Util.mix({}, this.get('slipDomStyle'), {
-        top: legendWrapper.offsetHeight + 'px'
-      })
-      );
+      DomUtil.modifyCSS(slipDom, Util.mix({}, this.get('slipDomStyle'), isVertical ? {
+        top: legengWrapperHeight + 'px'
+      } : {
+        right: 0,
+        top: '50%',
+        // 横向布局的时候，分页在右侧居中对齐
+        transform: 'translate(0, -50%)'
+      }));
 
       legendWrapper.style.overflow = this.get('legendOverflow');
       legendWrapper.appendChild(slipDom);
+
+      if (!isVertical) {
+        const legendListMaxWidth = Math.max(legendWrapper.offsetWidth - 10 - slipDom.offsetWidth, 0);
+        // 横向布局的时候更新list的宽度
+        DomUtil.modifyCSS(itemListDom, { maxWidth: `${legendListMaxWidth}px` });
+      }
+
       const li = itemListDom.childNodes;
       let curHeight = 0;
       // find the total page number
@@ -130,7 +143,7 @@ class CatPageHtml extends CatHtml {
       for (let i = 0; i < li.length; i++) {
         li[i].style.display = itemDisplay;
         curHeight = li[i].offsetTop + li[i].offsetHeight;
-        if (curHeight >= legendWrapper.offsetHeight) {
+        if (curHeight > legengWrapperHeight) {
           pages++;
           blockLi.forEach(bl => {
             bl.style.display = 'none';
@@ -144,7 +157,7 @@ class CatPageHtml extends CatHtml {
       li.forEach(l => {
         l.style.display = itemDisplay;
         curHeight = l.offsetTop + l.offsetHeight;
-        if (curHeight > legendWrapper.offsetHeight) {
+        if (curHeight > legengWrapperHeight) {
           l.style.display = 'none';
         }
       });
@@ -164,7 +177,7 @@ class CatPageHtml extends CatHtml {
           li[i].style.display = itemDisplay;
           curHeight = li[firstDisplayItemIdx - 1].offsetTop + li[firstDisplayItemIdx - 1].offsetHeight;
           li[i].style.display = 'none';
-          if (curHeight < legendWrapper.offsetHeight) {
+          if (curHeight <= legengWrapperHeight) {
             li[i].style.display = itemDisplay;
           } else break;
         }
@@ -195,12 +208,12 @@ class CatPageHtml extends CatHtml {
           li[i].style.display = itemDisplay;
           curHeight = li[i].offsetTop + li[i].offsetHeight;
           li[i].style.display = 'none';
-          if (curHeight < legendWrapper.offsetHeight) li[i].style.display = itemDisplay;
+          if (curHeight <= legengWrapperHeight) li[i].style.display = itemDisplay;
           else break;
         }
         // change the page number
         const currentPage = Number.parseInt(curPageNumDom.innerText, 10) + 1;
-        if (currentPage === itemDisplay) {
+        if (currentPage === pages) {
           caretDownDom.style.fill = DISABLED_CARET_COLOR;
         } else {
           caretDownDom.style.fill = ENABLED_CARET_COLOR;
