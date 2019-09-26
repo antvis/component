@@ -20,7 +20,6 @@ install:
   - npm install
 
 script:
-  - npm run build
   - |
     if [ "$TEST_TYPE" = ci ]; then
       npm run ci
