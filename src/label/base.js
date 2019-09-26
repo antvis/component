@@ -104,7 +104,7 @@ class Label extends Component {
       group.destroy();
     }
     if (container) {
-      container.innerHTML = '';
+      container.parentNode && container.parentNode.removeChild(container);
     }
     super.destroy(); // 要最后调用 super.destroy 否则 get 属性会无效
   }
