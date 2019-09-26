@@ -349,7 +349,7 @@ describe('Guide: 辅助 html', function() {
     expect(document.getElementsByClassName('g-guide').length).to.equal(dom.length);
   });
 
-  it('destroy', () => {
+  after('destroy', () => {
     canvas.destroy();
     document.body.removeChild(div);
   });

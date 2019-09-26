@@ -74,8 +74,6 @@ class Text extends Guide {
     guideText.name = 'guide-text';
     self.get('appendInfo') && guideText.setSilent('appendInfo', self.get('appendInfo'));
     self.set('el', guideText);
-
-
   }
 }
 

@@ -151,6 +151,8 @@ describe('Guide: 辅助背景框', function() {
   });
 
   it('destroy', () => {
+    region.destroy();
+    expect(region.destroyed).equal(true);
     canvas.destroy();
     document.body.removeChild(div);
   });

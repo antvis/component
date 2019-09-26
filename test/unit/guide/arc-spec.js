@@ -138,7 +138,7 @@ describe('Guide: 辅助圆弧线', function() {
     arc.render(coord, group);
     expect(arc.get('el')).eqls(null);
   });
-  it('destroy', () => {
+  after('destroy', () => {
     canvas.destroy();
     document.body.removeChild(div);
   });

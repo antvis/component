@@ -524,6 +524,8 @@ describe('Guide: 辅助线', function() {
   });
 
   it('destroy', () => {
+    line.destroy();
+    expect(line.destroyed).eql(true);
     canvas.destroy();
     document.body.removeChild(div);
   });

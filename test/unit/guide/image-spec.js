@@ -180,7 +180,7 @@ describe('Guide: 辅助图片', function() {
     expect(group.getCount()).eql(count);
     expect(img.get('el')).equal(null);
   });
-  it('destroy', () => {
+  after('destroy', () => {
     canvas.destroy();
     document.body.removeChild(div);
   });
