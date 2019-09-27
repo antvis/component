@@ -15,18 +15,21 @@ const MarkerGroupMixin = {
       markerGroup.clear();
     }
     Util.each(markerItems, item => {
+      const attrs = Util.mix({
+        fill: item.color,
+        symbol: 'circle',
+        shadowColor: item.color
+      }, markerCfg, {
+        x: item.x,
+        y: item.y
+      });
+
+      if (item.marker && item.marker.activeSymbol) {
+        attrs.symbol = item.marker.activeSymbol;
+      }
       markerGroup.addShape('marker', {
         color: item.color,
-        attrs: Util.mix({
-          fill: item.color,
-          symbol: 'circle',
-          shadowColor: item.color
-        }, markerCfg, {
-          x: item.x,
-          y: item.y,
-          // geom 对应的tooltip marker
-          symbol: item.marker && item.marker.activeSymbol
-        })
+        attrs
       });
     });
     this.set('markerItems', markerItems);
