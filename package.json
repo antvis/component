@@ -23,10 +23,11 @@
     "lib": "run-p lib:*",
     "lib:cjs": "tsc -p tsconfig.json --target ES5 --module commonjs --outDir lib",
     "lib:esm": "tsc -p tsconfig.json --target ES5 --module ESNext --outDir esm",
-    "lint": "lint-staged",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "lint-fix": "tslint --fix -c tslint.json 'src/**/*.ts'",
     "coverage": "jest --coverage",
     "test": "jest",
-    "test-live": "DEBUG_MODE=1 jest",
+    "test-live": "DEBUG_MODE=1 jest --watch",
     "ci": "run-s build test"
   },
   "husky": {
@@ -46,10 +47,14 @@
     "ts-jest": "^24.1.0",
     "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.5.3"
+    "typescript": "^3.5.3",
+    "@antv/g-canvas": "~0.1.0-beta.2"
   },
   "dependencies": {
-    "tslib": "^1.10.0"
+    "tslib": "^1.10.0",
+    "@antv/util": "~2.0.0",
+    "@antv/g-base": "~0.1.0-beta.2",
+    "@antv/matrix-util": "~2.0.2"
   },
   "lint-staged": {
     "*.{js,css,json,md}": [
