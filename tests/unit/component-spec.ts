@@ -80,10 +80,10 @@ describe('abstract group-component', () => {
   describe('test simple component', () => {
     // 简单图形对象
     class BComponent extends GroupComponent{
-      renderInner(group, isRegister) {
+      renderInner(group) {
         const showA = this.get('showA');
         if (showA) {
-          const shape = group.addShape({
+          const shape = this.addShape(group, {
             type: 'text',
             id: 'a',
             attrs: {
@@ -93,11 +93,10 @@ describe('abstract group-component', () => {
               text: 100
             }
           });
-          isRegister && this.registerElement(shape);
         }
         const showB = this.get('showB');
         if (showB) {
-          const shape = group.addShape({
+          const shape = this.addShape(group, {
             type: 'rect',
             id: 'b',
             attrs: {
@@ -108,7 +107,6 @@ describe('abstract group-component', () => {
               fill: 'red'
             }
           });
-          isRegister && this.registerElement(shape);
         }
       }
     }
@@ -233,10 +231,10 @@ describe('abstract group-component', () => {
 
   describe('test complex component', () => {
     class CComponent extends GroupComponent{
-      renderInner(group, isRegister) {
+      renderInner(group) {
         const showA = this.get('showA');
         if (showA) {
-          const shape = group.addShape({
+          const shape = this.addShape(group, {
             type: 'text',
             id: 'a',
             attrs: {
@@ -246,14 +244,13 @@ describe('abstract group-component', () => {
               text: 100
             }
           });
-          isRegister && this.registerElement(shape);
         }
         const showB = this.get('showB');
         if (showB) {
-          const bGroup = group.addGroup({
+          const bGroup = this.addGroup(group, {
             id: 'bg'
           });
-          const shape = bGroup.addShape({
+          const shape = this.addShape(bGroup, {
             type: 'rect',
             id: 'b1',
             attrs: {
@@ -264,17 +261,13 @@ describe('abstract group-component', () => {
               fill: 'red'
             }
           });
-          if(isRegister) {
-            this.registerElement(bGroup);
-            this.registerElement(shape);
-          }
         }
         const showC = this.get('showC');
         if (showC) {
-          const cGroup = group.addGroup({
+          const cGroup = this.addGroup(group, {
             id: 'cg'
           });
-          const shape1 = cGroup.addShape({
+          const shape1 = this.addShape(cGroup, {
             type: 'rect',
             id: 'c1',
             attrs: {
@@ -286,7 +279,7 @@ describe('abstract group-component', () => {
             }
           });
 
-          const shape2 = cGroup.addShape({
+          const shape2 = this.addShape(cGroup, {
             type: 'rect',
             id: 'c2',
             attrs: {
@@ -297,11 +290,6 @@ describe('abstract group-component', () => {
               fill: 'blue'
             }
           });
-          if(isRegister) {
-            this.registerElement(cGroup);
-            this.registerElement(shape1);
-            this.registerElement(shape2);
-          }
         }
       }
     }

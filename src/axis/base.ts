@@ -79,15 +79,15 @@ abstract class AxisBase extends GroupComponent implements IList {
   /**
    * 绘制组件
    */
-  public renderInner(group, isRegister) {
+  public renderInner(group) {
     if (this.get('line')) {
-      this.drawLine(group, isRegister);
+      this.drawLine(group);
     }
     if (this.get('title')) {
-      this.drawTitle(group, isRegister);
+      this.drawTitle(group);
     }
     // drawTicks 包括 drawLabels 和 drawTickLines
-    this.drawTicks(group, isRegister);
+    this.drawTicks(group);
   }
   
   // IList 接口的实现
@@ -163,10 +163,10 @@ abstract class AxisBase extends GroupComponent implements IList {
   }
 
   // 绘制坐标轴线
-  private drawLine(group, isRegister) {
+  private drawLine(group) {
     const path = this.getLinePath();
     const line = this.get('line'); // line 的判空在调用 drawLine 之前，不在这里判定
-    const lineShape = group.addShape({
+    this.addShape(group, {
       type: 'path',
       id: this.getElementId('line'),
       name: 'axis-line',
@@ -174,7 +174,6 @@ abstract class AxisBase extends GroupComponent implements IList {
         path
       }, line.style)
     });
-    isRegister && this.registerElement(lineShape);
   }
 
   private getTickLineItems(ticks) {
@@ -250,36 +249,34 @@ abstract class AxisBase extends GroupComponent implements IList {
   }
 
   // 绘制坐标轴刻度线
-  private drawTick(tickItem, tickLineGroup, isRegister) {
-    const tickLine = tickLineGroup.addShape({
+  private drawTick(tickItem, tickLineGroup) {
+    this.addShape(tickLineGroup, {
       type: 'line',
       id: this.getElementId(tickItem.id),
       name: 'axis-tickline',
       attrs: this.getTickLineAttrs(tickItem)
     });
-    isRegister && this.registerElement(tickLine);
   }
 
   // 绘制坐标轴刻度线，包括子刻度线
-  private drawTickLines(group, isRegister) {
+  private drawTickLines(group) {
     const ticks = this.get('ticks');
     const tickLine = this.get('tickLine');
     const subTickLine = this.get('subTickLine');
     const tickLineItems = this.getTickLineItems(ticks);
-    const tickLineGroup = group.addGroup({
+    const tickLineGroup = this.addGroup(group, {
       name: 'axis-tickline-group',
       id: this.getElementId('tickline-group')
     });
-    isRegister && this.registerElement(tickLineGroup);
 
     each(tickLineItems, item => {
-      this.drawTick(item, tickLineGroup, isRegister);
+      this.drawTick(item, tickLineGroup);
     });
 
     if (subTickLine) {
       const subTickLineItems = this.getSubTickLineItems(tickLineItems);
       each(subTickLineItems, item => {
-        this.drawTick(item, tickLineGroup, isRegister);
+        this.drawTick(item, tickLineGroup);
       });
     }
   }
@@ -297,14 +294,14 @@ abstract class AxisBase extends GroupComponent implements IList {
   }
 
   // 绘制 ticks 包括文本和 tickLine
-  private drawTicks(group, isRegister) {
+  private drawTicks(group) {
     this.processTicks();
     if (this.get('label')) {
-      this.drawLabels(group, isRegister);
+      this.drawLabels(group);
     }
 
     if (this.get('tickLine')) {
-      this.drawTickLines(group, isRegister);
+      this.drawTickLines(group);
     }
   }
 
@@ -328,21 +325,19 @@ abstract class AxisBase extends GroupComponent implements IList {
   }
 
   // 绘制文本
-  private drawLabels(group, isRegister) {
+  private drawLabels(group) {
     const ticks = this.get('ticks');
-    const labelGroup = group.addGroup({
+    const labelGroup = this.addGroup(group, {
       name: 'axis-label-group',
       id: this.getElementId('label-group')
     });
-    isRegister && this.registerElement(labelGroup);
     each(ticks, (tick, index) => {
-      const labelShape = labelGroup.addShape({
+      this.addShape(labelGroup, {
         type: 'text',
         name: 'axis-label',
         id: this.getElementId(`label-${tick.id}`),
         attrs: this.getLabelAttrs(tick,index)
       });
-      isRegister && this.registerElement(labelShape);
     });
   }
 
@@ -380,15 +375,14 @@ abstract class AxisBase extends GroupComponent implements IList {
   }
 
   // 绘制标题
-  private drawTitle(group, isRegister) {
+  private drawTitle(group) {
     const title = this.get('title');
-    const titleShape = group.addShape({
+    this.addShape(group, {
       type: 'text',
       id: this.getElementId('title'),
       name: 'axis-title',
       attrs: this.getTitleAttrs()
     });
-    isRegister && this.registerElement(titleShape);
   }
 
 }

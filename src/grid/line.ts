@@ -14,7 +14,7 @@ class Grid extends GroupComponent {
     }
   }
 
-  public renderInner(group, isRegister) {
+  protected renderInner(group) {
 
   }
 

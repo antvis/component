@@ -26,7 +26,12 @@ abstract class GroupComponent extends Component {
        * 当前组件对应的 group，一个 container 中可能会有多个组件，但是一个组件都有一个自己的 Group
        * @type {null}
        */
-      group: null
+      group: null,
+      /**
+       * @private 组件或者图形是否
+       * @type {false}
+       */
+      isRegister: false
     };
   }
   
@@ -51,14 +56,16 @@ abstract class GroupComponent extends Component {
     const group = this.get('group');
     const GroupClass = group.getGroupBase(); // 获取分组的构造函数
     const newGroup = new GroupClass({});
-    this.renderInner(newGroup, false);
+    this.renderInner(newGroup);
     this.updateElements(newGroup, group);
     this.deleteElements();
   }
 
   public render() {
+    this.set('isRegister', true);
     const group = this.get('group');
-    this.renderInner(group, true);
+    this.renderInner(group);
+    this.set('isRegister', false);
   }
 
   public show() {
@@ -90,6 +97,34 @@ abstract class GroupComponent extends Component {
     }));
   }
 
+  /**
+   * @protected
+   * 在组件上添加分组，主要解决 isReigeter 的问题
+   * @param {IGroup} parent 父元素
+   * @param {object} cfg    分组的配置项
+   */
+  protected addGroup(parent: IGroup, cfg) {
+    const group = parent.addGroup(cfg);
+    if(this.get('isRegister')) {
+      this.registerElement(group);
+    }
+    return group;
+  }
+
+  /**
+   * @protected
+   * 在组件上添加图形，主要解决 isReigeter 的问题
+   * @param {IGroup} parent 父元素
+   * @param {object} cfg    分组的配置项
+   */
+  protected addShape(parent: IGroup, cfg) {
+    const shape = parent.addShape(cfg);
+    if(this.get('isRegister')) {
+      this.registerElement(shape);
+    }
+    return shape;
+  }
+
   protected initEvent() {
 
   }
@@ -112,9 +147,8 @@ abstract class GroupComponent extends Component {
   /**
    * 内部的渲染
    * @param {IGroup} group 图形分组
-   * @param {boolean} isRegister 是否注册创建的图形
    */
-  protected abstract renderInner(group, isRegister: boolean);
+  protected abstract renderInner(group);
 
   /**
    * 图形元素新出现时的动画，默认图形从透明度 0 到当前透明度
