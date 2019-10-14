@@ -4,7 +4,7 @@ import LineAxis from '../../../src/axis/line';
 import {getMatrixByAngle} from '../../../src/util/matrix';
 import {isNumberEqual} from '@antv/util';
 
-describe.only('test line axis', () => {
+describe('test line axis', () => {
   const dom = document.createElement('div');
   document.body.appendChild(dom);
   dom.id = 'cal';
