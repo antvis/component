@@ -1,5 +1,6 @@
+import {Point} from '@antv/g-base/lib/types';
 
-export interface ListItem {
+export interface ListItem{
   /**
    * 唯一值，用于动画或者查找
    * @type {string}
@@ -20,5 +21,19 @@ export interface ListItem {
    * @type {object}
    */
   marker?: object;
+  [key: string]: any;
+}
+
+export interface GridItem{
+  /**
+   * 唯一值，用于动画或者查找
+   * @type {string}
+   */
+  id?: string;
+  /**
+   * 栅格线的点集合
+   * @type {Point[]}
+   */
+  points: Point[];
   [key: string]: any;
 }

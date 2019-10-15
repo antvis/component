@@ -1,21 +1,28 @@
 
-import GroupComponent from '../abstract/group-component';
+import { each } from '@antv/util';
+import GridBase from './base';
 
-class Grid extends GroupComponent {
+class Line extends GridBase {
+
   public getDefaultCfg() {
     const cfg = super.getDefaultCfg();
     return {
       ...cfg,
-      /**
-       * 绘制 grid 需要的点
-       */
-      girdPoints: [],
-      
+      type: 'line'
     }
   }
 
-  protected renderInner(group) {
-
+  protected getGridPath(points) {
+    const path = [];
+    each(points, (point, index) => {
+      if (index === 0) {
+        path.push([ 'M', point.x, point.y ]);
+      } else {
+        path.push([ 'L', point.x, point.y ]);
+      }
+    });
+    return path;
   }
-
 }
+
+export default Line;
