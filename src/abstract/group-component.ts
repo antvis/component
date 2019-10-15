@@ -28,6 +28,11 @@ abstract class GroupComponent extends Component {
        */
       group: null,
       /**
+       * 组件是否可以被拾取
+       * @type {boolean}
+       */
+      capture: true,
+      /**
        * @private 组件或者图形是否
        * @type {false}
        */
@@ -93,7 +98,8 @@ abstract class GroupComponent extends Component {
     const container = this.get('container');
     this.set('group', container.addGroup({
       id: this.get('id'),
-      name: this.get('name')
+      name: this.get('name'),
+      capture: this.get('capture')
     }));
   }
 

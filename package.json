@@ -27,7 +27,7 @@
     "lint-fix": "tslint --fix -c tslint.json 'src/**/*.ts'",
     "coverage": "jest --coverage",
     "test": "jest",
-    "test-live": "DEBUG_MODE=1 jest --watch",
+    "test-live": "DEBUG_MODE=1 jest --detectOpenHandles",
     "ci": "run-s build test"
   },
   "husky": {
