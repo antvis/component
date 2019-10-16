@@ -1,7 +1,7 @@
 import { ComponentCfg, HtmlComponentCfg } from '../types';
 import Component from './component';
 
-abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends Component {
+abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends Component<T> {
   public getDefaultCfg() {
     const cfg = super.getDefaultCfg();
     return {

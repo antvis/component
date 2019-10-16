@@ -9,7 +9,7 @@ import Component from './component';
 
 const STATUS_UPDATE = 'update_status';
 
-abstract class GroupComponent<T extends ComponentCfg = GroupComponentCfg> extends Component {
+abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> extends Component<T> {
   public getDefaultCfg() {
     const cfg = super.getDefaultCfg();
     return {
@@ -46,7 +46,7 @@ abstract class GroupComponent<T extends ComponentCfg = GroupComponentCfg> extend
     return this.get('shapesMap')[id];
   }
 
-  public update(cfg: T) {
+  public update(cfg: Partial<T>) {
     super.update(cfg);
     const group = this.get('group');
     const GroupClass = group.getGroupBase(); // 获取分组的构造函数
