@@ -23,8 +23,11 @@
     "lib": "run-p lib:*",
     "lib:cjs": "tsc -p tsconfig.json --target ES5 --module commonjs --outDir lib",
     "lib:esm": "tsc -p tsconfig.json --target ES5 --module ESNext --outDir esm",
-    "lint": "tslint -c tslint.json 'src/**/*.ts'",
-    "lint-fix": "tslint --fix -c tslint.json 'src/**/*.ts'",
+    "lint-stage": "lint-staged",
+    "lint": "tslint -c tslint.json src/**/* tests/**/*",
+    "lint-fix": "run-s lint-fix:*",
+    "lint-fix:prettier": "prettier --write 'src/**/*.ts'",
+    "lint-fix:tslint": "tslint -c tslint.json --fix 'src/**/*.ts' 'tests/**/*'",
     "coverage": "jest --coverage",
     "test": "jest",
     "test-live": "DEBUG_MODE=1 jest --detectOpenHandles",
@@ -32,7 +35,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "run-s lint build test"
+      "pre-commit": "run-s lint-stage build test"
     }
   },
   "devDependencies": {

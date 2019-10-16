@@ -1,14 +1,11 @@
+import { ComponentCfg, HtmlComponentCfg } from '../types';
 import Component from './component';
 
-abstract class HtmlComponent extends Component {
-  public getDefaultCfg() { 
+abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends Component {
+  public getDefaultCfg() {
     const cfg = super.getDefaultCfg();
     return {
       ...cfg,
-      /**
-       * 组件的 DOM 容器
-       * @type {HTMLElement|string}
-       */
       container: null,
     };
     return cfg;
@@ -45,34 +42,25 @@ abstract class HtmlComponent extends Component {
   /**
    * @protected
    */
-  protected initDom() {
-
-  }
+  protected abstract initDom();
 
   /**
    * @protected
    * 初始化事件
    */
-  protected initEvent() {
-    
-  }
+  protected abstract initEvent();
 
   /**
    * @protected
    * 清理 DOM
    */
-  protected removeDom() {
-
-  }
+  protected abstract removeDom();
 
   /**
    * @protected
    * 清理事件
    */
-  protected removeEvent() {
-
-  }
-
+  protected abstract removeEvent();
 }
 
 export default HtmlComponent;

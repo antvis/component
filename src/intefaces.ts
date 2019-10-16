@@ -1,12 +1,11 @@
-
-import {ListItem} from './types';
+import { ListItem } from './types';
 export interface IList {
   getItems(): ListItem[];
   setItems(items: ListItem[]);
   updateItem(item: ListItem, cfg);
   clearItems();
   setItemState(item: ListItem, state: string, value: any);
-};
+}
 
 export interface IPointLocation {
   getLocationPoint();

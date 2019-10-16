@@ -1,63 +1,55 @@
-import {each, isString, mix} from '@antv/util';
+import { IGroup } from '@antv/g-base/lib/interfaces';
+import { Point } from '@antv/g-base/lib/types';
+import { each, isString, mix } from '@antv/util';
 import GroupComponent from '../abstract/group-component';
-import {GridItem} from '../types';
+import { GridBaseCfg, GridItem, GroupComponentCfg } from '../types';
 import Theme from '../util/theme';
 
-abstract class GridBase extends GroupComponent {
+abstract class GridBase<T extends GroupComponentCfg = GridBaseCfg> extends GroupComponent {
   public getDefaultCfg() {
     const cfg = super.getDefaultCfg();
     return {
       ...cfg,
       name: 'grid',
-      /**
-       * 线的样式
-       * @type {object}
-       */
       line: {},
-      /**
-       * 两个栅格线间的填充色，必须是一个数组
-       * @type {null|string|Array}
-       */
       alternateColor: null,
-      /**
-       * 栅格线默认不能被拾取
-       * @type {boolean}
-       */
       capture: false,
-      /**
-       * 绘制 grid 需要的点的集合
-       */
       items: [],
-      /**
-       * 栅格线是否封闭
-       * @type {true}
-       */
       closed: false,
-
       defaultCfg: {
         line: {
           type: 'line', // 对于 line 类型的 grid 有 line, smooth 两种，cirle 类型的 grid 有 line 和 circle
           style: {
             lineWidth: 1,
-            stroke: Theme.lineColor
-          }
-        }
-      }
-    }
+            stroke: Theme.lineColor,
+          },
+        },
+      },
+    };
   }
 
-  protected getLineType() {
+  /**
+   * 获取栅格线的类型
+   * @return {string} 栅格线类型
+   */
+  protected getLineType(): string {
     const line = this.get('line') || this.get('defaultCfg').line;
     return line.type;
   }
 
-  protected renderInner(group) {
+  protected renderInner(group: IGroup) {
     this.drawGrid(group);
   }
 
-  protected abstract getGridPath(points, reversed?: boolean): any[];
+  /**
+   * 获取栅格线的路径
+   * @param  {Point[]} points   栅格线的点集合
+   * @param  {boolean} reversed 顺序是否相反
+   * @return {any[]}            路径
+   */
+  protected abstract getGridPath(points: Point[], reversed?: boolean): any[];
 
-  protected getAlternatePath(prePoints, points) {
+  protected getAlternatePath(prePoints: Point[], points: Point[]) {
     let regionPath = this.getGridPath(prePoints);
     const reversePoints = points.slice(0).reverse();
     const nextPath = this.getGridPath(reversePoints, true);
@@ -71,12 +63,13 @@ abstract class GridBase extends GroupComponent {
     }
     return regionPath;
   }
-
+  // 获取路径的配置项
   private getPathStyle() {
     return this.get('line').style;
   }
 
-  private drawGrid(group) {
+  // 绘制栅格
+  private drawGrid(group: IGroup) {
     const line = this.get('line');
     const items = this.get('items');
     const alternateColor = this.get('alternateColor');
@@ -92,17 +85,21 @@ abstract class GridBase extends GroupComponent {
           type: 'path',
           name: 'grid-line',
           id: lineId,
-          attrs: mix({
-            path: gridPath
-          }, style)
+          attrs: mix(
+            {
+              path: gridPath,
+            },
+            style
+          ),
         });
       }
       // 如果存在 alternateColor 则绘制矩形
       // 从第二个栅格线开始绘制
       if (alternateColor && index > 0) {
         const regionId = this.getElementId(`region-${id}`);
-        const isEven = (index) % 2 === 0;
-        if (isString(alternateColor)) { // 如果颜色是单值，则是仅绘制偶数时的区域
+        const isEven = index % 2 === 0;
+        if (isString(alternateColor)) {
+          // 如果颜色是单值，则是仅绘制偶数时的区域
           if (isEven) {
             this.drawAlternateRegion(regionId, group, preItem.points, item.points, alternateColor);
           }
@@ -115,7 +112,8 @@ abstract class GridBase extends GroupComponent {
     });
   }
 
-  private drawAlternateRegion(id, group, prePoints, points, color) {
+  // 绘制栅格线间的间隔
+  private drawAlternateRegion(id: string, group: IGroup, prePoints: Point[], points: Point[], color: string) {
     const regionPath = this.getAlternatePath(prePoints, points);
     this.addShape(group, {
       type: 'path',
@@ -123,8 +121,8 @@ abstract class GridBase extends GroupComponent {
       name: 'grid-region',
       attrs: {
         path: regionPath,
-        fill: color
-      }
+        fill: color,
+      },
     });
   }
 }
