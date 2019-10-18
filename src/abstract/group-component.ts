@@ -9,7 +9,7 @@ import Component from './component';
 
 const STATUS_UPDATE = 'update_status';
 
-abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> extends Component<T> {
+abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> extends Component {
   public getDefaultCfg() {
     const cfg = super.getDefaultCfg();
     return {

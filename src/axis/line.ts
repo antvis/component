@@ -5,7 +5,7 @@ import { IRangeLocation } from '../intefaces';
 import { AxisBaseCfg, LineAxisCfg, Range } from '../types';
 import AxisBase from './base';
 
-class Line<T extends LineAxisCfg = LineAxisCfg> extends AxisBase<T> implements IRangeLocation {
+class Line<T extends LineAxisCfg = LineAxisCfg> extends AxisBase implements IRangeLocation {
   public getDefaultCfg() {
     const cfg = super.getDefaultCfg();
     return {

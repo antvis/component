@@ -222,7 +222,7 @@ export interface GroupComponentCfg extends ComponentCfg {
    * 组件的容器
    * @type {IGroup}
    */
-  container?: IGroup;
+  container: IGroup;
   /**
    * 当前组件对应的 group，一个 container 中可能会有多个组件，但是一个组件都有一个自己的 Group
    * @type {IGroup}
@@ -320,12 +320,12 @@ export interface GridLineCfg {
    * 栅格线的类型
    * @type {string}
    */
-  type: string;
+  type?: string;
   /**
    * 栅格线的配置项
    * @type {ShapeAttrs}
    */
-  style: ShapeAttrs;
+  style?: ShapeAttrs;
 }
 
 export interface GridBaseCfg extends GroupComponentCfg {
@@ -357,4 +357,164 @@ export interface CircleGridCfg extends GridBaseCfg {
    * @type {Point}
    */
   center: Point;
+}
+
+export interface CategoryLegendCfg extends GroupComponentCfg {
+  /**
+   * 布局方式： horizontal，vertical
+   * @type {String}
+   */
+  layout?: string;
+  /**
+   * 位置 x
+   * @type {number}
+   */
+  x?: number;
+  /**
+   * 位置 y
+   * @type {number}
+   */
+  y?: number;
+  /**
+   * 位置 x
+   * @type {number}
+   */
+  offsetX?: number;
+  /**
+   * 位置 y
+   * @type {number}
+   */
+  offsetY?: number;
+  /**
+   * 标题
+   * @type {LegendTitleCfg}
+   */
+  title?: LegendTitleCfg;
+  /**
+   * 背景框配置项
+   * @type {LegendBackgroundCfg}
+   */
+  backgroud?: LegendBackgroundCfg;
+  /**
+   * 图例项水平方向的间距
+   * @type {number}
+   */
+  itemSpacing?: number;
+  /**
+   * 图例项的宽度, 默认为 null，自动计算
+   * @type {number}
+   */
+  itemWidth?: number;
+  /**
+   * 图例的高度，默认为 null
+   * @type {[type]}
+   */
+  itemHeight?: number;
+  /**
+   * 图例项 name 文本的配置
+   * @type {LegendItemNameCfg}
+   */
+  itemName?: LegendItemNameCfg;
+  /**
+   * 图例项 value 附加值的配置项
+   * @type {LegendItemValueCfg}
+   */
+  itemValue?: LegendItemValueCfg;
+  /**
+   * 最大宽度
+   * @type {number}
+   */
+  maxWidth?: number;
+  /**
+   * 最大高度
+   * @type {number}
+   */
+  maxHeight?: number;
+  /**
+   * 图例项的 marker 图标的配置
+   * @type {LegendMarkerCfg}
+   */
+  marker?: LegendMarkerCfg;
+  /**
+   * 图例项集合
+   * @type {ListItem[]}
+   */
+  items: ListItem[];
+}
+
+export interface LegendTitleCfg {
+  /**
+   * 标题同图例项的间距
+   * @type {number}
+   */
+  spacing: number;
+  /**
+   * 文本配置项
+   * @type {ShapeAttrs}
+   */
+  style: ShapeAttrs;
+}
+
+export interface LegendBackgroundCfg {
+  /**
+   * @type {number|number[]}
+   * 背景的留白
+   */
+  padding: number | number[];
+  /**
+   * @type {ShapeAttrs}
+   * 背景配置项
+   */
+  style: ShapeAttrs;
+}
+
+export interface LegendItemNameCfg {
+  /**
+   * 图例项 name 同后面 value 的间距
+   * @type {number}
+   */
+  spacing: number;
+  /**
+   * 格式化文本函数
+   * @type {formatterCallback}
+   */
+  formatter?: formatterCallback;
+  /**
+   * 文本配置项
+   * @type {ShapeAttrs}
+   */
+  style: ShapeAttrs;
+}
+
+type formatterCallback = (text: string, item: ListItem, index: number) => any;
+
+export interface LegendItemValueCfg {
+  /**
+   * 是否右对齐，默认为 false，仅当设置图例项宽度时生效
+   * @type {boolean}
+   */
+  alignRight: boolean;
+  /**
+   * 格式化文本函数
+   * @type {formatterCallback}
+   */
+  formatter?: formatterCallback;
+  /**
+   * 图例项附加值的配置
+   * @type {ShapeAttrs}
+   */
+  style: ShapeAttrs;
+}
+
+export interface LegendMarkerCfg {
+  /**
+   * 图例项 marker 同后面 name 的间距
+   * @type {number}
+   */
+  spacing: number;
+  /**
+   * 图例项 marker 的配置项
+   * @type {ShapeAttrs}
+   */
+  style: ShapeAttrs;
 }
