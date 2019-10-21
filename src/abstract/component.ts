@@ -2,7 +2,7 @@ import { Base } from '@antv/g-base';
 import { deepMix, each, isObject } from '@antv/util';
 import { BaseCfg, ComponentCfg } from '../types';
 
-abstract class Component<T extends BaseCfg = ComponentCfg> extends Base {
+abstract class Component<T extends ComponentCfg = ComponentCfg> extends Base {
   constructor(cfg: T) {
     super(cfg);
     this.initCfg();

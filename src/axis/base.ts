@@ -8,7 +8,7 @@ import { AxisBaseCfg, GroupComponentCfg, ListItem } from '../types';
 import { getMatrixByAngle } from '../util/matrix';
 import Theme from '../util/theme';
 
-abstract class AxisBase<T extends GroupComponentCfg = AxisBaseCfg> extends GroupComponent implements IList {
+abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupComponent implements IList {
   public getDefaultCfg() {
     const cfg = super.getDefaultCfg();
     return {
@@ -102,7 +102,7 @@ abstract class AxisBase<T extends GroupComponentCfg = AxisBaseCfg> extends Group
   public setItems(items: ListItem[]) {
     this.update({
       ticks: items,
-    });
+    } as T);
   }
 
   public updateItem(item: ListItem, cfg: Partial<ListItem>) {}

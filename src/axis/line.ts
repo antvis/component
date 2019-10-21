@@ -5,7 +5,7 @@ import { IRangeLocation } from '../intefaces';
 import { AxisBaseCfg, LineAxisCfg, Range } from '../types';
 import AxisBase from './base';
 
-class Line<T extends AxisBaseCfg = LineAxisCfg> extends AxisBase implements IRangeLocation {
+class Line<T extends LineAxisCfg = LineAxisCfg> extends AxisBase implements IRangeLocation {
   public getDefaultCfg() {
     const cfg = super.getDefaultCfg();
     return {
@@ -26,8 +26,8 @@ class Line<T extends AxisBaseCfg = LineAxisCfg> extends AxisBase implements IRan
   // 实现 IRangeLocation 获取位置的接口
   public getLocationRange(): Range {
     return {
-      start: this.get('start'),
-      end: this.get('end'),
+      start: this.get('start') as Point,
+      end: this.get('end') as Point,
     };
   }
 
@@ -36,7 +36,7 @@ class Line<T extends AxisBaseCfg = LineAxisCfg> extends AxisBase implements IRan
     this.update({
       start: range.start,
       end: range.end,
-    });
+    } as T);
   }
 
   // 获取坐标轴线的 path

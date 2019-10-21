@@ -5,7 +5,7 @@ import GroupComponent from '../abstract/group-component';
 import { GridBaseCfg, GridItem, GroupComponentCfg } from '../types';
 import Theme from '../util/theme';
 
-abstract class GridBase<T extends GroupComponentCfg = GridBaseCfg> extends GroupComponent {
+abstract class GridBase<T extends GroupComponentCfg = GridBaseCfg> extends GroupComponent<T> {
   public getDefaultCfg() {
     const cfg = super.getDefaultCfg();
     return {
