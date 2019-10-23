@@ -1,11 +1,10 @@
 import { Point } from '@antv/g-base/lib/types';
 import { vec2 } from '@antv/matrix-util';
-import { mix } from '@antv/util';
 import { IRangeLocation } from '../intefaces';
-import { AxisBaseCfg, LineAxisCfg, Range } from '../types';
+import { LineAxisCfg, Range } from '../types';
 import AxisBase from './base';
 
-class Line<T extends LineAxisCfg = LineAxisCfg> extends AxisBase implements IRangeLocation {
+class Line extends AxisBase<LineAxisCfg> implements IRangeLocation {
   public getDefaultCfg() {
     const cfg = super.getDefaultCfg();
     return {
@@ -36,7 +35,7 @@ class Line<T extends LineAxisCfg = LineAxisCfg> extends AxisBase implements IRan
     this.update({
       start: range.start,
       end: range.end,
-    } as T);
+    });
   }
 
   // 获取坐标轴线的 path

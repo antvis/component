@@ -1,1 +1,2 @@
-export const Ver = '0.4.0';
+export { Line, Circle } from './axis';
+export { Category } from './legend';

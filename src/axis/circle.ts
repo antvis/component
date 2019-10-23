@@ -4,7 +4,7 @@ import { isNumberEqual } from '@antv/util';
 import { AxisBaseCfg, CircleAxisCfg } from '../types';
 import AxisBase from './base';
 
-class Circle<T extends CircleAxisCfg = CircleAxisCfg> extends AxisBase {
+class Circle extends AxisBase<CircleAxisCfg> {
   public getDefaultCfg() {
     const cfg = super.getDefaultCfg();
     return {
