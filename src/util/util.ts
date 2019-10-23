@@ -17,3 +17,15 @@ export function formatPadding(padding: number | number[]) {
 
   return [top, right, bottom, left];
 }
+
+export function clearDom(container: HTMLElement) {
+  const children = container.childNodes;
+  const length = children.length;
+  for (let i = length - 1; i >= 0; i--) {
+    container.removeChild(children[i]);
+  }
+}
+
+export function hasClass(elements, cName) {
+  return !!elements.className.match(new RegExp(`(\\s|^)${cName}(\\s|$)`));
+}

@@ -1,4 +1,6 @@
+import { Point } from '@antv/g-base/lib/types';
 import { ListItem } from './types';
+
 export interface IList {
   getItems(): ListItem[];
   setItems(items: ListItem[]);
@@ -9,7 +11,7 @@ export interface IList {
 
 export interface IPointLocation {
   getLocationPoint();
-  setLocationPoint(point);
+  setLocationPoint(point: Point);
 }
 
 export interface IRangeLocation {

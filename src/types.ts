@@ -6,6 +6,12 @@ export interface Range {
   end: Point;
 }
 
+export interface Region extends Range {
+  tl?: Point;
+  br?: Point;
+  width?: number;
+  height?: number;
+}
 /**
  * @interface
  * 列表选项接口
@@ -28,9 +34,9 @@ export interface ListItem {
   value: any;
   /**
    * 图形标记
-   * @type {object}
+   * @type {object|string}
    */
-  marker?: object;
+  marker?: object | string;
   [key: string]: any;
 }
 
@@ -210,11 +216,6 @@ export interface ComponentCfg extends BaseCfg {
    * @type {object}
    */
   defaultCfg?: object;
-  /**
-   * 是否可见
-   * @type {true}
-   */
-  visible?: boolean;
 }
 
 export interface GroupComponentCfg extends ComponentCfg {
@@ -241,6 +242,7 @@ export interface HtmlComponentCfg extends ComponentCfg {
    * @type {HTMLElement|string}
    */
   container?: HTMLElement | string;
+  parent?: HTMLElement | string;
 }
 
 export interface AxisBaseCfg extends ComponentCfg {
@@ -517,4 +519,82 @@ export interface LegendMarkerCfg {
    * @type {ShapeAttrs}
    */
   style: ShapeAttrs;
+}
+
+export interface TooltipCfg extends HtmlComponentCfg {
+  /**
+   * 位置 x
+   * @type {number}
+   */
+  x?: number;
+  /**
+   * 位置 y
+   * @type {number}
+   */
+  y?: number;
+  /**
+   * 列表项集合
+   * @type {ListItem[]}
+   */
+  items: ListItem[];
+  /**
+   * 容器的模板
+   * @type {string}
+   */
+  containerTpl?: string;
+  /**
+   * 列表项的模板
+   * @type {[type]}
+   */
+  itemTpl?: string;
+  /**
+   * 根据 x 定位的 crosshair 的模板
+   * @type {string}
+   */
+  xCrosshairTpl?: string;
+  /**
+   * 根据 y 定位的 crosshair 的模板
+   * @type {[type]}
+   */
+  yCrosshairTpl?: string;
+  /**
+   * tooltip 限制的区域
+   * @type {Range}
+   */
+  region?: Region;
+  /**
+   * crosshairs 限制的区域
+   * @type {Range}
+   */
+  crosshairsRegion?: Region;
+  /**
+   * crosshairs 的类型， x,y,xy
+   * @type {string}
+   */
+  crosshairs?: string;
+  /**
+   * 是否跟随鼠标移动，会影响 x，y的定位
+   * @type {boolean}
+   */
+  follow?: boolean;
+  /**
+   * 偏移量，同 position 相关
+   * @type {number}
+   */
+  offset?: number;
+  /**
+   * 位置，top, bottom, left, right
+   * @type {string}
+   */
+  position?: string;
+  /**
+   * 传入各个 dom 的样式
+   * @type {object}
+   */
+  domStyles?: object;
+  /**
+   * 默认的各个 dom 的样式
+   * @type {object}
+   */
+  defaultStyles?: object;
 }

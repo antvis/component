@@ -46,6 +46,10 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
     return this.get('shapesMap')[id];
   }
 
+  public getContainer(): IGroup {
+    return this.get('container') as IGroup;
+  }
+
   public update(cfg: Partial<T>) {
     super.update(cfg);
     const group = this.get('group');
@@ -66,11 +70,13 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
   public show() {
     const group = this.get('group');
     group.show();
+    this.set('visible', true);
   }
 
   public hide() {
     const group = this.get('group');
     group.hide();
+    this.set('visible', false);
   }
 
   public destroy() {
@@ -96,6 +102,7 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
         id: this.get('id'),
         name: this.get('name'),
         capture: this.get('capture'),
+        visible: this.get('visible'),
       })
     );
   }

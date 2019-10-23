@@ -52,6 +52,7 @@ describe('test simple component', () => {
   });
   it('init', () => {
     expect(b.get('id')).toEqual('b1');
+    expect(b.getContainer()).toBe(container);
     expect(b.get('group')).toBe(container.get('children')[0]);
   });
 

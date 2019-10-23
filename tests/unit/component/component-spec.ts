@@ -18,6 +18,11 @@ class AComponent extends Component {
       },
     };
   }
+
+  public render() {}
+
+  public show() {}
+  public hide() {}
 }
 
 describe('abastract component', () => {
