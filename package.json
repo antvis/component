@@ -1,6 +1,6 @@
 {
   "name": "@antv/component",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "The component module for antv",
   "author": "https://github.com/orgs/antvis/people",
   "license": "MIT",
@@ -57,7 +57,7 @@
     "tslib": "^1.10.0",
     "@antv/util": "~2.0.0",
     "@antv/g-base": "~0.1.0-beta.2",
-    "@antv/matrix-util": "~2.0.2"
+    "@antv/matrix-util": "~2.0.4"
   },
   "lint-staged": {
     "*.{js,css,json,md}": [

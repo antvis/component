@@ -4,7 +4,7 @@
  */
 import { IGroup } from '@antv/g-base/lib/interfaces';
 import { each, keys, mix } from '@antv/util';
-import { ComponentCfg, GroupComponentCfg } from '../types';
+import { GroupComponentCfg } from '../types';
 import Component from './component';
 
 const STATUS_UPDATE = 'update_status';
@@ -77,6 +77,10 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
     this.removeEvent();
     this.remove();
     super.destroy();
+  }
+
+  public getBBox() {
+    return this.get('container').getBBox();
   }
 
   protected init() {
