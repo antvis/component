@@ -59,6 +59,12 @@ describe('test html component create', () => {
     });
     const container = component.getContainer();
     expect(container.className).toBe('my-test');
+    expect(component.getBBox()).toEqual({
+      x: 0,
+      y: 0,
+      width: container.clientWidth,
+      height: container.clientHeight,
+    });
   });
 
   it('parent is dom, container is null', () => {

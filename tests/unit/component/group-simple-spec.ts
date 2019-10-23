@@ -60,6 +60,7 @@ describe('test simple component', () => {
     b.render();
     expect(b.getElementById('a')).not.toBe(undefined);
     expect(b.get('group').getChildren().length).toBe(1);
+    expect(b.getBBox()).toEqual(container.getBBox());
   });
 
   it('update b', () => {

@@ -57,6 +57,8 @@ abstract class Component<T extends ComponentCfg = ComponentCfg> extends Base {
     });
   }
 
+  public abstract getBBox();
+
   /**
    * 绘制组件
    */
