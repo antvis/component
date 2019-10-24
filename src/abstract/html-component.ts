@@ -1,7 +1,7 @@
 import { createDom } from '@antv/dom-util';
 import { isNil, isString } from '@antv/util';
-import { ComponentCfg, HtmlComponentCfg } from '../types';
-import { clearDom } from '../util/util';
+import { BBox, ComponentCfg, HtmlComponentCfg } from '../types';
+import { clearDom, createBBox } from '../util/util';
 import Component from './component';
 
 abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends Component<T> {
@@ -35,16 +35,11 @@ abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends 
     container.style.display = 'none';
   }
 
-  public getBBox() {
+  public getBBox(): BBox {
     const container = this.getContainer();
     const x = parseFloat(container.style.left) || 0;
     const y = parseFloat(container.style.top) || 0;
-    return {
-      x,
-      y,
-      width: container.clientWidth,
-      height: container.clientHeight,
-    };
+    return createBBox(x, y, container.clientWidth, container.clientHeight);
   }
 
   public clear() {

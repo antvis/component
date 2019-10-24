@@ -1,6 +1,6 @@
 import { Base } from '@antv/g-base';
 import { deepMix, each, isObject } from '@antv/util';
-import { BaseCfg, ComponentCfg } from '../types';
+import { BaseCfg, BBox, ComponentCfg } from '../types';
 
 abstract class Component<T extends ComponentCfg = ComponentCfg> extends Base {
   constructor(cfg: T) {
@@ -57,7 +57,7 @@ abstract class Component<T extends ComponentCfg = ComponentCfg> extends Base {
     });
   }
 
-  public abstract getBBox();
+  public abstract getBBox(): BBox;
 
   /**
    * 绘制组件

@@ -1,5 +1,6 @@
 import Component from '../../../src/abstract/component';
-
+import { BBox } from '../../../src/types';
+import { createBBox } from '../../../src/util/util';
 class AComponent extends Component {
   public getDefaultCfg() {
     return {
@@ -23,6 +24,10 @@ class AComponent extends Component {
 
   public show() {}
   public hide() {}
+
+  public getBBox(): BBox {
+    return createBBox(0, 0, 0, 0);
+  }
 }
 
 describe('abastract component', () => {

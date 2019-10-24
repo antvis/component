@@ -1,5 +1,15 @@
+import { Point } from '@antv/g-base/lib/types';
+import { BBox } from '../types';
+
+interface OutSides {
+  left: boolean;
+  right: boolean;
+  top: boolean;
+  bottom: boolean;
+}
+
 // 检测各边是否超出
-export function getOutSides(x, y, width, height, limitBox) {
+export function getOutSides(x: number, y: number, width: number, height: number, limitBox: BBox): OutSides {
   const hits = {
     left: x < limitBox.x,
     right: x + width > limitBox.x + limitBox.width,
@@ -9,7 +19,14 @@ export function getOutSides(x, y, width, height, limitBox) {
   return hits;
 }
 
-export function getPointByPosition(x, y, offset, width, height, position) {
+export function getPointByPosition(
+  x: number,
+  y: number,
+  offset: number,
+  width: number,
+  height: number,
+  position: string
+): Point {
   let px = x;
   let py = y;
   switch (position) {
@@ -38,7 +55,15 @@ export function getPointByPosition(x, y, offset, width, height, position) {
   };
 }
 
-export function getAlignPoint(x, y, offset, width, height, position, limitBox?) {
+export function getAlignPoint(
+  x: number,
+  y: number,
+  offset: number,
+  width: number,
+  height: number,
+  position: string,
+  limitBox?: BBox
+): Point {
   const point = getPointByPosition(x, y, offset, width, height, position);
   if (limitBox) {
     const outSides = getOutSides(point.x, point.y, width, height, limitBox);

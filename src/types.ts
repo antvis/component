@@ -6,12 +6,19 @@ export interface Range {
   end: Point;
 }
 
-export interface Region extends Range {
-  tl?: Point;
-  br?: Point;
-  width?: number;
-  height?: number;
+// 等底层 Util 调整好，直接用 Util 的定义
+export interface BBox {
+  x: number;
+  y: number;
+  height: number;
+  width: number;
+
+  minX?: number;
+  maxX?: number;
+  minY?: number;
+  maxY?: number;
 }
+
 /**
  * @interface
  * 列表选项接口
@@ -561,12 +568,12 @@ export interface TooltipCfg extends HtmlComponentCfg {
    * tooltip 限制的区域
    * @type {Range}
    */
-  region?: Region;
+  region?: Range;
   /**
    * crosshairs 限制的区域
    * @type {Range}
    */
-  crosshairsRegion?: Region;
+  crosshairsRegion?: Range;
   /**
    * crosshairs 的类型， x,y,xy
    * @type {string}

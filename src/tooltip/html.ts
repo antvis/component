@@ -4,9 +4,9 @@ import { deepMix, each, hasKey, substitute } from '@antv/util';
 import HtmlComponent from '../abstract/html-component';
 import { Range } from '../types';
 import { TooltipCfg } from '../types';
-import { clearDom, hasClass } from '../util/util';
-import CssConst from './css_const';
-import TooltipTheme from './html_theme';
+import { clearDom, hasClass, regionToBBox } from '../util/util';
+import * as CssConst from './css-const';
+import TooltipTheme from './html-theme';
 
 import { IPointLocation } from '../intefaces';
 import { getAlignPoint } from '../util/align';
@@ -81,7 +81,7 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
   }
 
   // 更新属性的同时，可能会引起 DOM 的变化，这里对可能引起 DOM 变化的场景做了处理
-  public update(cfg) {
+  public update(cfg: Partial<T>) {
     super.update(cfg);
     // 更新标题
     if (hasOneKey(cfg, ['title', 'showTitle'])) {
@@ -103,7 +103,6 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
     }
     // 更新限制区域
     if (hasOneKey(cfg, ['region', 'crosshairsRegion'])) {
-      this.resetRegion();
       this.resetCrosshairs(); // crosshair 受限制区域的影响
     }
     // 只要属性发生变化，都调整一些位置
@@ -150,7 +149,6 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
     this.cacheDoms();
     this.resetStyles(); // 初始化样式
     this.applyStyles(); // 应用样式
-    this.resetRegion();
   }
   // 清理 DOM
   protected removeDom() {
@@ -166,39 +164,6 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
     this.set('titleDom', titleDom);
     this.set('listDom', listDom);
   }
-
-  // 限制区域重置
-  private resetRegion() {
-    const region = this.get('region');
-    if (region) {
-      // 设置 region 的 top-lef 和 bottom-right
-      this.processRegion(region);
-    }
-    const crosshairsRegion = this.get('crosshairsRegion');
-    if (crosshairsRegion) {
-      this.processRegion(crosshairsRegion);
-    }
-  }
-
-  private processRegion(region) {
-    const { start, end } = region;
-    if (!region.tl) {
-      // top-left
-      region.tl = {
-        x: Math.min(start.x, end.x),
-        y: Math.min(start.y, end.y),
-      };
-    }
-    if (!region.br) {
-      // bottom-right
-      region.br = {
-        x: Math.max(start.x, end.x),
-        y: Math.max(start.y, end.y),
-      };
-    }
-    region.height = Math.abs(start.y - end.y);
-    region.width = Math.abs(start.x - end.x);
-  }
   // 调整位置
   private resetPosition() {
     const x = this.get('x');
@@ -212,12 +177,7 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
     let limitBox;
     if (region) {
       // 不限制位置
-      limitBox = {
-        x: region.tl.x,
-        y: region.tl.y,
-        width: region.width,
-        height: region.height,
-      };
+      limitBox = regionToBBox(region);
     }
     const point = getAlignPoint(x, y, offset, width, height, position, limitBox);
     modifyCSS(container, {
@@ -225,7 +185,6 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
       top: toPx(point.y),
     });
   }
-
   // 重置 title
   private resetTitle() {
     const title = this.get('title');
@@ -253,43 +212,44 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
     } else {
       const x = this.get('x');
       const y = this.get('y');
+      const crosshairBox = regionToBBox(crosshairsRegion);
       const xCrosshairDom = this.get('xCrosshairDom');
       const yCrosshairDom = this.get('yCrosshairDom');
       if (crosshairs === 'x') {
-        this.resetCrosshair('x', crosshairsRegion);
+        this.resetCrosshair('x', crosshairBox);
         // 仅显示 x 的 crosshair，y 移除
         if (yCrosshairDom) {
           yCrosshairDom.remove();
           this.set('yCrosshairDom', null);
         }
       } else if (crosshairs === 'y') {
-        this.resetCrosshair('y', crosshairsRegion);
+        this.resetCrosshair('y', crosshairBox);
         // 仅显示 y 的 crosshair，x 移除
         if (xCrosshairDom) {
           xCrosshairDom.remove();
           this.set('xCrosshairDom', null);
         }
       } else {
-        this.resetCrosshair('x', crosshairsRegion);
-        this.resetCrosshair('y', crosshairsRegion);
+        this.resetCrosshair('x', crosshairBox);
+        this.resetCrosshair('y', crosshairBox);
       }
     }
   }
   // 设定 crosshair 的位置，需要区分 x,y
-  private resetCrosshair(name: string, region) {
+  private resetCrosshair(name: string, bbox) {
     const croshairDom = this.checkCrosshair(name);
     const value = this.get(name);
     if (name === 'x') {
       modifyCSS(croshairDom, {
         left: toPx(value),
-        top: toPx(region.tl.y),
-        height: toPx(region.height),
+        top: toPx(bbox.y),
+        height: toPx(bbox.height),
       });
     } else {
       modifyCSS(croshairDom, {
         top: toPx(value),
-        left: toPx(region.tl.x),
-        width: toPx(region.width),
+        left: toPx(bbox.x),
+        width: toPx(bbox.width),
       });
     }
   }

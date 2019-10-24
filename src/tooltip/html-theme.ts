@@ -1,7 +1,7 @@
 import Theme from '../util/theme';
 
 // tooltip 相关 dom 的 css 类名
-import CssConst from './css_const';
+import * as CssConst from './css-const';
 
 export default {
   // css style for tooltip

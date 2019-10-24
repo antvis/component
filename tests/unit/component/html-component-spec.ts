@@ -1,5 +1,7 @@
 import { isNil } from '@antv/util';
 import HtmlComponent from '../../../src/abstract/html-component';
+import { createBBox } from '../../../src/util/util';
+
 const div = document.createElement('div');
 div.id = 'pid';
 document.body.appendChild(div);
@@ -59,12 +61,7 @@ describe('test html component create', () => {
     });
     const container = component.getContainer();
     expect(container.className).toBe('my-test');
-    expect(component.getBBox()).toEqual({
-      x: 0,
-      y: 0,
-      width: container.clientWidth,
-      height: container.clientHeight,
-    });
+    expect(component.getBBox()).toEqual(createBBox(0, 0, container.clientWidth, container.clientHeight));
   });
 
   it('parent is dom, container is null', () => {
