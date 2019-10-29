@@ -1,4 +1,7 @@
-import { ComponentCfg, HtmlComponentCfg } from '../types';
+import { createDom } from '@antv/dom-util';
+import { isNil, isString } from '@antv/util';
+import { BBox, ComponentCfg, HtmlComponentCfg } from '../types';
+import { clearDom, createBBox } from '../util/util';
 import Component from './component';
 
 abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends Component<T> {
@@ -7,8 +10,14 @@ abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends 
     return {
       ...cfg,
       container: null,
+      containerTpl: '<div></div>',
+      parent: null,
     };
     return cfg;
+  }
+
+  public getContainer(): HTMLElement {
+    return this.get('container') as HTMLElement;
   }
 
   /**
@@ -26,41 +35,93 @@ abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends 
     container.style.display = 'none';
   }
 
+  public getBBox(): BBox {
+    const container = this.getContainer();
+    const x = parseFloat(container.style.left) || 0;
+    const y = parseFloat(container.style.top) || 0;
+    return createBBox(x, y, container.clientWidth, container.clientHeight);
+  }
+
+  public clear() {
+    const container = this.get('container');
+    clearDom(container);
+  }
+
   public destroy() {
     this.removeEvent();
     this.removeDom();
     super.destroy();
   }
+
   /**
    * @protected
    * 复写 init，主要是初始化 DOM 和事件
    */
   protected init() {
-    this.initDom();
+    this.initContainer();
     this.initEvent();
+    this.initVisible();
   }
+
+  protected initVisible() {
+    if (!this.get('visible')) {
+      // 设置初始显示状态
+      this.hide();
+    } else {
+      this.show();
+    }
+  }
+
+  protected initContainer() {
+    let container = this.get('container');
+    if (isNil(container)) {
+      // 未指定 container 则创建
+      container = this.createDom();
+      let parent = this.get('parent');
+      if (isString(parent)) {
+        parent = document.getElementById(parent);
+        this.set('parent', parent);
+      }
+      parent.appendChild(container);
+      this.set('container', container);
+    } else if (isString(container)) {
+      // 用户传入的 id, 作为 container
+      container = document.getElementById(container);
+      this.set('container', container);
+    } // else container 是 DOM
+    if (!this.get('parent')) {
+      this.set('parent', container.parentNode);
+    }
+  }
+
   /**
    * @protected
    */
-  protected abstract initDom();
+  protected createDom() {
+    const containerTpl = this.get('containerTpl');
+    return createDom(containerTpl);
+  }
 
   /**
    * @protected
    * 初始化事件
    */
-  protected abstract initEvent();
+  protected initEvent() {}
 
   /**
    * @protected
    * 清理 DOM
    */
-  protected abstract removeDom();
+  protected removeDom() {
+    const container = this.get('container');
+    container && container.parentNode.removeChild(container);
+  }
 
   /**
    * @protected
    * 清理事件
    */
-  protected abstract removeEvent();
+  protected removeEvent() {}
 }
 
 export default HtmlComponent;

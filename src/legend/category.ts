@@ -1,6 +1,5 @@
 import { IElement, IGroup } from '@antv/g-base/lib/interfaces';
 import { Point } from '@antv/g-base/lib/types';
-
 import { each, mix } from '@antv/util';
 import GroupComponent from '../abstract/group-component';
 import { IPointLocation } from '../intefaces';

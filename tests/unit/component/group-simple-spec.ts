@@ -52,6 +52,7 @@ describe('test simple component', () => {
   });
   it('init', () => {
     expect(b.get('id')).toEqual('b1');
+    expect(b.getContainer()).toBe(container);
     expect(b.get('group')).toBe(container.get('children')[0]);
   });
 
@@ -59,6 +60,7 @@ describe('test simple component', () => {
     b.render();
     expect(b.getElementById('a')).not.toBe(undefined);
     expect(b.get('group').getChildren().length).toBe(1);
+    expect(b.getBBox()).toEqual(container.getBBox());
   });
 
   it('update b', () => {

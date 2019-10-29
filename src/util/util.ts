@@ -1,6 +1,6 @@
 import { isArray, isNil, isNumber } from '@antv/util';
-
-export function formatPadding(padding: number | number[]) {
+import { BBox, Range } from '../types';
+export function formatPadding(padding: number | number[]): number[] {
   let top = 0;
   let left = 0;
   let right = 0;
@@ -16,4 +16,47 @@ export function formatPadding(padding: number | number[]) {
   }
 
   return [top, right, bottom, left];
+}
+
+export function clearDom(container: HTMLElement) {
+  const children = container.childNodes;
+  const length = children.length;
+  for (let i = length - 1; i >= 0; i--) {
+    container.removeChild(children[i]);
+  }
+}
+
+export function hasClass(elements, cName): boolean {
+  return !!elements.className.match(new RegExp(`(\\s|^)${cName}(\\s|$)`));
+}
+
+export function regionToBBox(region: Range): BBox {
+  const { start, end } = region;
+  const minX = Math.min(start.x, end.x);
+  const minY = Math.min(start.y, end.y);
+  const maxX = Math.max(start.x, end.x);
+  const maxY = Math.max(start.y, end.y);
+  return {
+    x: minX,
+    y: minY,
+    minX,
+    minY,
+    maxX,
+    maxY,
+    width: maxX - minX,
+    height: maxY - minY,
+  };
+}
+
+export function createBBox(x: number, y: number, width: number, height: number): BBox {
+  return {
+    x,
+    y,
+    width,
+    height,
+    minX: x,
+    minY: y,
+    maxX: x + width,
+    maxY: y + height,
+  };
 }

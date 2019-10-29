@@ -56,6 +56,7 @@
   "dependencies": {
     "tslib": "^1.10.0",
     "@antv/util": "~2.0.0",
+    "@antv/dom-util": "~2.0.1",
     "@antv/g-base": "~0.1.0-beta.2",
     "@antv/matrix-util": "~2.0.4"
   },

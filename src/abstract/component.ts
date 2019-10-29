@@ -1,6 +1,6 @@
 import { Base } from '@antv/g-base';
 import { deepMix, each, isObject } from '@antv/util';
-import { BaseCfg, ComponentCfg } from '../types';
+import { BaseCfg, BBox, ComponentCfg } from '../types';
 
 abstract class Component<T extends ComponentCfg = ComponentCfg> extends Base {
   constructor(cfg: T) {
@@ -30,21 +30,6 @@ abstract class Component<T extends ComponentCfg = ComponentCfg> extends Base {
   }
 
   /**
-   * 绘制组件
-   */
-  public render() {}
-
-  /**
-   * 显示
-   */
-  public show() {}
-
-  /**
-   * 隐藏
-   */
-  public hide() {}
-
-  /**
    * 清理组件的内容，一般配合 render 使用
    * @example
    * axis.clear();
@@ -71,6 +56,23 @@ abstract class Component<T extends ComponentCfg = ComponentCfg> extends Base {
       }
     });
   }
+
+  public abstract getBBox(): BBox;
+
+  /**
+   * 绘制组件
+   */
+  protected abstract render();
+
+  /**
+   * 显示
+   */
+  protected abstract show();
+
+  /**
+   * 隐藏
+   */
+  protected abstract hide();
 
   /**
    * @protected
