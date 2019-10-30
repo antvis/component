@@ -1,8 +1,10 @@
 import { Base } from '@antv/g-base';
+import { Point } from '@antv/g-base/lib/types';
 import { deepMix, each, isObject } from '@antv/util';
-import { BaseCfg, BBox, ComponentCfg } from '../types';
+import { ILocation } from '../intefaces';
+import { BBox, ComponentCfg } from '../types';
 
-abstract class Component<T extends ComponentCfg = ComponentCfg> extends Base {
+abstract class Component<T extends ComponentCfg = ComponentCfg> extends Base implements ILocation {
   constructor(cfg: T) {
     super(cfg);
     this.initCfg();
@@ -18,6 +20,9 @@ abstract class Component<T extends ComponentCfg = ComponentCfg> extends Base {
       id: '',
       name: '',
       type: '',
+      locationType: 'none',
+      offsetX: 0,
+      offsetY: 0,
       animate: false,
       animateCfg: {
         duration: 400,
@@ -58,6 +63,33 @@ abstract class Component<T extends ComponentCfg = ComponentCfg> extends Base {
   }
 
   public abstract getBBox(): BBox;
+
+  public getLocationType() {
+    return this.get('locationType');
+  }
+
+  public getOffset(): Point {
+    return {
+      x: this.get('offsetX'),
+      y: this.get('offsetY'),
+    };
+  }
+
+  // 默认使用 update
+  public setOffset(offsetX: number, offsetY: number) {
+    this.update({
+      offsetX,
+      offsetY,
+    } as T);
+  }
+
+  public setLocation(cfg) {
+    this.update(cfg);
+  }
+
+  public getLocation() {
+    return {};
+  }
 
   /**
    * 绘制组件

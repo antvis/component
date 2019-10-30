@@ -2,13 +2,13 @@ import { createDom, modifyCSS } from '@antv/dom-util';
 import { Point } from '@antv/g-base/lib/types';
 import { deepMix, each, hasKey, substitute } from '@antv/util';
 import HtmlComponent from '../abstract/html-component';
-import { Range } from '../types';
+import { PointLocationCfg } from '../types';
 import { TooltipCfg } from '../types';
 import { clearDom, hasClass, regionToBBox } from '../util/util';
 import * as CssConst from './css-const';
 import TooltipTheme from './html-theme';
 
-import { IPointLocation } from '../intefaces';
+import { ILocation } from '../intefaces';
 import { getAlignPoint } from '../util/align';
 
 function toPx(number) {
@@ -26,7 +26,7 @@ function hasOneKey(obj, keys) {
   return result;
 }
 
-class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implements IPointLocation {
+class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implements ILocation<PointLocationCfg> {
   public getDefaultCfg() {
     const cfg = super.getDefaultCfg();
     return {
@@ -48,7 +48,7 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
       showTitle: true,
       /**
        * tooltip 限制的区域
-       * @type {Range}
+       * @type {Region}
        */
       region: null,
       // crosshair 的限制区域
@@ -134,11 +134,11 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
   }
 
   // 实现 IPointLocation 的接口
-  public getLocationPoint() {
+  public getLocation() {
     return { x: this.get('x'), y: this.get('y') };
   }
   // 实现 IPointLocation 的接口
-  public setLocationPoint(point: Point) {
+  public setLocation(point: Point) {
     this.set('x', point.x);
     this.set('y', point.y);
     this.resetPosition();
@@ -210,8 +210,6 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
       // 不显示 crosshair，都移除，没有设定 region 也都移除掉
       this.clearCrosshairs();
     } else {
-      const x = this.get('x');
-      const y = this.get('y');
       const crosshairBox = regionToBBox(crosshairsRegion);
       const xCrosshairDom = this.get('xCrosshairDom');
       const yCrosshairDom = this.get('yCrosshairDom');

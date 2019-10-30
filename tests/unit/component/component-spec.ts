@@ -39,7 +39,7 @@ describe('abastract component', () => {
     },
   });
 
-  test('init', () => {
+  it('init', () => {
     expect(a.get('id')).toEqual('a');
     expect(a.get('b')).toEqual(null);
     expect(a.get('a')).toEqual({
@@ -47,8 +47,14 @@ describe('abastract component', () => {
       a2: 'a2',
     });
   });
+  it('location', () => {
+    expect(a.getLocationType()).toBe('none');
+    expect(a.getOffset()).toEqual({ x: 0, y: 0 });
+    a.setOffset(10, 10);
+    expect(a.getOffset()).toEqual({ x: 10, y: 10 });
+  });
 
-  test('update', () => {
+  it('update', () => {
     a.update({
       a: {
         a2: '234',

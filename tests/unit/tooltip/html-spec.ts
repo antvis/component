@@ -163,13 +163,14 @@ describe('test tooltip', () => {
     });
 
     it('move', () => {
-      tooltip.setLocationPoint({ x: 100, y: 300 }); // 左侧触碰到边
+      tooltip.setLocation({ x: 100, y: 300 }); // 左侧触碰到边
       const bbox = tooltip.getBBox();
       expect(bbox.x).toBe(100);
       expect(bbox.y).toBe(300 - offset - bbox.height);
-      tooltip.setLocationPoint({ x: 380, y: 300 });
+      tooltip.setLocation({ x: 380, y: 300 });
       const bbox1 = tooltip.getBBox();
       expect(bbox1.x).toBe(400 - bbox.width);
+      expect(tooltip.getLocation()).toEqual({ x: 380, y: 300 });
     });
     it('update region', () => {
       tooltip.update({

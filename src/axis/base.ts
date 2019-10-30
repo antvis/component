@@ -1,14 +1,14 @@
 import { IGroup } from '@antv/g-base/lib/interfaces';
 import { Point } from '@antv/g-base/lib/types';
 import { vec2 } from '@antv/matrix-util';
-import { each, isNil, mix, upperFirst } from '@antv/util';
+import { each, isNil, mix } from '@antv/util';
 import GroupComponent from '../abstract/group-component';
-import { IList } from '../intefaces';
-import { AxisBaseCfg, GroupComponentCfg, ListItem } from '../types';
+// import { IList } from '../intefaces';
+import { AxisBaseCfg, ListItem } from '../types';
 import { getMatrixByAngle } from '../util/matrix';
 import Theme from '../util/theme';
 
-abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupComponent implements IList {
+abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupComponent {
   public getDefaultCfg() {
     const cfg = super.getDefaultCfg();
     return {
@@ -104,12 +104,12 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
       ticks: items,
     } as T);
   }
+  // IList 的实现同交互一起实现
+  // public updateItem(item: ListItem, cfg: Partial<ListItem>) {}
 
-  public updateItem(item: ListItem, cfg: Partial<ListItem>) {}
+  // public clearItems() {}
 
-  public clearItems() {}
-
-  public setItemState(item: ListItem, state: string, value: boolean) {}
+  // public setItemState(item: ListItem, state: string, value: boolean) {}
 
   /**
    * @protected
@@ -191,7 +191,7 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
       tickSegment = ticks[1].value - ticks[0].value;
     }
 
-    each(ticks, (tick, index) => {
+    each(ticks, (tick) => {
       let point = tick.point;
       if (!alignTick) {
         // tickLine 不同 tick 对齐时需要调整 point
@@ -207,10 +207,10 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
     });
 
     // 如果 tickLine 不居中对齐，则需要在最后面补充一个 tickLine
-    if (!alignTick && tickCount > 0) {
-      const tick = ticks[tickCount - 1];
-      const point = this.getTickPoint(tick.value + tickSegment / 2);
-    }
+    // if (!alignTick && tickCount > 0) {
+    //   const tick = ticks[tickCount - 1];
+    //   const point = this.getTickPoint(tick.value + tickSegment / 2);
+    // }
     return tickLineItems;
   }
 
@@ -269,7 +269,6 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
   // 绘制坐标轴刻度线，包括子刻度线
   private drawTickLines(group: IGroup) {
     const ticks = this.get('ticks');
-    const tickLine = this.get('tickLine');
     const subTickLine = this.get('subTickLine');
     const tickLineItems = this.getTickLineItems(ticks);
     const tickLineGroup = this.addGroup(group, {
@@ -292,7 +291,7 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
   // 预处理 ticks 确定位置和补充 id
   private processTicks() {
     const ticks = this.get('ticks');
-    each(ticks, (tick, index) => {
+    each(ticks, (tick) => {
       tick.point = this.getTickPoint(tick.value);
       // 补充 tick 的 id，为动画和更新做准备
       if (isNil(tick.id)) {
@@ -377,7 +376,7 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
 
     const rotate = titleCfg.rotate; // rotate 是角度值
     let angle = rotate;
-    if (isNil(rotate) && titleCfg.autoRotate) {
+    if (isNil(rotate) && autoRotate) {
       // 用户没有设定旋转角度，同时设置自动旋转
       const vector = this.getAxisVector(point);
       const v1 = [1, 0]; // 水平方向的向量
@@ -392,7 +391,6 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
 
   // 绘制标题
   private drawTitle(group: IGroup) {
-    const title = this.get('title');
     this.addShape(group, {
       type: 'text',
       id: this.getElementId('title'),

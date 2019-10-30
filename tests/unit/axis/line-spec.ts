@@ -28,7 +28,7 @@ describe('test line axis', () => {
   it('init', () => {
     expect(axis.get('name')).toBe('axis');
     expect(axis.get('type')).toBe('line');
-    expect(axis.getLocationRange()).toEqual({
+    expect(axis.getLocation()).toEqual({
       start: { x: 50, y: 400 },
       end: { x: 50, y: 50 },
     });
@@ -193,7 +193,7 @@ describe('test line axis', () => {
     expect(axis.getElementById('a-axis-sub-tickline-1-0')).not.toBe(undefined);
   });
   it('set location', () => {
-    axis.setLocationRange({
+    axis.setLocation({
       start: { x: 50, y: 400 },
       end: { x: 50, y: 50 },
     });

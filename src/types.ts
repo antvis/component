@@ -1,9 +1,15 @@
 import { IGroup } from '@antv/g-base/lib/interfaces';
 import { AnimateCfg, Point, ShapeAttrs } from '@antv/g-base/lib/types';
+export type LocationType = 'point' | 'Region' | 'points' | 'circle' | 'none';
 
-export interface Range {
+export interface Region {
   start: Point;
   end: Point;
+}
+
+export interface Range {
+  min: number;
+  max: number;
 }
 
 // 等底层 Util 调整好，直接用 Util 的定义
@@ -176,6 +182,21 @@ export interface ComponentCfg extends BaseCfg {
    */
   id?: string;
   /**
+   * 定位的方式
+   * @type {string}
+   */
+  LocationType?: string;
+  /**
+   * 偏移位置 x
+   * @type {number}
+   */
+  offsetX?: number;
+  /**
+   * 偏移位置 y
+   * @type {number}
+   */
+  offsetY?: number;
+  /**
    * 组件名称， axis, legend, tooltip
    * @type {string}
    */
@@ -252,7 +273,7 @@ export interface HtmlComponentCfg extends ComponentCfg {
   parent?: HTMLElement | string;
 }
 
-export interface AxisBaseCfg extends ComponentCfg {
+export interface AxisBaseCfg extends GroupComponentCfg {
   /**
    * 坐标轴刻度的集合
    * @type {ListItem[]}
@@ -368,7 +389,7 @@ export interface CircleGridCfg extends GridBaseCfg {
   center: Point;
 }
 
-export interface CategoryLegendCfg extends GroupComponentCfg {
+export interface LegendBaseCfg extends GroupComponentCfg {
   /**
    * 布局方式： horizontal，vertical
    * @type {String}
@@ -385,16 +406,6 @@ export interface CategoryLegendCfg extends GroupComponentCfg {
    */
   y?: number;
   /**
-   * 位置 x
-   * @type {number}
-   */
-  offsetX?: number;
-  /**
-   * 位置 y
-   * @type {number}
-   */
-  offsetY?: number;
-  /**
    * 标题
    * @type {LegendTitleCfg}
    */
@@ -404,6 +415,8 @@ export interface CategoryLegendCfg extends GroupComponentCfg {
    * @type {LegendBackgroundCfg}
    */
   backgroud?: LegendBackgroundCfg;
+}
+export interface CategoryLegendCfg extends LegendBaseCfg {
   /**
    * 图例项水平方向的间距
    * @type {number}
@@ -449,6 +462,83 @@ export interface CategoryLegendCfg extends GroupComponentCfg {
    * @type {ListItem[]}
    */
   items: ListItem[];
+}
+
+export interface ContinueLegendCfg extends LegendBaseCfg {
+  min: number;
+  max: number;
+  value: number[];
+  colors: number[];
+  track: ContinueTrackCfg;
+  rail: ContinueRailCfg;
+  label: ContinueLabelCfg;
+  handler: {};
+  slidable: true;
+}
+
+export interface ContinueTrackCfg {
+  /**
+   * 选定范围的样式
+   * @type {ShapeAttrs}
+   */
+  style: ShapeAttrs;
+}
+
+export interface ContinueHandlerCfg {
+  /**
+   * 滑块大小
+   * @type {number}
+   */
+  size: number;
+  /**
+   * 滑块样式
+   * @type {ShapeAttrs}
+   */
+  style: ShapeAttrs;
+}
+
+export interface ContinueRailCfg {
+  /**
+   * rail 的类型，color, size
+   * @type {string}
+   */
+  type: string;
+  /**
+   * 滑轨的宽度
+   * @type {number}
+   */
+  size: number;
+  /**
+   * 滑轨的默认长度，，当限制了 maxWidth,maxHeight 时，不会使用这个属性会自动计算长度
+   * @type {number}
+   */
+  defaultLength: number;
+  /**
+   * 滑轨的样式
+   * @type {ShapeAttrs}
+   */
+  style: ShapeAttrs;
+}
+
+export interface ContinueLabelCfg {
+  /**
+   * 文本同滑轨的对齐方式，有五种类型
+   *  - rail ： 同滑轨对齐，在滑轨的两端
+   *  - top, bottom: 图例水平布局时有效
+   *  - left, right: 图例垂直布局时有效
+   * @type {string}
+   */
+  align: string;
+  /**
+   * 文本同滑轨的距离
+   * @type {number}
+   */
+  spacing: number;
+  /**
+   * 文本样式
+   * @type {ShapeAttrs}
+   */
+  style: ShapeAttrs;
 }
 
 export interface LegendTitleCfg {
@@ -566,14 +656,14 @@ export interface TooltipCfg extends HtmlComponentCfg {
   yCrosshairTpl?: string;
   /**
    * tooltip 限制的区域
-   * @type {Range}
+   * @type {Region}
    */
-  region?: Range;
+  region?: Region;
   /**
    * crosshairs 限制的区域
-   * @type {Range}
+   * @type {Region}
    */
-  crosshairsRegion?: Range;
+  crosshairsRegion?: Region;
   /**
    * crosshairs 的类型， x,y,xy
    * @type {string}
@@ -604,4 +694,29 @@ export interface TooltipCfg extends HtmlComponentCfg {
    * @type {object}
    */
   defaultStyles?: object;
+}
+
+export interface LocationCfg {
+  [key: string]: any;
+}
+
+export interface PointLocationCfg extends LocationCfg {
+  x: number;
+  y: number;
+}
+
+export interface RegionLocationCfg extends LocationCfg {
+  start: Point;
+  end: Point;
+}
+
+export interface PointsLocationCfg extends LocationCfg {
+  points: Point[];
+}
+
+export interface CircleLocationCfg extends LocationCfg {
+  center: Point;
+  radius: number;
+  startAngle: number;
+  endAngle: number;
 }
