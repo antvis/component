@@ -1,7 +1,7 @@
 import { Canvas } from '@antv/g-canvas';
+import { isNumberEqual } from '@antv/util';
 import ContinueLegend from '../../../src/legend/continue';
-
-describe.only('test continue legend', () => {
+describe('test continue legend', () => {
   const dom = document.createElement('div');
   document.body.appendChild(dom);
   dom.id = 'legend-contintue';
@@ -73,16 +73,16 @@ describe.only('test continue legend', () => {
       legend.update({
         value: [0, 20],
       });
-      expect(legend.getElementById('a-legend-rail').getBBox().width / 5).toEqual(
-        legend.getElementById('a-legend-track').getBBox().width
-      );
+      const railShape = legend.getElementById('a-legend-rail');
+      const trackShape = legend.getElementById('a-legend-track');
+      let isEqual = isNumberEqual(railShape.getBBox().width / 5, trackShape.getBBox().width);
+      expect(isEqual).toEqual(true);
 
       legend.update({
         value: [20, 40],
       });
-      expect(legend.getElementById('a-legend-rail').getBBox().width / 5).toEqual(
-        legend.getElementById('a-legend-track').getBBox().width
-      );
+      isEqual = isNumberEqual(railShape.getBBox().width / 5, trackShape.getBBox().width);
+      expect(isEqual).toEqual(true);
     });
 
     it('change rail length', () => {
