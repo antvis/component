@@ -1,31 +1,16 @@
-import { IElement, IGroup } from '@antv/g-base/lib/interfaces';
-import { Point } from '@antv/g-base/lib/types';
+import { IGroup } from '@antv/g-base/lib/interfaces';
 import { each, mix } from '@antv/util';
-import GroupComponent from '../abstract/group-component';
-import { IPointLocation } from '../intefaces';
-import { CategoryLegendCfg, LegendItemNameCfg, LegendItemValueCfg, LegendMarkerCfg, ListItem } from '../types';
-import { getMatrixByTranslate } from '../util/matrix';
+import { CategoryLegendCfg, LegendItemNameCfg, LegendMarkerCfg, ListItem } from '../types';
 import Theme from '../util/theme';
-import { formatPadding } from '../util/util';
+import LegendBase from './base';
 
-class Category<T extends CategoryLegendCfg = CategoryLegendCfg> extends GroupComponent implements IPointLocation {
+class Category extends LegendBase<CategoryLegendCfg> {
   public getDefaultCfg() {
     const cfg = super.getDefaultCfg();
     return {
       ...cfg,
       name: 'legend',
       type: 'category',
-      /**
-       * 布局方式： horizontal，vertical
-       * @type {String}
-       */
-      layout: 'horizontal',
-      x: 0,
-      y: 0,
-      offsetX: 0,
-      offsetY: 0,
-      title: null,
-      backgroud: null,
       itemSpacing: 10,
       itemWidth: null,
       itemHeight: null,
@@ -85,30 +70,10 @@ class Category<T extends CategoryLegendCfg = CategoryLegendCfg> extends GroupCom
     };
   }
 
-  public getLocationPoint() {
-    return {
-      x: this.get('x'),
-      y: this.get('y'),
-    };
-  }
-
-  public setLocationPoint(point) {
-    this.set('x', point.x);
-    this.set('y', point.y);
-    this.resetLocation();
-  }
-  // 复写父类定义的绘制方法
-  protected renderInner(group: IGroup) {
-    this.resetDraw();
+  // 绘制 legend 的选项
+  protected drawLegendContent(group) {
     this.processItems();
-    if (this.get('title')) {
-      this.drawTitle(group);
-    }
     this.drawItems(group);
-    if (this.get('background')) {
-      this.drawBackground(group);
-    }
-    this.resetLocation();
   }
 
   // 防止未设置 id
@@ -122,66 +87,6 @@ class Category<T extends CategoryLegendCfg = CategoryLegendCfg> extends GroupCom
     });
   }
 
-  // 重置绘制时开始的位置，如果绘制边框，考虑边框的 padding
-  private resetDraw() {
-    const background = this.get('background');
-    const currentPoint = { x: 0, y: 0 };
-    if (background) {
-      const padding = formatPadding(background.padding);
-      currentPoint.x = padding[3]; // 左边 padding
-      currentPoint.y = padding[0]; // 上面 padding
-    }
-    this.set('currentPoint', currentPoint); // 设置绘制的初始位置
-  }
-  // 绘制背景
-  private drawBackground(group: IGroup) {
-    const background = this.get('background');
-    const bbox = group.getBBox();
-    const padding = formatPadding(background.padding);
-    const attrs = mix(
-      {
-        // 背景从 (0,0) 开始绘制
-        x: 0,
-        y: 0,
-        width: bbox.width + padding[1] + padding[3],
-        height: bbox.height + padding[0] + padding[2],
-      },
-      background.style
-    );
-    this.addShape(group, {
-      type: 'rect',
-      id: this.getElementId('background'),
-      name: 'legend-background',
-      attrs,
-    });
-  }
-  // 绘制标题，标题在图例项的上面
-  private drawTitle(group: IGroup) {
-    const currentPoint = this.get('currentPoint');
-    const titleCfg = this.get('title');
-    const { spacing, style, text } = titleCfg;
-    const shape = this.addShape(group, {
-      type: 'text',
-      id: this.getElementId('title'),
-      name: 'legend-title',
-      attrs: mix(
-        {
-          text,
-          x: currentPoint.x,
-          y: currentPoint.y,
-        },
-        style
-      ),
-    });
-    const bbox = shape.getBBox();
-    // 标题单独在一行
-    this.set('currentPoint', { x: currentPoint.x, y: bbox.maxY + spacing });
-  }
-  // 移动元素
-  private moveElementTo(element: IElement, point: Point) {
-    const matrix = getMatrixByTranslate(point);
-    element.attr('matrix', matrix);
-  }
   // 绘制所有的图例选项
   private drawItems(group: IGroup) {
     const itemGroup = this.addGroup(group, {
@@ -261,14 +166,12 @@ class Category<T extends CategoryLegendCfg = CategoryLegendCfg> extends GroupCom
     index: number
   ) {
     const formatter = cfg.formatter;
-    const attrs = mix(
-      {
-        x: xPosition,
-        y: itemHeight / 2,
-        text: formatter ? formatter(item[textName], item, index) : item[textName],
-      },
-      cfg.style
-    );
+    const attrs = {
+      x: xPosition,
+      y: itemHeight / 2,
+      text: formatter ? formatter(item[textName], item, index) : item[textName],
+      ...cfg.style,
+    };
     return this.addShape(container, {
       type: 'text',
       id: this.getElementId(`item-${item.id}-${textName}`),
@@ -308,17 +211,6 @@ class Category<T extends CategoryLegendCfg = CategoryLegendCfg> extends GroupCom
     }
 
     return subGroup;
-  }
-
-  private resetLocation() {
-    const x = this.get('x');
-    const y = this.get('y');
-    const offsetX = this.get('offsetX');
-    const offsetY = this.get('offsetY');
-    this.moveElementTo(this.get('group'), {
-      x: x + offsetX,
-      y: y + offsetY,
-    });
   }
 }
 

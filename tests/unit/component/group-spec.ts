@@ -1,12 +1,12 @@
 import { Canvas } from '@antv/g-canvas';
-import { keys, mix } from '@antv/util';
+import { keys } from '@antv/util';
 import GroupComponent from '../../../src/abstract/group-component';
 
 class CComponent extends GroupComponent {
   protected renderInner(group) {
     const showA = this.get('showA');
     if (showA) {
-      const shape = this.addShape(group, {
+      this.addShape(group, {
         type: 'text',
         id: 'a',
         attrs: {
@@ -22,7 +22,7 @@ class CComponent extends GroupComponent {
       const bGroup = this.addGroup(group, {
         id: 'bg',
       });
-      const shape = this.addShape(bGroup, {
+      this.addShape(bGroup, {
         type: 'rect',
         id: 'b1',
         attrs: {
@@ -39,7 +39,7 @@ class CComponent extends GroupComponent {
       const cGroup = this.addGroup(group, {
         id: 'cg',
       });
-      const shape1 = this.addShape(cGroup, {
+      this.addShape(cGroup, {
         type: 'rect',
         id: 'c1',
         attrs: {
@@ -51,7 +51,7 @@ class CComponent extends GroupComponent {
         },
       });
 
-      const shape2 = this.addShape(cGroup, {
+      this.addShape(cGroup, {
         type: 'rect',
         id: 'c2',
         attrs: {

@@ -1,5 +1,6 @@
 import { isArray, isNil, isNumber } from '@antv/util';
-import { BBox, Range } from '../types';
+import { BBox, Point, Region } from '../types';
+
 export function formatPadding(padding: number | number[]): number[] {
   let top = 0;
   let left = 0;
@@ -30,7 +31,7 @@ export function hasClass(elements, cName): boolean {
   return !!elements.className.match(new RegExp(`(\\s|^)${cName}(\\s|$)`));
 }
 
-export function regionToBBox(region: Range): BBox {
+export function regionToBBox(region: Region): BBox {
   const { start, end } = region;
   const minX = Math.min(start.x, end.x);
   const minY = Math.min(start.y, end.y);
@@ -58,5 +59,16 @@ export function createBBox(x: number, y: number, width: number, height: number):
     minY: y,
     maxX: x + width,
     maxY: y + height,
+  };
+}
+
+export function getValueByPercent(min: number, max: number, percent: number) {
+  return (1 - percent) * min + max * percent;
+}
+
+export function getCirclePoint(center: Point, radius: number, angle: number) {
+  return {
+    x: center.x + Math.cos(angle) * radius,
+    y: center.y + Math.sin(angle) * radius,
   };
 }

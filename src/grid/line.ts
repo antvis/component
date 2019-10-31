@@ -1,5 +1,5 @@
-import { Point } from '@antv/g-base/lib/types';
 import { each } from '@antv/util';
+import { Point } from '../types';
 import GridBase from './base';
 
 class Line extends GridBase {

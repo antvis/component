@@ -1,5 +1,5 @@
-import { Point } from '@antv/g-base/lib/types';
 import { transform } from '@antv/matrix-util';
+import { Point } from '../types';
 
 const identityMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
 export function getMatrixByAngle(point: Point, angle: number): number[] {

@@ -1,6 +1,5 @@
-import { Point } from '@antv/g-base/lib/types';
 import { each } from '@antv/util';
-import { CircleGridCfg, GridBaseCfg } from '../types';
+import { CircleGridCfg, Point } from '../types';
 import GridBase from './base';
 
 function distance(x1, y1, x2, y2) {
@@ -9,7 +8,7 @@ function distance(x1, y1, x2, y2) {
   return Math.sqrt(dx * dx + dy * dy);
 }
 
-class Circle<T extends GridBaseCfg = CircleGridCfg> extends GridBase {
+class Circle extends GridBase<CircleGridCfg> {
   public getDefaultCfg() {
     const cfg = super.getDefaultCfg();
     return {

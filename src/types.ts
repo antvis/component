@@ -1,21 +1,76 @@
 import { IGroup } from '@antv/g-base/lib/interfaces';
 import { AnimateCfg, Point, ShapeAttrs } from '@antv/g-base/lib/types';
+export type LocationType = 'point' | 'Region' | 'points' | 'circle' | 'none';
+
+export { Point };
+
+export interface Region {
+  /**
+   * 起始点
+   * @type {Point}
+   */
+  start: Point;
+  /**
+   * 结束点
+   * @type {Point}
+   */
+  end: Point;
+}
 
 export interface Range {
-  start: Point;
-  end: Point;
+  /**
+   * 开始值
+   * @type {number}
+   */
+  min: number;
+  /**
+   * 结束值
+   * @type {number}
+   */
+  max: number;
 }
 
 // 等底层 Util 调整好，直接用 Util 的定义
 export interface BBox {
+  /**
+   * 包围盒 x
+   * @type {number}
+   */
   x: number;
+  /**
+   * 包围盒 y
+   * @type {number}
+   */
   y: number;
+  /**
+   * 包围盒宽度
+   * @type {number}
+   */
   height: number;
+  /**
+   * 包围盒高度
+   * @type {number}
+   */
   width: number;
-
+  /**
+   * 包围盒最小 x
+   * @type {number}
+   */
   minX?: number;
+  /**
+   * 包围盒最大 x
+   * @type {number}
+   */
   maxX?: number;
+  /**
+   * 包围盒最小 y
+   * @type {number}
+   */
   minY?: number;
+  /**
+   * 包围盒最大 y
+   * @type {number}
+   */
   maxY?: number;
 }
 
@@ -176,6 +231,21 @@ export interface ComponentCfg extends BaseCfg {
    */
   id?: string;
   /**
+   * 定位的方式
+   * @type {string}
+   */
+  LocationType?: string;
+  /**
+   * 偏移位置 x
+   * @type {number}
+   */
+  offsetX?: number;
+  /**
+   * 偏移位置 y
+   * @type {number}
+   */
+  offsetY?: number;
+  /**
    * 组件名称， axis, legend, tooltip
    * @type {string}
    */
@@ -252,7 +322,7 @@ export interface HtmlComponentCfg extends ComponentCfg {
   parent?: HTMLElement | string;
 }
 
-export interface AxisBaseCfg extends ComponentCfg {
+export interface AxisBaseCfg extends GroupComponentCfg {
   /**
    * 坐标轴刻度的集合
    * @type {ListItem[]}
@@ -368,7 +438,7 @@ export interface CircleGridCfg extends GridBaseCfg {
   center: Point;
 }
 
-export interface CategoryLegendCfg extends GroupComponentCfg {
+export interface LegendBaseCfg extends GroupComponentCfg {
   /**
    * 布局方式： horizontal，vertical
    * @type {String}
@@ -385,16 +455,6 @@ export interface CategoryLegendCfg extends GroupComponentCfg {
    */
   y?: number;
   /**
-   * 位置 x
-   * @type {number}
-   */
-  offsetX?: number;
-  /**
-   * 位置 y
-   * @type {number}
-   */
-  offsetY?: number;
-  /**
    * 标题
    * @type {LegendTitleCfg}
    */
@@ -404,6 +464,8 @@ export interface CategoryLegendCfg extends GroupComponentCfg {
    * @type {LegendBackgroundCfg}
    */
   backgroud?: LegendBackgroundCfg;
+}
+export interface CategoryLegendCfg extends LegendBaseCfg {
   /**
    * 图例项水平方向的间距
    * @type {number}
@@ -449,6 +511,119 @@ export interface CategoryLegendCfg extends GroupComponentCfg {
    * @type {ListItem[]}
    */
   items: ListItem[];
+}
+
+export interface ContinueLegendCfg extends LegendBaseCfg {
+  /**
+   * 选择范围的最小值
+   * @type {number}
+   */
+  min: number;
+  /**
+   * 选择范围的最大值
+   * @type {number}
+   */
+  max: number;
+  /**
+   * 选择的值
+   * @type {number[]}
+   */
+  value: number[];
+  /**
+   * 图例的颜色，可以写多个颜色
+   * @type {number[]}
+   */
+  colors: number[];
+  /**
+   * 选择范围的色块配置项
+   * @type {ContinueLegendTrackCfg}
+   */
+  track: ContinueLegendTrackCfg;
+  /**
+   * 图例滑轨（背景）的配置项
+   * @type {ContinueLegendRailCfg}
+   */
+  rail: ContinueLegendRailCfg;
+  /**
+   * 文本的配置项
+   * @type {ContinueLegendLabelCfg}
+   */
+  label: ContinueLegendLabelCfg;
+  /**
+   * 滑块的配置项
+   * @type {ContinueLegendHandlerCfg}
+   */
+  handler: ContinueLegendHandlerCfg;
+  /**
+   * 是否可以滑动
+   * @type {boolean}
+   */
+  slidable: boolean;
+}
+
+export interface ContinueLegendTrackCfg {
+  /**
+   * 选定范围的样式
+   * @type {ShapeAttrs}
+   */
+  style: ShapeAttrs;
+}
+
+export interface ContinueLegendHandlerCfg {
+  /**
+   * 滑块大小
+   * @type {number}
+   */
+  size: number;
+  /**
+   * 滑块样式
+   * @type {ShapeAttrs}
+   */
+  style: ShapeAttrs;
+}
+
+export interface ContinueLegendRailCfg {
+  /**
+   * rail 的类型，color, size
+   * @type {string}
+   */
+  type: string;
+  /**
+   * 滑轨的宽度
+   * @type {number}
+   */
+  size: number;
+  /**
+   * 滑轨的默认长度，，当限制了 maxWidth,maxHeight 时，不会使用这个属性会自动计算长度
+   * @type {number}
+   */
+  defaultLength: number;
+  /**
+   * 滑轨的样式
+   * @type {ShapeAttrs}
+   */
+  style: ShapeAttrs;
+}
+
+export interface ContinueLegendLabelCfg {
+  /**
+   * 文本同滑轨的对齐方式，有五种类型
+   *  - rail ： 同滑轨对齐，在滑轨的两端
+   *  - top, bottom: 图例水平布局时有效
+   *  - left, right: 图例垂直布局时有效
+   * @type {string}
+   */
+  align: string;
+  /**
+   * 文本同滑轨的距离
+   * @type {number}
+   */
+  spacing: number;
+  /**
+   * 文本样式
+   * @type {ShapeAttrs}
+   */
+  style: ShapeAttrs;
 }
 
 export interface LegendTitleCfg {
@@ -566,14 +741,14 @@ export interface TooltipCfg extends HtmlComponentCfg {
   yCrosshairTpl?: string;
   /**
    * tooltip 限制的区域
-   * @type {Range}
+   * @type {Region}
    */
-  region?: Range;
+  region?: Region;
   /**
    * crosshairs 限制的区域
-   * @type {Range}
+   * @type {Region}
    */
-  crosshairsRegion?: Range;
+  crosshairsRegion?: Region;
   /**
    * crosshairs 的类型， x,y,xy
    * @type {string}
@@ -604,4 +779,65 @@ export interface TooltipCfg extends HtmlComponentCfg {
    * @type {object}
    */
   defaultStyles?: object;
+}
+
+export interface LocationCfg {
+  [key: string]: any;
+}
+
+export interface PointLocationCfg extends LocationCfg {
+  /**
+   * 位置 x
+   * @type {number}
+   */
+  x?: number;
+  /**
+   * 位置 y
+   * @type {number}
+   */
+  y?: number;
+}
+
+export interface RegionLocationCfg extends LocationCfg {
+  /**
+   * 起始点
+   * @type {Point}
+   */
+  start?: Point;
+  /**
+   * 结束点
+   * @type {Point}
+   */
+  end?: Point;
+}
+
+export interface PointsLocationCfg extends LocationCfg {
+  /**
+   * 定位点的集合
+   * @type {Point[]}
+   */
+  points?: Point[];
+}
+
+export interface CircleLocationCfg extends LocationCfg {
+  /**
+   * 圆心
+   * @type {Point}
+   */
+  center?: Point;
+  /**
+   * 半径
+   * @type {number}
+   */
+  radius?: number;
+  /**
+   * 起始角度
+   * @type {number}
+   */
+  startAngle?: number;
+  /**
+   * 结束角度
+   * @type {number}
+   */
+  endAngle?: number;
 }

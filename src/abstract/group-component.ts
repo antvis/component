@@ -3,7 +3,7 @@
  * @author dxq613@gmail.com
  */
 import { IGroup } from '@antv/g-base/lib/interfaces';
-import { each, keys, mix } from '@antv/util';
+import { each, mix } from '@antv/util';
 import { BBox, GroupComponentCfg } from '../types';
 import Component from './component';
 
@@ -87,6 +87,11 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
 
   public getBBox(): BBox {
     return this.get('container').getBBox();
+  }
+
+  protected getElementByLocalId(localId) {
+    const id = this.getElementId(localId);
+    return this.getElementById(id);
   }
 
   protected init() {

@@ -5,7 +5,7 @@ class BComponent extends GroupComponent {
   protected renderInner(group) {
     const showA = this.get('showA');
     if (showA) {
-      const shape = this.addShape(group, {
+      this.addShape(group, {
         type: 'text',
         id: 'a',
         attrs: {
@@ -18,7 +18,7 @@ class BComponent extends GroupComponent {
     }
     const showB = this.get('showB');
     if (showB) {
-      const shape = this.addShape(group, {
+      this.addShape(group, {
         type: 'rect',
         id: 'b',
         attrs: {

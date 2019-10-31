@@ -1,10 +1,9 @@
-import { Point } from '@antv/g-base/lib/types';
 import { vec2 } from '@antv/matrix-util';
-import { IRangeLocation } from '../intefaces';
-import { LineAxisCfg, Range } from '../types';
+import { ILocation } from '../intefaces';
+import { LineAxisCfg, Point, Region, RegionLocationCfg } from '../types';
 import AxisBase from './base';
 
-class Line extends AxisBase<LineAxisCfg> implements IRangeLocation {
+class Line extends AxisBase<LineAxisCfg> implements ILocation<RegionLocationCfg> {
   public getDefaultCfg() {
     const cfg = super.getDefaultCfg();
     return {
@@ -22,19 +21,19 @@ class Line extends AxisBase<LineAxisCfg> implements IRangeLocation {
       end: null,
     };
   }
-  // 实现 IRangeLocation 获取位置的接口
-  public getLocationRange(): Range {
+  // 实现 IRegionLocation 获取位置的接口
+  public getLocation(): Region {
     return {
       start: this.get('start') as Point,
       end: this.get('end') as Point,
     };
   }
 
-  // 实现 IRangeLocation 设置位置的接口
-  public setLocationRange(range: Range) {
+  // 实现 IRegionLocation 设置位置的接口
+  public setLocation(region: Region) {
     this.update({
-      start: range.start,
-      end: range.end,
+      start: region.start,
+      end: region.end,
     });
   }
 
@@ -52,11 +51,11 @@ class Line extends AxisBase<LineAxisCfg> implements IRangeLocation {
     const self = this;
     const start = self.get('start');
     const end = self.get('end');
-    const rangeX = end.x - start.x;
-    const rangeY = end.y - start.y;
+    const regionX = end.x - start.x;
+    const regionY = end.y - start.y;
     return {
-      x: start.x + rangeX * tickValue,
-      y: start.y + rangeY * tickValue,
+      x: start.x + regionX * tickValue,
+      y: start.y + regionY * tickValue,
     };
   }
 

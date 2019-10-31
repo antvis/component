@@ -8,6 +8,7 @@
     "importHelpers": true,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
+    "noUnusedLocals": true,
     "lib": ["esnext", "dom"],
     "types": ["jest"]
   },

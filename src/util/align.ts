@@ -1,5 +1,4 @@
-import { Point } from '@antv/g-base/lib/types';
-import { BBox } from '../types';
+import { BBox, Point } from '../types';
 
 interface OutSides {
   left: boolean;

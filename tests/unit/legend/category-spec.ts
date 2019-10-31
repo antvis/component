@@ -179,7 +179,7 @@ describe('test category legend', () => {
           text: '图例名',
         },
       });
-      legend.setLocationPoint({
+      legend.setLocation({
         x: 200,
         y: 200,
       });
