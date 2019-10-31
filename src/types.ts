@@ -465,18 +465,54 @@ export interface CategoryLegendCfg extends LegendBaseCfg {
 }
 
 export interface ContinueLegendCfg extends LegendBaseCfg {
+  /**
+   * 选择范围的最小值
+   * @type {number}
+   */
   min: number;
+  /**
+   * 选择范围的最大值
+   * @type {number}
+   */
   max: number;
+  /**
+   * 选择的值
+   * @type {number[]}
+   */
   value: number[];
+  /**
+   * 图例的颜色，可以写多个颜色
+   * @type {number[]}
+   */
   colors: number[];
-  track: ContinueTrackCfg;
-  rail: ContinueRailCfg;
-  label: ContinueLabelCfg;
-  handler: {};
-  slidable: true;
+  /**
+   * 选择范围的色块配置项
+   * @type {ContinueLegendTrackCfg}
+   */
+  track: ContinueLegendTrackCfg;
+  /**
+   * 图例滑轨（背景）的配置项
+   * @type {ContinueLegendRailCfg}
+   */
+  rail: ContinueLegendRailCfg;
+  /**
+   * 文本的配置项
+   * @type {ContinueLegendLabelCfg}
+   */
+  label: ContinueLegendLabelCfg;
+  /**
+   * 滑块的配置项
+   * @type {ContinueLegendHandlerCfg}
+   */
+  handler: ContinueLegendHandlerCfg;
+  /**
+   * 是否可以滑动
+   * @type {boolean}
+   */
+  slidable: boolean;
 }
 
-export interface ContinueTrackCfg {
+export interface ContinueLegendTrackCfg {
   /**
    * 选定范围的样式
    * @type {ShapeAttrs}
@@ -484,7 +520,7 @@ export interface ContinueTrackCfg {
   style: ShapeAttrs;
 }
 
-export interface ContinueHandlerCfg {
+export interface ContinueLegendHandlerCfg {
   /**
    * 滑块大小
    * @type {number}
@@ -497,7 +533,7 @@ export interface ContinueHandlerCfg {
   style: ShapeAttrs;
 }
 
-export interface ContinueRailCfg {
+export interface ContinueLegendRailCfg {
   /**
    * rail 的类型，color, size
    * @type {string}
@@ -520,7 +556,7 @@ export interface ContinueRailCfg {
   style: ShapeAttrs;
 }
 
-export interface ContinueLabelCfg {
+export interface ContinueLegendLabelCfg {
   /**
    * 文本同滑轨的对齐方式，有五种类型
    *  - rail ： 同滑轨对齐，在滑轨的两端
@@ -701,22 +737,58 @@ export interface LocationCfg {
 }
 
 export interface PointLocationCfg extends LocationCfg {
-  x: number;
-  y: number;
+  /**
+   * 位置 x
+   * @type {number}
+   */
+  x?: number;
+  /**
+   * 位置 y
+   * @type {number}
+   */
+  y?: number;
 }
 
 export interface RegionLocationCfg extends LocationCfg {
-  start: Point;
-  end: Point;
+  /**
+   * 起始点
+   * @type {Point}
+   */
+  start?: Point;
+  /**
+   * 结束点
+   * @type {Point}
+   */
+  end?: Point;
 }
 
 export interface PointsLocationCfg extends LocationCfg {
-  points: Point[];
+  /**
+   * 定位点的集合
+   * @type {Point[]}
+   */
+  points?: Point[];
 }
 
 export interface CircleLocationCfg extends LocationCfg {
-  center: Point;
-  radius: number;
-  startAngle: number;
-  endAngle: number;
+  /**
+   * 圆心
+   * @type {Point}
+   */
+  center?: Point;
+  /**
+   * 半径
+   * @type {number}
+   */
+  radius?: number;
+  /**
+   * 起始角度
+   * @type {number}
+   */
+  startAngle?: number;
+  /**
+   * 结束角度
+   * @type {number}
+   */
+  endAngle?: number;
 }

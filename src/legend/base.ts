@@ -1,6 +1,5 @@
 import { IElement, IGroup } from '@antv/g-base/lib/interfaces';
 import { Point } from '@antv/g-base/lib/types';
-import { mix } from '@antv/util';
 import GroupComponent from '../abstract/group-component';
 import { ILocation } from '../intefaces';
 import { LegendBaseCfg, PointLocationCfg } from '../types';
@@ -24,7 +23,7 @@ abstract class LegendBase<T extends LegendBaseCfg = LegendBaseCfg> extends Group
       offsetX: 0,
       offsetY: 0,
       title: null,
-      backgroud: null,
+      background: null,
     };
   }
 
@@ -34,7 +33,7 @@ abstract class LegendBase<T extends LegendBaseCfg = LegendBaseCfg> extends Group
     this.resetLocation();
   }
 
-  public getLocation() {
+  public getLocation(): PointLocationCfg {
     return {
       x: this.get('x'),
       y: this.get('y'),
@@ -86,16 +85,14 @@ abstract class LegendBase<T extends LegendBaseCfg = LegendBaseCfg> extends Group
     const background = this.get('background');
     const bbox = group.getBBox();
     const padding = formatPadding(background.padding);
-    const attrs = mix(
-      {
-        // 背景从 (0,0) 开始绘制
-        x: 0,
-        y: 0,
-        width: bbox.width + padding[1] + padding[3],
-        height: bbox.height + padding[0] + padding[2],
-      },
-      background.style
-    );
+    const attrs = {
+      // 背景从 (0,0) 开始绘制
+      x: 0,
+      y: 0,
+      width: bbox.width + padding[1] + padding[3],
+      height: bbox.height + padding[0] + padding[2],
+      ...background.style,
+    };
     const backgroundShape = this.addShape(group, {
       type: 'rect',
       id: this.getElementId('background'),
@@ -114,14 +111,12 @@ abstract class LegendBase<T extends LegendBaseCfg = LegendBaseCfg> extends Group
       type: 'text',
       id: this.getElementId('title'),
       name: 'legend-title',
-      attrs: mix(
-        {
-          text,
-          x: currentPoint.x,
-          y: currentPoint.y,
-        },
-        style
-      ),
+      attrs: {
+        text,
+        x: currentPoint.x,
+        y: currentPoint.y,
+        ...style,
+      },
     });
     const bbox = shape.getBBox();
     // 标题单独在一行

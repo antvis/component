@@ -166,14 +166,12 @@ class Category extends LegendBase<CategoryLegendCfg> {
     index: number
   ) {
     const formatter = cfg.formatter;
-    const attrs = mix(
-      {
-        x: xPosition,
-        y: itemHeight / 2,
-        text: formatter ? formatter(item[textName], item, index) : item[textName],
-      },
-      cfg.style
-    );
+    const attrs = {
+      x: xPosition,
+      y: itemHeight / 2,
+      text: formatter ? formatter(item[textName], item, index) : item[textName],
+      ...cfg.style,
+    };
     return this.addShape(container, {
       type: 'text',
       id: this.getElementId(`item-${item.id}-${textName}`),

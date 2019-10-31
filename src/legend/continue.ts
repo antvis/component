@@ -98,15 +98,13 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> {
       type: 'text',
       id: this.getElementId(localId),
       name: 'legend-label-${name}',
-      attrs: mix(
-        {
-          x: 0,
-          y: 0,
-          text: value,
-        },
-        style,
-        alignAttrs
-      ),
+      attrs: {
+        x: 0,
+        y: 0,
+        text: value,
+        ...style,
+        ...alignAttrs,
+      },
     });
   }
 
@@ -156,15 +154,13 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> {
       type: 'rect',
       id: this.getElementId('rail'),
       name: 'legend-rail',
-      attrs: mix(
-        {
-          x: 0,
-          y: 0,
-          width: isVertical ? size : length,
-          height: isVertical ? length : size,
-        },
-        style
-      ),
+      attrs: {
+        x: 0,
+        y: 0,
+        width: isVertical ? size : length,
+        height: isVertical ? length : size,
+        ...style,
+      },
     });
   }
 
@@ -367,12 +363,10 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> {
         type: 'path',
         name: `legend-handler-${name}`,
         id,
-        attrs: mix(
-          {
-            path,
-          },
-          handlerCfg.style
-        ),
+        attrs: {
+          path,
+          ...handlerCfg.style,
+        },
       });
     }
   }

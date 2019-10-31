@@ -1,5 +1,7 @@
+import { Point } from '@antv/g-base/lib/types';
 import { isArray, isNil, isNumber } from '@antv/util';
 import { BBox, Region } from '../types';
+
 export function formatPadding(padding: number | number[]): number[] {
   let top = 0;
   let left = 0;
@@ -61,6 +63,13 @@ export function createBBox(x: number, y: number, width: number, height: number):
   };
 }
 
-export function getValueByPercent(min, max, percent) {
+export function getValueByPercent(min: number, max: number, percent: number) {
   return (1 - percent) * min + max * percent;
+}
+
+export function getCirclePoint(center: Point, radius: number, angle: number) {
+  return {
+    x: center.x + Math.cos(angle) * radius,
+    y: center.y + Math.sin(angle) * radius,
+  };
 }

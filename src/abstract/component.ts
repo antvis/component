@@ -2,7 +2,14 @@ import { Base } from '@antv/g-base';
 import { Point } from '@antv/g-base/lib/types';
 import { deepMix, each, isObject } from '@antv/util';
 import { ILocation } from '../intefaces';
-import { BBox, ComponentCfg } from '../types';
+import { BBox, ComponentCfg, LocationCfg } from '../types';
+const LOCATION_FIELD_MAP = {
+  none: [],
+  point: ['x', 'y'],
+  region: ['start', 'end'],
+  points: ['points'],
+  circle: ['center', 'radius', 'startAngle', 'endAngle'],
+};
 
 abstract class Component<T extends ComponentCfg = ComponentCfg> extends Base implements ILocation {
   constructor(cfg: T) {
@@ -83,12 +90,20 @@ abstract class Component<T extends ComponentCfg = ComponentCfg> extends Base imp
     } as T);
   }
 
-  public setLocation(cfg) {
-    this.update(cfg);
+  public setLocation(cfg: LocationCfg) {
+    const location = { ...cfg } as Partial<T>;
+    this.update(location);
   }
 
-  public getLocation() {
-    return {};
+  // 实现 ILocation 接口的 getLocation
+  public getLocation(): LocationCfg {
+    const location = {} as LocationCfg;
+    const locationType = this.get('locationType');
+    const fields = LOCATION_FIELD_MAP[locationType];
+    each(fields, (field) => {
+      location[field] = this.get(field);
+    });
+    return location;
   }
 
   /**
