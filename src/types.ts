@@ -2,26 +2,75 @@ import { IGroup } from '@antv/g-base/lib/interfaces';
 import { AnimateCfg, Point, ShapeAttrs } from '@antv/g-base/lib/types';
 export type LocationType = 'point' | 'Region' | 'points' | 'circle' | 'none';
 
+export { Point };
+
 export interface Region {
+  /**
+   * 起始点
+   * @type {Point}
+   */
   start: Point;
+  /**
+   * 结束点
+   * @type {Point}
+   */
   end: Point;
 }
 
 export interface Range {
+  /**
+   * 开始值
+   * @type {number}
+   */
   min: number;
+  /**
+   * 结束值
+   * @type {number}
+   */
   max: number;
 }
 
 // 等底层 Util 调整好，直接用 Util 的定义
 export interface BBox {
+  /**
+   * 包围盒 x
+   * @type {number}
+   */
   x: number;
+  /**
+   * 包围盒 y
+   * @type {number}
+   */
   y: number;
+  /**
+   * 包围盒宽度
+   * @type {number}
+   */
   height: number;
+  /**
+   * 包围盒高度
+   * @type {number}
+   */
   width: number;
-
+  /**
+   * 包围盒最小 x
+   * @type {number}
+   */
   minX?: number;
+  /**
+   * 包围盒最大 x
+   * @type {number}
+   */
   maxX?: number;
+  /**
+   * 包围盒最小 y
+   * @type {number}
+   */
   minY?: number;
+  /**
+   * 包围盒最大 y
+   * @type {number}
+   */
   maxY?: number;
 }
 

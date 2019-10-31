@@ -1,7 +1,6 @@
-import { Point } from '@antv/g-base/lib/types';
 import { vec2 } from '@antv/matrix-util';
 import { isNumberEqual } from '@antv/util';
-import { CircleAxisCfg } from '../types';
+import { CircleAxisCfg, Point } from '../types';
 import AxisBase from './base';
 
 class Circle extends AxisBase<CircleAxisCfg> {

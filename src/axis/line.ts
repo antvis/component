@@ -1,7 +1,6 @@
-import { Point } from '@antv/g-base/lib/types';
 import { vec2 } from '@antv/matrix-util';
 import { ILocation } from '../intefaces';
-import { LineAxisCfg, Region, RegionLocationCfg } from '../types';
+import { LineAxisCfg, Point, Region, RegionLocationCfg } from '../types';
 import AxisBase from './base';
 
 class Line extends AxisBase<LineAxisCfg> implements ILocation<RegionLocationCfg> {

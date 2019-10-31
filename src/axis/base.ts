@@ -1,10 +1,9 @@
 import { IGroup } from '@antv/g-base/lib/interfaces';
-import { Point } from '@antv/g-base/lib/types';
 import { vec2 } from '@antv/matrix-util';
 import { each, isNil, mix } from '@antv/util';
 import GroupComponent from '../abstract/group-component';
 // import { IList } from '../intefaces';
-import { AxisBaseCfg, ListItem } from '../types';
+import { AxisBaseCfg, ListItem, Point } from '../types';
 import { getMatrixByAngle } from '../util/matrix';
 import Theme from '../util/theme';
 

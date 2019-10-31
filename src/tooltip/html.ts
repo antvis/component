@@ -1,8 +1,7 @@
 import { createDom, modifyCSS } from '@antv/dom-util';
-import { Point } from '@antv/g-base/lib/types';
 import { deepMix, each, hasKey, substitute } from '@antv/util';
 import HtmlComponent from '../abstract/html-component';
-import { PointLocationCfg } from '../types';
+import { Point, PointLocationCfg } from '../types';
 import { TooltipCfg } from '../types';
 import { clearDom, hasClass, regionToBBox } from '../util/util';
 import * as CssConst from './css-const';

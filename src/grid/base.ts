@@ -1,8 +1,7 @@
 import { IGroup } from '@antv/g-base/lib/interfaces';
-import { Point } from '@antv/g-base/lib/types';
 import { each, isString, mix } from '@antv/util';
 import GroupComponent from '../abstract/group-component';
-import { GridBaseCfg, GroupComponentCfg } from '../types';
+import { GridBaseCfg, GroupComponentCfg, Point } from '../types';
 import Theme from '../util/theme';
 
 abstract class GridBase<T extends GroupComponentCfg = GridBaseCfg> extends GroupComponent<T> {

@@ -1,5 +1,5 @@
 import { IBase } from '@antv/g-base/lib/interfaces';
-import { Point } from '@antv/g-base/lib/types';
+import { Point } from './types';
 
 import { BBox, ListItem, LocationCfg, LocationType, Range } from './types';
 

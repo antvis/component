@@ -1,8 +1,7 @@
 import { Base } from '@antv/g-base';
-import { Point } from '@antv/g-base/lib/types';
 import { deepMix, each, isObject } from '@antv/util';
 import { ILocation } from '../intefaces';
-import { BBox, ComponentCfg, LocationCfg } from '../types';
+import { BBox, ComponentCfg, LocationCfg, Point } from '../types';
 const LOCATION_FIELD_MAP = {
   none: [],
   point: ['x', 'y'],

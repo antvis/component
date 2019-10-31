@@ -1,6 +1,5 @@
-import { Point } from '@antv/g-base/lib/types';
 import { isArray, isNil, isNumber } from '@antv/util';
-import { BBox, Region } from '../types';
+import { BBox, Point, Region } from '../types';
 
 export function formatPadding(padding: number | number[]): number[] {
   let top = 0;

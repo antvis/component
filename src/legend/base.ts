@@ -1,8 +1,7 @@
 import { IElement, IGroup } from '@antv/g-base/lib/interfaces';
-import { Point } from '@antv/g-base/lib/types';
 import GroupComponent from '../abstract/group-component';
 import { ILocation } from '../intefaces';
-import { LegendBaseCfg, PointLocationCfg } from '../types';
+import { LegendBaseCfg, Point, PointLocationCfg } from '../types';
 import { getMatrixByTranslate } from '../util/matrix';
 import { formatPadding } from '../util/util';
 
