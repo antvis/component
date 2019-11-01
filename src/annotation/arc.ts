@@ -1,9 +1,10 @@
+import { IGroup } from '@antv/g-base/lib/interfaces';
 import GroupComponent from '../abstract/group-component';
 import { ILocation } from '../intefaces';
-import { CircleLocationCfg } from '../types';
+import { ArcAnnotationCfg, CircleLocationCfg } from '../types';
 import { getCirclePoint } from '../util/util';
 
-class ArcAnnotation extends GroupComponent implements ILocation<CircleLocationCfg> {
+class ArcAnnotation extends GroupComponent<ArcAnnotationCfg> implements ILocation<CircleLocationCfg> {
   /**
    * @protected
    * 默认的配置项
@@ -27,7 +28,7 @@ class ArcAnnotation extends GroupComponent implements ILocation<CircleLocationCf
     };
   }
 
-  protected renderInner(group) {
+  protected renderInner(group: IGroup) {
     this.renderArc(group);
   }
 
@@ -50,7 +51,7 @@ class ArcAnnotation extends GroupComponent implements ILocation<CircleLocationCf
   }
 
   // 绘制 arc
-  private renderArc(group) {
+  private renderArc(group: IGroup) {
     // 也可以 通过 get('center') 类似的方式逐个获取
     const path = this.getArcPath();
     const style = this.get('style');

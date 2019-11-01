@@ -1,3 +1,4 @@
+import { IGroup } from '@antv/g-base/lib/interfaces';
 import GroupComponent from '../abstract/group-component';
 import { ILocation } from '../intefaces';
 import { PointLocationCfg, TextAnnotationCfg } from '../types';
@@ -39,7 +40,7 @@ class TextAnnotation extends GroupComponent<TextAnnotationCfg> implements ILocat
     this.resetLocation();
   }
 
-  protected renderInner(group) {
+  protected renderInner(group: IGroup) {
     this.renderText(group);
   }
 

@@ -3,12 +3,12 @@ import { Point } from '@antv/g-base/lib/types';
 import { isNumber, isString } from '@antv/util';
 import GroupComponent from '../abstract/group-component';
 import { ILocation } from '../intefaces';
-import { RegionLocationCfg } from '../types';
+import { LineAnnotationCfg, RegionLocationCfg } from '../types';
 import { getMatrixByAngle } from '../util/matrix';
 import Theme from '../util/theme';
 import { getValueByPercent } from '../util/util';
 
-class LineAnnotation extends GroupComponent implements ILocation<RegionLocationCfg> {
+class LineAnnotation extends GroupComponent<LineAnnotationCfg> implements ILocation<RegionLocationCfg> {
   /**
    * @protected
    * 默认的配置项

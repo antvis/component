@@ -1,10 +1,10 @@
 import { IGroup } from '@antv/g-base/lib/interfaces';
 import GroupComponent from '../abstract/group-component';
 import { ILocation } from '../intefaces';
-import { RegionLocationCfg } from '../types';
+import { ImageAnnotationCfg, RegionLocationCfg } from '../types';
 import { regionToBBox } from '../util/util';
 
-class ImageAnnotation extends GroupComponent implements ILocation<RegionLocationCfg> {
+class ImageAnnotation extends GroupComponent<ImageAnnotationCfg> implements ILocation<RegionLocationCfg> {
   /**
    * @protected
    * 默认的配置项
