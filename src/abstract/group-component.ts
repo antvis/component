@@ -2,9 +2,10 @@
  * @fileoverview 使用 G.Group 的组件
  * @author dxq613@gmail.com
  */
-import { IGroup } from '@antv/g-base/lib/interfaces';
+import { IElement, IGroup } from '@antv/g-base/lib/interfaces';
 import { each, mix } from '@antv/util';
-import { BBox, GroupComponentCfg } from '../types';
+import { BBox, GroupComponentCfg, Point } from '../types';
+import { getMatrixByTranslate } from '../util/matrix';
 import Component from './component';
 
 const STATUS_UPDATE = 'update_status';
@@ -56,14 +57,17 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
     const GroupClass = group.getGroupBase(); // 获取分组的构造函数
     const newGroup = new GroupClass({});
     this.renderInner(newGroup);
+    this.applyOffset();
     this.updateElements(newGroup, group);
     this.deleteElements();
+    newGroup.destroy(); // 销毁虚拟分组
   }
 
   public render() {
     this.set('isRegister', true);
     const group = this.get('group');
     this.renderInner(group);
+    this.applyOffset();
     this.set('isRegister', false);
   }
 
@@ -92,6 +96,16 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
   protected getElementByLocalId(localId) {
     const id = this.getElementId(localId);
     return this.getElementById(id);
+  }
+
+  // 应用 offset
+  protected applyOffset() {
+    const offsetX = this.get('offsetX');
+    const offsetY = this.get('offsetY');
+    this.moveElementTo(this.get('group'), {
+      x: offsetX,
+      y: offsetY,
+    });
   }
 
   protected init() {
@@ -153,6 +167,12 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
   protected registerElement(element) {
     const id = element.get('id');
     this.get('shapesMap')[id] = element;
+  }
+
+  // 移动元素
+  protected moveElementTo(element: IElement, point: Point) {
+    const matrix = getMatrixByTranslate(point);
+    element.attr('matrix', matrix);
   }
 
   /**

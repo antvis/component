@@ -4,6 +4,11 @@ export type LocationType = 'point' | 'Region' | 'points' | 'circle' | 'none';
 
 export { Point };
 
+export interface OffsetPoint {
+  offsetX: number;
+  offsetY: number;
+}
+
 export interface Region {
   /**
    * 起始点
@@ -840,4 +845,27 @@ export interface CircleLocationCfg extends LocationCfg {
    * @type {number}
    */
   endAngle?: number;
+}
+
+export interface TextAnnotationCfg extends GroupComponentCfg {
+  /**
+   * 文本标注位置 x
+   * @type {number}
+   */
+  x: number;
+  /**
+   * 文本标注位置 y
+   * @type {number}
+   */
+  y: number;
+  /**
+   * 文本标注内容
+   * @type {number}
+   */
+  content: string;
+  /**
+   * 文本标注样式
+   * @type {ShapeAttrs}
+   */
+  style: ShapeAttrs;
 }

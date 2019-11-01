@@ -168,6 +168,7 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
     const x = this.get('x');
     const y = this.get('y');
     const offset = this.get('offset');
+    const { offsetX, offsetY } = this.getOffset();
     const position = this.get('position');
     const region = this.get('region');
     const container = this.getContainer();
@@ -180,8 +181,8 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
     }
     const point = getAlignPoint(x, y, offset, width, height, position, limitBox);
     modifyCSS(container, {
-      left: toPx(point.x),
-      top: toPx(point.y),
+      left: toPx(point.x + offsetX),
+      top: toPx(point.y + offsetY),
     });
   }
   // 重置 title

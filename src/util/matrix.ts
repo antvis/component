@@ -8,5 +8,9 @@ export function getMatrixByAngle(point: Point, angle: number): number[] {
 }
 
 export function getMatrixByTranslate(point: Point): number[] {
+  if (!point.x && !point.y) {
+    // 0，0 或者 nan 的情况下返回 null
+    return null;
+  }
   return transform(identityMatrix, [['t', point.x, point.y]]);
 }

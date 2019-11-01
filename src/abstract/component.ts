@@ -1,7 +1,7 @@
 import { Base } from '@antv/g-base';
 import { deepMix, each, isObject } from '@antv/util';
 import { ILocation } from '../intefaces';
-import { BBox, ComponentCfg, LocationCfg, Point } from '../types';
+import { BBox, ComponentCfg, LocationCfg, OffsetPoint } from '../types';
 const LOCATION_FIELD_MAP = {
   none: [],
   point: ['x', 'y'],
@@ -74,10 +74,10 @@ abstract class Component<T extends ComponentCfg = ComponentCfg> extends Base imp
     return this.get('locationType');
   }
 
-  public getOffset(): Point {
+  public getOffset(): OffsetPoint {
     return {
-      x: this.get('offsetX'),
-      y: this.get('offsetY'),
+      offsetX: this.get('offsetX'),
+      offsetY: this.get('offsetY'),
     };
   }
 

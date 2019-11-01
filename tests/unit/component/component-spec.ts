@@ -49,9 +49,9 @@ describe('abastract component', () => {
   });
   it('location', () => {
     expect(a.getLocationType()).toBe('none');
-    expect(a.getOffset()).toEqual({ x: 0, y: 0 });
+    expect(a.getOffset()).toEqual({ offsetX: 0, offsetY: 0 });
     a.setOffset(10, 10);
-    expect(a.getOffset()).toEqual({ x: 10, y: 10 });
+    expect(a.getOffset()).toEqual({ offsetX: 10, offsetY: 10 });
   });
 
   it('update', () => {
