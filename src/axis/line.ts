@@ -1,6 +1,6 @@
 import { vec2 } from '@antv/matrix-util';
 import { ILocation } from '../intefaces';
-import { LineAxisCfg, Point, Region, RegionLocationCfg } from '../types';
+import { LineAxisCfg, Point, RegionLocationCfg } from '../types';
 import AxisBase from './base';
 
 class Line extends AxisBase<LineAxisCfg> implements ILocation<RegionLocationCfg> {
@@ -9,6 +9,7 @@ class Line extends AxisBase<LineAxisCfg> implements ILocation<RegionLocationCfg>
     return {
       ...cfg,
       type: 'line',
+      locationType: 'region',
       /**
        * 起始点, x, y
        * @type {object}
@@ -20,21 +21,6 @@ class Line extends AxisBase<LineAxisCfg> implements ILocation<RegionLocationCfg>
        */
       end: null,
     };
-  }
-  // 实现 IRegionLocation 获取位置的接口
-  public getLocation(): Region {
-    return {
-      start: this.get('start') as Point,
-      end: this.get('end') as Point,
-    };
-  }
-
-  // 实现 IRegionLocation 设置位置的接口
-  public setLocation(region: Region) {
-    this.update({
-      start: region.start,
-      end: region.end,
-    });
   }
 
   // 获取坐标轴线的 path

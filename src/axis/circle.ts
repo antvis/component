@@ -9,6 +9,7 @@ class Circle extends AxisBase<CircleAxisCfg> {
     return {
       ...cfg,
       type: 'circle',
+      locationType: 'circle',
       center: null,
       radius: null,
       startAngle: -Math.PI / 2,

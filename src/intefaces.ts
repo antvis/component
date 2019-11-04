@@ -1,7 +1,6 @@
 import { IBase } from '@antv/g-base/lib/interfaces';
-import { Point } from './types';
 
-import { BBox, ListItem, LocationCfg, LocationType, Range } from './types';
+import { BBox, ListItem, LocationCfg, LocationType, OffsetPoint, Range } from './types';
 
 export interface IList {
   getItems(): ListItem[];
@@ -23,7 +22,7 @@ export interface ILocation<T extends LocationCfg = LocationCfg> {
   getLocation(): T;
   setLocation(cfg: T);
   setOffset(offsetX: number, offsetY: number);
-  getOffset(): Point;
+  getOffset(): OffsetPoint;
 }
 
 // export interface IPointLocation extends ILocation<PointLocationCfg> {

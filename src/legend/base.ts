@@ -1,8 +1,7 @@
-import { IElement, IGroup } from '@antv/g-base/lib/interfaces';
+import { IGroup } from '@antv/g-base/lib/interfaces';
 import GroupComponent from '../abstract/group-component';
 import { ILocation } from '../intefaces';
 import { LegendBaseCfg, Point, PointLocationCfg } from '../types';
-import { getMatrixByTranslate } from '../util/matrix';
 import { formatPadding } from '../util/util';
 
 abstract class LegendBase<T extends LegendBaseCfg = LegendBaseCfg> extends GroupComponent
@@ -17,6 +16,7 @@ abstract class LegendBase<T extends LegendBaseCfg = LegendBaseCfg> extends Group
        * @type {String}
        */
       layout: 'horizontal',
+      locationType: 'point',
       x: 0,
       y: 0,
       offsetX: 0,
@@ -32,19 +32,6 @@ abstract class LegendBase<T extends LegendBaseCfg = LegendBaseCfg> extends Group
     this.resetLocation();
   }
 
-  public getLocation(): PointLocationCfg {
-    return {
-      x: this.get('x'),
-      y: this.get('y'),
-    };
-  }
-
-  // 移动元素
-  protected moveElementTo(element: IElement, point: Point) {
-    const matrix = getMatrixByTranslate(point);
-    element.attr('matrix', matrix);
-  }
-
   protected resetLocation() {
     const x = this.get('x');
     const y = this.get('y');
@@ -56,12 +43,16 @@ abstract class LegendBase<T extends LegendBaseCfg = LegendBaseCfg> extends Group
     });
   }
 
+  protected applyOffset() {
+    this.resetLocation();
+  }
+
   // 获取当前绘制的点
-  protected getDrawPoint() {
+  protected getDrawPoint(): Point {
     return this.get('currentPoint');
   }
 
-  protected setDrawPoint(point) {
+  protected setDrawPoint(point: Point) {
     return this.set('currentPoint', point);
   }
   // 复写父类定义的绘制方法
@@ -74,7 +65,7 @@ abstract class LegendBase<T extends LegendBaseCfg = LegendBaseCfg> extends Group
     if (this.get('background')) {
       this.drawBackground(group);
     }
-    this.resetLocation();
+    // this.resetLocation(); // 在顶层已经在处理偏移时一起处理了
   }
 
   protected abstract drawLegendContent(group);
