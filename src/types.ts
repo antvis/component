@@ -867,7 +867,7 @@ export interface TextAnnotationCfg extends GroupComponentCfg {
    * 文本标注样式
    * @type {ShapeAttrs}
    */
-  style: ShapeAttrs;
+  style?: ShapeAttrs;
 }
 
 export interface LineAnnotationCfg extends GroupComponentCfg {
@@ -875,22 +875,22 @@ export interface LineAnnotationCfg extends GroupComponentCfg {
    * 起始点
    * @type {Point}
    */
-  start: Point;
+  start?: Point;
   /**
    * 结束点
    * @type {Point}
    */
-  end: Point;
+  end?: Point;
   /**
    * 线上的文本配置
    * @type {LineAnnotationTextCfg}
    */
-  text: LineAnnotationTextCfg;
+  text?: LineAnnotationTextCfg;
   /**
    * 线的样式
    * @type {ShapeAttrs}
    */
-  style: ShapeAttrs;
+  style?: ShapeAttrs;
 }
 
 export interface LineAnnotationTextCfg {
@@ -898,32 +898,32 @@ export interface LineAnnotationTextCfg {
    * 位置，可以选择： start, end, center 和 '50%' 这类的百分比写法，默认 'center'
    * @type {string}
    */
-  position: string;
+  position?: string;
   /**
    * 自动旋转，沿着线的方向，默认 true
    * @type {boolean}
    */
-  autoRotate: boolean;
+  autoRotate?: boolean;
   /**
    * 文本内容
    * @type {string}
    */
-  content: string;
+  content?: string;
   /**
    * 文本的偏移 x
    * @type {number}
    */
-  offsetX: number;
+  offsetX?: number;
   /**
    * 文本的偏移 y
    * @type {number}
    */
-  offsetY: number;
+  offsetY?: number;
   /**
    * 文本属性
    * @type {ShapeAttrs}
    */
-  style: ShapeAttrs;
+  style?: ShapeAttrs;
 }
 
 export interface RegionAnnotationCfg extends GroupComponentCfg {
@@ -931,17 +931,17 @@ export interface RegionAnnotationCfg extends GroupComponentCfg {
    * 起始点
    * @type {Point}
    */
-  start: Point;
+  start?: Point;
   /**
    * 结束点
    * @type {Point}
    */
-  end: Point;
+  end?: Point;
   /**
    * 区域的样式
    * @type {ShapeAttrs}
    */
-  style: ShapeAttrs;
+  style?: ShapeAttrs;
 }
 
 export interface ImageAnnotationCfg extends GroupComponentCfg {
@@ -949,22 +949,22 @@ export interface ImageAnnotationCfg extends GroupComponentCfg {
    * 起始点
    * @type {Point}
    */
-  start: Point;
+  start?: Point;
   /**
    * 结束点
    * @type {Point}
    */
-  end: Point;
+  end?: Point;
   /**
    * 图片地址
    * @type {string}
    */
-  src: string;
+  src?: string;
   /**
    * 区域的样式
    * @type {ShapeAttrs}
    */
-  style: ShapeAttrs;
+  style?: ShapeAttrs;
 }
 
 export interface ArcAnnotationCfg extends GroupComponentCfg {
@@ -972,25 +972,25 @@ export interface ArcAnnotationCfg extends GroupComponentCfg {
    * 圆心
    * @type {Point}
    */
-  center: Point;
+  center?: Point;
   /**
    * 半径
    * @type {number}
    */
-  radius: number;
+  radius?: number;
   /**
    * 其实角度
    * @type {number}
    */
-  startAngle: number;
+  startAngle?: number;
   /**
    * 结束角度
    * @type {number}
    */
-  endAngle: number;
+  endAngle?: number;
   /**
    * 区域的样式
    * @type {ShapeAttrs}
    */
-  style: ShapeAttrs;
+  style?: ShapeAttrs;
 }
