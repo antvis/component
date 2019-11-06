@@ -1,7 +1,11 @@
+import { IGroup } from '@antv/g-base/lib/interfaces';
 import { vec2 } from '@antv/matrix-util';
+import { each, isFunction, isNumberEqual } from '@antv/util';
 import { ILocation } from '../intefaces';
 import { LineAxisCfg, Point, RegionLocationCfg } from '../types';
 import AxisBase from './base';
+import * as HideUtil from './overlap/auto-hide';
+import * as RotateUtil from './overlap/auto-rotate';
 
 class Line extends AxisBase<LineAxisCfg> implements ILocation<RegionLocationCfg> {
   public getDefaultCfg() {
@@ -33,6 +37,18 @@ class Line extends AxisBase<LineAxisCfg> implements ILocation<RegionLocationCfg>
     return path;
   }
 
+  protected isVertical() {
+    const start = this.get('start');
+    const end = this.get('end');
+    return isNumberEqual(start.x, end.x);
+  }
+
+  protected isHorizontal() {
+    const start = this.get('start');
+    const end = this.get('end');
+    return isNumberEqual(start.y, end.y);
+  }
+
   protected getTickPoint(tickValue: number): Point {
     const self = this;
     const start = self.get('start');
@@ -59,6 +75,89 @@ class Line extends AxisBase<LineAxisCfg> implements ILocation<RegionLocationCfg>
     const start = this.get('start');
     const end = this.get('end');
     return [end.x - start.x, end.y - start.y];
+  }
+
+  protected processOverlap(labelGroup) {
+    const isVertical = this.isVertical();
+    const isHorizontal = this.isHorizontal();
+    // 非垂直，或者非水平时不处理遮挡问题
+    if (!isVertical && !isHorizontal) {
+      return;
+    }
+    const labelCfg = this.get('label');
+    const titleCfg = this.get('title');
+    const verticalLimitLength = this.get('verticalLimitLength');
+    const labelOffset = labelCfg.offset;
+    let limitLength = verticalLimitLength;
+    let titleHeight = 0;
+    let titleSpacing = 0;
+    if (titleCfg) {
+      titleHeight = titleCfg.style.fontSize;
+      titleSpacing = titleCfg.spacing;
+    }
+    if (limitLength) {
+      limitLength = limitLength - labelOffset - titleSpacing - titleHeight;
+    }
+    const overlapOrder = this.get('overlapOrder');
+    each(overlapOrder, (name) => {
+      if (labelCfg[name]) {
+        this.autoProcessOverlap(name, labelCfg[name], labelGroup, limitLength);
+      }
+    });
+    if (titleCfg) {
+      // 调整 title 的 offset
+      const bbox = labelGroup.getBBox();
+      const length = isVertical ? bbox.width : bbox.height;
+      titleCfg.offset = labelOffset + length + titleSpacing + titleHeight / 2;
+    }
+  }
+
+  private autoProcessOverlap(name: string, value: any, labelGroup: IGroup, limitLength: number) {
+    const isVertical = this.isVertical();
+    if (name === 'autoRotate') {
+      let isRotate = false;
+      if (value === true) {
+        // 默认使用固定角度的旋转方案
+        isRotate = RotateUtil.fixedAngle(isVertical, labelGroup, limitLength);
+      } else if (isFunction(value)) {
+        // 用户可以传入回调函数
+        isRotate = value(isVertical, labelGroup, limitLength);
+      } else if (RotateUtil[value]) {
+        // 按照名称执行旋转函数
+        isRotate = RotateUtil[value](isVertical, labelGroup, limitLength);
+      }
+      // 文本旋转后，文本的对齐方式可能就不合适了
+      if (isRotate) {
+        const labels = labelGroup.getChildren();
+        const verticalFactor = this.get('verticalFactor');
+        each(labels, (label) => {
+          const textAlign = label.attr('textAlign');
+          if (textAlign === 'center') {
+            // 居中的文本需要调整旋转度
+            const newAlign = verticalFactor > 0 ? 'end' : 'start';
+            label.attr('textAlign', newAlign);
+          }
+        });
+      }
+    } else if (name === 'autoHide') {
+      if (value === true) {
+        HideUtil.equidistance(isVertical, labelGroup);
+      } else if (isFunction(value)) {
+        value(isVertical, labelGroup, limitLength);
+      } else if (HideUtil[value]) {
+        HideUtil[value](isVertical, labelGroup, limitLength);
+      }
+      const children = labelGroup.getChildren().slice(0); // 复制数组，删除时不会出错
+      each(children, (label) => {
+        if (!label.get('visible')) {
+          if (this.get('isRegister')) {
+            // 已经注册过了，则删除
+            this.unregisterElement(label);
+          }
+          label.remove(); // 防止 label 数量太多，所以统一删除
+        }
+      });
+    }
   }
 }
 

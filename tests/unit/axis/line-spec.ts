@@ -1,7 +1,10 @@
+import GroupUtil from '@antv/g-base/lib/util/group';
 import { Canvas } from '@antv/g-canvas';
 import { isNumberEqual } from '@antv/util';
 import LineAxis from '../../../src/axis/line';
-import { getMatrixByAngle } from '../../../src/util/matrix';
+import * as HideUtil from '../../../src/axis/overlap/auto-hide';
+import * as RotateUtil from '../../../src/axis/overlap/auto-rotate';
+import { getAngleByMatrix, getMatrixByAngle } from '../../../src/util/matrix';
 
 describe('test line axis', () => {
   const dom = document.createElement('div');
@@ -206,6 +209,214 @@ describe('test line axis', () => {
     expect(axis.destroyed).toEqual(true);
   });
 
+  afterAll(() => {
+    canvas.destroy();
+    dom.parentNode.removeChild(dom);
+  });
+});
+
+describe('test line axis overlap', () => {
+  const labels1 = ['123', '12', '2344', '13455222', '2345', '2333', '222', '2222', '11', '33'];
+  function getTicks(labels: string[]) {
+    const items = [];
+    const length = labels.length;
+    labels.forEach((label, index) => {
+      const value = index / (length - 1);
+      items.push({ name: label, id: index.toString(), value });
+    });
+    return items;
+  }
+
+  const dom = document.createElement('div');
+  document.body.appendChild(dom);
+  dom.id = 'calo';
+  const canvas = new Canvas({
+    container: 'calo',
+    width: 500,
+    height: 500,
+  });
+  const ticks = getTicks(labels1);
+  const container = canvas.addGroup();
+  const axis = new LineAxis({
+    animate: false,
+    id: 'a',
+    container,
+    start: { x: 100, y: 100 },
+    end: { x: 200, y: 100 },
+    ticks,
+    title: {
+      text: '标题',
+    },
+  });
+
+  it('init', () => {
+    expect(axis.get('label').autoHide).toBe(false);
+    expect(axis.get('label').autoRotate).toBe(true);
+  });
+  it('render', () => {
+    axis.render();
+    const tickLineGroup = axis.getElementById('a-axis-tickline-group');
+    expect(tickLineGroup.getChildren().length).toBe(ticks.length);
+    const labelGroup = axis.getElementById('a-axis-label-group');
+    expect(labelGroup.getChildren().length).toBe(ticks.length);
+    const first = labelGroup.getChildren()[0];
+    expect(first.attr('matrix')).not.toBe(null);
+    expect(getAngleByMatrix(first.attr('matrix'))).not.toBe(0);
+  });
+
+  it('update autoHide', () => {
+    axis.update({
+      label: {
+        autoHide: true,
+      },
+    });
+    const tickLineGroup = axis.getElementById('a-axis-tickline-group');
+    expect(tickLineGroup.getChildren().length).not.toBe(ticks.length);
+    const labelGroup = axis.getElementById('a-axis-label-group');
+    expect(labelGroup.getChildren().length).not.toBe(ticks.length);
+    expect(tickLineGroup.getChildren().length).toBe(labelGroup.getChildren().length);
+    axis.update({
+      tickLine: {
+        displayWithLabel: false,
+      },
+    });
+    expect(tickLineGroup.getChildren().length).not.toBe(labelGroup.getChildren().length);
+    axis.update({
+      tickLine: {
+        displayWithLabel: true,
+      },
+    });
+    expect(tickLineGroup.getChildren().length).toBe(labelGroup.getChildren().length);
+  });
+
+  it('update autoRotate', () => {
+    axis.update({
+      label: {
+        autoRotate: false,
+        autoHide: false,
+      },
+    });
+
+    const labelGroup = axis.getElementById('a-axis-label-group');
+    const first = labelGroup.getChildren()[0];
+    expect(first.attr('matrix')).toBe(null);
+    expect(labelGroup.getChildren().length).toBe(ticks.length);
+
+    axis.update({
+      label: {
+        autoRotate: true,
+        autoHide: false,
+      },
+    });
+    expect(first.attr('matrix')).not.toBe(null);
+    expect(labelGroup.getChildren().length).toBe(ticks.length);
+  });
+
+  it('vertical axis', () => {
+    axis.update({
+      start: { x: 100, y: 100 },
+      end: { x: 100, y: 200 },
+      verticalLimitLength: null,
+      label: {
+        autoRotate: true,
+        autoHide: false,
+      },
+    });
+    const labelGroup = axis.getElementById('a-axis-label-group');
+    const first = labelGroup.getChildren()[0];
+    expect(first.attr('matrix')).toBe(null);
+    axis.update({
+      verticalLimitLength: 40,
+    });
+    expect(first.attr('matrix')).not.toBe(null);
+
+    axis.update({
+      verticalLimitLength: null,
+      label: {
+        autoRotate: false,
+        autoHide: true,
+      },
+    });
+    expect(labelGroup.getChildren().length).toBe(Math.ceil(ticks.length / 2));
+
+    axis.update({
+      end: { x: 100, y: 100 },
+      start: { x: 100, y: 200 },
+    });
+
+    expect(labelGroup.getChildren().length).toBe(Math.ceil(ticks.length / 2));
+
+    axis.update({
+      end: { x: 100, y: 100 },
+      start: { x: 100, y: 300 },
+    });
+    expect(labelGroup.getChildren().length).toBe(ticks.length);
+  });
+
+  it('horizontal axis', () => {
+    axis.update({
+      start: { x: 100, y: 200 },
+      end: { x: 200, y: 200 },
+      verticalLimitLength: null,
+      verticalFactor: -1,
+      label: {
+        autoRotate: true,
+        autoHide: false,
+      },
+    });
+    const labelGroup = axis.getElementById('a-axis-label-group');
+    const first = labelGroup.getChildren()[0];
+    expect(first.attr('matrix')).not.toBe(null);
+    expect(getAngleByMatrix(first.attr('matrix'))).toBe(Math.PI / 4);
+    axis.update({
+      verticalLimitLength: 30,
+      label: {
+        autoRotate: true,
+        autoHide: true,
+      },
+    });
+    expect(labelGroup.getChildren().length).toBe(Math.ceil(ticks.length / 2));
+    axis.update({
+      verticalLimitLength: 30,
+      title: null,
+      label: {
+        autoRotate: 'unfixedAngle',
+        autoHide: true,
+      },
+    });
+    expect(getAngleByMatrix(first.attr('matrix'))).not.toBe(Math.PI / 4);
+    axis.update({
+      verticalLimitLength: 30,
+      label: {
+        autoRotate: true,
+        autoHide: 'reserveBoth',
+      },
+    });
+    expect(labelGroup.getChildren().length).toBe(2);
+    axis.update({
+      verticalLimitLength: 40,
+      label: {
+        autoRotate: true,
+        autoHide: 'reserveBoth',
+      },
+    });
+    expect(labelGroup.getChildren().length).toBe(Math.ceil(ticks.length / 2));
+    axis.update({
+      label: {
+        autoRotate: false,
+        autoHide: HideUtil.reserveLast,
+      },
+    });
+    expect(labelGroup.getChildren()[0].attr('text')).not.toBe(labels1[0]);
+    expect(GroupUtil.getLast(labelGroup).attr('text')).toBe(labels1[labels1.length - 1]);
+    axis.update({
+      label: {
+        autoRotate: RotateUtil.unfixedAngle,
+        autoHide: HideUtil.reserveLast,
+      },
+    });
+    expect(GroupUtil.getLast(labelGroup).attr('text')).toBe(labels1[labels1.length - 1]);
+  });
   afterAll(() => {
     canvas.destroy();
     dom.parentNode.removeChild(dom);

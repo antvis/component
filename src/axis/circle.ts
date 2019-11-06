@@ -1,5 +1,4 @@
 import { vec2 } from '@antv/matrix-util';
-import { isNumberEqual } from '@antv/util';
 import { CircleAxisCfg, Point } from '../types';
 import AxisBase from './base';
 
@@ -42,17 +41,6 @@ class Circle extends AxisBase<CircleAxisCfg> {
       ];
     }
     return path;
-  }
-  protected getTextAnchor(vector: number[]): string {
-    let align;
-    if (isNumberEqual(vector[0], 0)) {
-      align = 'center';
-    } else if (vector[0] > 0) {
-      align = 'start';
-    } else if (vector[0] < 0) {
-      align = 'end';
-    }
-    return align;
   }
 
   protected getTickPoint(tickValue): Point {

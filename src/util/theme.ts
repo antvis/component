@@ -4,4 +4,6 @@ export default {
   textColor: '#ccc',
   lineColor: '#416180',
   regionColor: '#CCD7EB',
+  verticalAxisRotate: -Math.PI / 4,
+  horizontalAxisRotate: Math.PI / 4,
 };
