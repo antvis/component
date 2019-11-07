@@ -33,6 +33,7 @@ export default {
     padding: 0,
   },
   [`${CssConst.LIST_ITEM_CLASS}`]: {
+    listStyleType: 'none',
     marginBottom: '4px',
   },
   [`${CssConst.MARKER_CLASS}`]: {
