@@ -106,9 +106,9 @@ class Line extends Base {
     let titleOffset = title.offset;
     if (Util.isNil(titleOffset)) { // 没有指定 offset 则自动计算
       titleOffset = 20;
-      const labelsGroup = self.get('labelsGroup');
-      if (labelsGroup) {
-        const labelLength = self.getMaxLabelWidth(labelsGroup);
+      const labelRenderer = self.get('labelRenderer');
+      if (labelRenderer) {
+        const labelLength = self.getMaxLabelWidth(labelRenderer);
         const labelOffset = self.get('label').offset || self.get('_labelOffset');
         titleOffset += labelLength + labelOffset;
       }
