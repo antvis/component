@@ -169,6 +169,11 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
     this.get('shapesMap')[id] = element;
   }
 
+  protected unregisterElement(element) {
+    const id = element.get('id');
+    delete this.get('shapesMap')[id];
+  }
+
   // 移动元素
   protected moveElementTo(element: IElement, point: Point) {
     const matrix = getMatrixByTranslate(point);
@@ -241,6 +246,7 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
         if (element.isGroup()) {
           this.updateElements(element, originElement);
         }
+
         preElement = originElement;
         // 执行完更新后设置状态位为更新
         originElement.set(STATUS_UPDATE, 'update');

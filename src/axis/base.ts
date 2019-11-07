@@ -1,7 +1,9 @@
 import { IGroup } from '@antv/g-base/lib/interfaces';
+import GroupUtil from '@antv/g-base/lib/util/group';
 import { vec2 } from '@antv/matrix-util';
-import { each, isNil, mix } from '@antv/util';
+import { each, isNil, isNumberEqual, mix } from '@antv/util';
 import GroupComponent from '../abstract/group-component';
+
 // import { IList } from '../intefaces';
 import { AxisBaseCfg, ListItem, Point } from '../types';
 import { getMatrixByAngle } from '../util/matrix';
@@ -26,6 +28,9 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
        * 垂直于坐标轴方向的因子，决定文本、title、tickLine 在坐标轴的哪一侧
        */
       verticalFactor: 1,
+      // 垂直方向限制的长度，对文本自适应有很大影响
+      verticalLimitLength: null,
+      overlapOrder: ['autoRotate', 'autoHide'],
       defaultCfg: {
         line: {
           // @type {Attrs} 坐标轴线的图形属性,如果设置成null，则不显示轴线
@@ -42,6 +47,7 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
           },
           alignTick: true, // 是否同 tick 对齐
           length: 5,
+          displayWithLabel: true,
         },
         subTickLine: {
           // @type {Attrs} 标注坐标线的图形属性
@@ -54,7 +60,7 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
         },
         label: {
           autoRotate: true,
-          autoHide: true,
+          autoHide: false,
           style: {
             fontSize: 12,
             fill: Theme.textColor,
@@ -65,6 +71,7 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
         },
         title: {
           autoRotate: true,
+          spacing: 5,
           position: 'center', // start, center, end
           style: {
             fontSize: 12,
@@ -86,11 +93,11 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
     if (this.get('line')) {
       this.drawLine(group);
     }
+    // drawTicks 包括 drawLabels 和 drawTickLines
+    this.drawTicks(group);
     if (this.get('title')) {
       this.drawTitle(group);
     }
-    // drawTicks 包括 drawLabels 和 drawTickLines
-    this.drawTicks(group);
   }
 
   // IList 接口的实现
@@ -145,22 +152,18 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
   protected abstract getTickPoint(tickValue: number): Point;
 
   protected getTextAnchor(vector: number[]): string {
-    const ratio = Math.abs(vector[1] / vector[0]);
     let align;
-    if (ratio >= 1) {
-      // 上面或者下面
+    if (isNumberEqual(vector[0], 0)) {
       align = 'center';
-    } else {
-      if (vector[0] > 0) {
-        // 右侧
-        align = 'start';
-      } else {
-        // 左侧
-        align = 'end';
-      }
+    } else if (vector[0] > 0) {
+      align = 'start';
+    } else if (vector[0] < 0) {
+      align = 'end';
     }
     return align;
   }
+
+  protected processOverlap(labelGroup) {}
 
   // 绘制坐标轴线
   private drawLine(group: IGroup) {
@@ -201,6 +204,7 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
         startPoint: point,
         tickValue: tick.value,
         endPoint,
+        tickId: tick.id,
         id: `tickline-${tick.id}`,
       });
     });
@@ -274,9 +278,17 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
       name: 'axis-tickline-group',
       id: this.getElementId('tickline-group'),
     });
-
+    const tickCfg = this.get('tickLine');
     each(tickLineItems, (item) => {
-      this.drawTick(item, tickLineGroup);
+      if (tickCfg.displayWithLabel) {
+        // 如果跟随 label 显示，则检测是否存在对应的 label
+        const labelId = this.getElementId(`label-${item.tickId}`);
+        if (GroupUtil.findById(group, labelId)) {
+          this.drawTick(item, tickLineGroup);
+        }
+      } else {
+        this.drawTick(item, tickLineGroup);
+      }
     });
 
     if (subTickLine) {
@@ -349,6 +361,7 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
         attrs: this.getLabelAttrs(tick, index),
       });
     });
+    this.processOverlap(labelGroup);
   }
 
   // 标题的属性

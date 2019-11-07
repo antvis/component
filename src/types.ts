@@ -159,6 +159,9 @@ export interface AxisTickLineCfg {
   length: number;
 }
 
+type avoidRotateCallback = (isVertical: boolean, labelGroup: IGroup, limitLength?: number) => boolean;
+type autoHideCallback = (isVertical: boolean, labelGroup: IGroup, limitLength?: number) => void;
+
 /**
  * @interface
  * 坐标轴文本定义
@@ -171,14 +174,14 @@ export interface AxisLabelCfg {
   style: ShapeAttrs;
   /**
    * 是否自动旋转，默认 true
-   * @type {boolean}
+   * @type {boolean|avoidRotateCallback|string}
    */
-  autoRotate: boolean;
+  autoRotate: boolean | avoidRotateCallback | string;
   /**
    * 是否自动隐藏，默认 true
-   * @type {boolean}
+   * @type {boolean|autoHideCallback|string}
    */
-  autoHide: boolean;
+  autoHide: boolean | autoHideCallback | string;
 }
 
 /**
@@ -358,9 +361,18 @@ export interface AxisBaseCfg extends GroupComponentCfg {
    */
   label?: AxisLabelCfg;
   /**
-   * 垂直于坐标轴方向的因子，决定文本、title、tickLine 在坐标轴的哪一侧
+   * 垂直于坐标轴方向的因子，决定文本、title、tickLine 在坐标轴的哪一侧，默认是 1，在坐标轴逆时针方向
    */
   verticalFactor?: number;
+  /**
+   * 垂直于坐标轴方向的限制长度，防止文本超出
+   * @type {number}
+   */
+  verticalLimitLength?: number;
+  /**
+   * 处理遮挡时的顺序，默认 ['autoRotate', 'autoHide']
+   */
+  overlapOrder?: string[];
 }
 
 export interface LineAxisCfg extends AxisBaseCfg {
