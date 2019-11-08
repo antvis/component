@@ -185,6 +185,10 @@ class Category extends LegendBase<CategoryLegendCfg> {
     const subGroup = this.addGroup(itemGroup, {
       name: 'legend-item',
       id: this.getElementId(groupId),
+      delegationObject: {
+        item,
+        index,
+      },
     });
     const marker = this.get('marker');
     const itemName = this.get('itemName');

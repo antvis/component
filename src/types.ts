@@ -159,8 +159,7 @@ export interface AxisTickLineCfg {
   length: number;
 }
 
-type avoidRotateCallback = (isVertical: boolean, labelGroup: IGroup, limitLength?: number) => boolean;
-type autoHideCallback = (isVertical: boolean, labelGroup: IGroup, limitLength?: number) => void;
+type avoidCallback = (isVertical: boolean, labelGroup: IGroup, limitLength?: number) => boolean;
 
 /**
  * @interface
@@ -174,14 +173,19 @@ export interface AxisLabelCfg {
   style: ShapeAttrs;
   /**
    * 是否自动旋转，默认 true
-   * @type {boolean|avoidRotateCallback|string}
+   * @type {boolean|avoidCallback|string}
    */
-  autoRotate: boolean | avoidRotateCallback | string;
+  autoRotate: boolean | avoidCallback | string;
   /**
-   * 是否自动隐藏，默认 true
-   * @type {boolean|autoHideCallback|string}
+   * 是否自动隐藏，默认 false
+   * @type {boolean|avoidCallback|string}
    */
-  autoHide: boolean | autoHideCallback | string;
+  autoHide: boolean | avoidCallback | string;
+  /**
+   * 是否自动省略，默认 false
+   * @type {boolean|avoidCallback|string}
+   */
+  autoEllipsis: boolean | avoidCallback | string;
 }
 
 /**

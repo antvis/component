@@ -77,81 +77,68 @@ describe('test auto hide', () => {
   }
 
   it('reserve first, vertical, no rotate', () => {
-    HideUtil.reserveFirst(true, group, 0); // empty
-    // 足够高度的文本
+    HideUtil.reserveFirst(true, group); // empty
+    // 不会重叠
     addLabels(0, 20);
-    HideUtil.reserveFirst(true, group, 50);
-    expect(getCount(group)).toBe(labels.length - 1); // 13455222 超出限制
-
-    // 不会存在超出限制
-    addLabels(0, 20);
-    HideUtil.reserveFirst(true, group, 60);
+    HideUtil.reserveFirst(true, group);
     expect(getCount(group)).toBe(labels.length);
 
     // 没有足够的高度，纵向会重叠
     addLabels(0, 10);
-    HideUtil.reserveFirst(true, group, 60); // 仅仅去除高度上重叠的
+    HideUtil.reserveFirst(true, group); // 仅仅去除高度上重叠的
     expect(getFirst(group).attr('text')).toBe(labels[0]);
     expect(getCount(group)).toBe(Math.round(labels.length / 2)); // 剩余一半
   });
 
   it('reserve first, vertical, width rotate', () => {
     addLabels(0, 20, -Math.PI / 4); // 文本旋转
-    HideUtil.reserveFirst(true, group, 50); // 留出足够的空间，旋转后可以放开
+    HideUtil.reserveFirst(true, group); // 足够的高度
     expect(group.getChildren().length).toBe(labels.length);
 
-    addLabels(0, 20, -Math.PI / 4); // 文本旋转
-    HideUtil.reserveFirst(true, group, 40); // 最长的被去除
-    expect(getCount(group)).toBe(labels.length - 1);
-
     addLabels(0, 10, -Math.PI / 4);
-    HideUtil.reserveFirst(true, group, 40); // 最长的被去除
+    HideUtil.reserveFirst(true, group); // 最长的被去除
     expect(getCount(group)).toBe(Math.round(labels.length / 2)); // 剩余一半
-
-    addLabels(0, 10, -Math.PI / 4);
-    HideUtil.reserveFirst(true, group, 20); // 留下很小的长度
-    expect(getCount(group)).toBe(2);
   });
 
   it('reserve first, horizontal, no rotate', () => {
     addLabels(40, 0); // 不旋转的文本
-    HideUtil.reserveFirst(false, group, 20);
+    HideUtil.reserveFirst(false, group);
     expect(getCount(group)).toBe(labels.length - 1);
 
     addLabels(25, 0);
-    HideUtil.reserveFirst(false, group, 20);
+    HideUtil.reserveFirst(false, group);
     expect(getCount(group)).toBe(labels.length - 3);
 
     addLabels(60, 0); // 没有遮挡
-    HideUtil.reserveFirst(false, group, 20);
+    HideUtil.reserveFirst(false, group);
     expect(getCount(group)).toBe(labels.length);
   });
 
   it('reserve first, horizontal, with rotate', () => {
     addLabels(40, 0, Math.PI / 4);
-    HideUtil.reserveFirst(false, group, 30); // 限制高度，部分旋转的会超出这个高度
-    expect(getCount(group)).toBe(labels.length - 1);
+    HideUtil.reserveFirst(false, group); // 旋转后不会重叠
+    expect(getCount(group)).toBe(labels.length);
 
     addLabels(10, 0, Math.PI / 4); // 非常密集
-    HideUtil.reserveFirst(false, group, 50); // 不超出限制
+    HideUtil.reserveFirst(false, group); // 不超出限制
     expect(getCount(group)).toBe(Math.round(labels.length / 2)); // 剩余一半
     expect(getFirst(group).attr('text')).toBe(labels[0]); // 保留第一个
   });
 
   it('reserve last, vertical', () => {
     addLabels(0, 10); // 没有足够的高度
-    HideUtil.reserveLast(true, group, 60); // 不处理超出限制的
+    HideUtil.reserveLast(true, group); // 不处理超出限制的
     expect(getFirst(group).attr('text')).not.toBe(labels[0]); // 保留第一个
     expect(getLast(group).attr('text')).toBe(labels[labels.length - 1]);
 
     addLabels(30, 0);
-    HideUtil.reserveLast(false, group, 30);
+    HideUtil.reserveLast(false, group);
     expect(getLast(group).attr('text')).toBe(labels[labels.length - 1]);
   });
 
   it('reserve both', () => {
     addLabels(0, 10); // 没有足够的高度
-    HideUtil.reserveBoth(true, group, 60);
+    HideUtil.reserveBoth(true, group);
     expect(getCount(group)).toBe(Math.ceil(labels.length / 2)); // 剩余一半
     expect(getFirst(group).attr('text')).toBe(labels[0]); //
     expect(getLast(group).attr('text')).toBe(labels[labels.length - 1]);
@@ -205,10 +192,10 @@ describe('test auto hide', () => {
 
   it('reseve no limit', () => {
     addLabels(0, 20);
-    HideUtil.reserveFirst(true, group, null);
+    HideUtil.reserveFirst(true, group);
     expect(getCount(group)).toBe(labels.length); // 13455222 超出限制
 
-    HideUtil.reserveLast(true, group, null);
+    HideUtil.reserveLast(true, group);
     expect(getCount(group)).toBe(labels.length);
   });
 });

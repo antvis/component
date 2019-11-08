@@ -7,8 +7,10 @@ import { each, mix } from '@antv/util';
 import { BBox, GroupComponentCfg, Point } from '../types';
 import { getMatrixByTranslate } from '../util/matrix';
 import Component from './component';
+type Callback = (evt: object) => void;
 
 const STATUS_UPDATE = 'update_status';
+const COPY_POPERTYS = ['visible', 'tip', 'delegationObject']; // 更新对象时需要复制的属性
 
 abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> extends Component {
   public getDefaultCfg() {
@@ -55,7 +57,9 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
     super.update(cfg);
     const group = this.get('group');
     const GroupClass = group.getGroupBase(); // 获取分组的构造函数
-    const newGroup = new GroupClass({});
+    const newGroup = new GroupClass({
+      delegationObject: this.getDelegationObject(), // 生成委托事件触发时附加的对象
+    });
     this.renderInner(newGroup);
     this.applyOffset();
     this.updateElements(newGroup, group);
@@ -90,7 +94,25 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
   }
 
   public getBBox(): BBox {
-    return this.get('container').getBBox();
+    return this.get('group').getCanvasBBox();
+  }
+
+  // 复写 on, off, emit 透传到 group
+  public on(evt: string, callback: Callback, once?: boolean): this {
+    const group = this.get('group');
+    group.on(evt, callback, once);
+    return this;
+  }
+
+  public off(evt?: string, callback?: Callback): this {
+    const group = this.get('group');
+    group && group.off(evt, callback);
+    return this;
+  }
+
+  public emit(eventName: string, eventObject: object) {
+    const group = this.get('group');
+    group.emit(eventName, eventObject);
   }
 
   protected getElementByLocalId(localId) {
@@ -122,6 +144,7 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
         name: this.get('name'),
         capture: this.get('capture'),
         visible: this.get('visible'),
+        delegationObject: this.getDelegationObject(),
       })
     );
   }
@@ -133,6 +156,7 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
    * @param {object} cfg    分组的配置项
    */
   protected addGroup(parent: IGroup, cfg) {
+    this.appendDelegationObject(parent, cfg);
     const group = parent.addGroup(cfg);
     if (this.get('isRegister')) {
       this.registerElement(group);
@@ -147,6 +171,7 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
    * @param {object} cfg    分组的配置项
    */
   protected addShape(parent: IGroup, cfg) {
+    this.appendDelegationObject(parent, cfg);
     const shape = parent.addShape(cfg);
     if (this.get('isRegister')) {
       this.registerElement(shape);
@@ -223,6 +248,24 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
     originElement.animate(attrs, animateCfg);
   }
 
+  // 获取发生委托时的对象，在事件中抛出
+  private getDelegationObject() {
+    const name = this.get('name');
+    const delegationObject = {
+      [name]: this,
+    };
+    return delegationObject;
+  }
+
+  // 附加委托信息，用于事件
+  private appendDelegationObject(parent: IGroup, cfg) {
+    const parentObject = parent.get('delegationObject');
+    if (!cfg.delegationObject) {
+      cfg.delegationObject = {};
+    }
+    mix(cfg.delegationObject, parentObject); // 将父元素上的委托信息复制到自身
+  }
+
   // 更新组件的图形
   private updateElements(newGroup, originGroup) {
     const animate = this.get('animate');
@@ -246,6 +289,10 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
         if (element.isGroup()) {
           this.updateElements(element, originElement);
         }
+        // 复制属性
+        each(COPY_POPERTYS, (name) => {
+          originElement.set(element.get(name));
+        });
 
         preElement = originElement;
         // 执行完更新后设置状态位为更新
