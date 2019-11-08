@@ -89,7 +89,16 @@ describe('test tooltip', () => {
       expect(xdom.style.top).toBe('100px');
       expect(xdom.style.left).toBe('200px');
       expect(xdom.style.height).toBe('300px');
-
+      tooltip.hide();
+      expect(xdom.style.display).toBe('none');
+      tooltip.show();
+      expect(xdom.style.display).toBe('');
+      tooltip.setLocation({ x: 300, y: 300 });
+      expect(xdom.style.top).toBe('100px');
+      expect(xdom.style.left).toBe('300px');
+      tooltip.setLocation({ x: 200, y: 200 });
+      expect(xdom.style.top).toBe('100px');
+      expect(xdom.style.left).toBe('200px');
       tooltip.update({
         crosshairs: 'xy',
       });
