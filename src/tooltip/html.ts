@@ -68,7 +68,6 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
     this.renderItems();
     // 绘制完成后，再定位
     this.resetPosition();
-    this.resetCrosshairs();
   }
 
   // 复写清空函数，因为有模板的存在，所以默认的写法不合适
@@ -90,19 +89,10 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
     if (hasKey(cfg, 'items')) {
       this.renderItems();
     }
-
-    // 更新 crosshairs
-    if (hasKey(cfg, 'crosshairs')) {
-      this.resetCrosshairs();
-    }
     // 更新样式
     if (hasKey(cfg, 'domStyle')) {
       this.resetStyles();
       this.applyStyles();
-    }
-    // 更新限制区域
-    if (hasOneKey(cfg, ['region', 'crosshairsRegion'])) {
-      this.resetCrosshairs(); // crosshair 受限制区域的影响
     }
     // 只要属性发生变化，都调整一些位置
     this.resetPosition();
@@ -118,6 +108,7 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
     modifyCSS(container, {
       visibility: 'visible',
     });
+    this.setCrossHairsVisible(true);
   }
 
   public hide() {
@@ -130,6 +121,7 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
     modifyCSS(container, {
       visibility: 'hidden',
     });
+    this.setCrossHairsVisible(false);
   }
 
   // 实现 IPointLocation 的接口
@@ -141,6 +133,20 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
     this.set('x', point.x);
     this.set('y', point.y);
     this.resetPosition();
+  }
+
+  public setCrossHairsVisible(visible) {
+    const display = visible ? '' : 'none';
+    const xCrosshairDom = this.get('xCrosshairDom');
+    const yCrosshairDom = this.get('yCrosshairDom');
+    xCrosshairDom &&
+      modifyCSS(xCrosshairDom, {
+        display,
+      });
+    yCrosshairDom &&
+      modifyCSS(yCrosshairDom, {
+        display,
+      });
   }
 
   protected initContainer() {
@@ -184,6 +190,7 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
       left: toPx(point.x + offsetX),
       top: toPx(point.y + offsetY),
     });
+    this.resetCrosshairs();
   }
   // 重置 title
   private resetTitle() {
@@ -251,6 +258,7 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
       });
     }
   }
+
   // 如果 crosshair 对应的 dom 不存在，则创建
   private checkCrosshair(name: string) {
     const domName = `${name}CrosshairDom`;
