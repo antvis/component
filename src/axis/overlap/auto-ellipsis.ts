@@ -30,13 +30,9 @@ function ellipsisLabel(isVertical: boolean, label: IElement, limitLength: number
   const labelLength = getLabelLength(isVertical, label);
   const codeLength = strLen(text);
   let ellipsised = false;
-  // 文本长度大于 2，文本长度超出限制长度时进行省略
   if (limitLength < labelLength) {
+    const reseveLength = Math.floor((limitLength / labelLength) * codeLength) - ELLIPSIS_CODE_LENGTH; // 计算出来的应该保存的长度
     let newText;
-    if (codeLength <= ELLIPSIS_CODE_LENGTH) {
-      newText = ELLIPSIS_CODE;
-    }
-    const reseveLength = Math.floor((limitLength / labelLength) * codeLength) - 2; // 计算出来的应该保存的长度
     if (reseveLength >= 0) {
       newText = ellipsisString(text, reseveLength, position);
     } else {
