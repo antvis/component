@@ -1,6 +1,6 @@
 import { IGroup } from '@antv/g-base/lib/interfaces';
 import GroupComponent from '../abstract/group-component';
-import { ILocation } from '../intefaces';
+import { ILocation } from '../interfaces';
 import { RegionAnnotationCfg, RegionLocationCfg } from '../types';
 import Theme from '../util/theme';
 import { regionToBBox } from '../util/util';

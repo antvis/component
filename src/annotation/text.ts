@@ -1,6 +1,6 @@
 import { IGroup } from '@antv/g-base/lib/interfaces';
 import GroupComponent from '../abstract/group-component';
-import { ILocation } from '../intefaces';
+import { ILocation } from '../interfaces';
 import { PointLocationCfg, TextAnnotationCfg } from '../types';
 import Theme from '../util/theme';
 

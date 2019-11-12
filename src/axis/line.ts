@@ -1,7 +1,7 @@
 import { IGroup } from '@antv/g-base/lib/interfaces';
 import { vec2 } from '@antv/matrix-util';
 import { each, isFunction, isNumberEqual } from '@antv/util';
-import { ILocation } from '../intefaces';
+import { ILocation } from '../interfaces';
 import { LineAxisCfg, Point, RegionLocationCfg } from '../types';
 import AxisBase from './base';
 import * as OverlapUtil from './overlap';

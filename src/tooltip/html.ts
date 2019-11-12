@@ -7,7 +7,7 @@ import { clearDom, hasClass, regionToBBox } from '../util/util';
 import * as CssConst from './css-const';
 import TooltipTheme from './html-theme';
 
-import { ILocation } from '../intefaces';
+import { ILocation } from '../interfaces';
 import { getAlignPoint } from '../util/align';
 
 function toPx(number) {

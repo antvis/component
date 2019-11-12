@@ -56,10 +56,7 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
   public update(cfg: Partial<T>) {
     super.update(cfg);
     const group = this.get('group');
-    const GroupClass = group.getGroupBase(); // 获取分组的构造函数
-    const newGroup = new GroupClass({
-      delegationObject: this.getDelegationObject(), // 生成委托事件触发时附加的对象
-    });
+    const newGroup = this.createOffScreenGroup();
     this.renderInner(newGroup);
     this.applyOffset();
     this.updateElements(newGroup, group);
@@ -113,6 +110,15 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
   public emit(eventName: string, eventObject: object) {
     const group = this.get('group');
     group.emit(eventName, eventObject);
+  }
+
+  protected createOffScreenGroup() {
+    const group = this.get('group');
+    const GroupClass = group.getGroupBase(); // 获取分组的构造函数
+    const newGroup = new GroupClass({
+      delegationObject: this.getDelegationObject(), // 生成委托事件触发时附加的对象
+    });
+    return newGroup;
   }
 
   protected getElementByLocalId(localId) {
@@ -240,34 +246,15 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
    * 图形元素的更新动画
    * @param {string} elmentName 图形元素名称
    * @param {IElement} originElement 现有的图形元素
-   * @param {IElement} newElement  新的图形元素
+   * @param {object} newAttrs  新的图形元素
    * @param {object} animateCfg 动画的配置项
    */
-  protected updateAnimation(elementName, originElement, newElement, animateCfg) {
-    const attrs = newElement.attr();
-    originElement.animate(attrs, animateCfg);
-  }
-
-  // 获取发生委托时的对象，在事件中抛出
-  private getDelegationObject() {
-    const name = this.get('name');
-    const delegationObject = {
-      [name]: this,
-    };
-    return delegationObject;
-  }
-
-  // 附加委托信息，用于事件
-  private appendDelegationObject(parent: IGroup, cfg) {
-    const parentObject = parent.get('delegationObject');
-    if (!cfg.delegationObject) {
-      cfg.delegationObject = {};
-    }
-    mix(cfg.delegationObject, parentObject); // 将父元素上的委托信息复制到自身
+  protected updateAnimation(elementName, originElement, newAttrs, animateCfg) {
+    originElement.animate(newAttrs, animateCfg);
   }
 
   // 更新组件的图形
-  private updateElements(newGroup, originGroup) {
+  protected updateElements(newGroup, originGroup) {
     const animate = this.get('animate');
     const animateCfg = this.get('animateCfg');
     const children = newGroup.getChildren().slice(0); // 创建一个新数组，防止添加到 originGroup 时， children 变动
@@ -277,13 +264,14 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
       const originElement = this.getElementById(elementId);
       const elementName = element.get('name');
       if (originElement) {
+        const replaceAttrs = this.getReplaceAttrs(originElement, element);
         // 更新
         if (animate) {
           // 没有动画
-          this.updateAnimation(elementName, originElement, element, animateCfg);
+          this.updateAnimation(elementName, originElement, replaceAttrs, animateCfg);
         } else {
-          const attrs = element.attr();
-          originElement.attr(attrs);
+          // originElement.attrs = replaceAttrs; // 直接替换
+          originElement.attr(replaceAttrs);
         }
         // 如果是分组，则继续执行
         if (element.isGroup()) {
@@ -322,6 +310,36 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
         }
       }
     });
+  }
+
+  // 获取发生委托时的对象，在事件中抛出
+  private getDelegationObject() {
+    const name = this.get('name');
+    const delegationObject = {
+      [name]: this,
+    };
+    return delegationObject;
+  }
+
+  // 附加委托信息，用于事件
+  private appendDelegationObject(parent: IGroup, cfg) {
+    const parentObject = parent.get('delegationObject');
+    if (!cfg.delegationObject) {
+      cfg.delegationObject = {};
+    }
+    mix(cfg.delegationObject, parentObject); // 将父元素上的委托信息复制到自身
+  }
+
+  // 获取需要替换的属性，如果原先图形元素存在，而新图形不存在，则设置 undefined
+  private getReplaceAttrs(originElement: IElement, newElement: IElement) {
+    const originAttrs = originElement.attr();
+    const newAttrs = newElement.attr();
+    each(originAttrs, (v, k) => {
+      if (newAttrs[k] === undefined) {
+        newAttrs[k] = undefined;
+      }
+    });
+    return newAttrs;
   }
 
   private registerNewGroup(group) {

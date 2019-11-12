@@ -4,7 +4,7 @@ import { vec2 } from '@antv/matrix-util';
 import { each, isNil, isNumberEqual, mix } from '@antv/util';
 import GroupComponent from '../abstract/group-component';
 
-// import { IList } from '../intefaces';
+// import { IList } from '../interfaces';
 import { AxisBaseCfg, ListItem, Point } from '../types';
 import { getMatrixByAngle } from '../util/matrix';
 import Theme from '../util/theme';

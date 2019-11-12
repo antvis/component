@@ -1,17 +1,18 @@
 import { IGroup } from '@antv/g-base/lib/interfaces';
-import { each, mix } from '@antv/util';
+import { each, filter, mix } from '@antv/util';
+import { IList } from '../interfaces';
 import { CategoryLegendCfg, LegendItemNameCfg, LegendMarkerCfg, ListItem } from '../types';
 import Theme from '../util/theme';
 import LegendBase from './base';
 
-class Category extends LegendBase<CategoryLegendCfg> {
+class Category extends LegendBase<CategoryLegendCfg> implements IList {
   public getDefaultCfg() {
     const cfg = super.getDefaultCfg();
     return {
       ...cfg,
       name: 'legend',
       type: 'category',
-      itemSpacing: 10,
+      itemSpacing: 24,
       itemWidth: null,
       itemHeight: null,
       itemName: {},
@@ -20,6 +21,7 @@ class Category extends LegendBase<CategoryLegendCfg> {
       maxHeight: null,
       marker: {},
       items: [],
+      itemStates: {},
       defaultCfg: {
         title: {
           spacing: 5,
@@ -37,7 +39,7 @@ class Category extends LegendBase<CategoryLegendCfg> {
           },
         },
         itemName: {
-          spacing: 5, // 如果右边有 value 使用这个间距
+          spacing: 16, // 如果右边有 value 使用这个间距
           style: {
             fill: Theme.textColor,
             fontSize: 12,
@@ -46,9 +48,9 @@ class Category extends LegendBase<CategoryLegendCfg> {
           },
         },
         marker: {
-          spacing: 5,
+          spacing: 8,
           style: {
-            r: 5,
+            r: 6,
             symbol: 'circle',
           },
         },
@@ -62,12 +64,136 @@ class Category extends LegendBase<CategoryLegendCfg> {
             textBaseline: 'middle',
           },
         },
-        itemState: {
-          active: {},
-          unchecked: {},
+        itemStates: {
+          active: {
+            nameStyle: {
+              fontWeight: 500,
+            },
+          },
+          unchecked: {
+            nameStyle: {
+              fill: Theme.uncheckedColor,
+            },
+            markerStyle: {
+              fill: Theme.uncheckedColor,
+              stroke: Theme.uncheckedColor,
+            },
+          },
+          inactive: {
+            nameStyle: {
+              fill: Theme.uncheckedColor,
+            },
+            markerStyle: {
+              opacity: 0.2,
+            },
+          },
         },
       },
     };
+  }
+
+  // 实现 IList 接口
+  public isList(): boolean {
+    return true;
+  }
+
+  /**
+   * 获取图例项
+   * @return {ListItem[]} 列表项集合
+   */
+  public getItems(): ListItem[] {
+    return this.get('items');
+  }
+
+  /**
+   * 设置列表项
+   * @param {ListItem[]} items 列表项集合
+   */
+  public setItems(items: ListItem[]) {
+    this.update({
+      items,
+    });
+  }
+
+  /**
+   * 更新列表项
+   * @param {ListItem} item 列表项
+   * @param {object}   cfg  列表项
+   */
+  public updateItem(item: ListItem, cfg: object) {
+    mix(item, cfg);
+    this.clear(); // 由于单个图例项变化，会引起全局变化，所以全部更新
+    this.render();
+  }
+
+  /**
+   * 清空列表
+   */
+  public clearItems() {
+    const itemGroup = this.getElementByLocalId('item-group');
+    itemGroup && itemGroup.clear();
+  }
+
+  /**
+   * 设置列表项的状态
+   * @param {ListItem} item  列表项
+   * @param {string}   state 状态名
+   * @param {boolean}  value 状态值, true, false
+   */
+  public setItemState(item: ListItem, state: string, value: boolean) {
+    item[state] = value;
+    const itemElement = this.getElementByLocalId(`item-${item.id}`);
+    if (itemElement) {
+      const items = this.getItems();
+      const index = items.indexOf(item);
+      const offsetGroup = this.createOffScreenGroup(); // 离屏的 group
+      const newElement = this.drawItem(item, index, this.getItemHeight(), offsetGroup);
+      this.updateElements(newElement, itemElement); // 更新整个分组
+    }
+  }
+
+  /**
+   * 是否存在指定的状态
+   * @param {ListItem} item  列表项
+   * @param {boolean} state 状态名
+   */
+  public hasState(item: ListItem, state: string): boolean {
+    return !!item[state];
+  }
+
+  public getItemStates(item: ListItem): string[] {
+    const itemStates = this.get('itemStates');
+    const rst = [];
+    each(itemStates, (v, k) => {
+      if (item[k]) {
+        // item.selected
+        rst.push(k);
+      }
+    });
+    return rst;
+  }
+
+  /**
+   * 清楚所有列表项的状态
+   * @param {string} state 状态值
+   */
+  public clearItemsState(state: string) {
+    const items = this.getItemsByState(state);
+    each(items, (item) => {
+      this.setItemState(item, state, false);
+    });
+  }
+
+  /**
+   * 根据状态获取图例项
+   * @param  {string}     state [description]
+   * @return {ListItem[]}       [description]
+   */
+  public getItemsByState(state: string): ListItem[] {
+    const items = this.getItems();
+    return filter(items, (item) => {
+      return this.hasState(item, state);
+    });
   }
 
   // 绘制 legend 的选项
@@ -179,6 +305,25 @@ class Category extends LegendBase<CategoryLegendCfg> {
       attrs,
     });
   }
+
+  // 获取当图例项存在状态时的元素样式，考虑存在多个样式
+  private getItemElementStatesStyle(item: ListItem, elementName: string, states: string[]) {
+    const itemStates = this.get('itemStates');
+    const styleName = `${elementName}Style`; // activeStyle
+    let styles = null;
+    each(states, (state) => {
+      if (item[state] && itemStates[state]) {
+        // item.active === true
+        const stateStyle = itemStates[state][styleName];
+        if (!styles) {
+          styles = {};
+        }
+        mix(styles, stateStyle); // 合并样式
+      }
+    });
+    return styles;
+  }
+
   // 绘制图例项
   private drawItem(item: ListItem, index: number, itemHeight: number, itemGroup: IGroup) {
     const groupId = `item-${item.id}`;
@@ -193,6 +338,7 @@ class Category extends LegendBase<CategoryLegendCfg> {
     const marker = this.get('marker');
     const itemName = this.get('itemName');
     const itemValue = this.get('itemValue');
+
     let curX = 0; // 记录当前 x 的位置
     if (marker) {
       const markerShape = this.drawMarker(subGroup, marker, item, itemHeight);
@@ -213,8 +359,25 @@ class Category extends LegendBase<CategoryLegendCfg> {
         });
       } // 如果考虑 value 和 name 的覆盖，这个地方需要做文本自动省略的功能
     }
-
+    this.applyItemStates(item, subGroup);
     return subGroup;
+  }
+
+  // 附加状态对应的样式
+  private applyItemStates(item: ListItem, subGroup: IGroup) {
+    const states = this.getItemStates(item);
+    const hasStates = states.length > 0;
+    if (hasStates) {
+      const children = subGroup.getChildren();
+      each(children, (element) => {
+        const name = element.get('name');
+        const elName = name.split('-')[2]; // marker, name, value
+        const statesStyle = this.getItemElementStatesStyle(item, elName, states);
+        if (statesStyle) {
+          element.attr(statesStyle);
+        }
+      });
+    }
   }
 }
 
