@@ -287,7 +287,7 @@ describe('test category legend', () => {
     });
   });
 
-  describe.only('test state and events', () => {
+  describe('test state and events', () => {
     const items = [
       { name: '222222', value: 1, marker: { symbol: 'circle', r: 4, stroke: 'red' } },
       { name: '111111', value: 2, marker: { symbol: 'square', r: 4, fill: 'red' } },

@@ -112,6 +112,7 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
     group.emit(eventName, eventObject);
   }
 
+  // 创建离屏的 group ,不添加在 canvas 中
   protected createOffScreenGroup() {
     const group = this.get('group');
     const GroupClass = group.getGroupBase(); // 获取分组的构造函数
@@ -309,6 +310,13 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
           this.addAnimation(elementName, element, animateCfg);
         }
       }
+    });
+  }
+
+  protected clearUpdateStatus(group: IGroup) {
+    const children = group.getChildren();
+    each(children, (el) => {
+      el.set(STATUS_UPDATE, null); // 清理掉更新状态
     });
   }
 

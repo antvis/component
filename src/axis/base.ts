@@ -1,15 +1,15 @@
 import { IGroup } from '@antv/g-base/lib/interfaces';
 import GroupUtil from '@antv/g-base/lib/util/group';
 import { vec2 } from '@antv/matrix-util';
-import { each, isNil, isNumberEqual, mix } from '@antv/util';
+import { each, filter, isNil, isNumberEqual, mix } from '@antv/util';
 import GroupComponent from '../abstract/group-component';
-
-// import { IList } from '../interfaces';
+import { IList } from '../interfaces';
 import { AxisBaseCfg, ListItem, Point } from '../types';
 import { getMatrixByAngle } from '../util/matrix';
+import { getStatesStyle } from '../util/state';
 import Theme from '../util/theme';
 
-abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupComponent {
+abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupComponent implements IList {
   public getDefaultCfg() {
     const cfg = super.getDefaultCfg();
     return {
@@ -31,6 +31,7 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
       // 垂直方向限制的长度，对文本自适应有很大影响
       verticalLimitLength: null,
       overlapOrder: ['autoRotate', 'autoEllipsis', 'autoHide'],
+      tickStates: {},
       defaultCfg: {
         line: {
           // @type {Attrs} 坐标轴线的图形属性,如果设置成null，则不显示轴线
@@ -67,6 +68,7 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
             fill: Theme.textColor,
             textBaseline: 'middle',
             fontFamily: Theme.fontFamily,
+            fontWeight: 'normal',
           },
           offset: 10,
         },
@@ -82,6 +84,21 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
             textAlign: 'center',
           },
           offset: 48,
+        },
+        tickStates: {
+          active: {
+            labelStyle: {
+              fontWeight: 500,
+            },
+            tickLineStyle: {
+              lineWidth: 2,
+            },
+          },
+          unactive: {
+            labelStyle: {
+              fill: Theme.uncheckedColor,
+            },
+          },
         },
       },
     };
@@ -101,22 +118,102 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
     }
   }
 
-  // IList 接口的实现
+  // 实现 IList 接口
+  public isList(): boolean {
+    return true;
+  }
+
+  /**
+   * 获取图例项
+   * @return {ListItem[]} 列表项集合
+   */
   public getItems(): ListItem[] {
     return this.get('ticks');
   }
 
+  /**
+   * 设置列表项
+   * @param {ListItem[]} items 列表项集合
+   */
   public setItems(items: ListItem[]) {
     this.update({
       ticks: items,
-    } as T);
+    });
   }
-  // IList 的实现同交互一起实现
-  // public updateItem(item: ListItem, cfg: Partial<ListItem>) {}
 
-  // public clearItems() {}
+  /**
+   * 更新列表项
+   * @param {ListItem} item 列表项
+   * @param {object}   cfg  列表项
+   */
+  public updateItem(item: ListItem, cfg: object) {
+    mix(item, cfg);
+    this.clear(); // 由于单个图例项变化，会引起全局变化，所以全部更新
+    this.render();
+  }
 
-  // public setItemState(item: ListItem, state: string, value: boolean) {}
+  /**
+   * 清空列表
+   */
+  public clearItems() {
+    const itemGroup = this.getElementByLocalId('label-group');
+    itemGroup && itemGroup.clear();
+  }
+
+  /**
+   * 设置列表项的状态
+   * @param {ListItem} item  列表项
+   * @param {string}   state 状态名
+   * @param {boolean}  value 状态值, true, false
+   */
+  public setItemState(item: ListItem, state: string, value: boolean) {
+    item[state] = value;
+    this.updateTickStates(item); // 应用状态样式
+  }
+
+  /**
+   * 是否存在指定的状态
+   * @param {ListItem} item  列表项
+   * @param {boolean} state 状态名
+   */
+  public hasState(item: ListItem, state: string): boolean {
+    return !!item[state];
+  }
+
+  public getItemStates(item: ListItem): string[] {
+    const tickStates = this.get('tickStates');
+    const rst = [];
+    each(tickStates, (v, k) => {
+      if (item[k]) {
+        // item.selected
+        rst.push(k);
+      }
+    });
+    return rst;
+  }
+
+  /**
+   * 清楚所有列表项的状态
+   * @param {string} state 状态值
+   */
+  public clearItemsState(state: string) {
+    const items = this.getItemsByState(state);
+    each(items, (item) => {
+      this.setItemState(item, state, false);
+    });
+  }
+
+  /**
+   * 根据状态获取图例项
+   * @param  {string}     state [description]
+   * @return {ListItem[]}       [description]
+   */
+  public getItemsByState(state: string): ListItem[] {
+    const items = this.getItems();
+    return filter(items, (item) => {
+      return this.hasState(item, state);
+    });
+  }
 
   /**
    * @protected
@@ -323,6 +420,11 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
     if (this.get('tickLine')) {
       this.drawTickLines(group);
     }
+
+    const ticks = this.get('ticks');
+    each(ticks, (tick) => {
+      this.applyTickStates(tick, group);
+    });
   }
 
   // 获取 label 的配置项
@@ -414,6 +516,53 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
       name: 'axis-title',
       attrs: this.getTitleAttrs(),
     });
+  }
+
+  private applyTickStates(tick, group) {
+    const states = this.getItemStates(tick);
+    if (states.length) {
+      const tickStates = this.get('tickStates');
+      // 分别更新 label 和 tickLine
+      const labelId = this.getElementId(`label-${tick.id}`);
+      const labelShape = GroupUtil.findById(group, labelId);
+      if (labelShape) {
+        const labelStateStyle = getStatesStyle(tick, 'label', tickStates);
+        labelStateStyle && labelShape.attr(labelStateStyle);
+      }
+      const tickLineId = this.getElementId(`tickline-${tick.id}`);
+      const tickLineShape = GroupUtil.findById(group, tickLineId);
+      if (tickLineShape) {
+        const tickLineStateStyle = getStatesStyle(tick, 'tickLine', tickStates);
+        tickLineStateStyle && tickLineShape.attr(tickLineStateStyle);
+      }
+    }
+  }
+
+  private updateTickStates(tick) {
+    const states = this.getItemStates(tick);
+    const tickStates = this.get('tickStates');
+    const labelCfg = this.get('label');
+    const labelShape = this.getElementByLocalId(`label-${tick.id}`);
+    const tickLineCfg = this.get('tickLine');
+    const tickLineShape = this.getElementByLocalId(`tickline-${tick.id}`);
+
+    if (states.length) {
+      if (labelShape) {
+        const labelStateStyle = getStatesStyle(tick, 'label', tickStates);
+        labelStateStyle && labelShape.attr(labelStateStyle);
+      }
+      if (tickLineShape) {
+        const tickLineStateStyle = getStatesStyle(tick, 'tickLine', tickStates);
+        tickLineStateStyle && tickLineShape.attr(tickLineStateStyle);
+      }
+    } else {
+      if (labelShape) {
+        labelShape.attr(labelCfg.style);
+      }
+      if (tickLineShape) {
+        tickLineShape.attr(tickLineCfg.style);
+      }
+    }
   }
 }
 

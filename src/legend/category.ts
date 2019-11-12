@@ -2,6 +2,7 @@ import { IGroup } from '@antv/g-base/lib/interfaces';
 import { each, filter, mix } from '@antv/util';
 import { IList } from '../interfaces';
 import { CategoryLegendCfg, LegendItemNameCfg, LegendMarkerCfg, ListItem } from '../types';
+import { getStatesStyle } from '../util/state';
 import Theme from '../util/theme';
 import LegendBase from './base';
 
@@ -149,9 +150,9 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
       const offsetGroup = this.createOffScreenGroup(); // 离屏的 group
       const newElement = this.drawItem(item, index, this.getItemHeight(), offsetGroup);
       this.updateElements(newElement, itemElement); // 更新整个分组
+      this.clearUpdateStatus(itemElement); // 清理更新状态，防止出现 bug
     }
   }
-
   /**
    * 是否存在指定的状态
    * @param {ListItem} item  列表项
@@ -307,22 +308,22 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
   }
 
   // 获取当图例项存在状态时的元素样式，考虑存在多个样式
-  private getItemElementStatesStyle(item: ListItem, elementName: string, states: string[]) {
-    const itemStates = this.get('itemStates');
-    const styleName = `${elementName}Style`; // activeStyle
-    let styles = null;
-    each(states, (state) => {
-      if (item[state] && itemStates[state]) {
-        // item.active === true
-        const stateStyle = itemStates[state][styleName];
-        if (!styles) {
-          styles = {};
-        }
-        mix(styles, stateStyle); // 合并样式
-      }
-    });
-    return styles;
-  }
+  // private getItemElementStatesStyle(item: ListItem, elementName: string, states: string[]) {
+  //   const itemStates = this.get('itemStates');
+  //   const styleName = `${elementName}Style`; // activeStyle
+  //   let styles = null;
+  //   each(states, (state) => {
+  //     if (item[state] && itemStates[state]) {
+  //       // item.active === true
+  //       const stateStyle = itemStates[state][styleName];
+  //       if (!styles) {
+  //         styles = {};
+  //       }
+  //       mix(styles, stateStyle); // 合并样式
+  //     }
+  //   });
+  //   return styles;
+  // }
 
   // 绘制图例项
   private drawItem(item: ListItem, index: number, itemHeight: number, itemGroup: IGroup) {
@@ -369,10 +370,11 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     const hasStates = states.length > 0;
     if (hasStates) {
       const children = subGroup.getChildren();
+      const itemStates = this.get('itemStates');
       each(children, (element) => {
         const name = element.get('name');
         const elName = name.split('-')[2]; // marker, name, value
-        const statesStyle = this.getItemElementStatesStyle(item, elName, states);
+        const statesStyle = getStatesStyle(item, elName, itemStates);
         if (statesStyle) {
           element.attr(statesStyle);
         }
