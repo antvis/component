@@ -4,8 +4,7 @@ import { each, isFunction, isNumberEqual } from '@antv/util';
 import { ILocation } from '../intefaces';
 import { LineAxisCfg, Point, RegionLocationCfg } from '../types';
 import AxisBase from './base';
-import * as HideUtil from './overlap/auto-hide';
-import * as RotateUtil from './overlap/auto-rotate';
+import * as OverlapUtil from './overlap';
 
 class Line extends AxisBase<LineAxisCfg> implements ILocation<RegionLocationCfg> {
   public getDefaultCfg() {
@@ -114,20 +113,21 @@ class Line extends AxisBase<LineAxisCfg> implements ILocation<RegionLocationCfg>
 
   private autoProcessOverlap(name: string, value: any, labelGroup: IGroup, limitLength: number) {
     const isVertical = this.isVertical();
+    let hasAdjusted = false;
+    const util = OverlapUtil[name];
+    if (value === true) {
+      // 默认使用固定角度的旋转方案
+      hasAdjusted = util.getDefault()(isVertical, labelGroup, limitLength);
+    } else if (isFunction(value)) {
+      // 用户可以传入回调函数
+      hasAdjusted = value(isVertical, labelGroup, limitLength);
+    } else if (util[value]) {
+      // 按照名称执行旋转函数
+      hasAdjusted = util[value](isVertical, labelGroup, limitLength);
+    }
     if (name === 'autoRotate') {
-      let isRotate = false;
-      if (value === true) {
-        // 默认使用固定角度的旋转方案
-        isRotate = RotateUtil.fixedAngle(isVertical, labelGroup, limitLength);
-      } else if (isFunction(value)) {
-        // 用户可以传入回调函数
-        isRotate = value(isVertical, labelGroup, limitLength);
-      } else if (RotateUtil[value]) {
-        // 按照名称执行旋转函数
-        isRotate = RotateUtil[value](isVertical, labelGroup, limitLength);
-      }
       // 文本旋转后，文本的对齐方式可能就不合适了
-      if (isRotate) {
+      if (hasAdjusted) {
         const labels = labelGroup.getChildren();
         const verticalFactor = this.get('verticalFactor');
         each(labels, (label) => {
@@ -140,13 +140,6 @@ class Line extends AxisBase<LineAxisCfg> implements ILocation<RegionLocationCfg>
         });
       }
     } else if (name === 'autoHide') {
-      if (value === true) {
-        HideUtil.equidistance(isVertical, labelGroup);
-      } else if (isFunction(value)) {
-        value(isVertical, labelGroup, limitLength);
-      } else if (HideUtil[value]) {
-        HideUtil[value](isVertical, labelGroup, limitLength);
-      }
       const children = labelGroup.getChildren().slice(0); // 复制数组，删除时不会出错
       each(children, (label) => {
         if (!label.get('visible')) {

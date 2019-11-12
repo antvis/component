@@ -30,7 +30,7 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
       verticalFactor: 1,
       // 垂直方向限制的长度，对文本自适应有很大影响
       verticalLimitLength: null,
-      overlapOrder: ['autoRotate', 'autoHide'],
+      overlapOrder: ['autoRotate', 'autoEllipsis', 'autoHide'],
       defaultCfg: {
         line: {
           // @type {Attrs} 坐标轴线的图形属性,如果设置成null，则不显示轴线
@@ -61,6 +61,7 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
         label: {
           autoRotate: true,
           autoHide: false,
+          autoEllipsis: false,
           style: {
             fontSize: 12,
             fill: Theme.textColor,
@@ -359,6 +360,10 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
         name: 'axis-label',
         id: this.getElementId(`label-${tick.id}`),
         attrs: this.getLabelAttrs(tick, index),
+        delegationObject: {
+          tick,
+          index,
+        },
       });
     });
     this.processOverlap(labelGroup);

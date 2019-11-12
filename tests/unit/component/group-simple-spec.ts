@@ -2,12 +2,22 @@ import { Canvas } from '@antv/g-canvas';
 import GroupComponent from '../../../src/abstract/group-component';
 
 class BComponent extends GroupComponent {
+  public getDefaultCfg() {
+    const cfg = super.getDefaultCfg();
+    return {
+      ...cfg,
+      name: 'custom',
+    };
+  }
   protected renderInner(group) {
     const showA = this.get('showA');
     if (showA) {
       this.addShape(group, {
         type: 'text',
         id: 'a',
+        delegationObject: {
+          showA,
+        },
         attrs: {
           x: 20,
           y: 20,
@@ -21,6 +31,9 @@ class BComponent extends GroupComponent {
       this.addShape(group, {
         type: 'rect',
         id: 'b',
+        delegationObject: {
+          showB,
+        },
         attrs: {
           x: 40,
           y: 40,
@@ -59,6 +72,10 @@ describe('test simple component', () => {
   it('render', () => {
     b.render();
     expect(b.getElementById('a')).not.toBe(undefined);
+    expect(b.getElementById('a').get('delegationObject')).toEqual({
+      custom: b,
+      showA: true,
+    });
     expect(b.get('group').getChildren().length).toBe(1);
     expect(b.getBBox()).toEqual(container.getBBox());
   });
@@ -67,7 +84,15 @@ describe('test simple component', () => {
     b.update({
       showB: true,
     });
+    expect(b.getElementById('a').get('delegationObject')).toEqual({
+      custom: b,
+      showA: true,
+    });
     expect(b.get('group').getChildren().length).toBe(2);
+    expect(b.getElementById('b').get('delegationObject')).toEqual({
+      custom: b,
+      showB: true,
+    });
     expect(
       b
         .get('group')
@@ -119,6 +144,20 @@ describe('test simple component', () => {
     b.show();
     expect(b.get('group').get('visible')).toBe(true);
   });
+
+  it('on, off', () => {
+    let called = false;
+    b.on('test', (ev) => {
+      called = true;
+    });
+    b.emit('test', {});
+    expect(called).toBe(true);
+    called = false;
+    b.off();
+    b.emit('test', {});
+    expect(called).toBe(false);
+  });
+
   it('remove animate', (done) => {
     b.update({
       showA: true,

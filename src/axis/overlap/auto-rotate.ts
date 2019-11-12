@@ -50,6 +50,10 @@ function labelRotate(
   return isOverlap;
 }
 
+export function getDefault() {
+  return fixedAngle;
+}
+
 /**
  * 固定角度旋转文本
  * @param  {boolean} isVertical  是否垂直方向

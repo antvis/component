@@ -217,6 +217,7 @@ describe('test line axis', () => {
 
 describe('test line axis overlap', () => {
   const labels1 = ['123', '12', '2344', '13455222', '2345', '2333', '222', '2222', '11', '33'];
+  const labels2 = ['我爱中国', '爱情ab你', 'abc我是谁', '亲爱的你ok', 'are u ok', 'a'];
   function getTicks(labels: string[]) {
     const items = [];
     const length = labels.length;
@@ -351,6 +352,20 @@ describe('test line axis overlap', () => {
       start: { x: 100, y: 300 },
     });
     expect(labelGroup.getChildren().length).toBe(ticks.length);
+
+    axis.update({
+      end: { x: 100, y: 100 },
+      start: { x: 100, y: 300 },
+      ticks: getTicks(labels2),
+      verticalLimitLength: 80,
+      label: {
+        autoRotate: false,
+        autoHide: true,
+        autoEllipsis: true,
+      },
+    });
+    const children = labelGroup.getChildren();
+    expect(children.length).toBe(axis.get('ticks').length);
   });
 
   it('horizontal axis', () => {
@@ -359,6 +374,7 @@ describe('test line axis overlap', () => {
       end: { x: 200, y: 200 },
       verticalLimitLength: null,
       verticalFactor: -1,
+      ticks,
       label: {
         autoRotate: true,
         autoHide: false,
@@ -392,7 +408,10 @@ describe('test line axis overlap', () => {
         autoHide: 'reserveBoth',
       },
     });
-    expect(labelGroup.getChildren().length).toBe(2);
+    const count = labelGroup.getChildren().length;
+    expect(labelGroup.getChildren()[0].attr('text')).toBe(labels1[0]);
+    expect(labelGroup.getChildren()[count - 1].attr('text')).toBe(labels1[labels1.length - 1]);
+
     axis.update({
       verticalLimitLength: 40,
       label: {
