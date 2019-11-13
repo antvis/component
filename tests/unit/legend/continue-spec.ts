@@ -445,5 +445,103 @@ describe('test continue legend', () => {
       expect(minHandler.attr('path')[0]).toEqual(['M', 10, 20]);
       expect(maxHandler.attr('path')[0]).toEqual(['M', 10, 80]);
     });
+
+    it('change value', () => {
+      legend.update({
+        min: 0,
+        max: 100,
+        value: null,
+        rail: {
+          defaultLength: 100,
+        },
+      });
+      legend.setValue([10, 80]);
+      const minHandler = legend.getElementById('c-legend-handler-min');
+      const maxHandler = legend.getElementById('c-legend-handler-max');
+      expect(minHandler.attr('path')[0]).toEqual(['M', 10, 10]);
+      expect(maxHandler.attr('path')[0]).toEqual(['M', 10, 80]);
+      expect(legend.getRange()).toEqual({ min: 0, max: 100 });
+
+      legend.setRange(0, 1000);
+      expect(minHandler.attr('path')[0]).toEqual(['M', 10, 1]);
+      expect(maxHandler.attr('path')[0]).toEqual(['M', 10, 8]);
+    });
+  });
+
+  describe('test drag slider', () => {
+    const container = canvas.addGroup();
+    const legend = new ContinueLegend({
+      id: 'd',
+      container,
+      x: 300,
+      y: 300,
+      min: 0,
+      step: 10,
+      max: 1000,
+      label: {
+        align: 'bottom',
+      },
+      slidable: true,
+      colors: ['red'],
+    });
+
+    const group = legend.get('group');
+    it('render', () => {
+      legend.render();
+      const minHandler = legend.getElementById('d-legend-handler-min');
+      const maxHandler = legend.getElementById('d-legend-handler-max');
+      expect(minHandler.attr('path')[0]).toEqual(['M', 0, 10]);
+      expect(maxHandler.attr('path')[0]).toEqual(['M', 100, 10]);
+    });
+
+    it('drag min', () => {
+      group.emit('legend-handler-min:drag', {
+        x: 310,
+        y: 300,
+      });
+      expect(legend.getValue()).toEqual([100, 1000]);
+
+      group.emit('legend-handler-min:drag', {
+        x: 312.2,
+        y: 300,
+      });
+      expect(legend.getValue()).toEqual([120, 1000]);
+
+      group.emit('legend-handler-min:drag', {
+        x: 312.8,
+        y: 300,
+      });
+      expect(legend.getValue()).toEqual([130, 1000]);
+    });
+
+    it('drag max', () => {
+      legend.setValue([200, 800]);
+      group.emit('legend-handler-max:drag', {
+        x: 350,
+        y: 300,
+      });
+      expect(legend.getValue()).toEqual([200, 500]);
+
+      group.emit('legend-handler-max:drag', {
+        x: 351,
+        y: 300,
+      });
+
+      expect(legend.getValue()).toEqual([200, 510]);
+
+      group.emit('legend-handler-max:drag', {
+        x: 351.2,
+        y: 300,
+      });
+
+      expect(legend.getValue()).toEqual([200, 510]);
+
+      group.emit('legend-handler-max:drag', {
+        x: 351.8,
+        y: 300,
+      });
+
+      expect(legend.getValue()).toEqual([200, 520]);
+    });
   });
 });

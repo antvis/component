@@ -1,6 +1,6 @@
 import { IElement, IGroup } from '@antv/g-base/lib/interfaces';
-import GroupUtil from '@antv/g-base/lib/util/group';
 import { mix, upperFirst } from '@antv/util';
+import { ISlider } from '../interfaces';
 import { BBox, ContinueLegendCfg } from '../types';
 import Theme from '../util/theme';
 import { getValueByPercent } from '../util/util';
@@ -8,7 +8,7 @@ import LegendBase from './base';
 const HANDLER_HEIGHT_RATIO = 1.4;
 const HANDLER_TRIANGLE_RATIO = 0.4;
 
-class ContinueLegend extends LegendBase<ContinueLegendCfg> {
+class ContinueLegend extends LegendBase<ContinueLegendCfg> implements ISlider {
   public getDefaultCfg() {
     const cfg = super.getDefaultCfg();
     return {
@@ -68,8 +68,44 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> {
     };
   }
 
+  public isSlider() {
+    return true;
+  }
+
+  // 实现 IList 接口
   public getValue() {
     return this.getCurrentValue();
+  }
+
+  public getRange() {
+    return {
+      min: this.get('min'),
+      max: this.get('max'),
+    };
+  }
+
+  // 改变 range
+  public setRange(min, max) {
+    this.update({
+      min,
+      max,
+    });
+  }
+
+  public setValue(value: number[]) {
+    this.set('value', value);
+    const group = this.get('group');
+    this.resetTrack(group);
+    if (this.get('slidable')) {
+      this.resetHandlers(group);
+    }
+  }
+
+  protected initEvent() {
+    const group = this.get('group');
+    this.bindSliderEvent(group);
+    this.bindRailEvent(group);
+    this.bindTrackEvent(group);
   }
 
   protected drawLegendContent(group: IGroup) {
@@ -81,6 +117,50 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> {
       this.resetHandlers(group);
     }
   }
+
+  private bindSliderEvent(group) {
+    this.bindHandlersEvent(group);
+  }
+
+  private bindHandlersEvent(group) {
+    // let startPoint;
+    // group.on(`legend-handler-min:dragstart`, ev => {
+    //   startPoint = {
+    //     x: ev.x,
+    //     y: ev.y
+    //   };
+    // });
+    // legend-handler-min:
+    group.on('legend-handler-min:drag', (ev) => {
+      const minValue = this.getValueByCanvasPoint(ev.x, ev.y);
+      const currentValue = this.getCurrentValue();
+      let maxValue = currentValue[1];
+      if (maxValue < minValue) {
+        // 如果小于最小值，则调整最小值
+        maxValue = minValue;
+      }
+      this.setValue([minValue, maxValue]);
+    });
+
+    group.on('legend-handler-max:drag', (ev) => {
+      const maxValue = this.getValueByCanvasPoint(ev.x, ev.y);
+      const currentValue = this.getCurrentValue();
+      let minValue = currentValue[0];
+      if (minValue > maxValue) {
+        // 如果小于最小值，则调整最小值
+        minValue = maxValue;
+      }
+      this.setValue([minValue, maxValue]);
+    });
+
+    // group.on(`legend-handler-min:dragend`, ev => {
+    //   startPoint = null;
+    // });
+  }
+
+  private bindRailEvent(group) {}
+
+  private bindTrackEvent(group) {}
 
   private drawLabels(group: IGroup) {
     this.drawLabel('min', group);
@@ -216,7 +296,7 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> {
     const value = this.getCurrentValue();
     const [min, max] = value;
     const trackId = this.getElementId('track');
-    const trackShape = GroupUtil.findById(group, trackId);
+    const trackShape = group.findById(trackId);
     const trackAttrs = this.getTrackAttrs(min, max, group);
     if (trackShape) {
       trackShape.attr(trackAttrs);
@@ -248,39 +328,53 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> {
   // 获取滑轨的宽高信息
   private getRailBBox(group?: IGroup): BBox {
     const container = group || (this.get('group') as IGroup);
-    const railShape = GroupUtil.findById(container, this.getElementId('rail'));
+    const railShape = container.findById(this.getElementId('rail'));
     const bbox = railShape.getBBox();
     return bbox;
   }
 
-  private isVertical() {
+  private getRailCanvasBBox(): BBox {
+    const container = this.get('group');
+    const railShape = container.findById(this.getElementId('rail'));
+    const bbox = railShape.getCanvasBBox();
+    return bbox;
+  }
+
+  // 是否垂直
+  private isVertical(): boolean {
     return this.get('layout') === 'vertical';
   }
 
   // 用于交互时
-  // private getValueByPoint(x, y) {
-  //   const { min, max } = this.getRange();
-  //   const bbox = this.getRailBBox();
-  //   const isVertcal = this.isVertical();
-  //   let percent;
-  //   if (isVertcal) {
-  //     // 垂直时计算 y
-  //     percent = (y - bbox.minY) / bbox.height;
-  //   } else {
-  //     // 水平时计算 x
-  //     percent = (x - bbox.minX) / bbox.width;
-  //   }
-  //   return getValueByPercent(min, max, percent);
-  // }
-
-  private getRange() {
-    return {
-      min: this.get('min'),
-      max: this.get('max'),
-    };
+  private getValueByCanvasPoint(x, y) {
+    const { min, max } = this.getRange();
+    const bbox = this.getRailCanvasBBox(); // 因为 x, y 是画布坐标
+    const isVertcal = this.isVertical();
+    const step = this.get('step');
+    let percent;
+    if (isVertcal) {
+      // 垂直时计算 y
+      percent = (y - bbox.minY) / bbox.height;
+    } else {
+      // 水平时计算 x
+      percent = (x - bbox.minX) / bbox.width;
+    }
+    let value = getValueByPercent(min, max, percent);
+    if (step) {
+      const count = Math.round((value - min) / step);
+      value = min + count * step; // 移动到最近的
+    }
+    if (value > max) {
+      value = max;
+    }
+    if (value < min) {
+      value = min;
+    }
+    return value;
   }
 
-  private getCurrentValue() {
+  // 当前选中的范围
+  private getCurrentValue(): number[] {
     let value = this.get('value');
     if (!value) {
       // 如果没有定义，取最大范围
@@ -355,17 +449,20 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> {
     const handlerCfg = this.get('handler');
     const path = this.getHandlerPath(handlerCfg, point);
     const id = this.getElementId(`handler-${name}`);
-    const handlerShape = GroupUtil.findById(group, id);
+    const handlerShape = group.findById(id);
+    const isVertical = this.isVertical();
     if (handlerShape) {
       handlerShape.attr('path', path);
     } else {
       this.addShape(group, {
         type: 'path',
         name: `legend-handler-${name}`,
+        draggable: true, // 可拖拽
         id,
         attrs: {
           path,
           ...handlerCfg.style,
+          cursor: isVertical ? 'ns-resize' : 'ew-resize',
         },
       });
     }
@@ -374,9 +471,9 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> {
   // 当设置了 maxWidth, maxHeight 时调整 rail 的宽度，
   // 文本的位置
   private fixedElements(group: IGroup) {
-    const railShape = GroupUtil.findById(group, this.getElementId('rail'));
-    const minLabel = GroupUtil.findById(group, this.getElementId('label-min'));
-    const maxLabel = GroupUtil.findById(group, this.getElementId('label-max'));
+    const railShape = group.findById(this.getElementId('rail'));
+    const minLabel = group.findById(this.getElementId('label-min'));
+    const maxLabel = group.findById(this.getElementId('label-max'));
     const startPoint = this.getDrawPoint();
     if (this.isVertical()) {
       // 横向布局

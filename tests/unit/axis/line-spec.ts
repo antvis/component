@@ -1,4 +1,3 @@
-import GroupUtil from '@antv/g-base/lib/util/group';
 import { Canvas } from '@antv/g-canvas';
 import { isNumberEqual } from '@antv/util';
 import LineAxis from '../../../src/axis/line';
@@ -23,7 +22,11 @@ describe('test line axis', () => {
     container,
     start: { x: 50, y: 400 },
     end: { x: 50, y: 50 },
-    ticks: [{ name: '1', value: 0 }, { name: '2', value: 0.5 }, { name: '3', value: 1 }],
+    ticks: [
+      { name: '1', value: 0 },
+      { name: '2', value: 0.5 },
+      { name: '3', value: 1 },
+    ],
     title: {
       text: '标题',
     },
@@ -41,7 +44,10 @@ describe('test line axis', () => {
   it('render', () => {
     axis.render();
     const line = axis.getElementById('a-axis-line');
-    expect(line.attr('path')).toEqual([['M', 50, 400], ['L', 50, 50]]);
+    expect(line.attr('path')).toEqual([
+      ['M', 50, 400],
+      ['L', 50, 50],
+    ]);
 
     const tickLine1 = axis.getElementById('a-axis-tickline-1');
     expect(tickLine1.attr('x1')).toBe(50);
@@ -137,7 +143,12 @@ describe('test line axis', () => {
     });
     expect(labelGroup.getChildren().length).toBe(0);
     axis.update({
-      ticks: [{ name: '1', value: 0 }, { name: '2', value: 0.25 }, { name: '3', value: 0.5 }, { name: '4', value: 1 }],
+      ticks: [
+        { name: '1', value: 0 },
+        { name: '2', value: 0.25 },
+        { name: '3', value: 0.5 },
+        { name: '4', value: 1 },
+      ],
     });
     expect(labelGroup.getChildren().length).toBe(4);
   });
@@ -428,14 +439,14 @@ describe('test line axis overlap', () => {
       },
     });
     expect(labelGroup.getChildren()[0].attr('text')).not.toBe(labels1[0]);
-    expect(GroupUtil.getLast(labelGroup).attr('text')).toBe(labels1[labels1.length - 1]);
+    expect(labelGroup.getLast().attr('text')).toBe(labels1[labels1.length - 1]);
     axis.update({
       label: {
         autoRotate: RotateUtil.unfixedAngle,
         autoHide: HideUtil.reserveLast,
       },
     });
-    expect(GroupUtil.getLast(labelGroup).attr('text')).toBe(labels1[labels1.length - 1]);
+    expect(labelGroup.getLast().attr('text')).toBe(labels1[labels1.length - 1]);
   });
   afterAll(() => {
     canvas.destroy();

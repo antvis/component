@@ -188,7 +188,10 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
 
   protected initEvent() {}
 
-  protected removeEvent() {}
+  protected removeEvent() {
+    const group = this.get('group');
+    group.off();
+  }
 
   protected getElementId(localId) {
     const id = this.get('id'); // 组件的 Id

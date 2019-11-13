@@ -1,5 +1,4 @@
 import { IGroup } from '@antv/g-base/lib/interfaces';
-import GroupUtil from '@antv/g-base/lib/util/group';
 import { vec2 } from '@antv/matrix-util';
 import { each, filter, isNil, isNumberEqual, mix } from '@antv/util';
 import GroupComponent from '../abstract/group-component';
@@ -381,7 +380,7 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
       if (tickCfg.displayWithLabel) {
         // 如果跟随 label 显示，则检测是否存在对应的 label
         const labelId = this.getElementId(`label-${item.tickId}`);
-        if (GroupUtil.findById(group, labelId)) {
+        if (group.findById(labelId)) {
           this.drawTick(item, tickLineGroup);
         }
       } else {
@@ -524,13 +523,13 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
       const tickStates = this.get('tickStates');
       // 分别更新 label 和 tickLine
       const labelId = this.getElementId(`label-${tick.id}`);
-      const labelShape = GroupUtil.findById(group, labelId);
+      const labelShape = group.findById(labelId);
       if (labelShape) {
         const labelStateStyle = getStatesStyle(tick, 'label', tickStates);
         labelStateStyle && labelShape.attr(labelStateStyle);
       }
       const tickLineId = this.getElementId(`tickline-${tick.id}`);
-      const tickLineShape = GroupUtil.findById(group, tickLineId);
+      const tickLineShape = group.findById(tickLineId);
       if (tickLineShape) {
         const tickLineStateStyle = getStatesStyle(tick, 'tickLine', tickStates);
         tickLineStateStyle && tickLineShape.attr(tickLineStateStyle);
