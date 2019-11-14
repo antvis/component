@@ -123,14 +123,6 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> implements ISlider {
   }
 
   private bindHandlersEvent(group) {
-    // let startPoint;
-    // group.on(`legend-handler-min:dragstart`, ev => {
-    //   startPoint = {
-    //     x: ev.x,
-    //     y: ev.y
-    //   };
-    // });
-    // legend-handler-min:
     group.on('legend-handler-min:drag', (ev) => {
       const minValue = this.getValueByCanvasPoint(ev.x, ev.y);
       const currentValue = this.getCurrentValue();
@@ -152,10 +144,6 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> implements ISlider {
       }
       this.setValue([minValue, maxValue]);
     });
-
-    // group.on(`legend-handler-min:dragend`, ev => {
-    //   startPoint = null;
-    // });
   }
 
   private bindRailEvent(group) {}

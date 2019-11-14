@@ -191,22 +191,25 @@ describe('test category legend', () => {
       expect(bbox.minY).toBe(200);
     });
     it('item background', () => {
-      legend.update({
-        title: null,
-        x: 100,
-        y: 100,
-      });
-      const bbox = legend.get('group').getCanvasBBox();
-      expect(bbox.minX).toBe(100);
-      expect(bbox.minY).toBe(104); // 因为没有背景框，所有 itemHeight 多出 4px
+      // legend.update({
+      //   title: null,
+      //   x: 100,
+      //   y: 100,
+      // });
+      // const bbox = legend.get('group').getCanvasBBox();
+      // expect(bbox.minX).toBe(100);
+      // expect(bbox.minY).toBe(104); // 因为没有背景框，所有 itemHeight 多出 4px
 
       legend.update({
+        title: null,
         itemBackground: {
           style: {
             fill: 'red',
             opacity: 1,
           },
         },
+        x: 100,
+        y: 100,
       });
       const bbox1 = legend.get('group').getCanvasBBox();
       expect(bbox1.minX).toBe(100);
