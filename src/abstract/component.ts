@@ -1,6 +1,6 @@
 import { Base } from '@antv/g-base';
 import { deepMix, each, isObject } from '@antv/util';
-import { ILocation } from '../intefaces';
+import { ILocation } from '../interfaces';
 import { BBox, ComponentCfg, LocationCfg, OffsetPoint } from '../types';
 const LOCATION_FIELD_MAP = {
   none: [],
@@ -103,6 +103,14 @@ abstract class Component<T extends ComponentCfg = ComponentCfg> extends Base imp
       location[field] = this.get(field);
     });
     return location;
+  }
+
+  public isList(): boolean {
+    return false;
+  }
+
+  public isSlider(): boolean {
+    return false;
   }
 
   /**

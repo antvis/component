@@ -1,6 +1,6 @@
 import { Canvas } from '@antv/g-canvas';
 import CategroyLegend from '../../../src/legend/category';
-
+import Theme from '../../../src/util/theme';
 describe('test category legend', () => {
   const dom = document.createElement('div');
   document.body.appendChild(dom);
@@ -279,6 +279,96 @@ describe('test category legend', () => {
 
     xit('max height', () => {
       // 翻页时准备
+    });
+
+    it('destroy', () => {
+      legend.destroy();
+      expect(legend.destroyed).toBe(true);
+    });
+  });
+
+  describe('test state and events', () => {
+    const items = [
+      { name: '222222', value: 1, marker: { symbol: 'circle', r: 4, stroke: 'red' } },
+      { name: '111111', value: 2, marker: { symbol: 'square', r: 4, fill: 'red' } },
+      { name: '55555', value: 3, active: true, marker: { symbol: 'circle', r: 4, stroke: 'blue' } },
+      { name: 'bbbbbb', value: 4, unchecked: true, marker: { symbol: 'circle', r: 4, stroke: 'yellow' } },
+    ];
+    const container = canvas.addGroup();
+    const legend = new CategroyLegend({
+      id: 'd',
+      container,
+      layout: 'vertical',
+      x: 100,
+      y: 100,
+      items,
+    });
+    it('render', () => {
+      legend.render();
+      const itemGroup = legend.getElementById('d-legend-item-group');
+      expect(itemGroup.getChildren().length).toBe(items.length);
+      const itemElement2 = itemGroup.getChildren()[2];
+      expect(itemElement2.getChildren()[1].attr('fontWeight')).toBe(500); // active
+      const itemElement3 = itemGroup.getChildren()[3];
+      expect(itemElement3.getChildren()[0].attr('fill')).toBe(Theme.uncheckedColor);
+    });
+
+    it('getItems', () => {
+      expect(legend.getItems()).toBe(items);
+    });
+
+    it('update item', () => {
+      const item = items[1];
+      legend.updateItem(item, { name: '333' });
+      const itemGroup = legend.getElementById('d-legend-item-group');
+      const itemElement = itemGroup.getChildren()[1];
+      expect(itemElement.getChildren()[1].attr('text')).toBe('333');
+    });
+
+    it('set state', () => {
+      const item = items[1];
+      legend.setItemState(item, 'inactive', true);
+      const itemGroup = legend.getElementById('d-legend-item-group');
+      const itemElement = itemGroup.getChildren()[1];
+      expect(itemElement.getChildren()[0].attr('opacity')).toBe(0.2);
+      legend.setItemState(item, 'inactive', false);
+      expect(itemElement.getChildren()[0].attr('opacity')).not.toBe(0.2);
+    });
+
+    it('getItems by state', () => {
+      const uncheckedItems = legend.getItemsByState('unchecked');
+      expect(uncheckedItems.length).toBe(1);
+
+      const item3 = items[3];
+      legend.setItemState(item3, 'unchecked', false);
+      expect(legend.getItemsByState('unchecked').length).toBe(0);
+      const itemGroup = legend.getElementById('d-legend-item-group');
+      const itemElement = itemGroup.getChildren()[3];
+      expect(itemElement.getChildren()[0].attr('fill')).toBe(undefined);
+    });
+
+    it('clear states', () => {
+      expect(legend.getItemsByState('active').length).toBe(1);
+      legend.setItemState(items[0], 'active', true);
+      expect(legend.getItemsByState('active').length).toBe(2);
+      legend.clearItemsState('active');
+      expect(legend.getItemsByState('active').length).toBe(0);
+    });
+
+    it('setItems', () => {
+      legend.setItemState(items[0], 'active', true);
+      const newitems = [
+        { id: '1', name: '1111111111111111111', value: '1' },
+        { id: '2', name: '22222222222', value: '2' },
+        { id: '3', name: '3333333333333333333333', value: '3' },
+        { id: '4', name: '444', value: '4' },
+      ];
+      legend.setItems(newitems);
+      expect(legend.getItemsByState('active').length).toBe(0);
+    });
+    it('destroy', () => {
+      legend.destroy();
+      expect(legend.destroyed).toBe(true);
     });
   });
 });

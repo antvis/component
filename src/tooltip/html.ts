@@ -7,7 +7,7 @@ import { clearDom, hasClass, regionToBBox } from '../util/util';
 import * as CssConst from './css-const';
 import TooltipTheme from './html-theme';
 
-import { ILocation } from '../intefaces';
+import { ILocation } from '../interfaces';
 import { getAlignPoint } from '../util/align';
 
 function toPx(number) {
@@ -90,7 +90,7 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
       this.renderItems();
     }
     // 更新样式
-    if (hasKey(cfg, 'domStyle')) {
+    if (hasKey(cfg, 'domStyles')) {
       this.resetStyles();
       this.applyStyles();
     }
@@ -238,6 +238,7 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
         this.resetCrosshair('x', crosshairBox);
         this.resetCrosshair('y', crosshairBox);
       }
+      this.setCrossHairsVisible(this.get('visible'));
     }
   }
   // 设定 crosshair 的位置，需要区分 x,y

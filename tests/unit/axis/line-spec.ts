@@ -1,10 +1,10 @@
-import GroupUtil from '@antv/g-base/lib/util/group';
 import { Canvas } from '@antv/g-canvas';
 import { isNumberEqual } from '@antv/util';
 import LineAxis from '../../../src/axis/line';
 import * as HideUtil from '../../../src/axis/overlap/auto-hide';
 import * as RotateUtil from '../../../src/axis/overlap/auto-rotate';
 import { getAngleByMatrix, getMatrixByAngle } from '../../../src/util/matrix';
+import Theme from '../../../src/util/theme';
 
 describe('test line axis', () => {
   const dom = document.createElement('div');
@@ -22,7 +22,11 @@ describe('test line axis', () => {
     container,
     start: { x: 50, y: 400 },
     end: { x: 50, y: 50 },
-    ticks: [{ name: '1', value: 0 }, { name: '2', value: 0.5 }, { name: '3', value: 1 }],
+    ticks: [
+      { name: '1', value: 0 },
+      { name: '2', value: 0.5 },
+      { name: '3', value: 1 },
+    ],
     title: {
       text: '标题',
     },
@@ -40,7 +44,10 @@ describe('test line axis', () => {
   it('render', () => {
     axis.render();
     const line = axis.getElementById('a-axis-line');
-    expect(line.attr('path')).toEqual([['M', 50, 400], ['L', 50, 50]]);
+    expect(line.attr('path')).toEqual([
+      ['M', 50, 400],
+      ['L', 50, 50],
+    ]);
 
     const tickLine1 = axis.getElementById('a-axis-tickline-1');
     expect(tickLine1.attr('x1')).toBe(50);
@@ -136,7 +143,12 @@ describe('test line axis', () => {
     });
     expect(labelGroup.getChildren().length).toBe(0);
     axis.update({
-      ticks: [{ name: '1', value: 0 }, { name: '2', value: 0.25 }, { name: '3', value: 0.5 }, { name: '4', value: 1 }],
+      ticks: [
+        { name: '1', value: 0 },
+        { name: '2', value: 0.25 },
+        { name: '3', value: 0.5 },
+        { name: '4', value: 1 },
+      ],
     });
     expect(labelGroup.getChildren().length).toBe(4);
   });
@@ -427,17 +439,118 @@ describe('test line axis overlap', () => {
       },
     });
     expect(labelGroup.getChildren()[0].attr('text')).not.toBe(labels1[0]);
-    expect(GroupUtil.getLast(labelGroup).attr('text')).toBe(labels1[labels1.length - 1]);
+    expect(labelGroup.getLast().attr('text')).toBe(labels1[labels1.length - 1]);
     axis.update({
       label: {
         autoRotate: RotateUtil.unfixedAngle,
         autoHide: HideUtil.reserveLast,
       },
     });
-    expect(GroupUtil.getLast(labelGroup).attr('text')).toBe(labels1[labels1.length - 1]);
+    expect(labelGroup.getLast().attr('text')).toBe(labels1[labels1.length - 1]);
   });
   afterAll(() => {
     canvas.destroy();
     dom.parentNode.removeChild(dom);
+  });
+});
+
+describe('test axis states', () => {
+  const dom = document.createElement('div');
+  document.body.appendChild(dom);
+  dom.id = 'cals';
+  const canvas = new Canvas({
+    container: 'cals',
+    width: 500,
+    height: 500,
+  });
+  const container = canvas.addGroup();
+  const ticks = [
+    { name: '1', value: 0, active: true },
+    { name: '2', unactive: true, value: 0.5 },
+    { name: '3', value: 1 },
+  ];
+  const axis = new LineAxis({
+    animate: false,
+    id: 'a',
+    container,
+    start: { x: 50, y: 400 },
+    end: { x: 50, y: 50 },
+    ticks,
+    title: {
+      text: '标题',
+    },
+  });
+
+  it('render', () => {
+    axis.render();
+    const labelGroup = axis.getElementById('a-axis-label-group');
+    const labelShapes = labelGroup.getChildren();
+    expect(labelShapes[0].attr('fontWeight')).toBe(500); // active
+    expect(labelShapes[1].attr('fill')).toBe(Theme.uncheckedColor);
+  });
+  it('getItems', () => {
+    expect(axis.getItems()).toBe(axis.get('ticks'));
+  });
+
+  it('getItems by state', () => {
+    expect(axis.getItemsByState('active').length).toBe(1);
+    expect(axis.getItemsByState('unactive').length).toBe(1);
+    expect(axis.getItemsByState('disabled').length).toBe(0);
+  });
+
+  it('setItems', () => {
+    const items = [
+      { name: '1', value: 0.1 },
+      { name: '22222222', value: 0.2, disabled: true },
+      { name: '3', value: 0.6 },
+    ];
+    axis.setItems(items);
+    expect(axis.getItemsByState('active').length).toBe(0);
+    expect(axis.getItemsByState('disabled').length).toBe(1);
+    axis.setItems(ticks);
+    expect(axis.getItemsByState('disabled').length).toBe(0);
+    expect(axis.getItemsByState('active').length).toBe(1);
+  });
+
+  it('updateItem', () => {
+    const tick = ticks[0];
+    axis.updateItem(tick, { name: '333' });
+    expect(axis.getItemsByState('active').length).toBe(1);
+    const labelGroup = axis.getElementById('a-axis-label-group');
+    const labelShapes = labelGroup.getChildren();
+    expect(labelShapes[0].attr('fontWeight')).toBe(500); // active
+  });
+
+  it('set state', () => {
+    const tick = ticks[0];
+    axis.setItemState(tick, 'active', false);
+    expect(axis.getItemsByState('active').length).toBe(0);
+    const labelGroup = axis.getElementById('a-axis-label-group');
+    const labelShapes = labelGroup.getChildren();
+    expect(labelShapes[0].attr('fontWeight')).toBe('normal'); // clear active
+
+    axis.setItemState(tick, 'active', true);
+    expect(labelShapes[0].attr('fontWeight')).toBe(500); // clear active
+  });
+
+  it('clear state', () => {
+    expect(axis.getItemsByState('active').length).toBe(1);
+    axis.clearItemsState('active');
+    expect(axis.getItemsByState('active').length).toBe(0);
+  });
+
+  it('update tick', () => {
+    const newTicks = [
+      { name: '来自sss', value: 0 },
+      { id: '2', name: '2sss', unactive: true, value: 0.5 },
+      { name: '3eeee', value: 1 },
+    ];
+    axis.update({
+      ticks: newTicks,
+    });
+    const labelGroup = axis.getElementById('a-axis-label-group');
+    const labelShapes = labelGroup.getChildren();
+    expect(labelShapes[1].attr('fill')).toBe(Theme.uncheckedColor);
+    expect(axis.getItemsByState('unactive').length).toBe(1);
   });
 });

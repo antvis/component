@@ -7,7 +7,11 @@ export function getMatrixByAngle(point: Point, angle: number): number[] {
     // 角度为 0 或者 null 时返回 null
     return null;
   }
-  const m = transform(identityMatrix, [['t', -point.x, -point.y], ['r', angle], ['t', point.x, point.y]]);
+  const m = transform(identityMatrix, [
+    ['t', -point.x, -point.y],
+    ['r', angle],
+    ['t', point.x, point.y],
+  ]);
   return m;
 }
 

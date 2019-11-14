@@ -9,7 +9,11 @@ describe('test tooltip', () => {
   describe('no region limit', () => {
     const tooltip = new HtmlTooltip({
       parent: dom,
-      items: [{ name: 'china', value: '100' }, { name: 'india', value: '200' }, { name: 'england', value: '500' }],
+      items: [
+        { name: 'china', value: '100' },
+        { name: 'india', value: '200' },
+        { name: 'england', value: '500' },
+      ],
       visible: false,
     });
     const container = tooltip.getContainer();
@@ -93,6 +97,14 @@ describe('test tooltip', () => {
       expect(xdom.style.display).toBe('none');
       tooltip.show();
       expect(xdom.style.display).toBe('');
+      tooltip.update({
+        visible: false,
+      });
+      expect(xdom.style.display).toBe('none');
+      tooltip.update({
+        visible: true,
+      });
+      expect(xdom.style.display).toBe('');
       tooltip.setLocation({ x: 300, y: 300 });
       expect(xdom.style.top).toBe('100px');
       expect(xdom.style.left).toBe('300px');
@@ -157,7 +169,11 @@ describe('test tooltip', () => {
         start: { x: 100, y: 100 },
         end: { x: 400, y: 400 },
       },
-      items: [{ name: 'china', value: '100' }, { name: 'india', value: '200' }, { name: 'england', value: '500' }],
+      items: [
+        { name: 'china', value: '100' },
+        { name: 'india', value: '200' },
+        { name: 'england', value: '500' },
+      ],
     });
     const container = tooltip.getContainer();
     const offset = tooltip.get('offset');
