@@ -1,6 +1,6 @@
 import { Canvas } from '@antv/g-canvas';
 import { isNumberEqual } from '@antv/util';
-import ContinueLegend from '../../../src/legend/continue';
+import ContinuousLegend from '../../../src/legend/continuous';
 describe('test continue legend', () => {
   const dom = document.createElement('div');
   document.body.appendChild(dom);
@@ -13,7 +13,7 @@ describe('test continue legend', () => {
 
   describe('test layout horizontal', () => {
     const container = canvas.addGroup();
-    const legend = new ContinueLegend({
+    const legend = new ContinuousLegend({
       id: 'a',
       container,
       x: 100,
@@ -251,7 +251,7 @@ describe('test continue legend', () => {
 
   describe('test layout vertical', () => {
     const container = canvas.addGroup();
-    const legend = new ContinueLegend({
+    const legend = new ContinuousLegend({
       id: 'b',
       container,
       layout: 'vertical',
@@ -390,7 +390,7 @@ describe('test continue legend', () => {
 
   describe('test slidable', () => {
     const container = canvas.addGroup();
-    const legend = new ContinueLegend({
+    const legend = new ContinuousLegend({
       id: 'c',
       container,
       x: 100,
@@ -470,7 +470,7 @@ describe('test continue legend', () => {
 
   describe('test drag slider', () => {
     const container = canvas.addGroup();
-    const legend = new ContinueLegend({
+    const legend = new ContinuousLegend({
       id: 'd',
       container,
       x: 300,

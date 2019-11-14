@@ -1,6 +1,6 @@
 import * as Component from '../../src/index';
 import { Annotation, Legend } from '../../src/index';
-const { Category, Continue } = Legend;
+const { Category, Continuous } = Legend;
 describe('test index', () => {
   it('test axis', () => {
     expect(Component.Axis).not.toBe(undefined);
@@ -29,6 +29,6 @@ describe('test index', () => {
   it('test legend', () => {
     expect(Legend).not.toBe(undefined);
     expect(Category).not.toBe(undefined);
-    expect(Continue).not.toBe(undefined);
+    expect(Continuous).not.toBe(undefined);
   });
 });
