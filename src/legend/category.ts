@@ -23,6 +23,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
       marker: {},
       items: [],
       itemStates: {},
+      itemBackground: {},
       defaultCfg: {
         title: {
           spacing: 5,
@@ -37,6 +38,12 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
           padding: 5,
           style: {
             stroke: Theme.lineColor,
+          },
+        },
+        itemBackground: {
+          style: {
+            opacity: 0,
+            fill: '#fff',
           },
         },
         itemName: {
@@ -307,24 +314,6 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     });
   }
 
-  // 获取当图例项存在状态时的元素样式，考虑存在多个样式
-  // private getItemElementStatesStyle(item: ListItem, elementName: string, states: string[]) {
-  //   const itemStates = this.get('itemStates');
-  //   const styleName = `${elementName}Style`; // activeStyle
-  //   let styles = null;
-  //   each(states, (state) => {
-  //     if (item[state] && itemStates[state]) {
-  //       // item.active === true
-  //       const stateStyle = itemStates[state][styleName];
-  //       if (!styles) {
-  //         styles = {};
-  //       }
-  //       mix(styles, stateStyle); // 合并样式
-  //     }
-  //   });
-  //   return styles;
-  // }
-
   // 绘制图例项
   private drawItem(item: ListItem, index: number, itemHeight: number, itemGroup: IGroup) {
     const groupId = `item-${item.id}`;
@@ -339,6 +328,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     const marker = this.get('marker');
     const itemName = this.get('itemName');
     const itemValue = this.get('itemValue');
+    const itemBackground = this.get('itemBackground');
 
     let curX = 0; // 记录当前 x 的位置
     if (marker) {
@@ -360,6 +350,24 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
         });
       } // 如果考虑 value 和 name 的覆盖，这个地方需要做文本自动省略的功能
     }
+    // 添加透明的背景，便于拾取和包围盒计算
+    if (itemBackground) {
+      const bbox = subGroup.getBBox();
+      const backShape = this.addShape(subGroup, {
+        type: 'rect',
+        name: 'legend-item-background',
+        id: this.getElementId(`${groupId}-background`),
+        attrs: {
+          x: 0,
+          y: 0,
+          width: bbox.width,
+          height: itemHeight,
+          ...itemBackground.style,
+        },
+      });
+      backShape.toBack();
+    }
+
     this.applyItemStates(item, subGroup);
     return subGroup;
   }
