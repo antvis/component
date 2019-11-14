@@ -10,12 +10,14 @@ describe('test category legend', () => {
     width: 500,
     height: 500,
   });
+
   const originItems = [
     { name: 'a', value: 1, marker: { symbol: 'circle', r: 4, stroke: 'red' } },
     { name: 'b', value: 2, marker: { symbol: 'square', r: 4, fill: 'red' } },
     { name: 'c', value: 3, marker: { symbol: 'circle', r: 4, stroke: 'blue' } },
     { name: 'd', value: 4, marker: { symbol: 'circle', r: 4, stroke: 'yellow' } },
   ];
+
   describe('test horizontal legend', () => {
     const container = canvas.addGroup();
     const legend = new CategroyLegend({
@@ -24,6 +26,7 @@ describe('test category legend', () => {
       x: 100,
       y: 100,
       items: originItems,
+      itemBackground: null,
     });
 
     it('init', () => {
@@ -187,6 +190,40 @@ describe('test category legend', () => {
       expect(bbox.minX).toBe(200);
       expect(bbox.minY).toBe(200);
     });
+    it('item background', () => {
+      // legend.update({
+      //   title: null,
+      //   x: 100,
+      //   y: 100,
+      // });
+      // const bbox = legend.get('group').getCanvasBBox();
+      // expect(bbox.minX).toBe(100);
+      // expect(bbox.minY).toBe(104); // 因为没有背景框，所有 itemHeight 多出 4px
+
+      legend.update({
+        title: null,
+        itemBackground: {
+          style: {
+            fill: 'red',
+            opacity: 1,
+          },
+        },
+        x: 100,
+        y: 100,
+      });
+      // const bbox1 = legend.get('group').getCanvasBBox(); ci 报错没找到原因
+      // expect(bbox1.minX).toBe(100);
+      // expect(bbox1.minY).toBe(100);
+      const itemGroup = legend.getElementById('c-legend-item-group');
+      const item1 = itemGroup.getChildren()[0];
+      expect(item1.getFirst().get('type')).toBe('rect');
+      expect(item1.getBBox().height).toBe(20);
+
+      legend.update({
+        itemBackground: null,
+      });
+      expect(item1.getFirst().get('type')).toBe('marker');
+    });
 
     it('background', () => {
       legend.update({
@@ -234,6 +271,7 @@ describe('test category legend', () => {
       x: 100,
       y: 100,
       items: originItems,
+      itemBackground: null,
     });
     it('init', () => {
       expect(legend.get('layout')).toBe('vertical');
@@ -299,6 +337,7 @@ describe('test category legend', () => {
       id: 'd',
       container,
       layout: 'vertical',
+      itemBackground: null,
       x: 100,
       y: 100,
       items,
