@@ -212,21 +212,40 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> implements ISlider {
     };
   }
 
-  private drawRail(group: IGroup) {
+  private getRailPath() {
     const railCfg = this.get('rail');
-    const { size, defaultLength } = railCfg;
+    const { size, defaultLength, type } = railCfg;
     const isVertical = this.isVertical();
     const length = defaultLength;
+    const x = 0;
+    const y = 0;
+    const width = isVertical ? size : length;
+    const height = isVertical ? length : size;
+    const path = [];
+    if (type === 'color') {
+      path.push(['M', x, y]);
+      path.push(['L', x + width, y]);
+      path.push(['L', x + width, y + height]);
+      path.push(['L', x, y + height]);
+      path.push(['Z']);
+    } else {
+      path.push(['M', x + width, y]);
+      path.push(['L', x + width, y + height]);
+      path.push(['L', x, y + height]);
+      path.push(['Z']);
+    }
+    return path;
+  }
+
+  private drawRail(group: IGroup) {
+    const railCfg = this.get('rail');
     const style = railCfg.style;
     this.addShape(group, {
-      type: 'rect',
+      type: 'path',
       id: this.getElementId('rail'),
       name: 'legend-rail',
       attrs: {
-        x: 0,
-        y: 0,
-        width: isVertical ? size : length,
-        height: isVertical ? length : size,
+        path: this.getRailPath(),
         ...style,
       },
     });
@@ -259,25 +278,61 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> implements ISlider {
     const startPoint = this.getPointByValue(min, group);
     const endPoint = this.getPointByValue(max, group);
     const trackCfg = this.get('track');
+    const railType = this.get('rail').type;
     const colors = this.get('colors');
-    let trackAttrs;
-    if (this.isVertical()) {
-      trackAttrs = {
-        x: railBBox.minX,
-        y: startPoint.y,
-        width: railBBox.width,
-        height: endPoint.y - startPoint.y,
-      };
+    const isVertical = this.isVertical();
+    let x;
+    let y;
+    let width;
+    let height;
+    const path = [];
+    if (isVertical) {
+      x = railBBox.minX;
+      y = startPoint.y;
+      width = railBBox.width;
+      height = endPoint.y - startPoint.y;
     } else {
-      trackAttrs = {
-        x: startPoint.x,
-        y: railBBox.minY,
-        width: endPoint.x - startPoint.x,
-        height: railBBox.height,
-      };
+      x = startPoint.x;
+      y = railBBox.minY;
+      width = endPoint.x - startPoint.x;
+      height = railBBox.height;
     }
-    trackAttrs.fill = this.getTrackColor(colors);
-    return mix(trackAttrs, trackCfg.style);
+    if (railType === 'color') {
+      path.push(['M', x, y]);
+      path.push(['L', x + width, y]);
+      path.push(['L', x + width, y + height]);
+      path.push(['L', x, y + height]);
+      path.push(['Z']);
+    } else {
+      const range = this.getRange();
+      const distance = range.max - range.min;
+      const minPercent = (min - range.min) / distance;
+      const maxPercent = (max - range.min) / distance;
+      if (isVertical) {
+        const minX = getValueByPercent(railBBox.maxX, railBBox.minX, minPercent);
+        const maxX = getValueByPercent(railBBox.maxX, railBBox.minX, maxPercent);
+        path.push(['M', minX, y]);
+        path.push(['L', x + width, y]);
+        path.push(['L', x + width, y + height]);
+        path.push(['L', maxX, y + height]);
+        path.push(['Z']);
+      } else {
+        const minY = getValueByPercent(railBBox.maxY, railBBox.minY, minPercent);
+        const maxY = getValueByPercent(railBBox.maxY, railBBox.minY, maxPercent);
+        path.push(['M', x, minY]);
+        path.push(['L', x + width, maxY]);
+        path.push(['L', x + width, y + height]);
+        path.push(['L', x, y + height]);
+        path.push(['Z']);
+      }
+    }
+    return mix(
+      {
+        path,
+        fill: this.getTrackColor(colors),
+      },
+      trackCfg.style
+    );
   }
 
   private resetTrack(group: IGroup) {
@@ -290,7 +345,7 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> implements ISlider {
       trackShape.attr(trackAttrs);
     } else {
       this.addShape(group, {
-        type: 'rect',
+        type: 'path',
         id: trackId,
         name: 'legend-track',
         attrs: trackAttrs,

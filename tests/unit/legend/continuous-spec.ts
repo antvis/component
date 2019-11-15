@@ -468,7 +468,7 @@ describe('test continue legend', () => {
     });
   });
 
-  describe('test drag slider', () => {
+  describe.only('test drag slider', () => {
     const container = canvas.addGroup();
     const legend = new ContinuousLegend({
       id: 'd',
@@ -542,6 +542,24 @@ describe('test continue legend', () => {
       });
 
       expect(legend.getValue()).toEqual([200, 520]);
+    });
+    it('rail size drag', () => {
+      legend.update({
+        rail: {
+          type: 'size',
+        },
+      });
+      legend.setValue([100, 400]);
+      const trackEl = legend.getElementById('d-legend-track');
+      expect(trackEl.attr('path')[0]).toEqual(['M', 10, 18]);
+
+      legend.update({
+        layout: 'vertical',
+        label: {
+          align: 'right',
+        },
+      });
+      expect(trackEl.attr('path')[0]).toEqual(['M', 18, 10]);
     });
   });
 });
