@@ -32,8 +32,8 @@ export interface IList {
   setItemState(item: ListItem, state: string, value: boolean);
   /**
    * 根据状态获取
-   * @param  {[type]}     state [description]
-   * @return {ListItem[]}       [description]
+   * @param  {state}     state 状态名
+   * @return {ListItem[]} 列表项
    */
   getItemsByState(state): ListItem[];
   /**
