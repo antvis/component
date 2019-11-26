@@ -52,7 +52,7 @@ abstract class CrosshairBase<T extends CrosshairBaseCfg = CrosshairBaseCfg> exte
     }
     if (this.get('text')) {
       this.renderText(group);
-      this.renderBackGround(group);
+      this.renderBackground(group);
     }
   }
 
@@ -107,7 +107,7 @@ abstract class CrosshairBase<T extends CrosshairBaseCfg = CrosshairBaseCfg> exte
   }
 
   // 绘制文本的背景
-  private renderBackGround(group: IGroup) {
+  private renderBackground(group: IGroup) {
     const textId = this.getElementId('text');
     const textShape = group.findById(textId); // 查找文本
     if (textShape) {
