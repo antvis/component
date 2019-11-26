@@ -1,5 +1,5 @@
 import * as Component from '../../src/index';
-import { Annotation, Legend } from '../../src/index';
+import { Annotation, Crosshair, Legend } from '../../src/index';
 const { Category, Continuous } = Legend;
 describe('test index', () => {
   it('test axis', () => {
@@ -30,5 +30,9 @@ describe('test index', () => {
     expect(Legend).not.toBe(undefined);
     expect(Category).not.toBe(undefined);
     expect(Continuous).not.toBe(undefined);
+  });
+  it('test crosshair', () => {
+    expect(Crosshair.Line).not.toBe(undefined);
+    expect(Crosshair.Circle).not.toBe(undefined);
   });
 });
