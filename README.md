@@ -553,6 +553,43 @@ Annotation.Text 辅助文本的定位方式是 'point'
 - setLocation({x, y}) 设置位置
 - getLocation() 获取位置
 
+### Crosshair
+
+Crosshair (十字线)是配合 tooltip 一起使用的，由于不同坐标系下的 Crosshair 不一致，所以独立出来实现，有两个类：
+
+- Crosshair.Line 直线类型的十字线
+- Crosshair.Circle 圆形十字线
+
+两种十字线共同的属性有：
+
+- line: 线的配置信息,
+  - style: 线的样式，参考: [图形属性](https://g.antv.vision/zh/docs/api/shape/line)
+- text: 文本的配置信息,
+  - position: 位置，可以指定 'start', 'end'， 默认值 'start'
+  - offset: 指定 position 后的偏移量
+  - autoRotate: 是否沿着线方向自动旋转，默认 false;
+  - content: 显示的文本
+  - style: 文本的样式, 参考 [文本属性](https://g.antv.vision/zh/docs/api/shape/text)
+- textBackground: 文本背景的配置信息,
+  - padding: 文本的 padding，可以数值，也可以数组
+  - style：文本背景的配置项, 参考[图形属性](https://g.antv.vision/zh/docs/api/shape/rect)
+
+#### Crosshair.Line
+
+Crosshair.Line 的定位方式是 region，属性有：
+
+- start: 起始点,
+- end: 结束点
+
+#### Crosshair.Circle
+
+Crosshair.Circle 的定位方式是 circle，属性有：
+
+- center: 圆心,
+- radius: 半径,
+- startAngle: 起始角度，默认 -Math.PI / 2,
+- endAngle: 结束角度， (Math.PI \* 3) / 2,
+
 ### 接口定义
 
 Componet 实现了几个接口，用于统一的交互:
