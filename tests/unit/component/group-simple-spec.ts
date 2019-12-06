@@ -73,6 +73,7 @@ describe('test simple component', () => {
     b.render();
     expect(b.getElementById('a')).not.toBe(undefined);
     expect(b.getElementById('a').get('delegationObject')).toEqual({
+      component: b,
       custom: b,
       showA: true,
     });
@@ -85,11 +86,13 @@ describe('test simple component', () => {
       showB: true,
     });
     expect(b.getElementById('a').get('delegationObject')).toEqual({
+      component: b,
       custom: b,
       showA: true,
     });
     expect(b.get('group').getChildren().length).toBe(2);
     expect(b.getElementById('b').get('delegationObject')).toEqual({
+      component: b,
       custom: b,
       showB: true,
     });
