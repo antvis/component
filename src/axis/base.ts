@@ -463,6 +463,7 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
         attrs: this.getLabelAttrs(tick, index),
         delegationObject: {
           tick,
+          item: tick,
           index,
         },
       });
