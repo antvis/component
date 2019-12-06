@@ -328,6 +328,7 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
     const name = this.get('name');
     const delegationObject = {
       [name]: this,
+      component: this,
     };
     return delegationObject;
   }
