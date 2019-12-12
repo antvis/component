@@ -330,9 +330,9 @@ describe('test category legend', () => {
 
   describe('test horizontal legend navigation', () => {
     const lotsItems = [
-      { name: 'aaa测试', value: 1, marker: { symbol: 'circle', r: 4, stroke: 'red' } },
+      { name: 'aaaaaaa', value: 1, marker: { symbol: 'circle', r: 4, stroke: 'red' } },
       { name: 'bbbbbbb', value: 2, marker: { symbol: 'square', r: 4, fill: 'red' } },
-      { name: 'ccc测试', value: 3, marker: { symbol: 'circle', r: 4, stroke: 'blue' } },
+      { name: 'ccccccc', value: 3, marker: { symbol: 'circle', r: 4, stroke: 'blue' } },
       { name: 'ddddddd', value: 4, marker: { symbol: 'circle', r: 4, stroke: 'yellow' } },
       { name: 'eeeeeee', value: 5, marker: { symbol: 'circle', r: 4, stroke: 'red' } },
       { name: 'fffffff', value: 6, marker: { symbol: 'square', r: 4, fill: 'red' } },
@@ -399,25 +399,25 @@ describe('test category legend', () => {
 
       // click next: page 2
       rightArrow.emit('click');
-      await wait(200); // wait for animation finished
+      await wait(200);
       expect(textShape.attr('text')).toEqual('2/4');
       expect(itemGroup.attr('matrix')[7]).toBe(-20);
 
       // click next: page 3
       rightArrow.emit('click');
-      await wait(200); // wait for animation finished
+      await wait(200);
       expect(textShape.attr('text')).toEqual('3/4');
       expect(itemGroup.attr('matrix')[7]).toBe(-40);
 
       // click next: page 4
       rightArrow.emit('click');
-      await wait(200); // wait for animation finished
+      await wait(200);
       expect(textShape.attr('text')).toEqual('4/4');
       expect(itemGroup.attr('matrix')[7]).toBe(-60);
 
       // click next: page 4
       rightArrow.emit('click');
-      await wait(200); // wait for animation finished
+      await wait(200);
       expect(textShape.attr('text')).toEqual('4/4');
       expect(itemGroup.attr('matrix')[7]).toBe(-60);
 
@@ -454,9 +454,9 @@ describe('test category legend', () => {
 
   describe('test vertical legend navigation', () => {
     const lotsItems = [
-      { name: 'aaa测试', value: 1, marker: { symbol: 'circle', r: 4, stroke: 'red' } },
+      { name: 'aaaaaaa', value: 1, marker: { symbol: 'circle', r: 4, stroke: 'red' } },
       { name: 'bbbbbbb', value: 2, marker: { symbol: 'square', r: 4, fill: 'red' } },
-      { name: 'ccc测试', value: 3, marker: { symbol: 'circle', r: 4, stroke: 'blue' } },
+      { name: 'ccccccc', value: 3, marker: { symbol: 'circle', r: 4, stroke: 'blue' } },
       { name: 'ddddddd', value: 4, marker: { symbol: 'circle', r: 4, stroke: 'yellow' } },
       { name: 'eeeeeee', value: 5, marker: { symbol: 'circle', r: 4, stroke: 'red' } },
       { name: 'fffffff', value: 6, marker: { symbol: 'square', r: 4, fill: 'red' } },
@@ -523,19 +523,19 @@ describe('test category legend', () => {
 
       // click next: page 2
       rightArrow.emit('click');
-      await wait(200); // wait for animation finished
+      await wait(200);
       expect(textShape.attr('text')).toEqual('2/3');
       expect(itemGroup.attr('matrix')[6]).toBe(-pageWidth);
 
       // click next: page 3
       rightArrow.emit('click');
-      await wait(200); // wait for animation finished
+      await wait(200);
       expect(textShape.attr('text')).toEqual('3/3');
       expect(itemGroup.attr('matrix')[6]).toBe(-2 * pageWidth);
 
       // click next: page 3
       rightArrow.emit('click');
-      await wait(200); // wait for animation finished
+      await wait(200);
       expect(textShape.attr('text')).toEqual('3/3');
       expect(itemGroup.attr('matrix')[6]).toBe(-2 * pageWidth);
 
