@@ -10,7 +10,7 @@ import Component from './component';
 type Callback = (evt: object) => void;
 
 const STATUS_UPDATE = 'update_status';
-const COPY_POPERTYS = ['visible', 'tip', 'delegationObject']; // 更新对象时需要复制的属性
+const COPY_POPERTYS = ['visible', 'tip', 'delegateObject']; // 更新对象时需要复制的属性
 
 abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> extends Component {
   public getDefaultCfg() {
@@ -128,7 +128,7 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
     const group = this.get('group');
     const GroupClass = group.getGroupBase(); // 获取分组的构造函数
     const newGroup = new GroupClass({
-      delegationObject: this.getDelegationObject(), // 生成委托事件触发时附加的对象
+      delegateObject: this.getDelegateObject(), // 生成委托事件触发时附加的对象
     });
     return newGroup;
   }
@@ -162,7 +162,7 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
         name: this.get('name'),
         capture: this.get('capture'),
         visible: this.get('visible'),
-        delegationObject: this.getDelegationObject(),
+        delegateObject: this.getDelegateObject(),
       })
     );
   }
@@ -174,7 +174,7 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
    * @param {object} cfg    分组的配置项
    */
   protected addGroup(parent: IGroup, cfg) {
-    this.appendDelegationObject(parent, cfg);
+    this.appendDelegateObject(parent, cfg);
     const group = parent.addGroup(cfg);
     if (this.get('isRegister')) {
       this.registerElement(group);
@@ -189,7 +189,7 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
    * @param {object} cfg    分组的配置项
    */
   protected addShape(parent: IGroup, cfg) {
-    this.appendDelegationObject(parent, cfg);
+    this.appendDelegateObject(parent, cfg);
     const shape = parent.addShape(cfg);
     if (this.get('isRegister')) {
       this.registerElement(shape);
@@ -335,22 +335,22 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
   }
 
   // 获取发生委托时的对象，在事件中抛出
-  private getDelegationObject() {
+  private getDelegateObject() {
     const name = this.get('name');
-    const delegationObject = {
+    const delegateObject = {
       [name]: this,
       component: this,
     };
-    return delegationObject;
+    return delegateObject;
   }
 
   // 附加委托信息，用于事件
-  private appendDelegationObject(parent: IGroup, cfg) {
-    const parentObject = parent.get('delegationObject');
-    if (!cfg.delegationObject) {
-      cfg.delegationObject = {};
+  private appendDelegateObject(parent: IGroup, cfg) {
+    const parentObject = parent.get('delegateObject');
+    if (!cfg.delegateObject) {
+      cfg.delegateObject = {};
     }
-    mix(cfg.delegationObject, parentObject); // 将父元素上的委托信息复制到自身
+    mix(cfg.delegateObject, parentObject); // 将父元素上的委托信息复制到自身
   }
 
   // 获取需要替换的属性，如果原先图形元素存在，而新图形不存在，则设置 undefined

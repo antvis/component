@@ -15,7 +15,7 @@ class BComponent extends GroupComponent {
       this.addShape(group, {
         type: 'text',
         id: 'a',
-        delegationObject: {
+        delegateObject: {
           showA,
         },
         attrs: {
@@ -31,7 +31,7 @@ class BComponent extends GroupComponent {
       this.addShape(group, {
         type: 'rect',
         id: 'b',
-        delegationObject: {
+        delegateObject: {
           showB,
         },
         attrs: {
@@ -72,7 +72,7 @@ describe('test simple component', () => {
   it('render', () => {
     b.render();
     expect(b.getElementById('a')).not.toBe(undefined);
-    expect(b.getElementById('a').get('delegationObject')).toEqual({
+    expect(b.getElementById('a').get('delegateObject')).toEqual({
       component: b,
       custom: b,
       showA: true,
@@ -85,13 +85,13 @@ describe('test simple component', () => {
     b.update({
       showB: true,
     });
-    expect(b.getElementById('a').get('delegationObject')).toEqual({
+    expect(b.getElementById('a').get('delegateObject')).toEqual({
       component: b,
       custom: b,
       showA: true,
     });
     expect(b.get('group').getChildren().length).toBe(2);
-    expect(b.getElementById('b').get('delegationObject')).toEqual({
+    expect(b.getElementById('b').get('delegateObject')).toEqual({
       component: b,
       custom: b,
       showB: true,
