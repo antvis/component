@@ -49,6 +49,17 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
     return this.get('shapesMap')[id];
   }
 
+  public getElementsByName(name: string) {
+    const rst = [];
+    each(this.get('shapesMap'), (elem) => {
+      if (elem.get('name') === name) {
+        rst.push(elem);
+      }
+    });
+
+    return rst;
+  }
+
   public getContainer(): IGroup {
     return this.get('container') as IGroup;
   }

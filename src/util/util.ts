@@ -78,3 +78,12 @@ export function distance(p1: Point, p2: Point): number {
   const dy = p2.y - p1.y;
   return Math.sqrt(dx * dx + dy * dy);
 }
+
+export const wait = (interval: number): Promise<void> => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, interval);
+  });
+};
+
+export const near = (x: number, y: number): boolean =>
+  [x, y].includes(Infinity) ? Math.abs(x) === Math.abs(y) : Math.abs(x - y) < Math.pow(Number.EPSILON, 0.5);
