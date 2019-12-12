@@ -2,11 +2,17 @@ import { IGroup } from '@antv/g-base/lib/interfaces';
 import { each, filter, mix } from '@antv/util';
 import { IList } from '../interfaces';
 import { CategoryLegendCfg, LegendItemNameCfg, LegendMarkerCfg, ListItem } from '../types';
+import { getMatrixByAngle, getMatrixByTranslate } from '../util/matrix';
 import { getStatesStyle } from '../util/state';
 import Theme from '../util/theme';
 import LegendBase from './base';
 
 class Category extends LegendBase<CategoryLegendCfg> implements IList {
+  private currentPageIndex = 1;
+  private totalPagesCnt = 1;
+  private pageWidth = 0;
+  private pageHeight = 0;
+
   public getDefaultCfg() {
     const cfg = super.getDefaultCfg();
     return {
@@ -232,20 +238,27 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     const itemSpacing = this.get('itemSpacing');
     const currentPoint = this.get('currentPoint');
     const startX = currentPoint.x;
+    const startY = currentPoint.y;
     const layout = this.get('layout');
     const items = this.get('items');
+    let wrapped = false;
+    let pageWidth = 0;
 
     const maxWidth = this.get('maxWidth'); // 最大宽度，会导致 layout : 'horizontal' 时自动换行
-    // const maxHeight = this.get('maxHeight'); // 最大高度，会导致出现分页
+    const maxHeight = this.get('maxHeight'); // 最大高度，会导致出现分页
     // 暂时不考虑分页
     each(items, (item, index) => {
       const subGroup = this.drawItem(item, index, itemHeight, itemGroup);
       const bbox = subGroup.getBBox();
       const width = itemWidth || bbox.width;
+      if (width > pageWidth) {
+        pageWidth = width;
+      }
       if (layout === 'horizontal') {
         // 如果水平布局
-        if (maxWidth && maxWidth <= currentPoint.x + width) {
+        if (maxWidth && maxWidth < currentPoint.x + width - startX) {
           // 检测是否换行
+          wrapped = true;
           currentPoint.x = startX;
           currentPoint.y += itemHeight;
         }
@@ -253,10 +266,25 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
         currentPoint.x += width + itemSpacing;
       } else {
         // 如果垂直布局
+        if (maxHeight && maxHeight < currentPoint.y + itemHeight - startY) {
+          // 换行
+          wrapped = true;
+          currentPoint.x += pageWidth + itemSpacing;
+          currentPoint.y = startY;
+          pageWidth = 0;
+        }
         this.moveElementTo(subGroup, currentPoint);
         currentPoint.y += itemHeight; // itemSpacing 仅影响水平间距
       }
     });
+
+    if (wrapped && this.get('flipPage')) {
+      this.pageHeight = 0;
+      this.pageWidth = 0;
+      this.currentPageIndex = 1;
+      this.totalPagesCnt = 1;
+      this.adjustNavigation(group, { x: startX, y: startY });
+    }
   }
   // 获取图例项的高度，如果未定义，则按照 name 的高度计算
   private getItemHeight() {
@@ -371,6 +399,240 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     this.applyItemStates(item, subGroup);
     return subGroup;
   }
+
+  // 加上分页器并重新排序 items
+  private adjustNavigation(container: IGroup, { x: startX, y: startY }: { x: number; y: number }) {
+    const layout = this.get('layout');
+    const itemGroup = this.getElementByLocalId('item-group');
+    const subGroups = this.getElementsByName('legend-item');
+    const maxWidth = this.get('maxWidth');
+    const maxHeight = this.get('maxHeight');
+    const itemWidth = this.get('itemWidth');
+    const itemSpacing = this.get('itemSpacing');
+    const itemHeight = this.getItemHeight();
+    const navigation = this.drawNavigation(container, layout, '00/00', 12);
+    const navigationBBox = navigation.getBBox();
+    const currentPoint = { x: startX, y: startY };
+    let pages = 1;
+    let widthLimit = 0;
+    let pageWidth = 0;
+
+    if (layout === 'horizontal') {
+      this.pageHeight = itemHeight;
+      each(subGroups, (item) => {
+        const bbox = item.getBBox();
+        const width = itemWidth || bbox.width;
+        if (
+          (widthLimit && widthLimit < currentPoint.x + width + itemSpacing) ||
+          maxWidth < currentPoint.x + width + itemSpacing + navigationBBox.width
+        ) {
+          if (pages === 1) {
+            widthLimit = currentPoint.x + itemSpacing;
+            this.pageWidth = widthLimit;
+            this.moveElementTo(navigation, {
+              x: maxWidth - itemSpacing - navigationBBox.width,
+              y: currentPoint.y + itemHeight / 2 - navigationBBox.height / 2,
+            });
+          }
+          pages += 1;
+          currentPoint.x = startX;
+          currentPoint.y += itemHeight;
+        }
+        this.moveElementTo(item, currentPoint);
+        currentPoint.x += width + itemSpacing;
+      });
+    } else {
+      each(subGroups, (item) => {
+        const bbox = item.getBBox();
+        if (bbox.width > pageWidth) {
+          pageWidth = bbox.width;
+        }
+      });
+      pageWidth += itemSpacing;
+      if (maxWidth) {
+        // maxWidth 限制加上
+        pageWidth = Math.min(maxWidth, pageWidth);
+      }
+      this.pageWidth = pageWidth;
+      this.pageHeight = maxHeight - Math.max(navigationBBox.height, itemHeight);
+      const cntPerPage = Math.floor(this.pageHeight / itemHeight);
+      each(subGroups, (item, index) => {
+        if (index !== 0 && index % cntPerPage === 0) {
+          pages += 1;
+          currentPoint.x += pageWidth;
+          currentPoint.y = startY;
+        }
+        this.moveElementTo(item, currentPoint);
+        item.setClip({
+          type: 'rect',
+          attrs: {
+            x: currentPoint.x,
+            y: currentPoint.y,
+            width: pageWidth,
+            height: itemHeight,
+          },
+        });
+        currentPoint.y += itemHeight;
+      });
+      this.totalPagesCnt = pages;
+      this.moveElementTo(navigation, {
+        x: startX + pageWidth / 2 - navigationBBox.width / 2,
+        y: maxHeight - navigationBBox.height,
+      });
+    }
+
+    // 设置整体 clip 仅显示第一页
+    itemGroup.setClip({
+      type: 'rect',
+      attrs: {
+        x: startX,
+        y: startY,
+        width: this.pageWidth,
+        height: this.pageHeight,
+      },
+    });
+
+    this.updateNavigation(`1/${pages}`);
+    this.totalPagesCnt = pages;
+    this.currentPageIndex = 1;
+  }
+
+  private drawNavigation(group: IGroup, layout: 'horizontal' | 'vertical', text: string, size: number) {
+    const currentPoint = { x: 0, y: 0 };
+    const subGroup = this.addGroup(group, {
+      id: this.getElementId('navigation-group'),
+      name: 'legend-navigation',
+    });
+    const leftArrow = this.drawArrow(
+      subGroup,
+      currentPoint,
+      'navigation-arrow-left',
+      layout === 'horizontal' ? 'up' : 'left',
+      size
+    );
+    leftArrow.on('click', this.onNavigationBack);
+    const leftArrowBBox = leftArrow.getBBox();
+    currentPoint.x += leftArrowBBox.width + 2;
+
+    const textShape = this.addShape(subGroup, {
+      type: 'text',
+      id: this.getElementId('navigation-text'),
+      name: 'navigation-text',
+      attrs: {
+        x: currentPoint.x,
+        y: currentPoint.y + size / 2,
+        text,
+        fontSize: 12,
+        fill: '#ccc',
+        textBaseline: 'middle',
+      },
+    });
+    const textBBox = textShape.getBBox();
+    currentPoint.x += textBBox.width + 2;
+
+    const rightArrow = this.drawArrow(
+      subGroup,
+      currentPoint,
+      'navigation-arrow-right',
+      layout === 'horizontal' ? 'down' : 'right',
+      size
+    );
+    rightArrow.on('click', this.onNavigationAfter);
+
+    return subGroup;
+  }
+
+  private updateNavigation(text: string) {
+    const textShape = this.getElementByLocalId('navigation-text');
+    const origBBox = textShape.getBBox();
+    textShape.attr('text', text);
+    const newBBox = textShape.getBBox();
+    textShape.attr('x', textShape.attr('x') - (newBBox.width - origBBox.width) / 2);
+  }
+
+  private drawArrow(
+    group: IGroup,
+    currentPoint: { x: number; y: number },
+    name: string,
+    direction: 'left' | 'right' | 'up' | 'down',
+    size: number
+  ) {
+    const { x, y } = currentPoint;
+    const rotateMap = {
+      right: (90 * Math.PI) / 180,
+      left: ((360 - 90) * Math.PI) / 180,
+      up: 0,
+      down: (180 * Math.PI) / 180,
+    };
+    const shape = this.addShape(group, {
+      type: 'path',
+      id: this.getElementId(name),
+      name,
+      attrs: {
+        path: [['M', x + size / 2, y], ['L', x, y + size], ['L', x + size, y + size], ['Z']],
+        fill: '#ccc',
+        cursor: 'pointer',
+      },
+    });
+    shape.attr('matrix', getMatrixByAngle({ x: x + size / 2, y: y + size / 2 }, rotateMap[direction]));
+
+    return shape;
+  }
+
+  private onNavigationBack = () => {
+    const layout = this.get('layout');
+    const itemGroup = this.getElementByLocalId('item-group');
+    if (this.currentPageIndex > 1) {
+      this.currentPageIndex -= 1;
+      this.updateNavigation(`${this.currentPageIndex}/${this.totalPagesCnt}`);
+      const matrix = getMatrixByTranslate(
+        layout === 'horizontal'
+          ? {
+              x: 0,
+              y: this.getItemHeight(),
+            }
+          : {
+              x: this.pageWidth,
+              y: 0,
+            },
+        itemGroup.attr('matrix')
+      );
+      itemGroup.animate(
+        {
+          matrix,
+        },
+        100
+      );
+    }
+  };
+
+  private onNavigationAfter = () => {
+    const layout = this.get('layout');
+    const itemGroup = this.getElementByLocalId('item-group');
+    if (this.currentPageIndex < this.totalPagesCnt) {
+      this.currentPageIndex += 1;
+      this.updateNavigation(`${this.currentPageIndex}/${this.totalPagesCnt}`);
+      const matrix = getMatrixByTranslate(
+        layout === 'horizontal'
+          ? {
+              x: 0,
+              y: -this.pageHeight,
+            }
+          : {
+              x: -this.pageWidth,
+              y: 0,
+            },
+        itemGroup.attr('matrix')
+      );
+
+      itemGroup.animate(
+        {
+          matrix,
+        },
+        100
+      );
+    }
+  };
 
   // 附加状态对应的样式
   private applyItemStates(item: ListItem, subGroup: IGroup) {

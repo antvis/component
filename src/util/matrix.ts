@@ -15,12 +15,12 @@ export function getMatrixByAngle(point: Point, angle: number): number[] {
   return m;
 }
 
-export function getMatrixByTranslate(point: Point): number[] {
+export function getMatrixByTranslate(point: Point, currentMatrix?: number[]): number[] {
   if (!point.x && !point.y) {
     // 0，0 或者 nan 的情况下返回 null
     return null;
   }
-  return transform(identityMatrix, [['t', point.x, point.y]]);
+  return transform(currentMatrix || identityMatrix, [['t', point.x, point.y]]);
 }
 
 // 从矩阵获取旋转的角度

@@ -1,6 +1,9 @@
 import { Canvas } from '@antv/g-canvas';
 import CategroyLegend from '../../../src/legend/category';
+import { getAngleByMatrix } from '../../../src/util/matrix';
 import Theme from '../../../src/util/theme';
+import { near, wait } from '../../../src/util/util';
+
 describe('test category legend', () => {
   const dom = document.createElement('div');
   document.body.appendChild(dom);
@@ -320,6 +323,242 @@ describe('test category legend', () => {
     });
 
     it('destroy', () => {
+      legend.destroy();
+      expect(legend.destroyed).toBe(true);
+    });
+  });
+
+  describe('test horizontal legend navigation', () => {
+    const lotsItems = [
+      { name: 'aaaaaaa', value: 1, marker: { symbol: 'circle', r: 4, stroke: 'red' } },
+      { name: 'bbbbbbb', value: 2, marker: { symbol: 'square', r: 4, fill: 'red' } },
+      { name: 'ccccccc', value: 3, marker: { symbol: 'circle', r: 4, stroke: 'blue' } },
+      { name: 'ddddddd', value: 4, marker: { symbol: 'circle', r: 4, stroke: 'yellow' } },
+      { name: 'eeeeeee', value: 5, marker: { symbol: 'circle', r: 4, stroke: 'red' } },
+      { name: 'fffffff', value: 6, marker: { symbol: 'square', r: 4, fill: 'red' } },
+      { name: 'ggggggg', value: 7, marker: { symbol: 'square', r: 4, fill: 'blue' } },
+      { name: 'hhhhhhh', value: 8, marker: { symbol: 'square', r: 4, fill: 'blue' } },
+      { name: 'iiiiiii', value: 9, marker: { symbol: 'square', r: 4, fill: 'yellow' } },
+      { name: 'kkkkkkk', value: 10, marker: { symbol: 'square', r: 4, fill: 'yellow' } },
+    ];
+    const container = canvas.addGroup();
+    const legend = new CategroyLegend({
+      id: 'c',
+      container,
+      x: 0,
+      y: 0,
+      items: lotsItems,
+      layout: 'horizontal',
+      itemBackground: null,
+      maxWidth: 400,
+      flipPage: true,
+    });
+    legend.render();
+
+    it('navigation rendered', () => {
+      const navigation = legend.getElementById('c-legend-navigation-group');
+      expect(navigation).not.toBeUndefined();
+      const children = navigation.getChildren();
+      expect(children).toHaveLength(3); // left arrow + text + right arrow
+
+      // left arrow: /\
+      expect(children[0].get('type')).toBe('path');
+      expect(children[0].attr('matrix')).toBeNull();
+
+      // text
+      expect(children[1].get('type')).toBe('text');
+      expect(children[1].attr('text')).toEqual('1/4');
+
+      // right arrow: \/
+      expect(children[2].get('type')).toBe('path');
+      expect(getAngleByMatrix(children[2].attr('matrix'))).toBe(Math.PI);
+    });
+
+    it('itemGroup clip', () => {
+      const itemGroup = legend.getElementById('c-legend-item-group');
+      const navigation = legend.getElementById('c-legend-navigation-group');
+      const clip = itemGroup.getClip();
+      expect(clip).not.toBeUndefined();
+      expect(clip).not.toBeNull();
+      expect(clip.get('type')).toBe('rect');
+      expect(clip.attr('x')).toBe(0);
+      expect(clip.attr('y')).toBe(0);
+      expect(clip.attr('width')).toBeLessThan(400 - navigation.getBBox().width);
+      expect(clip.attr('height')).toBe(20); // itemHeight
+    });
+
+    it('navigation event', async () => {
+      const navigation = legend.getElementById('c-legend-navigation-group');
+      const itemGroup = legend.getElementById('c-legend-item-group');
+      const textShape = navigation.getChildren()[1];
+      const leftArrow = navigation.getChildren()[0];
+      const rightArrow = navigation.getChildren()[2];
+
+      // default state: page 1
+      expect(itemGroup.attr('matrix')).toBeNull();
+
+      // click next: page 2
+      rightArrow.emit('click');
+      await wait(200);
+      expect(textShape.attr('text')).toEqual('2/4');
+      expect(itemGroup.attr('matrix')[7]).toBe(-20);
+
+      // click next: page 3
+      rightArrow.emit('click');
+      await wait(200);
+      expect(textShape.attr('text')).toEqual('3/4');
+      expect(itemGroup.attr('matrix')[7]).toBe(-40);
+
+      // click next: page 4
+      rightArrow.emit('click');
+      await wait(200);
+      expect(textShape.attr('text')).toEqual('4/4');
+      expect(itemGroup.attr('matrix')[7]).toBe(-60);
+
+      // click next: page 4
+      rightArrow.emit('click');
+      await wait(200);
+      expect(textShape.attr('text')).toEqual('4/4');
+      expect(itemGroup.attr('matrix')[7]).toBe(-60);
+
+      // click prev: page 3
+      leftArrow.emit('click');
+      await wait(200);
+      expect(textShape.attr('text')).toEqual('3/4');
+      expect(itemGroup.attr('matrix')[7]).toBe(-40);
+
+      // click prev: page 2
+      leftArrow.emit('click');
+      await wait(200);
+      expect(textShape.attr('text')).toEqual('2/4');
+      expect(itemGroup.attr('matrix')[7]).toBe(-20);
+
+      // click prev: page 1
+      leftArrow.emit('click');
+      await wait(200);
+      expect(textShape.attr('text')).toEqual('1/4');
+      expect(itemGroup.attr('matrix')[7]).toBe(0);
+
+      // click prev: page 1
+      leftArrow.emit('click');
+      await wait(200);
+      expect(textShape.attr('text')).toEqual('1/4');
+      expect(itemGroup.attr('matrix')[7]).toBe(0);
+    });
+
+    it('destroy', () => {
+      legend.destroy();
+      expect(legend.destroyed).toBe(true);
+    });
+  });
+
+  describe('test vertical legend navigation', () => {
+    const lotsItems = [
+      { name: 'aaaaaaa', value: 1, marker: { symbol: 'circle', r: 4, stroke: 'red' } },
+      { name: 'bbbbbbb', value: 2, marker: { symbol: 'square', r: 4, fill: 'red' } },
+      { name: 'ccccccc', value: 3, marker: { symbol: 'circle', r: 4, stroke: 'blue' } },
+      { name: 'ddddddd', value: 4, marker: { symbol: 'circle', r: 4, stroke: 'yellow' } },
+      { name: 'eeeeeee', value: 5, marker: { symbol: 'circle', r: 4, stroke: 'red' } },
+      { name: 'fffffff', value: 6, marker: { symbol: 'square', r: 4, fill: 'red' } },
+      { name: 'ggggggg', value: 7, marker: { symbol: 'square', r: 4, fill: 'blue' } },
+      { name: 'hhhhhhh', value: 8, marker: { symbol: 'square', r: 4, fill: 'blue' } },
+      { name: 'iiiiiii', value: 9, marker: { symbol: 'square', r: 4, fill: 'yellow' } },
+      { name: 'kkkkkkk', value: 10, marker: { symbol: 'square', r: 4, fill: 'yellow' } },
+    ];
+    const container = canvas.addGroup();
+    const legend = new CategroyLegend({
+      id: 'c',
+      container,
+      x: 0,
+      y: 0,
+      items: lotsItems,
+      layout: 'vertical',
+      itemBackground: null,
+      maxHeight: 100,
+      flipPage: true,
+    });
+    legend.render();
+
+    it('navigation rendered', () => {
+      const navigation = legend.getElementById('c-legend-navigation-group');
+      expect(navigation).not.toBeUndefined();
+      const children = navigation.getChildren();
+      expect(children).toHaveLength(3); // left arrow + text + right arrow
+
+      // left arrow: <
+      expect(children[0].get('type')).toBe('path');
+      expect(near(getAngleByMatrix(children[0].attr('matrix')), ((0 - 90) * Math.PI) / 180)).toBe(true);
+
+      // text
+      expect(children[1].get('type')).toBe('text');
+      expect(children[1].attr('text')).toEqual('1/3');
+
+      // right arrow: >
+      expect(children[2].get('type')).toBe('path');
+      expect(getAngleByMatrix(children[2].attr('matrix'))).toBe((90 * Math.PI) / 180);
+    });
+
+    it('itemGroup clip', () => {
+      const itemGroup = legend.getElementById('c-legend-item-group');
+      const navigation = legend.getElementById('c-legend-navigation-group');
+      const clip = itemGroup.getClip();
+      expect(clip).not.toBeUndefined();
+      expect(clip).not.toBeNull();
+      expect(clip.get('type')).toBe('rect');
+      expect(clip.attr('x')).toBe(0);
+      expect(clip.attr('y')).toBe(0);
+      expect(clip.attr('height')).toBeLessThan(100 - navigation.getBBox().height);
+    });
+
+    it('navigation event', async () => {
+      const navigation = legend.getElementById('c-legend-navigation-group');
+      const itemGroup = legend.getElementById('c-legend-item-group');
+      const textShape = navigation.getChildren()[1];
+      const leftArrow = navigation.getChildren()[0];
+      const rightArrow = navigation.getChildren()[2];
+      const pageWidth = itemGroup.getClip().attr('width');
+
+      // default state: page 1
+      expect(itemGroup.attr('matrix')).toBeNull();
+
+      // click next: page 2
+      rightArrow.emit('click');
+      await wait(200);
+      expect(textShape.attr('text')).toEqual('2/3');
+      expect(itemGroup.attr('matrix')[6]).toBe(-pageWidth);
+
+      // click next: page 3
+      rightArrow.emit('click');
+      await wait(200);
+      expect(textShape.attr('text')).toEqual('3/3');
+      expect(itemGroup.attr('matrix')[6]).toBe(-2 * pageWidth);
+
+      // click next: page 3
+      rightArrow.emit('click');
+      await wait(200);
+      expect(textShape.attr('text')).toEqual('3/3');
+      expect(itemGroup.attr('matrix')[6]).toBe(-2 * pageWidth);
+
+      // click prev: page 2
+      leftArrow.emit('click');
+      await wait(200);
+      expect(textShape.attr('text')).toEqual('2/3');
+      expect(itemGroup.attr('matrix')[6]).toBe(-pageWidth);
+
+      // click prev: page 1
+      leftArrow.emit('click');
+      await wait(200);
+      expect(textShape.attr('text')).toEqual('1/3');
+      expect(itemGroup.attr('matrix')[6]).toBe(0);
+
+      // click prev: page 1
+      leftArrow.emit('click');
+      await wait(200);
+      expect(textShape.attr('text')).toEqual('1/3');
+      expect(itemGroup.attr('matrix')[6]).toBe(0);
+    });
+
+    it.skip('destroy', () => {
       legend.destroy();
       expect(legend.destroyed).toBe(true);
     });

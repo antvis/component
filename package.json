@@ -31,7 +31,7 @@
     "coverage": "jest --coverage",
     "test": "jest",
     "test-live": "DEBUG_MODE=1 jest --watch",
-    "ci": "run-s build test"
+    "ci": "run-s build test coverage"
   },
   "husky": {
     "hooks": {
