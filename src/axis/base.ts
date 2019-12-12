@@ -93,7 +93,7 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
               lineWidth: 2,
             },
           },
-          unactive: {
+          inactive: {
             labelStyle: {
               fill: Theme.uncheckedColor,
             },

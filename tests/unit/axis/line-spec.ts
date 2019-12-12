@@ -466,7 +466,7 @@ describe('test axis states', () => {
   const container = canvas.addGroup();
   const ticks = [
     { name: '1', value: 0, active: true },
-    { name: '2', unactive: true, value: 0.5 },
+    { name: '2', inactive: true, value: 0.5 },
     { name: '3', value: 1 },
   ];
   const axis = new LineAxis({
@@ -494,7 +494,7 @@ describe('test axis states', () => {
 
   it('getItems by state', () => {
     expect(axis.getItemsByState('active').length).toBe(1);
-    expect(axis.getItemsByState('unactive').length).toBe(1);
+    expect(axis.getItemsByState('inactive').length).toBe(1);
     expect(axis.getItemsByState('disabled').length).toBe(0);
   });
 
@@ -542,7 +542,7 @@ describe('test axis states', () => {
   it('update tick', () => {
     const newTicks = [
       { name: '来自sss', value: 0 },
-      { id: '2', name: '2sss', unactive: true, value: 0.5 },
+      { id: '2', name: '2sss', inactive: true, value: 0.5 },
       { name: '3eeee', value: 1 },
     ];
     axis.update({
@@ -551,6 +551,6 @@ describe('test axis states', () => {
     const labelGroup = axis.getElementById('a-axis-label-group');
     const labelShapes = labelGroup.getChildren();
     expect(labelShapes[1].attr('fill')).toBe(Theme.uncheckedColor);
-    expect(axis.getItemsByState('unactive').length).toBe(1);
+    expect(axis.getItemsByState('inactive').length).toBe(1);
   });
 });
