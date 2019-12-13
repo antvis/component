@@ -341,6 +341,16 @@ describe('test category legend', () => {
       { name: 'iiiiiii', value: 9, marker: { symbol: 'square', r: 4, fill: 'yellow' } },
       { name: 'kkkkkkk', value: 10, marker: { symbol: 'square', r: 4, fill: 'yellow' } },
     ];
+    const lessItems = [
+      { name: 'aaaaaaa', value: 1, marker: { symbol: 'circle', r: 4, stroke: 'red' } },
+      { name: 'bbbbbbb', value: 2, marker: { symbol: 'square', r: 4, fill: 'red' } },
+      { name: 'ccccccc', value: 3, marker: { symbol: 'circle', r: 4, stroke: 'blue' } },
+      { name: 'ddddddd', value: 4, marker: { symbol: 'circle', r: 4, stroke: 'yellow' } },
+      { name: 'eeeeeee', value: 5, marker: { symbol: 'circle', r: 4, stroke: 'red' } },
+      { name: 'fffffff', value: 6, marker: { symbol: 'square', r: 4, fill: 'red' } },
+      { name: 'ggggggg', value: 7, marker: { symbol: 'square', r: 4, fill: 'blue' } },
+      { name: 'hhhhhhh', value: 8, marker: { symbol: 'square', r: 4, fill: 'blue' } },
+    ];
     const container = canvas.addGroup();
     const legend = new CategroyLegend({
       id: 'c',
@@ -446,6 +456,30 @@ describe('test category legend', () => {
       expect(itemGroup.attr('matrix')[7]).toBe(0);
     });
 
+    it('update', () => {
+      // 减少 items，页数将为3
+      legend.update({
+        items: lessItems,
+      });
+
+      const navigation = legend.getElementById('c-legend-navigation-group');
+      expect(navigation).not.toBeUndefined();
+      const children = navigation.getChildren();
+      expect(children).toHaveLength(3); // left arrow + text + right arrow
+
+      // left arrow: /\
+      expect(children[0].get('type')).toBe('path');
+      expect(children[0].attr('matrix')).toBeNull();
+
+      // text
+      expect(children[1].get('type')).toBe('text');
+      expect(children[1].attr('text')).toEqual('1/3');
+
+      // right arrow: \/
+      expect(children[2].get('type')).toBe('path');
+      expect(getAngleByMatrix(children[2].attr('matrix'))).toBe(Math.PI);
+    });
+
     it('destroy', () => {
       legend.destroy();
       expect(legend.destroyed).toBe(true);
@@ -464,6 +498,15 @@ describe('test category legend', () => {
       { name: 'hhhhhhh', value: 8, marker: { symbol: 'square', r: 4, fill: 'blue' } },
       { name: 'iiiiiii', value: 9, marker: { symbol: 'square', r: 4, fill: 'yellow' } },
       { name: 'kkkkkkk', value: 10, marker: { symbol: 'square', r: 4, fill: 'yellow' } },
+    ];
+    const lessItems = [
+      { name: 'aaaaaaa', value: 1, marker: { symbol: 'circle', r: 4, stroke: 'red' } },
+      { name: 'bbbbbbb', value: 2, marker: { symbol: 'square', r: 4, fill: 'red' } },
+      { name: 'ccccccc', value: 3, marker: { symbol: 'circle', r: 4, stroke: 'blue' } },
+      { name: 'ddddddd', value: 4, marker: { symbol: 'circle', r: 4, stroke: 'yellow' } },
+      { name: 'eeeeeee', value: 5, marker: { symbol: 'circle', r: 4, stroke: 'red' } },
+      { name: 'fffffff', value: 6, marker: { symbol: 'square', r: 4, fill: 'red' } },
+      { name: 'ggggggg', value: 7, marker: { symbol: 'square', r: 4, fill: 'blue' } },
     ];
     const container = canvas.addGroup();
     const legend = new CategroyLegend({
@@ -556,6 +599,30 @@ describe('test category legend', () => {
       await wait(200);
       expect(textShape.attr('text')).toEqual('1/3');
       expect(itemGroup.attr('matrix')[6]).toBe(0);
+    });
+
+    it('update', () => {
+      // 减少items，页数变为2
+      legend.update({
+        items: lessItems,
+      });
+
+      const navigation = legend.getElementById('c-legend-navigation-group');
+      expect(navigation).not.toBeUndefined();
+      const children = navigation.getChildren();
+      expect(children).toHaveLength(3); // left arrow + text + right arrow
+
+      // left arrow: <
+      expect(children[0].get('type')).toBe('path');
+      expect(near(getAngleByMatrix(children[0].attr('matrix')), ((0 - 90) * Math.PI) / 180)).toBe(true);
+
+      // text
+      expect(children[1].get('type')).toBe('text');
+      expect(children[1].attr('text')).toEqual('1/2');
+
+      // right arrow: >
+      expect(children[2].get('type')).toBe('path');
+      expect(getAngleByMatrix(children[2].attr('matrix'))).toBe((90 * Math.PI) / 180);
     });
 
     it.skip('destroy', () => {
