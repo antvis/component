@@ -403,55 +403,56 @@ describe('test category legend', () => {
       const textShape = navigation.getChildren()[1];
       const leftArrow = navigation.getChildren()[0];
       const rightArrow = navigation.getChildren()[2];
+      const delay = 300;
 
       // default state: page 1
       expect(itemGroup.attr('matrix')).toBeNull();
 
       // click next: page 2
       rightArrow.emit('click');
-      await wait(200);
+      await wait(delay);
       expect(textShape.attr('text')).toEqual('2/4');
       expect(itemGroup.attr('matrix')[7]).toBe(-20);
 
       // click next: page 3
       rightArrow.emit('click');
-      await wait(200);
+      await wait(delay);
       expect(textShape.attr('text')).toEqual('3/4');
       expect(itemGroup.attr('matrix')[7]).toBe(-40);
 
       // click next: page 4
       rightArrow.emit('click');
-      await wait(200);
+      await wait(delay);
       expect(textShape.attr('text')).toEqual('4/4');
       expect(itemGroup.attr('matrix')[7]).toBe(-60);
 
       // click next: page 4
       rightArrow.emit('click');
-      await wait(200);
+      await wait(delay);
       expect(textShape.attr('text')).toEqual('4/4');
       expect(itemGroup.attr('matrix')[7]).toBe(-60);
 
       // click prev: page 3
       leftArrow.emit('click');
-      await wait(200);
+      await wait(delay);
       expect(textShape.attr('text')).toEqual('3/4');
       expect(itemGroup.attr('matrix')[7]).toBe(-40);
 
       // click prev: page 2
       leftArrow.emit('click');
-      await wait(200);
+      await wait(delay);
       expect(textShape.attr('text')).toEqual('2/4');
       expect(itemGroup.attr('matrix')[7]).toBe(-20);
 
       // click prev: page 1
       leftArrow.emit('click');
-      await wait(200);
+      await wait(delay);
       expect(textShape.attr('text')).toEqual('1/4');
       expect(itemGroup.attr('matrix')[7]).toBe(0);
 
       // click prev: page 1
       leftArrow.emit('click');
-      await wait(200);
+      await wait(delay);
       expect(textShape.attr('text')).toEqual('1/4');
       expect(itemGroup.attr('matrix')[7]).toBe(0);
     });
@@ -560,43 +561,44 @@ describe('test category legend', () => {
       const leftArrow = navigation.getChildren()[0];
       const rightArrow = navigation.getChildren()[2];
       const pageWidth = itemGroup.getClip().attr('width');
+      const delay = 300;
 
       // default state: page 1
       expect(itemGroup.attr('matrix')).toBeNull();
 
       // click next: page 2
       rightArrow.emit('click');
-      await wait(200);
+      await wait(delay);
       expect(textShape.attr('text')).toEqual('2/3');
       expect(itemGroup.attr('matrix')[6]).toBe(-pageWidth);
 
       // click next: page 3
       rightArrow.emit('click');
-      await wait(200);
+      await wait(delay);
       expect(textShape.attr('text')).toEqual('3/3');
       expect(itemGroup.attr('matrix')[6]).toBe(-2 * pageWidth);
 
       // click next: page 3
       rightArrow.emit('click');
-      await wait(200);
+      await wait(delay);
       expect(textShape.attr('text')).toEqual('3/3');
       expect(itemGroup.attr('matrix')[6]).toBe(-2 * pageWidth);
 
       // click prev: page 2
       leftArrow.emit('click');
-      await wait(200);
+      await wait(delay);
       expect(textShape.attr('text')).toEqual('2/3');
       expect(itemGroup.attr('matrix')[6]).toBe(-pageWidth);
 
       // click prev: page 1
       leftArrow.emit('click');
-      await wait(200);
+      await wait(delay);
       expect(textShape.attr('text')).toEqual('1/3');
       expect(itemGroup.attr('matrix')[6]).toBe(0);
 
       // click prev: page 1
       leftArrow.emit('click');
-      await wait(200);
+      await wait(delay);
       expect(textShape.attr('text')).toEqual('1/3');
       expect(itemGroup.attr('matrix')[6]).toBe(0);
     });
