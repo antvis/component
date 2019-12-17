@@ -33,7 +33,7 @@ class AComponent extends Component {
 describe('abastract component', () => {
   const a = new AComponent({
     id: 'a',
-    animateCfg: null,
+    animateOption: null,
     a: {
       a1: '123',
     },

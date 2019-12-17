@@ -3,7 +3,7 @@
  * @author dxq613@gmail.com
  */
 import { IElement, IGroup } from '@antv/g-base/lib/interfaces';
-import { each, mix } from '@antv/util';
+import { each, isNil, mix } from '@antv/util';
 import { BBox, GroupComponentCfg, LooseObject, Point } from '../types';
 import { propagationDelegate } from '../util/event';
 import { getMatrixByTranslate } from '../util/matrix';
@@ -27,10 +27,15 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
       group: null,
       capture: true,
       /**
-       * @private 组件或者图形是否
+       * @private 组件或者图形是否允许注册
        * @type {false}
        */
       isRegister: false,
+      /**
+       * @private 是否正在更新
+       * @type {false}
+       */
+      isUpdating: false,
     };
   }
 
@@ -66,22 +71,25 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
   }
 
   public update(cfg: Partial<T>) {
+    // 设置正在更新的标记位
+    this.set('isUpdating', true);
     super.update(cfg);
-    const group = this.get('group');
-    const newGroup = this.createOffScreenGroup();
-    this.renderInner(newGroup);
-    this.applyOffset();
-    this.updateElements(newGroup, group);
-    this.deleteElements();
-    newGroup.destroy(); // 销毁虚拟分组
+    this.updateInner();
+    this.set('isUpdating', false);
   }
 
   public render() {
-    this.set('isRegister', true);
-    const group = this.get('group');
-    this.renderInner(group);
-    this.applyOffset();
-    this.set('isRegister', false);
+    const animate = this.get('animate');
+    const animateOption = this.get('animateOption');
+    if (animate && animateOption.appear) {
+      this.updateInner();
+    } else {
+      this.set('isRegister', true);
+      const group = this.get('group');
+      this.renderInner(group);
+      this.applyOffset();
+      this.set('isRegister', false);
+    }
   }
 
   public show() {
@@ -248,7 +256,10 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
    */
   protected addAnimation(elmentName, newElement, animateCfg) {
     // 缓存透明度
-    const originOpacity = newElement.attr('opacity');
+    let originOpacity = newElement.attr('opacity');
+    if (isNil(originOpacity)) {
+      originOpacity = 1;
+    }
     newElement.attr('opacity', 0);
     newElement.animate({ opacity: originOpacity }, animateCfg);
   }
@@ -278,7 +289,7 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
   // 更新组件的图形
   protected updateElements(newGroup, originGroup) {
     const animate = this.get('animate');
-    const animateCfg = this.get('animateCfg');
+    const animateOption = this.get('animateOption');
     const children = newGroup.getChildren().slice(0); // 创建一个新数组，防止添加到 originGroup 时， children 变动
     let preElement; // 前面已经匹配到的图形元素，用于
     each(children, (element) => {
@@ -288,9 +299,9 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
       if (originElement) {
         const replaceAttrs = this.getReplaceAttrs(originElement, element);
         // 更新
-        if (animate) {
+        if (animate && animateOption.update) {
           // 没有动画
-          this.updateAnimation(elementName, originElement, replaceAttrs, animateCfg);
+          this.updateAnimation(elementName, originElement, replaceAttrs, animateOption.update);
         } else {
           // originElement.attrs = replaceAttrs; // 直接替换
           originElement.attr(replaceAttrs);
@@ -325,10 +336,12 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
           // 如果元素是新增加的元素，则遍历注册所有的子节点
           this.registerNewGroup(element);
         }
-
         preElement = element;
         if (animate) {
-          this.addAnimation(elementName, element, animateCfg);
+          const animateCfg = this.get('isUpdating') ? animateOption.enter : animateOption.appear;
+          if (animateCfg) {
+            this.addAnimation(elementName, element, animateCfg);
+          }
         }
       }
     });
@@ -339,6 +352,16 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
     each(children, (el) => {
       el.set(STATUS_UPDATE, null); // 清理掉更新状态
     });
+  }
+
+  private updateInner() {
+    const group = this.get('group');
+    const newGroup = this.createOffScreenGroup();
+    this.renderInner(newGroup);
+    this.applyOffset();
+    this.updateElements(newGroup, group);
+    this.deleteElements();
+    newGroup.destroy(); // 销毁虚拟分组
   }
 
   // 获取发生委托时的对象，在事件中抛出
@@ -396,13 +419,13 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
       }
     });
     const animate = this.get('animate');
-    const animateCfg = this.get('animateCfg');
+    const animateOption = this.get('animateOption');
     // 删除图形元素
     each(deleteArray, (item) => {
       const [id, element] = item;
       if (!element.destroyed) {
         const elementName = element.get('name');
-        if (animate) {
+        if (animate && animateOption.leave) {
           // 需要动画结束时移除图形
           const callbackAnimCfg = mix(
             {
@@ -410,7 +433,7 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
                 element.remove();
               },
             },
-            animateCfg
+            animateOption.leave
           );
           this.removeAnimation(elementName, element, callbackAnimCfg);
         } else {

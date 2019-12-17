@@ -199,9 +199,9 @@ describe('test simple component', () => {
     const bShape = b.getElementById('b');
     expect(bShape.attr('opacity')).toBe(0);
     setTimeout(() => {
-      expect(bShape.attr('opacity')).toBe(undefined);
+      expect(bShape.attr('opacity')).toBe(1);
       done();
-    }, 500);
+    }, 550);
   });
 
   it('destroy', () => {
