@@ -3,6 +3,10 @@ import { AnimateCfg, Point, ShapeAttrs } from '@antv/g-base/lib/types';
 export type LocationType = 'point' | 'Region' | 'points' | 'circle' | 'none';
 
 export { Point };
+/** 对象 */
+export interface LooseObject {
+  [key: string]: any;
+}
 
 export interface OffsetPoint {
   offsetX: number;

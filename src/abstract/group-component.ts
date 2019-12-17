@@ -4,7 +4,8 @@
  */
 import { IElement, IGroup } from '@antv/g-base/lib/interfaces';
 import { each, mix } from '@antv/util';
-import { BBox, GroupComponentCfg, Point } from '../types';
+import { BBox, GroupComponentCfg, LooseObject, Point } from '../types';
+import { propagationDelegate } from '../util/event';
 import { getMatrixByTranslate } from '../util/matrix';
 import Component from './component';
 type Callback = (evt: object) => void;
@@ -118,11 +119,17 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
     return this;
   }
 
-  public emit(eventName: string, eventObject: object) {
+  public emit(eventName: string, eventObject: LooseObject) {
     const group = this.get('group');
     group.emit(eventName, eventObject);
   }
-
+  // 抛出委托对象
+  protected delegateEmit(eventName: string, eventObject: LooseObject) {
+    const group = this.get('group');
+    eventObject.target = group;
+    group.emit(eventName, eventObject);
+    propagationDelegate(group, eventName, eventObject);
+  }
   // 创建离屏的 group ,不添加在 canvas 中
   protected createOffScreenGroup() {
     const group = this.get('group');
