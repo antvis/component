@@ -283,7 +283,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
       this.pageWidth = 0;
       this.currentPageIndex = 1;
       this.totalPagesCnt = 1;
-      this.adjustNavigation(group, { x: startX, y: startY });
+      this.adjustNavigation(group, itemGroup, { x: startX, y: startY });
     }
   }
   // 获取图例项的高度，如果未定义，则按照 name 的高度计算
@@ -401,10 +401,9 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
   }
 
   // 加上分页器并重新排序 items
-  private adjustNavigation(container: IGroup, { x: startX, y: startY }: { x: number; y: number }) {
+  private adjustNavigation(container: IGroup, itemGroup: IGroup, { x: startX, y: startY }: { x: number; y: number }) {
     const layout = this.get('layout');
-    const itemGroup = this.getElementByLocalId('item-group');
-    const subGroups = this.getElementsByName('legend-item');
+    const subGroups = itemGroup.findAll((item) => item.get('name') === 'legend-item');
     const maxWidth = this.get('maxWidth');
     const maxHeight = this.get('maxHeight');
     const itemWidth = this.get('itemWidth');
@@ -416,6 +415,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     let pages = 1;
     let widthLimit = 0;
     let pageWidth = 0;
+    let maxItemWidth = 0;
 
     if (layout === 'horizontal') {
       this.pageHeight = itemHeight;
@@ -430,8 +430,8 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
             widthLimit = currentPoint.x + itemSpacing;
             this.pageWidth = widthLimit;
             this.moveElementTo(navigation, {
-              x: maxWidth - itemSpacing - navigationBBox.width,
-              y: currentPoint.y + itemHeight / 2 - navigationBBox.height / 2,
+              x: maxWidth - itemSpacing - navigationBBox.width - navigationBBox.minX,
+              y: currentPoint.y + itemHeight / 2 - navigationBBox.height / 2 - navigationBBox.minY,
             });
           }
           pages += 1;
@@ -448,10 +448,12 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
           pageWidth = bbox.width;
         }
       });
+      maxItemWidth = pageWidth;
       pageWidth += itemSpacing;
       if (maxWidth) {
         // maxWidth 限制加上
         pageWidth = Math.min(maxWidth, pageWidth);
+        maxItemWidth = Math.min(maxWidth, maxItemWidth);
       }
       this.pageWidth = pageWidth;
       this.pageHeight = maxHeight - Math.max(navigationBBox.height, itemHeight);
@@ -463,7 +465,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
           currentPoint.y = startY;
         }
         this.moveElementTo(item, currentPoint);
-        item.setClip({
+        this.getElementById(item.get('id')).setClip({
           type: 'rect',
           attrs: {
             x: currentPoint.x,
@@ -476,13 +478,15 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
       });
       this.totalPagesCnt = pages;
       this.moveElementTo(navigation, {
-        x: startX + pageWidth / 2 - navigationBBox.width / 2,
-        y: maxHeight - navigationBBox.height,
+        x: startX + maxItemWidth / 2 - navigationBBox.width / 2 - navigationBBox.minX,
+        y: maxHeight - navigationBBox.height - navigationBBox.minY,
       });
     }
 
     // 设置整体 clip 仅显示第一页
-    itemGroup.setClip({
+    //  1. 在render过程中，getElementByLocalId 直接拿到当前的itemGroup
+    //  2. 在update过程中，在虚拟Group支持clip前，先对旧的itemGroup设置clip
+    this.getElementByLocalId('item-group').setClip({
       type: 'rect',
       attrs: {
         x: startX,
@@ -492,7 +496,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
       },
     });
 
-    this.updateNavigation(`1/${pages}`);
+    this.updateNavigation(`1/${pages}`, navigation);
     this.totalPagesCnt = pages;
     this.currentPageIndex = 1;
   }
@@ -542,8 +546,8 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     return subGroup;
   }
 
-  private updateNavigation(text: string) {
-    const textShape = this.getElementByLocalId('navigation-text');
+  private updateNavigation(text: string, navigation?: IGroup) {
+    const textShape = navigation ? navigation.getChildren()[1] : this.getElementByLocalId('navigation-text');
     const origBBox = textShape.getBBox();
     textShape.attr('text', text);
     const newBBox = textShape.getBBox();
