@@ -403,7 +403,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
   // 加上分页器并重新排序 items
   private adjustNavigation(container: IGroup, itemGroup: IGroup, { x: startX, y: startY }: { x: number; y: number }) {
     const layout = this.get('layout');
-    const subGroups = itemGroup.getChildren().filter((item) => item.get('name') === 'legend-item');
+    const subGroups = itemGroup.findAll((item) => item.get('name') === 'legend-item');
     const maxWidth = this.get('maxWidth');
     const maxHeight = this.get('maxHeight');
     const itemWidth = this.get('itemWidth');
