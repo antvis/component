@@ -47,9 +47,12 @@ describe('test continue legend', () => {
         value: [200, 500],
       });
       expect(legend.getValue()).toEqual([200, 500]);
-      expect(legend.getElementById('a-legend-rail').getBBox().width / 3).toEqual(
-        legend.getElementById('a-legend-track').getBBox().width
-      );
+      expect(
+        isNumberEqual(
+          legend.getElementById('a-legend-rail').getBBox().width / 3,
+          legend.getElementById('a-legend-track').getBBox().width
+        )
+      ).toEqual(true);
 
       legend.update({
         value: null, // 清空 value
@@ -468,7 +471,7 @@ describe('test continue legend', () => {
     });
   });
 
-  describe.only('test drag slider', () => {
+  describe('test drag slider', () => {
     const container = canvas.addGroup();
     const legend = new ContinuousLegend({
       id: 'd',
@@ -515,7 +518,19 @@ describe('test continue legend', () => {
     });
 
     it('drag max', () => {
+      let called = false;
+      let canvasCalled = false;
+      legend.on('valuechanged', () => {
+        called = true;
+      });
+
+      canvas.on('legend:valuechanged', () => {
+        canvasCalled = true;
+      });
+
       legend.setValue([200, 800]);
+      expect(called).toBe(true);
+      expect(canvasCalled).toBe(true);
       group.emit('legend-handler-max:drag', {
         x: 350,
         y: 300,

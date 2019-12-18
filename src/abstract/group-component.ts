@@ -3,14 +3,15 @@
  * @author dxq613@gmail.com
  */
 import { IElement, IGroup } from '@antv/g-base/lib/interfaces';
-import { each, mix } from '@antv/util';
-import { BBox, GroupComponentCfg, Point } from '../types';
+import { each, isNil, mix } from '@antv/util';
+import { BBox, GroupComponentCfg, LooseObject, Point } from '../types';
+import { propagationDelegate } from '../util/event';
 import { getMatrixByTranslate } from '../util/matrix';
 import Component from './component';
 type Callback = (evt: object) => void;
 
 const STATUS_UPDATE = 'update_status';
-const COPY_POPERTYS = ['visible', 'tip', 'delegationObject']; // 更新对象时需要复制的属性
+const COPY_POPERTYS = ['visible', 'tip', 'delegateObject']; // 更新对象时需要复制的属性
 
 abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> extends Component {
   public getDefaultCfg() {
@@ -26,10 +27,15 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
       group: null,
       capture: true,
       /**
-       * @private 组件或者图形是否
+       * @private 组件或者图形是否允许注册
        * @type {false}
        */
       isRegister: false,
+      /**
+       * @private 是否正在更新
+       * @type {false}
+       */
+      isUpdating: false,
     };
   }
 
@@ -65,22 +71,25 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
   }
 
   public update(cfg: Partial<T>) {
+    // 设置正在更新的标记位
+    this.set('isUpdating', true);
     super.update(cfg);
-    const group = this.get('group');
-    const newGroup = this.createOffScreenGroup();
-    this.renderInner(newGroup);
-    this.applyOffset();
-    this.updateElements(newGroup, group);
-    this.deleteElements();
-    newGroup.destroy(); // 销毁虚拟分组
+    this.updateInner();
+    this.set('isUpdating', false);
   }
 
   public render() {
-    this.set('isRegister', true);
-    const group = this.get('group');
-    this.renderInner(group);
-    this.applyOffset();
-    this.set('isRegister', false);
+    const animate = this.get('animate');
+    const animateOption = this.get('animateOption');
+    if (animate && animateOption.appear) {
+      this.updateInner();
+    } else {
+      this.set('isRegister', true);
+      const group = this.get('group');
+      this.renderInner(group);
+      this.applyOffset();
+      this.set('isRegister', false);
+    }
   }
 
   public show() {
@@ -118,17 +127,23 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
     return this;
   }
 
-  public emit(eventName: string, eventObject: object) {
+  public emit(eventName: string, eventObject: LooseObject) {
     const group = this.get('group');
     group.emit(eventName, eventObject);
   }
-
+  // 抛出委托对象
+  protected delegateEmit(eventName: string, eventObject: LooseObject) {
+    const group = this.get('group');
+    eventObject.target = group;
+    group.emit(eventName, eventObject);
+    propagationDelegate(group, eventName, eventObject);
+  }
   // 创建离屏的 group ,不添加在 canvas 中
   protected createOffScreenGroup() {
     const group = this.get('group');
     const GroupClass = group.getGroupBase(); // 获取分组的构造函数
     const newGroup = new GroupClass({
-      delegationObject: this.getDelegationObject(), // 生成委托事件触发时附加的对象
+      delegateObject: this.getDelegateObject(), // 生成委托事件触发时附加的对象
     });
     return newGroup;
   }
@@ -162,7 +177,7 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
         name: this.get('name'),
         capture: this.get('capture'),
         visible: this.get('visible'),
-        delegationObject: this.getDelegationObject(),
+        delegateObject: this.getDelegateObject(),
       })
     );
   }
@@ -174,7 +189,7 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
    * @param {object} cfg    分组的配置项
    */
   protected addGroup(parent: IGroup, cfg) {
-    this.appendDelegationObject(parent, cfg);
+    this.appendDelegateObject(parent, cfg);
     const group = parent.addGroup(cfg);
     if (this.get('isRegister')) {
       this.registerElement(group);
@@ -189,7 +204,7 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
    * @param {object} cfg    分组的配置项
    */
   protected addShape(parent: IGroup, cfg) {
-    this.appendDelegationObject(parent, cfg);
+    this.appendDelegateObject(parent, cfg);
     const shape = parent.addShape(cfg);
     if (this.get('isRegister')) {
       this.registerElement(shape);
@@ -241,7 +256,10 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
    */
   protected addAnimation(elmentName, newElement, animateCfg) {
     // 缓存透明度
-    const originOpacity = newElement.attr('opacity');
+    let originOpacity = newElement.attr('opacity');
+    if (isNil(originOpacity)) {
+      originOpacity = 1;
+    }
     newElement.attr('opacity', 0);
     newElement.animate({ opacity: originOpacity }, animateCfg);
   }
@@ -271,7 +289,7 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
   // 更新组件的图形
   protected updateElements(newGroup, originGroup) {
     const animate = this.get('animate');
-    const animateCfg = this.get('animateCfg');
+    const animateOption = this.get('animateOption');
     const children = newGroup.getChildren().slice(0); // 创建一个新数组，防止添加到 originGroup 时， children 变动
     let preElement; // 前面已经匹配到的图形元素，用于
     each(children, (element) => {
@@ -281,9 +299,9 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
       if (originElement) {
         const replaceAttrs = this.getReplaceAttrs(originElement, element);
         // 更新
-        if (animate) {
+        if (animate && animateOption.update) {
           // 没有动画
-          this.updateAnimation(elementName, originElement, replaceAttrs, animateCfg);
+          this.updateAnimation(elementName, originElement, replaceAttrs, animateOption.update);
         } else {
           // originElement.attrs = replaceAttrs; // 直接替换
           originElement.attr(replaceAttrs);
@@ -318,10 +336,12 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
           // 如果元素是新增加的元素，则遍历注册所有的子节点
           this.registerNewGroup(element);
         }
-
         preElement = element;
         if (animate) {
-          this.addAnimation(elementName, element, animateCfg);
+          const animateCfg = this.get('isUpdating') ? animateOption.enter : animateOption.appear;
+          if (animateCfg) {
+            this.addAnimation(elementName, element, animateCfg);
+          }
         }
       }
     });
@@ -334,23 +354,33 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
     });
   }
 
+  private updateInner() {
+    const group = this.get('group');
+    const newGroup = this.createOffScreenGroup();
+    this.renderInner(newGroup);
+    this.applyOffset();
+    this.updateElements(newGroup, group);
+    this.deleteElements();
+    newGroup.destroy(); // 销毁虚拟分组
+  }
+
   // 获取发生委托时的对象，在事件中抛出
-  private getDelegationObject() {
+  private getDelegateObject() {
     const name = this.get('name');
-    const delegationObject = {
+    const delegateObject = {
       [name]: this,
       component: this,
     };
-    return delegationObject;
+    return delegateObject;
   }
 
   // 附加委托信息，用于事件
-  private appendDelegationObject(parent: IGroup, cfg) {
-    const parentObject = parent.get('delegationObject');
-    if (!cfg.delegationObject) {
-      cfg.delegationObject = {};
+  private appendDelegateObject(parent: IGroup, cfg) {
+    const parentObject = parent.get('delegateObject');
+    if (!cfg.delegateObject) {
+      cfg.delegateObject = {};
     }
-    mix(cfg.delegationObject, parentObject); // 将父元素上的委托信息复制到自身
+    mix(cfg.delegateObject, parentObject); // 将父元素上的委托信息复制到自身
   }
 
   // 获取需要替换的属性，如果原先图形元素存在，而新图形不存在，则设置 undefined
@@ -389,13 +419,13 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
       }
     });
     const animate = this.get('animate');
-    const animateCfg = this.get('animateCfg');
+    const animateOption = this.get('animateOption');
     // 删除图形元素
     each(deleteArray, (item) => {
       const [id, element] = item;
       if (!element.destroyed) {
         const elementName = element.get('name');
-        if (animate) {
+        if (animate && animateOption.leave) {
           // 需要动画结束时移除图形
           const callbackAnimCfg = mix(
             {
@@ -403,7 +433,7 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
                 element.remove();
               },
             },
-            animateCfg
+            animateOption.leave
           );
           this.removeAnimation(elementName, element, callbackAnimCfg);
         } else {

@@ -3,6 +3,10 @@ import { AnimateCfg, Point, ShapeAttrs } from '@antv/g-base/lib/types';
 export type LocationType = 'point' | 'Region' | 'points' | 'circle' | 'none';
 
 export { Point };
+/** 对象 */
+export interface LooseObject {
+  [key: string]: any;
+}
 
 export interface OffsetPoint {
   offsetX: number;
@@ -277,7 +281,7 @@ export interface ComponentCfg extends BaseCfg {
    * 动画的配置项
    * @type {AnimateCfg}
    */
-  animateCfg?: AnimateCfg;
+  animateOption?: AnimateOption;
   /**
    * 事件对象，可以在配置项中传入事件
    * @example
@@ -305,6 +309,17 @@ export interface ComponentCfg extends BaseCfg {
    * @type {object}
    */
   defaultCfg?: object;
+}
+
+export interface AnimateOption {
+  /** 初始化渲染时的入场动画，false/null 表示关闭入场动画 */
+  appear?: AnimateCfg | false | null;
+  /** 发生更新时，新增元素的入场动画，false/null 表示关闭入场动画 */
+  enter?: AnimateCfg | false | null;
+  /** 更新动画配置，false/null 表示关闭更新动画 */
+  update?: AnimateCfg | false | null;
+  /** 销毁动画配置，false/null 表示关闭销毁动画 */
+  leave?: AnimateCfg | false | null;
 }
 
 export interface GroupComponentCfg extends ComponentCfg {

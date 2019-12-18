@@ -93,12 +93,17 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> implements ISlider {
   }
 
   public setValue(value: number[]) {
+    const originValue = this.getValue();
     this.set('value', value);
     const group = this.get('group');
     this.resetTrack(group);
     if (this.get('slidable')) {
       this.resetHandlers(group);
     }
+    this.delegateEmit('valuechanged', {
+      originValue,
+      value,
+    });
   }
 
   protected initEvent() {
@@ -165,7 +170,7 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> implements ISlider {
     this.addShape(group, {
       type: 'text',
       id: this.getElementId(localId),
-      name: 'legend-label-${name}',
+      name: `legend-label-${name}`,
       attrs: {
         x: 0,
         y: 0,
@@ -212,15 +217,19 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> implements ISlider {
     };
   }
 
-  private getRailPath() {
+  private getRailPath(x: number, y: number, w?: number, h?: number) {
     const railCfg = this.get('rail');
     const { size, defaultLength, type } = railCfg;
     const isVertical = this.isVertical();
     const length = defaultLength;
-    const x = 0;
-    const y = 0;
-    const width = isVertical ? size : length;
-    const height = isVertical ? length : size;
+    let width = w;
+    let height = h;
+    if (!width) {
+      width = isVertical ? size : length;
+    }
+    if (!height) {
+      height = isVertical ? length : size;
+    }
     const path = [];
     if (type === 'color') {
       path.push(['M', x, y]);
@@ -245,7 +254,7 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> implements ISlider {
       id: this.getElementId('rail'),
       name: 'legend-rail',
       attrs: {
-        path: this.getRailPath(),
+        path: this.getRailPath(0, 0),
         ...style,
       },
     });
@@ -542,9 +551,26 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> implements ISlider {
       const diff = elementsLength - maxLength;
       if (diff > 0) {
         // 大于限制的长度
-        railShape.attr(lengthField, railBBox[lengthField] - diff);
+        this.changeRailLength(railShape, lengthField, railBBox[lengthField] - diff);
       }
     }
+  }
+
+  private changeRailLength(railShape, lengthField, length) {
+    const bbox = railShape.getBBox();
+    let path;
+    if (lengthField === 'height') {
+      path = this.getRailPath(bbox.x, bbox.y, bbox.width, length);
+    } else {
+      path = this.getRailPath(bbox.x, bbox.y, length, bbox.height);
+    }
+    railShape.attr('path', path);
+  }
+
+  private changeRailPosition(railShape, x, y) {
+    const bbox = railShape.getBBox();
+    const path = this.getRailPath(x, y, bbox.width, bbox.height);
+    railShape.attr('path', path);
   }
 
   private fixedHorizontal(minLabel: IElement, maxLabel: IElement, railShape: IElement, startPoint) {
@@ -563,10 +589,7 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> implements ISlider {
         x: startPoint.x,
         y: startPoint.y + railHeight / 2,
       });
-      railShape.attr({
-        x: startPoint.x + minLabelBBox.width + spacing,
-        y: startPoint.y,
-      });
+      this.changeRailPosition(railShape, startPoint.x + minLabelBBox.width + spacing, startPoint.y);
       maxLabel.attr({
         x: startPoint.x + minLabelBBox.width + railBBox.width + spacing * 2,
         y: startPoint.y + railHeight / 2,
@@ -580,15 +603,9 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> implements ISlider {
         x: startPoint.x + railBBox.width,
         y: startPoint.y,
       });
-      railShape.attr({
-        x: startPoint.x,
-        y: startPoint.y + minLabelBBox.height + spacing,
-      });
+      this.changeRailPosition(railShape, startPoint.x, startPoint.y + minLabelBBox.height + spacing);
     } else {
-      railShape.attr({
-        x: startPoint.x,
-        y: startPoint.y,
-      });
+      this.changeRailPosition(railShape, startPoint.x, startPoint.y);
       minLabel.attr({
         x: startPoint.x,
         y: startPoint.y + railBBox.height + spacing,
@@ -616,10 +633,7 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> implements ISlider {
         x: startPoint.x,
         y: startPoint.y,
       });
-      railShape.attr({
-        x: startPoint.x,
-        y: startPoint.y + minLabelBBox.height + spacing,
-      });
+      this.changeRailPosition(railShape, startPoint.x, startPoint.y + minLabelBBox.height + spacing);
       maxLabel.attr({
         x: startPoint.x,
         y: startPoint.y + minLabelBBox.height + railBBox.height + spacing * 2,
@@ -629,10 +643,7 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> implements ISlider {
         x: startPoint.x + railBBox.width + spacing,
         y: startPoint.y,
       });
-      railShape.attr({
-        x: startPoint.x,
-        y: startPoint.y,
-      });
+      this.changeRailPosition(railShape, startPoint.x, startPoint.y);
       maxLabel.attr({
         x: startPoint.x + railBBox.width + spacing,
         y: startPoint.y + railBBox.height,
@@ -644,11 +655,7 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> implements ISlider {
         x: startPoint.x,
         y: startPoint.y,
       });
-
-      railShape.attr({
-        x: startPoint.x + maxLabelWidth + spacing,
-        y: startPoint.y,
-      });
+      this.changeRailPosition(railShape, startPoint.x + maxLabelWidth + spacing, startPoint.y);
       maxLabel.attr({
         x: startPoint.x,
         y: startPoint.y + railBBox.height,

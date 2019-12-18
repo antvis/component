@@ -348,7 +348,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     const subGroup = this.addGroup(itemGroup, {
       name: 'legend-item',
       id: this.getElementId(groupId),
-      delegationObject: {
+      delegateObject: {
         item,
         index,
       },

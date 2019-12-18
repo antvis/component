@@ -461,7 +461,7 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
         name: 'axis-label',
         id: this.getElementId(`label-${tick.id}`),
         attrs: this.getLabelAttrs(tick, index),
-        delegationObject: {
+        delegateObject: {
           tick,
           item: tick,
           index,
