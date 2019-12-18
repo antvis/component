@@ -312,7 +312,7 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
         }
         // 复制属性
         each(COPY_POPERTYS, (name) => {
-          originElement.set(element.get(name));
+          originElement.set(name, element.get(name));
         });
 
         preElement = originElement;

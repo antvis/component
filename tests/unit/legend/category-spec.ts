@@ -680,9 +680,20 @@ describe('test category legend', () => {
       expect(itemElement.getChildren()[0].attr('opacity')).toBe(0.2);
       legend.setItemState(item, 'inactive', false);
       expect(itemElement.getChildren()[0].attr('opacity')).not.toBe(0.2);
+      const delegateItem = itemElement.get('delegateObject').item;
+      expect(delegateItem).toBe(item);
+
+      const newitems = [{ name: '222222' }, { name: '111111' }, { name: '55555' }, { name: 'bbbbbb' }];
+      legend.update({
+        items: newitems,
+      });
+      expect(itemElement.get('delegateObject').item).toBe(newitems[1]);
     });
 
     it('getItems by state', () => {
+      legend.update({
+        items,
+      });
       const uncheckedItems = legend.getItemsByState('unchecked');
       expect(uncheckedItems.length).toBe(1);
 
