@@ -76,6 +76,7 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
     super.update(cfg);
     this.updateInner();
     this.set('isUpdating', false);
+    this.applyComponetClip();
   }
 
   public render() {
@@ -90,6 +91,7 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
       this.applyOffset();
       this.set('isRegister', false);
     }
+    this.applyComponetClip();
   }
 
   public show() {
@@ -131,6 +133,8 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
     const group = this.get('group');
     group.emit(eventName, eventObject);
   }
+
+  protected applyComponetClip() {}
   // 抛出委托对象
   protected delegateEmit(eventName: string, eventObject: LooseObject) {
     const group = this.get('group');

@@ -47,20 +47,15 @@ describe('test continue legend', () => {
         value: [200, 500],
       });
       expect(legend.getValue()).toEqual([200, 500]);
-      expect(
-        isNumberEqual(
-          legend.getElementById('a-legend-rail').getBBox().width / 3,
-          legend.getElementById('a-legend-track').getBBox().width
-        )
-      ).toEqual(true);
+      const trackShape = legend.getElementById('a-legend-track');
+      const railShape = legend.getElementById('a-legend-rail');
+      expect(isNumberEqual(railShape.getBBox().width / 3, trackShape.getClip().getBBox().width)).toEqual(true);
 
       legend.update({
         value: null, // 清空 value
       });
       expect(legend.getValue()).toEqual([100, 1000]);
-      expect(legend.getElementById('a-legend-rail').getBBox()).toEqual(
-        legend.getElementById('a-legend-track').getBBox()
-      );
+      expect(railShape.getBBox()).toEqual(trackShape.getBBox());
     });
 
     it('change min, max', () => {
@@ -78,13 +73,13 @@ describe('test continue legend', () => {
       });
       const railShape = legend.getElementById('a-legend-rail');
       const trackShape = legend.getElementById('a-legend-track');
-      let isEqual = isNumberEqual(railShape.getBBox().width / 5, trackShape.getBBox().width);
+      let isEqual = isNumberEqual(railShape.getBBox().width / 5, trackShape.getClip().getBBox().width);
       expect(isEqual).toEqual(true);
 
       legend.update({
         value: [20, 40],
       });
-      isEqual = isNumberEqual(railShape.getBBox().width / 5, trackShape.getBBox().width);
+      isEqual = isNumberEqual(railShape.getBBox().width / 5, trackShape.getClip().getBBox().width);
       expect(isEqual).toEqual(true);
     });
 
@@ -101,7 +96,10 @@ describe('test continue legend', () => {
       const railBBox = legend.getElementById('a-legend-rail').getBBox();
       expect(railBBox.width).toBe(50);
       expect(railBBox.height).toBe(10);
-      const trackBBox = legend.getElementById('a-legend-track').getBBox();
+      const trackBBox = legend
+        .getElementById('a-legend-track')
+        .getClip()
+        .getBBox();
       expect(trackBBox.width).toBe(10);
       expect(trackBBox.height).toBe(10);
     });
@@ -177,6 +175,9 @@ describe('test continue legend', () => {
         colors: ['#ffff00', '#00ffff', '#0000ff'],
       });
       expect(trackShape.attr('fill')).toBe('l(0) 0:#ffff00 0.5:#00ffff 1:#0000ff');
+      legend.update({
+        value: [20, 60],
+      });
     });
 
     it('clear', () => {
@@ -280,7 +281,7 @@ describe('test continue legend', () => {
       const minLabelShape = legend.getElementById('b-legend-label-min');
       expect(railShape.getBBox().y).toBe(minLabelShape.getBBox().maxY + 5);
 
-      expect(railShape.getBBox().height / 10).toBe(trackShape.getBBox().height);
+      expect(railShape.getBBox().height / 10).toBe(trackShape.getClip().getBBox().height);
     });
 
     it('change min, max', () => {
@@ -291,7 +292,10 @@ describe('test continue legend', () => {
       });
       expect(legend.getBBox().height).toBe(originHeight);
       expect(legend.getElementById('b-legend-rail').getBBox().height / 4).toBe(
-        legend.getElementById('b-legend-track').getBBox().height
+        legend
+          .getElementById('b-legend-track')
+          .getClip()
+          .getBBox().height
       );
     });
 
@@ -301,11 +305,21 @@ describe('test continue legend', () => {
         max: 500,
         value: [100, 100],
       });
-      expect(legend.getElementById('b-legend-track').getBBox().height).toBe(0);
+      expect(
+        legend
+          .getElementById('b-legend-track')
+          .getClip()
+          .getBBox().height
+      ).toBe(0);
       legend.update({
         value: null,
       });
-      expect(legend.getElementById('b-legend-track').getBBox().height).toBe(legend.get('rail').defaultLength);
+      expect(
+        legend
+          .getElementById('b-legend-track')
+          .getClip()
+          .getBBox().height
+      ).toBe(legend.get('rail').defaultLength);
     });
 
     it('change rail', () => {
@@ -316,7 +330,12 @@ describe('test continue legend', () => {
         value: null,
       });
       expect(legend.getElementById('b-legend-rail').getBBox().height).toBe(150);
-      expect(legend.getElementById('b-legend-track').getBBox().height).toBe(150);
+      expect(
+        legend
+          .getElementById('b-legend-track')
+          .getClip()
+          .getBBox().height
+      ).toBe(150);
     });
 
     it('change label position', () => {
@@ -382,6 +401,7 @@ describe('test continue legend', () => {
 
       legend.update({
         colors: ['#ffff00', '#00ffff', '#0000ff'],
+        value: [80, 100],
       });
       expect(trackShape.attr('fill')).toBe('l(90) 0:#ffff00 0.5:#00ffff 1:#0000ff');
     });
@@ -566,7 +586,7 @@ describe('test continue legend', () => {
       });
       legend.setValue([100, 400]);
       const trackEl = legend.getElementById('d-legend-track');
-      expect(trackEl.attr('path')[0]).toEqual(['M', 10, 18]);
+      expect(trackEl.getClip().attr('width')).toEqual(30);
 
       legend.update({
         layout: 'vertical',
@@ -574,7 +594,7 @@ describe('test continue legend', () => {
           align: 'right',
         },
       });
-      expect(trackEl.attr('path')[0]).toEqual(['M', 18, 10]);
+      expect(trackEl.getClip().attr('height')).toEqual(30);
     });
   });
 });

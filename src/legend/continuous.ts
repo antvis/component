@@ -1,5 +1,5 @@
 import { IElement, IGroup } from '@antv/g-base/lib/interfaces';
-import { mix, upperFirst } from '@antv/util';
+import { clone, mix, upperFirst } from '@antv/util';
 import { ISlider } from '../interfaces';
 import { BBox, ContinueLegendCfg } from '../types';
 import Theme from '../util/theme';
@@ -96,7 +96,7 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> implements ISlider {
     const originValue = this.getValue();
     this.set('value', value);
     const group = this.get('group');
-    this.resetTrack(group);
+    this.resetTrackClip();
     if (this.get('slidable')) {
       this.resetHandlers(group);
     }
@@ -121,6 +121,10 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> implements ISlider {
     if (this.get('slidable')) {
       this.resetHandlers(group);
     }
+  }
+  protected applyComponetClip() {
+    // 重置 track 上的 clip
+    this.resetTrackClip();
   }
 
   private bindSliderEvent(group) {
@@ -282,19 +286,24 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> implements ISlider {
     }
     return color;
   }
-  private getTrackAttrs(min, max, group?: IGroup) {
+
+  private getTrackPath(group?: IGroup) {
+    const railShape = this.getRailShape(group);
+    const path = railShape.attr('path');
+    return clone(path);
+  }
+
+  private getClipTrackAttrs(group?: IGroup) {
+    const value = this.getCurrentValue();
+    const [min, max] = value;
     const railBBox = this.getRailBBox(group);
     const startPoint = this.getPointByValue(min, group);
     const endPoint = this.getPointByValue(max, group);
-    const trackCfg = this.get('track');
-    const railType = this.get('rail').type;
-    const colors = this.get('colors');
     const isVertical = this.isVertical();
     let x;
     let y;
     let width;
     let height;
-    const path = [];
     if (isVertical) {
       x = railBBox.minX;
       y = startPoint.y;
@@ -306,35 +315,19 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> implements ISlider {
       width = endPoint.x - startPoint.x;
       height = railBBox.height;
     }
-    if (railType === 'color') {
-      path.push(['M', x, y]);
-      path.push(['L', x + width, y]);
-      path.push(['L', x + width, y + height]);
-      path.push(['L', x, y + height]);
-      path.push(['Z']);
-    } else {
-      const range = this.getRange();
-      const distance = range.max - range.min;
-      const minPercent = (min - range.min) / distance;
-      const maxPercent = (max - range.min) / distance;
-      if (isVertical) {
-        const minX = getValueByPercent(railBBox.maxX, railBBox.minX, minPercent);
-        const maxX = getValueByPercent(railBBox.maxX, railBBox.minX, maxPercent);
-        path.push(['M', minX, y]);
-        path.push(['L', x + width, y]);
-        path.push(['L', x + width, y + height]);
-        path.push(['L', maxX, y + height]);
-        path.push(['Z']);
-      } else {
-        const minY = getValueByPercent(railBBox.maxY, railBBox.minY, minPercent);
-        const maxY = getValueByPercent(railBBox.maxY, railBBox.minY, maxPercent);
-        path.push(['M', x, minY]);
-        path.push(['L', x + width, maxY]);
-        path.push(['L', x + width, y + height]);
-        path.push(['L', x, y + height]);
-        path.push(['Z']);
-      }
-    }
+    return {
+      x,
+      y,
+      width,
+      height,
+    };
+  }
+
+  // 获取 track 的属性，由 path 和 颜色构成
+  private getTrackAttrs(group?: IGroup) {
+    const trackCfg = this.get('track');
+    const colors = this.get('colors');
+    const path = this.getTrackPath(group);
     return mix(
       {
         path,
@@ -344,12 +337,26 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> implements ISlider {
     );
   }
 
-  private resetTrack(group: IGroup) {
-    const value = this.getCurrentValue();
-    const [min, max] = value;
+  private resetTrackClip() {
+    const group = this.get('group') as IGroup;
     const trackId = this.getElementId('track');
     const trackShape = group.findById(trackId);
-    const trackAttrs = this.getTrackAttrs(min, max, group);
+    const clipShape = trackShape.getClip();
+    const attrs = this.getClipTrackAttrs(group);
+    if (!clipShape) {
+      trackShape.setClip({
+        type: 'rect',
+        attrs,
+      });
+    } else {
+      clipShape.attr(attrs);
+    }
+  }
+
+  private resetTrack(group: IGroup) {
+    const trackId = this.getElementId('track');
+    const trackShape = group.findById(trackId);
+    const trackAttrs = this.getTrackAttrs(group);
     if (trackShape) {
       trackShape.attr(trackAttrs);
     } else {
@@ -377,10 +384,15 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> implements ISlider {
     }
     return point;
   }
+
+  private getRailShape(group?: IGroup) {
+    const container = group || (this.get('group') as IGroup);
+    return container.findById(this.getElementId('rail'));
+  }
+
   // 获取滑轨的宽高信息
   private getRailBBox(group?: IGroup): BBox {
-    const container = group || (this.get('group') as IGroup);
-    const railShape = container.findById(this.getElementId('rail'));
+    const railShape = this.getRailShape(group);
     const bbox = railShape.getBBox();
     return bbox;
   }
