@@ -10,6 +10,7 @@ import { LooseObject } from '../types';
  */
 export function propagationDelegate(group: IGroup, eventName: string, eventObject: LooseObject) {
   const event = new GraphEvent(eventName, eventObject);
+  event.target = group;
   event.propagationPath.push(group); // 从当前 group 开始触发 delegation
   group.emitDelegation(eventName, event);
   let parent = group.getParent() as IGroup;
