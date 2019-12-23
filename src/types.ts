@@ -499,7 +499,7 @@ export interface LegendBaseCfg extends GroupComponentCfg {
    * 背景框配置项
    * @type {LegendBackgroundCfg}
    */
-  backgroud?: LegendBackgroundCfg;
+  background?: LegendBackgroundCfg;
 }
 export interface CategoryLegendCfg extends LegendBaseCfg {
   /**
