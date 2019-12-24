@@ -15,10 +15,10 @@ describe('test category legend', () => {
   });
 
   const originItems = [
-    { name: 'a', value: 1, marker: { symbol: 'circle', r: 4, stroke: 'red' } },
-    { name: 'b', value: 2, marker: { symbol: 'square', r: 4, fill: 'red' } },
-    { name: 'c', value: 3, marker: { symbol: 'circle', r: 4, stroke: 'blue' } },
-    { name: 'd', value: 4, marker: { symbol: 'circle', r: 4, stroke: 'yellow' } },
+    { name: 'a', value: 1, marker: { symbol: 'circle', style: { r: 4, stroke: 'red' } } },
+    { name: 'b', value: 2, marker: { symbol: 'square', style: { r: 4, fill: 'red' } } },
+    { name: 'c', value: 3, marker: { symbol: 'circle', style: { r: 4, stroke: 'blue' } } },
+    { name: 'd', value: 4, marker: { symbol: 'circle', style: { r: 4, stroke: 'yellow' } } },
   ];
 
   describe('test horizontal legend', () => {
@@ -67,11 +67,11 @@ describe('test category legend', () => {
 
     it('items', () => {
       const items = [
-        { name: 'a', value: 1, marker: { symbol: 'circle', r: 4, stroke: 'red' } },
-        { name: '1', value: 2, marker: { symbol: 'square', r: 4, fill: 'red' } },
-        { name: '2', value: 3, marker: { symbol: 'circle', r: 4, stroke: 'blue' } },
-        { name: 'd', value: 4, marker: { symbol: 'circle', r: 4, stroke: 'yellow' } },
-        { name: '5', value: 5, marker: { symbol: 'circle', r: 4, stroke: 'pink' } },
+        { name: 'a', value: 1, marker: { symbol: 'circle', style: { r: 4, stroke: 'red' } } },
+        { name: '1', value: 2, marker: { symbol: 'square', style: { r: 4, fill: 'red' } } },
+        { name: '2', value: 3, marker: { symbol: 'circle', style: { r: 4, stroke: 'blue' } } },
+        { name: 'd', value: 4, marker: { symbol: 'circle', style: { r: 4, stroke: 'yellow' } } },
+        { name: '5', value: 5, marker: { symbol: 'circle', style: { r: 4, stroke: 'pink' } } },
       ];
       legend.update({
         items,
@@ -99,11 +99,11 @@ describe('test category legend', () => {
 
     it('name & value', () => {
       const items = [
-        { name: 'a', value: 1, marker: { symbol: 'circle', r: 4, stroke: 'red' } },
-        { name: '1', value: 2, marker: { symbol: 'square', r: 4, fill: 'red' } },
-        { name: '2', value: 3, marker: { symbol: 'circle', r: 4, stroke: 'blue' } },
-        { name: 'd', value: 4, marker: { symbol: 'circle', r: 4, stroke: 'yellow' } },
-        { name: '5', value: 5, marker: { symbol: 'circle', r: 4, stroke: 'pink' } },
+        { name: 'a', value: 1, marker: { symbol: 'circle', style: { r: 4, stroke: 'red' } } },
+        { name: '1', value: 2, marker: { symbol: 'square', style: { r: 4, fill: 'red' } } },
+        { name: '2', value: 3, marker: { symbol: 'circle', style: { r: 4, stroke: 'blue' } } },
+        { name: 'd', value: 4, marker: { symbol: 'circle', style: { r: 4, stroke: 'yellow' } } },
+        { name: '5', value: 5, marker: { symbol: 'circle', style: { r: 4, stroke: 'pink' } } },
       ];
       legend.update({
         items,
@@ -330,26 +330,26 @@ describe('test category legend', () => {
 
   describe('test horizontal legend navigation', () => {
     const lotsItems = [
-      { name: 'aaaaaaa', value: 1, marker: { symbol: 'circle', r: 4, stroke: 'red' } },
-      { name: 'bbbbbbb', value: 2, marker: { symbol: 'square', r: 4, fill: 'red' } },
-      { name: 'ccccccc', value: 3, marker: { symbol: 'circle', r: 4, stroke: 'blue' } },
-      { name: 'ddddddd', value: 4, marker: { symbol: 'circle', r: 4, stroke: 'yellow' } },
-      { name: 'eeeeeee', value: 5, marker: { symbol: 'circle', r: 4, stroke: 'red' } },
-      { name: 'fffffff', value: 6, marker: { symbol: 'square', r: 4, fill: 'red' } },
-      { name: 'ggggggg', value: 7, marker: { symbol: 'square', r: 4, fill: 'blue' } },
-      { name: 'hhhhhhh', value: 8, marker: { symbol: 'square', r: 4, fill: 'blue' } },
-      { name: 'iiiiiii', value: 9, marker: { symbol: 'square', r: 4, fill: 'yellow' } },
-      { name: 'kkkkkkk', value: 10, marker: { symbol: 'square', r: 4, fill: 'yellow' } },
+      { name: 'aaaaaaa', value: 1, marker: { symbol: 'circle', style: { r: 4, stroke: 'red' } } },
+      { name: 'bbbbbbb', value: 2, marker: { symbol: 'square', style: { r: 4, fill: 'red' } } },
+      { name: 'ccccccc', value: 3, marker: { symbol: 'circle', style: { r: 4, stroke: 'blue' } } },
+      { name: 'ddddddd', value: 4, marker: { symbol: 'circle', style: { r: 4, stroke: 'yellow' } } },
+      { name: 'eeeeeee', value: 5, marker: { symbol: 'circle', style: { r: 4, stroke: 'red' } } },
+      { name: 'fffffff', value: 6, marker: { symbol: 'square', style: { r: 4, fill: 'red' } } },
+      { name: 'ggggggg', value: 7, marker: { symbol: 'square', style: { r: 4, fill: 'blue' } } },
+      { name: 'hhhhhhh', value: 8, marker: { symbol: 'square', style: { r: 4, fill: 'blue' } } },
+      { name: 'iiiiiii', value: 9, marker: { symbol: 'square', style: { r: 4, fill: 'yellow' } } },
+      { name: 'kkkkkkk', value: 10, marker: { symbol: 'square', style: { r: 4, fill: 'yellow' } } },
     ];
     const lessItems = [
-      { name: 'aaaaaaa', value: 1, marker: { symbol: 'circle', r: 4, stroke: 'red' } },
-      { name: 'bbbbbbb', value: 2, marker: { symbol: 'square', r: 4, fill: 'red' } },
-      { name: 'ccccccc', value: 3, marker: { symbol: 'circle', r: 4, stroke: 'blue' } },
-      { name: 'ddddddd', value: 4, marker: { symbol: 'circle', r: 4, stroke: 'yellow' } },
-      { name: 'eeeeeee', value: 5, marker: { symbol: 'circle', r: 4, stroke: 'red' } },
-      { name: 'fffffff', value: 6, marker: { symbol: 'square', r: 4, fill: 'red' } },
-      { name: 'ggggggg', value: 7, marker: { symbol: 'square', r: 4, fill: 'blue' } },
-      { name: 'hhhhhhh', value: 8, marker: { symbol: 'square', r: 4, fill: 'blue' } },
+      { name: 'aaaaaaa', value: 1, marker: { symbol: 'circle', style: { r: 4, stroke: 'red' } } },
+      { name: 'bbbbbbb', value: 2, marker: { symbol: 'square', style: { r: 4, fill: 'red' } } },
+      { name: 'ccccccc', value: 3, marker: { symbol: 'circle', style: { r: 4, stroke: 'blue' } } },
+      { name: 'ddddddd', value: 4, marker: { symbol: 'circle', style: { r: 4, stroke: 'yellow' } } },
+      { name: 'eeeeeee', value: 5, marker: { symbol: 'circle', style: { r: 4, stroke: 'red' } } },
+      { name: 'fffffff', value: 6, marker: { symbol: 'square', style: { r: 4, fill: 'red' } } },
+      { name: 'ggggggg', value: 7, marker: { symbol: 'square', style: { r: 4, fill: 'blue' } } },
+      { name: 'hhhhhhh', value: 8, marker: { symbol: 'square', style: { r: 4, fill: 'blue' } } },
     ];
     const container = canvas.addGroup();
     const legend = new CategroyLegend({
@@ -489,25 +489,25 @@ describe('test category legend', () => {
 
   describe('test vertical legend navigation', () => {
     const lotsItems = [
-      { name: 'aaaaaaa', value: 1, marker: { symbol: 'circle', r: 4, stroke: 'red' } },
-      { name: 'bbbbbbb', value: 2, marker: { symbol: 'square', r: 4, fill: 'red' } },
-      { name: 'ccccccc', value: 3, marker: { symbol: 'circle', r: 4, stroke: 'blue' } },
-      { name: 'ddddddd', value: 4, marker: { symbol: 'circle', r: 4, stroke: 'yellow' } },
-      { name: 'eeeeeee', value: 5, marker: { symbol: 'circle', r: 4, stroke: 'red' } },
-      { name: 'fffffff', value: 6, marker: { symbol: 'square', r: 4, fill: 'red' } },
-      { name: 'ggggggg', value: 7, marker: { symbol: 'square', r: 4, fill: 'blue' } },
-      { name: 'hhhhhhh', value: 8, marker: { symbol: 'square', r: 4, fill: 'blue' } },
-      { name: 'iiiiiii', value: 9, marker: { symbol: 'square', r: 4, fill: 'yellow' } },
-      { name: 'kkkkkkk', value: 10, marker: { symbol: 'square', r: 4, fill: 'yellow' } },
+      { name: 'aaaaaaa', value: 1, marker: { symbol: 'circle', style: { r: 4, stroke: 'red' } } },
+      { name: 'bbbbbbb', value: 2, marker: { symbol: 'square', style: { r: 4, fill: 'red' } } },
+      { name: 'ccccccc', value: 3, marker: { symbol: 'circle', style: { r: 4, stroke: 'blue' } } },
+      { name: 'ddddddd', value: 4, marker: { symbol: 'circle', style: { r: 4, stroke: 'yellow' } } },
+      { name: 'eeeeeee', value: 5, marker: { symbol: 'circle', style: { r: 4, stroke: 'red' } } },
+      { name: 'fffffff', value: 6, marker: { symbol: 'square', style: { r: 4, fill: 'red' } } },
+      { name: 'ggggggg', value: 7, marker: { symbol: 'square', style: { r: 4, fill: 'blue' } } },
+      { name: 'hhhhhhh', value: 8, marker: { symbol: 'square', style: { r: 4, fill: 'blue' } } },
+      { name: 'iiiiiii', value: 9, marker: { symbol: 'square', style: { r: 4, fill: 'yellow' } } },
+      { name: 'kkkkkkk', value: 10, marker: { symbol: 'square', style: { r: 4, fill: 'yellow' } } },
     ];
     const lessItems = [
-      { name: 'aaaaaaa', value: 1, marker: { symbol: 'circle', r: 4, stroke: 'red' } },
-      { name: 'bbbbbbb', value: 2, marker: { symbol: 'square', r: 4, fill: 'red' } },
-      { name: 'ccccccc', value: 3, marker: { symbol: 'circle', r: 4, stroke: 'blue' } },
-      { name: 'ddddddd', value: 4, marker: { symbol: 'circle', r: 4, stroke: 'yellow' } },
-      { name: 'eeeeeee', value: 5, marker: { symbol: 'circle', r: 4, stroke: 'red' } },
-      { name: 'fffffff', value: 6, marker: { symbol: 'square', r: 4, fill: 'red' } },
-      { name: 'ggggggg', value: 7, marker: { symbol: 'square', r: 4, fill: 'blue' } },
+      { name: 'aaaaaaa', value: 1, marker: { symbol: 'circle', style: { r: 4, stroke: 'red' } } },
+      { name: 'bbbbbbb', value: 2, marker: { symbol: 'square', style: { r: 4, fill: 'red' } } },
+      { name: 'ccccccc', value: 3, marker: { symbol: 'circle', style: { r: 4, stroke: 'blue' } } },
+      { name: 'ddddddd', value: 4, marker: { symbol: 'circle', style: { r: 4, stroke: 'yellow' } } },
+      { name: 'eeeeeee', value: 5, marker: { symbol: 'circle', style: { r: 4, stroke: 'red' } } },
+      { name: 'fffffff', value: 6, marker: { symbol: 'square', style: { r: 4, fill: 'red' } } },
+      { name: 'ggggggg', value: 7, marker: { symbol: 'square', style: { r: 4, fill: 'blue' } } },
     ];
     const container = canvas.addGroup();
     const legend = new CategroyLegend({
@@ -635,10 +635,10 @@ describe('test category legend', () => {
 
   describe('test state and events', () => {
     const items = [
-      { name: '222222', value: 1, marker: { symbol: 'circle', r: 4, stroke: 'red' } },
-      { name: '111111', value: 2, marker: { symbol: 'square', r: 4, fill: 'red' } },
-      { name: '55555', value: 3, active: true, marker: { symbol: 'circle', r: 4, stroke: 'blue' } },
-      { name: 'bbbbbb', value: 4, unchecked: true, marker: { symbol: 'circle', r: 4, stroke: 'yellow' } },
+      { name: '222222', value: 1, marker: { symbol: 'circle', style: { r: 4, stroke: 'red' } } },
+      { name: '111111', value: 2, marker: { symbol: 'square', style: { r: 4, fill: 'red' } } },
+      { name: '55555', value: 3, active: true, marker: { symbol: 'circle', style: { r: 4, stroke: 'blue' } } },
+      { name: 'bbbbbb', value: 4, unchecked: true, marker: { symbol: 'circle', style: { r: 4, stroke: 'yellow' } } },
     ];
     const container = canvas.addGroup();
     const legend = new CategroyLegend({

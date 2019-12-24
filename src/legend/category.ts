@@ -1,5 +1,5 @@
 import { IGroup } from '@antv/g-base/lib/interfaces';
-import { each, filter, mix } from '@antv/util';
+import { each, filter, get, mix } from '@antv/util';
 import { IList } from '../interfaces';
 import { CategoryLegendCfg, LegendItemNameCfg, LegendMarkerCfg, ListItem } from '../types';
 import { getMatrixByAngle, getMatrixByTranslate } from '../util/matrix';
@@ -299,14 +299,14 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
   }
   // 绘制 marker
   private drawMarker(container: IGroup, markerCfg: LegendMarkerCfg, item: ListItem, itemHeight: number) {
-    const markerAttrs = mix(
-      {
-        x: 0,
-        y: itemHeight / 2,
-      },
-      markerCfg.style,
-      item.marker
-    );
+    const markerAttrs = {
+      x: 0,
+      y: itemHeight / 2,
+      ...markerCfg.style,
+      symbol: get(item.marker, 'symbol', 'circle'),
+      ...get(item.marker, 'style', {}),
+    };
+
     const shape = this.addShape(container, {
       type: 'marker',
       id: this.getElementId(`item-${item.id}-marker`),
