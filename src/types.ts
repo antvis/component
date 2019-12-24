@@ -138,7 +138,7 @@ export interface AxisLineCfg {
    * 坐标轴线的配置项
    * @type {ShapeAttrs}
    */
-  style: ShapeAttrs;
+  style?: ShapeAttrs;
 }
 
 /**
@@ -150,17 +150,17 @@ export interface AxisTickLineCfg {
    * 坐标轴刻度线的配置项
    * @type {ShapeAttrs}
    */
-  style: ShapeAttrs;
+  style?: ShapeAttrs;
   /**
    * 是否同 tick 对齐
    * @type {boolean}
    */
-  alignTick: boolean; // 是否同 tick 对齐
+  alignTick?: boolean; // 是否同 tick 对齐
   /**
    * 长度
    * @type {number}
    */
-  length: number;
+  length?: number;
 }
 
 type avoidCallback = (isVertical: boolean, labelGroup: IGroup, limitLength?: number) => boolean;
@@ -174,22 +174,22 @@ export interface AxisLabelCfg {
    * 坐标轴文本的样式
    * @type {ShapeAttrs}
    */
-  style: ShapeAttrs;
+  style?: ShapeAttrs;
   /**
    * 是否自动旋转，默认 true
    * @type {boolean|avoidCallback|string}
    */
-  autoRotate: boolean | avoidCallback | string;
+  autoRotate?: boolean | avoidCallback | string;
   /**
    * 是否自动隐藏，默认 false
    * @type {boolean|avoidCallback|string}
    */
-  autoHide: boolean | avoidCallback | string;
+  autoHide?: boolean | avoidCallback | string;
   /**
    * 是否自动省略，默认 false
    * @type {boolean|avoidCallback|string}
    */
-  autoEllipsis: boolean | avoidCallback | string;
+  autoEllipsis?: boolean | avoidCallback | string;
 }
 
 /**
@@ -201,17 +201,17 @@ export interface AxisSubTickLineCfg {
    * 坐标轴刻度线的配置项
    * @type {ShapeAttrs}
    */
-  style: ShapeAttrs;
+  style?: ShapeAttrs;
   /**
    * 子刻度个数
    * @type {number}
    */
-  count: number;
+  count?: number;
   /**
    * 子刻度线长度
    * @type {number}
    */
-  length: number;
+  length?: number;
 }
 
 /**
@@ -223,17 +223,17 @@ export interface AxisTitleCfg {
    * 标题距离坐标轴的距离
    * @type {number}
    */
-  offset: number;
+  offset?: number;
   /**
    * 标题文本配置项
    * @type {ShapeAttrs}
    */
-  style: ShapeAttrs;
+  style?: ShapeAttrs;
   /**
    * 是否自动旋转
    * @type {boolean}
    */
-  autoRotate: boolean;
+  autoRotate?: boolean;
 }
 
 export interface BaseCfg {
@@ -499,7 +499,7 @@ export interface LegendBaseCfg extends GroupComponentCfg {
    * 背景框配置项
    * @type {LegendBackgroundCfg}
    */
-  backgroud?: LegendBackgroundCfg;
+  background?: LegendBackgroundCfg;
 }
 export interface CategoryLegendCfg extends LegendBaseCfg {
   /**
@@ -602,7 +602,7 @@ export interface ContinueLegendTrackCfg {
    * 选定范围的样式
    * @type {ShapeAttrs}
    */
-  style: ShapeAttrs;
+  style?: ShapeAttrs;
 }
 
 export interface ContinueLegendHandlerCfg {
@@ -610,12 +610,12 @@ export interface ContinueLegendHandlerCfg {
    * 滑块大小
    * @type {number}
    */
-  size: number;
+  size?: number;
   /**
    * 滑块样式
    * @type {ShapeAttrs}
    */
-  style: ShapeAttrs;
+  style?: ShapeAttrs;
 }
 
 export interface ContinueLegendRailCfg {
@@ -623,22 +623,22 @@ export interface ContinueLegendRailCfg {
    * rail 的类型，color, size
    * @type {string}
    */
-  type: string;
+  type?: string;
   /**
    * 滑轨的宽度
    * @type {number}
    */
-  size: number;
+  size?: number;
   /**
    * 滑轨的默认长度，，当限制了 maxWidth,maxHeight 时，不会使用这个属性会自动计算长度
    * @type {number}
    */
-  defaultLength: number;
+  defaultLength?: number;
   /**
    * 滑轨的样式
    * @type {ShapeAttrs}
    */
-  style: ShapeAttrs;
+  style?: ShapeAttrs;
 }
 
 export interface ContinueLegendLabelCfg {
@@ -649,17 +649,17 @@ export interface ContinueLegendLabelCfg {
    *  - left, right: 图例垂直布局时有效
    * @type {string}
    */
-  align: string;
+  align?: string;
   /**
    * 文本同滑轨的距离
    * @type {number}
    */
-  spacing: number;
+  spacing?: number;
   /**
    * 文本样式
    * @type {ShapeAttrs}
    */
-  style: ShapeAttrs;
+  style?: ShapeAttrs;
 }
 
 export interface LegendTitleCfg {
@@ -667,12 +667,12 @@ export interface LegendTitleCfg {
    * 标题同图例项的间距
    * @type {number}
    */
-  spacing: number;
+  spacing?: number;
   /**
    * 文本配置项
    * @type {ShapeAttrs}
    */
-  style: ShapeAttrs;
+  style?: ShapeAttrs;
 }
 
 export interface LegendBackgroundCfg {
@@ -680,12 +680,12 @@ export interface LegendBackgroundCfg {
    * @type {number|number[]}
    * 背景的留白
    */
-  padding: number | number[];
+  padding?: number | number[];
   /**
    * @type {ShapeAttrs}
    * 背景配置项
    */
-  style: ShapeAttrs;
+  style?: ShapeAttrs;
 }
 
 export interface LegendItemNameCfg {
@@ -693,7 +693,7 @@ export interface LegendItemNameCfg {
    * 图例项 name 同后面 value 的间距
    * @type {number}
    */
-  spacing: number;
+  spacing?: number;
   /**
    * 格式化文本函数
    * @type {formatterCallback}
@@ -703,7 +703,7 @@ export interface LegendItemNameCfg {
    * 文本配置项
    * @type {ShapeAttrs}
    */
-  style: ShapeAttrs;
+  style?: ShapeAttrs;
 }
 
 type formatterCallback = (text: string, item: ListItem, index: number) => any;
@@ -713,7 +713,7 @@ export interface LegendItemValueCfg {
    * 是否右对齐，默认为 false，仅当设置图例项宽度时生效
    * @type {boolean}
    */
-  alignRight: boolean;
+  alignRight?: boolean;
   /**
    * 格式化文本函数
    * @type {formatterCallback}
@@ -723,7 +723,7 @@ export interface LegendItemValueCfg {
    * 图例项附加值的配置
    * @type {ShapeAttrs}
    */
-  style: ShapeAttrs;
+  style?: ShapeAttrs;
 }
 
 export interface LegendMarkerCfg {
@@ -731,12 +731,12 @@ export interface LegendMarkerCfg {
    * 图例项 marker 同后面 name 的间距
    * @type {number}
    */
-  spacing: number;
+  spacing?: number;
   /**
    * 图例项 marker 的配置项
    * @type {ShapeAttrs}
    */
-  style: ShapeAttrs;
+  style?: ShapeAttrs;
 }
 
 export interface TooltipCfg extends HtmlComponentCfg {
