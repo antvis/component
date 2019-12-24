@@ -1,8 +1,8 @@
 import { getAlignPoint, getOutSides, getPointByPosition } from '../../src/util/align';
-
+import { createBBox } from '../../src/util/util';
 describe('test util', () => {
   it('out side test', () => {
-    const limtBox = { x: 100, y: 100, width: 500, height: 500 };
+    const limtBox = createBBox(100, 100, 500, 500);
     expect(getOutSides(120, 120, 50, 50, limtBox)).toEqual({
       top: false,
       bottom: false,
@@ -65,7 +65,7 @@ describe('test util', () => {
     const width = 50;
     const height = 40;
     const offset = 10;
-    const limtBox = { x: 100, y: 100, width: 500, height: 500 };
+    const limtBox = createBBox(100, 100, 500, 500);
     it('no limit', () => {
       expect(getAlignPoint(x, y, offset, width, height, 'left')).toEqual({
         x: 40,
