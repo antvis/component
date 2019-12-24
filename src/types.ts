@@ -1,8 +1,8 @@
 import { IGroup } from '@antv/g-base/lib/interfaces';
-import { AnimateCfg, Point, ShapeAttrs } from '@antv/g-base/lib/types';
+import { AnimateCfg, BBox, Point, ShapeAttrs } from '@antv/g-base/lib/types';
 export type LocationType = 'point' | 'Region' | 'points' | 'circle' | 'none';
 
-export { Point };
+export { Point, BBox };
 /** 对象 */
 export interface LooseObject {
   [key: string]: any;
@@ -37,50 +37,6 @@ export interface Range {
    * @type {number}
    */
   max: number;
-}
-
-// 等底层 Util 调整好，直接用 Util 的定义
-export interface BBox {
-  /**
-   * 包围盒 x
-   * @type {number}
-   */
-  x: number;
-  /**
-   * 包围盒 y
-   * @type {number}
-   */
-  y: number;
-  /**
-   * 包围盒宽度
-   * @type {number}
-   */
-  height: number;
-  /**
-   * 包围盒高度
-   * @type {number}
-   */
-  width: number;
-  /**
-   * 包围盒最小 x
-   * @type {number}
-   */
-  minX?: number;
-  /**
-   * 包围盒最大 x
-   * @type {number}
-   */
-  maxX?: number;
-  /**
-   * 包围盒最小 y
-   * @type {number}
-   */
-  minY?: number;
-  /**
-   * 包围盒最大 y
-   * @type {number}
-   */
-  maxY?: number;
 }
 
 /**
@@ -175,6 +131,21 @@ export interface AxisLabelCfg {
    * @type {ShapeAttrs}
    */
   style?: ShapeAttrs;
+  /**
+   * label 的偏移量
+   * @type {number}
+   */
+  offset?: number;
+  /**
+   * 文本旋转角度
+   * @type {number}
+   */
+  rotate?: number;
+  /**
+   * 格式化函数
+   * @type {formatterCallback}
+   */
+  formatter?: formatterCallback;
   /**
    * 是否自动旋转，默认 true
    * @type {boolean|avoidCallback|string}
