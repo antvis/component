@@ -2,8 +2,8 @@
  * @fileoverview 使用 G.Group 的组件
  * @author dxq613@gmail.com
  */
-import { IElement, IGroup } from '@antv/g-base/lib/interfaces';
-import { each, isNil, mix } from '@antv/util';
+import { IElement, IGroup, IShape } from '@antv/g-base/lib/interfaces';
+import { difference, each, isNil, keys, mix, pick } from '@antv/util';
 import { BBox, GroupComponentCfg, LooseObject, Point } from '../types';
 import { propagationDelegate } from '../util/event';
 import { getMatrixByTranslate } from '../util/matrix';
@@ -11,7 +11,13 @@ import Component from './component';
 type Callback = (evt: object) => void;
 
 const STATUS_UPDATE = 'update_status';
-const COPY_POPERTYS = ['visible', 'tip', 'delegateObject']; // 更新对象时需要复制的属性
+const COPY_PROPERTIES = ['visible', 'tip', 'delegateObject']; // 更新对象时需要复制的属性
+const COPY_PROPERTIES_EXCLUDES = ['container', 'group', 'shapesMap', 'isRegister', 'isUpdating', 'destroyed']; // 更新子组件时排除的属性
+
+export type GroupComponentCtor<
+  C extends GroupComponentCfg = GroupComponentCfg,
+  T extends GroupComponent = GroupComponent
+> = new (cfg: C) => T;
 
 abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> extends Component {
   public getDefaultCfg() {
@@ -51,8 +57,19 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
     this.set('shapesMap', {});
   }
 
-  public getElementById(id) {
+  public getChildComponentById(id: string) {
+    const group = this.getElementById(id);
+    const inst = group.get('component');
+    return inst;
+  }
+
+  public getElementById(id: string) {
     return this.get('shapesMap')[id];
+  }
+
+  public getElementByLocalId(localId) {
+    const id = this.getElementId(localId);
+    return this.getElementById(id);
   }
 
   public getElementsByName(name: string) {
@@ -76,7 +93,7 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
     super.update(cfg);
     this.updateInner();
     this.set('isUpdating', false);
-    this.applyComponetClip();
+    this.applyComponentClip();
   }
 
   public render() {
@@ -91,7 +108,7 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
       this.applyOffset();
       this.set('isRegister', false);
     }
-    this.applyComponetClip();
+    this.applyComponentClip();
   }
 
   public show() {
@@ -134,7 +151,7 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
     group.emit(eventName, eventObject);
   }
 
-  protected applyComponetClip() {}
+  protected applyComponentClip() {}
   // 抛出委托对象
   protected delegateEmit(eventName: string, eventObject: LooseObject) {
     const group = this.get('group');
@@ -152,11 +169,6 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
     return newGroup;
   }
 
-  protected getElementByLocalId(localId) {
-    const id = this.getElementId(localId);
-    return this.getElementById(id);
-  }
-
   // 应用 offset
   protected applyOffset() {
     const offsetX = this.get('offsetX');
@@ -168,7 +180,9 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
   }
 
   protected init() {
-    this.initGroup();
+    if (!this.get('group')) {
+      this.initGroup();
+    }
     this.initEvent();
   }
 
@@ -181,6 +195,8 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
         name: this.get('name'),
         capture: this.get('capture'),
         visible: this.get('visible'),
+        isComponent: true,
+        component: this,
         delegateObject: this.getDelegateObject(),
       })
     );
@@ -216,6 +232,32 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
     return shape;
   }
 
+  /**
+   * 在组件上添加子组件
+   *
+   * @param parent 父元素
+   * @param cfg 子组件配置项
+   */
+  protected addComponent<C extends GroupComponentCfg = GroupComponentCfg, CT extends GroupComponent = GroupComponent>(
+    parent: IGroup,
+    cfg: Omit<C, 'container'> & { component: GroupComponentCtor<C, CT> }
+  ) {
+    const { id, component: Ctor, ...restCfg } = cfg;
+    // @ts-ignore
+    const inst: CT = new Ctor({
+      ...restCfg,
+      id,
+      container: parent,
+    });
+    inst.render();
+
+    if (this.get('isRegister')) {
+      this.registerElement(inst.get('group'));
+    }
+
+    return inst;
+  }
+
   protected initEvent() {}
 
   protected removeEvent() {
@@ -249,7 +291,7 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
    * 内部的渲染
    * @param {IGroup} group 图形分组
    */
-  protected abstract renderInner(group);
+  protected abstract renderInner(group: IGroup);
 
   /**
    * 图形元素新出现时的动画，默认图形从透明度 0 到当前透明度
@@ -301,27 +343,36 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
       const originElement = this.getElementById(elementId);
       const elementName = element.get('name');
       if (originElement) {
-        const replaceAttrs = this.getReplaceAttrs(originElement, element);
-        // 更新
-        if (animate && animateOption.update) {
-          // 没有动画
-          this.updateAnimation(elementName, originElement, replaceAttrs, animateOption.update);
+        if (element.get('isComponent')) {
+          // 嵌套子组件更新
+          const childComponent = element.get('component');
+          const origChildComponent: GroupComponent<any> = originElement.get('component');
+          const newCfg = pick(childComponent.cfg, difference(keys(childComponent.cfg), COPY_PROPERTIES_EXCLUDES));
+          origChildComponent.update(newCfg);
+          originElement.set(STATUS_UPDATE, 'update');
         } else {
-          // originElement.attrs = replaceAttrs; // 直接替换
-          originElement.attr(replaceAttrs);
-        }
-        // 如果是分组，则继续执行
-        if (element.isGroup()) {
-          this.updateElements(element, originElement);
-        }
-        // 复制属性
-        each(COPY_POPERTYS, (name) => {
-          originElement.set(name, element.get(name));
-        });
+          const replaceAttrs = this.getReplaceAttrs(originElement, element);
+          // 更新
+          if (animate && animateOption.update) {
+            // 没有动画
+            this.updateAnimation(elementName, originElement, replaceAttrs, animateOption.update);
+          } else {
+            // originElement.attrs = replaceAttrs; // 直接替换
+            originElement.attr(replaceAttrs);
+          }
+          // 如果是分组，则继续执行
+          if (element.isGroup()) {
+            this.updateElements(element, originElement);
+          }
+          // 复制属性
+          each(COPY_PROPERTIES, (name) => {
+            originElement.set(name, element.get(name));
+          });
 
-        preElement = originElement;
-        // 执行完更新后设置状态位为更新
-        originElement.set(STATUS_UPDATE, 'update');
+          preElement = originElement;
+          // 执行完更新后设置状态位为更新
+          originElement.set(STATUS_UPDATE, 'update');
+        }
       } else {
         // 没有对应的图形，则插入当前图形
         originGroup.add(element); // 应该在 group 加个 insertAt 的方法
@@ -336,7 +387,11 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
         }
         this.registerElement(element); // 注册节点
         element.set(STATUS_UPDATE, 'add'); // 执行完更新后设置状态位为添加
-        if (element.isGroup()) {
+        if (element.get('isComponent')) {
+          // 直接新增子组件container属性，实例不变
+          const childComponent = element.get('component');
+          childComponent.set('container', this.getElementById(element.get('container').get('id')));
+        } else if (element.isGroup()) {
           // 如果元素是新增加的元素，则遍历注册所有的子节点
           this.registerNewGroup(element);
         }
@@ -433,19 +488,29 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
           // 需要动画结束时移除图形
           const callbackAnimCfg = mix(
             {
-              callback() {
-                element.remove();
+              callback: () => {
+                this.removeElement(element);
               },
             },
             animateOption.leave
           );
           this.removeAnimation(elementName, element, callbackAnimCfg);
         } else {
-          element.remove();
+          this.removeElement(element);
         }
       }
       delete shapesMap[id]; // 从缓存中移除
     });
+  }
+
+  private removeElement(element: IShape | IGroup) {
+    if (element.get('isGroup')) {
+      const component = element.get('component');
+      if (component) {
+        component.destroy();
+      }
+    }
+    element.remove();
   }
 }
 

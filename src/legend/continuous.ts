@@ -122,7 +122,7 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> implements ISlider {
       this.resetHandlers(group);
     }
   }
-  protected applyComponetClip() {
+  protected applyComponentClip() {
     // 重置 track 上的 clip
     this.resetTrackClip();
   }
