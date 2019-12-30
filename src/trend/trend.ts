@@ -1,4 +1,4 @@
-import { IGroup } from '@antv/g-base/lib/interfaces';
+import { IGroup } from '@antv/g-base';
 import GroupComponent from '../abstract/group-component';
 import { GroupComponentCfg } from '../types';
 import { AREA_STYLE, BACKGROUND_STYLE, LINE_STYLE } from './constant';

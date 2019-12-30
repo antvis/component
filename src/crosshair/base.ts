@@ -1,4 +1,4 @@
-import { IGroup } from '@antv/g-base/lib/interfaces';
+import { IGroup } from '@antv/g-base';
 import { isNil } from '@antv/util';
 import GroupComponent from '../abstract/group-component';
 import { CrosshairBaseCfg, Point } from '../types';

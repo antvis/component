@@ -1,5 +1,4 @@
-import { IBase } from '@antv/g-base/lib/interfaces';
-
+import { IBase } from '@antv/g-base';
 import { BBox, ListItem, LocationCfg, LocationType, OffsetPoint, Range } from './types';
 
 export interface IList {

@@ -2,7 +2,7 @@
  * @fileoverview 使用 G.Group 的组件
  * @author dxq613@gmail.com
  */
-import { IElement, IGroup, IShape } from '@antv/g-base/lib/interfaces';
+import { IElement, IGroup, IShape } from '@antv/g-base';
 import { difference, each, isNil, keys, mix, pick } from '@antv/util';
 import { BBox, GroupComponentCfg, LooseObject, Point } from '../types';
 import { propagationDelegate } from '../util/event';

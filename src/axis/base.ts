@@ -1,4 +1,4 @@
-import { IGroup } from '@antv/g-base/lib/interfaces';
+import { IGroup } from '@antv/g-base';
 import { vec2 } from '@antv/matrix-util';
 import { each, filter, isNil, isNumberEqual, mix } from '@antv/util';
 import GroupComponent from '../abstract/group-component';

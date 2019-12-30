@@ -1,6 +1,5 @@
 import { addEventListener } from '@antv/dom-util';
-import { Event } from '@antv/g-base';
-import { IGroup, IShape } from '@antv/g-base/lib/interfaces';
+import { Event, IGroup, IShape } from '@antv/g-base';
 import { clamp, get, noop } from '@antv/util';
 import GroupComponent from '../abstract/group-component';
 import { ISlider } from '../interfaces';

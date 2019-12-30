@@ -1,4 +1,4 @@
-import { IElement, IGroup } from '@antv/g-base/lib/interfaces';
+import { IElement, IGroup } from '@antv/g-base';
 import { clone, mix, upperFirst } from '@antv/util';
 import { ISlider } from '../interfaces';
 import { BBox, ContinueLegendCfg } from '../types';

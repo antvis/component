@@ -1,5 +1,4 @@
-import { Event } from '@antv/g-base';
-import { IGroup, IShape } from '@antv/g-base/lib/interfaces';
+import { Event, IGroup, IShape } from '@antv/g-base';
 import { clamp, each, get, isArray, isNil, size } from '@antv/util';
 import GroupComponent from '../abstract/group-component';
 import { ISlider } from '../interfaces';

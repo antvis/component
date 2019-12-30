@@ -1,5 +1,4 @@
-import { IGroup } from '@antv/g-base/lib/interfaces';
-import { Point } from '@antv/g-base/lib/types';
+import { IGroup, Point } from '@antv/g-base';
 import { isNumber, isString } from '@antv/util';
 import GroupComponent from '../abstract/group-component';
 import { ILocation } from '../interfaces';

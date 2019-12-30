@@ -1,4 +1,4 @@
-import { IGroup } from '@antv/g-base/lib/interfaces';
+import { IGroup } from '@antv/g-base';
 import { vec2 } from '@antv/matrix-util';
 import { each, isFunction, isNumberEqual } from '@antv/util';
 import { ILocation } from '../interfaces';
