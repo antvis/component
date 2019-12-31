@@ -39,6 +39,7 @@
     }
   },
   "devDependencies": {
+    "@antv/g-canvas": "^0.3.5",
     "@types/jest": "^24.0.18",
     "husky": "^3.0.4",
     "jest": "^24.9.0",
@@ -50,15 +51,15 @@
     "ts-jest": "^24.1.0",
     "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.5.3",
-    "@antv/g-canvas": "^0.3.0"
+    "typescript": "^3.5.3"
   },
   "dependencies": {
-    "tslib": "^1.10.0",
-    "@antv/util": "~2.0.0",
     "@antv/dom-util": "~2.0.1",
-    "@antv/g-base": "^0.3.2",
-    "@antv/matrix-util": "~2.0.4"
+    "@antv/g-base": "^0.3.5",
+    "@antv/matrix-util": "~2.0.4",
+    "@antv/scale": "^0.2.3",
+    "@antv/util": "~2.0.0",
+    "tslib": "^1.10.0"
   },
   "lint-staged": {
     "*.{js,css,json,md}": [

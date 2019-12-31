@@ -1,4 +1,4 @@
-import { IGroup } from '@antv/g-base/lib/interfaces';
+import { IGroup } from '@antv/g-base';
 import { each, isString, mix } from '@antv/util';
 import GroupComponent from '../abstract/group-component';
 import { GridBaseCfg, GroupComponentCfg, Point } from '../types';

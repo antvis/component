@@ -1,4 +1,4 @@
-import { IElement, IGroup } from '@antv/g-base/lib/interfaces';
+import { IElement, IGroup } from '@antv/g-base';
 import { each } from '@antv/util';
 import { getMaxLabelWidth } from '../../util/label';
 import { getMatrixByAngle } from '../../util/matrix';

@@ -1,4 +1,4 @@
-import { IElement, IGroup } from '@antv/g-base/lib/interfaces';
+import { IElement, IGroup } from '@antv/g-base';
 import { getMaxLabelWidth } from '../../util/label';
 
 // 文本是否旋转

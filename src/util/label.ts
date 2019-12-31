@@ -1,4 +1,4 @@
-import { IElement } from '@antv/g-base/lib/interfaces';
+import { IElement } from '@antv/g-base';
 import { each } from '@antv/util';
 
 export function getMaxLabelWidth(labels: IElement[]) {

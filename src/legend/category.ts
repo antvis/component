@@ -1,4 +1,4 @@
-import { IGroup } from '@antv/g-base/lib/interfaces';
+import { IGroup } from '@antv/g-base';
 import { each, filter, get, mix } from '@antv/util';
 import { IList } from '../interfaces';
 import { CategoryLegendCfg, LegendItemNameCfg, LegendMarkerCfg, ListItem } from '../types';

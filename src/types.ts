@@ -1,5 +1,4 @@
-import { IGroup } from '@antv/g-base/lib/interfaces';
-import { AnimateCfg, BBox, Point, ShapeAttrs } from '@antv/g-base/lib/types';
+import { AnimateCfg, BBox, IGroup, Point, ShapeAttrs } from '@antv/g-base';
 export type LocationType = 'point' | 'Region' | 'points' | 'circle' | 'none';
 
 export { Point, BBox };

@@ -1,4 +1,4 @@
-import { IElement, IGroup } from '@antv/g-base/lib/interfaces';
+import { IElement, IGroup } from '@antv/g-base';
 import { clone, mix, upperFirst } from '@antv/util';
 import { ISlider } from '../interfaces';
 import { BBox, ContinueLegendCfg } from '../types';
@@ -122,7 +122,7 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> implements ISlider {
       this.resetHandlers(group);
     }
   }
-  protected applyComponetClip() {
+  protected applyComponentClip() {
     // 重置 track 上的 clip
     this.resetTrackClip();
   }

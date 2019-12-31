@@ -1,5 +1,5 @@
+import { IGroup } from '@antv/g-base';
 import GraphEvent from '@antv/g-base/lib/event/graph-event';
-import { IGroup } from '@antv/g-base/lib/interfaces';
 import { LooseObject } from '../types';
 
 /**
