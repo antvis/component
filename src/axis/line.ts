@@ -2,7 +2,7 @@ import { IGroup } from '@antv/g-base';
 import { vec2 } from '@antv/matrix-util';
 import { each, isFunction, isNumberEqual } from '@antv/util';
 import { ILocation } from '../interfaces';
-import { LineAxisCfg, Point, RegionLocationCfg } from '../types';
+import { BBox, LineAxisCfg, Point, RegionLocationCfg } from '../types';
 import AxisBase from './base';
 import * as OverlapUtil from './overlap';
 
@@ -34,6 +34,27 @@ class Line extends AxisBase<LineAxisCfg> implements ILocation<RegionLocationCfg>
     path.push(['M', start.x, start.y]);
     path.push(['L', end.x, end.y]);
     return path;
+  }
+
+  // 重新计算 layout bbox，考虑到 line 不显示
+  public getLayoutBBox(): BBox {
+    const start = this.get('start');
+    const end = this.get('end');
+    const bbox = this.getBBox();
+    const minX = Math.min(start.x, end.x, bbox.x);
+    const minY = Math.min(start.y, end.y, bbox.y);
+    const maxX = Math.max(start.x, end.x, bbox.maxX);
+    const maxY = Math.max(start.y, end.y, bbox.maxY);
+    return {
+      x: minX,
+      y: minY,
+      minX,
+      minY,
+      maxX,
+      maxY,
+      width: maxX - minX,
+      height: maxY - minY,
+    };
   }
 
   protected isVertical() {

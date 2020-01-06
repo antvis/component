@@ -553,4 +553,51 @@ describe('test axis states', () => {
     expect(labelShapes[1].attr('fill')).toBe(Theme.uncheckedColor);
     expect(axis.getItemsByState('inactive').length).toBe(1);
   });
+  afterAll(() => {
+    axis.destroy();
+    canvas.destroy();
+  });
+});
+
+describe('test layout bbox', () => {
+  const dom = document.createElement('div');
+  document.body.appendChild(dom);
+  dom.id = 'cals2';
+  const canvas = new Canvas({
+    container: 'cals2',
+    width: 500,
+    height: 500,
+  });
+  const container = canvas.addGroup();
+  const ticks = [
+    { name: '1', value: 0, active: true },
+    { name: '2', inactive: true, value: 0.5 },
+    { name: '3', value: 1 },
+  ];
+  const axis = new LineAxis({
+    animate: false,
+    id: 'a',
+    container,
+    start: { x: 50, y: 400 },
+    end: { x: 50, y: 50 },
+    ticks,
+    title: {
+      text: '标题',
+    },
+  });
+
+  it('test bbox', () => {
+    axis.render();
+    const bbox = axis.getBBox();
+    expect(bbox).toEqual(axis.getLayoutBBox());
+  });
+
+  it('line null', () => {
+    axis.update({
+      line: null,
+      tickLine: null,
+    });
+    const bbox = axis.getBBox();
+    expect(bbox).not.toEqual(axis.getLayoutBBox());
+  });
 });

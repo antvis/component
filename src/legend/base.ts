@@ -1,8 +1,8 @@
 import { IGroup } from '@antv/g-base';
 import GroupComponent from '../abstract/group-component';
 import { ILocation } from '../interfaces';
-import { LegendBaseCfg, Point, PointLocationCfg } from '../types';
-import { formatPadding } from '../util/util';
+import { BBox, LegendBaseCfg, Point, PointLocationCfg } from '../types';
+import { createBBox, formatPadding } from '../util/util';
 
 abstract class LegendBase<T extends LegendBaseCfg = LegendBaseCfg> extends GroupComponent
   implements ILocation<PointLocationCfg> {
@@ -24,6 +24,27 @@ abstract class LegendBase<T extends LegendBaseCfg = LegendBaseCfg> extends Group
       title: null,
       background: null,
     };
+  }
+
+  public getLayoutBBox(): BBox {
+    const bbox = this.getBBox();
+    const x = this.get('x');
+    const y = this.get('y');
+    const offsetX = this.get('offsetX');
+    const offsetY = this.get('offsetY');
+    const maxWidth = this.get('maxWidth');
+    const maxHeight = this.get('maxHeight');
+    const minX = x + offsetX;
+    const minY = y + offsetY;
+    let width = bbox.maxX - minX;
+    let height = bbox.maxY - minY;
+    if (maxWidth) {
+      width = Math.min(width, maxWidth);
+    }
+    if (maxHeight) {
+      height = Math.min(height, maxHeight);
+    }
+    return createBBox(minX, minY, width, height);
   }
 
   public setLocation(cfg: PointLocationCfg) {

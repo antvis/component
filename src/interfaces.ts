@@ -129,6 +129,11 @@ export interface IComponent extends IBase {
    */
   getBBox(): BBox;
   /**
+   * 组件布局要求的包围盒，不一定等于 getBBox
+   * @return {BBox} 包围盒
+   */
+  getLayoutBBox(): BBox;
+  /**
    * 显示
    */
   show();
