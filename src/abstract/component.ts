@@ -82,6 +82,10 @@ abstract class Component<T extends ComponentCfg = ComponentCfg> extends Base imp
 
   public abstract getBBox(): BBox;
 
+  public getLayoutBBox(): BBox {
+    return this.getBBox(); // 默认返回 getBBox，不同的组件内部单独实现
+  }
+
   public getLocationType() {
     return this.get('locationType');
   }

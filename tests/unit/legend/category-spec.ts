@@ -259,6 +259,30 @@ describe('test category legend', () => {
       expect(bbox1.width <= 300).toBe(true);
     });
 
+    it('maxX, maxY, bbox', () => {
+      legend.update({
+        title: null,
+        x: 0,
+        y: 0,
+        offsetX: 0,
+        offsetY: 0,
+        background: null,
+        maxWidth: 200,
+        maxHeight: 100,
+        itemBackground: null,
+      });
+      const bbox = legend.getBBox();
+      let layoutBBox = legend.getLayoutBBox();
+      expect(layoutBBox).not.toEqual(bbox);
+      expect(layoutBBox.width < 200).toEqual(true);
+      expect(layoutBBox.y).toBe(0);
+      legend.update({
+        maxWidth: 100,
+      });
+      layoutBBox = legend.getLayoutBBox();
+      expect(layoutBBox.width).toBe(100);
+    });
+
     it('destroy', () => {
       legend.destroy();
       expect(legend.destroyed).toBe(true);
