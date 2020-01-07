@@ -40,7 +40,7 @@ class Line extends AxisBase<LineAxisCfg> implements ILocation<RegionLocationCfg>
   public getLayoutBBox(): BBox {
     const start = this.get('start');
     const end = this.get('end');
-    const bbox = super.getLayoutBBox();
+    const bbox = this.get('cacheBBox') || this.getBBox();
     const minX = Math.min(start.x, end.x, bbox.x);
     const minY = Math.min(start.y, end.y, bbox.y);
     const maxX = Math.max(start.x, end.x, bbox.maxX);
