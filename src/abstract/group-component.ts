@@ -134,10 +134,6 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
     return this.get('group').getCanvasBBox();
   }
 
-  public getLayoutBBox(): BBox {
-    return this.get('cacheBBox') || this.getBBox();
-  }
-
   // 复写 on, off, emit 透传到 group
   public on(evt: string, callback: Callback, once?: boolean): this {
     const group = this.get('group');
