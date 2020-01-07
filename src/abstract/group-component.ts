@@ -55,6 +55,7 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
     const group = this.get('group');
     group.clear();
     this.set('shapesMap', {});
+    this.set('cacheBBox', null);
   }
 
   public getChildComponentById(id: string) {
@@ -131,6 +132,10 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
 
   public getBBox(): BBox {
     return this.get('group').getCanvasBBox();
+  }
+
+  public getLayoutBBox(): BBox {
+    return this.get('cacheBBox') || this.getBBox();
   }
 
   // 复写 on, off, emit 透传到 group
@@ -418,6 +423,8 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
     const newGroup = this.createOffScreenGroup();
     this.renderInner(newGroup);
     this.applyOffset();
+    const bbox = newGroup.getBBox();
+    this.set('cacheBBox', bbox);
     this.updateElements(newGroup, group);
     this.deleteElements();
     newGroup.destroy(); // 销毁虚拟分组
