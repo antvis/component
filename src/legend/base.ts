@@ -27,7 +27,7 @@ abstract class LegendBase<T extends LegendBaseCfg = LegendBaseCfg> extends Group
   }
 
   public getLayoutBBox(): BBox {
-    const bbox = this.getBBox();
+    const bbox = super.getLayoutBBox();
     const x = this.get('x');
     const y = this.get('y');
     const offsetX = this.get('offsetX');
