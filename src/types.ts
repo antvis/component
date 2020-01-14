@@ -1,4 +1,4 @@
-import { AnimateCfg, BBox, IGroup, Point, ShapeAttrs } from '@antv/g-base';
+import { AnimateCfg, BBox, IGroup, IShape, Point, ShapeAttrs } from '@antv/g-base';
 export type LocationType = 'point' | 'Region' | 'points' | 'circle' | 'none';
 
 export { Point, BBox };
@@ -994,6 +994,95 @@ export interface ArcAnnotationCfg extends GroupComponentCfg {
    * @type {ShapeAttrs}
    */
   style?: ShapeAttrs;
+}
+
+export interface DataMarkerAnnotationCfg extends GroupComponentCfg {
+  /**
+   * 标注位置 x
+   * @type {number}
+   */
+  x: number;
+  /**
+   * 标注位置 y
+   * @type {number}
+   */
+  y: number;
+  /**
+   * 文本标注内容
+   * @type {number}
+   */
+  content: string;
+  /**
+   * 标注样式
+   * @type {ShapeAttrs}
+   */
+  style?: {
+    point?: ShapeAttrs;
+    line?: ShapeAttrs;
+    text?: ShapeAttrs;
+  };
+  /**
+   * 显示设置
+   */
+  display?: {
+    point?: boolean;
+    line?: boolean;
+    text?: boolean;
+  };
+  /**
+   * 方向
+   */
+  direction?: 'upward' | 'downward';
+  /**
+   * 是否自动调整
+   */
+  autoAdjust?: boolean;
+  /**
+   * Coord 的 BBox，用于 autoAdjust
+   */
+  coordBBox?: BBox;
+}
+
+export interface DataRegionAnnotationCfg extends GroupComponentCfg {
+  /**
+   * 位置点信息
+   * @type {Point}
+   */
+  points: Point[];
+  /**
+   * 文本标注内容
+   * @type {number}
+   */
+  content: string;
+  /**
+   * 标注样式
+   * @type {ShapeAttrs}
+   */
+  style?: {
+    region?: ShapeAttrs;
+    text?: ShapeAttrs;
+  };
+}
+
+export interface RegionFilterAnnotationCfg extends GroupComponentCfg {
+  /**
+   * 起始点
+   * @type {Point}
+   */
+  start: Point;
+  /**
+   * 结束点
+   * @type {Point}
+   */
+  end: Point;
+  /**
+   * 染色色值
+   */
+  color: string;
+  /**
+   * 图形上的 Shapes
+   */
+  shapes: IShape[];
 }
 
 export interface CrosshairBaseCfg extends GroupComponentCfg {
