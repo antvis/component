@@ -49,6 +49,25 @@ export function regionToBBox(region: Region): BBox {
   };
 }
 
+export function pointsToBBox(points: Point[]): BBox {
+  const xs: number[] = points.map((point) => point.x);
+  const ys: number[] = points.map((point) => point.y);
+  const minX = Math.min(...xs);
+  const minY = Math.min(...ys);
+  const maxX = Math.max(...xs);
+  const maxY = Math.max(...ys);
+  return {
+    x: minX,
+    y: minY,
+    minX,
+    minY,
+    maxX,
+    maxY,
+    width: maxX - minX,
+    height: maxY - minY,
+  };
+}
+
 export function createBBox(x: number, y: number, width: number, height: number): BBox {
   return {
     x,
