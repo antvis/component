@@ -1,4 +1,5 @@
 import { IGroup } from '@antv/g-base';
+import { get } from '@antv/util';
 import GroupComponent from '../abstract/group-component';
 import { ILocation } from '../interfaces';
 import { DataMarkerAnnotationCfg, PointLocationCfg } from '../types';
@@ -11,35 +12,6 @@ class DataMarkerAnnotation extends GroupComponent<DataMarkerAnnotationCfg> imple
    */
   public getDefaultCfg() {
     const cfg = super.getDefaultCfg();
-    const defaultCfg = {
-      direction: 'upward',
-      autoAdjust: true,
-      lineLength: 20,
-      display: {
-        point: true,
-        line: true,
-        text: true,
-      },
-      style: {
-        point: {
-          r: 3,
-          fill: '#FFFFFF',
-          stroke: '#1890FF',
-          lineWidth: 2,
-        },
-        line: {
-          stroke: Theme.lineColor,
-          lineWidth: 1,
-        },
-        text: {
-          fill: Theme.textColor,
-          opacity: 0.65,
-          fontSize: 12,
-          textAlign: 'start',
-          fontFamily: Theme.fontFamily,
-        },
-      },
-    };
     return {
       ...cfg,
       name: 'annotation',
@@ -47,23 +19,53 @@ class DataMarkerAnnotation extends GroupComponent<DataMarkerAnnotationCfg> imple
       locationType: 'point',
       x: 0,
       y: 0,
-      content: '',
+      point: {},
+      line: {},
+      text: {},
+      direction: 'upward',
+      autoAdjust: true,
       coordinateBBox: null,
-      ...defaultCfg,
-      defaultCfg,
+      defaultCfg: {
+        point: {
+          display: true,
+          style: {
+            r: 3,
+            fill: '#FFFFFF',
+            stroke: '#1890FF',
+            lineWidth: 2,
+          },
+        },
+        line: {
+          display: true,
+          length: 20,
+          style: {
+            stroke: Theme.lineColor,
+            lineWidth: 1,
+          },
+        },
+        text: {
+          content: '',
+          display: true,
+          style: {
+            fill: Theme.textColor,
+            opacity: 0.65,
+            fontSize: 12,
+            textAlign: 'start',
+            fontFamily: Theme.fontFamily,
+          },
+        },
+      },
     };
   }
 
   protected renderInner(group: IGroup) {
-    const { point, line, text } = this.get('display');
-
-    if (line) {
+    if (get(this.get('line'), 'display')) {
       this.renderLine(group);
     }
-    if (text) {
+    if (get(this.get('text'), 'display')) {
       this.renderText(group);
     }
-    if (point) {
+    if (get(this.get('point'), 'display')) {
       this.renderPoint(group);
     }
 
@@ -113,7 +115,7 @@ class DataMarkerAnnotation extends GroupComponent<DataMarkerAnnotationCfg> imple
     const direction: string = this.get('direction');
     const x: number = this.get('x');
     const y: number = this.get('y');
-    const lineLength: number = this.get('lineLength');
+    const lineLength: number = get(this.get('line'), 'length', 0);
     const coordinateBBox = this.get('coordinateBBox');
     const { minX, maxX, minY, maxY } = group.getBBox();
 
@@ -161,10 +163,12 @@ class DataMarkerAnnotation extends GroupComponent<DataMarkerAnnotationCfg> imple
   }
 
   private getShapeAttrs() {
-    const { line: lineDisplay } = this.get('display');
-    const { point: pointStyle, line: lineStyle, text: textStyle } = this.get('style');
+    const lineDisplay = get(this.get('line'), 'display');
+    const pointStyle = get(this.get('point'), 'style', {});
+    const lineStyle = get(this.get('line'), 'style', {});
+    const textStyle = get(this.get('text'), 'style', {});
     const direction = this.get('direction');
-    const lineLength = lineDisplay ? this.get('lineLength') : 0;
+    const lineLength = lineDisplay ? get(this.get('line'), 'length', 0) : 0;
     const factor = direction === 'upward' ? -1 : 1;
     return {
       point: {
@@ -182,7 +186,7 @@ class DataMarkerAnnotation extends GroupComponent<DataMarkerAnnotationCfg> imple
       text: {
         x: 0,
         y: (lineLength + 2) * factor,
-        text: this.get('content'),
+        text: get(this.get('text'), 'content', ''),
         textBaseline: direction === 'upward' ? 'bottom' : 'top',
         ...textStyle,
       },

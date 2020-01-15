@@ -26,7 +26,9 @@ describe('annotation data-marker', () => {
     container,
     x: 100,
     y: 150,
-    content: 'test text',
+    text: {
+      content: 'test text',
+    },
   });
 
   it('init', () => {
@@ -83,11 +85,14 @@ describe('annotation data-marker', () => {
 
   it('render styled', () => {
     dataMarker.update({
-      style: {
-        point: {
+      point: {
+        style: {
           stroke: '#ff0000',
         },
-        text: {
+      },
+      text: {
+        content: 'test text',
+        style: {
           textAlign: 'center',
         },
       },
@@ -102,10 +107,7 @@ describe('annotation data-marker', () => {
   it('render without line', () => {
     dataMarker.update({
       direction: 'upward',
-      style: {},
-      display: {
-        line: false,
-      },
+      line: null,
     });
 
     // point rendered
@@ -124,10 +126,8 @@ describe('annotation data-marker', () => {
   it('render without text & line', () => {
     dataMarker.update({
       direction: 'upward',
-      display: {
-        line: false,
-        text: false,
-      },
+      line: null,
+      text: null,
     });
 
     // point rendered
@@ -146,9 +146,10 @@ describe('annotation data-marker', () => {
   it('render without point & line', () => {
     dataMarker.update({
       direction: 'upward',
-      display: {
-        point: false,
-        line: false,
+      point: null,
+      line: null,
+      text: {
+        content: 'test text',
       },
     });
 
@@ -171,10 +172,10 @@ describe('annotation data-marker', () => {
       y: 20,
       direction: 'upward',
       coordinateBBox,
-      display: {
-        point: true,
-        line: true,
-        text: true,
+      point: {},
+      line: {},
+      text: {
+        content: 'test text',
       },
     });
     const pointShape: IShape = dataMarker.getElementByLocalId('point');
@@ -191,10 +192,10 @@ describe('annotation data-marker', () => {
       y: 150,
       direction: 'upward',
       coordinateBBox,
-      display: {
-        point: true,
-        line: true,
-        text: true,
+      point: {},
+      line: {},
+      text: {
+        content: 'test text',
       },
     });
     const pointShape: IShape = dataMarker.getElementByLocalId('point');
@@ -210,10 +211,10 @@ describe('annotation data-marker', () => {
       y: 480,
       direction: 'downward',
       coordinateBBox,
-      display: {
-        point: true,
-        line: true,
-        text: true,
+      point: {},
+      line: {},
+      text: {
+        content: 'test text',
       },
     });
 
@@ -230,15 +231,13 @@ describe('annotation data-marker', () => {
       y: 150,
       direction: 'upward',
       coordinateBBox,
-      style: {
-        text: {
+      point: {},
+      line: {},
+      text: {
+        content: 'test text',
+        style: {
           textAlign: 'end',
         },
-      },
-      display: {
-        point: true,
-        line: true,
-        text: true,
       },
     });
 
