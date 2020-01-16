@@ -1090,17 +1090,17 @@ export interface CrosshairBaseCfg extends GroupComponentCfg {
    * 线的样式
    * @type {CrosshairLineCfg}
    */
-  line: CrosshairLineCfg;
+  line?: CrosshairLineCfg;
   /**
    * 附加文本的样式
    * @type {CrosshairTextCfg}
    */
-  text: CrosshairTextCfg;
+  text?: CrosshairTextCfg;
   /**
    * 文本背景的配置项
    * @type {CrosshairTextBackgroundCfg}
    */
-  textBackground: CrosshairTextBackgroundCfg;
+  textBackground?: CrosshairTextBackgroundCfg;
 }
 
 export interface LineCrosshairCfg extends CrosshairBaseCfg {
@@ -1144,22 +1144,22 @@ export interface CrosshairTextCfg {
    * 文本位置，只支持 start， end
    * @type {string}
    */
-  position: string;
+  position?: string;
   /**
    * 距离线的距离
    * @type {number}
    */
-  offset: number;
+  offset?: number;
   /**
    * 是否自动旋转
    * @type {boolean}
    */
-  autoRotate: boolean;
+  autoRotate?: boolean;
   /**
    * 文本的配置项
    * @type {ShapeAttrs}
    */
-  style: ShapeAttrs;
+  style?: ShapeAttrs;
 }
 
 export interface CrosshairLineCfg {
@@ -1167,7 +1167,7 @@ export interface CrosshairLineCfg {
    * 线的配置项
    * @type {ShapeAttrs}
    */
-  style: ShapeAttrs;
+  style?: ShapeAttrs;
 }
 
 export interface CrosshairTextBackgroundCfg {
@@ -1175,10 +1175,10 @@ export interface CrosshairTextBackgroundCfg {
    * 文本背景周围的留白
    * @type {number|number[]}
    */
-  padding: number | number[];
+  padding?: number | number[];
   /**
    * 文本背景的样式
    * @type {ShapeAttrs}
    */
-  style: ShapeAttrs;
+  style?: ShapeAttrs;
 }
