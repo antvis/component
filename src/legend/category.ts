@@ -81,7 +81,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
         itemStates: {
           active: {
             nameStyle: {
-              fontWeight: 500,
+              opacity: 0.8
             },
           },
           unchecked: {
