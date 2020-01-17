@@ -1,6 +1,6 @@
 import { Canvas } from '@antv/g-canvas';
 import TextAnnotation from '../../../src/annotation/text';
-
+import { getMatrixByAngle } from '../../../src/util/matrix';
 describe('test text annotation', () => {
   const dom = document.createElement('div');
   document.body.appendChild(dom);
@@ -80,6 +80,25 @@ describe('test text annotation', () => {
     });
     const textShape = text.getElementById('a-annotation-text');
     expect(textShape.attr('fill')).toBe('red');
+  });
+
+  it('rotate', () => {
+    text.setLocation({ x: 10, y: 10 });
+    text.update({
+      rotate: Math.PI / 2
+    });
+    const textShape = text.getElementById('a-annotation-text');
+    let matrix = textShape.getMatrix();
+    expect(matrix).toEqual(getMatrixByAngle({x: 10, y: 10}, Math.PI / 2));
+
+    text.setLocation({x: 100, y: 100});
+    matrix = textShape.getMatrix();
+    expect(matrix).toEqual(getMatrixByAngle({x: 100, y: 100}, Math.PI / 2));
+    text.update({
+      rotate: null
+    });
+    matrix = textShape.getMatrix();
+    expect(matrix).toEqual(null);
   });
 
   it('destroy', () => {

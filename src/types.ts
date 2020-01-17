@@ -865,6 +865,10 @@ export interface TextAnnotationCfg extends GroupComponentCfg {
    */
   content: string;
   /**
+   * 旋转角度
+   */
+  rotate?: number;
+  /**
    * 文本标注样式
    * @type {ShapeAttrs}
    */

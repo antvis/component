@@ -679,7 +679,7 @@ describe('test category legend', () => {
       const itemGroup = legend.getElementById('d-legend-item-group');
       expect(itemGroup.getChildren().length).toBe(items.length);
       const itemElement2 = itemGroup.getChildren()[2];
-      expect(itemElement2.getChildren()[1].attr('fontWeight')).toBe(500); // active
+      expect(itemElement2.getChildren()[1].attr('opacity')).toBe(0.8); // active
       const itemElement3 = itemGroup.getChildren()[3];
       expect(itemElement3.getChildren()[0].attr('fill')).toBe(Theme.uncheckedColor);
     });

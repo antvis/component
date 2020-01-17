@@ -1,7 +1,9 @@
-import { IGroup } from '@antv/g-base';
+import { IGroup, IShape } from '@antv/g-base';
 import GroupComponent from '../abstract/group-component';
 import { ILocation } from '../interfaces';
 import { PointLocationCfg, TextAnnotationCfg } from '../types';
+import { getMatrixByAngle } from '../util/matrix';
+
 import Theme from '../util/theme';
 
 class TextAnnotation extends GroupComponent<TextAnnotationCfg> implements ILocation<PointLocationCfg> {
@@ -20,6 +22,7 @@ class TextAnnotation extends GroupComponent<TextAnnotationCfg> implements ILocat
       x: 0,
       y: 0,
       content: '',
+      rotate: null,
       style: {},
       defaultCfg: {
         style: {
@@ -48,7 +51,7 @@ class TextAnnotation extends GroupComponent<TextAnnotationCfg> implements ILocat
     const { x, y } = this.getLocation();
     const content = this.get('content');
     const style = this.get('style');
-    this.addShape(group, {
+    const text = this.addShape(group, {
       type: 'text',
       id: this.getElementId('text'),
       name: 'annotation-text', // 因为 group 上会有默认的 annotation-text 的 name 所以需要区分开
@@ -59,6 +62,16 @@ class TextAnnotation extends GroupComponent<TextAnnotationCfg> implements ILocat
         ...style,
       },
     });
+    this.applyRotate(text, x, y);
+  }
+
+  private applyRotate(textShape: IShape, x: number, y: number) {
+    const rotate = this.get('rotate');
+    let matrix = null;
+    if (rotate) {
+      matrix = getMatrixByAngle({x, y}, rotate);
+    }
+    textShape.attr('matrix', matrix);
   }
 
   private resetLocation() {
@@ -69,6 +82,7 @@ class TextAnnotation extends GroupComponent<TextAnnotationCfg> implements ILocat
         x,
         y,
       });
+      this.applyRotate(textShape, x, y);
     }
   }
 }
