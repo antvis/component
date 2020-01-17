@@ -152,6 +152,23 @@ describe('test circle crosshair', () => {
     expect(textBBox.height + 8).toBe(backBBox.height); // 边框
   });
 
+  it('close textBackground', () => {
+    crosshair.update({
+      radius: 100,
+      startAngle: -Math.PI / 2,
+      endAngle: (Math.PI * 3) / 2,
+      center: { x: 200, y: 200 },
+      text: {
+        offset: 10,
+        autoRotate: false,
+        content: 'circle',
+      },
+      textBackground: null,
+    });
+    const backShape = crosshair.getElementById('c-crosshair-text-background');
+    expect(backShape).toBeUndefined();
+  });
+
   afterAll(() => {
     canvas.destroy();
     dom.remove();

@@ -110,8 +110,9 @@ abstract class CrosshairBase<T extends CrosshairBaseCfg = CrosshairBaseCfg> exte
   private renderBackground(group: IGroup) {
     const textId = this.getElementId('text');
     const textShape = group.findById(textId); // 查找文本
-    if (textShape) {
-      const textBackground = this.get('textBackground');
+    const textBackground = this.get('textBackground');
+
+    if (textBackground && textShape) {
       const textBBox = textShape.getBBox();
       const padding = formatPadding(textBackground.padding); // 用户传入的 padding 格式不定
       const style = textBackground.style;
