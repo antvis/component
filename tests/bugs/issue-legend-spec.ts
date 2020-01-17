@@ -31,6 +31,6 @@ describe('legend text clip', () => {
     const text = legend.getElementsByName('legend-item-name')[0];
     expect(text.attr('opacity')).toBe(0.8);
     legend.setItemState(items[0], 'active', false);
-    expect(text.attr('opacity')).toBe(undefined);
+    expect(text.attr('opacity')).not.toBe(0.8);
   });
 });
