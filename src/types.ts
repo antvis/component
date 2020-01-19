@@ -703,6 +703,10 @@ export interface LegendMarkerCfg {
    */
   spacing?: number;
   /**
+   * 图例 marker 形状
+   */
+  symbol?: string | ((x: number, y: number, r: number) => any);
+  /**
    * 图例项 marker 的配置项
    * @type {ShapeAttrs}
    */
