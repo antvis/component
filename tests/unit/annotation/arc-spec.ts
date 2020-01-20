@@ -16,6 +16,7 @@ describe('test arc annotation', () => {
     container,
     center: { x: 200, y: 200 },
     radius: 100,
+    updateAutoRender: true,
     style: {
       lineWidth: 5,
       stroke: 'red',

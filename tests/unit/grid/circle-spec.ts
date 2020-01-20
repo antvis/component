@@ -49,6 +49,7 @@ describe('test circle grid', () => {
   const grid = new CircleGrid({
     container,
     center,
+    updateAutoRender: true,
     id: 'b',
     items: [{ points: points1 }, { points: points2 }, { points: points3 }, { points: getPoints(center, 4, 80) }],
   });

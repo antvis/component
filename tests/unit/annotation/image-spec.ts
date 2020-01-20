@@ -14,6 +14,7 @@ describe('test arc image', () => {
   const image = new ImageAnnotation({
     id: 'a',
     container,
+    updateAutoRender: true,
     src: 'https://img.alicdn.com/tfs/TB1M.wKkND1gK0jSZFyXXciOVXa-120-120.png',
     start: { x: 100, y: 100 },
     end: { x: 220, y: 220 },

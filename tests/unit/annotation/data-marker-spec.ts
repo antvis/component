@@ -24,6 +24,7 @@ describe('annotation data-marker', () => {
   const dataMarker = new Annotation.DataMarker({
     id: 'd',
     container,
+    updateAutoRender: true,
     x: 100,
     y: 150,
     text: {

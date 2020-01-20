@@ -35,6 +35,7 @@ describe('annotation data-marker', () => {
     container,
     start: { x: 100, y: 100 },
     end: { x: 300, y: 300 },
+    updateAutoRender: true,
     shapes,
     color: '#ff0000',
   });

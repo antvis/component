@@ -16,6 +16,7 @@ describe('test line axis', () => {
     animate: false,
     id: 'a',
     container,
+    updateAutoRender: true,
     center: {x: 200, y: 200},
     radius: 100,
     ticks: [

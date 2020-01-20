@@ -23,6 +23,7 @@ describe('Scrollbar', () => {
     y: 40,
     trackLen: 300,
     thumbLen: 30,
+    updateAutoRender: true,
     size: 8,
   });
 

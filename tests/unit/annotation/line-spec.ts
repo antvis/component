@@ -15,6 +15,7 @@ describe('test line annotation', () => {
   const line = new LineAnnotation({
     id: 'l',
     container,
+    updateAutoRender: true,
     start: { x: 100, y: 100 },
     end: { x: 200, y: 200 },
   });

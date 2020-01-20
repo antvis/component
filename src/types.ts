@@ -248,6 +248,10 @@ export interface ComponentCfg extends BaseCfg {
    */
   animate?: boolean;
   /**
+   * 更新时自动渲染, 所有 html 的组件 update 时自动调用渲染，group 的组件默认 false
+   */
+  updateAutoRender?: boolean;
+  /**
    * 动画的配置项
    * @type {AnimateCfg}
    */

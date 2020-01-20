@@ -14,6 +14,7 @@ describe('test line grid', () => {
   const grid = new LineGrid({
     id: 'a',
     container,
+    updateAutoRender: true,
     items: [
       {points: [{x: 20, y: 20}, {x: 200, y: 20}]},
       {points: [{x: 20, y: 60}, {x: 200, y: 60}]},
