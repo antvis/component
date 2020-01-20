@@ -30,6 +30,7 @@ abstract class Component<T extends ComponentCfg = ComponentCfg> extends Base imp
       offsetX: 0,
       offsetY: 0,
       animate: false,
+      updateAutoRender: false,
       animateOption: {
         appear: null, // 初始入场动画配置
         update: {

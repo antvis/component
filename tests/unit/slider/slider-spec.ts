@@ -21,7 +21,7 @@ describe('slider', () => {
     y: 300,
     width: 200,
     height: 16,
-
+    updateAutoRender: true,
     trendCfg: {
       data: TrendData,
       isArea: true,

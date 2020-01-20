@@ -29,6 +29,7 @@ describe('test category legend', () => {
       x: 100,
       y: 100,
       items: originItems,
+      updateAutoRender: true,
       itemBackground: null,
     });
 
@@ -298,6 +299,7 @@ describe('test category legend', () => {
       x: 100,
       y: 100,
       items: originItems,
+      updateAutoRender: true,
       itemBackground: null,
     });
     it('init', () => {
@@ -384,6 +386,7 @@ describe('test category legend', () => {
       items: lotsItems,
       layout: 'horizontal',
       itemBackground: null,
+      updateAutoRender: true,
       maxWidth: 400,
       flipPage: true,
     });
@@ -542,6 +545,7 @@ describe('test category legend', () => {
       items: lotsItems,
       layout: 'vertical',
       itemBackground: null,
+      updateAutoRender: true,
       maxHeight: 100,
       flipPage: true,
     });
@@ -670,6 +674,7 @@ describe('test category legend', () => {
       container,
       layout: 'vertical',
       itemBackground: null,
+      updateAutoRender: true,
       x: 100,
       y: 100,
       items,

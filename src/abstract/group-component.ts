@@ -6,7 +6,7 @@ import { IElement, IGroup, IShape } from '@antv/g-base';
 import { difference, each, isNil, keys, mix, pick } from '@antv/util';
 import { BBox, GroupComponentCfg, LooseObject, Point } from '../types';
 import { propagationDelegate } from '../util/event';
-import { getMatrixByTranslate } from '../util/matrix';
+import { getMatrixByTranslate, applyMatrix2BBox } from '../util/matrix';
 import Component from './component';
 type Callback = (evt: object) => void;
 
@@ -42,6 +42,11 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
        * @type {false}
        */
       isUpdating: false,
+      /**
+       * @private
+       * 是否初始状态，一旦 render，update 后，这个状态就变成 false, clear 后恢复
+       */
+      isInit: true,
     };
   }
 
@@ -55,7 +60,8 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
     const group = this.get('group');
     group.clear();
     this.set('shapesMap', {});
-    this.set('cacheBBox', null);
+    this.clearOffScreenCache();
+    this.set('isInit', true);
   }
 
   public getChildComponentById(id: string) {
@@ -90,26 +96,28 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
 
   public update(cfg: Partial<T>) {
     // 设置正在更新的标记位
-    this.set('isUpdating', true);
+    // this.set('isUpdating', true);
     super.update(cfg);
-    this.updateInner();
-    this.set('isUpdating', false);
-    this.applyComponentClip();
+    // this.updateInner();
+    // this.set('isUpdating', false);
+    // this.applyComponentClip();
+    this.offScreenRender();
+    if (this.get('updateAutoRender')) {
+      this.render();
+    }
   }
 
   public render() {
-    const animate = this.get('animate');
-    const animateOption = this.get('animateOption');
-    if (animate && animateOption.appear) {
-      this.updateInner();
-    } else {
-      this.set('isRegister', true);
-      const group = this.get('group');
-      this.renderInner(group);
-      this.applyOffset();
-      this.set('isRegister', false);
+    let offScreenGroup = this.get('offScreenGroup');
+    if (!offScreenGroup) {
+      offScreenGroup = this.offScreenRender();
     }
+    const group = this.get('group');
+    this.updateElements(offScreenGroup, group);
+    this.deleteElements();
+    this.applyOffset();
     this.applyComponentClip();
+    this.set('isInit', false);
   }
 
   public show() {
@@ -132,6 +140,22 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
 
   public getBBox(): BBox {
     return this.get('group').getCanvasBBox();
+  }
+
+  // 获取组件内部布局占的包围盒
+  protected getInnerLayoutBBox() {
+    return this.get('offScreenBBox') || this.get('group').getBBox();;
+  }
+
+  public getLayoutBBox(): BBox {
+    const group = this.get('group');
+    // 防止被 clear 了，offScreenBBox 不存在
+    let bbox = this.getInnerLayoutBBox();
+    const matrix = group.getTotalMatrix();
+    if (matrix) {
+      bbox = applyMatrix2BBox(matrix, bbox);
+    }
+    return bbox;// 默认返回 getBBox，不同的组件内部单独实现
   }
 
   // 复写 on, off, emit 透传到 group
@@ -185,6 +209,7 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
       this.initGroup();
     }
     this.initEvent();
+    this.offScreenRender(); // 绘制离屏 group
   }
 
   protected initGroup() {
@@ -201,6 +226,27 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
         delegateObject: this.getDelegateObject(),
       })
     );
+  }
+
+  // 离屏渲染
+  protected offScreenRender() {
+    this.clearOffScreenCache();
+    const offScreenGroup = this.createOffScreenGroup();
+
+    this.renderInner(offScreenGroup);
+    this.set('offScreenGroup', offScreenGroup);
+    this.set('offScreenBBox', offScreenGroup.getBBox());
+    return offScreenGroup;
+  }
+
+  // 清理离屏缓存
+  private clearOffScreenCache() {
+    let offScreenGroup = this.get('offScreenGroup');
+    if (offScreenGroup) { // 销毁原先的离线 Group
+      offScreenGroup.destroy();
+    }
+    this.set('offScreenGroup', null);
+    this.set('offScreenBBox', null);
   }
 
   /**
@@ -398,7 +444,7 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
         }
         preElement = element;
         if (animate) {
-          const animateCfg = this.get('isUpdating') ? animateOption.enter : animateOption.appear;
+          const animateCfg = this.get('isInit') ? animateOption.appear: animateOption.enter;
           if (animateCfg) {
             this.addAnimation(elementName, element, animateCfg);
           }
@@ -414,17 +460,15 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
     });
   }
 
-  private updateInner() {
-    const group = this.get('group');
-    const newGroup = this.createOffScreenGroup();
-    this.renderInner(newGroup);
-    this.applyOffset();
-    const bbox = newGroup.getBBox();
-    this.set('cacheBBox', bbox);
-    this.updateElements(newGroup, group);
-    this.deleteElements();
-    newGroup.destroy(); // 销毁虚拟分组
-  }
+  // private updateInner() {
+  //   const group = this.get('group');
+  //   const newGroup = this.createOffScreenGroup();
+  //   this.renderInner(newGroup);
+  //   this.applyOffset();
+  //   this.updateElements(newGroup, group);
+  //   this.deleteElements();
+  //   newGroup.destroy(); // 销毁虚拟分组
+  // }
 
   // 获取发生委托时的对象，在事件中抛出
   private getDelegateObject() {

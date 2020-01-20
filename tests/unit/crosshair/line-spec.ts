@@ -15,6 +15,7 @@ describe('test line crosshair', () => {
     container,
     id: 'c',
     start: { x: 100, y: 100 },
+    updateAutoRender: true,
     end: { x: 400, y: 100 },
   });
 

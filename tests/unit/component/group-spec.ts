@@ -101,6 +101,7 @@ describe('test complex component', () => {
       showB: true,
       showC: false,
     });
+    c.render();
     expect(group.getChildren().length).toBe(2);
     expect(c.getElementById('bg')).not.toBe(undefined);
     expect(c.getElementById('bg').getChildren().length).toBe(1);
@@ -112,6 +113,7 @@ describe('test complex component', () => {
       showB: true,
       showC: true,
     });
+    c.render();
     expect(group.getChildren().length).toBe(3);
     expect(c.getElementById('cg')).not.toBe(undefined);
     expect(keys(c.get('shapesMap')).length).toEqual(6);
@@ -124,6 +126,7 @@ describe('test complex component', () => {
       showB: true,
       showC: true,
     });
+    c.render();
     expect(c.getElementById('a')).toBe(undefined);
     expect(group.getChildren().length).toBe(2);
     expect(group.getChildren()[0].get('id')).toBe('bg');
@@ -131,12 +134,14 @@ describe('test complex component', () => {
     c.update({
       showB: false,
     });
+    c.render();
     expect(group.getChildren().length).toBe(1);
     expect(keys(c.get('shapesMap')).length).toEqual(3);
 
     c.update({
       showA: true,
     });
+    c.render();
     expect(c.getElementById('a')).not.toBe(undefined);
     expect(group.getChildren().length).toBe(2);
     expect(keys(c.get('shapesMap')).length).toEqual(4);
@@ -145,6 +150,7 @@ describe('test complex component', () => {
       showA: false,
       showC: false,
     });
+    c.render();
     expect(group.getChildren().length).toBe(0);
     expect(keys(c.get('shapesMap')).length).toEqual(0);
   });
@@ -154,6 +160,7 @@ describe('test complex component', () => {
       showB: true,
       showC: true,
     });
+    c.render();
     expect(group.getChildren().length).toBe(3);
     expect(keys(c.get('shapesMap')).length).toEqual(6);
   });

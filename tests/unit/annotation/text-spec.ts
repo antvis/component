@@ -18,6 +18,7 @@ describe('test text annotation', () => {
     x: 100,
     y: 150,
     content: 'test text',
+    updateAutoRender: true,
   });
 
   it('init', () => {

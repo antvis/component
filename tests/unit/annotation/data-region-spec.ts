@@ -15,6 +15,7 @@ describe('annotation data-marker', () => {
     id: 'd',
     container,
     content: 'test text',
+    updateAutoRender: true,
     points: [
       { x: 100, y: 400 },
       { x: 150, y: 350 },

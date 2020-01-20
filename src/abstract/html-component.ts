@@ -11,6 +11,7 @@ abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends 
       ...cfg,
       container: null,
       containerTpl: '<div></div>',
+      updateAutoRender: true,
       parent: null,
     };
     return cfg;
