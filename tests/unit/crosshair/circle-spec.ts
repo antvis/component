@@ -16,10 +16,12 @@ describe('test circle crosshair', () => {
     container,
     id: 'c',
     center: { x: 200, y: 200 },
+    updateAutoRender: true,
     radius: 150,
   });
 
   it('init', () => {
+    crosshair.init();
     expect(crosshair.get('name')).toBe('crosshair');
     expect(crosshair.get('type')).toBe('circle');
   });

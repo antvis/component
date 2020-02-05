@@ -1,17 +1,14 @@
 import { Canvas } from '@antv/g-canvas';
 import { Legend } from '../../src/index';
-import GraphEvent from '@antv/g-base/lib/event/graph-event';
-import { LooseObject } from '../../src/types';
 
 describe('legend text clip', () => {
-
   const dom = document.createElement('div');
   document.body.appendChild(dom);
   const canvas = new Canvas({
     container: dom,
     width: 500,
     height: 500,
-  });  
+  });
 
   const group = canvas.addGroup();
   const legend = new Legend.Category({
@@ -21,8 +18,9 @@ describe('legend text clip', () => {
       { name: 'bdddd', value: 2, marker: { symbol: 'square', style: { r: 4, fill: 'red' } } },
       { name: 'cdfasdfas', value: 3, marker: { symbol: 'circle', style: { r: 4, stroke: 'blue' } } },
       { name: 'dsadfasdfd', value: 4, marker: { symbol: 'circle', style: { r: 4, stroke: 'yellow' } } },
-    ]
+    ],
   });
+  legend.init();
 
   it('legend active', () => {
     legend.render();

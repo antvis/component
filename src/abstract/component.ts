@@ -14,7 +14,6 @@ abstract class Component<T extends ComponentCfg = ComponentCfg> extends Base imp
   constructor(cfg: T) {
     super(cfg);
     this.initCfg();
-    this.init();
   }
   /**
    * @protected
@@ -30,6 +29,7 @@ abstract class Component<T extends ComponentCfg = ComponentCfg> extends Base imp
       offsetX: 0,
       offsetY: 0,
       animate: false,
+      updateAutoRender: false,
       animateOption: {
         appear: null, // 初始入场动画配置
         update: {
@@ -130,6 +130,12 @@ abstract class Component<T extends ComponentCfg = ComponentCfg> extends Base imp
   }
 
   /**
+   * @protected
+   * 初始化，用于具体的组件继承
+   */
+  public init() {}
+
+  /**
    * 绘制组件
    */
   protected abstract render();
@@ -143,12 +149,6 @@ abstract class Component<T extends ComponentCfg = ComponentCfg> extends Base imp
    * 隐藏
    */
   protected abstract hide();
-
-  /**
-   * @protected
-   * 初始化，用于具体的组件继承
-   */
-  protected init() {}
 
   // 将组件默认的配置项设置合并到传入的配置项
   private initCfg() {

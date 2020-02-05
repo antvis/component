@@ -16,6 +16,7 @@ describe('test tooltip', () => {
       ],
       visible: false,
     });
+    tooltip.init();
     const container = tooltip.getContainer();
     const offset = tooltip.get('offset');
     it('init', () => {
@@ -175,9 +176,12 @@ describe('test tooltip', () => {
         { name: 'england', value: '500' },
       ],
     });
-    const container = tooltip.getContainer();
-    const offset = tooltip.get('offset');
+    let container;
+    let offset;
     it('init', () => {
+      tooltip.init();
+      container = tooltip.getContainer();
+      offset = tooltip.get('offset');
       expect(tooltip.get('visible')).toBe(true);
       expect(container.style.visibility).toBe('visible');
     });

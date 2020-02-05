@@ -37,10 +37,10 @@ class Line extends AxisBase<LineAxisCfg> implements ILocation<RegionLocationCfg>
   }
 
   // 重新计算 layout bbox，考虑到 line 不显示
-  public getLayoutBBox(): BBox {
+  protected getInnerLayoutBBox(): BBox {
     const start = this.get('start');
     const end = this.get('end');
-    const bbox = this.get('cacheBBox') || this.getBBox();
+    const bbox = super.getInnerLayoutBBox();
     const minX = Math.min(start.x, end.x, bbox.x);
     const minY = Math.min(start.y, end.y, bbox.y);
     const maxX = Math.max(start.x, end.x, bbox.maxX);

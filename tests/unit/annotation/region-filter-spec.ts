@@ -35,11 +35,13 @@ describe('annotation data-marker', () => {
     container,
     start: { x: 100, y: 100 },
     end: { x: 300, y: 300 },
+    updateAutoRender: true,
     shapes,
     color: '#ff0000',
   });
 
   it('init', () => {
+    regionFilter.init();
     expect(regionFilter.get('name')).toEqual('annotation');
     expect(regionFilter.get('type')).toEqual('regionFilter');
     expect(regionFilter.getLocation()).toEqual({

@@ -1,4 +1,4 @@
-import {Canvas} from '@antv/g-canvas';
+import { Canvas } from '@antv/g-canvas';
 import CircleAxis from '../../../src/axis/circle';
 
 describe('test line axis', () => {
@@ -8,7 +8,7 @@ describe('test line axis', () => {
   const canvas = new Canvas({
     container: 'ccl',
     width: 500,
-    height: 500
+    height: 500,
   });
 
   const container = canvas.addGroup();
@@ -16,16 +16,18 @@ describe('test line axis', () => {
     animate: false,
     id: 'a',
     container,
-    center: {x: 200, y: 200},
+    updateAutoRender: true,
+    center: { x: 200, y: 200 },
     radius: 100,
     ticks: [
-      {name: '1', value: 0},
-      {name: '2', value: 1/3},
-      {name: '3', value: 2/3}
-    ]
+      { name: '1', value: 0 },
+      { name: '2', value: 1 / 3 },
+      { name: '3', value: 2 / 3 },
+    ],
   });
 
   it('init', () => {
+    axis.init();
     expect(axis.get('name')).toBe('axis');
     expect(axis.get('type')).toBe('circle');
   });
@@ -37,7 +39,7 @@ describe('test line axis', () => {
       ['M', 200, 100],
       ['A', 100, 100, 0, 1, 1, 200, 300],
       ['A', 100, 100, 0, 1, 1, 200, 100],
-      ['Z']
+      ['Z'],
     ]);
     const tickLine = axis.getElementById('a-axis-tickline-1');
     expect(tickLine.attr('x1')).toBe(200);
@@ -58,15 +60,15 @@ describe('test line axis', () => {
 
   it('update label', () => {
     axis.update({
-      label: null
+      label: null,
     });
     expect(axis.getElementById('a-axis-label-group')).toBe(undefined);
     axis.update({
       label: {
         formatter: (v) => {
           return v + '%';
-        }
-      }
+        },
+      },
     });
     const labelGroup = axis.getElementById('a-axis-label-group');
     expect(labelGroup.getChildren().length).toBe(3);
@@ -79,19 +81,19 @@ describe('test line axis', () => {
     axis.update({
       title: {
         offset: 10,
-        text: 'circle'
-      }
+        text: 'circle',
+      },
     });
     expect(axis.getElementById('a-axis-title')).not.toBeUndefined();
     axis.update({
-      title: null
+      title: null,
     });
     expect(axis.getElementById('a-axis-title')).toBeUndefined();
   });
 
   it('update center, radius', () => {
     axis.update({
-      center: {x: 300, y: 300}
+      center: { x: 300, y: 300 },
     });
     const tickLine = axis.getElementById('a-axis-tickline-1');
     expect(tickLine.attr('x1')).toBe(300);
@@ -99,7 +101,7 @@ describe('test line axis', () => {
     expect(tickLine.attr('x2')).toBe(300);
     expect(tickLine.attr('y2')).toBe(195);
     axis.update({
-      radius: 80
+      radius: 80,
     });
 
     expect(tickLine.attr('x1')).toBe(300);
@@ -107,8 +109,8 @@ describe('test line axis', () => {
     expect(tickLine.attr('x2')).toBe(300);
     expect(tickLine.attr('y2')).toBe(215);
     axis.update({
-      center: {x: 200, y: 200},
-      radius: 100
+      center: { x: 200, y: 200 },
+      radius: 100,
     });
     expect(tickLine.attr('x1')).toBe(200);
     expect(tickLine.attr('y1')).toBe(100);
@@ -119,25 +121,25 @@ describe('test line axis', () => {
   it('update angle', () => {
     axis.update({
       startAngle: 0,
-      endAngle: Math.PI
+      endAngle: Math.PI,
     });
     const line = axis.getElementById('a-axis-line');
     expect(line.attr('path')).toEqual([
-      ["M", 200, 200],
-      ["L", 300, 200],
-      ["A", 100, 100, 0, 0, 1, 100, 200],
-      ["L", 200, 200]
+      ['M', 200, 200],
+      ['L', 300, 200],
+      ['A', 100, 100, 0, 0, 1, 100, 200],
+      ['L', 200, 200],
     ]);
 
     axis.update({
       startAngle: 0,
-      endAngle: Math.PI / 2
+      endAngle: Math.PI / 2,
     });
     expect(line.attr('path')).toEqual([
-      ["M", 200, 200],
-      ["L", 300, 200],
-      ["A", 100, 100, 0, 0, 1, 200, 300],
-      ["L", 200, 200]
+      ['M', 200, 200],
+      ['L', 300, 200],
+      ['A', 100, 100, 0, 0, 1, 200, 300],
+      ['L', 200, 200],
     ]);
   });
 
@@ -146,12 +148,12 @@ describe('test line axis', () => {
     expect(labelGroup.getChildren().length).toBe(3);
     axis.update({
       ticks: [
-        {name: '1', value: 0},
-        {name: '2', value: 0.25},
-        {name: '3', value: 0.5},
-        {name: '4', value: 0.75},
-        {name: '5', value: 1}
-      ]
+        { name: '1', value: 0 },
+        { name: '2', value: 0.25 },
+        { name: '3', value: 0.5 },
+        { name: '4', value: 0.75 },
+        { name: '5', value: 1 },
+      ],
     });
     expect(labelGroup.getChildren().length).toBe(5);
   });
@@ -159,8 +161,8 @@ describe('test line axis', () => {
   it('verticalFactor', () => {
     axis.update({
       startAngle: 0,
-      endAngle: Math.PI * 2, 
-      verticalFactor: -1
+      endAngle: Math.PI * 2,
+      verticalFactor: -1,
     });
     const tickLine = axis.getElementById('a-axis-tickline-1');
     expect(tickLine.attr('x1')).toBe(300);

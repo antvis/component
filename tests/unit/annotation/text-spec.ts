@@ -18,9 +18,11 @@ describe('test text annotation', () => {
     x: 100,
     y: 150,
     content: 'test text',
+    updateAutoRender: true,
   });
 
   it('init', () => {
+    text.init();
     expect(text.get('name')).toEqual('annotation');
     expect(text.get('type')).toBe('text');
     expect(text.getLocation()).toEqual({ x: 100, y: 150 });
@@ -85,17 +87,17 @@ describe('test text annotation', () => {
   it('rotate', () => {
     text.setLocation({ x: 10, y: 10 });
     text.update({
-      rotate: Math.PI / 2
+      rotate: Math.PI / 2,
     });
     const textShape = text.getElementById('a-annotation-text');
     let matrix = textShape.getMatrix();
-    expect(matrix).toEqual(getMatrixByAngle({x: 10, y: 10}, Math.PI / 2));
+    expect(matrix).toEqual(getMatrixByAngle({ x: 10, y: 10 }, Math.PI / 2));
 
-    text.setLocation({x: 100, y: 100});
+    text.setLocation({ x: 100, y: 100 });
     matrix = textShape.getMatrix();
-    expect(matrix).toEqual(getMatrixByAngle({x: 100, y: 100}, Math.PI / 2));
+    expect(matrix).toEqual(getMatrixByAngle({ x: 100, y: 100 }, Math.PI / 2));
     text.update({
-      rotate: null
+      rotate: null,
     });
     matrix = textShape.getMatrix();
     expect(matrix).toEqual(null);

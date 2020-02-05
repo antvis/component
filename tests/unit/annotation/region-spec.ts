@@ -15,10 +15,12 @@ describe('test region annotation', () => {
     id: 'r',
     container,
     start: { x: 100, y: 100 },
+    updateAutoRender: true,
     end: { x: 200, y: 200 },
   });
 
   it('init', () => {
+    region.init();
     expect(region.get('name')).toBe('annotation');
     expect(region.get('type')).toBe('region');
     expect(region.getLocation()).toEqual({

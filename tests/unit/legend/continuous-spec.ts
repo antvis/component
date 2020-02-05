@@ -20,10 +20,12 @@ describe('test continue legend', () => {
       y: 100,
       min: 100,
       max: 1000,
+      updateAutoRender: true,
       slidable: false,
       colors: ['red'],
     });
     it('init', () => {
+      legend.init();
       expect(legend.get('name')).toBe('legend');
       expect(legend.get('type')).toBe('continue');
       expect(legend.getLocation()).toEqual({ x: 100, y: 100 });
@@ -263,12 +265,14 @@ describe('test continue legend', () => {
       y: 100,
       min: 0,
       max: 1000,
+      updateAutoRender: true,
       value: [200, 300],
       slidable: false,
       colors: ['red'],
     });
 
     it('init', () => {
+      legend.init();
       expect(legend.get('layout')).toBe('vertical');
     });
 
@@ -421,10 +425,12 @@ describe('test continue legend', () => {
       min: 0,
       max: 1000,
       value: [200, 300],
+      updateAutoRender: true,
       slidable: true,
       colors: ['red'],
     });
     it('init', () => {
+      legend.init();
       expect(legend.get('slidable')).toBe(true);
     });
 
@@ -501,12 +507,14 @@ describe('test continue legend', () => {
       min: 0,
       step: 10,
       max: 1000,
+      updateAutoRender: true,
       label: {
         align: 'bottom',
       },
       slidable: true,
       colors: ['red'],
     });
+    legend.init();
 
     const group = legend.get('group');
     it('render', () => {

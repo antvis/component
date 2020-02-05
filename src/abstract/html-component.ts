@@ -11,6 +11,7 @@ abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends 
       ...cfg,
       container: null,
       containerTpl: '<div></div>',
+      updateAutoRender: true,
       parent: null,
     };
     return cfg;
@@ -54,10 +55,10 @@ abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends 
   }
 
   /**
-   * @protected
    * 复写 init，主要是初始化 DOM 和事件
    */
-  protected init() {
+  public init() {
+    super.init();
     this.initContainer();
     this.initEvent();
     this.initVisible();

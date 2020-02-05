@@ -21,6 +21,7 @@ describe('gui trend', () => {
       y: 50,
       data: TrendData,
     });
+    trend.init();
     trend.render();
 
     expect(trend.getElementById('t1-trend-area')).toBeUndefined();
@@ -35,7 +36,7 @@ describe('gui trend', () => {
       isArea: true,
       data: TrendData,
     });
-
+    trend.init();
     trend.render();
 
     expect(trend.getElementById('t2-trend-area')).not.toBeUndefined();
@@ -61,7 +62,7 @@ describe('gui trend', () => {
         fill: 'green',
       },
     });
-
+    trend.init();
     trend.render();
 
     expect(trend.getElementById('t3-trend-area').attr('fill')).toBe('green');

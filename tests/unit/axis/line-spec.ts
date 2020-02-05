@@ -20,6 +20,7 @@ describe('test line axis', () => {
     animate: false,
     id: 'a',
     container,
+    updateAutoRender: true,
     start: { x: 50, y: 400 },
     end: { x: 50, y: 50 },
     ticks: [
@@ -33,6 +34,7 @@ describe('test line axis', () => {
   });
 
   it('init', () => {
+    axis.init();
     expect(axis.get('name')).toBe('axis');
     expect(axis.get('type')).toBe('line');
     expect(axis.getLocation()).toEqual({
@@ -254,6 +256,7 @@ describe('test line axis overlap', () => {
     animate: false,
     id: 'a',
     container,
+    updateAutoRender: true,
     start: { x: 100, y: 100 },
     end: { x: 200, y: 100 },
     ticks,
@@ -263,6 +266,7 @@ describe('test line axis overlap', () => {
   });
 
   it('init', () => {
+    axis.init();
     expect(axis.get('label').autoHide).toBe(false);
     expect(axis.get('label').autoRotate).toBe(true);
   });
@@ -473,6 +477,7 @@ describe('test axis states', () => {
     animate: false,
     id: 'a',
     container,
+    updateAutoRender: true,
     start: { x: 50, y: 400 },
     end: { x: 50, y: 50 },
     ticks,
@@ -480,6 +485,7 @@ describe('test axis states', () => {
       text: '标题',
     },
   });
+  axis.init();
 
   it('render', () => {
     axis.render();
@@ -578,6 +584,7 @@ describe('test layout bbox', () => {
     animate: false,
     id: 'a',
     container,
+    updateAutoRender: true,
     start: { x: 50, y: 400 },
     end: { x: 50, y: 50 },
     ticks,
@@ -585,6 +592,7 @@ describe('test layout bbox', () => {
       text: '标题',
     },
   });
+  axis.init();
 
   it('test bbox', () => {
     axis.render();
@@ -610,12 +618,12 @@ describe('test layout bbox', () => {
     axis.update({
       start: {
         x: 50,
-        y: 100
+        y: 100,
       },
       end: {
         x: 50,
-        y: 50
-      }
+        y: 50,
+      },
     });
     const bbox = axis.getBBox();
     expect(originBox.height - bbox.height).toBe(300);
@@ -625,23 +633,23 @@ describe('test layout bbox', () => {
     axis.update({
       start: {
         x: 50,
-        y: 50
+        y: 50,
       },
       end: {
         x: 400,
-        y: 50
-      }
+        y: 50,
+      },
     });
     const bbox = axis.getBBox();
     axis.update({
       start: {
         x: 50,
-        y: 50
+        y: 50,
       },
       end: {
         x: 100,
-        y: 50
-      }
+        y: 50,
+      },
     });
     expect(bbox.width - axis.getBBox().width).toBe(300);
   });
@@ -650,24 +658,24 @@ describe('test layout bbox', () => {
     axis.update({
       start: {
         x: 50,
-        y: 50
+        y: 50,
       },
       end: {
         x: 400,
-        y: 50
-      }
+        y: 50,
+      },
     });
     const bbox = axis.getBBox();
     axis.set('animate', true);
     axis.update({
       start: {
         x: 50,
-        y: 50
+        y: 50,
       },
       end: {
         x: 100,
-        y: 50
-      }
+        y: 50,
+      },
     });
     expect(bbox).toEqual(axis.getBBox());
     expect(bbox.width - axis.getLayoutBBox().width).toBe(300);

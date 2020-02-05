@@ -29,10 +29,12 @@ describe('test category legend', () => {
       x: 100,
       y: 100,
       items: originItems,
+      updateAutoRender: true,
       itemBackground: null,
     });
 
     it('init', () => {
+      legend.init();
       expect(legend.get('name')).toBe('legend');
       expect(legend.get('type')).toBe('category');
       expect(legend.get('layout')).toBe('horizontal');
@@ -298,9 +300,11 @@ describe('test category legend', () => {
       x: 100,
       y: 100,
       items: originItems,
+      updateAutoRender: true,
       itemBackground: null,
     });
     it('init', () => {
+      legend.init();
       expect(legend.get('layout')).toBe('vertical');
     });
 
@@ -384,9 +388,11 @@ describe('test category legend', () => {
       items: lotsItems,
       layout: 'horizontal',
       itemBackground: null,
+      updateAutoRender: true,
       maxWidth: 400,
       flipPage: true,
     });
+    legend.init();
     legend.render();
 
     it('navigation rendered', () => {
@@ -542,9 +548,11 @@ describe('test category legend', () => {
       items: lotsItems,
       layout: 'vertical',
       itemBackground: null,
+      updateAutoRender: true,
       maxHeight: 100,
       flipPage: true,
     });
+    legend.init();
     legend.render();
 
     it('navigation rendered', () => {
@@ -670,10 +678,12 @@ describe('test category legend', () => {
       container,
       layout: 'vertical',
       itemBackground: null,
+      updateAutoRender: true,
       x: 100,
       y: 100,
       items,
     });
+    legend.init();
     it('render', () => {
       legend.render();
       const itemGroup = legend.getElementById('d-legend-item-group');

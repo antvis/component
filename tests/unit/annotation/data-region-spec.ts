@@ -15,6 +15,7 @@ describe('annotation data-marker', () => {
     id: 'd',
     container,
     content: 'test text',
+    updateAutoRender: true,
     points: [
       { x: 100, y: 400 },
       { x: 150, y: 350 },
@@ -22,6 +23,7 @@ describe('annotation data-marker', () => {
   });
 
   it('init', () => {
+    dataRegion.init();
     expect(dataRegion.get('name')).toEqual('annotation');
     expect(dataRegion.get('type')).toEqual('dataRegion');
     expect(dataRegion.getLocation()).toEqual({

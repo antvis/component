@@ -16,12 +16,14 @@ describe('test arc annotation', () => {
     container,
     center: { x: 200, y: 200 },
     radius: 100,
+    updateAutoRender: true,
     style: {
       lineWidth: 5,
       stroke: 'red',
     },
   });
   it('init', () => {
+    arc.init();
     expect(arc.get('name')).toBe('annotation');
     expect(arc.get('type')).toBe('arc');
     expect(arc.getLocation()).toEqual({
@@ -44,7 +46,10 @@ describe('test arc annotation', () => {
       endAngle: Math.PI / 2,
     });
     const shape = arc.getElementById('a-annotation-arc');
-    expect(shape.attr('path')).toEqual([['M', 200, 100], ['A', 100, 100, 0, 0, 1, 200, 300]]);
+    expect(shape.attr('path')).toEqual([
+      ['M', 200, 100],
+      ['A', 100, 100, 0, 0, 1, 200, 300],
+    ]);
   });
 
   it('destroy', () => {

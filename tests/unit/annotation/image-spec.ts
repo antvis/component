@@ -14,12 +14,14 @@ describe('test arc image', () => {
   const image = new ImageAnnotation({
     id: 'a',
     container,
+    updateAutoRender: true,
     src: 'https://img.alicdn.com/tfs/TB1M.wKkND1gK0jSZFyXXciOVXa-120-120.png',
     start: { x: 100, y: 100 },
     end: { x: 220, y: 220 },
   });
 
   it('init', () => {
+    image.init();
     expect(image.get('name')).toBe('annotation');
     expect(image.get('type')).toBe('image');
     expect(image.getLocation()).toEqual({

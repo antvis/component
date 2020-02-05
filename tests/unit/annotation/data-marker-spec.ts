@@ -24,6 +24,7 @@ describe('annotation data-marker', () => {
   const dataMarker = new Annotation.DataMarker({
     id: 'd',
     container,
+    updateAutoRender: true,
     x: 100,
     y: 150,
     text: {
@@ -32,6 +33,7 @@ describe('annotation data-marker', () => {
   });
 
   it('init', () => {
+    dataMarker.init();
     expect(dataMarker.get('name')).toEqual('annotation');
     expect(dataMarker.get('type')).toEqual('dataMarker');
     expect(dataMarker.getLocation()).toEqual({ x: 100, y: 150 });

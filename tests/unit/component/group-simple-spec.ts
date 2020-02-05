@@ -64,12 +64,15 @@ describe('test simple component', () => {
     container,
   });
   it('init', () => {
+    b.init();
     expect(b.get('id')).toEqual('b1');
     expect(b.getContainer()).toBe(container);
     expect(b.get('group')).toBe(container.get('children')[0]);
   });
 
   it('render', () => {
+    expect(b.getBBox().width).toBe(0);
+    expect(b.getLayoutBBox().width).not.toBe(0);
     b.render();
     expect(b.getElementById('a')).not.toBe(undefined);
     expect(b.getElementById('a').get('delegateObject')).toEqual({
@@ -85,6 +88,7 @@ describe('test simple component', () => {
     b.update({
       showB: true,
     });
+    b.render();
     expect(b.getElementById('a').get('delegateObject')).toEqual({
       component: b,
       custom: b,
@@ -109,11 +113,13 @@ describe('test simple component', () => {
       showA: false,
       showB: true,
     });
+    b.render();
     expect(b.get('group').getChildren().length).toBe(1);
     expect(b.getElementById('a')).toBe(undefined);
     b.update({
       showB: false,
     });
+    b.render();
     expect(b.get('group').getChildren().length).toBe(0);
     expect(b.getElementById('b')).toBe(undefined);
   });
@@ -123,6 +129,7 @@ describe('test simple component', () => {
       showA: true,
       showB: true,
     });
+    b.render();
     expect(b.get('group').getChildren().length).toBe(2);
     expect(b.getElementById('a')).not.toBe(undefined);
   });
@@ -166,12 +173,14 @@ describe('test simple component', () => {
       showA: true,
       showB: true,
     });
+    b.render();
     const bShape = b.getElementById('b');
     b.set('animate', true);
     b.update({
       showA: true,
       showB: false,
     });
+    b.render();
     // 执行动画时图形不会移除，但是已经在 map 中移除
     expect(b.getElementById('b')).toBe(undefined);
     expect(bShape.destroyed).toBe(false);
@@ -180,7 +189,7 @@ describe('test simple component', () => {
       expect(bShape.destroyed).toBe(true);
       expect(b.get('group').getChildren().length).toBe(1);
       done();
-    }, 500);
+    }, 600);
   });
 
   it('add Animate', (done) => {
@@ -190,14 +199,16 @@ describe('test simple component', () => {
       showA: true,
       showB: false,
     });
+    b.render();
     expect(b.getElementById('b')).toBe(undefined);
     b.set('animate', true);
     b.update({
       showA: true,
       showB: true,
     });
+    b.render();
     const bShape = b.getElementById('b');
-    expect(bShape.attr('opacity')).toBe(0);
+    expect(bShape.attr('opacity')).not.toBe(1);
     setTimeout(() => {
       expect(bShape.attr('opacity')).toBe(1);
       done();

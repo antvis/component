@@ -97,8 +97,6 @@ export class Handler extends GroupComponent<HandlerCfg> {
         cursor,
       },
     });
-
-    this.bindEvents();
   }
 
   protected applyOffset() {
@@ -106,6 +104,10 @@ export class Handler extends GroupComponent<HandlerCfg> {
       x: this.get('x'),
       y: this.get('y'),
     });
+  }
+
+  protected initEvent() {
+    this.bindEvents();
   }
 
   private bindEvents() {
