@@ -219,6 +219,10 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
   }
 
   protected applyComponentClip() {
+    // 只有设置了flipPage才需要
+    if (!this.get('flipPage') || !this.pageHeight || !this.pageWidth) {
+      return;
+    }
     const group: IGroup = this.get('group');
     const itemGroup = group.findById(this.getElementId('item-group'));
     itemGroup.setClip({
