@@ -50,6 +50,7 @@ describe('legend animate', () => {
     },
   });
   it('init', async () => {
+    legend.init();
     legend.render();
     const item1 = legend.getElementById('c-legend-item-group');
     expect(item1.attr('opacity')).toBe(0);

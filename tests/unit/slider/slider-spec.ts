@@ -32,6 +32,7 @@ describe('slider', () => {
     minText: 'min',
     maxText: 'max',
   });
+  slider.init();
 
   const containerDOM = canvas.get('container');
 

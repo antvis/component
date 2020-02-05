@@ -82,8 +82,10 @@ describe('test complex component', () => {
     animate: false, // 禁止动画
     container,
   });
-  const group = c.get('group');
+  let group;
   it('init', () => {
+    c.init();
+    group = c.get('group');
     expect(container.getChildren().length).toBe(1);
     expect(group.getChildren().length).toBe(0);
     expect(c.getElementById('a')).toBe(undefined);

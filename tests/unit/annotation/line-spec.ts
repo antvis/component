@@ -21,6 +21,7 @@ describe('test line annotation', () => {
   });
 
   it('init', () => {
+    line.init();
     expect(line.get('name')).toBe('annotation');
     expect(line.get('type')).toBe('line');
   });

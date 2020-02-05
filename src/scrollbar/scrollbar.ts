@@ -101,10 +101,8 @@ export class Scrollbar extends GroupComponent<ScrollbarCfg> implements ISlider {
   }
 
   protected renderInner(group: IGroup) {
-    const track = this.renderTrackShape(group);
-    const thumb = this.renderThumbShape(group);
-
-    this.bindEvents(group, track, thumb);
+    this.renderTrackShape(group);
+    this.renderThumbShape(group);
   }
 
   protected applyOffset() {
@@ -112,6 +110,10 @@ export class Scrollbar extends GroupComponent<ScrollbarCfg> implements ISlider {
       x: this.get('x'),
       y: this.get('y'),
     });
+  }
+
+  protected initEvent() {
+    this.bindEvents();
   }
 
   // 创建滑道的 shape
@@ -139,6 +141,7 @@ export class Scrollbar extends GroupComponent<ScrollbarCfg> implements ISlider {
         };
     return this.addShape(group, {
       id: this.getElementId('track'),
+      name: 'track',
       type: 'line',
       attrs,
     });
@@ -171,19 +174,23 @@ export class Scrollbar extends GroupComponent<ScrollbarCfg> implements ISlider {
         };
     return this.addShape(group, {
       id: this.getElementId('thumb'),
+      name: 'thumb',
       type: 'line',
       attrs,
     });
   }
 
-  private bindEvents(group: IGroup, trackShape: IShape, thumbShape: IShape) {
+  private bindEvents() {
+    const group: IGroup = this.get('group');
     group.on('mousedown', this.onStartEvent(false));
     group.on('mouseup', this.onMouseUp);
 
     group.on('touchstart', this.onStartEvent(true));
     group.on('touchend', this.onMouseUp);
 
+    const trackShape = group.findById(this.getElementId('track'));
     trackShape.on('click', this.onTrackClick);
+    const thumbShape = group.findById(this.getElementId('thumb'));
     thumbShape.on('mouseover', this.onThumbMouseOver);
     thumbShape.on('mouseout', this.onThumbMouseOut);
   }

@@ -25,6 +25,7 @@ describe('test continue legend', () => {
       colors: ['red'],
     });
     it('init', () => {
+      legend.init();
       expect(legend.get('name')).toBe('legend');
       expect(legend.get('type')).toBe('continue');
       expect(legend.getLocation()).toEqual({ x: 100, y: 100 });
@@ -271,6 +272,7 @@ describe('test continue legend', () => {
     });
 
     it('init', () => {
+      legend.init();
       expect(legend.get('layout')).toBe('vertical');
     });
 
@@ -428,6 +430,7 @@ describe('test continue legend', () => {
       colors: ['red'],
     });
     it('init', () => {
+      legend.init();
       expect(legend.get('slidable')).toBe(true);
     });
 
@@ -511,6 +514,7 @@ describe('test continue legend', () => {
       slidable: true,
       colors: ['red'],
     });
+    legend.init();
 
     const group = legend.get('group');
     it('render', () => {

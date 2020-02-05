@@ -33,6 +33,7 @@ describe('annotation data-marker', () => {
   });
 
   it('init', () => {
+    dataMarker.init();
     expect(dataMarker.get('name')).toEqual('annotation');
     expect(dataMarker.get('type')).toEqual('dataMarker');
     expect(dataMarker.getLocation()).toEqual({ x: 100, y: 150 });

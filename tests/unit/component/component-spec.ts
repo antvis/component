@@ -40,6 +40,7 @@ describe('abastract component', () => {
   });
 
   it('init', () => {
+    a.init();
     expect(a.get('id')).toEqual('a');
     expect(a.get('b')).toEqual(null);
     expect(a.get('a')).toEqual({

@@ -41,6 +41,7 @@ describe('annotation data-marker', () => {
   });
 
   it('init', () => {
+    regionFilter.init();
     expect(regionFilter.get('name')).toEqual('annotation');
     expect(regionFilter.get('type')).toEqual('regionFilter');
     expect(regionFilter.getLocation()).toEqual({

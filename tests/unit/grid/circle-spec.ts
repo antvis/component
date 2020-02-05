@@ -55,6 +55,7 @@ describe('test circle grid', () => {
   });
 
   it('init', () => {
+    grid.init();
     expect(grid.get('name')).toBe('grid');
     expect(grid.get('type')).toBe('circle');
   });

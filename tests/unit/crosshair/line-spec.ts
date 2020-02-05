@@ -20,6 +20,7 @@ describe('test line crosshair', () => {
   });
 
   it('init', () => {
+    crosshair.init();
     expect(crosshair.get('name')).toBe('crosshair');
     expect(crosshair.get('type')).toBe('line');
   });
