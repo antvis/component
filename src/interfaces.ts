@@ -103,6 +103,10 @@ export interface ILocation<T extends LocationCfg = LocationCfg> {
 
 export interface IComponent extends IBase {
   /**
+   * 初始化组件
+   */
+  init(): void;
+  /**
    * 是否是列表
    */
   isList(): boolean;
