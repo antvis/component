@@ -142,7 +142,6 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> implements ISlider {
       }
       this.setValue([minValue, maxValue]);
     });
-
     group.on('legend-handler-max:drag', (ev) => {
       const maxValue = this.getValueByCanvasPoint(ev.x, ev.y);
       const currentValue = this.getCurrentValue();
@@ -157,7 +156,47 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> implements ISlider {
 
   private bindRailEvent(group) {}
 
-  private bindTrackEvent(group) {}
+  private bindTrackEvent(group) {
+    let prePoint = null;
+    group.on('legend-track:dragstart', ev => {
+      prePoint = {
+        x: ev.x,
+        y: ev.y
+      };
+    });
+    group.on('legend-track:drag', ev => {
+      if (!prePoint) {
+        return;
+      }
+      const preValue = this.getValueByCanvasPoint(prePoint.x, prePoint.y);
+      const curValue = this.getValueByCanvasPoint(ev.x, ev.y);
+      const currentValue = this.getCurrentValue();
+      const curDiff = currentValue[1] - currentValue[0];
+      const range = this.getRange();
+      const dValue = curValue - preValue;
+      if (dValue < 0) { // 减小, 同时未出边界 
+        if (currentValue[0] + dValue > range.min) {
+          this.setValue([currentValue[0] + dValue, currentValue[1] + dValue]);
+        } else {
+          this.setValue([range.min, range.min + curDiff])
+        }
+        //  && || 
+      } else if (dValue > 0) {
+        if ((dValue > 0 && currentValue[1] + dValue < range.max)) {
+          this.setValue([currentValue[0] + dValue, currentValue[1] + dValue]);
+        } else {
+          this.setValue([range.max - curDiff, range.max])
+        }
+      }
+      prePoint = {
+        x: ev.x,
+        y: ev.y
+      };
+    });
+    group.on('legend-track:dragend', ev => {
+      prePoint = null;
+    });
+  }
 
   private drawLabels(group: IGroup) {
     this.drawLabel('min', group);
@@ -363,6 +402,7 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> implements ISlider {
       this.addShape(group, {
         type: 'path',
         id: trackId,
+        draggable: this.get('slidable'),
         name: 'legend-track',
         attrs: trackAttrs,
       });

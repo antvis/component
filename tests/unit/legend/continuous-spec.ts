@@ -604,5 +604,55 @@ describe('test continue legend', () => {
       });
       expect(trackEl.getClip().attr('height')).toEqual(30);
     });
+
+    it('track drag', () => {
+      legend.update({
+        layout: 'horizontal',
+        value: [0, 500],
+        label: {
+          align: 'bottom',
+        },
+      });
+      // 开始拖拽
+      group.emit('legend-track:dragstart', {
+        x: 310,
+        y: 300,
+      });
+      // 拖拽 > 10px
+      group.emit('legend-track:drag', {
+        x: 320,
+        y: 300,
+      });
+      expect(legend.getValue()).toEqual([100, 600]);
+      // 往回拖 20px，超出范围
+      group.emit('legend-track:drag', {
+        x: 300,
+        y: 300,
+      });
+      expect(legend.getValue()).toEqual([0, 500]);
+      // 拖拽 40px
+      group.emit('legend-track:drag', {
+        x: 340,
+        y: 300,
+      });
+      expect(legend.getValue()).toEqual([400, 900]);
+      // 拖拽超出范围
+      group.emit('legend-track:drag', {
+        x: 360,
+        y: 300,
+      });
+      expect(legend.getValue()).toEqual([500, 1000]);
+      // 结束拖拽
+      group.emit('legend-track:dragend', {
+        x: 360,
+        y: 300,
+      });
+      // 防止错误状态
+      group.emit('legend-track:drag', {
+        x: 320,
+        y: 300,
+      });
+      expect(legend.getValue()).toEqual([500, 1000]);
+    });
   });
 });
