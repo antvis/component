@@ -78,6 +78,9 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
         start: value[0],
         end: value[1],
       });
+      if (!this.get('updateAutoRender')) {
+        this.render();
+      }
       this.delegateEmit('valuechanged', {
         originValue,
         value,
@@ -120,10 +123,10 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
     this.maxHandler = this.getChildComponentById(this.getElementId('maxHandler'));
   }
 
-  protected init() {
-    super.init();
+  public init() {
     this.set('start', clamp(this.get('start'), 0, 1));
     this.set('end', clamp(this.get('end'), 0, 1));
+    super.init();
   }
 
   protected renderInner(group: IGroup) {
@@ -200,6 +203,7 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
     // 3. 前景 选中背景框
     const foregroundShape = this.addShape(group, {
       id: this.getElementId('foreground'),
+      name: 'foreground',
       type: 'rect',
       attrs: {
         // x: 0,
@@ -218,6 +222,7 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
     this.minHandler = this.addComponent(group, {
       component: Handler,
       id: this.getElementId('minHandler'),
+      name: 'handler-min',
       x: 0,
       y: (height - handlerHeight) / 2,
       width,
@@ -229,6 +234,7 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
     this.maxHandler = this.addComponent(group, {
       component: Handler,
       id: this.getElementId('maxHandler'),
+      name: 'handler-max',
       x: 0,
       y: (height - handlerHeight) / 2,
       width,
@@ -238,8 +244,6 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
     });
 
     this.updateUI(foregroundShape, minTextShape, maxTextShape);
-
-    this.bindEvents(this.minHandler.get('group'), this.maxHandler.get('group'), foregroundShape);
   }
 
   protected applyOffset() {
@@ -247,6 +251,10 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
       x: this.get('x'),
       y: this.get('y'),
     });
+  }
+
+  protected initEvent() {
+    this.bindEvents();
   }
 
   private updateUI(foregroundShape: IShape, minTextShape: IShape, maxTextShape: IShape) {
@@ -271,6 +279,9 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
     this.minHandler.update({
       x: min - handlerWidth / 2,
     });
+    if (!this.get('updateAutoRender')) {
+      this.minHandler.render();
+    }
     // this.minText.attr('x', min);
     each(minAttrs, (v, k) => minTextShape.attr(k, v));
 
@@ -279,21 +290,27 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
     this.maxHandler.update({
       x: max - handlerWidth / 2,
     });
+    if (!this.get('updateAutoRender')) {
+      this.maxHandler.render();
+    }
     // this.maxText.attr('x', max);
     each(maxAttrs, (v, k) => maxTextShape.attr(k, v));
   }
 
-  private bindEvents(minHandlerShape: IShape, maxHandlerShape: IShape, foregroundShape: IShape) {
-    minHandlerShape.on('mousedown', this.onMouseDown('minHandler'));
-    minHandlerShape.on('touchstart', this.onMouseDown('minHandler'));
+  private bindEvents() {
+    const group: IGroup = this.get('group');
+
+    group.on('handler-min:mousedown', this.onMouseDown('minHandler'));
+    group.on('handler-min:touchstart', this.onMouseDown('minHandler'));
 
     // 2. 右滑块的滑动
-    maxHandlerShape.on('mousedown', this.onMouseDown('maxHandler'));
-    maxHandlerShape.on('touchstart', this.onMouseDown('maxHandler'));
+    group.on('handler-max:mousedown', this.onMouseDown('maxHandler'));
+    group.on('handler-max:touchstart', this.onMouseDown('maxHandler'));
 
     // 3. 前景选中区域
-    foregroundShape.on('mousedown', this.onMouseDown('foreground'));
-    foregroundShape.on('touchstart', this.onMouseDown('foreground'));
+    const foreground = group.findById(this.getElementId('foreground'));
+    foreground.on('mousedown', this.onMouseDown('foreground'));
+    foreground.on('touchstart', this.onMouseDown('foreground'));
   }
 
   private onMouseDown = (target: string) => (e: Event) => {

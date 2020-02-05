@@ -20,6 +20,7 @@ describe('test region annotation', () => {
   });
 
   it('init', () => {
+    region.init();
     expect(region.get('name')).toBe('annotation');
     expect(region.get('type')).toBe('region');
     expect(region.getLocation()).toEqual({

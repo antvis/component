@@ -12,6 +12,8 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
   private totalPagesCnt = 1;
   private pageWidth = 0;
   private pageHeight = 0;
+  private startX = 0;
+  private startY = 0;
 
   public getDefaultCfg() {
     const cfg = super.getDefaultCfg();
@@ -81,7 +83,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
         itemStates: {
           active: {
             nameStyle: {
-              opacity: 0.8
+              opacity: 0.8,
             },
           },
           unchecked: {
@@ -216,6 +218,20 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     this.drawItems(group);
   }
 
+  protected applyComponentClip() {
+    const group: IGroup = this.get('group');
+    const itemGroup = group.findById(this.getElementId('item-group'));
+    itemGroup.setClip({
+      type: 'rect',
+      attrs: {
+        x: this.startX,
+        y: this.startY,
+        width: this.pageWidth,
+        height: this.pageHeight,
+      },
+    });
+  }
+
   // 防止未设置 id
   private processItems() {
     const items = this.get('items');
@@ -283,7 +299,9 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
       this.pageWidth = 0;
       this.currentPageIndex = 1;
       this.totalPagesCnt = 1;
-      this.adjustNavigation(group, itemGroup, { x: startX, y: startY });
+      this.startX = startX;
+      this.startY = startY;
+      this.adjustNavigation(group, itemGroup);
     }
   }
   // 获取图例项的高度，如果未定义，则按照 name 的高度计算
@@ -401,7 +419,9 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
   }
 
   // 加上分页器并重新排序 items
-  private adjustNavigation(container: IGroup, itemGroup: IGroup, { x: startX, y: startY }: { x: number; y: number }) {
+  private adjustNavigation(container: IGroup, itemGroup: IGroup) {
+    const startX = this.startX;
+    const startY = this.startY;
     const layout = this.get('layout');
     const subGroups = itemGroup.findAll((item) => item.get('name') === 'legend-item');
     const maxWidth = this.get('maxWidth');
@@ -465,15 +485,15 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
           currentPoint.y = startY;
         }
         this.moveElementTo(item, currentPoint);
-        this.getElementById(item.get('id')).setClip({
-          type: 'rect',
-          attrs: {
-            x: currentPoint.x,
-            y: currentPoint.y,
-            width: pageWidth,
-            height: itemHeight,
-          },
-        });
+        // this.getElementById(item.get('id')).setClip({
+        //   type: 'rect',
+        //   attrs: {
+        //     x: currentPoint.x,
+        //     y: currentPoint.y,
+        //     width: pageWidth,
+        //     height: itemHeight,
+        //   },
+        // });
         currentPoint.y += itemHeight;
       });
       this.totalPagesCnt = pages;
@@ -482,19 +502,6 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
         y: maxHeight - navigationBBox.height - navigationBBox.minY,
       });
     }
-
-    // 设置整体 clip 仅显示第一页
-    //  1. 在render过程中，getElementByLocalId 直接拿到当前的itemGroup
-    //  2. 在update过程中，在虚拟Group支持clip前，先对旧的itemGroup设置clip
-    this.getElementByLocalId('item-group').setClip({
-      type: 'rect',
-      attrs: {
-        x: startX,
-        y: startY,
-        width: this.pageWidth,
-        height: this.pageHeight,
-      },
-    });
 
     this.updateNavigation(`1/${pages}`, navigation);
     this.totalPagesCnt = pages;

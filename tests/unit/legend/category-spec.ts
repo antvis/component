@@ -34,6 +34,7 @@ describe('test category legend', () => {
     });
 
     it('init', () => {
+      legend.init();
       expect(legend.get('name')).toBe('legend');
       expect(legend.get('type')).toBe('category');
       expect(legend.get('layout')).toBe('horizontal');
@@ -303,6 +304,7 @@ describe('test category legend', () => {
       itemBackground: null,
     });
     it('init', () => {
+      legend.init();
       expect(legend.get('layout')).toBe('vertical');
     });
 
@@ -390,6 +392,7 @@ describe('test category legend', () => {
       maxWidth: 400,
       flipPage: true,
     });
+    legend.init();
     legend.render();
 
     it('navigation rendered', () => {
@@ -549,6 +552,7 @@ describe('test category legend', () => {
       maxHeight: 100,
       flipPage: true,
     });
+    legend.init();
     legend.render();
 
     it('navigation rendered', () => {
@@ -679,6 +683,7 @@ describe('test category legend', () => {
       y: 100,
       items,
     });
+    legend.init();
     it('render', () => {
       legend.render();
       const itemGroup = legend.getElementById('d-legend-item-group');

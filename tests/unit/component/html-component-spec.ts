@@ -59,6 +59,7 @@ describe('test html component create', () => {
       containerTpl: '<div class="my-test"></div>',
       parent: 'pid',
     });
+    component.init();
     const container = component.getContainer();
     expect(container.className).toBe('my-test');
     expect(component.getBBox()).toEqual(createBBox(0, 0, container.clientWidth, container.clientHeight));
@@ -69,6 +70,7 @@ describe('test html component create', () => {
       containerTpl: '<div class="my-test"></div>',
       parent: div,
     });
+    component.init();
     const container = component.getContainer();
     expect(container.className).toBe('my-test');
   });
@@ -77,6 +79,7 @@ describe('test html component create', () => {
     const component = new AComponent({
       container: 'pid',
     });
+    component.init();
     const container = component.getContainer();
     expect(container.id).toBe('pid');
   });
@@ -84,6 +87,7 @@ describe('test html component create', () => {
     const component = new AComponent({
       container: div,
     });
+    component.init();
     const container = component.getContainer();
     expect(container.id).toBe('pid');
   });
@@ -92,6 +96,7 @@ describe('test html component create', () => {
       parent: div,
       visible: false,
     });
+    component.init();
     const container = component.getContainer();
     expect(container.style.display).toBe('none');
   });
@@ -104,6 +109,7 @@ describe('test html component methods', () => {
     text: 'abc',
   });
   it('init', () => {
+    component.init();
     expect(component.get('type')).toBe('a');
   });
 

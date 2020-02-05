@@ -21,6 +21,7 @@ describe('test arc image', () => {
   });
 
   it('init', () => {
+    image.init();
     expect(image.get('name')).toBe('annotation');
     expect(image.get('type')).toBe('image');
     expect(image.getLocation()).toEqual({

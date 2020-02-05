@@ -26,6 +26,7 @@ describe('Scrollbar', () => {
     updateAutoRender: true,
     size: 8,
   });
+  scrollbar.init();
 
   it('render', () => {
     scrollbar.render();
@@ -182,6 +183,7 @@ describe('Scrollbar', () => {
       thumbLen: 30,
       size: 8,
     });
+    scrollbar.init();
     scrollbar.render();
 
     const track = scrollbar.getElementByLocalId('track');
