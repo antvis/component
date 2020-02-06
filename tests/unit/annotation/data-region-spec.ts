@@ -14,7 +14,9 @@ describe('annotation data-marker', () => {
   const dataRegion = new Annotation.DataRegion({
     id: 'd',
     container,
-    content: 'test text',
+    text: {
+      content: 'test text',
+    },
     updateAutoRender: true,
     points: [
       { x: 100, y: 400 },
@@ -81,11 +83,14 @@ describe('annotation data-marker', () => {
 
   it('render styled', () => {
     dataRegion.update({
-      style: {
-        region: {
+      region: {
+        style: {
           fill: '#ff0000',
         },
-        text: {
+      },
+      text: {
+        content: 'test text',
+        style: {
           stroke: '#00ff00',
         },
       },

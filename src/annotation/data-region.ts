@@ -1,4 +1,5 @@
 import { IGroup } from '@antv/g-base';
+import { get } from '@antv/util';
 import GroupComponent from '../abstract/group-component';
 import { ILocation } from '../interfaces';
 import { DataRegionAnnotationCfg, Point, PointsLocationCfg } from '../types';
@@ -12,37 +13,40 @@ class DataRegionAnnotation extends GroupComponent<DataRegionAnnotationCfg> imple
    */
   public getDefaultCfg() {
     const cfg = super.getDefaultCfg();
-    const style = {
-      region: {
-        lineWidth: 0,
-        fill: Theme.regionColor,
-        opacity: 0.4,
-      },
-      text: {
-        textAlign: 'center',
-        textBaseline: 'bottom',
-        fontSize: 12,
-        fill: Theme.textColor,
-        fontFamily: Theme.fontFamily,
-      },
-    };
     return {
       ...cfg,
       name: 'annotation',
       type: 'dataRegion',
       locationType: 'points',
       points: [],
-      content: '',
       lineLength: 0,
-      style,
+      region: {},
+      text: {},
       defaultCfg: {
-        style,
+        region: {
+          style: {
+            lineWidth: 0,
+            fill: Theme.regionColor,
+            opacity: 0.4,
+          },
+        },
+        text: {
+          content: '',
+          style: {
+            textAlign: 'center',
+            textBaseline: 'bottom',
+            fontSize: 12,
+            fill: Theme.textColor,
+            fontFamily: Theme.fontFamily,
+          },
+        },
       },
     };
   }
 
   protected renderInner(group: IGroup) {
-    const { region: regionStyle = {}, text: textStyle = {} } = this.get('style');
+    const regionStyle = get(this.get('region'), 'style', {});
+    const textStyle = get(this.get('text'), 'style', {});
     const lineLength = this.get('lineLength') || 0;
     const points: Point[] = this.get('points');
 
@@ -74,7 +78,7 @@ class DataRegionAnnotation extends GroupComponent<DataRegionAnnotationCfg> imple
       attrs: {
         x: (bbox.minX + bbox.maxX) / 2,
         y: bbox.minY - lineLength,
-        text: this.get('content'),
+        text: get(this.get('text'), 'content', ''),
         ...textStyle,
       },
     });
