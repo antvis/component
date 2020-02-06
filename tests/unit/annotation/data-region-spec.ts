@@ -14,7 +14,9 @@ describe('annotation data-marker', () => {
   const dataRegion = new Annotation.DataRegion({
     id: 'd',
     container,
-    content: 'test text',
+    text: {
+      content: 'test text',
+    },
     updateAutoRender: true,
     points: [
       { x: 100, y: 400 },
@@ -87,6 +89,7 @@ describe('annotation data-marker', () => {
         },
       },
       text: {
+        content: 'test text',
         style: {
           stroke: '#00ff00',
         },
@@ -99,7 +102,7 @@ describe('annotation data-marker', () => {
     expect(textShape.attr('stroke')).toBe('#00ff00');
   });
 
-  it.skip('destroy', () => {
+  it('destroy', () => {
     dataRegion.destroy();
 
     expect(container.getChildren()).toHaveLength(0);

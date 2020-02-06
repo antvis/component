@@ -19,7 +19,6 @@ class DataRegionAnnotation extends GroupComponent<DataRegionAnnotationCfg> imple
       type: 'dataRegion',
       locationType: 'points',
       points: [],
-      content: '',
       lineLength: 0,
       region: {},
       text: {},
@@ -32,6 +31,7 @@ class DataRegionAnnotation extends GroupComponent<DataRegionAnnotationCfg> imple
           },
         },
         text: {
+          content: '',
           style: {
             textAlign: 'center',
             textBaseline: 'bottom',
@@ -78,7 +78,7 @@ class DataRegionAnnotation extends GroupComponent<DataRegionAnnotationCfg> imple
       attrs: {
         x: (bbox.minX + bbox.maxX) / 2,
         y: bbox.minY - lineLength,
-        text: this.get('content'),
+        text: get(this.get('text'), 'content', ''),
         ...textStyle,
       },
     });
