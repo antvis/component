@@ -507,9 +507,9 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
       });
     }
 
-    this.updateNavigation(`1/${pages}`, navigation);
     this.totalPagesCnt = pages;
     this.currentPageIndex = 1;
+    this.updateNavigation(navigation);
   }
 
   private drawNavigation(group: IGroup, layout: 'horizontal' | 'vertical', text: string, size: number) {
@@ -557,12 +557,23 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     return subGroup;
   }
 
-  private updateNavigation(text: string, navigation?: IGroup) {
+  private updateNavigation(navigation?: IGroup) {
+    const text = `${this.currentPageIndex}/${this.totalPagesCnt}`;
     const textShape = navigation ? navigation.getChildren()[1] : this.getElementByLocalId('navigation-text');
+    const leftArrow = navigation
+      ? navigation.findById(this.getElementId('navigation-arrow-left'))
+      : this.getElementByLocalId('navigation-arrow-left');
+    const rightArrow = navigation
+      ? navigation.findById(this.getElementId('navigation-arrow-right'))
+      : this.getElementByLocalId('navigation-arrow-right');
     const origBBox = textShape.getBBox();
     textShape.attr('text', text);
     const newBBox = textShape.getBBox();
     textShape.attr('x', textShape.attr('x') - (newBBox.width - origBBox.width) / 2);
+    leftArrow.attr('opacity', this.currentPageIndex === 1 ? 0.45 : 1);
+    leftArrow.attr('cursor', this.currentPageIndex === 1 ? 'not-allowed' : 'pointer');
+    rightArrow.attr('opacity', this.currentPageIndex === this.totalPagesCnt ? 0.45 : 1);
+    rightArrow.attr('cursor', this.currentPageIndex === this.totalPagesCnt ? 'not-allowed' : 'pointer');
   }
 
   private drawArrow(
@@ -585,7 +596,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
       name,
       attrs: {
         path: [['M', x + size / 2, y], ['L', x, y + size], ['L', x + size, y + size], ['Z']],
-        fill: '#ccc',
+        fill: '#000',
         cursor: 'pointer',
       },
     });
@@ -599,7 +610,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     const itemGroup = this.getElementByLocalId('item-group');
     if (this.currentPageIndex > 1) {
       this.currentPageIndex -= 1;
-      this.updateNavigation(`${this.currentPageIndex}/${this.totalPagesCnt}`);
+      this.updateNavigation();
       const matrix = getMatrixByTranslate(
         layout === 'horizontal'
           ? {
@@ -626,7 +637,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     const itemGroup = this.getElementByLocalId('item-group');
     if (this.currentPageIndex < this.totalPagesCnt) {
       this.currentPageIndex += 1;
-      this.updateNavigation(`${this.currentPageIndex}/${this.totalPagesCnt}`);
+      this.updateNavigation();
       const matrix = getMatrixByTranslate(
         layout === 'horizontal'
           ? {
