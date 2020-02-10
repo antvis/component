@@ -33,13 +33,12 @@ abstract class Component<T extends ComponentCfg = ComponentCfg> extends Base imp
       animateOption: {
         appear: null, // 初始入场动画配置
         update: {
-          duration: 450,
+          duration: 400,
           easing: 'easeQuadInOut',
         }, // 更新时发生变更的动画配置
         enter: {
           duration: 400,
           easing: 'easeQuadInOut',
-          delay: 100,
         }, // 更新时新增元素的入场动画配置
         leave: {
           duration: 350,
