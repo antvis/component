@@ -404,6 +404,9 @@ describe('test category legend', () => {
       // left arrow: /\
       expect(children[0].get('type')).toBe('path');
       expect(children[0].attr('matrix')).toBeNull();
+      // left disabled
+      expect(children[0].attr('opacity')).toBe(0.45);
+      expect(children[0].attr('cursor')).toBe('not-allowed');
 
       // text
       expect(children[1].get('type')).toBe('text');
@@ -412,6 +415,9 @@ describe('test category legend', () => {
       // right arrow: \/
       expect(children[2].get('type')).toBe('path');
       expect(getAngleByMatrix(children[2].attr('matrix'))).toBe(Math.PI);
+      // right arrow enabled
+      expect(children[2].attr('opacity')).toBe(1);
+      expect(children[2].attr('cursor')).toBe('pointer');
     });
 
     it('itemGroup clip', () => {
@@ -443,42 +449,77 @@ describe('test category legend', () => {
       await wait(delay);
       expect(textShape.attr('text')).toEqual('2/4');
       expect(itemGroup.attr('matrix')[7]).toBe(-20);
+      // check arrow
+      expect(leftArrow.attr('opacity')).toBe(1);
+      expect(leftArrow.attr('cursor')).toBe('pointer');
+      expect(rightArrow.attr('opacity')).toBe(1);
+      expect(rightArrow.attr('cursor')).toBe('pointer');
 
       // click next: page 3
       rightArrow.emit('click');
       await wait(delay);
       expect(textShape.attr('text')).toEqual('3/4');
       expect(itemGroup.attr('matrix')[7]).toBe(-40);
+      // check arrow
+      expect(leftArrow.attr('opacity')).toBe(1);
+      expect(leftArrow.attr('cursor')).toBe('pointer');
+      expect(rightArrow.attr('opacity')).toBe(1);
+      expect(rightArrow.attr('cursor')).toBe('pointer');
 
       // click next: page 4
       rightArrow.emit('click');
       await wait(delay);
       expect(textShape.attr('text')).toEqual('4/4');
       expect(itemGroup.attr('matrix')[7]).toBe(-60);
+      // check arrow
+      expect(leftArrow.attr('opacity')).toBe(1);
+      expect(leftArrow.attr('cursor')).toBe('pointer');
+      expect(rightArrow.attr('opacity')).toBe(0.45);
+      expect(rightArrow.attr('cursor')).toBe('not-allowed');
 
       // click next: page 4
       rightArrow.emit('click');
       await wait(delay);
       expect(textShape.attr('text')).toEqual('4/4');
       expect(itemGroup.attr('matrix')[7]).toBe(-60);
+      // check arrow
+      expect(leftArrow.attr('opacity')).toBe(1);
+      expect(leftArrow.attr('cursor')).toBe('pointer');
+      expect(rightArrow.attr('opacity')).toBe(0.45);
+      expect(rightArrow.attr('cursor')).toBe('not-allowed');
 
       // click prev: page 3
       leftArrow.emit('click');
       await wait(delay);
       expect(textShape.attr('text')).toEqual('3/4');
       expect(itemGroup.attr('matrix')[7]).toBe(-40);
+      // check arrow
+      expect(leftArrow.attr('opacity')).toBe(1);
+      expect(leftArrow.attr('cursor')).toBe('pointer');
+      expect(rightArrow.attr('opacity')).toBe(1);
+      expect(rightArrow.attr('cursor')).toBe('pointer');
 
       // click prev: page 2
       leftArrow.emit('click');
       await wait(delay);
       expect(textShape.attr('text')).toEqual('2/4');
       expect(itemGroup.attr('matrix')[7]).toBe(-20);
+      // check arrow
+      expect(leftArrow.attr('opacity')).toBe(1);
+      expect(leftArrow.attr('cursor')).toBe('pointer');
+      expect(rightArrow.attr('opacity')).toBe(1);
+      expect(rightArrow.attr('cursor')).toBe('pointer');
 
       // click prev: page 1
       leftArrow.emit('click');
       await wait(delay);
       expect(textShape.attr('text')).toEqual('1/4');
       expect(itemGroup.attr('matrix')[7]).toBe(0);
+      // check arrow
+      expect(leftArrow.attr('opacity')).toBe(0.45);
+      expect(leftArrow.attr('cursor')).toBe('not-allowed');
+      expect(rightArrow.attr('opacity')).toBe(1);
+      expect(rightArrow.attr('cursor')).toBe('pointer');
 
       // click prev: page 1
       leftArrow.emit('click');
@@ -564,6 +605,9 @@ describe('test category legend', () => {
       // left arrow: <
       expect(children[0].get('type')).toBe('path');
       expect(near(getAngleByMatrix(children[0].attr('matrix')), ((0 - 90) * Math.PI) / 180)).toBe(true);
+      // left disabled
+      expect(children[0].attr('opacity')).toBe(0.45);
+      expect(children[0].attr('cursor')).toBe('not-allowed');
 
       // text
       expect(children[1].get('type')).toBe('text');
@@ -572,6 +616,9 @@ describe('test category legend', () => {
       // right arrow: >
       expect(children[2].get('type')).toBe('path');
       expect(getAngleByMatrix(children[2].attr('matrix'))).toBe((90 * Math.PI) / 180);
+      // right arrow enabled
+      expect(children[2].attr('opacity')).toBe(1);
+      expect(children[2].attr('cursor')).toBe('pointer');
     });
 
     it('itemGroup clip', () => {
@@ -603,30 +650,55 @@ describe('test category legend', () => {
       await wait(delay);
       expect(textShape.attr('text')).toEqual('2/3');
       expect(itemGroup.attr('matrix')[6]).toBe(-pageWidth);
+      // check arrow
+      expect(leftArrow.attr('opacity')).toBe(1);
+      expect(leftArrow.attr('cursor')).toBe('pointer');
+      expect(rightArrow.attr('opacity')).toBe(1);
+      expect(rightArrow.attr('cursor')).toBe('pointer');
 
       // click next: page 3
       rightArrow.emit('click');
       await wait(delay);
       expect(textShape.attr('text')).toEqual('3/3');
       expect(itemGroup.attr('matrix')[6]).toBe(-2 * pageWidth);
+      // check arrow
+      expect(leftArrow.attr('opacity')).toBe(1);
+      expect(leftArrow.attr('cursor')).toBe('pointer');
+      expect(rightArrow.attr('opacity')).toBe(0.45);
+      expect(rightArrow.attr('cursor')).toBe('not-allowed');
 
       // click next: page 3
       rightArrow.emit('click');
       await wait(delay);
       expect(textShape.attr('text')).toEqual('3/3');
       expect(itemGroup.attr('matrix')[6]).toBe(-2 * pageWidth);
+      // check arrow
+      expect(leftArrow.attr('opacity')).toBe(1);
+      expect(leftArrow.attr('cursor')).toBe('pointer');
+      expect(rightArrow.attr('opacity')).toBe(0.45);
+      expect(rightArrow.attr('cursor')).toBe('not-allowed');
 
       // click prev: page 2
       leftArrow.emit('click');
       await wait(delay);
       expect(textShape.attr('text')).toEqual('2/3');
       expect(itemGroup.attr('matrix')[6]).toBe(-pageWidth);
+      // check arrow
+      expect(leftArrow.attr('opacity')).toBe(1);
+      expect(leftArrow.attr('cursor')).toBe('pointer');
+      expect(rightArrow.attr('opacity')).toBe(1);
+      expect(rightArrow.attr('cursor')).toBe('pointer');
 
       // click prev: page 1
       leftArrow.emit('click');
       await wait(delay);
       expect(textShape.attr('text')).toEqual('1/3');
       expect(itemGroup.attr('matrix')[6]).toBe(0);
+      // check arrow
+      expect(leftArrow.attr('opacity')).toBe(0.45);
+      expect(leftArrow.attr('cursor')).toBe('not-allowed');
+      expect(rightArrow.attr('opacity')).toBe(1);
+      expect(rightArrow.attr('cursor')).toBe('pointer');
 
       // click prev: page 1
       leftArrow.emit('click');

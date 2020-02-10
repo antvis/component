@@ -12,24 +12,29 @@ describe('annotation data-marker', () => {
     height: 500,
   });
   const parent = canvas.addGroup();
-  const container = parent.addGroup();
-  const shapes = [];
+  const container = canvas.addGroup();
+  let shapes = [];
 
-  for (let i = 0; i < 50; i++) {
-    shapes.push(
-      parent.addShape({
-        type: 'circle',
-        attrs: {
-          stroke: '#000000',
-          fill: '#ffffff',
-          r: Math.random() * 4 + 2,
-          x: 500 * Math.random(),
-          y: 500 * Math.random(),
-        },
-      })
-    );
+  function initRandomShape() {
+    shapes = [];
+    parent.clear();
+    for (let i = 0; i < 50; i++) {
+      shapes.push(
+        parent.addShape({
+          type: 'circle',
+          attrs: {
+            stroke: '#000000',
+            fill: '#ffffff',
+            r: Math.random() * 4 + 2,
+            x: 500 * Math.random(),
+            y: 500 * Math.random(),
+          },
+        })
+      );
+    }
   }
 
+  initRandomShape();
   const regionFilter = new Annotation.RegionFilter({
     id: 'd',
     container,
@@ -96,6 +101,39 @@ describe('annotation data-marker', () => {
     each(children, (child) => {
       expect(child.get('type')).toBe('circle');
       expect(child.attr('stroke')).toBe('#00ff00');
+    });
+    expect(clip.get('type')).toEqual('rect');
+    expect(clip.attr('x')).toBe(bbox.minX);
+    expect(clip.attr('y')).toBe(bbox.minY);
+    expect(clip.attr('width')).toBe(bbox.width);
+    expect(clip.attr('height')).toBe(bbox.height);
+  });
+
+  it('update shapes', () => {
+    // 模拟view changeData 之后
+    initRandomShape();
+    const start = { x: 200, y: 200 };
+    const end = { x: 400, y: 400 };
+    regionFilter.update({
+      start,
+      end,
+      shapes,
+      color: '#0000ff',
+    });
+
+    const bbox = regionToBBox({ start, end });
+    const layer: IGroup = regionFilter.getElementByLocalId('region-filter');
+    const children = layer.getChildren();
+    const clip = layer.getClip();
+
+    each(shapes, (shape) => {
+      expect(shape.attr('stroke')).toBe('#000000');
+    });
+
+    expect(children).toHaveLength(shapes.length);
+    each(children, (child) => {
+      expect(child.get('type')).toBe('circle');
+      expect(child.attr('stroke')).toBe('#0000ff');
     });
     expect(clip.get('type')).toEqual('rect');
     expect(clip.attr('x')).toBe(bbox.minX);
