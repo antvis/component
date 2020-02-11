@@ -21,7 +21,6 @@ describe('slider', () => {
     y: 300,
     width: 200,
     height: 16,
-    updateAutoRender: true,
     trendCfg: {
       data: TrendData,
       isArea: true,
@@ -35,6 +34,20 @@ describe('slider', () => {
   slider.init();
 
   const containerDOM = canvas.get('container');
+
+  it('update after init', () => {
+    slider.update({
+      x: 0,
+      y: 0,
+    });
+    slider.update({
+      x: 50,
+      y: 300,
+    });
+
+    expect(slider.get('x')).toEqual(50);
+    expect(slider.get('y')).toEqual(300);
+  });
 
   it('render', () => {
     slider.render();
@@ -54,6 +67,7 @@ describe('slider', () => {
       start: 0.8,
       end: 1.1,
     });
+    slider.render();
     expect(slider.get('start')).toEqual(0.8);
     expect(slider.get('end')).toEqual(1);
     expect(slider.get('minText')).toEqual('new min');
