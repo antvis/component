@@ -1194,3 +1194,5 @@ export interface CrosshairTextBackgroundCfg {
    */
   style?: ShapeAttrs;
 }
+
+export { SliderCfg, TrendCfg } from './slider';

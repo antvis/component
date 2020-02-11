@@ -10,3 +10,4 @@ export { default as GroupComponent } from './abstract/group-component';
 export { default as HtmlComponent } from './abstract/html-component';
 
 export { Axis, Annotation, Grid, Legend, Tooltip, Crosshair };
+export { Slider } from './slider';
