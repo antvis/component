@@ -52,7 +52,6 @@ export interface SliderCfg extends GroupComponentCfg {
 export class Slider extends GroupComponent<SliderCfg> implements ISlider {
   public cfg: SliderCfg;
 
-  private trend: Trend;
   private minHandler: Handler;
   private maxHandler: Handler;
   private currentTarget: string;
@@ -118,7 +117,6 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
       validCfg.end = clamp(end, 0, 1);
     }
     super.update(validCfg);
-    this.trend = this.getChildComponentById(this.getElementId('trend'));
     this.minHandler = this.getChildComponentById(this.getElementId('minHandler'));
     this.maxHandler = this.getChildComponentById(this.getElementId('maxHandler'));
   }
@@ -275,25 +273,25 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
 
     const [minAttrs, maxAttrs] = this._dodgeText([min, max], minTextShape, maxTextShape);
     // 2. 左侧滑块和文字位置
-    // this.minHandlerShape.setX(min - handlerWidth / 2);
-    this.minHandler.update({
-      x: min - handlerWidth / 2,
-    });
-    if (!this.get('updateAutoRender')) {
-      this.minHandler.render();
+    if (this.minHandler) {
+      this.minHandler.update({
+        x: min - handlerWidth / 2,
+      });
+      if (!this.get('updateAutoRender')) {
+        this.minHandler.render();
+      }
     }
-    // this.minText.attr('x', min);
     each(minAttrs, (v, k) => minTextShape.attr(k, v));
 
     // 3. 右侧滑块和文字位置
-    // this.maxHandlerShape.setX(max - handlerWidth / 2);
-    this.maxHandler.update({
-      x: max - handlerWidth / 2,
-    });
-    if (!this.get('updateAutoRender')) {
-      this.maxHandler.render();
+    if (this.maxHandler) {
+      this.maxHandler.update({
+        x: max - handlerWidth / 2,
+      });
+      if (!this.get('updateAutoRender')) {
+        this.maxHandler.render();
+      }
     }
-    // this.maxText.attr('x', max);
     each(maxAttrs, (v, k) => maxTextShape.attr(k, v));
   }
 

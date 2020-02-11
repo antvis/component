@@ -66,7 +66,7 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
 
   public getChildComponentById(id: string) {
     const group = this.getElementById(id);
-    const inst = group.get('component');
+    const inst = group && group.get('component');
     return inst;
   }
 
