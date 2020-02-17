@@ -65,6 +65,7 @@ class DataRegionAnnotation extends GroupComponent<DataRegionAnnotationCfg> imple
     this.addShape(group, {
       type: 'path',
       id: this.getElementId('region'),
+      name: 'annotation-region',
       attrs: {
         path,
         ...regionStyle,
@@ -75,6 +76,7 @@ class DataRegionAnnotation extends GroupComponent<DataRegionAnnotationCfg> imple
     this.addShape(group, {
       type: 'text',
       id: this.getElementId('text'),
+      name: 'annotation-text',
       attrs: {
         x: (bbox.minX + bbox.maxX) / 2,
         y: bbox.minY - lineLength,
