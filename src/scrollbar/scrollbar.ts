@@ -5,26 +5,26 @@ import GroupComponent from '../abstract/group-component';
 import { ISlider } from '../interfaces';
 import { GroupComponentCfg, Range } from '../types';
 
-export interface ScrollBarStyle {
+export interface ScrollbarStyle {
   trackColor: string;
   thumbColor: string;
   size: number;
   lineCap: string;
 }
 
-export interface ScrollBarTheme {
-  default?: Partial<Readonly<ScrollBarStyle>>;
-  hover?: Partial<Readonly<ScrollBarStyle>>;
+export interface ScrollbarTheme {
+  default?: Partial<Readonly<ScrollbarStyle>>;
+  hover?: Partial<Readonly<ScrollbarStyle>>;
 }
 
-const DEFAULT_STYLE: ScrollBarStyle = {
+const DEFAULT_STYLE: ScrollbarStyle = {
   trackColor: 'rgba(0,0,0,0)',
   thumbColor: 'rgba(0,0,0,0.15)',
   size: 8,
   lineCap: 'round',
 };
 
-export const DEFAULT_THEME: ScrollBarTheme = {
+export const DEFAULT_THEME: ScrollbarTheme = {
   // 默认样式
   default: DEFAULT_STYLE,
   // 鼠标 hover 的样式
@@ -48,7 +48,7 @@ export interface ScrollbarCfg extends GroupComponentCfg {
   // 滑块相对滑道的偏移, 非必传，默认值为 0
   thumbOffset?: number;
   // 滚动条样式，非必传
-  theme?: ScrollBarTheme;
+  theme?: ScrollbarTheme;
 
   minLimit?: number;
   maxLimit?: number;
