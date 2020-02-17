@@ -100,10 +100,16 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
       y: 0,
       width: 100,
       height: 16,
-      backgroundStyle: BACKGROUND_STYLE,
-      foregroundStyle: FOREGROUND_STYLE,
-      handlerStyle: HANDLER_STYLE,
-      textStyle: TEXT_STYLE,
+      backgroundStyle: {},
+      foregroundStyle: {},
+      handlerStyle: {},
+      textStyle: {},
+      defaultCfg: {
+        backgroundStyle: BACKGROUND_STYLE,
+        foregroundStyle: FOREGROUND_STYLE,
+        handlerStyle: HANDLER_STYLE,
+        textStyle: TEXT_STYLE,
+      },
     };
   }
 
@@ -163,9 +169,9 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
       id: this.getElementId('background'),
       type: 'rect',
       attrs: {
-        x: min,
+        x: 0,
         y: 0,
-        width: max - min,
+        width,
         height,
         ...backgroundStyle,
       },
