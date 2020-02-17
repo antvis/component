@@ -87,6 +87,7 @@ class DataMarkerAnnotation extends GroupComponent<DataMarkerAnnotationCfg> imple
     this.addShape(group, {
       type: 'circle',
       id: this.getElementId('point'),
+      name: 'annotation-point',
       attrs: point,
     });
   }
@@ -97,6 +98,7 @@ class DataMarkerAnnotation extends GroupComponent<DataMarkerAnnotationCfg> imple
     this.addShape(group, {
       type: 'path',
       id: this.getElementId('line'),
+      name: 'annotation-line',
       attrs: line,
     });
   }
@@ -107,6 +109,7 @@ class DataMarkerAnnotation extends GroupComponent<DataMarkerAnnotationCfg> imple
     this.addShape(group, {
       type: 'text',
       id: this.getElementId('text'),
+      name: 'annotation-text',
       attrs: text,
     });
   }
