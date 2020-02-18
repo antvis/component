@@ -10,9 +10,9 @@ describe('test tooltip', () => {
     const tooltip = new HtmlTooltip({
       parent: dom,
       items: [
-        { name: 'china', value: '100' },
-        { name: 'india', value: '200' },
-        { name: 'england', value: '500' },
+        { name: 'china', value: '100', color: 'red' },
+        { name: 'india', value: '200', color: 'l(0) 0:#ffffff 0.5:#7ec2f3 1:#1890ff' },
+        { name: 'england', value: '500', color: 'r(0.5, 0.5, 0.1) 0:#ffffff 0.3:#7ec2f3 1:#1890ff' },
       ],
       visible: false,
     });
@@ -37,6 +37,14 @@ describe('test tooltip', () => {
     it('show, hide', () => {
       tooltip.show();
       expect(container.style.visibility).toBe('visible');
+    });
+
+    it('marker color', () => {
+      const listDom = tooltip.get('listDom');
+      const markers = listDom.getElementsByClassName('g2-tooltip-marker');
+      expect(markers[0].style.background).toBe('red');
+      expect(markers[1].style.background).toBe('linear-gradient(90deg, rgb(255, 255, 255) 0%, rgb(126, 194, 243) 50%, rgb(24, 144, 255) 100%)');
+      expect(markers[2].style.background).toBe('radial-gradient(rgb(255, 255, 255) 0%, rgb(126, 194, 243) 30%, rgb(24, 144, 255) 100%)');
     });
 
     it('init position', () => {
