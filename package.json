@@ -1,6 +1,6 @@
 {
   "name": "@antv/component",
-  "version": "0.5.0-beta.28",
+  "version": "0.5.0-beta.29",
   "description": "The component module for antv",
   "author": "https://github.com/orgs/antvis/people",
   "license": "MIT",
@@ -39,6 +39,7 @@
     }
   },
   "devDependencies": {
+    "@antv/color-util": "^2.0.3",
     "@antv/g-canvas": "^0.3.5",
     "@types/jest": "^24.0.18",
     "husky": "^3.0.4",

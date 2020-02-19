@@ -1,5 +1,7 @@
 import { createDom, modifyCSS } from '@antv/dom-util';
 import { deepMix, each, hasKey, substitute } from '@antv/util';
+import colorUtil from '@antv/color-util';
+
 import HtmlComponent from '../abstract/html-component';
 import { Point, PointLocationCfg } from '../types';
 import { TooltipCfg } from '../types';
@@ -37,7 +39,7 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
       items: [],
       containerTpl: `<div class="${CssConst.CONTAINER_CLASS}"><div class="${CssConst.TITLE_CLASS}"></div><ul class="${CssConst.LIST_CLASS}"></ul></div>`,
       itemTpl: `<li class="${CssConst.LIST_ITEM_CLASS}" data-index={index}>
-          <span class="${CssConst.MARKER_CLASS}" style="background-color:{color}"></span>
+          <span class="${CssConst.MARKER_CLASS}" style="background:{color}"></span>
           <span class="${CssConst.NAME_CLASS}">{name}</span>:
           <span class="${CssConst.VALUE_CLASS}">{value}</span>
         </li>`,
@@ -318,7 +320,13 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
     const itemTpl = this.get('itemTpl');
     const listDom = this.get('listDom');
     each(items, (item) => {
-      const domStr = substitute(itemTpl, item);
+      const color = colorUtil.toCSSGradient(item.color);
+      const substituteObj = {
+        ...item,
+        color,
+      };
+
+      const domStr = substitute(itemTpl, substituteObj);
       const itemDom = createDom(domStr);
       listDom.appendChild(itemDom);
     });
