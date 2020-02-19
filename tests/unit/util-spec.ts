@@ -1,5 +1,5 @@
 import { getAlignPoint, getOutSides, getPointByPosition } from '../../src/util/align';
-import { createBBox } from '../../src/util/util';
+import { createBBox, mergeBBox, intersectBBox } from '../../src/util/util';
 describe('test util', () => {
   it('out side test', () => {
     const limtBox = createBBox(100, 100, 500, 500);
@@ -57,6 +57,18 @@ describe('test util', () => {
       x: 100 - 25,
       y: 110,
     });
+  });
+
+  it('merge box', () => {
+    const box1 = createBBox(0, 10, 100, 100);
+    const box2 = createBBox(50, 60, 100, 100);
+    expect(mergeBBox(box1, box2)).toEqual(createBBox(0, 10, 150, 150));
+  });
+
+  it('intersect box', () => {
+    const box1 = createBBox(0, 10, 100, 100);
+    const box2 = createBBox(50, 60, 100, 100);
+    expect(intersectBBox(box1, box2)).toEqual(createBBox(50, 60, 50, 50));
   });
 
   describe('get align point', () => {
