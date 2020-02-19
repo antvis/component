@@ -118,15 +118,12 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> implements ISlider {
     this.drawLabels(group);
     this.fixedElements(group); // 调整各个图形位置，适应宽高的限制
     this.resetTrack(group);
+    this.resetTrackClip(group);
     if (this.get('slidable')) {
       this.resetHandlers(group);
     }
   }
-  protected applyComponentClip() {
-    // 重置 track 上的 clip
-    this.resetTrackClip();
-  }
-
+  
   private bindSliderEvent(group) {
     this.bindHandlersEvent(group);
   }
@@ -376,10 +373,10 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> implements ISlider {
     );
   }
 
-  private resetTrackClip() {
-    const group = this.get('group') as IGroup;
+  private resetTrackClip(group?: IGroup) {
+    const container = group || this.get('group') as IGroup;
     const trackId = this.getElementId('track');
-    const trackShape = group.findById(trackId);
+    const trackShape = container.findById(trackId);
     const clipShape = trackShape.getClip();
     const attrs = this.getClipTrackAttrs(group);
     if (!clipShape) {

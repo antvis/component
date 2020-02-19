@@ -7,6 +7,7 @@ import { difference, each, isNil, keys, mix, pick } from '@antv/util';
 import { BBox, GroupComponentCfg, LooseObject, Point } from '../types';
 import { propagationDelegate } from '../util/event';
 import { applyMatrix2BBox, getMatrixByTranslate } from '../util/matrix';
+import { updateClip , getBBoxWithClip} from '../util/util';
 import Component from './component';
 type Callback = (evt: object) => void;
 
@@ -239,7 +240,8 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
 
     this.renderInner(offScreenGroup);
     this.set('offScreenGroup', offScreenGroup);
-    this.set('offScreenBBox', offScreenGroup.getBBox());
+    // 包含包围盒的 bbox
+    this.set('offScreenBBox', getBBoxWithClip(offScreenGroup));
     return offScreenGroup;
   }
 
@@ -411,6 +413,7 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
           each(COPY_PROPERTIES, (name) => {
             originElement.set(name, element.get(name));
           });
+          updateClip(originElement, element);
 
           preElement = originElement;
           // 执行完更新后设置状态位为更新
