@@ -46,26 +46,18 @@ class RegionFilterAnnotation extends GroupComponent<RegionFilterAnnotationCfg> i
         attrs,
       });
     });
-  }
 
-  protected applyComponentClip() {
     // 3. clip
-    const start: Point = this.get('start');
-    const end: Point = this.get('end');
-    const group: IGroup = this.get('group');
-    const layer = group.findById(this.getElementId('region-filter'));
     const clipBBox = regionToBBox({ start, end });
-    if (layer) {
-      layer.setClip({
-        type: 'rect',
-        attrs: {
-          x: clipBBox.minX,
-          y: clipBBox.minY,
-          width: clipBBox.width,
-          height: clipBBox.height,
-        },
-      });
-    }
+    layer.setClip({
+      type: 'rect',
+      attrs: {
+        x: clipBBox.minX,
+        y: clipBBox.minY,
+        width: clipBBox.width,
+        height: clipBBox.height,
+      },
+    });
   }
 
   private adjustShapeAttrs(attr: ShapeAttrs) {

@@ -218,24 +218,6 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     this.drawItems(group);
   }
 
-  protected applyComponentClip() {
-    // 只有设置了flipPage才需要
-    if (!this.get('flipPage') || !this.pageHeight || !this.pageWidth) {
-      return;
-    }
-    const group: IGroup = this.get('group');
-    const itemGroup = group.findById(this.getElementId('item-group'));
-    itemGroup.setClip({
-      type: 'rect',
-      attrs: {
-        x: this.startX,
-        y: this.startY,
-        width: this.pageWidth,
-        height: this.pageHeight,
-      },
-    });
-  }
-
   // 防止未设置 id
   private processItems() {
     const items = this.get('items');
@@ -489,7 +471,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
           currentPoint.y = startY;
         }
         this.moveElementTo(item, currentPoint);
-        // this.getElementById(item.get('id')).setClip({
+        // item.setClip({
         //   type: 'rect',
         //   attrs: {
         //     x: currentPoint.x,
@@ -504,6 +486,18 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
       this.moveElementTo(navigation, {
         x: startX + maxItemWidth / 2 - navigationBBox.width / 2 - navigationBBox.minX,
         y: maxHeight - navigationBBox.height - navigationBBox.minY,
+      });
+    }
+
+    if (this.pageHeight && this.pageWidth) {
+      itemGroup.setClip({
+        type: 'rect',
+        attrs: {
+          x: this.startX,
+          y: this.startY,
+          width: this.pageWidth,
+          height: this.pageHeight,
+        },
       });
     }
 

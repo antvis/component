@@ -7,7 +7,7 @@ import { difference, each, isNil, keys, mix, pick } from '@antv/util';
 import { BBox, GroupComponentCfg, LooseObject, Point } from '../types';
 import { propagationDelegate } from '../util/event';
 import { applyMatrix2BBox, getMatrixByTranslate } from '../util/matrix';
-import { updateClip , getBBoxWithClip} from '../util/util';
+import { getBBoxWithClip, updateClip } from '../util/util';
 import Component from './component';
 type Callback = (evt: object) => void;
 
@@ -101,7 +101,6 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
     super.update(cfg);
     // this.updateInner();
     // this.set('isUpdating', false);
-    // this.applyComponentClip();
     this.offScreenRender();
     if (this.get('updateAutoRender')) {
       this.render();
@@ -117,7 +116,6 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
     this.updateElements(offScreenGroup, group);
     this.deleteElements();
     this.applyOffset();
-    this.applyComponentClip();
     if (!this.get('eventInitted')) {
       this.initEvent();
       this.set('eventInitted', true);
@@ -189,7 +187,6 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
     return this.get('offScreenBBox') || this.get('group').getBBox();
   }
 
-  protected applyComponentClip() {}
   // 抛出委托对象
   protected delegateEmit(eventName: string, eventObject: LooseObject) {
     const group = this.get('group');
