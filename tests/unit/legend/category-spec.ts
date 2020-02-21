@@ -584,8 +584,8 @@ describe('test category legend', () => {
     const legend = new CategroyLegend({
       id: 'c',
       container,
-      x: 0,
-      y: 0,
+      x: 100,
+      y: 100,
       items: lotsItems,
       layout: 'vertical',
       itemBackground: null,
@@ -731,7 +731,7 @@ describe('test category legend', () => {
       expect(getAngleByMatrix(children[2].attr('matrix'))).toBe((90 * Math.PI) / 180);
     });
 
-    it.skip('destroy', () => {
+    it('destroy', () => {
       legend.destroy();
       expect(legend.destroyed).toBe(true);
     });

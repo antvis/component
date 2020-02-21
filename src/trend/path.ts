@@ -1,6 +1,6 @@
-import * as pathUtil from '@antv/path-util';
+import { catmullRom2Bezier } from '@antv/path-util';
 import { Category, Linear } from '@antv/scale';
-import * as _ from '@antv/util';
+import { each, head, isEqual, map } from '@antv/util';
 
 type Point = [number, number];
 
@@ -9,7 +9,7 @@ type Point = [number, number];
  * @param points
  */
 function pointsToPath(points: Point[]): any[][] {
-  return _.map(points, (p: Point, idx: number) => {
+  return map(points, (p: Point, idx: number) => {
     const command = idx === 0 ? 'M' : 'L';
     const [x, y] = p;
     return [command, x, y];
@@ -36,9 +36,9 @@ export function getSmoothLinePath(points: Point[]): any[][] {
 
   const data = [];
 
-  _.each(points, (p) => {
+  each(points, (p) => {
     // 当前点和上一个点一样的时候，忽略掉
-    if (!_.isEqual(p, data.slice(data.length - 2))) {
+    if (!isEqual(p, data.slice(data.length - 2))) {
       data.push(p[0], p[1]);
     }
   });
@@ -47,8 +47,8 @@ export function getSmoothLinePath(points: Point[]): any[][] {
   //   [ 0, 0 ],
   //   [ 1, 1 ],
   // ];
-  const path = pathUtil.catmullRom2Bezier(data, false);
-  const [x, y] = _.head(points);
+  const path = catmullRom2Bezier(data, false);
+  const [x, y] = head(points);
   path.unshift(['M', x, y]);
 
   return path;
@@ -68,10 +68,10 @@ export function dataToPath(data: number[], width: number, height: number, smooth
   });
 
   const x = new Category({
-    values: _.map(data, (v, idx) => idx),
+    values: map(data, (v, idx) => idx),
   });
 
-  const points = _.map(data, (v: number, idx: number) => {
+  const points = map(data, (v: number, idx: number) => {
     return [x.scale(idx) * width, height - y.scale(v) * height] as [number, number];
   });
 
