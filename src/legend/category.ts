@@ -319,6 +319,15 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     });
     const bbox = shape.getBBox();
     shape.attr('x', bbox.width / 2); // marker 需要左对齐，所以不能占用左侧的空间
+
+    const { stroke, fill } = shape.attr();
+    if (stroke) {
+      shape.set('isStroke', true);
+    }
+    if (fill) {
+      shape.set('isFill', true);
+    }
+
     return shape;
   }
   // 绘制文本
@@ -667,6 +676,15 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
         const statesStyle = getStatesStyle(item, elName, itemStates);
         if (statesStyle) {
           element.attr(statesStyle);
+          if (elName === 'marker' && !(element.get('isStroke') && element.get('isFill'))) {
+            // 如果 marker 是单填充或者单描边的话，就不要额外添加 stroke 或这 fill 属性，否则会影响 unchecked 后的显示
+            if (element.get('isStroke')) {
+              element.attr('fill', null);
+            }
+            if (element.get('isFill')) {
+              element.attr('stroke', null);
+            }
+          }
         }
       });
     }

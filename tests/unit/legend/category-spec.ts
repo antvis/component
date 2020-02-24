@@ -741,7 +741,7 @@ describe('test category legend', () => {
     const items = [
       { name: '222222', value: 1, marker: { symbol: 'circle', style: { r: 4, stroke: 'red' } } },
       { name: '111111', value: 2, marker: { symbol: 'square', style: { r: 4, fill: 'red' } } },
-      { name: '55555', value: 3, active: true, marker: { symbol: 'circle', style: { r: 4, stroke: 'blue' } } },
+      { name: '55555', value: 3, active: true, marker: { symbol: 'circle', style: { r: 4, fill: 'blue' } } },
       { name: 'bbbbbb', value: 4, unchecked: true, marker: { symbol: 'circle', style: { r: 4, stroke: 'yellow' } } },
     ];
     const container = canvas.addGroup();
@@ -754,6 +754,10 @@ describe('test category legend', () => {
       x: 100,
       y: 100,
       items,
+      marker: {
+        symbol: 'circle',
+        style: {},
+      },
     });
     legend.init();
     it('render', () => {
@@ -763,7 +767,8 @@ describe('test category legend', () => {
       const itemElement2 = itemGroup.getChildren()[2];
       expect(itemElement2.getChildren()[1].attr('opacity')).toBe(0.8); // active
       const itemElement3 = itemGroup.getChildren()[3];
-      expect(itemElement3.getChildren()[0].attr('fill')).toBe(Theme.uncheckedColor);
+      expect(itemElement3.getChildren()[0].attr('stroke')).toBe(Theme.uncheckedColor);
+      expect(itemElement3.getChildren()[1].attr('fill')).toBe(Theme.uncheckedColor);
     });
 
     it('getItems', () => {
