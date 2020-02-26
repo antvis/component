@@ -421,9 +421,9 @@ describe('test category legend', () => {
     });
 
     it('itemGroup clip', () => {
-      const itemGroup = legend.getElementById('c-legend-item-group');
+      const itemContainerGroup = legend.getElementById('c-legend-item-container-group');
       const navigation = legend.getElementById('c-legend-navigation-group');
-      const clip = itemGroup.getClip();
+      const clip = itemContainerGroup.getClip();
       expect(clip).not.toBeUndefined();
       expect(clip).not.toBeNull();
       expect(clip.get('type')).toBe('rect');
@@ -514,7 +514,7 @@ describe('test category legend', () => {
       leftArrow.emit('click');
       await wait(delay);
       expect(textShape.attr('text')).toEqual('1/4');
-      expect(itemGroup.attr('matrix')[7]).toBe(0);
+      expect(itemGroup.attr('matrix')).toBeNull();
       // check arrow
       expect(leftArrow.attr('opacity')).toBe(0.45);
       expect(leftArrow.attr('cursor')).toBe('not-allowed');
@@ -525,7 +525,7 @@ describe('test category legend', () => {
       leftArrow.emit('click');
       await wait(delay);
       expect(textShape.attr('text')).toEqual('1/4');
-      expect(itemGroup.attr('matrix')[7]).toBe(0);
+      expect(itemGroup.attr('matrix')).toBeNull();
     });
 
     it('update', () => {
@@ -622,9 +622,9 @@ describe('test category legend', () => {
     });
 
     it('itemGroup clip', () => {
-      const itemGroup = legend.getElementById('c-legend-item-group');
+      const itemContainerGroup = legend.getElementById('c-legend-item-container-group');
       const navigation = legend.getElementById('c-legend-navigation-group');
-      const clip = itemGroup.getClip();
+      const clip = itemContainerGroup.getClip();
       expect(clip).not.toBeUndefined();
       expect(clip).not.toBeNull();
       expect(clip.get('type')).toBe('rect');
@@ -635,11 +635,12 @@ describe('test category legend', () => {
 
     it('navigation event', async () => {
       const navigation = legend.getElementById('c-legend-navigation-group');
+      const itemContainerGroup = legend.getElementById('c-legend-item-container-group');
       const itemGroup = legend.getElementById('c-legend-item-group');
       const textShape = navigation.getChildren()[1];
       const leftArrow = navigation.getChildren()[0];
       const rightArrow = navigation.getChildren()[2];
-      const pageWidth = itemGroup.getClip().attr('width');
+      const pageWidth = itemContainerGroup.getClip().attr('width');
       const delay = 300;
 
       // default state: page 1
@@ -693,7 +694,7 @@ describe('test category legend', () => {
       leftArrow.emit('click');
       await wait(delay);
       expect(textShape.attr('text')).toEqual('1/3');
-      expect(itemGroup.attr('matrix')[6]).toBe(0);
+      expect(itemGroup.attr('matrix')).toBeNull();
       // check arrow
       expect(leftArrow.attr('opacity')).toBe(0.45);
       expect(leftArrow.attr('cursor')).toBe('not-allowed');
@@ -704,7 +705,7 @@ describe('test category legend', () => {
       leftArrow.emit('click');
       await wait(delay);
       expect(textShape.attr('text')).toEqual('1/3');
-      expect(itemGroup.attr('matrix')[6]).toBe(0);
+      expect(itemGroup.attr('matrix')).toBeNull();
     });
 
     it('update', () => {
