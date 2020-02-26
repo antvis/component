@@ -231,7 +231,11 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
 
   // 绘制所有的图例选项
   private drawItems(group: IGroup) {
-    const itemGroup = this.addGroup(group, {
+    const itemContainerGroup = this.addGroup(group, {
+      id: this.getElementId('item-container-group'),
+      name: 'legend-item-container-group',
+    });
+    const itemGroup = this.addGroup(itemContainerGroup, {
       id: this.getElementId('item-group'),
       name: 'legend-item-group',
     });
@@ -283,7 +287,6 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     if (wrapped && this.get('flipPage')) {
       this.pageHeight = 0;
       this.pageWidth = 0;
-      this.currentPageIndex = 1;
       this.totalPagesCnt = 1;
       this.startX = startX;
       this.startY = startY;
@@ -499,7 +502,8 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     }
 
     if (this.pageHeight && this.pageWidth) {
-      itemGroup.setClip({
+      // 为了使固定的 clip 生效，clip 设置在 itemContainerGroup 上，itemGroup 需要在翻页时会设置 matrix
+      itemGroup.getParent().setClip({
         type: 'rect',
         attrs: {
           x: this.startX,
@@ -511,8 +515,12 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     }
 
     this.totalPagesCnt = pages;
-    this.currentPageIndex = 1;
+    if (this.currentPageIndex > this.totalPagesCnt) {
+      this.currentPageIndex = 1;
+    }
     this.updateNavigation(navigation);
+    // update initial matrix
+    itemGroup.attr('matrix', this.getCurrentNavigationMatrix());
   }
 
   private drawNavigation(group: IGroup, layout: 'horizontal' | 'vertical', text: string, size: number) {
@@ -608,24 +616,29 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     return shape;
   }
 
-  private onNavigationBack = () => {
+  private getCurrentNavigationMatrix() {
+    const { currentPageIndex, pageWidth, pageHeight } = this;
     const layout = this.get('layout');
+    const translate =
+      layout === 'horizontal'
+        ? {
+            x: 0,
+            y: pageHeight * (1 - currentPageIndex),
+          }
+        : {
+            x: pageWidth * (1 - currentPageIndex),
+            y: 0,
+          };
+
+    return getMatrixByTranslate(translate);
+  }
+
+  private onNavigationBack = () => {
     const itemGroup = this.getElementByLocalId('item-group');
     if (this.currentPageIndex > 1) {
       this.currentPageIndex -= 1;
       this.updateNavigation();
-      const matrix = getMatrixByTranslate(
-        layout === 'horizontal'
-          ? {
-              x: 0,
-              y: this.getItemHeight(),
-            }
-          : {
-              x: this.pageWidth,
-              y: 0,
-            },
-        itemGroup.attr('matrix')
-      );
+      const matrix = this.getCurrentNavigationMatrix();
       itemGroup.animate(
         {
           matrix,
@@ -636,24 +649,11 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
   };
 
   private onNavigationAfter = () => {
-    const layout = this.get('layout');
     const itemGroup = this.getElementByLocalId('item-group');
     if (this.currentPageIndex < this.totalPagesCnt) {
       this.currentPageIndex += 1;
       this.updateNavigation();
-      const matrix = getMatrixByTranslate(
-        layout === 'horizontal'
-          ? {
-              x: 0,
-              y: -this.pageHeight,
-            }
-          : {
-              x: -this.pageWidth,
-              y: 0,
-            },
-        itemGroup.attr('matrix')
-      );
-
+      const matrix = this.getCurrentNavigationMatrix();
       itemGroup.animate(
         {
           matrix,
