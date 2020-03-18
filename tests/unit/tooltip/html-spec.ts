@@ -161,10 +161,20 @@ describe('test tooltip', () => {
       expect(tooltip.get('titleDom').innerHTML).toBe(tooltip.get('title'));
       expect(tooltip.get('listDom').childNodes.length).toBe(tooltip.get('items').length);
     });
+    it('position auto', () => {
+      tooltip.update({
+        x: 100,
+        y: 100,
+        position: 'auto',
+      });
+      const bbox = tooltip.getBBox();
+      expect(container.style.top).toBe(100 - bbox.height - offset + 'px');
+      expect(container.style.left).toBe(100 + offset + 'px');
+    });
     it('destroy', () => {
       tooltip.destroy();
       expect(tooltip.destroyed).toBe(true);
-      // expect(dom.childNodes.length).toBe(0);
+      expect(dom.childNodes.length).toBe(0);
     });
   });
 
@@ -221,6 +231,38 @@ describe('test tooltip', () => {
       const bbox = tooltip.getBBox();
       expect(bbox.x).toBe(380 - bbox.width / 2);
       expect(bbox.y).toBe(300 - offset - bbox.height);
+    });
+    it('update position auto', () => {
+      tooltip.update({
+        x: 300,
+        y: 300,
+        position: 'auto',
+        region: {
+          start: { x: 100, y: 100 },
+          end: { x: 500, y: 500 },
+        },
+      });
+      let bbox = tooltip.getBBox();
+      expect(bbox.x).toBe(300 + offset);
+      expect(bbox.y).toBe(300 - offset - bbox.height);
+
+      tooltip.update({ // 右侧出去
+        x: 400,
+        y: 300,
+      });
+
+      bbox = tooltip.getBBox();
+      expect(bbox.x).toBe(400 - offset - bbox.width);
+      expect(bbox.y).toBe(300 - offset - bbox.height);
+
+      tooltip.update({ // 右侧出去
+        x: 400,
+        y: 80,
+      });
+
+      bbox = tooltip.getBBox();
+      expect(bbox.x).toBe(400 - offset - bbox.width);
+      expect(bbox.y).toBe(80 + offset);
     });
     it('destroy', () => {
       tooltip.destroy();
