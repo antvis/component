@@ -1,6 +1,6 @@
 {
   "name": "@antv/component",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "The component module for antv",
   "author": "https://github.com/orgs/antvis/people",
   "license": "MIT",
@@ -56,10 +56,10 @@
   },
   "dependencies": {
     "@antv/dom-util": "~2.0.1",
-    "@antv/g-base": "^0.4.0",
+    "@antv/g-base": "~0.4.0",
     "@antv/matrix-util": "~2.0.4",
     "@antv/path-util": "~2.0.7",
-    "@antv/scale": "^0.2.3",
+    "@antv/scale": "~0.3.1",
     "@antv/util": "~2.0.0",
     "tslib": "^1.10.0"
   },
