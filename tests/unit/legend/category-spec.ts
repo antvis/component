@@ -391,6 +391,7 @@ describe('test category legend', () => {
       updateAutoRender: true,
       maxWidth: 400,
       flipPage: true,
+      animate: false
     });
     legend.init();
     legend.render();
