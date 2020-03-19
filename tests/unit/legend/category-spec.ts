@@ -186,12 +186,31 @@ describe('test category legend', () => {
         title: {
           text: '图例名',
         },
+        offsetX: 100,
+        offsetY: 150
       });
       legend.setLocation({
         x: 200,
         y: 200,
       });
-      const bbox = legend.get('group').getCanvasBBox();
+      let bbox = legend.get('group').getCanvasBBox();
+      expect(bbox.minX).toBe(300);
+      expect(bbox.minY).toBe(350);
+
+      legend.update({
+        x: 100,
+        y: 100
+      });
+      bbox = legend.get('group').getCanvasBBox();
+      expect(bbox.minX).toBe(200);
+      expect(bbox.minY).toBe(250);
+      legend.update({
+        x: 200,
+        y: 200,
+        offsetX: 0,
+        offsetY: 0
+      });
+      bbox = legend.get('group').getCanvasBBox();
       expect(bbox.minX).toBe(200);
       expect(bbox.minY).toBe(200);
     });
