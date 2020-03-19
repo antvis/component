@@ -716,7 +716,7 @@ export interface LegendMarkerCfg {
    */
   style?: ShapeAttrs;
 }
-
+export type TooltipPosition = 'top' | 'left' | 'right' | 'bottom' | 'auto';
 export interface TooltipCfg extends HtmlComponentCfg {
   /**
    * 位置 x
@@ -782,7 +782,7 @@ export interface TooltipCfg extends HtmlComponentCfg {
    * 位置，top, bottom, left, right
    * @type {string}
    */
-  position?: string;
+  position?: TooltipPosition;
   /**
    * 传入各个 dom 的样式
    * @type {object}

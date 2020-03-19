@@ -1,6 +1,6 @@
 {
   "name": "@antv/component",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "The component module for antv",
   "author": "https://github.com/orgs/antvis/people",
   "license": "MIT",
@@ -30,7 +30,7 @@
     "lint-fix:tslint": "tslint -c tslint.json --fix 'src/**/*.ts' 'tests/**/*'",
     "coverage": "jest --coverage",
     "test": "jest",
-    "test-live": "DEBUG_MODE=1 jest --watch tests/unit/trend/",
+    "test-live": "DEBUG_MODE=1 jest --watch tests/unit",
     "ci": "run-s build test coverage"
   },
   "husky": {
@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "@antv/color-util": "^2.0.3",
-    "@antv/g-canvas": "^0.3.5",
+    "@antv/g-canvas": "^0.4.0",
     "@types/jest": "^24.0.18",
     "husky": "^3.0.4",
     "jest": "^24.9.0",
@@ -56,7 +56,7 @@
   },
   "dependencies": {
     "@antv/dom-util": "~2.0.1",
-    "@antv/g-base": "^0.3.5",
+    "@antv/g-base": "^0.4.0",
     "@antv/matrix-util": "~2.0.4",
     "@antv/path-util": "~2.0.7",
     "@antv/scale": "^0.2.3",

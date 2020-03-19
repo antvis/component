@@ -41,10 +41,15 @@ export function getPointByPosition(
       px = x - width / 2;
       py = y - height - offset;
       break;
-    default:
+    case 'bottom': 
       // bottom
       px = x - width / 2;
       py = y + offset;
+      break;
+    default:
+      // auto, 在 top-right
+      px = x + offset;
+      py = y - height - offset;
       break;
   }
 
@@ -66,7 +71,14 @@ export function getAlignPoint(
   const point = getPointByPosition(x, y, offset, width, height, position);
   if (limitBox) {
     const outSides = getOutSides(point.x, point.y, width, height, limitBox);
-    if (position === 'top' || position === 'bottom') {
+    if (position === 'auto') { // 如果是 auto，默认 tooltip 在右上角，仅需要判定右侧和上测冲突即可
+      if (outSides.right) {
+        point.x = x - width - offset;
+      }
+      if (outSides.top) {
+        point.y = y + offset;
+      }
+    } else if (position === 'top' || position === 'bottom') {
       if (outSides.left) {
         // 左侧躲避
         point.x = limitBox.x;
