@@ -1,6 +1,6 @@
 import { ILocation } from '../interfaces';
 import { LineCrosshairCfg, Point, RegionLocationCfg } from '../types';
-import { distance, getValueByPercent } from '../util/util';
+import { getTextPoint } from '../util/util';
 import CrosshairBase from './base';
 
 class LineCrosshair extends CrosshairBase<LineCrosshairCfg> implements ILocation<RegionLocationCfg> {
@@ -24,22 +24,10 @@ class LineCrosshair extends CrosshairBase<LineCrosshairCfg> implements ILocation
     return tangentAngle;
   }
 
-  protected getTextPoint(): Point {
+  protected getTextPoint() {
     const { start, end } = this.getLocation();
-    const text = this.get('text');
-    const { position, offset } = text;
-    const lineLength = distance(start, end);
-    const offsetPercent = offset / lineLength; // 计算间距同线的比例，用于计算最终的位置
-    let percent = 0;
-    if (position === 'start') {
-      percent = 0 - offsetPercent;
-    } else if (position === 'end') {
-      percent = 1 + offsetPercent;
-    }
-    return {
-      x: getValueByPercent(start.x, end.x, percent),
-      y: getValueByPercent(start.y, end.y, percent),
-    };
+    const { position, offset } = this.get('text');
+    return getTextPoint(start, end, position, offset);
   }
 
   protected getLinePath(): any[] {

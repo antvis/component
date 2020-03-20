@@ -1,7 +1,7 @@
-import { createDom } from '@antv/dom-util';
-import { isNil, isString } from '@antv/util';
+import { createDom, modifyCSS } from '@antv/dom-util';
+import { isNil, isString, deepMix, each, hasKey } from '@antv/util';
 import { BBox, ComponentCfg, HtmlComponentCfg } from '../types';
-import { clearDom, createBBox } from '../util/util';
+import { clearDom, createBBox, hasClass} from '../util/util';
 import Component from './component';
 
 abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends Component<T> {
@@ -12,6 +12,7 @@ abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends 
       container: null,
       containerTpl: '<div></div>',
       updateAutoRender: true,
+      containerClassName: '',
       parent: null,
     };
     return cfg;
@@ -71,6 +72,9 @@ abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends 
   public init() {
     super.init();
     this.initContainer();
+    this.initDom();
+    this.resetStyles(); // 初始化样式
+    this.applyStyles(); // 应用样式
     this.initEvent();
     this.initCapture();
     this.initVisible();
@@ -86,6 +90,10 @@ abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends 
     } else {
       this.show();
     }
+  }
+
+  protected initDom() {
+
   }
 
   protected initContainer() {
@@ -108,6 +116,43 @@ abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends 
     if (!this.get('parent')) {
       this.set('parent', container.parentNode);
     }
+  }
+
+  // 样式需要进行合并，不能单纯的替换，否则使用非常不方便
+  protected resetStyles() {
+    let style = this.get('domStyles');
+    const defaultStyles = this.get('defaultStyles');
+    if (!style) {
+      style = defaultStyles;
+    } else {
+      style = deepMix({}, defaultStyles, style);
+    }
+    this.set('domStyles', style);
+  }
+  // 应用所有的样式
+  protected applyStyles() {
+    const domStyles = this.get('domStyles');
+    const container = this.getContainer();
+    this.applyChildrenStyles(container, domStyles);
+    const containerClassName = this.get('containerClassName');
+    if (containerClassName && hasClass(container, containerClassName)) {
+      const containerCss = domStyles[containerClassName];
+      modifyCSS(container, containerCss);
+    }
+  }
+
+  protected applyChildrenStyles(element, styles) {
+    each(styles, (style, name) => {
+      const elements = element.getElementsByClassName(name);
+      each(elements, (el) => {
+        modifyCSS(el, style);
+      });
+    });
+  }
+  // 应用到单个 DOM
+  protected applyStyle(cssName, dom) {
+    const domStyles = this.get('domStyles');
+    modifyCSS(dom, domStyles[cssName]);
   }
 
   /**
@@ -138,6 +183,23 @@ abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends 
    * 清理事件
    */
   protected removeEvent() {}
+
+  protected updateInner(cfg) {
+
+  }
+  protected resetPosition() {};
+
+  public update(cfg: Partial<T>) {
+    super.update(cfg);
+    this.updateInner(cfg);
+    // 更新样式
+    if (hasKey(cfg, 'domStyles')) {
+      this.resetStyles();
+      this.applyStyles();
+    }
+    // 只要属性发生变化，都调整一些位置
+    this.resetPosition();
+  }
 }
 
 export default HtmlComponent;
