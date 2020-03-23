@@ -132,6 +132,9 @@ abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends 
   // 应用所有的样式
   protected applyStyles() {
     const domStyles = this.get('domStyles');
+    if (!domStyles) {
+      return;
+    }
     const container = this.getContainer();
     this.applyChildrenStyles(container, domStyles);
     const containerClassName = this.get('containerClassName');
