@@ -86,6 +86,7 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
     if (hasKey(cfg, 'items')) {
       this.renderItems();
     }
+    super.updateInner(cfg);
   }
 
   public show() {

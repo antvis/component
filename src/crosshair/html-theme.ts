@@ -6,8 +6,7 @@ import * as CssConst from './css-const';
 export default {
   // css style for tooltip
   [`${CssConst.CONTAINER_CLASS}`]: {
-    position: 'relative',
-    'pointer-events': 'none'
+    position: 'relative'
   },
   [`${CssConst.CROSSHAIR_LINE}`]: {
     position: 'absolute',

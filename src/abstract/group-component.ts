@@ -95,10 +95,7 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
     return this.get('container') as IGroup;
   }
 
-  public update(cfg: Partial<T>) {
-    // 设置正在更新的标记位
-    // this.set('isUpdating', true);
-    super.update(cfg);
+  public updateInner(cfg: Partial<T>) {
     // this.updateInner();
     // this.set('isUpdating', false);
     this.offScreenRender();

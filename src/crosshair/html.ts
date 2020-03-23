@@ -15,6 +15,7 @@ class HtmlCrosshair<T extends HtmlCrossHairCfg = HtmlCrossHairCfg> extends HtmlC
       locationType: 'region',
       start: {x: 0, y: 0}, // 防止初始化报错
       end: {x: 0, y: 0}, // 防止初始化报错
+      capture: false,
       text: null,
       containerTpl: `<div class="${CssConst.CONTAINER_CLASS}"></div>`,
       crosshairTpl: `<div class="${CssConst.CROSSHAIR_LINE}"></div>`,
@@ -134,6 +135,7 @@ class HtmlCrosshair<T extends HtmlCrossHairCfg = HtmlCrossHairCfg> extends HtmlC
     if (hasKey(cfg, 'text')) {
       this.resetText();
     }
+    super.updateInner(cfg);
   }
 }
 

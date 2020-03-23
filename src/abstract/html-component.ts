@@ -185,13 +185,6 @@ abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends 
   protected removeEvent() {}
 
   protected updateInner(cfg) {
-
-  }
-  protected resetPosition() {};
-
-  public update(cfg: Partial<T>) {
-    super.update(cfg);
-    this.updateInner(cfg);
     // 更新样式
     if (hasKey(cfg, 'domStyles')) {
       this.resetStyles();
@@ -200,6 +193,7 @@ abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends 
     // 只要属性发生变化，都调整一些位置
     this.resetPosition();
   }
+  protected resetPosition() {};
 }
 
 export default HtmlComponent;
