@@ -1,5 +1,5 @@
 import { Base } from '@antv/g-base';
-import { deepMix, each, isObject } from '@antv/util';
+import { deepMix, each, isObject, hasKey } from '@antv/util';
 import { ILocation } from '../interfaces';
 import { BBox, ComponentCfg, LocationCfg, OffsetPoint } from '../types';
 const LOCATION_FIELD_MAP = {
@@ -78,6 +78,18 @@ abstract class Component<T extends ComponentCfg = ComponentCfg> extends Base imp
         this.set(name, newCfg);
       }
     });
+    // 更新时考虑显示、隐藏
+    if (hasKey(cfg, 'visible')) {
+      if (cfg.visible) {
+        this.show();
+      } else {
+        this.hide();
+      }
+    }
+    // 更新时考虑capture
+    if (hasKey(cfg, 'capture')) {
+      this.setCapture(cfg.capture);
+    }
   }
 
   public abstract getBBox(): BBox;

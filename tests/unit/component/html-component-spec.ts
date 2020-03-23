@@ -158,9 +158,13 @@ describe('test html component methods', () => {
     component.setCapture(false);
     expect(component.get('capture')).toBe(false);
     expect(container.style.pointerEvents).toBe('none');
-    component.setCapture(true);
+    component.update({
+      capture: true
+    });
     expect(component.get('capture')).toBe(true);
     expect(container.style.pointerEvents).toBe('auto');
+
+
   });
 
   it('clear', () => {

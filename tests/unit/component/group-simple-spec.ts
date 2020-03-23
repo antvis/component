@@ -89,7 +89,9 @@ describe('test simple component', () => {
     b.setCapture(false);
     expect(b.get('group').get('capture')).toBe(false);
     expect(b.get('capture')).toBe(false);
-    b.setCapture(true);
+    b.update({
+      capture: true
+    });
     expect(b.get('group').get('capture')).toBe(true);
     expect(b.get('capture')).toBe(true);
   })
