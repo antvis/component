@@ -18,12 +18,14 @@ class AComponent extends Component {
         },
       },
     };
+    
   }
 
   public render() {}
 
   public show() {}
   public hide() {}
+  public setCapture() {}
 
   public getBBox(): BBox {
     return createBBox(0, 0, 0, 0);

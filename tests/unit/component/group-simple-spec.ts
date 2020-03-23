@@ -67,6 +67,8 @@ describe('test simple component', () => {
     b.init();
     expect(b.get('id')).toEqual('b1');
     expect(b.getContainer()).toBe(container);
+    expect(b.get('capture')).toBe(true);
+    expect(b.get('group').get('capture')).toBe(true);
     expect(b.get('group')).toBe(container.get('children')[0]);
   });
 
@@ -83,6 +85,14 @@ describe('test simple component', () => {
     expect(b.get('group').getChildren().length).toBe(1);
     expect(b.getBBox()).toEqual(container.getBBox());
   });
+  it('set capture', () => {
+    b.setCapture(false);
+    expect(b.get('group').get('capture')).toBe(false);
+    expect(b.get('capture')).toBe(false);
+    b.setCapture(true);
+    expect(b.get('group').get('capture')).toBe(true);
+    expect(b.get('capture')).toBe(true);
+  })
 
   it('update b', () => {
     b.update({

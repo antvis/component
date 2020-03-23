@@ -90,6 +90,7 @@ describe('test html component create', () => {
     component.init();
     const container = component.getContainer();
     expect(container.id).toBe('pid');
+    expect(component.get('capture')).toBe(true);
   });
   it('init visible false', () => {
     const component = new AComponent({
@@ -99,6 +100,16 @@ describe('test html component create', () => {
     component.init();
     const container = component.getContainer();
     expect(container.style.display).toBe('none');
+  });
+  it('init capture false', () => {
+    const component = new AComponent({
+      parent: div,
+      capture: false,
+      visible: false,
+    });
+    component.init();
+    const container = component.getContainer();
+    expect(container.style.pointerEvents).toBe('none');
   });
 });
 
@@ -140,6 +151,16 @@ describe('test html component methods', () => {
 
     expect(container.childNodes.length).toBe(1);
     expect(container.childNodes[0].innerText).toBe('cde');
+  });
+  it('capture', () => {
+    const container = component.get('container');
+    expect(container.style.pointerEvents).toBe('auto');
+    component.setCapture(false);
+    expect(component.get('capture')).toBe(false);
+    expect(container.style.pointerEvents).toBe('none');
+    component.setCapture(true);
+    expect(component.get('capture')).toBe(true);
+    expect(container.style.pointerEvents).toBe('auto');
   });
 
   it('clear', () => {

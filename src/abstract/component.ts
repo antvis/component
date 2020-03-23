@@ -29,6 +29,7 @@ abstract class Component<T extends ComponentCfg = ComponentCfg> extends Base imp
       offsetX: 0,
       offsetY: 0,
       animate: false,
+      capture: true,
       updateAutoRender: false,
       animateOption: {
         appear: null, // 初始入场动画配置
@@ -137,17 +138,19 @@ abstract class Component<T extends ComponentCfg = ComponentCfg> extends Base imp
   /**
    * 绘制组件
    */
-  protected abstract render();
+  public abstract render();
 
   /**
    * 显示
    */
-  protected abstract show();
+  public abstract show();
+
+  public abstract setCapture(capture: boolean);
 
   /**
    * 隐藏
    */
-  protected abstract hide();
+  public abstract hide();
 
   // 将组件默认的配置项设置合并到传入的配置项
   private initCfg() {
