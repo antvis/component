@@ -135,6 +135,12 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
     this.set('visible', false);
   }
 
+  public setCapture(capture) {
+    const group = this.get('group');
+    group.set('capture', capture);
+    this.set('capture', capture);
+  }
+
   public destroy() {
     this.removeEvent();
     this.remove();

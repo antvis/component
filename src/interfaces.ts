@@ -138,6 +138,11 @@ export interface IComponent extends IBase {
    */
   getLayoutBBox(): BBox;
   /**
+   * 是否可以响应事件
+   * @param capture 是否可以响应事件
+   */
+  setCapture(capture: boolean): void;
+  /**
    * 显示
    */
   show();

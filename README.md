@@ -51,6 +51,7 @@ legend.get('id'); // a
 - offsetY `number`: 组件的偏移位置 y，这个属性不是组件的主要定位属性，而是附加的用于对组件的位置进行调整
 - animate `boolean`: 是否执行动画，默认 false
 - animateCfg `object`: 动画的[配置项](https://www.yuque.com/antv/ou292n/ksxugb#6hmGP)
+- capture `boolean`: 是否响应事件，默认 true
 
 #### 只读属性
 
@@ -129,6 +130,7 @@ legend.render();
 
 ##### 其他
 
+- setCapture(capture): 设置组件是否响应事件
 - getBBox(): 组件在画布上的包围盒，返回值 `BBox` 的定义：
 
 ```js
@@ -629,6 +631,11 @@ interface IComponent extends IBase {
    * @return {BBox} 包围盒
    */
   getBBox(): BBox;
+  /**
+   * 是否可以响应事件
+   * @param capture 是否可以响应事件
+   */
+  setCapture(capture: boolean): void;
   /**
    * 显示
    */

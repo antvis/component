@@ -67,6 +67,8 @@ describe('test simple component', () => {
     b.init();
     expect(b.get('id')).toEqual('b1');
     expect(b.getContainer()).toBe(container);
+    expect(b.get('capture')).toBe(true);
+    expect(b.get('group').get('capture')).toBe(true);
     expect(b.get('group')).toBe(container.get('children')[0]);
   });
 
@@ -83,6 +85,16 @@ describe('test simple component', () => {
     expect(b.get('group').getChildren().length).toBe(1);
     expect(b.getBBox()).toEqual(container.getBBox());
   });
+  it('set capture', () => {
+    b.setCapture(false);
+    expect(b.get('group').get('capture')).toBe(false);
+    expect(b.get('capture')).toBe(false);
+    b.update({
+      capture: true
+    });
+    expect(b.get('group').get('capture')).toBe(true);
+    expect(b.get('capture')).toBe(true);
+  })
 
   it('update b', () => {
     b.update({
@@ -153,6 +165,16 @@ describe('test simple component', () => {
     expect(b.get('group').get('visible')).toBe(false);
     b.show();
     expect(b.get('group').get('visible')).toBe(true);
+
+    b.update({
+      visible: false
+    });
+    expect(b.get('group').get('visible')).toBe(false);
+    b.update({
+      visible: true
+    });
+    expect(b.get('group').get('visible')).toBe(true);
+
   });
 
   it('on, off', () => {

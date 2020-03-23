@@ -243,6 +243,10 @@ export interface ComponentCfg extends BaseCfg {
    */
   type?: string;
   /**
+   * 是否会捕捉事件
+   */
+  capture?: boolean;
+  /**
    * 是否允许动画，不同组件允许动画的内容不同
    * @type {boolean}
    */

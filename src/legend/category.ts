@@ -639,12 +639,16 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
       this.currentPageIndex -= 1;
       this.updateNavigation();
       const matrix = this.getCurrentNavigationMatrix();
-      itemGroup.animate(
-        {
-          matrix,
-        },
-        100
-      );
+      if (this.get('animate')) {
+        itemGroup.animate(
+          {
+            matrix,
+          },
+          100
+        );
+      } else {
+        itemGroup.attr({matrix});
+      }
     }
   };
 
@@ -654,12 +658,16 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
       this.currentPageIndex += 1;
       this.updateNavigation();
       const matrix = this.getCurrentNavigationMatrix();
-      itemGroup.animate(
-        {
-          matrix,
-        },
-        100
-      );
+      if (this.get('animate')) {
+        itemGroup.animate(
+          {
+            matrix,
+          },
+          100
+        );
+      } else {
+        itemGroup.attr({matrix});
+      }
     }
   };
 

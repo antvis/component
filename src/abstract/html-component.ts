@@ -27,6 +27,7 @@ abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends 
   public show() {
     const container = this.get('container');
     container.style.display = '';
+    this.set('visible', true);
   }
   /**
    * 隐藏组件
@@ -34,8 +35,18 @@ abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends 
   public hide() {
     const container = this.get('container');
     container.style.display = 'none';
+    this.set('visible', false);
   }
-
+  /**
+   * 是否允许捕捉事件
+   * @param capture 事件捕捉
+   */
+  public setCapture(capture) {
+    const container = this.getContainer();
+    const value = capture ? 'auto' : 'none';
+    container.style.pointerEvents = value;
+    this.set('capture', capture);
+  }
   public getBBox(): BBox {
     const container = this.getContainer();
     const x = parseFloat(container.style.left) || 0;
@@ -61,9 +72,13 @@ abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends 
     super.init();
     this.initContainer();
     this.initEvent();
+    this.initCapture();
     this.initVisible();
   }
 
+  protected initCapture() {
+    this.setCapture(this.get('capture'));
+  }
   protected initVisible() {
     if (!this.get('visible')) {
       // 设置初始显示状态
