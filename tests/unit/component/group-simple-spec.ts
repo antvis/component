@@ -165,6 +165,16 @@ describe('test simple component', () => {
     expect(b.get('group').get('visible')).toBe(false);
     b.show();
     expect(b.get('group').get('visible')).toBe(true);
+
+    b.update({
+      visible: false
+    });
+    expect(b.get('group').get('visible')).toBe(false);
+    b.update({
+      visible: true
+    });
+    expect(b.get('group').get('visible')).toBe(true);
+
   });
 
   it('on, off', () => {
