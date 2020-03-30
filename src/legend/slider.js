@@ -6,7 +6,12 @@ const Util = require('../util');
 const DomUtil = Util.DomUtil;
 const Group = Util.Group;
 
-class Slider extends Group {
+const Slider = function(cfg) {
+  Slider.superclass.constructor.call(this, cfg);
+};
+
+Util.extend(Slider, Group);
+Util.augment(Slider, {
   getDefaultCfg() {
     return {
       /**
@@ -75,7 +80,7 @@ class Slider extends Group {
        */
       pageY: null
     };
-  }
+  },
 
   // arrange the zindex and cursors of each element
   _beforeRenderUI() {
@@ -98,7 +103,7 @@ class Slider extends Group {
     minHandleElement.attr('cursor', trigerCursor);
     maxHandleElement.attr('cursor', trigerCursor);
     this.sort();
-  }
+  },
 
   // rendering
   _renderUI() {
@@ -107,7 +112,7 @@ class Slider extends Group {
     } else {
       this._renderVertical();
     }
-  }
+  },
 
   _transform(layout) {
     const range = this.get('range');
@@ -141,19 +146,19 @@ class Slider extends Group {
       minHandleElement.translate(1, (1 - minRatio) * height);
       maxHandleElement.translate(1, (1 - maxRatio) * height);
     }
-  }
+  },
 
   _renderHorizontal() {
     this._transform('horizontal');
-  }
+  },
 
   _renderVertical() {
     this._transform('vertical');
-  }
+  },
 
   _bindUI() {
     this.on('mousedown', Util.wrapBehavior(this, '_onMouseDown'));
-  }
+  },
 
   // if the target matches name
   _isElement(target, name) {
@@ -166,7 +171,7 @@ class Slider extends Group {
       return elementChildren.indexOf(target) > -1;
     }
     return false;
-  }
+  },
 
   // get the result range after adding diff to range
   // insure that the result out of the interval [0, 100]
@@ -175,7 +180,7 @@ class Slider extends Group {
     rst = rst > 100 ? 100 : rst;
     rst = rst < 0 ? 0 : rst;
     return rst;
-  }
+  },
 
   _updateStatus(dim, ev) {
     const totalLength = dim === 'x' ? this.get('width') : this.get('height');
@@ -229,7 +234,7 @@ class Slider extends Group {
     this._renderUI();
     this.get('canvas').draw(); // need delete
     return;
-  }
+  },
 
   // the listener of mouse down
   _onMouseDown(ev) {
@@ -244,7 +249,7 @@ class Slider extends Group {
     // stash the range
     this.set('rangeStash', [ range[0], range[1] ]);
     this._bindCanvasEvents();
-  }
+  },
 
   _bindCanvasEvents() {
     const containerDOM = this.get('canvas').get('containerDOM');
@@ -252,7 +257,7 @@ class Slider extends Group {
     this.onMouseMoveListener = DomUtil.addEventListener(containerDOM, 'mousemove', Util.wrapBehavior(this, '_onCanvasMouseMove'));
     this.onMouseUpListener = DomUtil.addEventListener(containerDOM, 'mouseup', Util.wrapBehavior(this, '_onCanvasMouseUp'));
     this.onMouseLeaveListener = DomUtil.addEventListener(containerDOM, 'mouseleave', Util.wrapBehavior(this, '_onCanvasMouseUp'));
-  }
+  },
 
   // listener of mouse click and move = drag
   _onCanvasMouseMove(ev) {
@@ -264,18 +269,18 @@ class Slider extends Group {
         this._updateStatus('y', ev);
       }
     }
-  }
+  },
 
   // listener of mouse up
   _onCanvasMouseUp() {
     this._removeDocumentEvents();
-  }
+  },
 
   // remove listeners
   _removeDocumentEvents() {
     this.onMouseMoveListener.remove();
     this.onMouseUpListener.remove();
-  }
+  },
 
   // if the mouse is out of the area
   _mouseOutArea(ev) {
@@ -294,7 +299,6 @@ class Slider extends Group {
     }
     return false;
   }
-
-}
+});
 
 module.exports = Slider;
