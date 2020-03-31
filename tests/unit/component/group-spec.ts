@@ -96,6 +96,12 @@ describe('test complex component', () => {
     expect(group.getChildren().length).toBe(1);
     expect(c.getElementById('a')).not.toBe(undefined);
   });
+  it('layout bbox', () => {
+    const bbox = c.getLayoutBBox();
+    group.translate(100, 100);
+    const bbox1 = c.getLayoutBBox();
+    expect(bbox1.minX - bbox.minX).toBe(100);
+  });
 
   it('update b', () => {
     c.update({

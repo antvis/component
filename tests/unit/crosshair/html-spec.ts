@@ -4,6 +4,10 @@ document.body.appendChild(dom);
 dom.id = 'crosshair';
 dom.style.height = '500px';
 
+function distance(v1, v2) {
+  return Math.abs(v1 - v2);
+}
+
 describe('test html crosshair', () => {
   const crosshair = new HtmlCrosshair({
     parent: dom,
@@ -71,7 +75,7 @@ describe('test html crosshair', () => {
       }
     });
     rect = textEl.getBoundingClientRect();
-    expect(parseInt(textEl.style.left)).toBeCloseTo(Math.floor(100 - rect.width));
+    expect(distance(parseInt(textEl.style.left),Math.floor(100 - rect.width)) <= 1 ).toBe(true);
 
     crosshair.update({
       text: {
@@ -81,7 +85,7 @@ describe('test html crosshair', () => {
       }
     });
     rect = textEl.getBoundingClientRect();
-    expect(parseInt(textEl.style.left)).toBeCloseTo(Math.floor(100 - rect.width));
+    expect(distance(parseInt(textEl.style.left),Math.floor(100 - rect.width)) <= 1).toBe(true);
   });
 
   it('update style', () => {
