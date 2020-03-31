@@ -2,7 +2,12 @@
 const { Group } = require('@antv/g/lib');
 const Util = require('../util');
 
-class Grid extends Group {
+const Grid = function(cfg) {
+  Grid.superclass.constructor.call(this, cfg);
+};
+
+Util.extend(Grid, Group);
+Util.augment(Grid, {
   getDefaultCfg() {
     // const cfg = super.getDefaultCfg();
     return {
@@ -54,12 +59,12 @@ class Grid extends Group {
         lineDash: [ 0, 0 ]
       }
     };
-  }
+  },
 
   _renderUI() {
-    super._renderUI();
+    Grid.superclass._renderUI.call(this);
     this._drawLines();
-  }
+  },
 
   _drawLines() {
     const self = this;
@@ -69,7 +74,7 @@ class Grid extends Group {
       self._precessItems(items);
       self._drawGridLines(items, lineStyle);
     }
-  }
+  },
 
   _precessItems(items) {
     const self = this;
@@ -80,7 +85,7 @@ class Grid extends Group {
       }
       preItem = item;
     });
-  }
+  },
 
   _drawGridLines(items, lineStyle) {
     const self = this;
@@ -165,7 +170,7 @@ class Grid extends Group {
         self.get('appendInfo') && gridLine.setSilent('appendInfo', self.get('appendInfo'));
       });
     }
-  }
+  },
 
   _drawZeroLine(type, idx) {
     const self = this;
@@ -176,7 +181,7 @@ class Grid extends Group {
       }
     }
     return false;
-  }
+  },
 
   _drawAlternativeBg(item, preItem, index) {
     const self = this;
@@ -207,7 +212,7 @@ class Grid extends Group {
     shape._id = item._id && item._id.replace('grid', 'grid-rect');
     shape.set('coord', self.get('coord'));
     self.get('appendInfo') && shape.setSilent('appendInfo', self.get('appendInfo'));
-  }
+  },
 
   _getBackItem(start, end, bgColor) {
     const path = [];
@@ -256,6 +261,6 @@ class Grid extends Group {
       path
     };
   }
-}
+});
 
 module.exports = Grid;
