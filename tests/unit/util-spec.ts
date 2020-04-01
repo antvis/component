@@ -1,5 +1,5 @@
 import { getAlignPoint, getOutSides, getPointByPosition } from '../../src/util/align';
-import { createBBox, mergeBBox, intersectBBox } from '../../src/util/util';
+import { createBBox, intersectBBox, mergeBBox } from '../../src/util/util';
 describe('test util', () => {
   it('out side test', () => {
     const limtBox = createBBox(100, 100, 500, 500);

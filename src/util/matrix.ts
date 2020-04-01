@@ -1,5 +1,5 @@
-import { transform, vec3, vec2 } from '@antv/matrix-util';
-import { Point, BBox } from '../types';
+import { transform, vec2, vec3 } from '@antv/matrix-util';
+import { BBox, Point } from '../types';
 
 const identityMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
 export function getMatrixByAngle(point: Point, angle: number): number[] {
@@ -39,21 +39,21 @@ function multiplyVec2(matrix, v) {
 
 export function applyMatrix2BBox(matrix: number[], bbox: BBox) {
   const topLeft = multiplyVec2(matrix, [bbox.minX, bbox.minY]);
-    const topRight = multiplyVec2(matrix, [bbox.maxX, bbox.minY]);
-    const bottomLeft = multiplyVec2(matrix, [bbox.minX, bbox.maxY]);
-    const bottomRight = multiplyVec2(matrix, [bbox.maxX, bbox.maxY]);
-    const minX = Math.min(topLeft[0], topRight[0], bottomLeft[0], bottomRight[0]);
-    const maxX = Math.max(topLeft[0], topRight[0], bottomLeft[0], bottomRight[0]);
-    const minY = Math.min(topLeft[1], topRight[1], bottomLeft[1], bottomRight[1]);
-    const maxY = Math.max(topLeft[1], topRight[1], bottomLeft[1], bottomRight[1]);
-    return {
-      x: minX,
-      y: minY,
-      minX,
-      minY,
-      maxX,
-      maxY,
-      width: maxX - minX,
-      height: maxY - minY,
-    };
+  const topRight = multiplyVec2(matrix, [bbox.maxX, bbox.minY]);
+  const bottomLeft = multiplyVec2(matrix, [bbox.minX, bbox.maxY]);
+  const bottomRight = multiplyVec2(matrix, [bbox.maxX, bbox.maxY]);
+  const minX = Math.min(topLeft[0], topRight[0], bottomLeft[0], bottomRight[0]);
+  const maxX = Math.max(topLeft[0], topRight[0], bottomLeft[0], bottomRight[0]);
+  const minY = Math.min(topLeft[1], topRight[1], bottomLeft[1], bottomRight[1]);
+  const maxY = Math.max(topLeft[1], topRight[1], bottomLeft[1], bottomRight[1]);
+  return {
+    x: minX,
+    y: minY,
+    minX,
+    minY,
+    maxX,
+    maxY,
+    width: maxX - minX,
+    height: maxY - minY,
+  };
 }
