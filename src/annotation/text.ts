@@ -69,7 +69,7 @@ class TextAnnotation extends GroupComponent<TextAnnotationCfg> implements ILocat
     const rotate = this.get('rotate');
     let matrix = null;
     if (rotate) {
-      matrix = getMatrixByAngle({x, y}, rotate);
+      matrix = getMatrixByAngle({ x, y }, rotate);
     }
     textShape.attr('matrix', matrix);
   }

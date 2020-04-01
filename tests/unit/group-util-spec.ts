@@ -1,5 +1,5 @@
-import { getBBoxWithClip, updateClip } from '../../src/util/util';
 import { Canvas } from '@antv/g-canvas';
+import { getBBoxWithClip, updateClip } from '../../src/util/util';
 
 describe('test group util', () => {
   const dom = document.createElement('div');

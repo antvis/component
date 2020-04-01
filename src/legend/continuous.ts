@@ -123,7 +123,7 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> implements ISlider {
       this.resetHandlers(group);
     }
   }
-  
+
   private bindSliderEvent(group) {
     this.bindHandlersEvent(group);
   }
@@ -155,13 +155,13 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> implements ISlider {
 
   private bindTrackEvent(group) {
     let prePoint = null;
-    group.on('legend-track:dragstart', ev => {
+    group.on('legend-track:dragstart', (ev) => {
       prePoint = {
         x: ev.x,
-        y: ev.y
+        y: ev.y,
       };
     });
-    group.on('legend-track:drag', ev => {
+    group.on('legend-track:drag', (ev) => {
       if (!prePoint) {
         return;
       }
@@ -171,26 +171,27 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> implements ISlider {
       const curDiff = currentValue[1] - currentValue[0];
       const range = this.getRange();
       const dValue = curValue - preValue;
-      if (dValue < 0) { // 减小, 同时未出边界 
+      if (dValue < 0) {
+        // 减小, 同时未出边界
         if (currentValue[0] + dValue > range.min) {
           this.setValue([currentValue[0] + dValue, currentValue[1] + dValue]);
         } else {
-          this.setValue([range.min, range.min + curDiff])
+          this.setValue([range.min, range.min + curDiff]);
         }
-        //  && || 
+        //  && ||
       } else if (dValue > 0) {
-        if ((dValue > 0 && currentValue[1] + dValue < range.max)) {
+        if (dValue > 0 && currentValue[1] + dValue < range.max) {
           this.setValue([currentValue[0] + dValue, currentValue[1] + dValue]);
         } else {
-          this.setValue([range.max - curDiff, range.max])
+          this.setValue([range.max - curDiff, range.max]);
         }
       }
       prePoint = {
         x: ev.x,
-        y: ev.y
+        y: ev.y,
       };
     });
-    group.on('legend-track:dragend', ev => {
+    group.on('legend-track:dragend', (ev) => {
       prePoint = null;
     });
   }
@@ -374,7 +375,7 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> implements ISlider {
   }
 
   private resetTrackClip(group?: IGroup) {
-    const container = group || this.get('group') as IGroup;
+    const container = group || (this.get('group') as IGroup);
     const trackId = this.getElementId('track');
     const trackShape = container.findById(trackId);
     const clipShape = trackShape.getClip();

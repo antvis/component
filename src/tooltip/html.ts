@@ -1,7 +1,6 @@
-import { createDom, modifyCSS } from '@antv/dom-util';
-import { each, hasKey, substitute } from '@antv/util';
 import colorUtil from '@antv/color-util';
-
+import { createDom, modifyCSS } from '@antv/dom-util';
+import { deepMix, each, hasKey, substitute } from '@antv/util';
 import HtmlComponent from '../abstract/html-component';
 import { Point, PointLocationCfg } from '../types';
 import { TooltipCfg } from '../types';
@@ -270,22 +269,26 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
     const items = this.get('items');
     const itemTpl = this.get('itemTpl');
     const listDom = this.get('listDom');
-    each(items, (item) => {
-      const color = colorUtil.toCSSGradient(item.color);
-      const substituteObj = {
-        ...item,
-        color,
-      };
+    if (listDom) {
+      each(items, (item) => {
+        const color = colorUtil.toCSSGradient(item.color);
+        const substituteObj = {
+          ...item,
+          color,
+        };
 
-      const domStr = substitute(itemTpl, substituteObj);
-      const itemDom = createDom(domStr);
-      listDom.appendChild(itemDom);
-    });
-    this.applyChildrenStyles(listDom, this.get('domStyles'));
+        const domStr = substitute(itemTpl, substituteObj);
+        const itemDom = createDom(domStr);
+        listDom.appendChild(itemDom);
+      });
+      this.applyChildrenStyles(listDom, this.get('domStyles'));
+    }
   }
 
   private clearItemDoms() {
-    clearDom(this.get('listDom'));
+    if (this.get('listDom')) {
+      clearDom(this.get('listDom'));
+    }
   }
 
   private clearCrosshairs() {

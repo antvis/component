@@ -1,6 +1,6 @@
-import { isArray, isNil, isNumber, each } from '@antv/util';
-import { BBox, Point, Region } from '../types';
 import { IElement, IGroup } from '@antv/g-base';
+import { each, isArray, isNil, isNumber } from '@antv/util';
+import { BBox, Point, Region } from '../types';
 
 export function formatPadding(padding: number | number[]): number[] {
   let top = 0;
@@ -108,19 +108,19 @@ export const wait = (interval: number): Promise<void> => {
 export const near = (x: number, y: number): boolean =>
   [x, y].includes(Infinity) ? Math.abs(x) === Math.abs(y) : Math.abs(x - y) < Math.pow(Number.EPSILON, 0.5);
 
-export function intersectBBox(box1: BBox , box2: BBox ): BBox {
+export function intersectBBox(box1: BBox, box2: BBox): BBox {
   const minX = Math.max(box1.minX, box2.minX);
   const minY = Math.max(box1.minY, box2.minY);
-  const  maxX = Math.min(box1.maxX, box2.maxX);
-  const  maxY = Math.min(box1.maxY, box2.maxY);
+  const maxX = Math.min(box1.maxX, box2.maxX);
+  const maxY = Math.min(box1.maxY, box2.maxY);
   return createBBox(minX, minY, maxX - minX, maxY - minY);
 }
 
-export function mergeBBox(box1: BBox , box2: BBox ): BBox {
+export function mergeBBox(box1: BBox, box2: BBox): BBox {
   const minX = Math.min(box1.minX, box2.minX);
   const minY = Math.min(box1.minY, box2.minY);
-  const  maxX = Math.max(box1.maxX, box2.maxX);
-  const  maxY = Math.max(box1.maxY, box2.maxY);
+  const maxX = Math.max(box1.maxX, box2.maxX);
+  const maxY = Math.max(box1.maxY, box2.maxY);
   return createBBox(minX, minY, maxX - minX, maxY - minY);
 }
 
@@ -128,9 +128,10 @@ export function getBBoxWithClip(element: IElement): BBox {
   const clipShape = element.getClip();
   const clipBBox = clipShape && clipShape.getBBox();
   let bbox;
-  if (!element.isGroup()) { // 如果是普通的图形
+  if (!element.isGroup()) {
+    // 如果是普通的图形
     bbox = element.getBBox();
-  }  else {
+  } else {
     let minX = Infinity;
     let maxX = -Infinity;
     let minY = Infinity;
@@ -188,17 +189,19 @@ export function getBBoxWithClip(element: IElement): BBox {
 }
 
 export function updateClip(element: IElement, newElement: IElement) {
-  if (!element.getClip() && !newElement.getClip()) { // 两者都没有 clip
+  if (!element.getClip() && !newElement.getClip()) {
+    // 两者都没有 clip
     return;
   }
   const newClipShape = newElement.getClip();
-  if (!newClipShape) { // 新的 element 没有 clip
+  if (!newClipShape) {
+    // 新的 element 没有 clip
     element.setClip(null); // 移除 clip
     return;
   }
   const clipCfg = {
     type: newClipShape.get('type'),
-    attrs: newClipShape.attr()
+    attrs: newClipShape.attr(),
   };
   element.setClip(clipCfg);
 }
