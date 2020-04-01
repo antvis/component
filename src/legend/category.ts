@@ -647,7 +647,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
           100
         );
       } else {
-        itemGroup.attr({matrix});
+        itemGroup.attr({ matrix });
       }
     }
   };
@@ -666,7 +666,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
           100
         );
       } else {
-        itemGroup.attr({matrix});
+        itemGroup.attr({ matrix });
       }
     }
   };

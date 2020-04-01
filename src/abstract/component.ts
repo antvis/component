@@ -1,5 +1,5 @@
 import { Base } from '@antv/g-base';
-import { deepMix, each, isObject, hasKey } from '@antv/util';
+import { deepMix, each, hasKey, isObject } from '@antv/util';
 import { ILocation } from '../interfaces';
 import { BBox, ComponentCfg, LocationCfg, OffsetPoint } from '../types';
 const LOCATION_FIELD_MAP = {
