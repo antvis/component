@@ -205,3 +205,22 @@ export function updateClip(element: IElement, newElement: IElement) {
   };
   element.setClip(clipCfg);
 }
+
+export function toPx(number) {
+  return `${number}px`;
+}
+
+export function getTextPoint(start: Point, end: Point, position: string, offset: number): Point {
+  const lineLength = distance(start, end);
+  const offsetPercent = offset / lineLength; // 计算间距同线的比例，用于计算最终的位置
+  let percent = 0;
+  if (position === 'start') {
+    percent = 0 - offsetPercent;
+  } else if (position === 'end') {
+    percent = 1 + offsetPercent;
+  }
+  return {
+    x: getValueByPercent(start.x, end.x, percent),
+    y: getValueByPercent(start.y, end.y, percent),
+  };
+}

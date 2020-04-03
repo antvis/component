@@ -29,8 +29,7 @@ class AComponent extends HtmlComponent {
     }
   }
 
-  public update(cfg) {
-    super.update(cfg);
+  public updateInner(cfg) {
     if (!isNil(cfg.showA)) {
       if (!cfg.showA) {
         const aDom = this.get('aDom');
@@ -45,6 +44,7 @@ class AComponent extends HtmlComponent {
         aDom.innerText = cfg.text;
       }
     }
+    super.updateInner(cfg);
   }
 
   public clear() {
@@ -117,6 +117,7 @@ describe('test html component methods', () => {
   const component = new AComponent({
     containerTpl: '<div class="my-test"></div>',
     parent: 'pid',
+    containerClassName: 'my-test',
     text: 'abc',
   });
   it('init', () => {
@@ -163,8 +164,20 @@ describe('test html component methods', () => {
     });
     expect(component.get('capture')).toBe(true);
     expect(container.style.pointerEvents).toBe('auto');
-
-
+  });
+  // 同时更新 dom styles and capture
+  it('update domstyle', () => {
+    component.update({
+      domStyles: {
+        'my-test': {
+          color: 'red',
+          'point-events': 'none'
+        }
+      }
+    });
+    const container = component.get('container');
+    expect(container.style.pointerEvents).toBe('auto');
+    expect(container.style.color).toBe('red');
   });
 
   it('clear', () => {

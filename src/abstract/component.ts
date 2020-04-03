@@ -78,6 +78,15 @@ abstract class Component<T extends ComponentCfg = ComponentCfg> extends Base imp
         this.set(name, newCfg);
       }
     });
+    this.updateInner(cfg);
+    this.afterUpdate(cfg);
+  }
+  // 更新内部
+  protected updateInner(cfg: Partial<T>) {
+
+  }
+
+  protected afterUpdate(cfg: Partial<T>) {
     // 更新时考虑显示、隐藏
     if (hasKey(cfg, 'visible')) {
       if (cfg.visible) {

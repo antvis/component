@@ -561,8 +561,9 @@ Crosshair (十字线)是配合 tooltip 一起使用的，由于不同坐标系�
 
 - Crosshair.Line 直线类型的十字线
 - Crosshair.Circle 圆形十字线
+- Crosshair.Html 使用 Html 的十字线
 
-两种十字线共同的属性有：
+前两种是 Canvas 的 Group，两种十字线共同的属性有：
 
 - line: 线的配置信息,
   - style: 线的样式，参考: [图形属性](https://g.antv.vision/zh/docs/api/shape/line)
@@ -591,6 +592,26 @@ Crosshair.Circle 的定位方式是 circle，属性有：
 - radius: 半径,
 - startAngle: 起始角度，默认 -Math.PI / 2,
 - endAngle: 结束角度， (Math.PI \* 3) / 2,
+
+#### Crosshair.Html
+
+Crosshair.Html 的定位方式是 region, 属性有：
+
+- start：开始位置
+- end：结束位置
+- text: 文本的配置项：
+  - position: 位置，有 start, end
+  - align: 文本与线的对齐方式，有 left, right 和 center
+  - content: 文本内容
+- containerTpl: 容器的模板
+- crosshairTpl: 十字线的模板
+- textTpl: 文本的模板，默认值为 `<span class="g2-crosshair-text">{content}</span>`
+- domStyles: Html 各种元素的样式，支持以下样式
+  ```js
+  'g2-crosshair',
+  'g2-crosshair-line',
+  'g2-crosshair-text',
+  ```
 
 ### 接口定义
 

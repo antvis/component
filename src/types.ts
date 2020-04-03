@@ -324,7 +324,14 @@ export interface HtmlComponentCfg extends ComponentCfg {
    * @type {HTMLElement|string}
    */
   container?: HTMLElement | string;
+  /**
+   * 组件的父容器
+   */
   parent?: HTMLElement | string;
+  /**
+   * 内部 DOM 的样式
+   */
+  domStyles?: LooseObject;
 }
 
 export interface AxisBaseCfg extends GroupComponentCfg {
@@ -1155,17 +1162,24 @@ export interface CircleCrosshairCfg extends CrosshairBaseCfg {
   endAngle: number;
 }
 
-export interface CrosshairTextCfg {
+export interface CrosshairTextBaseCfg {
   /**
    * 文本位置，只支持 start， end
    * @type {string}
    */
   position?: string;
   /**
+   * 文本内容
+   */
+  content?: string;
+  /**
    * 距离线的距离
    * @type {number}
    */
   offset?: number;
+}
+
+export interface CrosshairTextCfg extends CrosshairTextBaseCfg {
   /**
    * 是否自动旋转
    * @type {boolean}
@@ -1176,6 +1190,29 @@ export interface CrosshairTextCfg {
    * @type {ShapeAttrs}
    */
   style?: ShapeAttrs;
+}
+
+export interface HtmlCrossHairCfg extends HtmlComponentCfg {
+  /**
+   * 起始位置
+   */
+  start: Point;
+  /**
+   * 结束位置
+   */
+  end: Point;
+  /**
+   * crosshair 的模板
+   */
+  crossHairTpl: string;
+  /**
+   * 文本的模板
+   */
+  textTpl: string;
+  /**
+   * 文本
+   */
+  text: CrosshairTextBaseCfg
 }
 
 export interface CrosshairLineCfg {

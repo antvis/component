@@ -1,20 +1,15 @@
 import colorUtil from '@antv/color-util';
 import { createDom, modifyCSS } from '@antv/dom-util';
 import { deepMix, each, hasKey, substitute } from '@antv/util';
-
 import HtmlComponent from '../abstract/html-component';
 import { Point, PointLocationCfg } from '../types';
 import { TooltipCfg } from '../types';
-import { clearDom, hasClass, regionToBBox } from '../util/util';
+import { clearDom, regionToBBox, toPx } from '../util/util';
 import * as CssConst from './css-const';
 import TooltipTheme from './html-theme';
 
 import { ILocation } from '../interfaces';
 import { getAlignPoint } from '../util/align';
-
-function toPx(number) {
-  return `${number}px`;
-}
 
 function hasOneKey(obj, keys) {
   let result = false;
@@ -54,6 +49,7 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
       region: null,
       // crosshair 的限制区域
       crosshairsRegion: null,
+      containerClassName: CssConst.CONTAINER_CLASS,
       // x, y, xy
       crosshairs: null,
       offset: 10,
@@ -61,7 +57,6 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
       domStyles: null,
       defaultStyles: TooltipTheme,
     };
-    return cfg;
   }
 
   // tooltip 渲染时，渲染 title，items 和 corosshairs
@@ -81,8 +76,7 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
   }
 
   // 更新属性的同时，可能会引起 DOM 的变化，这里对可能引起 DOM 变化的场景做了处理
-  public update(cfg: Partial<T>) {
-    super.update(cfg);
+  protected updateInner(cfg: Partial<T>) {
     // 更新标题
     if (hasOneKey(cfg, ['title', 'showTitle'])) {
       this.resetTitle();
@@ -91,13 +85,7 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
     if (hasKey(cfg, 'items')) {
       this.renderItems();
     }
-    // 更新样式
-    if (hasKey(cfg, 'domStyles')) {
-      this.resetStyles();
-      this.applyStyles();
-    }
-    // 只要属性发生变化，都调整一些位置
-    this.resetPosition();
+    super.updateInner(cfg);
   }
 
   public show() {
@@ -151,11 +139,8 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
       });
   }
 
-  protected initContainer() {
-    super.initContainer();
+  protected initDom() {
     this.cacheDoms();
-    this.resetStyles(); // 初始化样式
-    this.applyStyles(); // 应用样式
   }
   // 清理 DOM
   protected removeDom() {
@@ -172,7 +157,7 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
     this.set('listDom', listDom);
   }
   // 调整位置
-  private resetPosition() {
+  protected resetPosition() {
     const x = this.get('x');
     const y = this.get('y');
     const offset = this.get('offset');
@@ -278,42 +263,7 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
     }
     return croshairDom;
   }
-  // 样式需要进行合并，不能单纯的替换，否则使用非常不方便
-  private resetStyles() {
-    let style = this.get('domStyles');
-    const defaultStyles = this.get('defaultStyles');
-    if (!style) {
-      style = defaultStyles;
-    } else {
-      style = deepMix({}, defaultStyles, style);
-    }
-    this.set('domStyles', style);
-  }
-  // 应用所有的样式
-  private applyStyles() {
-    const domStyles = this.get('domStyles');
-    const container = this.getContainer();
-    this.applyChildrenStyles(container, domStyles);
-    if (hasClass(container, CssConst.CONTAINER_CLASS)) {
-      const containerCss = domStyles[CssConst.CONTAINER_CLASS];
-      modifyCSS(container, containerCss);
-    }
-  }
-
-  private applyChildrenStyles(element, styles) {
-    each(styles, (style, name) => {
-      const elements = element.getElementsByClassName(name);
-      each(elements, (el) => {
-        modifyCSS(el, style);
-      });
-    });
-  }
-  // 应用到单个 DOM
-  private applyStyle(cssName, dom) {
-    const domStyles = this.get('domStyles');
-    modifyCSS(dom, domStyles[cssName]);
-  }
-
+  
   private renderItems() {
     this.clearItemDoms();
     const items = this.get('items');
