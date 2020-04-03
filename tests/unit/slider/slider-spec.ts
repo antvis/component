@@ -35,6 +35,17 @@ describe('slider', () => {
 
   const containerDOM = canvas.get('container');
 
+  it('setRange/getRange', () => {
+    let curRange = slider.getRange();
+    expect(curRange.min).toBe(0);
+    expect(curRange.max).toBe(1);
+
+    slider.setRange(0.1, 0.2);
+    curRange = slider.getRange();
+    expect(curRange.min).toBe(0.1);
+    expect(curRange.max).toBe(0.2);
+  });
+
   it('update after init', () => {
     slider.update({
       x: 0,
@@ -74,7 +85,35 @@ describe('slider', () => {
     expect(slider.get('maxText')).toEqual('new max');
   });
 
-  it('drag', (done) => {
+  it('getValue/setValue', () => {
+    slider.setRange(0, 1);
+    slider.update({
+      start: 0,
+      end: 1,
+    });
+    slider.render();
+    const curValue = slider.getValue();
+    expect(curValue).toEqual([0, 1]);
+
+    slider.setValue([0.1, 0.3]);
+    expect(slider.getValue()).toEqual([0.1, 0.3]);
+    expect(slider.get('start')).toBe(0.1);
+    expect(slider.get('end')).toBe(0.3);
+
+    slider.setValue([0, 0.6]);
+    slider.setRange(0, 0.5);
+    slider.setValue([0.1, 0.6]);
+    expect(slider.getValue()).toEqual([0.1, 0.5]);
+    expect(slider.get('start')).toBe(0.1);
+    expect(slider.get('end')).toBe(0.5);
+  });
+
+  it('drag on background', (done) => {
+    slider.update({
+      start: 0.8,
+      end: 1,
+    });
+    slider.render();
     slider.on('sliderchange', (range) => {
       expect(range).toEqual([0.8 - 20 / 200, 1.0 - 20 / 200]);
       done();
@@ -82,6 +121,64 @@ describe('slider', () => {
     });
 
     slider.getElementByLocalId('foreground').emit('mousedown', {
+      originalEvent: {
+        pageX: 70,
+        pageY: 70,
+        stopPropagation: () => {},
+        preventDefault: () => {},
+      },
+    });
+
+    simulateMouseEvent(containerDOM, 'mousemove', {
+      clientX: 50,
+      clientY: 50,
+    });
+
+    simulateMouseEvent(containerDOM, 'mouseup', {});
+  });
+
+  it('dnd on min handler', (done) => {
+    slider.update({
+      start: 0.5,
+      end: 0.6,
+    });
+    slider.render();
+    slider.on('sliderchange', (range) => {
+      expect(range).toEqual([0.5 - 20 / 200, 0.6]);
+      done();
+      slider.off('sliderchange');
+    });
+    const group = slider.get('group');
+    group.emit('handler-min:mousedown', {
+      originalEvent: {
+        pageX: 70,
+        pageY: 70,
+        stopPropagation: () => {},
+        preventDefault: () => {},
+      },
+    });
+
+    simulateMouseEvent(containerDOM, 'mousemove', {
+      clientX: 50,
+      clientY: 50,
+    });
+
+    simulateMouseEvent(containerDOM, 'mouseup', {});
+  });
+
+  it('dnd on max handler', (done) => {
+    slider.update({
+      start: 0.5,
+      end: 0.6,
+    });
+    slider.render();
+    slider.on('sliderchange', (range) => {
+      expect(range).toEqual([0.5, 0.6 - 20 / 200]);
+      done();
+      slider.off('sliderchange');
+    });
+    const group = slider.get('group');
+    group.emit('handler-max:mousedown', {
       originalEvent: {
         pageX: 70,
         pageY: 70,
