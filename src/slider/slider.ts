@@ -61,6 +61,13 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
   public setRange(min: number, max: number) {
     this.set('minLimit', min);
     this.set('maxLimit', max);
+    const oldStart = this.get('start');
+    const oldEnd = this.get('end');
+    const newStart = clamp(oldStart, min, max);
+    const newEnd = clamp(oldEnd, min, max);
+    if (!this.get('isInit') && (oldStart !== newStart || oldEnd !== newEnd)) {
+      this.setValue([newStart, newEnd]);
+    }
   }
 
   public getRange(): Range {
@@ -71,11 +78,12 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
   }
 
   public setValue(value: number | number[]) {
+    const range = this.getRange();
     if (isArray(value) && value.length === 2) {
       const originValue = [this.get('start'), this.get('end')];
       this.update({
-        start: value[0],
-        end: value[1],
+        start: clamp(value[0], range.min, range.max),
+        end: clamp(value[1], range.min, range.max),
       });
       if (!this.get('updateAutoRender')) {
         this.render();
@@ -426,8 +434,6 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
 
         return Math.min(max, Math.max(min, offsetRange));
       }
-      default:
-        return 0;
     }
   }
 

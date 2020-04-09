@@ -64,19 +64,25 @@ export class Scrollbar extends GroupComponent<ScrollbarCfg> implements ISlider {
   public setRange(min: number, max: number) {
     this.set('minLimit', min);
     this.set('maxLimit', max);
+    const curValue = this.getValue();
+    const newValue = clamp(curValue, min, max);
+    if (curValue !== newValue && !this.get('isInit')) {
+      this.setValue(newValue);
+    }
   }
 
   public getRange(): Range {
-    const min: number = this.get('minLimit');
-    const max: number = this.get('maxLimit');
+    const min: number = this.get('minLimit') || 0;
+    const max: number = this.get('maxLimit') || 1;
 
     return { min, max };
   }
 
   public setValue(value: number) {
+    const range = this.getRange();
     const originalValue = this.getValue();
     this.update({
-      thumbOffset: this.get('trackLen') - this.get('thumbLen') * clamp(value, 0, 1),
+      thumbOffset: (this.get('trackLen') - this.get('thumbLen')) * clamp(value, range.min, range.max),
     });
     this.delegateEmit('valuechange', {
       originalValue,

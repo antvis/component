@@ -3,7 +3,7 @@
  */
 
 export const BACKGROUND_STYLE = {
-  fill: '#416180 ',
+  fill: '#416180',
   opacity: 0.05,
 };
 
