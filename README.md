@@ -386,6 +386,8 @@ Axis 实现了 IList 接口，两种坐标轴的配置项和方法基本相同
   - alignTick：是否跟文本对齐
 - label：轴上的刻度文本的配置项
   - style： 坐标轴文本样式
+  - offset: 距离坐标轴的距离
+  - rotate：旋转角度，如果设置了，建议将 autoRotate 设置成 false
   - autoRotate: 是否自动旋转, 默认 true
   - autoHide: 是否自动隐藏, 默认 false
   - autoEllipsis: 是否自动省略, 默认 false
