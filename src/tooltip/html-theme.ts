@@ -28,9 +28,9 @@ export default {
     marginBottom: '4px',
   },
   [`${CssConst.LIST_CLASS}`]: {
-    margin: 0,
+    margin: '0px',
     listStyleType: 'none',
-    padding: 0,
+    padding: '0px',
   },
   [`${CssConst.LIST_ITEM_CLASS}`]: {
     listStyleType: 'none',

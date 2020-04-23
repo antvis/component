@@ -1,6 +1,6 @@
 import colorUtil from '@antv/color-util';
 import { createDom, modifyCSS } from '@antv/dom-util';
-import { deepMix, each, hasKey, substitute } from '@antv/util';
+import { each, hasKey, isElement, substitute } from '@antv/util';
 import HtmlComponent from '../abstract/html-component';
 import { Point, PointLocationCfg } from '../types';
 import { TooltipCfg } from '../types';
@@ -32,6 +32,7 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
       x: 0,
       y: 0,
       items: [],
+      htmlContent: null,
       containerTpl: `<div class="${CssConst.CONTAINER_CLASS}"><div class="${CssConst.TITLE_CLASS}"></div><ul class="${CssConst.LIST_CLASS}"></ul></div>`,
       itemTpl: `<li class="${CssConst.LIST_ITEM_CLASS}" data-index={index}>
           <span class="${CssConst.MARKER_CLASS}" style="background:{color}"></span>
@@ -61,8 +62,12 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
 
   // tooltip 渲染时，渲染 title，items 和 corosshairs
   public render() {
-    this.resetTitle();
-    this.renderItems();
+    if (this.get('htmlContent')) {
+      this.renderHtmlContent();
+    } else {
+      this.resetTitle();
+      this.renderItems();
+    }
     // 绘制完成后，再定位
     this.resetPosition();
   }
@@ -73,19 +78,6 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
     this.clearCrosshairs();
     this.setTitle(''); // 清空标题
     this.clearItemDoms();
-  }
-
-  // 更新属性的同时，可能会引起 DOM 的变化，这里对可能引起 DOM 变化的场景做了处理
-  protected updateInner(cfg: Partial<T>) {
-    // 更新标题
-    if (hasOneKey(cfg, ['title', 'showTitle'])) {
-      this.resetTitle();
-    }
-    // 更新内容
-    if (hasKey(cfg, 'items')) {
-      this.renderItems();
-    }
-    super.updateInner(cfg);
   }
 
   public show() {
@@ -139,6 +131,38 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
       });
   }
 
+  // 如有 htmlContent 则根据 htmlContent 设置 container
+  protected initContainer() {
+    super.initContainer();
+    if (this.get('htmlContent')) {
+      if (this.get('container')) {
+        this.get('container').remove();
+      }
+      const container = this.getHtmlContentNode();
+      this.get('parent').appendChild(container);
+      this.set('container', container);
+      this.resetStyles();
+      this.applyStyles();
+    }
+  }
+
+  // 更新属性的同时，可能会引起 DOM 的变化，这里对可能引起 DOM 变化的场景做了处理
+  protected updateInner(cfg: Partial<T>) {
+    if (this.get('htmlContent')) {
+      this.renderHtmlContent();
+    } else {
+      // 更新标题
+      if (hasOneKey(cfg, ['title', 'showTitle'])) {
+        this.resetTitle();
+      }
+      // 更新内容
+      if (hasKey(cfg, 'items')) {
+        this.renderItems();
+      }
+    }
+    super.updateInner(cfg);
+  }
+
   protected initDom() {
     this.cacheDoms();
   }
@@ -146,15 +170,6 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
   protected removeDom() {
     super.removeDom();
     this.clearCrosshairs();
-  }
-
-  // 缓存模板设置的各种 DOM
-  private cacheDoms() {
-    const container = this.getContainer();
-    const titleDom = container.getElementsByClassName(CssConst.TITLE_CLASS)[0];
-    const listDom = container.getElementsByClassName(CssConst.LIST_CLASS)[0];
-    this.set('titleDom', titleDom);
-    this.set('listDom', listDom);
   }
   // 调整位置
   protected resetPosition() {
@@ -179,6 +194,45 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
     });
     this.resetCrosshairs();
   }
+
+  // 根据 htmlContent 渲染
+  private renderHtmlContent() {
+    const node = this.getHtmlContentNode();
+    const parent: HTMLElement = this.get('parent');
+    const curContainer: HTMLElement = this.get('container');
+    if (curContainer && curContainer.parentNode === parent) {
+      parent.replaceChild(node, curContainer);
+    } else {
+      parent.appendChild(node);
+    }
+    this.set('container', node);
+    this.resetStyles();
+    this.applyStyles();
+  }
+
+  private getHtmlContentNode() {
+    let node: HTMLElement | undefined;
+    const htmlContent = this.get('htmlContent');
+    if (htmlContent) {
+      const elem = htmlContent(this.get('title'), this.get('items'));
+      if (isElement(elem)) {
+        node = elem as HTMLElement;
+      } else {
+        node = createDom(elem);
+      }
+    }
+    return node;
+  }
+
+  // 缓存模板设置的各种 DOM
+  private cacheDoms() {
+    const container = this.getContainer();
+    const titleDom = container.getElementsByClassName(CssConst.TITLE_CLASS)[0];
+    const listDom = container.getElementsByClassName(CssConst.LIST_CLASS)[0];
+    this.set('titleDom', titleDom);
+    this.set('listDom', listDom);
+  }
+
   // 重置 title
   private resetTitle() {
     const title = this.get('title');
@@ -263,7 +317,7 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
     }
     return croshairDom;
   }
-  
+
   private renderItems() {
     this.clearItemDoms();
     const items = this.get('items');
