@@ -32,7 +32,7 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
       x: 0,
       y: 0,
       items: [],
-      htmlContent: null,
+      customContent: null,
       containerTpl: `<div class="${CssConst.CONTAINER_CLASS}"><div class="${CssConst.TITLE_CLASS}"></div><ul class="${CssConst.LIST_CLASS}"></ul></div>`,
       itemTpl: `<li class="${CssConst.LIST_ITEM_CLASS}" data-index={index}>
           <span class="${CssConst.MARKER_CLASS}" style="background:{color}"></span>
@@ -62,8 +62,8 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
 
   // tooltip 渲染时，渲染 title，items 和 corosshairs
   public render() {
-    if (this.get('htmlContent')) {
-      this.renderHtmlContent();
+    if (this.get('customContent')) {
+      this.renderCustomContent();
     } else {
       this.resetTitle();
       this.renderItems();
@@ -131,10 +131,10 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
       });
   }
 
-  // 如有 htmlContent 则根据 htmlContent 设置 container
+  // 如有 customContent 则根据 customContent 设置 container
   protected initContainer() {
     super.initContainer();
-    if (this.get('htmlContent')) {
+    if (this.get('customContent')) {
       if (this.get('container')) {
         this.get('container').remove();
       }
@@ -148,8 +148,8 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
 
   // 更新属性的同时，可能会引起 DOM 的变化，这里对可能引起 DOM 变化的场景做了处理
   protected updateInner(cfg: Partial<T>) {
-    if (this.get('htmlContent')) {
-      this.renderHtmlContent();
+    if (this.get('customContent')) {
+      this.renderCustomContent();
     } else {
       // 更新标题
       if (hasOneKey(cfg, ['title', 'showTitle'])) {
@@ -195,8 +195,8 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
     this.resetCrosshairs();
   }
 
-  // 根据 htmlContent 渲染
-  private renderHtmlContent() {
+  // 根据 customContent 渲染
+  private renderCustomContent() {
     const node = this.getHtmlContentNode();
     const parent: HTMLElement = this.get('parent');
     const curContainer: HTMLElement = this.get('container');
@@ -212,9 +212,9 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
 
   private getHtmlContentNode() {
     let node: HTMLElement | undefined;
-    const htmlContent = this.get('htmlContent');
-    if (htmlContent) {
-      const elem = htmlContent(this.get('title'), this.get('items'));
+    const customContent = this.get('customContent');
+    if (customContent) {
+      const elem = customContent(this.get('title'), this.get('items'));
       if (isElement(elem)) {
         node = elem as HTMLElement;
       } else {

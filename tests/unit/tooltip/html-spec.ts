@@ -279,7 +279,7 @@ describe('test tooltip', () => {
     });
   });
 
-  describe('htmlContent', () => {
+  describe('customContent', () => {
     const items = [
       { name: 'china', value: '100' },
       { name: 'india', value: '200' },
@@ -291,7 +291,7 @@ describe('test tooltip', () => {
       y: 200,
       title: 'html',
       items,
-      htmlContent: (title: string, data: any[]) => {
+      customContent: (title: string, data: any[]) => {
         return `
           <div class="g2-tooltip custom-html-tooltip">
             <div class="g2-tooltip-title">My Title ${title}</div>
