@@ -341,8 +341,8 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
     return subTickLineItems;
   }
 
-  private getTickLineAttrs(tickItem: ListItem) {
-    const tickLineStyle = this.get('tickLine').style;
+  private getTickLineAttrs(tickItem: ListItem, type: string) {
+    const tickLineStyle = this.get(type).style;
     const { startPoint, endPoint } = tickItem;
     const attrs = mix(
       {
@@ -357,12 +357,12 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
   }
 
   // 绘制坐标轴刻度线
-  private drawTick(tickItem: ListItem, tickLineGroup: IGroup) {
+  private drawTick(tickItem: ListItem, tickLineGroup: IGroup, type: string) {
     this.addShape(tickLineGroup, {
       type: 'line',
       id: this.getElementId(tickItem.id),
-      name: 'axis-tickline',
-      attrs: this.getTickLineAttrs(tickItem),
+      name: `axis-${type}`,
+      attrs: this.getTickLineAttrs(tickItem, type),
     });
   }
 
@@ -381,17 +381,17 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
         // 如果跟随 label 显示，则检测是否存在对应的 label
         const labelId = this.getElementId(`label-${item.tickId}`);
         if (group.findById(labelId)) {
-          this.drawTick(item, tickLineGroup);
+          this.drawTick(item, tickLineGroup, 'tickLine');
         }
       } else {
-        this.drawTick(item, tickLineGroup);
+        this.drawTick(item, tickLineGroup, 'tickLine');
       }
     });
 
     if (subTickLine) {
       const subTickLineItems = this.getSubTickLineItems(tickLineItems);
       each(subTickLineItems, (item) => {
-        this.drawTick(item, tickLineGroup);
+        this.drawTick(item, tickLineGroup, 'subTickLine');
       });
     }
   }
