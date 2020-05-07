@@ -205,9 +205,14 @@ describe('test line axis', () => {
       line: {
         style: {},
       },
-      subTickLine: {},
+      subTickLine: {
+        style: {
+          lineWidth: 10,
+        }
+      },
     });
     expect(axis.getElementById('a-axis-sub-tickline-1-0')).not.toBe(undefined);
+    expect(axis.getElementById('a-axis-sub-tickline-1-0').attr('lineWidth')).toBe(10);
   });
   it('set location', () => {
     axis.setLocation({
