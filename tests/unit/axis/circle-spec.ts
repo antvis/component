@@ -85,6 +85,7 @@ describe('test line axis', () => {
       },
     });
     expect(axis.getElementById('a-axis-title')).not.toBeUndefined();
+    expect(axis.get('title').offset).toBe(10);
     axis.update({
       title: null,
     });
