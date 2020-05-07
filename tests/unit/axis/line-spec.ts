@@ -64,6 +64,7 @@ describe('test line axis', () => {
 
     const title = axis.getElementById('a-axis-title');
     expect(title.attr('matrix')).not.toBe(null);
+    expect(axis.get('title').offset).not.toBeUndefined();
   });
 
   it('update label', () => {
@@ -88,9 +89,11 @@ describe('test line axis', () => {
     axis.update({
       title: {
         autoRotate: false,
+        offset: 32,
       },
     });
     expect(title.attr('matrix')).toBe(null);
+    expect(axis.get('title').offset).toBe(32);
     // 不再显示 title
     axis.update({
       title: null,

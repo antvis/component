@@ -82,7 +82,6 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
             fontFamily: Theme.fontFamily,
             textAlign: 'center',
           },
-          offset: 48,
         },
         tickStates: {
           active: {

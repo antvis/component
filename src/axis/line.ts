@@ -1,6 +1,6 @@
 import { IGroup } from '@antv/g-base';
 import { vec2 } from '@antv/matrix-util';
-import { each, isFunction, isNumberEqual } from '@antv/util';
+import { each, isFunction, isNumberEqual, isNil } from '@antv/util';
 import { ILocation } from '../interfaces';
 import { BBox, LineAxisCfg, Point, RegionLocationCfg } from '../types';
 import AxisBase from './base';
@@ -128,7 +128,10 @@ class Line extends AxisBase<LineAxisCfg> implements ILocation<RegionLocationCfg>
       // 调整 title 的 offset
       const bbox = labelGroup.getBBox();
       const length = isVertical ? bbox.width : bbox.height;
-      titleCfg.offset = labelOffset + length + titleSpacing + titleHeight / 2;
+      if (isNil(titleCfg.offset)) {
+        // 如果用户没有设置 offset，则自动计算
+        titleCfg.offset = labelOffset + length + titleSpacing + titleHeight / 2;
+      }
     }
   }
 
