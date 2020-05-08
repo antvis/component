@@ -361,7 +361,16 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
   // 绘制图例项
   private drawItem(item: ListItem, index: number, itemHeight: number, itemGroup: IGroup) {
     const groupId = `item-${item.id}`;
-    const subGroup = this.addGroup(itemGroup, {
+    // 设置单独的 Group 用于 setClip
+    const subContainer = this.addGroup(itemGroup, {
+      name: 'legend-item-container',
+      id: this.getElementId(`item-container-${groupId}`),
+      delegateObject: {
+        item,
+        index,
+      },
+    });
+    const subGroup = this.addGroup(subContainer, {
       name: 'legend-item',
       id: this.getElementId(groupId),
       delegateObject: {
@@ -457,6 +466,15 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
           currentPoint.y += itemHeight;
         }
         this.moveElementTo(item, currentPoint);
+        item.getParent().setClip({
+          type: 'rect',
+          attrs: {
+            x: currentPoint.x,
+            y: currentPoint.y,
+            width: width + itemSpacing,
+            height: itemHeight,
+          },
+        });
         currentPoint.x += width + itemSpacing;
       });
     } else {
@@ -483,15 +501,15 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
           currentPoint.y = startY;
         }
         this.moveElementTo(item, currentPoint);
-        // item.setClip({
-        //   type: 'rect',
-        //   attrs: {
-        //     x: currentPoint.x,
-        //     y: currentPoint.y,
-        //     width: pageWidth,
-        //     height: itemHeight,
-        //   },
-        // });
+        item.getParent().setClip({
+          type: 'rect',
+          attrs: {
+            x: currentPoint.x,
+            y: currentPoint.y,
+            width: pageWidth,
+            height: itemHeight,
+          },
+        });
         currentPoint.y += itemHeight;
       });
       this.totalPagesCnt = pages;

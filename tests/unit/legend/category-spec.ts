@@ -1,4 +1,4 @@
-import { Canvas } from '@antv/g-canvas';
+import { Canvas, IGroup } from '@antv/g-canvas';
 import CategroyLegend from '../../../src/legend/category';
 import { getAngleByMatrix } from '../../../src/util/matrix';
 import Theme from '../../../src/util/theme';
@@ -80,7 +80,12 @@ describe('test category legend', () => {
       });
       const itemGroup = legend.getElementById('c-legend-item-group');
       expect(itemGroup.getChildren().length).toBe(legend.get('items').length);
-      expect(itemGroup.getChildren()[1].get('id')).toBe('c-legend-item-1');
+      expect(
+        itemGroup
+          .getChildren()[1]
+          .getFirst()
+          .get('id')
+      ).toBe('c-legend-item-1');
 
       legend.update({
         items: [],
@@ -135,7 +140,7 @@ describe('test category legend', () => {
 
     it('value align right', () => {
       const itemGroup = legend.getElementById('c-legend-item-group');
-      const item1 = itemGroup.getChildren()[0];
+      const item1 = itemGroup.getChildren()[0].getFirst();
 
       legend.update({
         itemWidth: 100,
@@ -187,7 +192,7 @@ describe('test category legend', () => {
           text: '图例名',
         },
         offsetX: 100,
-        offsetY: 150
+        offsetY: 150,
       });
       legend.setLocation({
         x: 200,
@@ -199,7 +204,7 @@ describe('test category legend', () => {
 
       legend.update({
         x: 100,
-        y: 100
+        y: 100,
       });
       bbox = legend.get('group').getCanvasBBox();
       expect(bbox.minX).toBe(200);
@@ -208,7 +213,7 @@ describe('test category legend', () => {
         x: 200,
         y: 200,
         offsetX: 0,
-        offsetY: 0
+        offsetY: 0,
       });
       bbox = legend.get('group').getCanvasBBox();
       expect(bbox.minX).toBe(200);
@@ -239,7 +244,7 @@ describe('test category legend', () => {
       // expect(bbox1.minX).toBe(100);
       // expect(bbox1.minY).toBe(100);
       const itemGroup = legend.getElementById('c-legend-item-group');
-      const item1 = itemGroup.getChildren()[0];
+      const item1 = itemGroup.getChildren()[0].getFirst();
       expect(item1.getFirst().get('type')).toBe('rect');
       expect(item1.getBBox().height).toBe(20);
 
@@ -410,7 +415,7 @@ describe('test category legend', () => {
       updateAutoRender: true,
       maxWidth: 400,
       flipPage: true,
-      animate: false
+      animate: false,
     });
     legend.init();
     legend.render();
@@ -451,6 +456,18 @@ describe('test category legend', () => {
       expect(clip.attr('y')).toBe(0);
       expect(clip.attr('width')).toBeLessThan(400 - navigation.getBBox().width);
       expect(clip.attr('height')).toBe(20); // itemHeight
+    });
+
+    it('item clip', () => {
+      const itemGroup = legend.getElementByLocalId('item-group');
+      const items: IGroup[] = itemGroup.getChildren();
+      expect(items.length).toBe(lotsItems.length);
+      items.forEach((item) => {
+        const clip = item.getClip();
+        expect(clip).not.toBeUndefined();
+        expect(clip.get('type')).toBe('rect');
+        expect(clip.attr('height')).toBe(20);
+      });
     });
 
     it('navigation event', async () => {
@@ -653,6 +670,18 @@ describe('test category legend', () => {
       expect(clip.attr('height')).toBeLessThan(100 - navigation.getBBox().height);
     });
 
+    it('item clip', () => {
+      const itemGroup = legend.getElementByLocalId('item-group');
+      const items: IGroup[] = itemGroup.getChildren();
+      expect(items.length).toBe(lotsItems.length);
+      items.forEach((item) => {
+        const clip = item.getClip();
+        expect(clip).not.toBeUndefined();
+        expect(clip.get('type')).toBe('rect');
+        expect(clip.attr('height')).toBe(20);
+      });
+    });
+
     it('navigation event', async () => {
       const navigation = legend.getElementById('c-legend-navigation-group');
       const itemContainerGroup = legend.getElementById('c-legend-item-container-group');
@@ -785,9 +814,9 @@ describe('test category legend', () => {
       legend.render();
       const itemGroup = legend.getElementById('d-legend-item-group');
       expect(itemGroup.getChildren().length).toBe(items.length);
-      const itemElement2 = itemGroup.getChildren()[2];
+      const itemElement2 = itemGroup.getChildren()[2].getFirst();
       expect(itemElement2.getChildren()[1].attr('opacity')).toBe(0.8); // active
-      const itemElement3 = itemGroup.getChildren()[3];
+      const itemElement3 = itemGroup.getChildren()[3].getFirst();
       expect(itemElement3.getChildren()[0].attr('stroke')).toBe(Theme.uncheckedColor);
       expect(itemElement3.getChildren()[1].attr('fill')).toBe(Theme.uncheckedColor);
     });
@@ -800,7 +829,7 @@ describe('test category legend', () => {
       const item = items[1];
       legend.updateItem(item, { name: '333' });
       const itemGroup = legend.getElementById('d-legend-item-group');
-      const itemElement = itemGroup.getChildren()[1];
+      const itemElement = itemGroup.getChildren()[1].getFirst();
       expect(itemElement.getChildren()[1].attr('text')).toBe('333');
     });
 
@@ -808,7 +837,7 @@ describe('test category legend', () => {
       const item = items[1];
       legend.setItemState(item, 'inactive', true);
       const itemGroup = legend.getElementById('d-legend-item-group');
-      const itemElement = itemGroup.getChildren()[1];
+      const itemElement = itemGroup.getChildren()[1].getFirst();
       expect(itemElement.getChildren()[0].attr('opacity')).toBe(0.2);
       legend.setItemState(item, 'inactive', false);
       expect(itemElement.getChildren()[0].attr('opacity')).not.toBe(0.2);
