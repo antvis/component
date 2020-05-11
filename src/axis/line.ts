@@ -1,6 +1,6 @@
 import { IGroup } from '@antv/g-base';
 import { vec2 } from '@antv/matrix-util';
-import { each, isFunction, isNumberEqual, isNil } from '@antv/util';
+import { each, isFunction, isNil, isNumberEqual } from '@antv/util';
 import { ILocation } from '../interfaces';
 import { BBox, LineAxisCfg, Point, RegionLocationCfg } from '../types';
 import AxisBase from './base';
@@ -84,14 +84,14 @@ class Line extends AxisBase<LineAxisCfg> implements ILocation<RegionLocationCfg>
   // 直线坐标轴下任一点的向量方向都相同
   protected getSideVector(offset: number) {
     const axisVector = this.getAxisVector();
-    const normal = vec2.normalize([], axisVector);
+    const normal = vec2.normalize([0, 0], axisVector);
     const factor = this.get('verticalFactor');
-    const verticalVector = [normal[1], normal[0] * -1]; // 垂直方向，逆时针方向
-    return vec2.scale([], verticalVector, offset * factor);
+    const verticalVector: [ number, number ] = [normal[1], normal[0] * -1]; // 垂直方向，逆时针方向
+    return vec2.scale([0, 0], verticalVector, offset * factor);
   }
 
   // 获取坐标轴的向量
-  protected getAxisVector(): number[] {
+  protected getAxisVector(): [number, number] {
     const start = this.get('start');
     const end = this.get('end');
     return [end.x - start.x, end.y - start.y];

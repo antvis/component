@@ -53,7 +53,7 @@ class Circle extends AxisBase<CircleAxisCfg> {
   // 获取垂直于坐标轴的向量
   protected getSideVector(offset: number, point: Point) {
     const center = this.get('center');
-    const vector = [point.x - center.x, point.y - center.y];
+    const vector: [ number, number ] = [point.x - center.x, point.y - center.y];
     const factor = this.get('verticalFactor');
     const vecLen = vec2.length(vector);
     vec2.scale(vector, vector, (factor * offset) / vecLen);
@@ -61,7 +61,7 @@ class Circle extends AxisBase<CircleAxisCfg> {
   }
 
   // 获取沿坐标轴方向的向量
-  protected getAxisVector(point: Point) {
+  protected getAxisVector(point: Point): [number, number] {
     const center = this.get('center');
     const vector = [point.x - center.x, point.y - center.y];
     return [vector[1], -1 * vector[0]]; // 获取顺时针方向的向量
