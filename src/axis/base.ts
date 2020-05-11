@@ -1,5 +1,5 @@
 import { IGroup } from '@antv/g-base';
-import { vec2 } from '@antv/matrix-util';
+import { ext } from '@antv/matrix-util';
 import { each, filter, isNil, isNumberEqual, mix } from '@antv/util';
 import GroupComponent from '../abstract/group-component';
 import { IList } from '../interfaces';
@@ -229,7 +229,7 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
    * 获取坐标轴的向量
    * @param {Point} point 坐标轴上的点
    */
-  protected abstract getAxisVector(point: Point): number[];
+  protected abstract getAxisVector(point: Point): [number, number];
 
   protected getSidePoint(point: Point, offset: number): Point {
     const self = this;
@@ -497,8 +497,8 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
     if (isNil(rotate) && autoRotate) {
       // 用户没有设定旋转角度，同时设置自动旋转
       const vector = this.getAxisVector(point);
-      const v1 = [1, 0]; // 水平方向的向量
-      angle = vec2.angleTo(vector, v1, true);
+      const v1: [number, number] = [1, 0]; // 水平方向的向量
+      angle = ext.angleTo(vector, v1, true);
     }
     if (angle) {
       const matrix = getMatrixByAngle(titlePoint, angle);

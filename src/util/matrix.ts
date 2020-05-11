@@ -1,4 +1,4 @@
-import { transform, vec2, vec3 } from '@antv/matrix-util';
+import { ext, vec2, vec3 } from '@antv/matrix-util';
 import { BBox, Point } from '../types';
 
 const identityMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
@@ -7,7 +7,7 @@ export function getMatrixByAngle(point: Point, angle: number): number[] {
     // 角度为 0 或者 null 时返回 null
     return null;
   }
-  const m = transform(identityMatrix, [
+  const m = ext.transform(identityMatrix, [
     ['t', -point.x, -point.y],
     ['r', angle],
     ['t', point.x, point.y],
@@ -20,19 +20,23 @@ export function getMatrixByTranslate(point: Point, currentMatrix?: number[]): nu
     // 0，0 或者 nan 的情况下返回 null
     return null;
   }
-  return transform(currentMatrix || identityMatrix, [['t', point.x, point.y]]);
+  return ext.transform(currentMatrix || identityMatrix, [['t', point.x, point.y]]);
 }
 
 // 从矩阵获取旋转的角度
-export function getAngleByMatrix(matrix: number[]): number {
-  const xVector = [1, 0, 0];
-  const out = [];
+export function getAngleByMatrix(matrix: [
+  number, number, number,
+  number, number, number,
+  number, number, number
+]): number {
+  const xVector: [number, number, number] = [1, 0, 0];
+  const out: [ number, number, number ] = [0, 0, 0];
   vec3.transformMat3(out, xVector, matrix);
   return Math.atan2(out[1], out[0]);
 }
 // 矩阵 * 向量
 function multiplyVec2(matrix, v) {
-  const out = [];
+  const out: [number, number] = [0, 0];
   vec2.transformMat3(out, v, matrix);
   return out;
 }
