@@ -195,6 +195,10 @@ export interface AxisTitleCfg {
    */
   offset?: number;
   /**
+   * 标题距离坐标轴文本的距离
+   */
+  spacing?: number;
+  /**
    * 标题文本配置项
    * @type {ShapeAttrs}
    */
@@ -1212,7 +1216,7 @@ export interface HtmlCrossHairCfg extends HtmlComponentCfg {
   /**
    * 文本
    */
-  text: CrosshairTextBaseCfg
+  text: CrosshairTextBaseCfg;
 }
 
 export interface CrosshairLineCfg {
