@@ -473,7 +473,8 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
   // 标题的属性
   private getTitleAttrs() {
     const titleCfg = this.get('title');
-    const { style, position, offset, autoRotate } = titleCfg;
+    const { style, position, offset, spacing = 0, autoRotate } = titleCfg;
+    const titleHeight = style.fontSize;
     let percent = 0.5;
     if (position === 'start') {
       percent = 0;
@@ -481,7 +482,8 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
       percent = 1;
     }
     const point = this.getTickPoint(percent); // 标题对应的坐标轴上的点
-    const titlePoint = this.getSidePoint(point, offset); // 标题的点
+    // 如果没有指定 titleOffset 也没有渲染 label，这里需要自动计算 offset
+    const titlePoint = this.getSidePoint(point, offset || spacing + titleHeight / 2); // 标题的点
 
     const attrs = mix(
       {
