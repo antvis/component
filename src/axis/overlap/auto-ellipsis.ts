@@ -1,29 +1,9 @@
 import { IElement, IGroup } from '@antv/g-base';
 import { each } from '@antv/util';
+import { charAtLength, getLabelLength, strLen,  } from './util';
 
 const ELLIPSIS_CODE = '\u2026';
 const ELLIPSIS_CODE_LENGTH = 2; // 省略号的长度
-
-function strLen(str) {
-  let len = 0;
-  for (let i = 0; i < str.length; i++) {
-    len += charAtLength(str, i);
-  }
-  return len;
-}
-
-function charAtLength(str, i) {
-  if (str.charCodeAt(i) > 0 && str.charCodeAt(i) < 128) {
-    return 1;
-  } else {
-    return 2;
-  }
-}
-
-function getLabelLength(isVertical: boolean, label) {
-  const bbox = label.getCanvasBBox();
-  return isVertical ? bbox.width : bbox.height;
-}
 
 function ellipsisLabel(isVertical: boolean, label: IElement, limitLength: number, position) {
   const text = label.attr('text');
