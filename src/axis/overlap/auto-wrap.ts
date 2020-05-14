@@ -1,12 +1,12 @@
 import { IElement, IGroup } from '@antv/g-base';
 import { each } from '@antv/util';
-import { charAtLength, getLabelLength, strLen,  } from './util';
+import { charAtLength, strLen,  } from './util';
 
 const WRAP_CODE = '\n';
 
 function wrapLabel(isVertical: boolean, label: IElement, limitLength: number){
     const text = label.attr('text');
-    const labelLength = getLabelLength(isVertical, label);
+    const labelLength = label.getBBox().width;
     const codeLength = strLen(text);
     let ellipsised = false;
     if (limitLength < labelLength) {
@@ -19,7 +19,7 @@ function wrapLabel(isVertical: boolean, label: IElement, limitLength: number){
 }
 
 function wrapText(str:string, reseveLength: number){
-    let breakIndex;
+    let breakIndex = 0;
     let rst = '';
     for (let i = 0, index = 0; i < reseveLength; ) {
         const charLength = charAtLength(str, index);
@@ -27,12 +27,13 @@ function wrapText(str:string, reseveLength: number){
             rst += str[index];
             i += charAtLength(str, index);
             index++;
-          } else {
             breakIndex = index;
+          } else {
             break;
           }
     }
-    const wrappedText = rst + WRAP_CODE + str.split(breakIndex,str.length - breakIndex);
+    // 根据设计标准，文本折行不能超过两行
+    const wrappedText = rst + WRAP_CODE + str.substring(breakIndex,str.length);
     return wrappedText;
 }
 
