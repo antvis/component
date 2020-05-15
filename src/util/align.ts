@@ -74,10 +74,10 @@ export function getAlignPoint(
     if (position === 'auto') {
       // 如果是 auto，默认 tooltip 在右上角，仅需要判定右侧和上测冲突即可
       if (outSides.right) {
-        point.x = x - width - offset;
+        point.x = Math.max(0, x - width - offset);
       }
       if (outSides.top) {
-        point.y = y + offset;
+        point.y = Math.max(0, y - height - offset);
       }
     } else if (position === 'top' || position === 'bottom') {
       if (outSides.left) {
