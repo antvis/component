@@ -1,10 +1,10 @@
 import { IElement, IGroup } from '@antv/g-base';
 import { each } from '@antv/util';
-import { charAtLength, strLen,  } from './util';
+import { charAtLength, strLen } from './util';
 
 const WRAP_CODE = '\n';
 
-function wrapLabel(isVertical: boolean, label: IElement, limitLength: number){
+function wrapLabel(label: IElement, limitLength: number){
     const text = label.attr('text');
     const labelLength = label.getBBox().width;
     const codeLength = strLen(text);
@@ -37,11 +37,11 @@ function wrapText(str:string, reseveLength: number){
     return wrappedText;
 }
 
-export function wrapLabels(isVertical: boolean, labelGroup: IGroup, limitLength: number){
+export function wrapLabels(labelGroup: IGroup, limitLength: number){
     const children = labelGroup.getChildren();
     let wrapped = false;
     each(children, (label) => {
-        const rst = wrapLabel(isVertical, label, limitLength);
+        const rst = wrapLabel(label, limitLength);
         wrapped = wrapped || rst;
     });
     return wrapped;
