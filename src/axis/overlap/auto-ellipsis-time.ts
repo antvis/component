@@ -1,7 +1,7 @@
 import { IElement, IGroup } from '@antv/g-base';
 import { each } from '@antv/util';
 import fecha from 'fecha';
-import { charAtLength, getLabelLength, strLen, testLabel, } from './util';
+import { strLen, testLabel, } from './util';
 
 const SECOND = 1000;
 const MINUTE = 60 * SECOND;
@@ -10,7 +10,7 @@ const DAY = 24 * HOUR;
 const MONTH = 31 * DAY;
 const YEAR = 365 * DAY;
 
-function dateTimeAbbrevaite(label, labels, index, timeDuration, limitLength) {
+function dateTimeAbbrevaite(label: IElement, labels: IElement[], index:number, timeDuration:string, limitLength:number) {
     const text = label.attr('text');
     const labelLength = label.getBBox().width;
     const codeLength = strLen(text);
@@ -45,13 +45,13 @@ function dateTimeAbbrevaite(label, labels, index, timeDuration, limitLength) {
 }
 
 // 工具方法
-function getTimeDuration(labels) {
+function getTimeDuration(labels:IElement[]) {
     const start = new Date(labels[0].attr('text'));
     const end = new Date(labels[labels.length - 1].attr('text'));
     return getDateTimeMode(start, end);
 }
 
-function getDateTimeMode(a, b) {
+function getDateTimeMode(a, b):string {
     let mode;
     const dist = Math.abs(a - b);
     const mapper = {
@@ -66,10 +66,10 @@ function getDateTimeMode(a, b) {
             mode = key;
         }
     });
-    return mode;
+    return mode.toString();
 }
 
-function needAbbrevaite(mode, current, previous) {
+function needAbbrevaite(mode:string, current:Date, previous:Date) {
     const currentStamp = getTime(current, mode);
     const previousStamp = getTime(previous, mode);
     if (currentStamp !== previousStamp) {
@@ -79,30 +79,30 @@ function needAbbrevaite(mode, current, previous) {
 }
 
 function getTime(date: Date, mode: string) {
-    if (mode === 'year') {
+    if (mode.toString() === 'year') {
         return date.getFullYear();
     }
-    if (mode === 'month') {
+    if (mode.toString() === 'month') {
         return date.getMonth() + 1;
     }
-    if (mode === 'day') {
+    if (mode.toString() === 'day') {
         return date.getDay() + 1;
     }
 
-    if (mode === 'hour') {
+    if (mode.toString() === 'hour') {
         return date.getHours() + 1;
     }
 
-    if (mode === 'minute') {
+    if (mode.toString() === 'minute') {
         return date.getMinutes() + 1;
     }
 }
 
-function getAbbrevaiteFormatter(duration, cycle) {
+function getAbbrevaiteFormatter(duration:string, cycle:string) {
     const times = ['year', 'month', 'day', 'hour', 'minute'];
     const formatters = ['YYYY', 'MM', 'DD', 'HH', 'MM'];
-    const startIndex = times.indexOf(duration) + 1;
-    const endIndex = times.indexOf(cycle);
+    const startIndex = times.indexOf(duration.toString()) + 1;
+    const endIndex = times.indexOf(cycle.toString());
     let formatter = '';
     for (let i = startIndex; i <= endIndex; i++) {
         formatter += formatters[i];
@@ -113,7 +113,7 @@ function getAbbrevaiteFormatter(duration, cycle) {
     return formatter;
 }
 
-function sameSectionFormatter(time,mode,reseveLength) {
+function sameSectionFormatter(time:Date,mode:string,reseveLength:number) {
     const times = ['year', 'month', 'day', 'hour', 'minute'];
     const formatters = ['YYYY', 'MM', 'DD', 'HH', 'MM'];
     const index = times.indexOf(mode);
@@ -126,7 +126,7 @@ function sameSectionFormatter(time,mode,reseveLength) {
     if(index!==0 && index!==times.length){
         const extendIndex = index <= 2 ? index - 1 : index + 1;
         const extendFormatter = index <= 2 ? `${formatters[extendIndex]}-${formatter}` : `${formatter}-${formatters[extendIndex]}`;
-        if(strLen(fecha.format(time,extendFormatter)) < reseveLength){
+        if(strLen(fecha.format(time,extendFormatter)) <= reseveLength){
             return extendFormatter;
         }
     }
