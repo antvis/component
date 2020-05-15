@@ -1,15 +1,6 @@
 import { IElement, IGroup } from '@antv/g-base';
 import { each } from '@antv/util';
-import { strLen } from './util';
-
-function testLabel(label: IElement, limitLength: number): boolean {
-    let needFormat = false;
-    const labelLength = label.getBBox().width;
-    if (limitLength < labelLength) {
-        needFormat = true;
-    }
-    return needFormat;
-}
+import { strLen, testLabel } from './util';
 
 function formatLabel(label: IElement, unit: number, suffix: string, limitLength: number) {
     const text = label.attr('text');
