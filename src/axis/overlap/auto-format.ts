@@ -14,6 +14,7 @@ function formatLabel(label: IElement, unit: number, suffix: string, precision: n
     label.attr('text', `${newText}${suffix}`)
 }
 
+/** 根据显示空间获取数值format的精度 */
 function getPrecision(labels: IElement[], unit: number, suffix: string, limitLength: number){
     const values = [];
     const length = [];

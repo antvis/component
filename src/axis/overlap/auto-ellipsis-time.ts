@@ -11,6 +11,8 @@ const DAY = 24 * HOUR;
 const MONTH = 31 * DAY;
 const YEAR = 365 * DAY;
 
+
+/** 时间周期显示 */
 function dateTimeAbbrevaite(label: IElement, labels: IElement[], index: number, timeDuration: string, limitLength: number) {
     const text = label.attr('text');
     const labelLength = label.getBBox().width;
@@ -53,13 +55,14 @@ function dateTimeAbbrevaite(label: IElement, labels: IElement[], index: number, 
     }
 }
 
-// 工具方法
+/** 工具方法： 获取时间周期 */
 function getTimeDuration(labels: IElement[]) {
     const start = new Date(labels[0].attr('text'));
     const end = new Date(labels[labels.length - 1].attr('text'));
     return getDateTimeMode(start, end);
 }
 
+/** 工具方法： 获取连个时间戳之间差值的时间粒度 */
 function getDateTimeMode(a, b):string {
     let mode;
     const dist = Math.abs(a - b);
@@ -78,6 +81,7 @@ function getDateTimeMode(a, b):string {
     return mode.toString();
 }
 
+/** 判断是否要进行时间周期显示 */
 function needAbbrevaite(mode: string, current: Date, previous: Date) {
     const currentStamp = getTime(current, mode);
     const previousStamp = getTime(previous, mode);
@@ -107,6 +111,7 @@ function getTime(date: Date, mode: string) {
     }
 }
 
+/** 获取时间周期显示的formatter */
 function getAbbrevaiteFormatter(duration: string, cycle: string) {
     const times = ['year', 'month', 'day', 'hour', 'minute'];
     const formatters = ['YYYY', 'MM', 'DD', 'HH', 'MM'];
@@ -122,6 +127,7 @@ function getAbbrevaiteFormatter(duration: string, cycle: string) {
     return formatter;
 }
 
+/** 逐级显示逻辑 */
 function sameSectionFormatter(time: Date,mode: string,reseveLength: number) {
     const times = ['year', 'month', 'day', 'hour', 'minute'];
     const formatters = ['YYYY', 'MM', 'DD', 'HH', 'MM'];

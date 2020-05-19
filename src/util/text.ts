@@ -1,6 +1,8 @@
 
 const ELLIPSIS_CODE = '\u2026';
 
+
+/** 获取字符串长度 */
 export function strLen(str: string) {
     let len = 0;
     for (let i = 0; i < str.length; i++) {
@@ -9,6 +11,7 @@ export function strLen(str: string) {
     return len;
 }
 
+/** 是否属于ASCII编码范畴 */
 export function charAtLength(str: string, i: number) {
     if (str.charCodeAt(i) > 0 && str.charCodeAt(i) < 128) {
         return 1;
@@ -17,6 +20,7 @@ export function charAtLength(str: string, i: number) {
     }
 }
 
+/** 文本省略 */
 export function ellipsisString(str: string, reseveLength: number, position:string) {
     const count = str.length;
     let rst = '';
