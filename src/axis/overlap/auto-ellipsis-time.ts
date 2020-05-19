@@ -1,7 +1,8 @@
 import { IElement, IGroup } from '@antv/g-base';
 import { each } from '@antv/util';
 import fecha from 'fecha';
-import { strLen, testLabel, } from './util';
+import { strLen } from '../../util/text';
+import { testLabel, } from './util';
 
 const SECOND = 1000;
 const MINUTE = 60 * SECOND;
@@ -15,6 +16,7 @@ function dateTimeAbbrevaite(label: IElement, labels: IElement[], index:number, t
     const labelLength = label.getBBox().width;
     const codeLength = strLen(text);
     const reseveLength = Math.floor((limitLength / labelLength) * codeLength);
+    let ellipsised = false;
     let campareText;
     if (index === labels.length - 1) {
         campareText = labels[index - 1].attr('text');
@@ -30,6 +32,7 @@ function dateTimeAbbrevaite(label: IElement, labels: IElement[], index:number, t
         if (index !== 0 && index !== labels.length - 1) {
             const formatter = sameSectionFormatter(current,timeDuration,reseveLength);
             label.attr('text', fecha.format(current, formatter));
+            ellipsised = true;
         }
         return;
     }
@@ -40,7 +43,13 @@ function dateTimeAbbrevaite(label: IElement, labels: IElement[], index:number, t
         if (isAbbreviate) {
           const formatter = getAbbrevaiteFormatter(timeDuration, timeCycle);
           label.attr('text', fecha.format(current, formatter));
+          ellipsised = true;
         }
+    }
+    if (ellipsised) {
+        label.set('tip', text);
+    } else {
+        label.set('tip', null);
     }
 }
 
@@ -135,17 +144,18 @@ function sameSectionFormatter(time:Date,mode:string,reseveLength:number) {
 
 export function ellipsisTime(labelGroup: IGroup, limitLength: number): boolean {
     const children = labelGroup.getChildren();
-    let needFormat = false;
+    let needEllipsis = false;
+    let ellipsised = false;
     each(children, (label) => {
         const rst = testLabel(label, limitLength);
-        needFormat = needFormat || rst;
+        needEllipsis = needEllipsis || rst;
     });
-    if (needFormat) {
+    if (needEllipsis) {
         const timeDuration = getTimeDuration(children);
         each(children, (label, index) => {
             dateTimeAbbrevaite(label, children, index, timeDuration, limitLength);
         });
-        return true;
+        ellipsised = true;
     }
-    return false;
+    return ellipsised;
 }

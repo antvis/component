@@ -1,6 +1,6 @@
 import { IElement, IGroup } from '@antv/g-base';
 import { each } from '@antv/util';
-import { charAtLength, strLen } from './util';
+import { charAtLength, strLen } from '../../util/text';
 
 const WRAP_CODE = '\n';
 
