@@ -18,7 +18,7 @@ function wrapLabel(label: IElement, limitLength: number){
     return ellipsised;
 }
 
-function wrapText(str:string, reseveLength: number){
+function wrapText(str: string, reseveLength: number){
     let breakIndex = 0;
     let rst = '';
     for (let i = 0, index = 0; i < reseveLength; ) {

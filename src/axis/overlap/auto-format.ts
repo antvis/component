@@ -14,7 +14,7 @@ function formatLabel(label: IElement, unit: number, suffix: string, precision: n
     label.attr('text', `${newText}${suffix}`)
 }
 
-function getPrecision(labels:IElement[], unit: number, suffix: string, limitLength: number){
+function getPrecision(labels: IElement[], unit: number, suffix: string, limitLength: number){
     const values = [];
     const length = [];
     each(labels,(label)=>{
@@ -29,25 +29,19 @@ function getPrecision(labels:IElement[], unit: number, suffix: string, limitLeng
     const suffixLength = strLen(suffix);
     const reseveLength = Math.floor((limitLength / maxLength) * maxCodeLength) - suffixLength;
     // 先尝试保留小数点后两位
-    let valueCodeLength = strLen(values[0].toFixed(2).toString());
+    let valueCodeLength = strLen(values[0].toFixed(2));
     if (valueCodeLength <= reseveLength) {
         return 2;
     }
     // 保留小数点后1位
-    valueCodeLength = strLen(values[0].toFixed(1).toString());
+    valueCodeLength = strLen(values[0].toFixed(1));
     if (valueCodeLength <= reseveLength) {
         return 1
     }
-    // 采用整数
-    return 0;
 }
 
 function formatText(value: number, precision: number) {
-    if(precision === 0){
-       return Math.round(value); 
-    }else{
-        return value.toFixed(precision).toString();
-    }
+    return value.toFixed(precision || 0);
 }
 
 export function formatLabels(labelGroup: IGroup, limitLength: number, unit: number, suffix: string): boolean {
@@ -55,7 +49,9 @@ export function formatLabels(labelGroup: IGroup, limitLength: number, unit: numb
     let needFormat = false;
     each(children, (label) => {
         const rst = testLabel(label, limitLength);
-        needFormat = needFormat || rst;
+        if(rst === false){
+            needFormat = true;
+        }
     });
     if (needFormat) {
         const precision = getPrecision(children,unit,suffix,limitLength);

@@ -11,7 +11,7 @@ const DAY = 24 * HOUR;
 const MONTH = 31 * DAY;
 const YEAR = 365 * DAY;
 
-function dateTimeAbbrevaite(label: IElement, labels: IElement[], index:number, timeDuration:string, limitLength:number) {
+function dateTimeAbbrevaite(label: IElement, labels: IElement[], index: number, timeDuration: string, limitLength: number) {
     const text = label.attr('text');
     const labelLength = label.getBBox().width;
     const codeLength = strLen(text);
@@ -54,7 +54,7 @@ function dateTimeAbbrevaite(label: IElement, labels: IElement[], index:number, t
 }
 
 // 工具方法
-function getTimeDuration(labels:IElement[]) {
+function getTimeDuration(labels: IElement[]) {
     const start = new Date(labels[0].attr('text'));
     const end = new Date(labels[labels.length - 1].attr('text'));
     return getDateTimeMode(start, end);
@@ -78,7 +78,7 @@ function getDateTimeMode(a, b):string {
     return mode.toString();
 }
 
-function needAbbrevaite(mode:string, current:Date, previous:Date) {
+function needAbbrevaite(mode: string, current: Date, previous: Date) {
     const currentStamp = getTime(current, mode);
     const previousStamp = getTime(previous, mode);
     if (currentStamp !== previousStamp) {
@@ -107,7 +107,7 @@ function getTime(date: Date, mode: string) {
     }
 }
 
-function getAbbrevaiteFormatter(duration:string, cycle:string) {
+function getAbbrevaiteFormatter(duration: string, cycle: string) {
     const times = ['year', 'month', 'day', 'hour', 'minute'];
     const formatters = ['YYYY', 'MM', 'DD', 'HH', 'MM'];
     const startIndex = times.indexOf(duration.toString()) + 1;
@@ -122,7 +122,7 @@ function getAbbrevaiteFormatter(duration:string, cycle:string) {
     return formatter;
 }
 
-function sameSectionFormatter(time:Date,mode:string,reseveLength:number) {
+function sameSectionFormatter(time: Date,mode: string,reseveLength: number) {
     const times = ['year', 'month', 'day', 'hour', 'minute'];
     const formatters = ['YYYY', 'MM', 'DD', 'HH', 'MM'];
     const index = times.indexOf(mode);

@@ -6,10 +6,5 @@ export function getLabelLength(isVertical: boolean, label) {
 }
 
 export function testLabel(label: IElement, limitLength: number): boolean {
-    let needFormat = false;
-    const labelLength = label.getBBox().width;
-    if (limitLength < labelLength) {
-        needFormat = true;
-    }
-    return needFormat;
+    return label.getBBox().width < limitLength;
 }

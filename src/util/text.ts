@@ -1,7 +1,7 @@
 
 const ELLIPSIS_CODE = '\u2026';
 
-export function strLen(str) {
+export function strLen(str: string) {
     let len = 0;
     for (let i = 0; i < str.length; i++) {
         len += charAtLength(str, i);
@@ -9,7 +9,7 @@ export function strLen(str) {
     return len;
 }
 
-export function charAtLength(str, i) {
+export function charAtLength(str: string, i: number) {
     if (str.charCodeAt(i) > 0 && str.charCodeAt(i) < 128) {
         return 1;
     } else {
@@ -17,7 +17,7 @@ export function charAtLength(str, i) {
     }
 }
 
-export function ellipsisString(str, reseveLength: number, position) {
+export function ellipsisString(str: string, reseveLength: number, position:string) {
     const count = str.length;
     let rst = '';
     if (position === 'tail') {
