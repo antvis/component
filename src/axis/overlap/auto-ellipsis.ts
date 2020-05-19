@@ -1,29 +1,10 @@
 import { IElement, IGroup } from '@antv/g-base';
 import { each } from '@antv/util';
+import { ellipsisString, strLen } from '../../util/text';
+import {  getLabelLength } from './util';
 
 const ELLIPSIS_CODE = '\u2026';
 const ELLIPSIS_CODE_LENGTH = 2; // 省略号的长度
-
-function strLen(str) {
-  let len = 0;
-  for (let i = 0; i < str.length; i++) {
-    len += charAtLength(str, i);
-  }
-  return len;
-}
-
-function charAtLength(str, i) {
-  if (str.charCodeAt(i) > 0 && str.charCodeAt(i) < 128) {
-    return 1;
-  } else {
-    return 2;
-  }
-}
-
-function getLabelLength(isVertical: boolean, label) {
-  const bbox = label.getCanvasBBox();
-  return isVertical ? bbox.width : bbox.height;
-}
 
 function ellipsisLabel(isVertical: boolean, label: IElement, limitLength: number, position) {
   const text = label.attr('text');
@@ -49,63 +30,6 @@ function ellipsisLabel(isVertical: boolean, label: IElement, limitLength: number
     label.set('tip', null);
   }
   return ellipsised;
-}
-
-function ellipsisString(str, reseveLength: number, position) {
-  const count = str.length;
-  let rst = '';
-  if (position === 'tail') {
-    for (let i = 0, index = 0; i < reseveLength; ) {
-      const charLength = charAtLength(str, index);
-      if (i + charLength <= reseveLength) {
-        rst += str[index];
-        i += charAtLength(str, index);
-        index++;
-      } else {
-        break;
-      }
-    }
-    rst += ELLIPSIS_CODE;
-  } else if (position === 'head') {
-    for (let i = 0, index = count - 1; i < reseveLength; ) {
-      const charLength = charAtLength(str, index);
-      if (i + charLength <= reseveLength) {
-        rst += str[index];
-        i += charAtLength(str, index);
-        index--;
-      } else {
-        break;
-      }
-    }
-    rst = ELLIPSIS_CODE + rst;
-  } else {
-    let startStr = '';
-    let endStr = '';
-    for (let i = 0, startIndex = 0, endIndex = count - 1; i < reseveLength; ) {
-      const startCodeLen = charAtLength(str, startIndex);
-      let hasAdd = false; // 设置标志位，防止头尾都没有附加字符
-      if (startCodeLen + i <= reseveLength) {
-        startStr += str[startIndex];
-        startIndex++;
-        i += startCodeLen;
-        hasAdd = true;
-      }
-
-      const endCodeLen = charAtLength(str, endIndex);
-      if (endCodeLen + i <= reseveLength) {
-        endStr = str[endIndex] + endStr;
-        i += endCodeLen;
-        endIndex--;
-        hasAdd = true;
-      }
-      if (!hasAdd) {
-        // 如果都没有增加字符，说明都不适合则中断
-        break;
-      }
-    }
-    rst = startStr + ELLIPSIS_CODE + endStr;
-  }
-  return rst;
 }
 
 function ellipseLabels(isVertical: boolean, labelGroup: IGroup, limitLength: number, position: string): boolean {
