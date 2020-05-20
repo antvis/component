@@ -27,7 +27,7 @@ describe('responsive legend',()=>{
             autoEllipsis: true,
             autoHide: true
           },
-          itemWidth: 50
+          itemWidth: 80
         };
         renderLegend(canvas, items, legendCfg);
     });
