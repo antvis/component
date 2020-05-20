@@ -1,11 +1,12 @@
-import { IGroup } from '@antv/g-base';
-import { each, filter, get, mix } from '@antv/util';
+import { IGroup, IShape } from '@antv/g-base';
+import { each, filter, get, isNil, mix } from '@antv/util';
 import { IList } from '../interfaces';
 import { CategoryLegendCfg, LegendItemNameCfg, LegendMarkerCfg, ListItem } from '../types';
 import { getMatrixByAngle, getMatrixByTranslate } from '../util/matrix';
 import { getStatesStyle } from '../util/state';
 import Theme from '../util/theme';
 import LegendBase from './base';
+import { ellipsisText, getItemNameLimitLength, getItemShape, getItemValueLimitLength } from './responsive';
 
 class Category extends LegendBase<CategoryLegendCfg> implements IList {
   private currentPageIndex = 1;
@@ -428,6 +429,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     }
 
     this.applyItemStates(item, subGroup);
+    this.applyItemResponsive(item, subGroup);
     return subGroup;
   }
 
@@ -719,6 +721,31 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
           }
         }
       });
+    }
+  }
+
+  // legend item 响应式
+  private applyItemResponsive(item: ListItem, subGroup:IGroup){
+    // 如果用户没有设置itemWidth,则responsive limitLength继承maxWidth，即每行至少能够放下一个legend item
+    const limitLength = isNil(this.get('itemWidth')) ? this.get('maxWidth') : this.get('itemWidth');
+    const responsiveOrder = this.get('responsiveOrder');
+    for(const actionName of responsiveOrder){
+      if(subGroup.getBBox().width > limitLength){
+        this.processItemResponsive(actionName,subGroup,limitLength);
+      }else{
+        break;
+      }
+    }
+  }
+
+  private processItemResponsive(actionName,subGroup,limitLength){
+    const nameShape = getItemShape(subGroup, 'legend-item-name');
+    const valueShape = getItemShape(subGroup, 'legend-item-value');
+    const itemMarkerCfg = this.get('marker');
+    const itemNameCfg = this.get('itemName');
+    const itemValueCfg = this.get('itemValue');
+    if(actionName === 'autoEllipsisValue' && valueShape && itemValueCfg?.autoEllipsis){
+      const sunLimit = getItemValueLimitLength(subGroup,itemMarkerCfg,itemNameCfg,itemValueCfg,limitLength);
     }
   }
 }

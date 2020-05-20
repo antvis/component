@@ -1,4 +1,5 @@
-import { IElement } from '@antv/g-base';
+import { IElement, IGroup } from '@antv/g-base';
+import { LegendItemNameCfg, LegendItemValueCfg, LegendMarkerCfg } from '../types'
 import { charAtLength, strLen } from '../util/text';
 
 const ELLIPSIS_CODE = '\u2026';
@@ -44,4 +45,43 @@ export function ellipsisText(shape: IElement, limitLength: number, position: str
         shape.set('tip', null);
     }
     return ellipsised;
+}
+
+function getMakerCalCfg(group: IGroup, cfg){
+    const shape = getItemShape(group,'legend-item-marker');
+    const width = shape ? shape.getBBox().width : 0;
+    const spacing = shape ? cfg.spacing : 0;
+    return { width, spacing };
+}
+
+function getNameCalCfg(group: IGroup, cfg){
+    const shape = getItemShape(group,'legend-item-name');
+    const width = shape ? shape.getBBox().width : 0;
+    const spacing = shape ? cfg.spacing : 0;
+    return { width, spacing };
+}
+
+export function getItemValueLimitLength( group: IGroup, itemMarkerCfg: LegendMarkerCfg, itemNameCfg: LegendItemNameCfg, itemValueCfg: LegendItemValueCfg, totalLimit: number ){
+    const markerCalCfg = getMakerCalCfg(group,itemMarkerCfg);
+    const nameCalCfg = getNameCalCfg(group,itemNameCfg);
+    
+    return totalLimit - markerCalCfg.width - markerCalCfg.spacing - nameCalCfg.width - nameCalCfg.spacing;
+}
+
+export function getItemNameLimitLength( group: IGroup, itemMarkerCfg: LegendMarkerCfg, itemNameCfg: LegendItemNameCfg, itemValueCfg: LegendItemValueCfg, totalLimit: number ){
+    const valueShape = getItemShape(group,'legend-item-value');
+    const markerCalCfg = getMakerCalCfg(group,itemMarkerCfg);
+    if(valueShape){
+        return totalLimit - markerCalCfg.width - markerCalCfg.spacing - itemNameCfg.spacing;
+    }
+    return totalLimit - markerCalCfg.width - markerCalCfg.spacing;
+}
+
+export function getItemShape(group: IGroup, name: string){
+    const nameShape = group.findAll((el) => {
+      if (el.get('name')) {
+        return el.get('name') === name;
+      }
+    })[0];
+    return nameShape;
 }
