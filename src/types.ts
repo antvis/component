@@ -537,22 +537,6 @@ export interface CategoryLegendCfg extends LegendBaseCfg {
    */
   items: ListItem[];
   /**
-   * 当图例item超过itemWidth时，是否自动省略itemName
-   */
-  autoEllipsisName?: boolean;
-  /**
-   * 当图例item超过itemWidth时，是否自动省略itemValue
-   */
-  autoEllipsisValue?: boolean;
-  /**
-   * 当图例item超过itemWidth时，是否自动隐藏itemValue
-   */
-  autoHideValue?: boolean;
-  /**
-   * 图例文字省略位置
-   */
-  ellipsisPosition?: 'head' | 'middle' | 'tail';
-  /**
    * 当图例item超过itemWidth时响应式规则执行顺序
    */
   responsiveOrder?:[];
@@ -713,6 +697,14 @@ export interface LegendItemNameCfg {
    * @type {ShapeAttrs}
    */
   style?: ShapeAttrs;
+  /**
+   * 当图例item超过itemWidth时，是否自动省略
+   */
+  autoEllipsis?: boolean;
+  /**
+   * 文字省略位置
+   */
+  ellipsisPosition?: 'head' | 'middle' | 'tail';
 }
 
 type formatterCallback = (text: string, item: ListItem, index: number) => any;
@@ -733,6 +725,18 @@ export interface LegendItemValueCfg {
    * @type {ShapeAttrs}
    */
   style?: ShapeAttrs;
+  /**
+   * 当图例item超过itemWidth时，是否自动省略
+   */
+  autoEllipsis?: boolean;
+  /**
+   * 当图例item超过itemWidth时，是否自动隐藏
+   */
+  autoHide?: boolean;
+  /**
+   * 文字省略位置
+   */
+  ellipsisPosition?: 'head' | 'middle' | 'tail';
 }
 
 export interface LegendMarkerCfg {

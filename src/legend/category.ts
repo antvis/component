@@ -32,6 +32,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
       items: [],
       itemStates: {},
       itemBackground: {},
+      responsiveOrder:['autoEllipsisValue','autoHideValue','autoEllipsisName'],
       defaultCfg: {
         title: {
           spacing: 5,
@@ -62,6 +63,8 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
             textAlign: 'start',
             textBaseline: 'middle',
           },
+          autoEllipsis: false,
+          ellipsisPosition: 'tail'
         },
         marker: {
           spacing: 8,
@@ -79,6 +82,9 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
             textAlign: 'start',
             textBaseline: 'middle',
           },
+          autoEllipsis: false,
+          autoHide: false,
+          ellipsisPosition: 'tail'
         },
         itemStates: {
           active: {
