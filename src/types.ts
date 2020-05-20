@@ -536,6 +536,26 @@ export interface CategoryLegendCfg extends LegendBaseCfg {
    * @type {ListItem[]}
    */
   items: ListItem[];
+  /**
+   * 当图例item超过itemWidth时，是否自动省略itemName
+   */
+  autoEllipsisName?: boolean;
+  /**
+   * 当图例item超过itemWidth时，是否自动省略itemValue
+   */
+  autoEllipsisValue?: boolean;
+  /**
+   * 当图例item超过itemWidth时，是否自动隐藏itemValue
+   */
+  autoHideValue?: boolean;
+  /**
+   * 图例文字省略位置
+   */
+  ellipsisPosition?: 'head' | 'middle' | 'tail';
+  /**
+   * 当图例item超过itemWidth时响应式规则执行顺序
+   */
+  responsiveOrder?:[];
 }
 
 export interface ContinueLegendCfg extends LegendBaseCfg {
