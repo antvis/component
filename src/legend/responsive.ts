@@ -21,7 +21,7 @@ function ellipsisString(str: string, reseveLength: number, position) {
     return rst;
 }
 
-export function ellipsisText(shape: IElement, limitLength: number, position: string): boolean {
+export function ellipsisText(shape: IElement, limitLength: number, position: string) {
     const text = shape.attr('text');
     const shapeLength = shape.getBBox().width;
     const codeLength = strLen(text);
@@ -44,7 +44,6 @@ export function ellipsisText(shape: IElement, limitLength: number, position: str
     } else {
         shape.set('tip', null);
     }
-    return ellipsised;
 }
 
 function getMakerCalCfg(group: IGroup, cfg){
@@ -61,14 +60,13 @@ function getNameCalCfg(group: IGroup, cfg){
     return { width, spacing };
 }
 
-export function getItemValueLimitLength( group: IGroup, itemMarkerCfg: LegendMarkerCfg, itemNameCfg: LegendItemNameCfg, itemValueCfg: LegendItemValueCfg, totalLimit: number ){
+export function getItemValueLimitLength( group: IGroup, itemMarkerCfg: LegendMarkerCfg, itemNameCfg: LegendItemNameCfg, totalLimit: number ){
     const markerCalCfg = getMakerCalCfg(group,itemMarkerCfg);
     const nameCalCfg = getNameCalCfg(group,itemNameCfg);
-    
     return totalLimit - markerCalCfg.width - markerCalCfg.spacing - nameCalCfg.width - nameCalCfg.spacing;
 }
 
-export function getItemNameLimitLength( group: IGroup, itemMarkerCfg: LegendMarkerCfg, itemNameCfg: LegendItemNameCfg, itemValueCfg: LegendItemValueCfg, totalLimit: number ){
+export function getItemNameLimitLength( group: IGroup, itemMarkerCfg: LegendMarkerCfg, itemNameCfg: LegendItemNameCfg, totalLimit: number ){
     const valueShape = getItemShape(group,'legend-item-value');
     const markerCalCfg = getMakerCalCfg(group,itemMarkerCfg);
     if(valueShape){

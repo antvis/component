@@ -745,12 +745,12 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     const itemNameCfg = this.get('itemName');
     const itemValueCfg = this.get('itemValue');
     if(actionName === 'autoEllipsisValue' && valueShape && itemValueCfg?.autoEllipsis){
-      const subLimit = getItemValueLimitLength(subGroup,itemMarkerCfg,itemNameCfg,itemValueCfg,limitLength);
+      const subLimit = getItemValueLimitLength(subGroup,itemMarkerCfg,itemNameCfg,limitLength);
       ellipsisText(valueShape,subLimit,'tail');
     } else if(actionName === 'autoHideValue' && valueShape && itemValueCfg?.autoHide){
       valueShape.attr('text','');
     } else if(actionName === 'autoEllipsisName' && nameShape && itemNameCfg?.autoEllipsis) {
-      const subLimit = getItemNameLimitLength(subGroup,itemMarkerCfg,itemNameCfg,itemValueCfg,limitLength);
+      const subLimit = getItemNameLimitLength(subGroup,itemMarkerCfg,itemNameCfg,limitLength);
       ellipsisText(nameShape,subLimit,'tail');
     }
   }
