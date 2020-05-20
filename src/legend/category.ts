@@ -6,7 +6,7 @@ import { getMatrixByAngle, getMatrixByTranslate } from '../util/matrix';
 import { getStatesStyle } from '../util/state';
 import Theme from '../util/theme';
 import LegendBase from './base';
-import { ellipsisText, getItemNameLimitLength, getItemShape, getItemValueLimitLength } from './responsive';
+import { ellipsisText, getItemNameLimitLength, getItemShape, getItemValueLimitLength, updateValuePosition } from './responsive';
 
 class Category extends LegendBase<CategoryLegendCfg> implements IList {
   private currentPageIndex = 1;
@@ -410,6 +410,9 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
         });
       } // 如果考虑 value 和 name 的覆盖，这个地方需要做文本自动省略的功能
     }
+    
+    this.applyItemResponsive(item, subGroup);
+
     // 添加透明的背景，便于拾取和包围盒计算
     if (itemBackground) {
       const bbox = subGroup.getBBox();
@@ -427,9 +430,8 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
       });
       backShape.toBack();
     }
-
     this.applyItemStates(item, subGroup);
-    this.applyItemResponsive(item, subGroup);
+  
     return subGroup;
   }
 
@@ -745,15 +747,25 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     const itemNameCfg = this.get('itemName');
     const itemValueCfg = this.get('itemValue');
     if(actionName === 'autoEllipsisValue' && valueShape && itemValueCfg?.autoEllipsis){
+      if(isNil(valueShape.attr('text'))){
+        return;
+      }
       const subLimit = getItemValueLimitLength(subGroup,itemMarkerCfg,itemNameCfg,limitLength);
       ellipsisText(valueShape,subLimit,'tail');
     } else if(actionName === 'autoHideValue' && valueShape && itemValueCfg?.autoHide){
+      if(isNil(valueShape.attr('text'))){
+        return;
+      }
       valueShape.attr('text','');
     } else if(actionName === 'autoEllipsisName' && nameShape && itemNameCfg?.autoEllipsis) {
       const subLimit = getItemNameLimitLength(subGroup,itemMarkerCfg,itemNameCfg,limitLength);
-      ellipsisText(nameShape,subLimit,'tail');
+      const ellipsised = ellipsisText(nameShape,subLimit,'tail');
+      if(ellipsised && valueShape){
+        updateValuePosition(valueShape,subGroup,itemNameCfg);
+      }
     }
   }
+
 }
 
 export default Category;

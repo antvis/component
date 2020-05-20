@@ -44,6 +44,7 @@ export function ellipsisText(shape: IElement, limitLength: number, position: str
     } else {
         shape.set('tip', null);
     }
+    return ellipsised;
 }
 
 function getMakerCalCfg(group: IGroup, cfg){
@@ -70,7 +71,7 @@ export function getItemNameLimitLength( group: IGroup, itemMarkerCfg: LegendMark
     const valueShape = getItemShape(group,'legend-item-value');
     const markerCalCfg = getMakerCalCfg(group,itemMarkerCfg);
     if(valueShape){
-        return totalLimit - markerCalCfg.width - markerCalCfg.spacing - itemNameCfg.spacing;
+        return totalLimit - markerCalCfg.width - markerCalCfg.spacing - itemNameCfg.spacing - valueShape.getBBox().width;
     }
     return totalLimit - markerCalCfg.width - markerCalCfg.spacing;
 }
@@ -82,4 +83,11 @@ export function getItemShape(group: IGroup, name: string){
       }
     })[0];
     return nameShape;
+}
+
+export function updateValuePosition(shape: IElement, group: IGroup, itemNameCfg: LegendItemNameCfg){
+    const nameShape = getItemShape(group,'legend-item-name');
+    const nameSpacing = nameShape ? itemNameCfg.spacing : 0;
+    const targetX = nameShape.attr('x') + nameShape.getBBox().width + nameSpacing;
+    shape.attr('x', targetX);
 }

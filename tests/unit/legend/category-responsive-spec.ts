@@ -77,6 +77,39 @@ describe('responsive legend',()=>{
       legend.destroy();
     });
 
+    it('default responsive order - without value',()=>{
+      const legendCfg = {
+        itemName:{
+          autoEllipsis: true
+        },
+        itemValue:false,
+        itemWidth: 70
+      };
+      const legend = renderLegend(canvas, items, legendCfg);
+      const itemGroup = legend.getElementById('c-legend-item-group').get('children')[0].get('children')[0];
+      const nameShape = getItemShape(itemGroup,'legend-item-name');
+      expect(nameShape.get('tip')).toBe('AthrunZala');
+      legend.destroy();
+    });
+
+    it('custom responsive order',()=>{
+      const legendCfg = {
+        itemName:{
+          autoEllipsis: true
+        },
+        itemValue:{
+          autoEllipsis: true,
+          autoHide: true,
+        },
+        itemWidth: 120,
+        responsiveOrder:['autoEllipsisName','autoEllipsisValue','autoHideValue']
+      };
+      const legend = renderLegend(canvas, items, legendCfg);
+      const itemGroup = legend.getElementById('c-legend-item-group').get('children')[0].get('children')[0];
+      const nameShape = getItemShape(itemGroup,'legend-item-name');
+      expect(nameShape.get('tip')).toBe('AthrunZala');
+      legend.destroy();
+    })
 });
 
 function renderLegend(canvas,items,cfg){
