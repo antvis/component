@@ -92,7 +92,7 @@ describe('responsive legend',()=>{
       legend.destroy();
     });
 
-    it('custom responsive order',()=>{
+    it('custom responsive order - ellipsis name',()=>{
       const legendCfg = {
         itemName:{
           autoEllipsis: true
@@ -109,7 +109,70 @@ describe('responsive legend',()=>{
       const nameShape = getItemShape(itemGroup,'legend-item-name');
       expect(nameShape.get('tip')).toBe('AthrunZala');
       legend.destroy();
-    })
+    });
+
+    it('custom responsive order - ellipsis value',()=>{
+      const legendCfg = {
+        itemName:{
+          autoEllipsis: true
+        },
+        itemValue:{
+          autoEllipsis: true,
+          autoHide: true,
+        },
+        itemWidth: 100,
+        responsiveOrder:['autoEllipsisName','autoEllipsisValue','autoHideValue']
+      };
+      const legend = renderLegend(canvas, items, legendCfg);
+      const itemGroup = legend.getElementById('c-legend-item-group').get('children')[0].get('children')[0];
+      const nameShape = getItemShape(itemGroup,'legend-item-name');
+      expect(nameShape.get('tip')).toBe('AthrunZala');
+      const valueShape = getItemShape(itemGroup,'legend-item-value');
+      expect(valueShape.get('tip')).toBe('GAT-X303');
+      legend.destroy();
+    });
+
+    it('custom responsive order - hide value',()=>{
+      const legendCfg = {
+        itemName:{
+          autoEllipsis: true
+        },
+        itemValue:{
+          autoEllipsis: true,
+          autoHide: true,
+        },
+        itemWidth: 10,
+        responsiveOrder:['autoEllipsisName','autoEllipsisValue','autoHideValue']
+      };
+      const legend = renderLegend(canvas, items, legendCfg);
+      const itemGroup = legend.getElementById('c-legend-item-group').get('children')[0].get('children')[0];
+      const nameShape = getItemShape(itemGroup,'legend-item-name');
+      expect(nameShape.get('tip')).toBe('AthrunZala');
+      const valueShape = getItemShape(itemGroup,'legend-item-value');
+      expect(valueShape.get('tip')).toBe('GAT-X303');
+      expect(valueShape.attr('text')).toBe('');
+      legend.destroy();
+    });
+
+    it('close one action',()=>{
+      const legendCfg = {
+        itemName:{
+          autoEllipsis: false
+        },
+        itemValue:{
+          autoEllipsis: true,
+          autoHide: true
+        },
+        itemWidth: 100
+      };
+      const legend = renderLegend(canvas, items, legendCfg);
+      const itemGroup = legend.getElementById('c-legend-item-group').get('children')[0].get('children')[0];
+      const valueShape = getItemShape(itemGroup,'legend-item-value');
+      const nameShape = getItemShape(itemGroup,'legend-item-name');
+      expect(valueShape.get('tip')).toBe('GAT-X303');
+      expect(nameShape.get('tip')).toBe(undefined);
+      legend.destroy();
+    });
 });
 
 function renderLegend(canvas,items,cfg){
