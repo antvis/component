@@ -264,14 +264,14 @@ describe('test tooltip', () => {
       expect(bbox.y).toBe(300 - offset - bbox.height);
 
       tooltip.update({
-        // 右侧出去
+        // 上侧出去
         x: 400,
         y: 80,
       });
 
       bbox = tooltip.getBBox();
       expect(bbox.x).toBe(400 - offset - bbox.width);
-      expect(bbox.y).toBe(80 + offset);
+      expect(bbox.y).toBe(Math.max(0, 80 - offset - bbox.height));
     });
     it('destroy', () => {
       tooltip.destroy();
