@@ -751,7 +751,8 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
         return;
       }
       const subLimit = getItemValueLimitLength(subGroup,itemMarkerCfg,itemNameCfg,limitLength);
-      ellipsisText(valueShape,subLimit,'tail');
+      const ellipsisPosition = itemValueCfg.ellipsisPosition;
+      ellipsisText(valueShape,subLimit,ellipsisPosition);
     } else if(actionName === 'autoHideValue' && valueShape && itemValueCfg?.autoHide){
       if(isNil(valueShape.attr('text'))){
         return;
@@ -759,13 +760,13 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
       valueShape.attr('text','');
     } else if(actionName === 'autoEllipsisName' && nameShape && itemNameCfg?.autoEllipsis) {
       const subLimit = getItemNameLimitLength(subGroup,itemMarkerCfg,itemNameCfg,limitLength);
-      const ellipsised = ellipsisText(nameShape,subLimit,'tail');
+      const ellipsisPosition = itemValueCfg.ellipsisPosition;
+      const ellipsised = ellipsisText(nameShape,subLimit,ellipsisPosition);
       if(ellipsised && valueShape){
         updateValuePosition(valueShape,subGroup,itemNameCfg);
       }
     }
   }
-
 }
 
 export default Category;
