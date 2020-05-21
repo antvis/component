@@ -419,6 +419,24 @@ export interface CircleAxisCfg extends AxisBaseCfg {
   endAngle?: number;
 }
 
+interface CategoryAxisLabelCfg extends AxisLabelCfg{ 
+  autoWrap?: boolean;
+}
+
+export interface CategoryAxisCfg extends LineAxisCfg {
+  label?: CategoryAxisLabelCfg;
+}
+
+interface ValueAxisLabelCfg extends AxisLabelCfg{ 
+  autoFormat?: boolean;
+  autoFormatUnit?: number;
+  autoFormatSuffix?: string;
+}
+
+export interface ValueAxisCfg extends LineAxisCfg {
+  label?: ValueAxisLabelCfg;
+}
+
 export interface GridLineCfg {
   /**
    * 栅格线的类型
