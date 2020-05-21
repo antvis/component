@@ -6,7 +6,7 @@ import { BBox, LineAxisCfg, Point, RegionLocationCfg } from '../types';
 import AxisBase from './base';
 import * as OverlapUtil from './overlap';
 
-class Line extends AxisBase<LineAxisCfg> implements ILocation<RegionLocationCfg> {
+class Line<T extends LineAxisCfg = LineAxisCfg> extends AxisBase<T> implements ILocation<RegionLocationCfg> {
   public getDefaultCfg() {
     const cfg = super.getDefaultCfg();
     return {
