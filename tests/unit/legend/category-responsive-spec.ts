@@ -28,7 +28,7 @@ describe('responsive legend',()=>{
             autoEllipsis: true,
             autoHide: true
           },
-          itemWidth: 120
+          itemWidth: 110
         };
         const legend = renderLegend(canvas, items, legendCfg);
         const itemGroup = legend.getElementById('c-legend-item-group').get('children')[0].get('children')[0];
@@ -173,9 +173,37 @@ describe('responsive legend',()=>{
       expect(nameShape.get('tip')).toBe(undefined);
       legend.destroy();
     });
+
+    it('ellipsis position',()=>{
+      const legendCfg = {
+        itemName:{
+          autoEllipsis: false,
+          ellipsisPosition: 'tail'
+        },
+        itemValue:{
+          autoEllipsis: true,
+          autoHide: true,
+          ellipsisPosition: 'head'
+        },
+        itemWidth: 140
+      };
+      const legend = renderLegend(canvas, items, legendCfg);
+      const itemGroup = legend.getElementById('c-legend-item-group').get('children')[0].get('children')[0];
+      const valueShape = getItemShape(itemGroup,'legend-item-value');
+      expect(valueShape.attr('text')).toBe('GAT-\u2026');
+      legend.destroy();
+    });
+
+    it("don't trigger responsive by default",()=>{
+      const legend = renderLegend(canvas, items);
+      const itemGroup = legend.getElementById('c-legend-item-group').get('children')[0].get('children')[0];
+      const nameShape = getItemShape(itemGroup,'legend-item-name');
+      expect(nameShape.get('tip')).toBe(undefined);
+      legend.destroy();
+    });
 });
 
-function renderLegend(canvas,items,cfg){
+function renderLegend(canvas,items,cfg = {}){
     const container = canvas.addGroup();
     const legend = new CategroyLegend({
       id: 'c',
