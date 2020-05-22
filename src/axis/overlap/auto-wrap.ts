@@ -37,7 +37,11 @@ function wrapText(str: string, reseveLength: number){
     return wrappedText;
 }
 
-export function wrapLabels(labelGroup: IGroup, limitLength: number){
+export function getDefault(){
+    return wrapLabels;
+}
+
+export function wrapLabels(isVertical: boolean, labelGroup: IGroup, limitLength: number){
     const children = labelGroup.getChildren();
     let wrapped = false;
     each(children, (label) => {

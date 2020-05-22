@@ -15,7 +15,7 @@ describe('test axis label auto format', () => {
     renderLabels(labels,group);
     
     it('format text',()=>{
-        const isFormatted = AutoFormatUtil.formatLabels(group,40,1000,'k');
+        const isFormatted = AutoFormatUtil.formatLabels(false,group,40,1000,'k');
         expect(isFormatted).toBe(true);
         const label = group.get('children')[0];
         expect(label.getBBox().width).toBeLessThanOrEqual(40);
@@ -24,7 +24,7 @@ describe('test axis label auto format', () => {
 
     it('not format text when space was enough',()=>{
       renderLabels(labels,group);
-      const isFormatted = AutoFormatUtil.formatLabels(group,60,1000,'k');
+      const isFormatted = AutoFormatUtil.formatLabels(false,group,60,1000,'k');
       expect(isFormatted).toBe(false);
     });
 });

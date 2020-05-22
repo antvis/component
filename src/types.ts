@@ -155,11 +155,6 @@ export interface AxisLabelCfg {
    * @type {boolean|avoidCallback|string}
    */
   autoHide?: boolean | avoidCallback | string;
-  /**
-   * 是否自动省略，默认 false
-   * @type {boolean|avoidCallback|string}
-   */
-  autoEllipsis?: boolean | avoidCallback | string;
 }
 
 /**
@@ -420,6 +415,8 @@ export interface CircleAxisCfg extends AxisBaseCfg {
 }
 
 interface CategoryAxisLabelCfg extends AxisLabelCfg{ 
+  autoEllipsis?: boolean;
+  autoEllipsisPosition?: 'head' | 'middle' | 'tail';
   autoWrap?: boolean;
 }
 
@@ -435,6 +432,14 @@ interface ValueAxisLabelCfg extends AxisLabelCfg{
 
 export interface ValueAxisCfg extends LineAxisCfg {
   label?: ValueAxisLabelCfg;
+}
+
+interface TimeAxisLabelCfg extends AxisLabelCfg{ 
+  autoEllipsis?: boolean;
+}
+
+export interface TimeAxisCfg extends LineAxisCfg {
+  label?: TimeAxisLabelCfg;
 }
 
 export interface GridLineCfg {

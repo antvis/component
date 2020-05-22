@@ -45,7 +45,8 @@ function formatText(value: number, precision: number) {
     return value.toFixed(precision || 0);
 }
 
-export function formatLabels(labelGroup: IGroup, limitLength: number, unit: number, suffix: string): boolean {
+
+export function formatLabels(isVertical: boolean, labelGroup: IGroup, limitLength: number, unit: number, suffix: string): boolean {
     const children = labelGroup.getChildren();
     let needFormat = false;
     each(children, (label) => {

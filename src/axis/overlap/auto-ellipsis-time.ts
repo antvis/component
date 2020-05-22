@@ -148,7 +148,7 @@ function sameSectionFormatter(time: Date,mode: string,reseveLength: number) {
     return formatter; 
 }
 
-export function ellipsisTime(labelGroup: IGroup, limitLength: number): boolean {
+export function ellipsisTime(isVertical:boolean, labelGroup: IGroup, limitLength: number): boolean {
     const children = labelGroup.getChildren();
     let needEllipsis = false;
     let ellipsised = false;

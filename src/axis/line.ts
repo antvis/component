@@ -108,14 +108,19 @@ class Line<T extends LineAxisCfg = LineAxisCfg> extends AxisBase<T> implements I
     const titleCfg = this.get('title');
     const verticalLimitLength = this.get('verticalLimitLength');
     const labelOffset = labelCfg.offset;
-    let limitLength = verticalLimitLength;
+    let limitLength;
+    if(isVertical){
+      limitLength = verticalLimitLength;
+    } else{
+      limitLength = OverlapUtil.calHorizontalLimitLength(this.get('start'),this.get('end'),labelGroup);
+    } 
     let titleHeight = 0;
     let titleSpacing = 0;
     if (titleCfg) {
       titleHeight = titleCfg.style.fontSize;
       titleSpacing = titleCfg.spacing;
     }
-    if (limitLength) {
+    if (limitLength && isVertical) {
       limitLength = limitLength - labelOffset - titleSpacing - titleHeight;
     }
     const overlapOrder = this.get('overlapOrder');
@@ -135,7 +140,7 @@ class Line<T extends LineAxisCfg = LineAxisCfg> extends AxisBase<T> implements I
     }
   }
 
-  private autoProcessOverlap(name: string, value: any, labelGroup: IGroup, limitLength: number) {
+  protected autoProcessOverlap(name: string, value: any, labelGroup: IGroup, limitLength: number) {
     const isVertical = this.isVertical();
     let hasAdjusted = false;
     const util = OverlapUtil[name];
