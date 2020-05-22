@@ -30,7 +30,7 @@
     "lint-fix:tslint": "tslint -c tslint.json --fix 'src/**/*.ts' 'tests/**/*'",
     "coverage": "jest --coverage",
     "test": "jest",
-    "test-live": "DEBUG_MODE=1 jest --watch tests/unit/axis/line-spec.ts",
+    "test-live": "DEBUG_MODE=1 jest --watch tests/unit/axis/cat-spec.ts",
     "ci": "run-s build test coverage"
   },
   "husky": {

@@ -8,14 +8,15 @@ function wrapLabel(label: IElement, limitLength: number){
     const text = label.attr('text');
     const labelLength = label.getBBox().width;
     const codeLength = strLen(text);
-    let ellipsised = false;
+    let wrapped = false;
     if (limitLength < labelLength) {
         const reseveLength = Math.floor((limitLength / labelLength) * codeLength);
         const newText = wrapText(text,reseveLength);
         label.attr('text', newText);
-        ellipsised = true;
+        label.set('isWrapped',true);
+        wrapped = true;
     }
-    return ellipsised;
+    return wrapped;
 }
 
 function wrapText(str: string, reseveLength: number){
@@ -41,7 +42,7 @@ export function getDefault(){
     return wrapLabels;
 }
 
-export function wrapLabels(isVertical: boolean, labelGroup: IGroup, limitLength: number){
+export function wrapLabels(labelGroup: IGroup, limitLength: number){
     const children = labelGroup.getChildren();
     let wrapped = false;
     each(children, (label) => {

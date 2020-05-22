@@ -32,7 +32,7 @@ describe('test axis label auto wrap', () => {
     });
     
     it('wrap text',()=>{
-        const isWrapped = AutoWrapUtil.wrapLabels(false,group,40);
+        const isWrapped = AutoWrapUtil.wrapLabels(group,40);
         expect(isWrapped).toBe(true);
         const label = group.get('children')[0];
         const warpLength = label.attr('text').split('\n').length;
