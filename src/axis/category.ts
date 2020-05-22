@@ -10,7 +10,7 @@ export default class Category extends Line <CategoryAxisCfg> {
         return {
           ...cfg,
           label:deepMix({},cfg.label,{
-              autoEllipsis: true,
+              autoEllipsis: false,
               autoEllipsisPosition: 'tail',
               autoWrap: false
           }),

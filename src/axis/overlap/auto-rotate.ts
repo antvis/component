@@ -21,7 +21,7 @@ function labelRotate(
   isVertical: boolean,
   labelsGroup: IGroup,
   limitLength: number,
-  getAngle: getAngleCallback
+  getAngle: getAngleCallback, preAdjust?:()=>void
 ): boolean {
   const labels = labelsGroup.getChildren();
   if (!labels.length) {
@@ -73,10 +73,10 @@ export function getDefault() {
  * @param  {number}  limitLength 限定长度
  * @return {boolean}             是否发生了旋转
  */
-export function fixedAngle(isVertical: boolean, labelsGroup: IGroup, limitLength: number): boolean {
+export function fixedAngle(isVertical: boolean, labelsGroup: IGroup, limitLength: number, preAdjust?:()=>void): boolean {
   return labelRotate(isVertical, labelsGroup, limitLength, () => {
     return isVertical ? Theme.verticalAxisRotate : Theme.horizontalAxisRotate;
-  });
+  },preAdjust);
 }
 
 /**

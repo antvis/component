@@ -10,7 +10,7 @@ export function getLabelLength(isVertical: boolean, label) {
 
 /* label长度是否超过约束值 */
 export function testLabel(label: IElement, limitLength: number): boolean {
-    return label.getBBox().width < limitLength;
+    return label.getBBox().width > limitLength;
 }
 
 export function calHorizontalLimitLength(start, end, group){

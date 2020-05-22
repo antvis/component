@@ -120,7 +120,7 @@ class Line<T extends LineAxisCfg = LineAxisCfg> extends AxisBase<T> implements I
       titleHeight = titleCfg.style.fontSize;
       titleSpacing = titleCfg.spacing;
     }
-    if (limitLength && isVertical) {
+    if (limitLength) {
       limitLength = limitLength - labelOffset - titleSpacing - titleHeight;
     }
     const overlapOrder = this.get('overlapOrder');
