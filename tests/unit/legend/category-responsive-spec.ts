@@ -1,4 +1,5 @@
 import { Canvas } from '@antv/g-canvas';
+import * as GUI from 'dat.gui';
 import CategroyLegend from '../../../src/legend/category';
 import { getItemShape } from '../../../src/legend/responsive';
 
@@ -200,6 +201,47 @@ describe('responsive legend',()=>{
       const nameShape = getItemShape(itemGroup,'legend-item-name');
       expect(nameShape.get('tip')).toBe(undefined);
       legend.destroy();
+    });
+
+    it.skip("show",()=>{
+      const guiContainer = document.createElement('div');
+      guiContainer.style.width = '400';
+      guiContainer.style.height = '400';
+      guiContainer.style.position = 'absolute';
+      guiContainer.style.left = '400px';
+      guiContainer.style.top = '400px';
+      dom.appendChild(guiContainer);
+      const legendCfg = {
+        itemName:{
+          autoEllipsis: true,
+          ellipsisPosition: 'tail'
+        },
+        itemValue:{
+          autoEllipsis: true,
+          autoHide: true,
+          ellipsisPosition: 'head'
+        },
+        itemWidth: 200
+      };
+      const legend = renderLegend(canvas, items, legendCfg);
+      const guiCfg = {
+        autoEllipsisName: true,
+        autoEllipsisValue: true,
+        autoHideValue: true,
+        overlapOrder:['autoEllipsisValue', 'autoHideValue', 'autoEllipsisNam'],
+        itemWidth: 200,
+      };
+      const gui = new GUI.gui.GUI({autoPlace: false});
+      gui.add(guiCfg,'autoEllipsisName',true);
+      gui.add(guiCfg,'autoEllipsisValue',true);
+      gui.add(guiCfg,'autoHideValue',true); 
+      gui.add(guiCfg,'overlapOrder',['autoEllipsisValue', 'autoHideValue', 'autoEllipsisNam']);
+      guiContainer.appendChild(gui.domElement);
+      const sizeContrller = gui.add(guiCfg,'itemWidth',20,200);
+      sizeContrller.onFinishChange((value)=>{
+        legendCfg.itemWidth = value;
+        legend.update(legendCfg);
+      });
     });
 });
 

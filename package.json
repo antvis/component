@@ -52,7 +52,8 @@
     "ts-jest": "^24.1.0",
     "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.5.3"
+    "typescript": "^3.5.3",
+    "dat.gui": "0.7.7"
   },
   "dependencies": {
     "@antv/dom-util": "~2.0.1",

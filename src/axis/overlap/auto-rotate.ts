@@ -44,10 +44,22 @@ function labelRotate(
   }
 
   if (isOverlap) {
+    preAdjustAutoRotate(labelsGroup);
     const angle = getAngle(limitLength, maxWidth);
     setLabelsAngle(labels, angle);
   }
   return isOverlap;
+}
+
+function preAdjustAutoRotate(labelGroup: IGroup){
+  const labels = labelGroup.getChildren();
+  each(labels,(label)=>{
+      if(label.get('isWrapped')){
+          const text = label.attr('text');
+          const newText = text.replace(/\n/g,'');
+          label.attr('text',newText);
+      }
+  });
 }
 
 export function getDefault() {
