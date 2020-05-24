@@ -25,11 +25,12 @@ function getPrecision(labels: IElement[], unit: number, suffix: string, limitLen
     values.sort((a,b)=>{
         return b.toString().length - a.toString().length;
     });
-    const maxLength = Math.max(...length);
+    const maxLength = Math.max(...length); 
     const maxCodeLength = strLen(values[0].toString());
     const suffixLength = strLen(suffix);
     const reseveLength = Math.floor((limitLength / maxLength) * maxCodeLength) - suffixLength;
     // 先尝试保留小数点后两位
+   
     let valueCodeLength = strLen(values[0].toFixed(2));
     if (valueCodeLength <= reseveLength) {
         return 2;
@@ -51,7 +52,7 @@ export function formatLabels(isVertical: boolean, labelGroup: IGroup, limitLengt
     let needFormat = false;
     each(children, (label) => {
         const rst = testLabel(label, limitLength);
-        if(rst === false){
+        if(rst === true){
             needFormat = true;
         }
     });

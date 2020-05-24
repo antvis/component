@@ -50,6 +50,7 @@ function dateTimeAbbrevaite(label: IElement, labels: IElement[], index: number, 
     }
     if (ellipsised) {
         label.set('tip', text);
+        label.set('isTimeEllipsised', true);
     } else {
         label.set('tip', null);
     }

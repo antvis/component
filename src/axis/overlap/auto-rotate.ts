@@ -59,6 +59,11 @@ function preAdjustAutoRotate(labelGroup: IGroup){
           const newText = text.replace(/\n/g,'');
           label.attr('text',newText);
       }
+      if(label.get('isTimeEllipsised')){
+        const originText = label.get('tip');
+        label.attr('text',originText);
+        label.set('tip',null);
+      }
   });
 }
 

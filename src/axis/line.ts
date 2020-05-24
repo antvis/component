@@ -111,9 +111,9 @@ class Line<T extends LineAxisCfg = LineAxisCfg> extends AxisBase<T> implements I
     let limitLength;
     if(isVertical){
       limitLength = verticalLimitLength;
-    } else{
+    } else {
       limitLength = OverlapUtil.calHorizontalLimitLength(this.get('start'),this.get('end'),labelGroup);
-    } 
+    }
     let titleHeight = 0;
     let titleSpacing = 0;
     if (titleCfg) {

@@ -1,7 +1,7 @@
 import { Canvas } from '@antv/g-canvas';
 import * as GUI from 'dat.gui';
 import CategoryAxis from '../../../src/axis/category';
-import { getMatrixByAngle } from '../../../src/util/matrix';
+import { getAngleByMatrix } from '../../../src/util/matrix';
 
 describe('category axis test', () => {
   const dom = document.createElement('div');

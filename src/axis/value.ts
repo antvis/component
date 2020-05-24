@@ -11,7 +11,7 @@ export default class Value extends Line <ValueAxisCfg> {
           ...cfg,
           label:deepMix({},cfg.label,{
               autoFormat: false,
-              autoRotate: false,
+              autoRotate:  false,
               autoHide: false,
               autoFormatUnit: 1000,
               autoFormatSuffix: 'k'
@@ -23,8 +23,9 @@ export default class Value extends Line <ValueAxisCfg> {
     protected autoProcessOverlap(name: string, value: any, labelGroup: IGroup, limitLength: number) {
         if(name === 'autoFormat' && value){
             const isVertical = this.get('isVertical');
-            const unit = this.get('autoFormatUnit');
-            const suffix = this.get('autoFormatSuffix');
+            const labelCfg = this.get('label');
+            const unit = labelCfg.autoFormatUnit;
+            const suffix = labelCfg.autoFormatSuffix;
             formatLabels(isVertical,labelGroup,limitLength,unit,suffix);
         }else{
             super.autoProcessOverlap(name, value, labelGroup, limitLength);
