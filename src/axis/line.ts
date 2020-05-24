@@ -107,22 +107,25 @@ class Line<T extends LineAxisCfg = LineAxisCfg> extends AxisBase<T> implements I
     const labelCfg = this.get('label');
     const titleCfg = this.get('title');
     const verticalLimitLength = this.get('verticalLimitLength');
-    const labelOffset = labelCfg.offset;
-    let limitLength;
-    if(isVertical){
-      limitLength = verticalLimitLength;
-    } else {
-      limitLength = OverlapUtil.calHorizontalLimitLength(this.get('start'),this.get('end'),labelGroup);
-    }
+    const labelOffset = labelCfg.offset;     
     let titleHeight = 0;
-    let titleSpacing = 0;
+    let titleSpacing = 0;   
     if (titleCfg) {
       titleHeight = titleCfg.style.fontSize;
       titleSpacing = titleCfg.spacing;
     }
-    if (limitLength) {
-      limitLength = limitLength - labelOffset - titleSpacing - titleHeight;
+    let limitLength;
+    if(isVertical){
+      limitLength = verticalLimitLength;
+      if(limitLength){
+        limitLength = limitLength - labelOffset - titleSpacing - titleHeight;
+      } 
+    } else {
+      limitLength = OverlapUtil.calHorizontalLimitLength(this.get('start'),this.get('end'),labelGroup);
     }
+    /* if (limitLength) {
+      limitLength = limitLength - labelOffset - titleSpacing - titleHeight;
+    }*/
     const overlapOrder = this.get('overlapOrder');
     each(overlapOrder, (name) => {
       if (labelCfg[name]) {

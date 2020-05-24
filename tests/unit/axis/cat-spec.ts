@@ -63,6 +63,10 @@ describe('category axis test', () => {
       verticalFactor: -1,
     };
     const axis = renderAxis(container, 100, false, axisCfg);
+    const labelGroup = axis.getElementById('a-axis-label-group');
+    const labels = labelGroup.getChildren();
+    const rotateAngle = getAngleByMatrix(labels[0].attr('matrix'));
+    expect(rotateAngle).toBeGreaterThan(0);
     axis.destroy();
   });
 
@@ -76,15 +80,18 @@ describe('category axis test', () => {
       },
       verticalFactor: -1,
     };
-    const axis = renderAxis(container, 100, false, axisCfg);
+    const axis = renderAxis(container, 80, false, axisCfg);
+    const labelGroup = axis.getElementById('a-axis-label-group');
+    const labels = labelGroup.getChildren();
+    expect(labels[0].attr('text')).toBe('\u2026');
     axis.destroy();
   });
 
   it('custom responsive order',()=>{
     const axisCfg = {
       label: {
-        autoWrap: true,
-        autoEllipsis: true,
+        autoWrap: false,
+        autoEllipsis: false,
         autoRotate: true,
         offset: 10
       },
@@ -95,7 +102,7 @@ describe('category axis test', () => {
     axis.destroy();
   });
 
-  it.only('show',()=>{
+  it.skip('show',()=>{
     const guiContainer = document.createElement('div');
       guiContainer.style.width = '400';
       guiContainer.style.height = '400';

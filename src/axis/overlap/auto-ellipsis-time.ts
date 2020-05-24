@@ -36,9 +36,8 @@ function dateTimeAbbrevaite(label: IElement, labels: IElement[], index: number, 
             label.attr('text', fecha.format(current, formatter));
             ellipsised = true;
         }
-        return;
-    }
-    if (index !== 0) {
+        // return;
+    } else if (index !== 0) {
         const previousText = labels[index - 1].attr('text')
         const previous = new Date(previousText);
         const isAbbreviate = needAbbrevaite(timeDuration, current, previous);

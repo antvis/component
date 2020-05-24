@@ -1,5 +1,5 @@
 import { IElement, IGroup } from '@antv/g-base';
-import { each } from '@antv/util';
+import { each, maxBy } from '@antv/util';
 import { getMaxLabelWidth } from '../../util/label';
 import { getMatrixByAngle } from '../../util/matrix';
 import Theme from '../../util/theme';
@@ -10,6 +10,7 @@ function setLabelsAngle(labels: IElement[], angle: number) {
     const x = label.attr('x');
     const y = label.attr('y');
     const matrix = getMatrixByAngle({ x, y }, angle);
+    label.setMatrix(matrix);
     label.attr('matrix', matrix);
   });
 }
@@ -21,7 +22,7 @@ function labelRotate(
   isVertical: boolean,
   labelsGroup: IGroup,
   limitLength: number,
-  getAngle: getAngleCallback, preAdjust?:()=>void
+  getAngle: getAngleCallback
 ): boolean {
   const labels = labelsGroup.getChildren();
   if (!labels.length) {
@@ -42,7 +43,6 @@ function labelRotate(
     const tickWidth = Math.abs(labels[1].attr('x') - labels[0].attr('x'));
     isOverlap = maxWidth > tickWidth;
   }
-
   if (isOverlap) {
     preAdjustAutoRotate(labelsGroup);
     const angle = getAngle(limitLength, maxWidth);
@@ -78,10 +78,10 @@ export function getDefault() {
  * @param  {number}  limitLength 限定长度
  * @return {boolean}             是否发生了旋转
  */
-export function fixedAngle(isVertical: boolean, labelsGroup: IGroup, limitLength: number, preAdjust?:()=>void): boolean {
+export function fixedAngle(isVertical: boolean, labelsGroup: IGroup, limitLength: number): boolean {
   return labelRotate(isVertical, labelsGroup, limitLength, () => {
     return isVertical ? Theme.verticalAxisRotate : Theme.horizontalAxisRotate;
-  },preAdjust);
+  });
 }
 
 /**

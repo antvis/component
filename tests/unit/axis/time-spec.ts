@@ -37,7 +37,7 @@ describe('time axis test', () => {
     const axisCfg = {
       label: {
         autoEllipsis: true,
-        autoRotate: true,
+        autoRotate: false,
         autoHide: false,
         offset: 10,
         style:{
