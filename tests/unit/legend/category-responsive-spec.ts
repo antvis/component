@@ -29,7 +29,7 @@ describe('responsive legend',()=>{
             autoEllipsis: true,
             autoHide: true
           },
-          itemWidth: 110
+          itemWidth: 100
         };
         const legend = renderLegend(canvas, items, legendCfg);
         const itemGroup = legend.getElementById('c-legend-item-group').get('children')[0].get('children')[0];
@@ -191,7 +191,8 @@ describe('responsive legend',()=>{
       const legend = renderLegend(canvas, items, legendCfg);
       const itemGroup = legend.getElementById('c-legend-item-group').get('children')[0].get('children')[0];
       const valueShape = getItemShape(itemGroup,'legend-item-value');
-      expect(valueShape.attr('text')).toBe('GAT-\u2026');
+      const pattern = new RegExp('\u2026$');
+      expect(pattern.test(valueShape.attr('text'))).toBe(true);
       legend.destroy();
     });
 
