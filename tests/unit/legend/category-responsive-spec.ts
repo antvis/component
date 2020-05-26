@@ -3,7 +3,7 @@ import * as GUI from 'dat.gui';
 import CategroyLegend from '../../../src/legend/category';
 import { getItemShape } from '../../../src/legend/responsive';
 
-describe('responsive legend',()=>{
+describe.skip('responsive legend',()=>{
     const dom = document.createElement('div');
     document.body.appendChild(dom);
     dom.id = 'clc';
@@ -29,7 +29,7 @@ describe('responsive legend',()=>{
             autoEllipsis: true,
             autoHide: true
           },
-          itemWidth: 100
+          itemWidth: 80
         };
         const legend = renderLegend(canvas, items, legendCfg);
         const itemGroup = legend.getElementById('c-legend-item-group').get('children')[0].get('children')[0];
@@ -37,7 +37,7 @@ describe('responsive legend',()=>{
         const nameShape = getItemShape(itemGroup,'legend-item-name');
         expect(valueShape.get('tip')).toBe('GAT-X303');
         expect(nameShape.attr('text')).toBe('AthrunZala');
-        legend.destroy();
+        // legend.destroy();
     });
 
     it('default responsive order - hideValue',()=>{
