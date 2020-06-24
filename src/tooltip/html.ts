@@ -131,6 +131,11 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
       });
   }
 
+  // 当resize的时候应当改变限制区域
+  public changeRegion(region) {
+    this.set('region', region);
+  }
+
   // 如有 customContent 则根据 customContent 设置 container
   protected initContainer() {
     super.initContainer();
