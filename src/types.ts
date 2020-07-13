@@ -872,18 +872,10 @@ export interface CircleLocationCfg extends LocationCfg {
 }
 
 interface BackgroundCfg {
-  /** 包围盒背景色 */
-  fill?: string;
-  /** 包围盒边框颜色 */
-  stroke?: string;
-  /** 包围盒边框粗细 */
-  lineWidth?: number;
-  /** 包围盒圆角设置 */
-  radius?: number;
-  /** 包围盒填充透明度 */
-  fillOpacity?: number;
-  /** 包围盒描边透明度 */
-  strokeOpacity?: number;
+  /** 文字内边距，同 css 盒模型 */
+  padding?: number | number[];
+  /** 文字包围盒样式 */
+  style?: ShapeAttrs;
 };
 
 export interface TextAnnotationCfg extends GroupComponentCfg {
@@ -911,10 +903,8 @@ export interface TextAnnotationCfg extends GroupComponentCfg {
    * @type {ShapeAttrs}
    */
   style?: ShapeAttrs;
-  /** 文字内边距，同 css 盒模型 */
-  padding?: number | number[];
   /** 文字包围盒样式设置 */
-  backgroundStyle?: BackgroundCfg;
+  background?: BackgroundCfg;
   /** 文本的最大长度 */
   maxLength?: number;
   /** 超出 maxLength 是否自动省略 */
