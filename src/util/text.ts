@@ -1,6 +1,4 @@
-
 const ELLIPSIS_CODE = '\u2026';
-
 
 /** 获取字符串长度 */
 export function strLen(str: string) {
@@ -60,7 +58,7 @@ export function ellipsisString(str: string, reseveLength: number, position:strin
           i += startCodeLen;
           hasAdd = true;
         }
-  
+
         const endCodeLen = charAtLength(str, endIndex);
         if (endCodeLen + i <= reseveLength) {
           endStr = str[endIndex] + endStr;
@@ -77,4 +75,3 @@ export function ellipsisString(str: string, reseveLength: number, position:strin
     }
     return rst;
   }
-  

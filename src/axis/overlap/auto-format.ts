@@ -1,7 +1,7 @@
 import { IElement, IGroup } from '@antv/g-base';
 import { each } from '@antv/util';
+import { testLabel } from '../../util/label';
 import { strLen } from '../../util/text';
-import { testLabel } from './util';
 
 function formatLabel(label: IElement, unit: number, suffix: string, precision: number) {
     const text = label.attr('text');

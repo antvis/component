@@ -871,6 +871,21 @@ export interface CircleLocationCfg extends LocationCfg {
   endAngle?: number;
 }
 
+interface BackgroundCfg {
+  /** 包围盒背景色 */
+  fill?: string;
+  /** 包围盒边框颜色 */
+  stroke?: string;
+  /** 包围盒边框粗细 */
+  lineWidth?: number;
+  /** 包围盒圆角设置 */
+  radius?: number;
+  /** 包围盒填充透明度 */
+  fillOpacity?: number;
+  /** 包围盒描边透明度 */
+  strokeOpacity?: number;
+};
+
 export interface TextAnnotationCfg extends GroupComponentCfg {
   /**
    * 文本标注位置 x
@@ -896,6 +911,18 @@ export interface TextAnnotationCfg extends GroupComponentCfg {
    * @type {ShapeAttrs}
    */
   style?: ShapeAttrs;
+  /** 文字内边距，同 css 盒模型 */
+  padding?: number | number[];
+  /** 文字包围盒样式设置 */
+  backgroundStyle?: BackgroundCfg;
+  /** 文本的最大长度 */
+  maxLength?: number;
+  /** 超出 maxLength 是否自动省略 */
+  autoEllipsis?: boolean;
+  /** 文本在二维坐标系的显示位置，是沿着 x 轴显示 还是沿着 y 轴显示 */
+  isVertival?: boolean;
+  /** 文本截断的位置 */
+  ellipsisPosition?: 'head' | 'middle' | 'tail';
 }
 
 export interface LineAnnotationCfg extends GroupComponentCfg {
