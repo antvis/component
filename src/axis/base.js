@@ -285,6 +285,7 @@ class Axis extends Component {
       label.y = point.y;
       label.point = point;
       label.textAlign = self.getTextAnchor(vector);
+      label._id = self.get('_id') + '-label-' + tick.text
       if (point.rotate) {
         label.rotate = point.rotate;
       }
