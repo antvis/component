@@ -5,7 +5,7 @@ import { ellipsisString, strLen } from './text';
 const ELLIPSIS_CODE = '\u2026';
 const ELLIPSIS_CODE_LENGTH = 2; // 省略号的长度
 
-export function ellipsisLabel(isVertical: boolean, label: IElement, limitLength: number, position) {
+export function ellipsisLabel(isVertical: boolean, label: IElement, limitLength: number, position: string = 'tail') {
   const text = label.attr('text');
   const labelLength = getLabelLength(isVertical, label);
   const codeLength = strLen(text);

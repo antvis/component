@@ -19,7 +19,7 @@ export function charAtLength(str: string, i: number) {
 }
 
 /** 文本省略 */
-export function ellipsisString(str: string, reseveLength: number, position:string) {
+export function ellipsisString(str: string, reseveLength: number, position:string = 'tail') {
     const count = str.length;
     let rst = '';
     if (position === 'tail') {

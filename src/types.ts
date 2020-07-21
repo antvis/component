@@ -497,6 +497,10 @@ export interface CategoryLegendCfg extends LegendBaseCfg {
    */
   itemSpacing?: number;
   /**
+   * 图例项的最大宽度，默认为 null，由上层传入
+   */
+  maxItemWidth?: number;
+  /**
    * 图例项的宽度, 默认为 null，自动计算
    * @type {number}
    */

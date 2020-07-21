@@ -1,7 +1,8 @@
 import { IGroup } from '@antv/g-base';
-import { each, filter, get, mix } from '@antv/util';
+import { clamp, each, filter, get, mix } from '@antv/util';
 import { IList } from '../interfaces';
 import { CategoryLegendCfg, LegendItemNameCfg, LegendMarkerCfg, ListItem } from '../types';
+import { ellipsisLabel } from '../util/ellipsis-text';
 import { getMatrixByAngle, getMatrixByTranslate } from '../util/matrix';
 import { getStatesStyle } from '../util/state';
 import Theme from '../util/theme';
@@ -22,6 +23,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
       name: 'legend',
       type: 'category',
       itemSpacing: 24,
+      maxItemWidth: null,
       itemWidth: null,
       itemHeight: null,
       itemName: {},
@@ -240,7 +242,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
       name: 'legend-item-group',
     });
     const itemHeight = this.getItemHeight();
-    const itemWidth = this.get('itemWidth');
+    const itemWidth = this.getLimitItemWidth();
     const itemSpacing = this.get('itemSpacing');
     const currentPoint = this.get('currentPoint');
     const startX = currentPoint.x;
@@ -382,26 +384,35 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     const itemName = this.get('itemName');
     const itemValue = this.get('itemValue');
     const itemBackground = this.get('itemBackground');
+    const itemWidth = this.getLimitItemWidth();
 
     let curX = 0; // 记录当前 x 的位置
     if (marker) {
       const markerShape = this.drawMarker(subGroup, marker, item, itemHeight);
       curX = markerShape.getBBox().maxX + marker.spacing;
     }
+
     if (itemName) {
       const nameShape = this.drawItemText(subGroup, 'name', itemName, item, itemHeight, curX, index);
+      if (itemWidth) {
+        // 设置了 item 的最大宽度限制，并且超出了，进行省略处理
+        ellipsisLabel(true, nameShape, clamp(itemWidth - curX, 0, itemWidth));
+      }
       curX = nameShape.getBBox().maxX + itemName.spacing;
     }
     if (itemValue) {
       const valueShape = this.drawItemText(subGroup, 'value', itemValue, item, itemHeight, curX, index);
-      const itemWidth = this.get('itemWidth');
-      if (itemWidth && itemValue.alignRight) {
-        // 当文本右对齐，同时制定了列宽度时，调整文本位置和对齐方式
-        valueShape.attr({
-          textAlign: 'right',
-          x: itemWidth,
-        });
-      } // 如果考虑 value 和 name 的覆盖，这个地方需要做文本自动省略的功能
+      if (itemWidth) {
+        if (itemValue.alignRight) {
+          valueShape.attr({
+            textAlign: 'right',
+            x: itemWidth,
+          });
+          ellipsisLabel(true, valueShape, clamp(itemWidth - curX, 0, itemWidth), 'head');
+        } else {
+          ellipsisLabel(true, valueShape, clamp(itemWidth - curX, 0, itemWidth));
+        }
+      }
     }
     // 添加透明的背景，便于拾取和包围盒计算
     if (itemBackground) {
@@ -433,7 +444,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     const subGroups = itemGroup.findAll((item) => item.get('name') === 'legend-item');
     const maxWidth = this.get('maxWidth');
     const maxHeight = this.get('maxHeight');
-    const itemWidth = this.get('itemWidth');
+    const itemWidth = this.getLimitItemWidth();
     const itemSpacing = this.get('itemSpacing');
     const itemHeight = this.getItemHeight();
     const navigation = this.drawNavigation(container, layout, '00/00', 12);
@@ -714,6 +725,23 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
         }
       });
     }
+  }
+
+  // 获取 itemWidth 的最终设置
+  private getLimitItemWidth() {
+    const itemWidth = this.get('itemWidth');
+    let maxItemWidth = this.get('maxItemWidth');
+
+    if (maxItemWidth) {
+      // 设置了最大宽度
+      if (itemWidth) {
+        maxItemWidth = itemWidth <= maxItemWidth ? itemWidth : maxItemWidth;
+      }
+    } else if (itemWidth) {
+      maxItemWidth = itemWidth;
+    }
+
+    return maxItemWidth;
   }
 }
 
