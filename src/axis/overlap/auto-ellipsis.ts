@@ -1,6 +1,6 @@
 import { IGroup } from '@antv/g-base';
 import { each } from '@antv/util';
-import { ellipsisLabel } from '../../util/ellipsis-text';
+import { ellipsisLabel } from '../../util/label';
 
 function ellipseLabels(isVertical: boolean, labelGroup: IGroup, limitLength: number, position: string): boolean {
   const children = labelGroup.getChildren();

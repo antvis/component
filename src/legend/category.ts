@@ -2,7 +2,7 @@ import { IGroup } from '@antv/g-base';
 import { clamp, each, filter, get, mix } from '@antv/util';
 import { IList } from '../interfaces';
 import { CategoryLegendCfg, LegendItemNameCfg, LegendMarkerCfg, ListItem } from '../types';
-import { ellipsisLabel } from '../util/ellipsis-text';
+import { ellipsisLabel } from '../util/label';
 import { getMatrixByAngle, getMatrixByTranslate } from '../util/matrix';
 import { getStatesStyle } from '../util/state';
 import Theme from '../util/theme';

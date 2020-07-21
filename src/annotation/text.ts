@@ -4,7 +4,7 @@ import { IGroup, IShape } from '@antv/g-base';
 import GroupComponent from '../abstract/group-component';
 import { ILocation } from '../interfaces';
 import { PointLocationCfg, TextAnnotationCfg } from '../types';
-import { ellipsisLabel } from '../util/ellipsis-text';
+import { ellipsisLabel } from '../util/label';
 import { getMatrixByAngle } from '../util/matrix';
 import { formatPadding } from '../util/util';
 
