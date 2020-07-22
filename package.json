@@ -32,7 +32,7 @@
     "test": "jest",
     "test-live": "DEBUG_MODE=1 jest --watch tests",
     "ci": "run-s build test coverage",
-    "prepublishOnly": "npm-run-all --parallel lint test build"
+    "prepublishOnly": "npm-run-all --parallel test build"
   },
   "husky": {
     "hooks": {
