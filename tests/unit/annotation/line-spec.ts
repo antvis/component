@@ -1,6 +1,6 @@
 import { Canvas } from '@antv/g-canvas';
 import LineAnnotation from '../../../src/annotation/line';
-import { getMatrixByAngle } from '../../../src/util/matrix';
+import { getMatrixByAngle, getMatrixByTranslate } from '../../../src/util/matrix';
 
 describe('test line annotation', () => {
   const dom = document.createElement('div');
@@ -18,6 +18,9 @@ describe('test line annotation', () => {
     updateAutoRender: true,
     start: { x: 100, y: 100 },
     end: { x: 200, y: 200 },
+    style: {
+      stroke: '#000'
+    }
   });
 
   it('init', () => {
@@ -56,16 +59,19 @@ describe('test line annotation', () => {
     const textShape = line.getElementById('l-annotation-line-text');
     expect(textShape.attr('text')).toBe('line text');
     expect(textShape.attr('matrix')).toBe(null);
-    expect(textShape.attr('x')).toBe(50);
-    expect(textShape.attr('y')).toBe(50);
+
+    const textGroup = line.getElementById('l-annotation-line-text-group');
+    expect(textGroup.attr('x')).toBe(50);
+    expect(textGroup.attr('y')).toBe(50);
+
     line.update({
       text: {
         content: 'line text',
         autoRotate: true,
       },
     });
-    const m = getMatrixByAngle({ x: 50, y: 50 }, Math.PI / 4);
-    expect(textShape.attr('matrix')).toEqual(m);
+    const m = getMatrixByAngle({ x: 50, y: 50 }, Math.PI / 4, getMatrixByTranslate({x: 50, y: 50}));
+    expect(textGroup.attr('matrix')).toEqual(m);
     line.update({
       text: null,
     });
@@ -82,9 +88,9 @@ describe('test line annotation', () => {
         autoRotate: false,
       },
     });
-    const textShape = line.getElementById('l-annotation-line-text');
-    expect(textShape.attr('x')).toBe(0);
-    expect(textShape.attr('y')).toBe(0);
+    const textGroup = line.getElementById('l-annotation-line-text-group');
+    expect(textGroup.attr('x')).toBe(0);
+    expect(textGroup.attr('y')).toBe(0);
 
     line.update({
       text: {
@@ -93,8 +99,8 @@ describe('test line annotation', () => {
         autoRotate: false,
       },
     });
-    expect(textShape.attr('x')).toBe(100);
-    expect(textShape.attr('y')).toBe(100);
+    expect(textGroup.attr('x')).toBe(100);
+    expect(textGroup.attr('y')).toBe(100);
 
     line.update({
       text: {
@@ -103,8 +109,85 @@ describe('test line annotation', () => {
         autoRotate: false,
       },
     });
-    expect(textShape.attr('x')).toBe(40);
-    expect(textShape.attr('y')).toBe(40);
+    expect(textGroup.attr('x')).toBe(40);
+    expect(textGroup.attr('y')).toBe(40);
+  });
+
+  it('destroy', () => {
+    line.destroy();
+    expect(line.destroyed).toBe(true);
+  });
+
+  afterAll(() => {
+    canvas.destroy();
+    dom.remove();
+  });
+});
+
+describe('test line annotation with text enhancement', () => {
+  const dom = document.createElement('div');
+  document.body.appendChild(dom);
+  dom.id = 'canl';
+  const canvas = new Canvas({
+    container: 'canl',
+    width: 500,
+    height: 500,
+  });
+  const container = canvas.addGroup();
+  const line = new LineAnnotation({
+    id: 'l',
+    container,
+    updateAutoRender: true,
+    start: { x: 100, y: 100 },
+    end: { x: 200, y: 200 },
+    style: {
+      stroke: '#000',
+      lineWidth: 2,
+    },
+    text: {
+      content: 'line text 123123243434',
+      autoRotate: false,
+      background: {
+        padding: 5,
+        style: {
+          fill: '#1890ff',
+          fillOpacity: 0.5,
+        }
+      },
+      maxLength: 100,
+      autoEllipsis: true,
+    },
+  });
+
+  line.init();
+  line.render();
+
+  it('text auto ellipis', () => {
+    const textShape = line.getElementById('l-annotation-line-text');
+    expect(textShape.attr('text')).toBe('line text 1231…');
+    expect(textShape.get('tip')).toBe('line text 123123243434');
+    expect(textShape.getBBox().width + 10).toBeLessThan(100);
+
+    const textBgShape = line.getElementById('l-annotation-line-text-bg');
+    expect(textBgShape).toBeDefined();
+  });
+
+  it('text, autoRotate', () => {
+    line.update({
+      text: {
+        content: 'line text 123123243434',
+        autoRotate: true,
+        maxLength: 100,
+        autoEllipsis: true,
+      }
+    });
+    const textShape = line.getElementById('l-annotation-line-text');
+    expect(textShape.attr('text')).toBe('line text 1231…');
+    expect(textShape.get('tip')).toBe('line text 123123243434');
+    expect(textShape.getBBox().width + 10).toBeLessThan(100);
+
+    const textBgShape = line.getElementById('l-annotation-line-text-bg');
+    expect(textBgShape).toBeUndefined();
   });
 
   it('destroy', () => {

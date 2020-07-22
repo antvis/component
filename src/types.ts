@@ -973,6 +973,16 @@ export interface LineAnnotationTextCfg {
    * @type {ShapeAttrs}
    */
   style?: ShapeAttrs;
+  /** 文字包围盒样式设置 */
+  background?: BackgroundCfg;
+  /** 文本的最大长度 */
+  maxLength?: number;
+  /** 超出 maxLength 是否自动省略 */
+  autoEllipsis?: boolean;
+  /** 文本在二维坐标系的显示位置，是沿着 x 轴显示 还是沿着 y 轴显示 */
+  isVertival?: boolean;
+  /** 文本截断的位置 */
+  ellipsisPosition?: 'head' | 'middle' | 'tail';
 }
 
 export interface RegionAnnotationCfg extends GroupComponentCfg {

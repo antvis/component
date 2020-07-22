@@ -310,7 +310,7 @@ abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> e
     group.off();
   }
 
-  protected getElementId(localId) {
+  protected getElementId(localId: string) {
     const id = this.get('id'); // 组件的 Id
     const name = this.get('name'); // 组件的名称
     return `${id}-${name}-${localId}`;

@@ -1,6 +1,6 @@
 import { Canvas } from '@antv/g-canvas';
 import TextAnnotation from '../../../src/annotation/text';
-import { getMatrixByAngle } from '../../../src/util/matrix';
+import { getMatrixByAngle, getMatrixByTranslate } from '../../../src/util/matrix';
 
 describe('test text annotation', () => {
   const dom = document.createElement('div');
@@ -33,8 +33,9 @@ describe('test text annotation', () => {
     text.render();
     const textShape = text.getElementById('a-annotation-text');
     expect(textShape.attr(text.get('content')));
-    expect(textShape.attr('x')).toBe(100);
-    expect(textShape.attr('y')).toBe(150);
+    const { minX, maxX, minY, maxY } = textShape.getCanvasBBox();
+    expect((minX + maxX) / 2).toBe(100);
+    expect((minY + maxY) / 2).toBe(150);
   });
 
   it('update text', () => {
@@ -48,8 +49,9 @@ describe('test text annotation', () => {
       y: 300,
     });
     const textShape = text.getElementById('a-annotation-text');
-    expect(textShape.attr('x')).toBe(200);
-    expect(textShape.attr('y')).toBe(300);
+    const { minX, maxX, minY, maxY } = textShape.getCanvasBBox();
+    expect((minX + maxX) / 2).toBe(200);
+    expect((minY + maxY) / 2).toBe(300);
   });
 
   it('update offset, offset', () => {
@@ -58,8 +60,10 @@ describe('test text annotation', () => {
       offsetY: 10,
     });
     const textShape = text.getElementById('a-annotation-text');
-    expect(textShape.attr('x')).toBe(text.get('x'));
-    expect(textShape.attr('y')).toBe(text.get('y'));
+    const { minX, maxX, minY, maxY } = textShape.getCanvasBBox();
+    expect((minX + maxX) / 2).toBe(text.get('x') + 20);
+    expect((minY + maxY) / 2).toBe(text.get('y') + 10);
+
     const matrix = text.get('group').attr('matrix');
     expect(matrix[6]).toEqual(20);
     expect(matrix[7]).toEqual(10);
@@ -71,8 +75,9 @@ describe('test text annotation', () => {
   it('set location', () => {
     text.setLocation({ x: 300, y: 400 });
     const textShape = text.getElementById('a-annotation-text');
-    expect(textShape.attr('x')).toBe(300);
-    expect(textShape.attr('y')).toBe(400);
+    const { minX, maxX, minY, maxY } = textShape.getCanvasBBox();
+    expect((minX + maxX) / 2).toBe(300);
+    expect((minY + maxY) / 2).toBe(400);
   });
 
   it('update style', () => {
@@ -86,22 +91,22 @@ describe('test text annotation', () => {
   });
 
   it('rotate', () => {
-    text.setLocation({ x: 10, y: 10 });
+    text.setLocation({ x: 250, y: 250 });
     text.update({
       rotate: Math.PI / 2,
     });
-    const textShape = text.getElementById('a-annotation-text');
-    let matrix = textShape.getMatrix();
-    expect(matrix).toEqual(getMatrixByAngle({ x: 10, y: 10 }, Math.PI / 2));
+    const textGroup = text.getElementById('a-annotation-text-group');
+    let matrix = textGroup.getMatrix();
+    expect(matrix).toEqual(getMatrixByAngle({ x: 250, y: 250 }, Math.PI / 2, getMatrixByTranslate({ x: 250, y: 250 })));
 
     text.setLocation({ x: 100, y: 100 });
-    matrix = textShape.getMatrix();
-    expect(matrix).toEqual(getMatrixByAngle({ x: 100, y: 100 }, Math.PI / 2));
+    matrix = textGroup.getMatrix();
+    expect(matrix).toEqual(getMatrixByAngle({ x: 100, y: 100 }, Math.PI / 2, getMatrixByTranslate({ x: 100, y: 100 })));
     text.update({
       rotate: null,
     });
-    matrix = textShape.getMatrix();
-    expect(matrix).toEqual(null);
+    matrix = textGroup.getMatrix();
+    expect(matrix).toEqual(getMatrixByTranslate({ x: 100, y: 100 }));
   });
 
   it('destroy', () => {
@@ -118,9 +123,9 @@ describe('test text annotation', () => {
 describe('text with background', () => {
   const dom = document.createElement('div');
   document.body.appendChild(dom);
-  dom.id = 'cant';
+  dom.id = 'cant1';
   const canvas = new Canvas({
-    container: 'cant',
+    container: 'cant1',
     width: 500,
     height: 500,
   });
@@ -154,9 +159,10 @@ describe('text with background', () => {
   it('render', () => {
     text.render();
     const textShape = text.getElementById('a-annotation-text');
+    const { minX, maxX, minY, maxY } = textShape.getCanvasBBox();
     expect(textShape.attr(text.get('content')));
-    expect(textShape.attr('x')).toBe(100);
-    expect(textShape.attr('y')).toBe(150);
+    expect((minX + maxX) / 2).toBe(100);
+    expect((minY + maxY) / 2).toBe(150);
     expect(textShape.get('tip')).toBe('我是一段很长很长很长很长很长很长很长的文本');
     const textBg = text.getElementById('a-annotation-text-bg');
     expect(textBg).toBeDefined();
@@ -177,8 +183,10 @@ describe('text with background', () => {
       offsetY: 10,
     });
     const textShape = text.getElementById('a-annotation-text');
-    expect(textShape.attr('x')).toBe(text.get('x'));
-    expect(textShape.attr('y')).toBe(text.get('y'));
+    const { minX, maxX, minY, maxY } = textShape.getCanvasBBox();
+    expect((minX + maxX) / 2).toBe(text.get('x') + 20);
+    expect((minY + maxY) / 2).toBe(text.get('y') + 10);
+
     const matrix = text.get('group').attr('matrix');
     expect(matrix[6]).toEqual(20);
     expect(matrix[7]).toEqual(10);
@@ -190,14 +198,15 @@ describe('text with background', () => {
   it('set location', () => {
     text.setLocation({ x: 300, y: 400 });
     const textShape = text.getElementById('a-annotation-text');
-    expect(textShape.attr('x')).toBe(300);
-    expect(textShape.attr('y')).toBe(400);
+    const { minX, maxX, minY, maxY } = textShape.getCanvasBBox();
+    expect((minX + maxX) / 2).toBe(300);
+    expect((minY + maxY) / 2).toBe(400);
   });
 
   it('update style', () => {
     text.update({
       style: {
-        fill: 'yellow',
+        fill: '#000',
       },
       background: {
         padding: 10,
@@ -208,32 +217,29 @@ describe('text with background', () => {
       }
     });
     const textShape = text.getElementById('a-annotation-text');
-    expect(textShape.attr('fill')).toBe('yellow');
+    expect(textShape.attr('fill')).toBe('#000');
 
     const textBg = text.getElementById('a-annotation-text-bg');
     expect(textBg.attr('fill')).toBe('red');
   });
 
   it('rotate', () => {
-    text.setLocation({ x: 10, y: 10 });
+    text.setLocation({ x: 250, y: 250 });
     text.update({
       rotate: Math.PI / 2,
     });
-    const textShape = text.getElementById('a-annotation-text');
-    let matrix = textShape.getMatrix();
-    expect(matrix).toEqual(getMatrixByAngle({ x: 10, y: 10 }, Math.PI / 2));
-    const textShapeBg = text.getElementById('a-annotation-text-bg');
-    const textBgMatrix = textShapeBg.getMatrix();
-    expect(textBgMatrix).toEqual(getMatrixByAngle({ x: 10, y: 10 }, Math.PI / 2));
+    const textGroup = text.getElementById('a-annotation-text-group');
+    let matrix = textGroup.getMatrix();
+    expect(matrix).toEqual(getMatrixByAngle({ x: 250, y: 250 }, Math.PI / 2, getMatrixByTranslate({ x: 250, y: 250 })));
 
     text.setLocation({ x: 100, y: 100 });
-    matrix = textShape.getMatrix();
-    expect(matrix).toEqual(getMatrixByAngle({ x: 100, y: 100 }, Math.PI / 2));
+    matrix = textGroup.getMatrix();
+    expect(matrix).toEqual(getMatrixByAngle({ x: 100, y: 100 }, Math.PI / 2, getMatrixByTranslate({ x: 100, y: 100 })));
     text.update({
       rotate: null,
     });
-    matrix = textShape.getMatrix();
-    expect(matrix).toEqual(null);
+    matrix = textGroup.getMatrix();
+    expect(matrix).toEqual(getMatrixByTranslate({ x: 100, y: 100 }));
   });
 
   it('destroy', () => {
@@ -246,3 +252,4 @@ describe('text with background', () => {
     dom.remove();
   });
 });
+

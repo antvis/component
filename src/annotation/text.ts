@@ -1,13 +1,10 @@
-import { get } from '@antv/util';
+import { IGroup } from '@antv/g-base';
+import { ext } from '@antv/matrix-util';
 
-import { IGroup, IShape } from '@antv/g-base';
 import GroupComponent from '../abstract/group-component';
 import { ILocation } from '../interfaces';
 import { PointLocationCfg, TextAnnotationCfg } from '../types';
-import { ellipsisLabel } from '../util/label';
-import { getMatrixByAngle } from '../util/matrix';
-import { formatPadding } from '../util/util';
-
+import { applyRotate, applyTranslate, renderTag } from '../util/graphic';
 import Theme from '../util/theme';
 
 class TextAnnotation extends GroupComponent<TextAnnotationCfg> implements ILocation<PointLocationCfg> {
@@ -53,79 +50,43 @@ class TextAnnotation extends GroupComponent<TextAnnotationCfg> implements ILocat
   }
 
   protected renderInner(group: IGroup) {
-    this.renderText(group);
-  }
-
-  private renderText(group) {
     const { x, y } = this.getLocation();
     const content = this.get('content');
     const style = this.get('style');
-    const text = this.addShape(group, {
-      type: 'text',
-      id: this.getElementId('text'),
-      name: `${this.get('name')}-text`, // 因为 group 上会有默认的 annotation-text 的 name 所以需要区分开
-      attrs: {
-        x,
-        y,
-        text: content,
-        ...style,
-      },
-    });
+    const id = this.getElementId('text');
+    const name = `${this.get('name')}-text`;
     const maxLength = this.get('maxLength');
     const autoEllipsis = this.get('autoEllipsis');
     const isVertical = this.get('isVertical');
     const ellipsisPosition = this.get('ellipsisPosition');
-    if (maxLength && autoEllipsis) {
-      // 超出自动省略
-      ellipsisLabel(!isVertical, text, maxLength, ellipsisPosition);
-    }
-
     const background = this.get('background');
-    if (background) {
-      // 渲染文本背景
-      const padding = formatPadding(get(background, 'padding', 0));
-      const backgroundStyle = get(background, 'style', {});
-
-      const { minX, minY, width, height } = text.getCanvasBBox();
-      const element = this.addGroup(group, {
-        id: this.getElementId('text'),
-        name: `${this.get('name')}-text`,
-      });
-      const textBg = element.addShape('rect', {
-        id: this.getElementId('text-bg'),
-        name: `${this.get('name')}-text-bg`,
-        attrs: {
-          x: minX - padding[3],
-          y: minY - padding[0],
-          width: width + padding[1] + padding[3],
-          height: height + padding[0] + padding[2],
-          ...backgroundStyle,
-        },
-      });
-      element.add(text);
-      this.applyRotate(textBg, x, y);
-    }
-    this.applyRotate(text, x, y);
-  }
-
-  private applyRotate(textShape: IShape | IGroup, x: number, y: number) {
     const rotate = this.get('rotate');
-    let matrix = null;
-    if (rotate) {
-      matrix = getMatrixByAngle({ x, y }, rotate);
-    }
-    textShape.attr('matrix', matrix);
+
+    const cfg = {
+      id,
+      name,
+      x,
+      y,
+      content,
+      style,
+      maxLength,
+      autoEllipsis,
+      isVertical,
+      ellipsisPosition,
+      background,
+      rotate,
+    };
+
+    renderTag(group, cfg);
   }
 
   private resetLocation() {
-    const textShape = this.getElementByLocalId('text');
-    if (textShape) {
-      const { x, y } = this.getLocation();
-      textShape.attr({
-        x,
-        y,
-      });
-      this.applyRotate(textShape, x, y);
+    const textGroup = this.getElementByLocalId('text-group');
+    if (textGroup) {
+      const {x, y} = this.getLocation();
+      const rotate = this.get('rotate')
+      applyTranslate(textGroup, x, y);
+      applyRotate(textGroup, rotate, x, y);
     }
   }
 }

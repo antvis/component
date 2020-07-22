@@ -2,12 +2,12 @@ import { ext, vec2, vec3 } from '@antv/matrix-util';
 import { BBox, Point } from '../types';
 
 const identityMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
-export function getMatrixByAngle(point: Point, angle: number): number[] {
+export function getMatrixByAngle(point: Point, angle: number, matrix = identityMatrix): number[] {
   if (!angle) {
     // 角度为 0 或者 null 时返回 null
     return null;
   }
-  const m = ext.transform(identityMatrix, [
+  const m = ext.transform(matrix, [
     ['t', -point.x, -point.y],
     ['r', angle],
     ['t', point.x, point.y],
