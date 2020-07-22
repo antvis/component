@@ -5,6 +5,7 @@ import { ILocation } from '../interfaces';
 import { DataRegionAnnotationCfg, Point, PointsLocationCfg } from '../types';
 import Theme from '../util/theme';
 import { pointsToBBox } from '../util/util';
+import { renderTag } from '../util/graphic';
 
 class DataRegionAnnotation extends GroupComponent<DataRegionAnnotationCfg> implements ILocation<PointsLocationCfg> {
   /**
@@ -73,17 +74,15 @@ class DataRegionAnnotation extends GroupComponent<DataRegionAnnotationCfg> imple
     });
 
     // render text
-    this.addShape(group, {
-      type: 'text',
+    const textCfg = {
       id: this.getElementId('text'),
       name: 'annotation-text',
-      attrs: {
-        x: (bbox.minX + bbox.maxX) / 2,
-        y: bbox.minY - lineLength,
-        text: get(this.get('text'), 'content', ''),
-        ...textStyle,
-      },
-    });
+      x: (bbox.minX + bbox.maxX) / 2,
+      y: bbox.minY - lineLength,
+      ...this.get('text'),
+    };
+
+    renderTag(group, textCfg);
   }
 }
 

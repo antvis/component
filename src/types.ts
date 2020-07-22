@@ -1066,18 +1066,18 @@ export interface DataMarkerAnnotationCfg extends GroupComponentCfg {
    */
   y: number;
   point?: {
-    display: boolean;
+    display?: boolean;
     style?: ShapeAttrs;
   };
   line?: {
-    display: boolean;
+    display?: boolean;
     length?: number;
     style?: ShapeAttrs;
   };
   text: {
-    display: boolean;
+    display?: boolean;
     content?: string;
-    style: ShapeAttrs;
+    style?: ShapeAttrs;
     /** 文字包围盒样式设置 */
     background?: BackgroundCfg;
     /** 文本的最大长度 */
@@ -1109,18 +1109,23 @@ export interface DataRegionAnnotationCfg extends GroupComponentCfg {
    * @type {Point}
    */
   points: Point[];
-  /**
-   * 文本标注内容
-   * @type {number}
-   */
-  content: string;
-  /**
-   * 标注样式
-   * @type {ShapeAttrs}
-   */
-  style?: {
-    region?: ShapeAttrs;
-    text?: ShapeAttrs;
+  region?: {
+    style?: ShapeAttrs;
+  };
+  text: {
+    content?: string;
+    style?: ShapeAttrs;
+    rotate?: number;
+    /** 文字包围盒样式设置 */
+    background?: BackgroundCfg;
+    /** 文本的最大长度 */
+    maxLength?: number;
+    /** 超出 maxLength 是否自动省略 */
+    autoEllipsis?: boolean;
+    /** 文本在二维坐标系的显示位置，是沿着 x 轴显示 还是沿着 y 轴显示 */
+    isVertival?: boolean;
+    /** 文本截断的位置 */
+    ellipsisPosition?: 'head' | 'middle' | 'tail';
   };
 }
 
