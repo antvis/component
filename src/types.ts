@@ -1065,27 +1065,29 @@ export interface DataMarkerAnnotationCfg extends GroupComponentCfg {
    * @type {number}
    */
   y: number;
-  /**
-   * 文本标注内容
-   * @type {number}
-   */
-  content: string;
-  /**
-   * 标注样式
-   * @type {ShapeAttrs}
-   */
-  style?: {
-    point?: ShapeAttrs;
-    line?: ShapeAttrs;
-    text?: ShapeAttrs;
+  point?: {
+    display: boolean;
+    style?: ShapeAttrs;
   };
-  /**
-   * 显示设置
-   */
-  display?: {
-    point?: boolean;
-    line?: boolean;
-    text?: boolean;
+  line?: {
+    display: boolean;
+    length?: number;
+    style?: ShapeAttrs;
+  };
+  text: {
+    display: boolean;
+    content?: string;
+    style: ShapeAttrs;
+    /** 文字包围盒样式设置 */
+    background?: BackgroundCfg;
+    /** 文本的最大长度 */
+    maxLength?: number;
+    /** 超出 maxLength 是否自动省略 */
+    autoEllipsis?: boolean;
+    /** 文本在二维坐标系的显示位置，是沿着 x 轴显示 还是沿着 y 轴显示 */
+    isVertival?: boolean;
+    /** 文本截断的位置 */
+    ellipsisPosition?: 'head' | 'middle' | 'tail';
   };
   /**
    * 方向

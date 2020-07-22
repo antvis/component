@@ -1,4 +1,4 @@
-import { IGroup, IShape, ShapeAttrs } from '@antv/g-base';
+import { IElement, IGroup, IShape, ShapeAttrs } from '@antv/g-base';
 import { get } from '@antv/util';
 
 import { ellipsisLabel } from './label';
@@ -101,14 +101,14 @@ export function renderTag(container: IGroup, tagCfg: TagCfg) {
   applyRotate(tagGroup, rotate, x, y);
 }
 
-export function applyRotate(shape: IShape | IGroup, rotate: number, x: number, y: number) {
+export function applyRotate(shape: IElement, rotate: number, x: number, y: number) {
   if (rotate) {
     const matrix = getMatrixByAngle({ x, y }, rotate, shape.getMatrix());
     shape.setMatrix(matrix);
   }
 }
 
-export function applyTranslate(shape: IShape | IGroup, x: number, y: number) {
+export function applyTranslate(shape: IElement, x: number, y: number) {
   const translateMatrix = getMatrixByTranslate({x, y});
   shape.attr('matrix', translateMatrix);
 }
