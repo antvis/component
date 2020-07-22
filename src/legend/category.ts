@@ -242,7 +242,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
       name: 'legend-item-group',
     });
     const itemHeight = this.getItemHeight();
-    const itemWidth = this.getLimitItemWidth();
+    const itemWidth = this.get('itemWidth');
     const itemSpacing = this.get('itemSpacing');
     const currentPoint = this.get('currentPoint');
     const startX = currentPoint.x;
@@ -444,7 +444,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     const subGroups = itemGroup.findAll((item) => item.get('name') === 'legend-item');
     const maxWidth = this.get('maxWidth');
     const maxHeight = this.get('maxHeight');
-    const itemWidth = this.getLimitItemWidth();
+    const itemWidth = this.get('itemWidth');
     const itemSpacing = this.get('itemSpacing');
     const itemHeight = this.getItemHeight();
     const navigation = this.drawNavigation(container, layout, '00/00', 12);
