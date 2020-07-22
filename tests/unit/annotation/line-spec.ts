@@ -164,7 +164,7 @@ describe('test line annotation with text enhancement', () => {
 
   it('text auto ellipis', () => {
     const textShape = line.getElementById('l-annotation-line-text');
-    expect(textShape.attr('text')).toBe('line text 1231…');
+    expect(textShape.attr('text').indexOf('…')).toBeGreaterThan(-1);
     expect(textShape.get('tip')).toBe('line text 123123243434');
     expect(textShape.getBBox().width + 10).toBeLessThan(100);
 
@@ -182,7 +182,7 @@ describe('test line annotation with text enhancement', () => {
       }
     });
     const textShape = line.getElementById('l-annotation-line-text');
-    expect(textShape.attr('text')).toBe('line text 1231…');
+    expect(textShape.attr('text').indexOf('…')).toBeGreaterThan(-1);
     expect(textShape.get('tip')).toBe('line text 123123243434');
     expect(textShape.getBBox().width + 10).toBeLessThan(100);
 

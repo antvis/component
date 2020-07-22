@@ -338,7 +338,7 @@ describe('test category legend', () => {
       const item1 = legend.getElementById('c-legend-item-测试测试测试测试测试 1');
       expect(item1.getBBox().width).toBeLessThan(80);
       const item1Name = legend.getElementById('c-legend-item-测试测试测试测试测试 1-name');
-      expect(item1Name.attr('text')).toBe('测试测试…');
+      expect(item1Name.attr('text').indexOf('…')).toBeGreaterThan(-1);
       expect(item1Name.get('tip')).toBe('测试测试测试测试测试 1');
     });
 
@@ -350,7 +350,7 @@ describe('test category legend', () => {
       const item1 = legend.getElementById('c-legend-item-测试测试测试测试测试 1');
       expect(item1.getBBox().width).toBeLessThan(80);
       const item1Name = legend.getElementById('c-legend-item-测试测试测试测试测试 1-name');
-      expect(item1Name.attr('text')).toBe('测试测试…');
+      expect(item1Name.attr('text').indexOf('…')).toBeGreaterThan(-1);
       expect(item1Name.get('tip')).toBe('测试测试测试测试测试 1');
     });
 
@@ -362,13 +362,13 @@ describe('test category legend', () => {
       const item1 = legend.getElementById('c-legend-item-测试测试测试测试测试 1');
       expect(item1.getBBox().width).toBeCloseTo(40);
       const item1Name = legend.getElementById('c-legend-item-测试测试测试测试测试 1-name');
-      expect(item1Name.attr('text')).toBe('测…');
+      expect(item1Name.attr('text').indexOf('…')).toBeGreaterThan(-1);
       expect(item1Name.get('tip')).toBe('测试测试测试测试测试 1');
 
       const item2 = legend.getElementById('c-legend-item-测试 2');
       expect(item2.getBBox().width).toBeCloseTo(40);
       const item2Name = legend.getElementById('c-legend-item-测试 2-name');
-      expect(item2Name.attr('text')).toBe('测…');
+      expect(item2Name.attr('text').indexOf('…')).toBeGreaterThan(-1);
       expect(item2Name.get('tip')).toBe('测试 2');
     });
 
@@ -380,13 +380,13 @@ describe('test category legend', () => {
       const item1 = legend.getElementById('c-legend-item-测试测试测试测试测试 1');
       expect(item1.getBBox().width).toBeCloseTo(40);
       const item1Name = legend.getElementById('c-legend-item-测试测试测试测试测试 1-name');
-      expect(item1Name.attr('text')).toBe('测…');
+      expect(item1Name.attr('text').indexOf('…')).toBeGreaterThan(-1);
       expect(item1Name.get('tip')).toBe('测试测试测试测试测试 1');
 
       const item2 = legend.getElementById('c-legend-item-测试 2');
       expect(item2.getBBox().width).toBeCloseTo(40);
       const item2Name = legend.getElementById('c-legend-item-测试 2-name');
-      expect(item2Name.attr('text')).toBe('测…');
+      expect(item2Name.attr('text').indexOf('…')).toBeGreaterThan(-1);
       expect(item2Name.get('tip')).toBe('测试 2');
     });
 
@@ -409,7 +409,7 @@ describe('test category legend', () => {
       const item1Name = legend.getElementById('c-legend-item-测试 1-name');
       expect(item1Name.attr('text')).toBe('测试 1');
       const item1Value = legend.getElementById('c-legend-item-测试 1-value');
-      expect(item1Value.attr('text')).toBe('…');
+      expect(item1Value.attr('text').indexOf('…')).toBeGreaterThan(-1);
       expect(item1Value.get('tip')).toBe(22222);
     });
 

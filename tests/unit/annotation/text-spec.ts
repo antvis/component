@@ -174,7 +174,7 @@ describe('text with background', () => {
 
   it('update text', () => {
     text.update({ content: 'change text' });
-    expect(text.getElementById('a-annotation-text').attr('text')).toBe('chan…');
+    expect(text.getElementById('a-annotation-text').attr('text').indexOf('…')).toBeGreaterThan(-1);
   });
 
   it('update offset, offset', () => {

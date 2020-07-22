@@ -272,7 +272,7 @@ describe('annotation data-marker', () => {
     expect(textGroup.getCanvasBBox().minX).toBe(0);
 
     const textShape = dataMarker.getElementByLocalId('text');
-    expect(textShape.attr('text')).toBe('test tex…');
+    expect(textShape.attr('text').indexOf('…')).toBeGreaterThan(-1);
   });
 
   it('destroy', () => {
