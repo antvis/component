@@ -56,7 +56,7 @@ export function renderTag(container: IGroup, tagCfg: TagCfg) {
     const backgroundStyle = get(background, 'style', {});
 
     const { minX, minY, width, height } = text.getCanvasBBox();
-    tagGroup.addShape('rect', {
+    const tagBg = tagGroup.addShape('rect', {
       id: `${id}-bg`,
       name: `${id}-bg`,
       attrs: {
@@ -67,6 +67,7 @@ export function renderTag(container: IGroup, tagCfg: TagCfg) {
         ...backgroundStyle,
       },
     });
+    tagBg.toBack();
   }
 
   applyTranslate(tagGroup, x, y);
