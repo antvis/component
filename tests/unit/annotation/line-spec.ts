@@ -184,7 +184,7 @@ describe('test line annotation with text enhancement', () => {
     const textShape = line.getElementById('l-annotation-line-text');
     expect(textShape.attr('text').indexOf('…')).toBeGreaterThan(-1);
     expect(textShape.get('tip')).toBe('line text 123123243434');
-    expect(textShape.getBBox().width + 10).toBeLessThan(100);
+    expect(textShape.getBBox().width).toBeLessThan(100);
 
     const textBgShape = line.getElementById('l-annotation-line-text-bg');
     expect(textBgShape).toBeUndefined();

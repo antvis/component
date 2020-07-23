@@ -138,7 +138,7 @@ describe('text with background', () => {
     y: 150,
     content: '我是一段很长很长很长很长很长很长很长的文本',
     updateAutoRender: true,
-    maxLength: 40,
+    maxLength: 60,
     background: {
       padding: 10,
       style: {

@@ -45,16 +45,17 @@ export function renderTag(container: IGroup, tagCfg: TagCfg) {
     },
   });
 
+  // maxLength 应包含 background 中的 padding 值
+  const padding = formatPadding(get(background, 'padding', 0));
   if (maxLength && autoEllipsis) {
+    const maxTextLength = maxLength - (padding[1] + padding[3]);
     // 超出自动省略
-    ellipsisLabel(!isVertical, text, maxLength, ellipsisPosition);
+    ellipsisLabel(!isVertical, text, maxTextLength, ellipsisPosition);
   }
 
   if (background) {
     // 渲染文本背景
-    const padding = formatPadding(get(background, 'padding', 0));
     const backgroundStyle = get(background, 'style', {});
-
     const { minX, minY, width, height } = text.getCanvasBBox();
     const tagBg = tagGroup.addShape('rect', {
       id: `${id}-bg`,
