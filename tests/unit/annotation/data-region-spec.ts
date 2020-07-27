@@ -40,6 +40,7 @@ describe('annotation data-marker', () => {
     dataRegion.render();
     const regionShape: IShape = dataRegion.getElementByLocalId('region');
     const textShape: IShape = dataRegion.getElementByLocalId('text');
+    const textGroup = dataRegion.getElementByLocalId('text-group');
 
     expect(regionShape.attr('path')).toEqual([
       ['M', 100, 350],
@@ -49,8 +50,8 @@ describe('annotation data-marker', () => {
     ]);
     expect(textShape.attr('text')).toEqual('test text');
     expect(textShape.attr('textAlign')).toEqual('center');
-    expect(textShape.attr('x')).toBe((100 + 150) / 2);
-    expect(textShape.attr('y')).toBe(350);
+    expect(textGroup.attr('x')).toBe((100 + 150) / 2);
+    expect(textGroup.attr('y')).toBe(350);
   });
 
   it('render multiple points', () => {
@@ -65,6 +66,7 @@ describe('annotation data-marker', () => {
     });
     const regionShape: IShape = dataRegion.getElementByLocalId('region');
     const textShape: IShape = dataRegion.getElementByLocalId('text');
+    const textGroup = dataRegion.getElementByLocalId('text-group');
 
     expect(regionShape.attr('path')).toEqual([
       ['M', 100, 200],
@@ -76,8 +78,8 @@ describe('annotation data-marker', () => {
       ['L', 300, 200],
     ]);
     expect(textShape.attr('text')).toBe('test text');
-    expect(textShape.attr('x')).toBe((100 + 300) / 2);
-    expect(textShape.attr('y')).toBe(200);
+    expect(textGroup.attr('x')).toBe((100 + 300) / 2);
+    expect(textGroup.attr('y')).toBe(200);
     expect(textShape.attr('textAlign')).toBe('center');
   });
 
@@ -100,6 +102,33 @@ describe('annotation data-marker', () => {
 
     expect(regionShape.attr('fill')).toBe('#ff0000');
     expect(textShape.attr('stroke')).toBe('#00ff00');
+  });
+
+  it('text enhancement', () => {
+    dataRegion.update({
+      text: {
+        content: 'test texsdft',
+        rotate: Math.PI / 2,
+        maxLength: 50,
+        autoEllipsis: true,
+        background: {
+          padding: 5,
+          style: {
+            fill: '#1890ff',
+            fillOpacity: 0.5,
+          },
+        },
+        style: {
+          stroke: '#00ff00',
+        },
+      },
+    });
+
+    const textGroup = dataRegion.getElementByLocalId('text-group');
+    const textShape = dataRegion.getElementByLocalId('text');
+
+    expect(textShape.attr('text').indexOf('…')).toBeGreaterThan(-1);
+    expect(textGroup.getCanvasBBox().width).toBe(23);
   });
 
   it('destroy', () => {

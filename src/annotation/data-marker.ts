@@ -3,6 +3,8 @@ import { get } from '@antv/util';
 import GroupComponent from '../abstract/group-component';
 import { ILocation } from '../interfaces';
 import { DataMarkerAnnotationCfg, PointLocationCfg } from '../types';
+import { renderTag } from '../util/graphic';
+import { applyTranslate } from '../util/matrix';
 import Theme from '../util/theme';
 
 class DataMarkerAnnotation extends GroupComponent<DataMarkerAnnotationCfg> implements ILocation<PointLocationCfg> {
@@ -104,14 +106,25 @@ class DataMarkerAnnotation extends GroupComponent<DataMarkerAnnotationCfg> imple
   }
 
   private renderText(group: IGroup) {
-    const { text } = this.getShapeAttrs();
+    const { text: textAttrs } = this.getShapeAttrs();
 
-    this.addShape(group, {
-      type: 'text',
+    const { x, y, text, ...style } = textAttrs;
+    const { background, maxLength, autoEllipsis, isVertival, ellipsisPosition } = this.get('text');
+    const tagCfg = {
+      x,
+      y,
       id: this.getElementId('text'),
       name: 'annotation-text',
-      attrs: text,
-    });
+      content: text,
+      style,
+      background,
+      maxLength,
+      autoEllipsis,
+      isVertival,
+      ellipsisPosition,
+    };
+
+    renderTag(group, tagCfg);
   }
 
   private autoAdjust(group: IGroup) {
@@ -122,6 +135,7 @@ class DataMarkerAnnotation extends GroupComponent<DataMarkerAnnotationCfg> imple
     const coordinateBBox = this.get('coordinateBBox');
     const { minX, maxX, minY, maxY } = group.getBBox();
 
+    const textGroup = group.findById(this.getElementId('text-group'));
     const textShape = group.findById(this.getElementId('text'));
     const lineShape = group.findById(this.getElementId('line'));
 
@@ -129,14 +143,16 @@ class DataMarkerAnnotation extends GroupComponent<DataMarkerAnnotationCfg> imple
       return;
     }
 
-    if (textShape) {
+    if (textGroup) {
       if (x + minX <= coordinateBBox.minX) {
         // 左侧超出
-        textShape.attr('textAlign', 'start');
+        const overflow = coordinateBBox.minX - (x + minX);
+        applyTranslate(textGroup, textGroup.attr('x') + overflow, textGroup.attr('y'));
       }
       if (x + maxX >= coordinateBBox.maxX) {
         // 右侧超出
-        textShape.attr('textAlign', 'end');
+        const overflow = x + maxX - coordinateBBox.maxX;
+        applyTranslate(textGroup, textGroup.attr('x') - overflow, textGroup.attr('y'));
       }
     }
 
@@ -161,7 +177,7 @@ class DataMarkerAnnotation extends GroupComponent<DataMarkerAnnotationCfg> imple
           ['L', 0, lineLength * factor],
         ]);
       }
-      textShape.attr('y', (lineLength + 2) * factor);
+      applyTranslate(textGroup, textGroup.attr('x'), (lineLength + 2) * factor)
     }
   }
 

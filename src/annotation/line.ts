@@ -3,7 +3,7 @@ import { isNumber, isString } from '@antv/util';
 import GroupComponent from '../abstract/group-component';
 import { ILocation } from '../interfaces';
 import { LineAnnotationCfg, RegionLocationCfg } from '../types';
-import { getMatrixByAngle } from '../util/matrix';
+import { renderTag, TagCfg } from '../util/graphic';
 import Theme from '../util/theme';
 import { getValueByPercent } from '../util/util';
 
@@ -103,28 +103,33 @@ class LineAnnotation extends GroupComponent<LineAnnotationCfg> implements ILocat
     const text = this.get('text');
     const start = this.get('start');
     const end = this.get('end');
-    const { position, content, style, offsetX, offsetY, autoRotate } = text;
+    const { position, content, style, offsetX, offsetY, autoRotate,
+      maxLength, autoEllipsis, ellipsisPosition, background, isVertical = false } = text;
     const point = this.getLabelPoint(start, end, position);
-    const attrs = {
-      x: point.x + offsetX,
-      y: point.y + offsetY,
-      text: content,
-      ...style,
-    };
-    // 如果自动旋转，需要计算矩阵
-    if (autoRotate) {
-      const vector = [end.x - start.x, end.y - start.y];
-      const angle = Math.atan2(vector[1], vector[0]);
-      const matrix = getMatrixByAngle(point, angle);
-      attrs.matrix = matrix;
-    }
+    const x = point.x + offsetX;
+    const y = point.y + offsetY;
 
-    this.addShape(group, {
-      type: 'text',
+    const cfg: TagCfg = {
       id: this.getElementId('line-text'),
       name: 'annotation-line-text',
-      attrs,
-    });
+      x,
+      y,
+      content,
+      style,
+      maxLength,
+      autoEllipsis,
+      ellipsisPosition,
+      background,
+      isVertical,
+    };
+
+    // 如果自动旋转
+    if (autoRotate) {
+      const vector = [end.x - start.x, end.y - start.y];
+      cfg.rotate = Math.atan2(vector[1], vector[0]);
+    }
+
+    renderTag(group, cfg);
   }
 }
 

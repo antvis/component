@@ -174,8 +174,6 @@ describe('test category legend', () => {
       expect(item1.getCanvasBBox().minY).not.toBe(item2.getCanvasBBox().minY);
     });
 
-    xit('max height', () => {});
-
     it('clear', () => {
       legend.clear();
       expect(legend.getElementById('c-legend-item-group')).toBe(undefined);
@@ -307,6 +305,112 @@ describe('test category legend', () => {
       });
       layoutBBox = legend.getLayoutBBox();
       expect(layoutBBox.width).toBe(100);
+    });
+
+    it('destroy', () => {
+      legend.destroy();
+      expect(legend.destroyed).toBe(true);
+    });
+  });
+
+  describe('auto ellipsis', () => {
+    const container = canvas.addGroup();
+    const legend = new CategroyLegend({
+      id: 'c',
+      container,
+      x: 100,
+      y: 100,
+      items: [
+        { name: '测试测试测试测试测试 1', value: 22222, marker: { symbol: 'square', style: { r: 4, fill: 'red' } } },
+        { name: '测试 2', value: 2, marker: { symbol: 'square', style: { r: 4, fill: 'red' } } },
+        { name: '测试 3', value: 3, marker: { symbol: 'square', style: { r: 4, fill: 'blue' } } },
+        { name: '测试 4', value: 4, marker: { symbol: 'square', style: { r: 4, fill: 'yellow' } } },
+      ],
+      itemWidth: 80,
+      updateAutoRender: true,
+      itemBackground: null,
+    });
+
+    legend.init();
+    legend.render();
+
+    it('with itemWidth, without maxItemWidth', () => {
+      const item1 = legend.getElementById('c-legend-item-测试测试测试测试测试 1');
+      expect(item1.getBBox().width).toBeLessThan(80);
+      const item1Name = legend.getElementById('c-legend-item-测试测试测试测试测试 1-name');
+      expect(item1Name.attr('text').indexOf('…')).toBeGreaterThan(-1);
+      expect(item1Name.get('tip')).toBe('测试测试测试测试测试 1');
+    });
+
+    it('without itemWidth, with maxItemWidth', () => {
+      legend.update({
+        itemWidth: null,
+        maxItemWidth: 80,
+      });
+      const item1 = legend.getElementById('c-legend-item-测试测试测试测试测试 1');
+      expect(item1.getBBox().width).toBeLessThan(80);
+      const item1Name = legend.getElementById('c-legend-item-测试测试测试测试测试 1-name');
+      expect(item1Name.attr('text').indexOf('…')).toBeGreaterThan(-1);
+      expect(item1Name.get('tip')).toBe('测试测试测试测试测试 1');
+    });
+
+    it('with itemWidth, with maxItemWidth, but itemWidth is less than maxItemWidth', () => {
+      legend.update({
+        itemWidth: 40,
+        maxItemWidth: 80,
+      });
+      const item1 = legend.getElementById('c-legend-item-测试测试测试测试测试 1');
+      expect(item1.getBBox().width).toBeCloseTo(40);
+      const item1Name = legend.getElementById('c-legend-item-测试测试测试测试测试 1-name');
+      expect(item1Name.attr('text').indexOf('…')).toBeGreaterThan(-1);
+      expect(item1Name.get('tip')).toBe('测试测试测试测试测试 1');
+
+      const item2 = legend.getElementById('c-legend-item-测试 2');
+      expect(item2.getBBox().width).toBeCloseTo(40);
+      const item2Name = legend.getElementById('c-legend-item-测试 2-name');
+      expect(item2Name.attr('text').indexOf('…')).toBeGreaterThan(-1);
+      expect(item2Name.get('tip')).toBe('测试 2');
+    });
+
+    it('with itemWidth, with maxItemWidth, but itemWidth is greater than maxItemWidth', () => {
+      legend.update({
+        maxItemWidth: 40,
+        itemWidth: 80,
+      });
+      const item1 = legend.getElementById('c-legend-item-测试测试测试测试测试 1');
+      expect(item1.getBBox().width).toBeCloseTo(40);
+      const item1Name = legend.getElementById('c-legend-item-测试测试测试测试测试 1-name');
+      expect(item1Name.attr('text').indexOf('…')).toBeGreaterThan(-1);
+      expect(item1Name.get('tip')).toBe('测试测试测试测试测试 1');
+
+      const item2 = legend.getElementById('c-legend-item-测试 2');
+      expect(item2.getBBox().width).toBeCloseTo(40);
+      const item2Name = legend.getElementById('c-legend-item-测试 2-name');
+      expect(item2Name.attr('text').indexOf('…')).toBeGreaterThan(-1);
+      expect(item2Name.get('tip')).toBe('测试 2');
+    });
+
+    it('with name and value', () => {
+      legend.update({
+        itemWidth: 80,
+        maxItemWidth: null,
+        itemValue: {
+          alignRight: true,
+        },
+        items: [
+          { name: '测试 1', value: 22222, marker: { symbol: 'square', style: { r: 4, fill: 'red' } } },
+          { name: '测试 2', value: 2, marker: { symbol: 'square', style: { r: 4, fill: 'red' } } },
+          { name: '测试 3', value: 3, marker: { symbol: 'square', style: { r: 4, fill: 'blue' } } },
+          { name: '测试 4', value: 4, marker: { symbol: 'square', style: { r: 4, fill: 'yellow' } } },
+        ],
+      });
+      const item1 = legend.getElementById('c-legend-item-测试 1');
+      expect(item1.getBBox().width).toBeCloseTo(80);
+      const item1Name = legend.getElementById('c-legend-item-测试 1-name');
+      expect(item1Name.attr('text')).toBe('测试 1');
+      const item1Value = legend.getElementById('c-legend-item-测试 1-value');
+      expect(item1Value.attr('text').indexOf('…')).toBeGreaterThan(-1);
+      expect(item1Value.get('tip')).toBe(22222);
     });
 
     it('destroy', () => {

@@ -1,8 +1,8 @@
 import { IElement, IGroup } from '@antv/g-base';
 import { each } from '@antv/util';
 import fecha from 'fecha';
+import { testLabel } from '../../util/label';
 import { strLen } from '../../util/text';
-import { testLabel, } from './util';
 
 const SECOND = 1000;
 const MINUTE = 60 * SECOND;
@@ -145,7 +145,7 @@ function sameSectionFormatter(time: Date,mode: string,reseveLength: number) {
             return extendFormatter;
         }
     }
-    return formatter; 
+    return formatter;
 }
 
 export function ellipsisTime(labelGroup: IGroup, limitLength: number): boolean {

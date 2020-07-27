@@ -38,6 +38,38 @@ export interface Range {
   max: number;
 }
 
+/** 文本背景框配置 */
+export interface EnhancedTextBackgroundCfg {
+  /** 文字内边距，同 css 盒模型 */
+  padding?: number | number[];
+  /** 文字包围盒样式 */
+  style?: ShapeAttrs;
+};
+
+/**
+ * 增强型文本配置：
+ * 1. 可自动缩略
+ * 2. 可绘制背景框
+ */
+export interface EnhancedTextCfg {
+  /** 文本标注内容 */
+  content: string;
+  /** 旋转，弧度制 */
+  rotate?: number;
+  /** 文本标注样式 */
+  style?: ShapeAttrs;
+  /** 文字包围盒样式设置 */
+  background?: EnhancedTextBackgroundCfg;
+  /** 文本的最大长度 */
+  maxLength?: number;
+  /** 超出 maxLength 是否自动省略 */
+  autoEllipsis?: boolean;
+  /** 文本在二维坐标系的显示位置，是沿着 x 轴显示 还是沿着 y 轴显示 */
+  isVertical?: boolean;
+  /** 文本截断的位置 */
+  ellipsisPosition?: 'head' | 'middle' | 'tail';
+}
+
 /**
  * @interface
  * 列表选项接口
@@ -497,6 +529,10 @@ export interface CategoryLegendCfg extends LegendBaseCfg {
    */
   itemSpacing?: number;
   /**
+   * 图例项的最大宽度，默认为 null，由上层传入
+   */
+  maxItemWidth?: number;
+  /**
    * 图例项的宽度, 默认为 null，自动计算
    * @type {number}
    */
@@ -871,7 +907,7 @@ export interface CircleLocationCfg extends LocationCfg {
   endAngle?: number;
 }
 
-export interface TextAnnotationCfg extends GroupComponentCfg {
+export interface TextAnnotationCfg extends GroupComponentCfg, EnhancedTextCfg {
   /**
    * 文本标注位置 x
    * @type {number}
@@ -882,20 +918,6 @@ export interface TextAnnotationCfg extends GroupComponentCfg {
    * @type {number}
    */
   y: number;
-  /**
-   * 文本标注内容
-   * @type {number}
-   */
-  content: string;
-  /**
-   * 旋转角度
-   */
-  rotate?: number;
-  /**
-   * 文本标注样式
-   * @type {ShapeAttrs}
-   */
-  style?: ShapeAttrs;
 }
 
 export interface LineAnnotationCfg extends GroupComponentCfg {
@@ -921,7 +943,7 @@ export interface LineAnnotationCfg extends GroupComponentCfg {
   style?: ShapeAttrs;
 }
 
-export interface LineAnnotationTextCfg {
+export interface LineAnnotationTextCfg extends EnhancedTextCfg {
   /**
    * 位置，可以选择： start, end, center 和 '50%' 这类的百分比写法，默认 'center'
    * @type {string}
@@ -933,11 +955,6 @@ export interface LineAnnotationTextCfg {
    */
   autoRotate?: boolean;
   /**
-   * 文本内容
-   * @type {string}
-   */
-  content?: string;
-  /**
    * 文本的偏移 x
    * @type {number}
    */
@@ -947,11 +964,6 @@ export interface LineAnnotationTextCfg {
    * @type {number}
    */
   offsetY?: number;
-  /**
-   * 文本属性
-   * @type {ShapeAttrs}
-   */
-  style?: ShapeAttrs;
 }
 
 export interface RegionAnnotationCfg extends GroupComponentCfg {
@@ -1023,6 +1035,10 @@ export interface ArcAnnotationCfg extends GroupComponentCfg {
   style?: ShapeAttrs;
 }
 
+export interface DataMarkerTextCfg extends EnhancedTextCfg {
+  display?: boolean;
+}
+
 export interface DataMarkerAnnotationCfg extends GroupComponentCfg {
   /**
    * 标注位置 x
@@ -1034,28 +1050,16 @@ export interface DataMarkerAnnotationCfg extends GroupComponentCfg {
    * @type {number}
    */
   y: number;
-  /**
-   * 文本标注内容
-   * @type {number}
-   */
-  content: string;
-  /**
-   * 标注样式
-   * @type {ShapeAttrs}
-   */
-  style?: {
-    point?: ShapeAttrs;
-    line?: ShapeAttrs;
-    text?: ShapeAttrs;
+  point?: {
+    display?: boolean;
+    style?: ShapeAttrs;
   };
-  /**
-   * 显示设置
-   */
-  display?: {
-    point?: boolean;
-    line?: boolean;
-    text?: boolean;
+  line?: {
+    display?: boolean;
+    length?: number;
+    style?: ShapeAttrs;
   };
+  text: DataMarkerTextCfg;
   /**
    * 方向
    */
@@ -1076,19 +1080,10 @@ export interface DataRegionAnnotationCfg extends GroupComponentCfg {
    * @type {Point}
    */
   points: Point[];
-  /**
-   * 文本标注内容
-   * @type {number}
-   */
-  content: string;
-  /**
-   * 标注样式
-   * @type {ShapeAttrs}
-   */
-  style?: {
-    region?: ShapeAttrs;
-    text?: ShapeAttrs;
+  region?: {
+    style?: ShapeAttrs;
   };
+  text: EnhancedTextCfg;
 }
 
 export interface RegionFilterAnnotationCfg extends GroupComponentCfg {

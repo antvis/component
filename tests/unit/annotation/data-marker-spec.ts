@@ -57,8 +57,9 @@ describe('annotation data-marker', () => {
     const textShape: IShape = dataMarker.getElementByLocalId('text');
     expect(textShape.attr('text')).toBe('test text');
 
-    expect(textShape.attr('x')).toBe(pointShape.attr('x'));
-    expect(textShape.attr('y')).toBeLessThan(pointShape.attr('y'));
+    const textGroup = dataMarker.getElementByLocalId('text-group');
+    expect(textGroup.attr('x')).toBe(pointShape.attr('x'));
+    expect(textGroup.attr('y')).toBeLessThan(pointShape.attr('y'));
   });
 
   it('render downward', () => {
@@ -81,8 +82,9 @@ describe('annotation data-marker', () => {
     const textShape: IShape = dataMarker.getElementByLocalId('text');
     expect(textShape.attr('text')).toBe('test text');
 
-    expect(textShape.attr('x')).toBe(pointShape.attr('x'));
-    expect(textShape.attr('y')).toBeGreaterThan(pointShape.attr('y'));
+    const textGroup = dataMarker.getElementByLocalId('text-group');
+    expect(textGroup.attr('x')).toBe(pointShape.attr('x'));
+    expect(textGroup.attr('y')).toBeGreaterThan(pointShape.attr('y'));
   });
 
   it('render styled', () => {
@@ -182,29 +184,26 @@ describe('annotation data-marker', () => {
     });
     const pointShape: IShape = dataMarker.getElementByLocalId('point');
     const textShape: IShape = dataMarker.getElementByLocalId('text');
+    const textGroup = dataMarker.getElementByLocalId('text-group');
 
     // text should be downward
     expect(textShape.attr('text')).toBe('test text');
-    expect(textShape.attr('y')).toBeGreaterThan(pointShape.attr('y'));
+    expect(textGroup.getCanvasBBox().y).toBeGreaterThan(pointShape.attr('y'));
   });
 
   it('render right side beyond', () => {
     dataMarker.update({
       x: 480,
       y: 150,
-      direction: 'upward',
       coordinateBBox,
       point: {},
       line: {},
       text: {
-        content: 'test text',
+        content: 'test text公司的发鬼地方框架',
       },
     });
-    const pointShape: IShape = dataMarker.getElementByLocalId('point');
-    const textShape: IShape = dataMarker.getElementByLocalId('text');
-
-    expect(textShape.attr('textAlign')).toBe('end');
-    expect(textShape.attr('y')).toBeLessThan(pointShape.attr('y'));
+    const textGroup = dataMarker.getElementByLocalId('text-group');
+    expect(textGroup.getCanvasBBox().maxX).toBe(500);
   });
 
   it('render bottom side beyond', () => {
@@ -222,9 +221,7 @@ describe('annotation data-marker', () => {
 
     const pointShape: IShape = dataMarker.getElementByLocalId('point');
     const textShape: IShape = dataMarker.getElementByLocalId('text');
-
-    expect(textShape.attr('textAlign')).toBe('start');
-    expect(textShape.attr('y')).toBeLessThan(pointShape.attr('y'));
+    expect(textShape.getCanvasBBox().y).toBeLessThan(pointShape.getCanvasBBox().y);
   });
 
   it('render left side beyond', () => {
@@ -243,11 +240,39 @@ describe('annotation data-marker', () => {
       },
     });
 
-    const pointShape: IShape = dataMarker.getElementByLocalId('point');
-    const textShape: IShape = dataMarker.getElementByLocalId('text');
+    const textGroup = dataMarker.getElementByLocalId('text-group');
+    expect(textGroup.getCanvasBBox().minX).toBe(0);
+  });
 
-    expect(textShape.attr('textAlign')).toBe('start');
-    expect(textShape.attr('y')).toBeLessThan(pointShape.attr('y'));
+  it('render left side beyond, with background and auto ellipsis', () => {
+    dataMarker.update({
+      x: 10,
+      y: 150,
+      direction: 'upward',
+      coordinateBBox,
+      point: {},
+      line: {},
+      text: {
+        content: 'test textkj',
+        style: {
+          textAlign: 'end',
+        },
+        maxLength: 50,
+        autoEllipsis: true,
+        background: {
+          style: {
+            fill: '#1890ff',
+            fillOpacity: 0.5
+          },
+        }
+      },
+    });
+
+    const textGroup = dataMarker.getElementByLocalId('text-group');
+    expect(textGroup.getCanvasBBox().minX).toBe(0);
+
+    const textShape = dataMarker.getElementByLocalId('text');
+    expect(textShape.attr('text').indexOf('…')).toBeGreaterThan(-1);
   });
 
   it('destroy', () => {

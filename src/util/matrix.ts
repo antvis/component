@@ -1,13 +1,14 @@
+import { IElement } from '@antv/g-base';
 import { ext, vec2, vec3 } from '@antv/matrix-util';
 import { BBox, Point } from '../types';
 
 const identityMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
-export function getMatrixByAngle(point: Point, angle: number): number[] {
+export function getMatrixByAngle(point: Point, angle: number, matrix = identityMatrix): number[] {
   if (!angle) {
     // 角度为 0 或者 null 时返回 null
     return null;
   }
-  const m = ext.transform(identityMatrix, [
+  const m = ext.transform(matrix, [
     ['t', -point.x, -point.y],
     ['r', angle],
     ['t', point.x, point.y],
@@ -60,4 +61,16 @@ export function applyMatrix2BBox(matrix: number[], bbox: BBox) {
     width: maxX - minX,
     height: maxY - minY,
   };
+}
+
+export function applyRotate(shape: IElement, rotate: number, x: number, y: number) {
+  if (rotate) {
+    const matrix = getMatrixByAngle({ x, y }, rotate, shape.getMatrix());
+    shape.setMatrix(matrix);
+  }
+}
+
+export function applyTranslate(shape: IElement, x: number, y: number) {
+  const translateMatrix = getMatrixByTranslate({ x, y });
+  shape.attr('matrix', translateMatrix);
 }
