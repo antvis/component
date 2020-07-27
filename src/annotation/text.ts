@@ -1,10 +1,10 @@
 import { IGroup } from '@antv/g-base';
-import { ext } from '@antv/matrix-util';
 
 import GroupComponent from '../abstract/group-component';
 import { ILocation } from '../interfaces';
 import { PointLocationCfg, TextAnnotationCfg } from '../types';
-import { applyRotate, applyTranslate, renderTag } from '../util/graphic';
+import { renderTag } from '../util/graphic';
+import { applyRotate, applyTranslate } from '../util/matrix';
 import Theme from '../util/theme';
 
 class TextAnnotation extends GroupComponent<TextAnnotationCfg> implements ILocation<PointLocationCfg> {

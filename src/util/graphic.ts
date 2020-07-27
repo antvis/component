@@ -1,9 +1,9 @@
-import { IElement, IGroup, ShapeAttrs } from '@antv/g-base';
+import { IGroup } from '@antv/g-base';
 import { get } from '@antv/util';
 
 import { EnhancedTextCfg } from '../types';
 import { ellipsisLabel } from './label';
-import { getMatrixByAngle, getMatrixByTranslate } from './matrix';
+import { applyRotate, applyTranslate } from './matrix';
 import { formatPadding } from './util';
 
 export interface TagCfg extends EnhancedTextCfg {
@@ -73,16 +73,4 @@ export function renderTag(container: IGroup, tagCfg: TagCfg) {
 
   applyTranslate(tagGroup, x, y);
   applyRotate(tagGroup, rotate, x, y);
-}
-
-export function applyRotate(shape: IElement, rotate: number, x: number, y: number) {
-  if (rotate) {
-    const matrix = getMatrixByAngle({ x, y }, rotate, shape.getMatrix());
-    shape.setMatrix(matrix);
-  }
-}
-
-export function applyTranslate(shape: IElement, x: number, y: number) {
-  const translateMatrix = getMatrixByTranslate({x, y});
-  shape.attr('matrix', translateMatrix);
 }

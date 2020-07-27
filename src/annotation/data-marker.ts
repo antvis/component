@@ -3,7 +3,8 @@ import { get } from '@antv/util';
 import GroupComponent from '../abstract/group-component';
 import { ILocation } from '../interfaces';
 import { DataMarkerAnnotationCfg, PointLocationCfg } from '../types';
-import { applyTranslate, renderTag } from '../util/graphic';
+import { renderTag } from '../util/graphic';
+import { applyTranslate } from '../util/matrix';
 import Theme from '../util/theme';
 
 class DataMarkerAnnotation extends GroupComponent<DataMarkerAnnotationCfg> implements ILocation<PointLocationCfg> {
