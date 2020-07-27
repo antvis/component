@@ -53,7 +53,7 @@ export interface EnhancedTextBackgroundCfg {
  */
 export interface EnhancedTextCfg {
   /** 文本标注内容 */
-  content: string;
+  content: string | number;
   /** 旋转，弧度制 */
   rotate?: number;
   /** 文本标注样式 */
