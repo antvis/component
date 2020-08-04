@@ -387,6 +387,7 @@ Axis 实现了 IList 接口，两种坐标轴的配置项和方法基本相同
 - label：轴上的刻度文本的配置项
   - style： 坐标轴文本样式
   - offset: 距离坐标轴的距离
+  - formatter: 格式化函数,默认为 null, 函数原型：function(text, tick, index) {return text}
   - rotate：旋转角度，如果设置了，建议将 autoRotate 设置成 false
   - autoRotate: 是否自动旋转, 默认 true
   - autoHide: 是否自动隐藏, 默认 false
