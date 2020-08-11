@@ -178,7 +178,8 @@ abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends 
    */
   protected removeDom() {
     const container = this.get('container');
-    container && container.parentNode.removeChild(container);
+    // 节点不一定有parentNode
+    container && container.parentNode && container.parentNode.removeChild(container);
   }
 
   /**
