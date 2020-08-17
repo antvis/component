@@ -61,6 +61,7 @@ describe('test line axis', () => {
     expect(label1.attr('x')).toBe(40);
     expect(label1.attr('y')).toBe(400);
     expect(label1.attr('textAlign')).toBe('end');
+    expect(label1.attr('textBaseline')).toBe('middle');
 
     const title = axis.getElementById('a-axis-title');
     expect(title.attr('matrix')).not.toBe(null);
@@ -70,6 +71,7 @@ describe('test line axis', () => {
   it('update label', () => {
     const label1 = axis.getElementById('a-axis-label-1');
     expect(label1.attr('textAlign')).toBe('end');
+    expect(label1.attr('textBaseline')).toBe('middle');
     expect(label1.attr('matrix')).toBe(null);
     const angle = Math.PI / 4;
     axis.update({
@@ -77,10 +79,12 @@ describe('test line axis', () => {
         rotate: Math.PI / 4,
         style: {
           textAlign: 'center',
+          textBaseline: 'top',
         },
       },
     });
     expect(label1.attr('textAlign')).toBe('center');
+    expect(label1.attr('textBaseline')).toBe('top');
     expect(label1.attr('matrix')).toEqual(getMatrixByAngle({ x: 40, y: 400 }, angle));
   });
 

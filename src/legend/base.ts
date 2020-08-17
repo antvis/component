@@ -28,14 +28,10 @@ abstract class LegendBase<T extends LegendBaseCfg = LegendBaseCfg> extends Group
 
   public getLayoutBBox(): BBox {
     const bbox = super.getLayoutBBox();
-    const x = this.get('x');
-    const y = this.get('y');
-    const offsetX = this.get('offsetX');
-    const offsetY = this.get('offsetY');
+    const minX = this.get('x');
+    const minY = this.get('y');
     const maxWidth = this.get('maxWidth');
     const maxHeight = this.get('maxHeight');
-    const minX = x + offsetX;
-    const minY = y + offsetY;
     let width = bbox.maxX - minX;
     let height = bbox.maxY - minY;
     if (maxWidth) {
