@@ -23,6 +23,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
       name: 'legend',
       type: 'category',
       itemSpacing: 24,
+      itemMarginBottom: 8,
       maxItemWidth: null,
       itemWidth: null,
       itemHeight: null,
@@ -244,6 +245,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     const itemHeight = this.getItemHeight();
     const itemWidth = this.get('itemWidth');
     const itemSpacing = this.get('itemSpacing');
+    const itemMarginBottom = this.get('itemMarginBottom');
     const currentPoint = this.get('currentPoint');
     const startX = currentPoint.x;
     const startY = currentPoint.y;
@@ -268,13 +270,13 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
           // 检测是否换行
           wrapped = true;
           currentPoint.x = startX;
-          currentPoint.y += itemHeight;
+          currentPoint.y += itemHeight + itemMarginBottom;
         }
         this.moveElementTo(subGroup, currentPoint);
         currentPoint.x += width + itemSpacing;
       } else {
         // 如果垂直布局
-        if (maxHeight && maxHeight < currentPoint.y + itemHeight - startY) {
+        if (maxHeight && maxHeight < currentPoint.y + itemHeight + itemMarginBottom - startY) {
           // 换行
           wrapped = true;
           currentPoint.x += pageWidth + itemSpacing;
@@ -282,7 +284,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
           pageWidth = 0;
         }
         this.moveElementTo(subGroup, currentPoint);
-        currentPoint.y += itemHeight; // itemSpacing 仅影响水平间距
+        currentPoint.y += itemHeight + itemMarginBottom; // itemSpacing 仅影响水平间距
       }
     });
 
@@ -301,7 +303,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     if (!itemHeight) {
       const nameCfg = this.get('itemName');
       if (nameCfg) {
-        itemHeight = nameCfg.style.fontSize + 8;
+        itemHeight = nameCfg.style.fontSize;
       }
     }
     return itemHeight;
@@ -489,6 +491,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
         currentPoint.x += width + itemSpacing;
       });
     } else {
+      const itemMarginBottom = this.get('itemMarginBottom');
       each(subGroups, (item) => {
         const bbox = item.getBBox();
         if (bbox.width > pageWidth) {
@@ -503,8 +506,8 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
         maxItemWidth = Math.min(maxWidth, maxItemWidth);
       }
       this.pageWidth = pageWidth;
-      this.pageHeight = maxHeight - Math.max(navigationBBox.height, itemHeight);
-      const cntPerPage = Math.floor(this.pageHeight / itemHeight);
+      this.pageHeight = maxHeight - Math.max(navigationBBox.height, (itemHeight + itemMarginBottom));
+      const cntPerPage = Math.floor(this.pageHeight / (itemHeight + itemMarginBottom));
       each(subGroups, (item, index) => {
         if (index !== 0 && index % cntPerPage === 0) {
           pages += 1;
@@ -521,7 +524,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
             height: itemHeight,
           },
         });
-        currentPoint.y += itemHeight;
+        currentPoint.y += itemHeight + itemMarginBottom;
       });
       this.totalPagesCnt = pages;
       this.moveElementTo(navigation, {
