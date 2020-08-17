@@ -65,7 +65,6 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
           style: {
             fontSize: 12,
             fill: Theme.textColor,
-            textBaseline: 'middle',
             fontFamily: Theme.fontFamily,
             fontWeight: 'normal',
           },
@@ -259,6 +258,18 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
     return align;
   }
 
+  protected getTextBaseline(vector: number[]): string {
+    let base;
+    if (isNumberEqual(vector[1], 0)) {
+      base = 'middle';
+    } else if (vector[1] > 0) {
+      base = 'top';
+    } else if (vector[1] < 0) {
+      base = 'bottom';
+    }
+    return base;
+  }
+
   protected processOverlap(labelGroup) {}
 
   // 绘制坐标轴线
@@ -438,6 +449,7 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
         y: point.y,
         text,
         textAlign: this.getTextAnchor(vector),
+        textBaseline: this.getTextBaseline(vector),
       },
       style
     );
