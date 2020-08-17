@@ -1,3 +1,14 @@
+#### 0.7.2 (2020-08-17)
+
+##### New Features
+
+- **legend:** 分类图例添加 itemMarginBottom 属性,用于调整图例项垂直方向的间距 ([d2a92529](https://github.com/antvis/component/commit/d2a92529d5cfc2a80172b91b6b7fc6fbd563b995))
+- **axis:** 自动计算 textBaseline ([4401d921](https://github.com/antvis/component/commit/4401d9210004f2b400e0659aaacd05bd1474709e))
+
+##### Bug Fixes
+
+- offsetX 和 offsetY 不需要参与 layoutBBox 计算 ([df5700a6](https://github.com/antvis/component/commit/df5700a6a864de669da007a39e41adbe42c24aac))
+
 #### 0.7.1 (2020-08-13)
 
 ##### New Features
