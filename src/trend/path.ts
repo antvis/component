@@ -79,16 +79,33 @@ export function dataToPath(data: number[], width: number, height: number, smooth
 }
 
 /**
+ * 获得 area 面积的横向连接线的 px 位置
+ * @param data 
+ * @param width 
+ * @param height 
+ */
+export function getAreaLineY(data: number[], height: number): number {
+  const y = new Linear({
+    values: data,
+  });
+
+  const lineY = Math.max(0, y.min);
+  return height - y.scale(lineY) * height;
+}
+
+/**
  * 线 path 转 area path
  * @param path
  * @param width
  * @param height
  */
-export function linePathToAreaPath(path: any[][], width: number, height: number): any[][] {
+export function linePathToAreaPath(path: any[][], width: number, height: number, data: number[]): any[][] {
   const areaPath = [...path];
 
-  areaPath.push(['L', width, 0]);
-  areaPath.push(['L', 0, height]);
+  const lineYPx = getAreaLineY(data, height);
+
+  areaPath.push(['L', width, lineYPx]);
+  areaPath.push(['L', 0, lineYPx]);
   areaPath.push(['Z']);
 
   return areaPath;

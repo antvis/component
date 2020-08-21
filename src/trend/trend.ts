@@ -69,7 +69,7 @@ export class Trend extends GroupComponent<TrendCfg> {
     // area
     // 在 path 的基础上，增加两个坐标点
     if (isArea) {
-      const areaPath = linePathToAreaPath(path, width, height);
+      const areaPath = linePathToAreaPath(path, width, height, data);
       this.addShape(group, {
         id: this.getElementId('area'),
         type: 'path',
