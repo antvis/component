@@ -2,6 +2,10 @@ import { AnimateCfg, BBox, IGroup, IShape, Point, ShapeAttrs } from '@antv/g-bas
 export type LocationType = 'point' | 'Region' | 'points' | 'circle' | 'none';
 
 export { Point, BBox };
+
+/** 用于返回样式 ShapeAttrs 的 Callback 函数定义 */
+type ShapeAttrsCallback = (text: string, index: number, length: number) => ShapeAttrs;
+
 /** 对象 */
 export interface LooseObject {
   [key: string]: any;
@@ -137,7 +141,7 @@ export interface AxisTickLineCfg {
    * 坐标轴刻度线的配置项
    * @type {ShapeAttrs}
    */
-  style?: ShapeAttrs;
+  style?: ShapeAttrs | ShapeAttrsCallback;
   /**
    * 是否同 tick 对齐
    * @type {boolean}
@@ -161,7 +165,7 @@ export interface AxisLabelCfg {
    * 坐标轴文本的样式
    * @type {ShapeAttrs}
    */
-  style?: ShapeAttrs;
+  style?: ShapeAttrs | ShapeAttrsCallback;
   /**
    * label 的偏移量
    * @type {number}
@@ -461,7 +465,7 @@ export interface GridLineCfg {
    * 栅格线的配置项
    * @type {ShapeAttrs}
    */
-  style?: ShapeAttrs;
+  style?: ShapeAttrs | ShapeAttrsCallback;
 }
 
 export interface GridBaseCfg extends GroupComponentCfg {
