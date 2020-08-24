@@ -4,7 +4,7 @@ export type LocationType = 'point' | 'Region' | 'points' | 'circle' | 'none';
 export { Point, BBox };
 
 /** 用于返回样式 ShapeAttrs 的 Callback 函数定义 */
-type ShapeAttrsCallback = (text: string, index: number, length: number) => ShapeAttrs;
+type ShapeAttrsCallback = (item: any, index: number, length: number) => ShapeAttrs;
 
 /** 对象 */
 export interface LooseObject {
