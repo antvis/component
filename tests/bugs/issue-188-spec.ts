@@ -1,5 +1,5 @@
 import { Canvas } from '@antv/g-canvas';
-import { Grid } from '../../src';
+import { Grid, Axis } from '../../src';
 
 const dom = document.createElement('div');
 document.body.appendChild(dom);
@@ -16,7 +16,6 @@ describe('axis 属性支持回调', () => {
     const grid = new Grid.Line({
       id: 'a',
       container,
-      updateAutoRender: false,
       items: [
         {
           points: [
@@ -38,12 +37,12 @@ describe('axis 属性支持回调', () => {
         },
       ],
       line: {
-        style: (item, index, length) => {
+        style: (item, index, items) => {
           if (index === 0) {
             return {
               stroke: 'red',
             };
-          } else if (index === length - 1) {
+          } else if (index === items.length - 1) {
             return {
               stroke: 'green',
             };
@@ -62,5 +61,48 @@ describe('axis 属性支持回调', () => {
     expect(paths[0].attr('stroke')).toBe('red');
     expect(paths[1].attr('stroke')).toBe('yellow');
     expect(paths[2].attr('stroke')).toBe('green');
+  });
+
+  test('axis', () => {
+    const axis = new Axis.Line({
+      animate: false,
+      id: 'a',
+      container,
+      start: { x: 20, y: 100 },
+      end: { x: 200, y: 100 },
+      ticks: [
+        { name: '1', value: 0 },
+        { name: '2', value: 0.5 },
+        { name: '3', value: 1 },
+      ],
+      title: {
+        text: '标题',
+      },
+      label: {
+        style: (item: string, index: number, items: number) => {
+          return {
+            stroke: 'red',
+          }
+        },
+      },
+      tickLine: {
+        style: (item: string, index: number, length: number) => {
+          return {
+            stroke: 'yellow',
+          }
+        },
+      },
+    });
+
+    axis.init();
+    axis.render();
+
+    // @ts-ignore
+    const labelGroup = axis.getContainer().getChildren()[1].getChildren()[1];
+    // @ts-ignore
+    const tickLineGroup = axis.getContainer().getChildren()[1].getChildren()[2];
+
+    expect(labelGroup.getChildren()[0].attr('stroke')).toBe('red');
+    expect(tickLineGroup.getChildren()[0].attr('stroke')).toBe('yellow');
   });
 });

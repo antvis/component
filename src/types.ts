@@ -4,7 +4,7 @@ export type LocationType = 'point' | 'Region' | 'points' | 'circle' | 'none';
 export { Point, BBox };
 
 /** 用于返回样式 ShapeAttrs 的 Callback 函数定义 */
-type ShapeAttrsCallback = (item: any, index: number, length: number) => ShapeAttrs;
+type ShapeAttrsCallback = (item: any, index: number, items: any[]) => ShapeAttrs;
 
 /** 对象 */
 export interface LooseObject {
@@ -207,7 +207,7 @@ export interface AxisSubTickLineCfg {
    * 坐标轴刻度线的配置项
    * @type {ShapeAttrs}
    */
-  style?: ShapeAttrs;
+  style?: ShapeAttrsCallback;
   /**
    * 子刻度个数
    * @type {number}

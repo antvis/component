@@ -78,7 +78,7 @@ abstract class GridBase<T extends GroupComponentCfg = GridBaseCfg> extends Group
       // 绘制栅格线
       if (line) {
         let style = this.getPathStyle();
-        style = isFunction(style) ? style(item, index, items.length) : style;
+        style = isFunction(style) ? style(item, index, items) : style;
 
         const lineId = this.getElementId(`line-${id}`);
         const gridPath = this.getGridPath(item.points);
