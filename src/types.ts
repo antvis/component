@@ -207,7 +207,7 @@ export interface AxisSubTickLineCfg {
    * 坐标轴刻度线的配置项
    * @type {ShapeAttrs}
    */
-  style?: ShapeAttrsCallback;
+  style?: ShapeAttrs | ShapeAttrsCallback;
   /**
    * 子刻度个数
    * @type {number}
