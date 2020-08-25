@@ -1,5 +1,5 @@
 import { IGroup } from '@antv/g-base';
-import { each, isString, mix } from '@antv/util';
+import { each, isString, mix, isFunction } from '@antv/util';
 import GroupComponent from '../abstract/group-component';
 import { GridBaseCfg, GroupComponentCfg, Point } from '../types';
 import Theme from '../util/theme';
@@ -77,7 +77,9 @@ abstract class GridBase<T extends GroupComponentCfg = GridBaseCfg> extends Group
       const id = item.id || index;
       // 绘制栅格线
       if (line) {
-        const style = this.getPathStyle();
+        let style = this.getPathStyle();
+        style = isFunction(style) ? style(item, index, items) : style;
+
         const lineId = this.getElementId(`line-${id}`);
         const gridPath = this.getGridPath(item.points);
         this.addShape(group, {

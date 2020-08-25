@@ -1,6 +1,6 @@
 import { IGroup } from '@antv/g-base';
 import { ext } from '@antv/matrix-util';
-import { each, filter, isNil, isNumberEqual, mix } from '@antv/util';
+import { each, filter, isNil, isNumberEqual, mix, isFunction } from '@antv/util';
 import GroupComponent from '../abstract/group-component';
 import { IList } from '../interfaces';
 import { AxisBaseCfg, ListItem, Point } from '../types';
@@ -351,28 +351,33 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
     return subTickLineItems;
   }
 
-  private getTickLineAttrs(tickItem: ListItem, type: string) {
-    const tickLineStyle = this.get(type).style;
+  private getTickLineAttrs(tickItem: ListItem, type: string, index: number, tickItems: ListItem[]) {
+    let style = this.get(type).style;
+
+    // 保持和 grid 相同的数据结构
+    const item = {
+      points: [tickItem.startPoint, tickItem.endPoint],
+    }
+
+    style = isFunction(style) ? style(item, index, tickItems) : style;
+
     const { startPoint, endPoint } = tickItem;
-    const attrs = mix(
-      {
-        x1: startPoint.x,
-        y1: startPoint.y,
-        x2: endPoint.x,
-        y2: endPoint.y,
-      },
-      tickLineStyle
-    );
-    return attrs;
+    return {
+      x1: startPoint.x,
+      y1: startPoint.y,
+      x2: endPoint.x,
+      y2: endPoint.y,
+      ...style,
+    };
   }
 
   // 绘制坐标轴刻度线
-  private drawTick(tickItem: ListItem, tickLineGroup: IGroup, type: string) {
+  private drawTick(tickItem: ListItem, tickLineGroup: IGroup, type: string, index: number, tickItems: ListItem[]) {
     this.addShape(tickLineGroup, {
       type: 'line',
       id: this.getElementId(tickItem.id),
       name: `axis-${type}`,
-      attrs: this.getTickLineAttrs(tickItem, type),
+      attrs: this.getTickLineAttrs(tickItem, type, index, tickItems),
     });
   }
 
@@ -386,22 +391,22 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
       id: this.getElementId('tickline-group'),
     });
     const tickCfg = this.get('tickLine');
-    each(tickLineItems, (item) => {
+    each(tickLineItems, (item, index) => {
       if (tickCfg.displayWithLabel) {
         // 如果跟随 label 显示，则检测是否存在对应的 label
         const labelId = this.getElementId(`label-${item.tickId}`);
         if (group.findById(labelId)) {
-          this.drawTick(item, tickLineGroup, 'tickLine');
+          this.drawTick(item, tickLineGroup, 'tickLine', index, tickLineItems);
         }
       } else {
-        this.drawTick(item, tickLineGroup, 'tickLine');
+        this.drawTick(item, tickLineGroup, 'tickLine', index, tickLineItems);
       }
     });
 
     if (subTickLine) {
       const subTickLineItems = this.getSubTickLineItems(tickLineItems);
-      each(subTickLineItems, (item) => {
-        this.drawTick(item, tickLineGroup, 'subTickLine');
+      each(subTickLineItems, (item, index: number) => {
+        this.drawTick(item, tickLineGroup, 'subTickLine', index, subTickLineItems);
       });
     }
   }
@@ -437,12 +442,15 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
   }
 
   // 获取 label 的配置项
-  private getLabelAttrs(tick: ListItem, index: number) {
+  private getLabelAttrs(tick: ListItem, index: number, ticks: ListItem[]) {
     const labelCfg = this.get('label');
-    const { offset, style, rotate, formatter } = labelCfg;
+    const { offset, rotate, formatter } = labelCfg;
     const point = this.getSidePoint(tick.point, offset);
     const vector = this.getSideVector(offset, point);
     const text = formatter ? formatter(tick.name, tick, index) : tick.name;
+    let { style } = labelCfg;
+    style = isFunction(style) ? style(text, index, ticks) : style;
+
     const attrs = mix(
       {
         x: point.x,
@@ -471,7 +479,7 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
         type: 'text',
         name: 'axis-label',
         id: this.getElementId(`label-${tick.id}`),
-        attrs: this.getLabelAttrs(tick, index),
+        attrs: this.getLabelAttrs(tick, index, ticks),
         delegateObject: {
           tick,
           item: tick,
