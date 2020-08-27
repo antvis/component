@@ -194,4 +194,21 @@ describe('slider', () => {
 
     simulateMouseEvent(containerDOM, 'mouseup', {});
   });
+
+  it('update height', () => {
+    slider.update({
+      height: 32,
+      start: 0.1,
+      end: 0.8,
+    });
+
+    slider.render();
+
+    // @ts-ignore
+    expect(slider.trend.get('height')).toBe(32);
+    // @ts-ignore
+    expect(slider.minHandler.get('y')).toBe(4);
+    // @ts-ignore
+    expect(slider.maxHandler.get('y')).toBe(4);
+  });
 });

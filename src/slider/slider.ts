@@ -54,6 +54,7 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
 
   private minHandler: Handler;
   private maxHandler: Handler;
+  private trend: Trend;
   private currentTarget: string;
   private prevX: number;
   private prevY: number;
@@ -133,12 +134,23 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
     super.update(validCfg);
     this.minHandler = this.getChildComponentById(this.getElementId('minHandler'));
     this.maxHandler = this.getChildComponentById(this.getElementId('maxHandler'));
+    this.trend = this.getChildComponentById(this.getElementId('trend'));
   }
 
   public init() {
     this.set('start', clamp(this.get('start'), 0, 1));
     this.set('end', clamp(this.get('end'), 0, 1));
     super.init();
+  }
+
+  public render() {
+    super.render();
+
+    this.updateUI(
+      this.getElementByLocalId('foreground'),
+      this.getElementByLocalId('minText'),
+      this.getElementByLocalId('maxText')
+    );
   }
 
   protected renderInner(group: IGroup) {
@@ -161,7 +173,7 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
 
     // 趋势图数据
     if (size(get(trendCfg, 'data'))) {
-      this.addComponent(group, {
+      this.trend = this.addComponent(group, {
         component: Trend,
         id: this.getElementId('trend'),
         x: 0,
@@ -254,8 +266,6 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
       cursor: 'ew-resize',
       ...handlerStyle,
     });
-
-    this.updateUI(foregroundShape, minTextShape, maxTextShape);
   }
 
   protected applyOffset() {
@@ -270,9 +280,19 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
   }
 
   private updateUI(foregroundShape: IShape, minTextShape: IShape, maxTextShape: IShape) {
-    const { start, end, width, minText, maxText, handlerStyle } = this.cfg as SliderCfg;
+    const { start, end, width, minText, maxText, handlerStyle, height } = this.cfg as SliderCfg;
     const min = start * width;
     const max = end * width;
+
+    if (this.trend) {
+      this.trend.update({
+        width,
+        height,
+      });
+      if (!this.get('updateAutoRender')) {
+        this.trend.render();
+      }
+    }
 
     // 1. foreground
     foregroundShape.attr('x', min);
@@ -493,7 +513,7 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
     return !sorted ? [minAttrs, maxAttrs] : [maxAttrs, minAttrs];
   }
 
-  private draw() {
+  public draw() {
     const container = this.get('container');
     const canvas = container && container.get('canvas');
     if (canvas) {
