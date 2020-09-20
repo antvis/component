@@ -1,6 +1,6 @@
 import { IGroup } from '@antv/g-base';
 import { ext } from '@antv/matrix-util';
-import { each, filter, isNil, isNumberEqual, mix, isFunction } from '@antv/util';
+import { each, filter, get, isFunction, isNil, isNumberEqual, mix } from '@antv/util';
 import GroupComponent from '../abstract/group-component';
 import { IList } from '../interfaces';
 import { AxisBaseCfg, ListItem, Point } from '../types';
@@ -98,6 +98,7 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
           },
         },
       },
+      theme: {},
     };
   }
 
@@ -359,7 +360,8 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
       points: [tickItem.startPoint, tickItem.endPoint],
     }
 
-    style = isFunction(style) ? style(item, index, tickItems) : style;
+    const defaultTickLineStyle = get(this.get('theme'), ['tickLine', 'style'], {});
+    style = isFunction(style) ? mix({}, defaultTickLineStyle, style(item, index, tickItems)) : style;
 
     const { startPoint, endPoint } = tickItem;
     return {
@@ -449,7 +451,8 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
     const vector = this.getSideVector(offset, point);
     const text = formatter ? formatter(tick.name, tick, index) : tick.name;
     let { style } = labelCfg;
-    style = isFunction(style) ? style(text, index, ticks) : style;
+    const defaultLabelStyle = get(this.get('theme'), ['label', 'style'], {});
+    style = isFunction(style) ? mix({}, defaultLabelStyle, style(text, index, ticks)) : style;
 
     const attrs = mix(
       {
