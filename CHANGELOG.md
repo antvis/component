@@ -1,3 +1,9 @@
+#### 0.7.4 (2020-09-21)
+
+##### Bug Fixes
+
+- **axis:** 坐标轴 style 回调,如果用户没有填写全样式,使用传入的主题样式 ([#191](https://github.com/antvis/component/pull/191)) ([a5c854cd](https://github.com/antvis/component/commit/a5c854cd0c6e56b56e90bfeb96a95958e1ae12b3))
+
 #### 0.7.3 (2020-09-02)
 
 ##### New Features
