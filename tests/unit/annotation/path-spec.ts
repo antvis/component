@@ -16,9 +16,9 @@ describe('test path annotation', () => {
     container,
     updateAutoRender: true,
     path: [
-      [ 'M', 100, 100 ],
-      [ 'L', 200, 200 ],
-      [ 'L', 400, 200 ],
+      ['M', 100, 100 ],
+      ['L', 200, 200 ],
+      ['L', 400, 200 ],
       ['Z']
     ],
     style: {
@@ -38,9 +38,9 @@ describe('test path annotation', () => {
     path.render();
     const pathShape = path.getElementById('p-annotation-path');
     expect(pathShape.attr('path')).toEqual([
-      [ 'M', 100, 100 ],
-      [ 'L', 200, 200 ],
-      [ 'L', 400, 200 ],
+      ['M', 100, 100 ],
+      ['L', 200, 200 ],
+      ['L', 400, 200 ],
       ['Z']
     ]);
   });
@@ -48,17 +48,17 @@ describe('test path annotation', () => {
   it('update text', () => {
     path.update({
       path: [
-        [ 'M', 100, 100 ],
-        [ 'L', 200, 200 ],
-        [ 'L', 100, 200 ],
+        ['M', 100, 100 ],
+        ['L', 200, 200 ],
+        ['L', 100, 200 ],
         ['Z']
       ],
     });
     const pathShape = path.getElementById('p-annotation-path');
     expect(pathShape.attr('path')).toEqual([
-      [ 'M', 100, 100 ],
-      [ 'L', 200, 200 ],
-      [ 'L', 100, 200 ],
+      ['M', 100, 100 ],
+      ['L', 200, 200 ],
+      ['L', 100, 200 ],
       ['Z']
     ]);
   });
