@@ -970,6 +970,19 @@ export interface LineAnnotationTextCfg extends EnhancedTextCfg {
   offsetY?: number;
 }
 
+export interface PathAnnotationCfg extends GroupComponentCfg {
+  /**
+   * 路径
+   * @type {any[]}
+   */
+  path: any[];
+  /**
+   * 线的样式
+   * @type {ShapeAttrs}
+   */
+  style?: ShapeAttrs;
+}
+
 export interface RegionAnnotationCfg extends GroupComponentCfg {
   /**
    * 起始点
