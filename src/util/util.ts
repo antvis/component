@@ -70,6 +70,9 @@ export function pointsToBBox(points: Point[]): BBox {
 }
 
 export function createBBox(x: number, y: number, width: number, height: number): BBox {
+  const maxX = x + width;
+  const maxY = y + height;
+  
   return {
     x,
     y,
@@ -77,8 +80,12 @@ export function createBBox(x: number, y: number, width: number, height: number):
     height,
     minX: x,
     minY: y,
-    maxX: x + width,
-    maxY: y + height,
+    // 非常奇葩的 js 特性
+    // Infinity + Infinity = Infinity
+    // Infinity - Infinity = NaN
+    // fixed https://github.com/antvis/G2Plot/issues/1243
+    maxX: isNaN(maxX) ? 0 : maxX,
+    maxY: isNaN(maxY) ? 0 : maxY,
   };
 }
 
