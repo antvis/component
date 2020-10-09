@@ -244,6 +244,11 @@ export interface AxisTitleCfg {
    * @type {boolean}
    */
   autoRotate?: boolean;
+  /**
+   * 设置文本
+   * @type {string}
+   */
+  text?: string;
 }
 
 export interface BaseCfg {
