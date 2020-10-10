@@ -1,6 +1,6 @@
 import { IGroup } from '@antv/g-base';
 import { vec2 } from '@antv/matrix-util';
-import { each, isFunction, isNil, isNumberEqual } from '@antv/util';
+import { each, isFunction, isNil, isNumberEqual, map } from '@antv/util';
 import { ILocation } from '../interfaces';
 import { BBox, LineAxisCfg, Point, RegionLocationCfg } from '../types';
 import AxisBase from './base';
@@ -97,6 +97,17 @@ class Line extends AxisBase<LineAxisCfg> implements ILocation<RegionLocationCfg>
     return [end.x - start.x, end.y - start.y];
   }
 
+  /**
+   * 水平方向，tick 所在的坐标数组
+   * @param isVertical 
+   */
+  private getHorizontalLimitLengthArray(isVertical: boolean): number[] {
+    return map(this.getItems(), (item): number => {
+      const p = this.getTickPoint(item.value);
+      return isVertical ? p.y : p.x;
+    });
+  }
+
   protected processOverlap(labelGroup) {
     const isVertical = this.isVertical();
     const isHorizontal = this.isHorizontal();
@@ -107,6 +118,7 @@ class Line extends AxisBase<LineAxisCfg> implements ILocation<RegionLocationCfg>
     const labelCfg = this.get('label');
     const titleCfg = this.get('title');
     const verticalLimitLength = this.get('verticalLimitLength');
+    const horizontalLimitLengthArray = this.getHorizontalLimitLengthArray(isVertical);
     const labelOffset = labelCfg.offset;
     let limitLength = verticalLimitLength;
     let titleHeight = 0;
@@ -121,7 +133,7 @@ class Line extends AxisBase<LineAxisCfg> implements ILocation<RegionLocationCfg>
     const overlapOrder = this.get('overlapOrder');
     each(overlapOrder, (name) => {
       if (labelCfg[name]) {
-        this.autoProcessOverlap(name, labelCfg[name], labelGroup, limitLength);
+        this.autoProcessOverlap(name, labelCfg[name], labelGroup, limitLength, horizontalLimitLengthArray);
       }
     });
     if (titleCfg) {
@@ -135,19 +147,20 @@ class Line extends AxisBase<LineAxisCfg> implements ILocation<RegionLocationCfg>
     }
   }
 
-  private autoProcessOverlap(name: string, value: any, labelGroup: IGroup, limitLength: number) {
+  private autoProcessOverlap(name: string, value: any, labelGroup: IGroup, limitLength: number, horizontalLimitLengthArray: number[]) {
     const isVertical = this.isVertical();
     let hasAdjusted = false;
     const util = OverlapUtil[name];
+
     if (value === true) {
       // 默认使用固定角度的旋转方案
-      hasAdjusted = util.getDefault()(isVertical, labelGroup, limitLength);
+      hasAdjusted = util.getDefault()(isVertical, labelGroup, limitLength, horizontalLimitLengthArray);
     } else if (isFunction(value)) {
       // 用户可以传入回调函数
-      hasAdjusted = value(isVertical, labelGroup, limitLength);
+      hasAdjusted = value(isVertical, labelGroup, limitLength, horizontalLimitLengthArray);
     } else if (util[value]) {
       // 按照名称执行旋转函数
-      hasAdjusted = util[value](isVertical, labelGroup, limitLength);
+      hasAdjusted = util[value](isVertical, labelGroup, limitLength, horizontalLimitLengthArray);
     }
     if (name === 'autoRotate') {
       // 文本旋转后，文本的对齐方式可能就不合适了

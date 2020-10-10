@@ -50,7 +50,7 @@ export function renderTag(container: IGroup, tagCfg: TagCfg) {
   if (maxLength && autoEllipsis) {
     const maxTextLength = maxLength - (padding[1] + padding[3]);
     // 超出自动省略
-    ellipsisLabel(!isVertical, text, maxTextLength, ellipsisPosition);
+    ellipsisLabel(!isVertical, text, maxTextLength, undefined, ellipsisPosition);
   }
 
   if (background) {
