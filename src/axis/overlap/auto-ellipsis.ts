@@ -12,8 +12,8 @@ function gethorizontalLimitLength(horizontalLimitLengthArray, idx: number): numb
   const curr = get(horizontalLimitLengthArray, [idx]);
   const next = get(horizontalLimitLengthArray, [idx + 1]);
 
-  let left = (curr - prev) / 2;
-  let right = (next - curr) / 2;
+  let left = Math.abs(curr - prev) / 2;
+  let right = Math.abs(next - curr) / 2;
   if (isRealNumber(left)) {
     if (isRealNumber(right)) {
       return left + right;
