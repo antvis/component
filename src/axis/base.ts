@@ -451,8 +451,7 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
     const vector = this.getSideVector(offset, point);
     const text = formatter ? formatter(tick.name, tick, index) : tick.name;
     let { style } = labelCfg;
-    const defaultLabelStyle = get(this.get('theme'), ['label', 'style'], {});
-    style = isFunction(style) ? mix({}, defaultLabelStyle, style(text, index, ticks)) : style;
+    style = isFunction(style) ? get(this.get('theme'), ['label', 'style'], {}) : style;
 
     const attrs = mix(
       {
@@ -491,6 +490,20 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
       });
     });
     this.processOverlap(labelGroup);
+
+    // 处理完后再进行 style 回调处理
+    const labels = labelGroup.getChildren();
+    const defaultLabelStyle = get(this.get('theme'), ['label', 'style'], {});
+    const { style, formatter } = this.get('label');
+    if (isFunction(style)) {
+      const afterProcessTicks = labels.map(label => get(label.get('delegateObject'), 'tick'));
+      each(labels, (label, index) => {
+        const { tick } = label.get('delegateObject');
+        const text = formatter ? formatter(tick.name, tick, index) : tick.name;
+        const newStyle = mix({}, defaultLabelStyle, style(text, index, afterProcessTicks))
+        label.attr(newStyle);
+      });
+    }
   }
 
   // 标题的属性
