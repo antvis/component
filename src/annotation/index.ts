@@ -6,3 +6,5 @@ export { default as Image } from './image';
 export { default as DataMarker } from './data-marker';
 export { default as DataRegion } from './data-region';
 export { default as RegionFilter } from './region-filter';
+export { default as Custom } from './custom';
+export { default as Html } from './html';
