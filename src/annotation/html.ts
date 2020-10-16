@@ -3,6 +3,7 @@ import { isElement, isFunction, isString } from '@antv/util';
 import HtmlComponent from '../abstract/html-component';
 import { ILocation } from '../interfaces';
 import { HtmlAnnotationCfg, PointLocationCfg } from '../types';
+import { clearDom } from '../util/util';
 
 export default class HtmlAnnotation extends HtmlComponent<HtmlAnnotationCfg> implements ILocation<PointLocationCfg> {
   public getDefaultCfg() {
@@ -25,6 +26,9 @@ export default class HtmlAnnotation extends HtmlComponent<HtmlAnnotationCfg> imp
   public render() {
     const container = this.getContainer();
     const html = this.get('html');
+
+    clearDom(container);
+
     const rst: HTMLElement | string = isFunction(html) ? html(container) : html;
 
     if (isElement(rst)) {
