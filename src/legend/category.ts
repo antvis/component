@@ -398,7 +398,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
       const nameShape = this.drawItemText(subGroup, 'name', itemName, item, itemHeight, curX, index);
       if (itemWidth) {
         // 设置了 item 的最大宽度限制，并且超出了，进行省略处理
-        ellipsisLabel(true, nameShape, clamp(itemWidth - curX, 0, itemWidth), undefined);
+        ellipsisLabel(true, nameShape, clamp(itemWidth - curX, 0, itemWidth));
       }
       curX = nameShape.getBBox().maxX + itemName.spacing;
     }
@@ -410,9 +410,9 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
             textAlign: 'right',
             x: itemWidth,
           });
-          ellipsisLabel(true, valueShape, clamp(itemWidth - curX, 0, itemWidth), undefined, 'head');
+          ellipsisLabel(true, valueShape, clamp(itemWidth - curX, 0, itemWidth), 'head');
         } else {
-          ellipsisLabel(true, valueShape, clamp(itemWidth - curX, 0, itemWidth), undefined);
+          ellipsisLabel(true, valueShape, clamp(itemWidth - curX, 0, itemWidth));
         }
       }
     }
