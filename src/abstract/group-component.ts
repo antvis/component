@@ -20,7 +20,7 @@ export type GroupComponentCtor<
   T extends GroupComponent = GroupComponent
 > = new (cfg: C) => T;
 
-abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> extends Component {
+abstract class GroupComponent<T extends GroupComponentCfg = GroupComponentCfg> extends Component<T> {
   public getDefaultCfg() {
     const cfg = super.getDefaultCfg();
     return {

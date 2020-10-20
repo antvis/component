@@ -215,7 +215,7 @@ describe('test line axis', () => {
       subTickLine: {
         style: {
           lineWidth: 10,
-        }
+        },
       },
     });
     expect(axis.getElementById('a-axis-sub-tickline-1-0')).not.toBe(undefined);
@@ -306,12 +306,14 @@ describe('test line axis overlap', () => {
     expect(tickLineGroup.getChildren().length).toBe(labelGroup.getChildren().length);
     axis.update({
       tickLine: {
+        // @ts-ignore
         displayWithLabel: false,
       },
     });
     expect(tickLineGroup.getChildren().length).not.toBe(labelGroup.getChildren().length);
     axis.update({
       tickLine: {
+        // @ts-ignore
         displayWithLabel: true,
       },
     });

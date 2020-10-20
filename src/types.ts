@@ -48,7 +48,7 @@ export interface EnhancedTextBackgroundCfg {
   padding?: number | number[];
   /** 文字包围盒样式 */
   style?: ShapeAttrs;
-};
+}
 
 /**
  * 增强型文本配置：
@@ -914,6 +914,28 @@ export interface CircleLocationCfg extends LocationCfg {
    * @type {number}
    */
   endAngle?: number;
+}
+
+/**
+ * 自定义 Shape annotation 组件配置
+ */
+export interface ShapeAnnotationCfg extends GroupComponentCfg {
+  /** 自定义 render 函数，注意绘制的 shape/group 需要设置 id */
+  render: (container: IGroup) => void;
+}
+
+/**
+ * Html Annotation 组件配置
+ */
+export interface HtmlAnnotationCfg extends HtmlComponentCfg {
+  /** X 方向对齐，默认 left */
+  alignX?: 'left' | 'middle' | 'right';
+  /** Y 方向对齐，默认 top */
+  alignY?: 'top' | 'middle' | 'bottom';
+  /** 自定义 html */
+  html: string | HTMLElement | ((container: HTMLElement) => void | string | HTMLElement);
+  /** zIndex 设置 */
+  zIndex?: number;
 }
 
 export interface TextAnnotationCfg extends GroupComponentCfg, EnhancedTextCfg {
