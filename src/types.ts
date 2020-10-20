@@ -917,9 +917,9 @@ export interface CircleLocationCfg extends LocationCfg {
 }
 
 /**
- * 自定义 G annotation 组件配置
+ * 自定义 Shape annotation 组件配置
  */
-export interface CustomAnnotationCfg extends GroupComponentCfg {
+export interface ShapeAnnotationCfg extends GroupComponentCfg {
   /** 自定义 render 函数，注意绘制的 shape/group 需要设置 id */
   render: (container: IGroup) => void;
 }

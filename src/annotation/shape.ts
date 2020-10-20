@@ -2,15 +2,15 @@ import { IGroup } from '@antv/g-base';
 import { isFunction, noop } from '@antv/util';
 
 import GroupComponent from '../abstract/group-component';
-import { CustomAnnotationCfg } from '../types';
+import { ShapeAnnotationCfg } from '../types';
 
-export default class CustomAnnotation extends GroupComponent<CustomAnnotationCfg> {
+export default class ShapeAnnotation extends GroupComponent<ShapeAnnotationCfg> {
   public getDefaultCfg() {
     const cfg = super.getDefaultCfg();
     return {
       ...cfg,
       name: 'annotation',
-      type: 'custom',
+      type: 'shape',
       draw: noop,
     };
   }

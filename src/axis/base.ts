@@ -8,7 +8,7 @@ import { getMatrixByAngle } from '../util/matrix';
 import { getStatesStyle } from '../util/state';
 import Theme from '../util/theme';
 
-abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupComponent implements IList {
+abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupComponent<T> implements IList {
   public getDefaultCfg() {
     const cfg = super.getDefaultCfg();
     return {
@@ -136,7 +136,7 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
   public setItems(items: ListItem[]) {
     this.update({
       ticks: items,
-    });
+    } as Partial<T>);
   }
 
   /**
@@ -358,7 +358,7 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
     // 保持和 grid 相同的数据结构
     const item = {
       points: [tickItem.startPoint, tickItem.endPoint],
-    }
+    };
 
     const defaultTickLineStyle = get(this.get('theme'), ['tickLine', 'style'], {});
     style = isFunction(style) ? mix({}, defaultTickLineStyle, style(item, index, tickItems)) : style;

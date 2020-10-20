@@ -1,6 +1,6 @@
 import { IGroup } from '@antv/g-base';
 import { Canvas } from '@antv/g-canvas';
-import CustomAnnotation from '../../../src/annotation/custom';
+import ShapeAnnotation from '../../../src/annotation/shape';
 
 describe('custom annotation /w shape', () => {
   const dom = document.createElement('div');
@@ -13,7 +13,7 @@ describe('custom annotation /w shape', () => {
   });
   const container = canvas.addGroup();
 
-  const shapeCustom = new CustomAnnotation({
+  const shapeCustom = new ShapeAnnotation({
     id: 's',
     container,
     render: (group) => {
@@ -31,7 +31,7 @@ describe('custom annotation /w shape', () => {
   it('init', () => {
     shapeCustom.init();
     expect(shapeCustom.get('name')).toEqual('annotation');
-    expect(shapeCustom.get('type')).toBe('custom');
+    expect(shapeCustom.get('type')).toBe('shape');
   });
 
   it('render', () => {
@@ -90,7 +90,7 @@ describe('custom annotation /w group', () => {
   });
   const container = canvas.addGroup();
 
-  const groupCustom = new CustomAnnotation({
+  const groupCustom = new ShapeAnnotation({
     id: 's',
     container,
     render: (group) => {
@@ -119,7 +119,7 @@ describe('custom annotation /w group', () => {
   it('init', () => {
     groupCustom.init();
     expect(groupCustom.get('name')).toEqual('annotation');
-    expect(groupCustom.get('type')).toBe('custom');
+    expect(groupCustom.get('type')).toBe('shape');
   });
 
   it('render', () => {
