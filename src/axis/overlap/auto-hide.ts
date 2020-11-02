@@ -46,7 +46,10 @@ function isOverlap(isVertical: boolean, rotated: boolean, preBox, curBox, revers
 
 // 保留第一个或者最后一个
 function reserveOne(isVertical: boolean, labelsGroup: IGroup, reversed: boolean) {
-  const labels = labelsGroup.getChildren().slice(); // 复制数组
+  const labels = labelsGroup
+    .getChildren()
+    .slice() // 复制数组
+    .filter((item) => item.get('visible'));
   if (!labels.length) {
     return false;
   }
@@ -69,6 +72,49 @@ function reserveOne(isVertical: boolean, labelsGroup: IGroup, reversed: boolean)
       hasHide = true;
     } else {
       preBox = curBBox;
+    }
+  }
+  return hasHide;
+}
+
+// 均匀抽样隐藏标签，注意这里假设 label/tick 是均匀的
+function parityHide(isVertical: boolean, labelsGroup: IGroup) {
+  const labels = labelsGroup.getChildren().slice(); // 复制数组
+  if (labels.length < 2) {
+    // 如果数量小于 2 则直接返回，等于 2 时可能也会重合
+    return false;
+  }
+  let hasHide = false;
+  const first = labels[0];
+  const firstBBox = first.getBBox();
+  const second = labels[1];
+  const rotated = isRotate(first);
+  const count = labels.length;
+  let interval = 0; // 不重叠的坐标文本间距个数
+  if (isVertical) {
+    // 垂直的坐标轴计算垂直方向的间距
+    const distance = Math.abs(second.attr('y') - first.attr('y'));
+    interval = firstBBox.height / distance;
+  } else {
+    // 水平坐标轴
+    if (rotated) {
+      const distance = Math.abs(second.attr('x') - first.attr('x'));
+      interval = firstBBox.width / distance;
+    } else {
+      const maxWidth = getMaxLabelWidth(labels);
+      const distance = Math.abs(second.attr('x') - first.attr('x'));
+      interval = maxWidth / distance;
+    }
+  }
+  // interval > 1 时需要对 label 进行隐藏
+  if (interval > 1) {
+    interval = Math.ceil(interval);
+    for (let i = 0; i < count; i++) {
+      if (i % interval !== 0) {
+        // 仅保留被整除的 label
+        labels[i].hide();
+        hasHide = true;
+      }
     }
   }
   return hasHide;
@@ -140,48 +186,50 @@ export function reserveBoth(isVertical: boolean, labelsGroup: IGroup): boolean {
 }
 
 /**
- * 保证 label 均匀显示，主要解决文本层叠的问题，对于 limitLength 不处理
+ * 保证 label 均匀显示 和 不出现重叠，主要解决文本层叠的问题，对于 limitLength 不处理
  * @param {boolean} isVertical  是否垂直
  * @param {IGroup}  labelsGroup label 的分组
  */
 export function equidistance(isVertical: boolean, labelsGroup: IGroup): boolean {
+  let hasHide = parityHide(isVertical, labelsGroup);
+
+  // 处理  timeCat 类型的 tick，在均匀的基础上，再次检查出现重叠的进行隐藏
+  if (reserveOne(isVertical, labelsGroup, false)) {
+    hasHide = true;
+  }
+
+  return hasHide;
+}
+
+/**
+ * 同 equidistance， 首先会保证 labels 均匀显示，然后会保留首尾
+ * @param isVertical
+ * @param labelsGroup
+ */
+export function equidistanceWithReverseBoth(isVertical: boolean, labelsGroup: IGroup): boolean {
   const labels = labelsGroup.getChildren().slice(); // 复制数组
-  if (labels.length < 2) {
-    // 如果数量小于 2 则直接返回，等于 2 时可能也会重合
-    return false;
-  }
-  let hasHide = false;
-  const first = labels[0];
-  const firstBBox = first.getBBox();
-  const second = labels[1];
-  const rotated = isRotate(first);
-  const count = labels.length;
-  let interval = 0; // 不重叠的坐标文本间距个数
-  if (isVertical) {
-    // 垂直的坐标轴计算垂直方向的间距
-    const distance = Math.abs(second.attr('y') - first.attr('y'));
-    interval = firstBBox.height / distance;
-  } else {
-    // 水平坐标轴
-    if (rotated) {
-      const distance = Math.abs(second.attr('x') - first.attr('x'));
-      interval = firstBBox.width / distance;
-    } else {
-      const maxWidth = getMaxLabelWidth(labels);
-      const distance = Math.abs(second.attr('x') - first.attr('x'));
-      interval = maxWidth / distance;
+  let hasHide = parityHide(isVertical, labelsGroup);
+
+  if (labels.length > 2) {
+    const first = labels[0];
+    const last = labels[labels.length - 1];
+
+    // 如果第一个被隐藏了
+    if (!first.get('visible')) {
+      first.show();
+      if (reserveOne(isVertical, labelsGroup, false)) {
+        hasHide = true;
+      }
     }
-  }
-  // interval > 1 时需要对 label 进行隐藏
-  if (interval > 1) {
-    interval = Math.ceil(interval);
-    for (let i = 0; i < count; i++) {
-      if (i % interval !== 0) {
-        // 仅保留被整除的 label
-        labels[i].hide();
+
+    // 如果最后一个被隐藏了
+    if (!last.get('visible')) {
+      last.show();
+      if (reserveOne(isVertical, labelsGroup, true)) {
         hasHide = true;
       }
     }
   }
+
   return hasHide;
 }
