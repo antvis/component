@@ -1,10 +1,18 @@
 import { IElement, IGroup } from '@antv/g-base';
+import { getWrapBehavior } from '@antv/util';
 import { getMaxLabelWidth } from '../../util/label';
+import { getAngleByMatrix } from '../../util/matrix';
+import { near } from '../../util/util';
 
 // 文本是否旋转
 function isRotate(label: IElement) {
   const matrix = label.attr('matrix');
   return matrix && matrix[0] !== 1; // 仅在这个场景下判定
+}
+
+function getRotateAngle(label: IElement) {
+  const angle = isRotate(label) ? getAngleByMatrix(label.attr('matrix')) : 0;
+  return angle % 360;
 }
 
 // autohide 不再考虑超出限制
@@ -24,23 +32,30 @@ function isRotate(label: IElement) {
 // }
 
 // 是否重叠
-function isOverlap(isVertical: boolean, rotated: boolean, preBox, curBox, reversed = false) {
+function isOverlap(isVertical: boolean, first: IElement, second: IElement) {
   let overlap = false;
+  const angle = getRotateAngle(first);
+  const distance = isVertical
+    ? Math.abs(second.attr('y') - first.attr('y'))
+    : Math.abs(second.attr('x') - first.attr('x'));
+  const prevBBox = first.getBBox();
+
   if (isVertical) {
-    // 垂直时检测边高
-    overlap = Math.abs(preBox.y - curBox.y) < preBox.height;
-  } else {
-    // 水平时检测
-    if (rotated) {
-      // 如果旋转了，则检测两者 x 之间的间距是否小于前一个的高度
-      const height = reversed ? curBox.height : preBox.height;
-      overlap = Math.abs(preBox.x - curBox.x) < height;
+    const ratio = Math.abs(Math.cos(angle));
+    if (near(ratio, 0, Math.PI / 180)) {
+      overlap = prevBBox.width > distance;
     } else {
-      // 检测两者是否 x 方向重合
-      const width = reversed ? curBox.width : preBox.width;
-      overlap = Math.abs(preBox.x - curBox.x) < width;
+      overlap = prevBBox.height > distance * ratio;
+    }
+  } else {
+    const ratio = Math.abs(Math.sin(angle));
+    if (near(ratio, 0, Math.PI / 180)) {
+      overlap = prevBBox.width > distance;
+    } else {
+      overlap = prevBBox.height > distance * ratio;
     }
   }
+
   return overlap;
 }
 
@@ -60,18 +75,17 @@ function reserveOne(isVertical: boolean, labelsGroup: IGroup, reversed: boolean)
   }
   const count = labels.length;
   const first = labels[0];
-  const rotated = isRotate(first);
-  let preBox = first.getBBox();
+  let prev = first;
   for (let i = 1; i < count; i++) {
     const label = labels[i];
     const curBBox = label.getBBox();
     // 不再考虑超出限制，而仅仅根据是否重叠进行隐藏 isOutLimit(isVertical, label, limitLength) ||
-    const isHide = isOverlap(isVertical, rotated, preBox, curBBox, reversed);
+    const isHide = isOverlap(isVertical, prev, label);
     if (isHide) {
       label.hide();
       hasHide = true;
     } else {
-      preBox = curBBox;
+      prev = label;
     }
   }
   return hasHide;
@@ -88,22 +102,29 @@ function parityHide(isVertical: boolean, labelsGroup: IGroup) {
   const first = labels[0];
   const firstBBox = first.getBBox();
   const second = labels[1];
-  const rotated = isRotate(first);
   const count = labels.length;
+  const angle = getRotateAngle(first);
+  const distance = isVertical
+    ? Math.abs(second.attr('y') - first.attr('y'))
+    : Math.abs(second.attr('x') - first.attr('x'));
   let interval = 0; // 不重叠的坐标文本间距个数
   if (isVertical) {
     // 垂直的坐标轴计算垂直方向的间距
-    const distance = Math.abs(second.attr('y') - first.attr('y'));
-    interval = firstBBox.height / distance;
+    const ratio = Math.abs(Math.cos(angle));
+    if (near(ratio, 0, Math.PI / 180)) {
+      const maxWidth = getMaxLabelWidth(labels);
+      interval = maxWidth / distance;
+    } else {
+      interval = firstBBox.height / (distance * ratio);
+    }
   } else {
     // 水平坐标轴
-    if (rotated) {
-      const distance = Math.abs(second.attr('x') - first.attr('x'));
-      interval = firstBBox.width / distance;
-    } else {
+    const ratio = Math.abs(Math.sin(angle));
+    if (near(ratio, 0, Math.PI / 180)) {
       const maxWidth = getMaxLabelWidth(labels);
-      const distance = Math.abs(second.attr('x') - first.attr('x'));
       interval = maxWidth / distance;
+    } else {
+      interval = firstBBox.height / (distance * ratio);
     }
   }
   // interval > 1 时需要对 label 进行隐藏
@@ -157,26 +178,22 @@ export function reserveBoth(isVertical: boolean, labelsGroup: IGroup): boolean {
   const count = labels.length;
   const first = labels[0];
   const last = labels[count - 1];
-  const rotated = isRotate(first);
-  let preBox = first.getBBox();
   let preLabel = first;
   // 按照先保存第一个的逻辑循环一遍，最后一个不参与循环
   for (let i = 1; i < count - 1; i++) {
     const label = labels[i];
     const curBBox = label.getBBox();
     // 废弃 isOutLimit(isVertical, label, limitLength) ||
-    const isHide = isOverlap(isVertical, rotated, preBox, curBBox);
+    const isHide = isOverlap(isVertical, preLabel, label);
     if (isHide) {
       label.hide();
       hasHide = true;
     } else {
-      preBox = curBBox;
       preLabel = label;
     }
   }
 
-  const lastBBox = last.getBBox();
-  const overlap = isOverlap(isVertical, rotated, preBox, lastBBox); // 不检测超出 limit
+  const overlap = isOverlap(isVertical, preLabel, last);
   if (overlap) {
     // 发生冲突，则隐藏前一个保留后一个
     preLabel.hide();
