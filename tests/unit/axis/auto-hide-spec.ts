@@ -8,8 +8,8 @@ describe('test auto hide', () => {
   dom.id = 'cah';
   const canvas = new Canvas({
     container: 'cah',
-    width: 500,
-    height: 500,
+    width: 1000,
+    height: 1000,
   });
   const group = canvas.addGroup();
   const labels = ['123', '12', '2344', '13455222', '2345', '2333', '222', '2222', '11', '33'];
@@ -32,6 +32,24 @@ describe('test auto hide', () => {
         shape.attr('matrix', matrix);
       }
     });
+  }
+  function addLabel(label: string, dx: number, dy: number, angle?: number) {
+    const last = group.getLast();
+    const x = (last ? last.attr('x') : 100) + dx;
+    const y = (last ? last.attr('y') : 100) + dy;
+    const shape = group.addShape({
+      type: 'text',
+      attrs: {
+        x,
+        y,
+        text: label,
+        fill: 'red',
+      },
+    });
+    if (angle) {
+      const matrix = getMatrixByAngle({ x, y }, angle);
+      shape.attr('matrix', matrix);
+    }
   }
 
   function getChildren(container) {
@@ -170,9 +188,9 @@ describe('test auto hide', () => {
     addLabels(0, 5, Math.PI / 4);
     HideUtil.equidistance(true, group);
     const children = getChildren(group);
-    expect(children.length).toBe(Math.ceil(labels.length / 3));
+    expect(children.length).toBe(3);
     children.forEach((label, index) => {
-      expect(label.attr('text')).toBe(labels[index * 3]);
+      expect(label.attr('text')).toBe(labels[index * 4]);
     });
   });
 
@@ -197,5 +215,175 @@ describe('test auto hide', () => {
 
     HideUtil.reserveLast(true, group);
     expect(getCount(group)).toBe(labels.length);
+  });
+
+  it('equal distance, with last extra tick', () => {
+    addLabels(60, 0);
+    addLabel('last_last_x', 60, 0);
+    addLabel('last_x', 50, 0);
+    HideUtil.equidistance(false, group);
+
+    // no overlap
+    const children = getChildren(group);
+    children.forEach((cur, idx) => {
+      if (idx > 0) {
+        const prev = children[idx - 1];
+        expect(prev.getBBox().maxX < cur.getBBox().minX).toBe(true);
+      }
+    });
+  });
+
+  it('equidistanceWithReverseBoth, horizontal', () => {
+    // 宽度足够，不会隐藏
+    addLabels(100, 0);
+    HideUtil.equidistanceWithReverseBoth(false, group);
+    expect(getCount(group)).toBe(labels.length);
+
+    // 出现隐藏，首尾被保留
+    addLabels(50, 0);
+    HideUtil.equidistanceWithReverseBoth(false, group);
+    expect(getCount(group)).toBe(6);
+    expect(getFirst(group).attr('text')).toBe(labels[0]);
+    expect(getLast(group).attr('text')).toBe(labels[labels.length - 1]);
+  });
+
+  it('equidistanceWithReverseBoth, horizontal, with rotate', () => {
+    addLabels(50, 0, Math.PI / 4);
+    HideUtil.equidistanceWithReverseBoth(false, group);
+    expect(getCount(group)).toBe(labels.length);
+
+    addLabels(15, 0, Math.PI / 4);
+    HideUtil.equidistanceWithReverseBoth(false, group);
+    expect(getCount(group)).toBe(5);
+    expect(getFirst(group).attr('text')).toBe(labels[0]);
+    expect(getLast(group).attr('text')).toBe(labels[labels.length - 1]);
+  });
+
+  it('equidistanceWithReverseBoth, vertical', () => {
+    addLabels(0, 20);
+    HideUtil.equidistanceWithReverseBoth(true, group);
+    expect(getCount(group)).toBe(labels.length);
+
+    addLabels(0, 10);
+    HideUtil.equidistanceWithReverseBoth(true, group);
+    expect(getCount(group)).toBe(5);
+    expect(getFirst(group).attr('text')).toBe(labels[0]);
+    expect(getLast(group).attr('text')).toBe(labels[labels.length - 1]);
+  });
+
+  it('equidistanceWithReverseBoth, vertical, with rotate', () => {
+    addLabels(0, 20, (3 * Math.PI) / 4);
+    HideUtil.equidistanceWithReverseBoth(true, group);
+    expect(getCount(group)).toBe(labels.length);
+
+    addLabels(0, 10, (3 * Math.PI) / 4);
+    HideUtil.equidistanceWithReverseBoth(true, group);
+    expect(getCount(group)).toBe(5);
+    expect(getFirst(group).attr('text')).toBe(labels[0]);
+    expect(getLast(group).attr('text')).toBe(labels[labels.length - 1]);
+  });
+
+  it('equal distance, vertical, with rotate', () => {
+    // interval < 1
+    addLabels(0, 70, Math.PI / 4);
+    HideUtil.equidistance(true, group);
+    expect(getCount(group)).toBe(labels.length);
+
+    // interval > 1: interval = 2
+    addLabels(0, 12, Math.PI / 4);
+    HideUtil.equidistance(true, group);
+    expect(getCount(group)).toBe(Math.floor(labels.length / 2));
+    getChildren(group).forEach((label, idx) => {
+      expect(label.attr('text')).toBe(labels[idx * 2]);
+    });
+
+    addLabels(0, 12, Math.PI * 2.25);
+    HideUtil.equidistance(true, group);
+    expect(getCount(group)).toBe(Math.floor(labels.length / 2));
+    getChildren(group).forEach((label, idx) => {
+      expect(label.attr('text')).toBe(labels[idx * 2]);
+    });
+
+    // negative angle interval > 1: interval = 2
+    addLabels(0, 12, -Math.PI / 4);
+    HideUtil.equidistance(true, group);
+    expect(getCount(group)).toBe(Math.floor(labels.length / 2));
+    getChildren(group).forEach((label, idx) => {
+      expect(label.attr('text')).toBe(labels[idx * 2]);
+    });
+
+    addLabels(0, 12, -Math.PI * 2.25);
+    HideUtil.equidistance(true, group);
+    expect(getCount(group)).toBe(Math.floor(labels.length / 2));
+    getChildren(group).forEach((label, idx) => {
+      expect(label.attr('text')).toBe(labels[idx * 2]);
+    });
+
+    // cos(Math.PI / 2) = 0: interval = 3
+    addLabels(0, 20, Math.PI / 2);
+    HideUtil.equidistance(true, group);
+    expect(getCount(group)).toBe(labels.filter((v, idx) => idx % 3 === 0).length);
+    getChildren(group).forEach((label, idx) => {
+      expect(label.attr('text')).toBe(labels[idx * 3]);
+    });
+
+    // near zero 在一度的精度之内: interval = 3
+    addLabels(0, 20, Math.PI / 2 - 0.01);
+    HideUtil.equidistance(true, group);
+    expect(getCount(group)).toBe(labels.filter((v, idx) => idx % 3 === 0).length);
+    getChildren(group).forEach((label, idx) => {
+      expect(label.attr('text')).toBe(labels[idx * 3]);
+    });
+  });
+
+  it('equal distance, horizontal, with rotate', () => {
+    // interval < 1
+    addLabels(50, 0, Math.PI / 7);
+    HideUtil.equidistance(false, group);
+    expect(getCount(group)).toBe(labels.length);
+
+    // interval = 2
+    addLabels(20, 0, Math.PI / 7);
+    HideUtil.equidistance(false, group);
+    expect(getCount(group)).toBe(Math.floor(labels.length / 2));
+    getChildren(group).forEach((label, idx) => {
+      expect(label.attr('text')).toBe(labels[idx * 2]);
+    });
+
+    addLabels(20, 0, (Math.PI * 6) / 7);
+    HideUtil.equidistance(false, group);
+    expect(getCount(group)).toBe(Math.floor(labels.length / 2));
+    getChildren(group).forEach((label, idx) => {
+      expect(label.attr('text')).toBe(labels[idx * 2]);
+    });
+
+    addLabels(20, 0, -Math.PI / 7);
+    HideUtil.equidistance(false, group);
+    expect(getCount(group)).toBe(Math.floor(labels.length / 2));
+    getChildren(group).forEach((label, idx) => {
+      expect(label.attr('text')).toBe(labels[idx * 2]);
+    });
+
+    addLabels(20, 0, -(Math.PI * 6) / 7);
+    HideUtil.equidistance(false, group);
+    expect(getCount(group)).toBe(Math.floor(labels.length / 2));
+    getChildren(group).forEach((label, idx) => {
+      expect(label.attr('text')).toBe(labels[idx * 2]);
+    });
+
+    // math.sin(0) = 0
+    addLabels(30, 0, 0);
+    HideUtil.equidistance(false, group);
+    expect(getCount(group)).toBe(Math.floor(labels.length / 2));
+    getChildren(group).forEach((label, idx) => {
+      expect(label.attr('text')).toBe(labels[idx * 2]);
+    });
+
+    addLabels(10, 0, Math.PI / 2);
+    HideUtil.equidistance(false, group);
+    expect(getCount(group)).toBe(Math.floor(labels.length / 2));
+    getChildren(group).forEach((label, idx) => {
+      expect(label.attr('text')).toBe(labels[idx * 2]);
+    });
   });
 });

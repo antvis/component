@@ -72,7 +72,7 @@ export function pointsToBBox(points: Point[]): BBox {
 export function createBBox(x: number, y: number, width: number, height: number): BBox {
   const maxX = x + width;
   const maxY = y + height;
-  
+
   return {
     x,
     y,
@@ -112,8 +112,12 @@ export const wait = (interval: number): Promise<void> => {
   });
 };
 
-export const near = (x: number, y: number): boolean =>
-  [x, y].includes(Infinity) ? Math.abs(x) === Math.abs(y) : Math.abs(x - y) < Math.pow(Number.EPSILON, 0.5);
+/**
+ * 判断两个数值 是否接近
+ * - 解决精度问题（由于无法确定精度上限，根据具体场景可传入 精度 参数）
+ */
+export const near = (x: number, y: number, e = Number.EPSILON ** 0.5): boolean =>
+  [x, y].includes(Infinity) ? Math.abs(x) === Math.abs(y) : Math.abs(x - y) < e;
 
 export function intersectBBox(box1: BBox, box2: BBox): BBox {
   const minX = Math.max(box1.minX, box2.minX);

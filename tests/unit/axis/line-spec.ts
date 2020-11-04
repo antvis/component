@@ -467,8 +467,8 @@ describe('test line axis overlap', () => {
     expect(labelGroup.getLast().attr('text')).toBe(labels1[labels1.length - 1]);
   });
   afterAll(() => {
-    canvas.destroy();
-    dom.parentNode.removeChild(dom);
+    // canvas.destroy();
+    // dom.parentNode.removeChild(dom);
   });
 });
 
