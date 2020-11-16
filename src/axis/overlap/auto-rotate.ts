@@ -1,5 +1,5 @@
 import { IElement, IGroup } from '@antv/g-base';
-import { each } from '@antv/util';
+import { each, isNumber } from '@antv/util';
 import { getMaxLabelWidth } from '../../util/label';
 import { getMatrixByAngle } from '../../util/matrix';
 import Theme from '../../util/theme';
@@ -59,10 +59,19 @@ export function getDefault() {
  * @param  {boolean} isVertical  是否垂直方向
  * @param  {IGroup}  labelsGroup 文本的 group
  * @param  {number}  limitLength 限定长度
+ * @param  {number}  customRotate 自定义旋转角度
  * @return {boolean}             是否发生了旋转
  */
-export function fixedAngle(isVertical: boolean, labelsGroup: IGroup, limitLength: number): boolean {
+export function fixedAngle(
+  isVertical: boolean,
+  labelsGroup: IGroup,
+  limitLength: number,
+  customRotate?: number
+): boolean {
   return labelRotate(isVertical, labelsGroup, limitLength, () => {
+    if (isNumber(customRotate)) {
+      return customRotate;
+    }
     return isVertical ? Theme.verticalAxisRotate : Theme.horizontalAxisRotate;
   });
 }

@@ -3,6 +3,7 @@ import { vec2 } from '@antv/matrix-util';
 import { each, isFunction, isNil, isNumberEqual } from '@antv/util';
 import { ILocation } from '../interfaces';
 import { BBox, LineAxisCfg, Point, RegionLocationCfg } from '../types';
+import Theme from '../util/theme';
 import AxisBase from './base';
 import * as OverlapUtil from './overlap';
 
@@ -86,7 +87,7 @@ class Line extends AxisBase<LineAxisCfg> implements ILocation<RegionLocationCfg>
     const axisVector = this.getAxisVector();
     const normal = vec2.normalize([0, 0], axisVector);
     const factor = this.get('verticalFactor');
-    const verticalVector: [ number, number ] = [normal[1], normal[0] * -1]; // 垂直方向，逆时针方向
+    const verticalVector: [number, number] = [normal[1], normal[0] * -1]; // 垂直方向，逆时针方向
     return vec2.scale([0, 0], verticalVector, offset * factor);
   }
 
@@ -125,14 +126,41 @@ class Line extends AxisBase<LineAxisCfg> implements ILocation<RegionLocationCfg>
       }
     });
     if (titleCfg) {
-      // 调整 title 的 offset
-      const bbox = labelGroup.getBBox();
-      const length = isVertical ? bbox.width : bbox.height;
       if (isNil(titleCfg.offset)) {
+        // 调整 title 的 offset
+        const length = this.getRotateLength(labelGroup);
         // 如果用户没有设置 offset，则自动计算
         titleCfg.offset = labelOffset + length + titleSpacing + titleHeight / 2;
       }
     }
+  }
+
+  /**
+   * 获取 labelGroup 的选择长度
+   * @param {IGroup}
+   */
+  private getRotateLength(labelGroup: IGroup) {
+    const labelCfg = this.get('label');
+    const { rotate: customRotate } = labelCfg;
+    const groupBbox = labelGroup.getBBox();
+    if (this.isVertical() && !customRotate) {
+      return groupBbox.width;
+    }
+    const labels = labelGroup.getChildren();
+    const isVertical = this.isVertical();
+    let maxLength = -Infinity;
+    labels.forEach((label) => {
+      const bbox = label.getBBox();
+      const { width } = bbox;
+      // 用于计算距离：不区分正负
+      const rotate = customRotate || Theme.verticalAxisRotate;
+      const length = isVertical ? Math.cos(rotate) : Math.sin(rotate);
+      const rotateLength = width * Math.abs(length);
+      if (rotateLength > maxLength) {
+        maxLength = rotateLength;
+      }
+    });
+    return maxLength;
   }
 
   private autoProcessOverlap(name: string, value: any, labelGroup: IGroup, limitLength: number) {
@@ -140,8 +168,9 @@ class Line extends AxisBase<LineAxisCfg> implements ILocation<RegionLocationCfg>
     let hasAdjusted = false;
     const util = OverlapUtil[name];
     if (value === true) {
+      const labelCfg = this.get('label');
       // 默认使用固定角度的旋转方案
-      hasAdjusted = util.getDefault()(isVertical, labelGroup, limitLength);
+      hasAdjusted = util.getDefault()(isVertical, labelGroup, limitLength, labelCfg.rotate);
     } else if (isFunction(value)) {
       // 用户可以传入回调函数
       hasAdjusted = value(isVertical, labelGroup, limitLength);
