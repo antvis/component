@@ -1,3 +1,9 @@
+#### 0.8.2 (2020-11-16)
+
+##### Bug Fixes
+
+- **axis:** 坐标轴 title 重叠 [#1820](https://github.com/antvis/G2Plot/issues/1820)
+
 #### 0.7.4 (2020-09-21)
 
 ##### Bug Fixes
