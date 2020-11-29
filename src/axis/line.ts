@@ -1,8 +1,8 @@
 import { IGroup } from '@antv/g-base';
 import { vec2 } from '@antv/matrix-util';
-import { each, isFunction, isNil, isNumberEqual } from '@antv/util';
+import { each, isFunction, isNil, isNumberEqual, isObject } from '@antv/util';
 import { ILocation } from '../interfaces';
-import { BBox, LineAxisCfg, Point, RegionLocationCfg } from '../types';
+import { AxisLabelAutoHideCfg, BBox, LineAxisCfg, Point, RegionLocationCfg } from '../types';
 import Theme from '../util/theme';
 import AxisBase from './base';
 import * as OverlapUtil from './overlap';
@@ -121,7 +121,7 @@ class Line extends AxisBase<LineAxisCfg> implements ILocation<RegionLocationCfg>
     }
     const overlapOrder = this.get('overlapOrder');
     each(overlapOrder, (name) => {
-      if (labelCfg[name]) {
+      if (labelCfg[name] && this.canProcessOverlap(name)) {
         this.autoProcessOverlap(name, labelCfg[name], labelGroup, limitLength);
       }
     });
@@ -163,19 +163,41 @@ class Line extends AxisBase<LineAxisCfg> implements ILocation<RegionLocationCfg>
     return maxLength;
   }
 
+  /**
+   * 是否可以执行某一 overlap
+   * @param name
+   */
+  private canProcessOverlap(name: string) {
+    const labelCfg = this.get('label');
+
+    // 对 autoRotate，如果配置了旋转角度，直接进行固定角度旋转
+    if (name === 'autoRotate') {
+      return isNil(labelCfg.rotate);
+    }
+
+    // 默认所有 overlap 都可执行
+    return true;
+  }
+
   private autoProcessOverlap(name: string, value: any, labelGroup: IGroup, limitLength: number) {
     const isVertical = this.isVertical();
     let hasAdjusted = false;
     const util = OverlapUtil[name];
     if (value === true) {
       const labelCfg = this.get('label');
-      // 默认使用固定角度的旋转方案
-      hasAdjusted = util.getDefault()(isVertical, labelGroup, limitLength, labelCfg.rotate);
+      // true 形式的配置：使用 overlap 默认的的处理方法进行处理
+      hasAdjusted = util.getDefault()(isVertical, labelGroup, limitLength);
     } else if (isFunction(value)) {
-      // 用户可以传入回调函数
+      // 回调函数形式的配置： 用户可以传入回调函数
       hasAdjusted = value(isVertical, labelGroup, limitLength);
+    } else if (isObject(value)) {
+      // object 形式的配置方式：包括 处理方法 type， 和可选参数配置 cfg
+      const overlapCfg = value as { type: string; cfg?: AxisLabelAutoHideCfg };
+      if (util[overlapCfg.type]) {
+        hasAdjusted = util[overlapCfg.type](isVertical, labelGroup, limitLength, overlapCfg.cfg);
+      }
     } else if (util[value]) {
-      // 按照名称执行旋转函数
+      // 字符串类型的配置：按照名称执行 overlap 处理方法
       hasAdjusted = util[value](isVertical, labelGroup, limitLength);
     }
     if (name === 'autoRotate') {
