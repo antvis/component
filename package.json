@@ -1,6 +1,6 @@
 {
   "name": "@antv/component",
-  "rersion": "0.8.3",
+  "version": "0.8.3",
   "description": "The component module for antv",
   "author": "https://github.com/orgs/antvis/people",
   "license": "MIT",
