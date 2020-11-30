@@ -1,3 +1,9 @@
+#### 0.8.3 (2020-11-30)
+
+#### New Features
+
+- **axis:** 轴标签 autoHide 支持配置最小间距 [#206](https://github.com/antvis/component/pull/206)
+
 #### 0.8.2 (2020-11-16)
 
 ##### Bug Fixes
