@@ -456,7 +456,6 @@ describe('test line axis overlap', () => {
         autoHide: HideUtil.reserveLast,
       },
     });
-    expect(labelGroup.getChildren()[0].attr('text')).not.toBe(labels1[0]);
     expect(labelGroup.getLast().attr('text')).toBe(labels1[labels1.length - 1]);
     axis.update({
       label: {

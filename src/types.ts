@@ -156,6 +156,12 @@ export interface AxisTickLineCfg {
 
 type avoidCallback = (isVertical: boolean, labelGroup: IGroup, limitLength?: number) => boolean;
 
+/** 坐标轴自动隐藏的配置 */
+export interface AxisLabelAutoHideCfg {
+  /** 最小间距配置 */
+  minGap?: number;
+}
+
 /**
  * @interface
  * 坐标轴文本定义
@@ -188,9 +194,9 @@ export interface AxisLabelCfg {
   autoRotate?: boolean | avoidCallback | string;
   /**
    * 是否自动隐藏，默认 false
-   * @type {boolean|avoidCallback|string}
+   * @type {boolean|avoidCallback|string|{type:string,cfg?:AxisLabelAutoHideCfg}}
    */
-  autoHide?: boolean | avoidCallback | string;
+  autoHide?: boolean | avoidCallback | string | { type: string; cfg?: AxisLabelAutoHideCfg };
   /**
    * 是否自动省略，默认 false
    * @type {boolean|avoidCallback|string}
