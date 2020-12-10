@@ -8,6 +8,7 @@
   "module": "esm/index.js",
   "types": "lib/index.d.ts",
   "files": [
+    "src",
     "lib",
     "esm",
     "README.md",
