@@ -1,3 +1,9 @@
+#### 0.8.4 (2020-12-17)
+
+#### New Features
+
+- **sourceMap:** add src to files for sourceMap [#209](https://github.com/antvis/component/pull/209)
+
 #### 0.8.3 (2020-11-30)
 
 #### New Features
