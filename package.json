@@ -64,7 +64,7 @@
     "@antv/scale": "~0.3.1",
     "@antv/util": "~2.0.0",
     "fecha": "~4.2.0",
-    "tslib": "^1.10.0"
+    "tslib": "^2.0.3"
   },
   "lint-staged": {
     "*.{js,css,json,md}": [
