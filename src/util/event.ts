@@ -1,6 +1,9 @@
 import { IGroup } from '@antv/g-base';
-import GraphEvent from '@antv/g-base/lib/event/graph-event';
+// import GraphEvent from '@antv/g-base/lib/event/graph-event';
 import { LooseObject } from '../types';
+
+// TODO: GraphEvent 应该是由 G-Base 导出，因为暂时没有导出，所以给一个 mock 的类型定义
+export type GraphEvent = new (...args: any[]) => any;
 
 /**
  *
