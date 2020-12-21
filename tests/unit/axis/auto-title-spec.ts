@@ -1,4 +1,4 @@
-import { Canvas } from '@antv/g-canvas';
+import { Canvas, IGroup } from '@antv/g-canvas';
 import LineAxis from '../../../src/axis/line';
 
 describe('test title offset', () => {
@@ -124,7 +124,7 @@ describe('test title offset', () => {
         },
       },
     });
-    expect(Math.round(offset - axis.get('title').offset)).toBe(90);
+    expect(Math.round(offset - axis.get('title').offset)).toBe(80);
     axis.update({
       ...position.top,
       title: {
@@ -137,10 +137,316 @@ describe('test title offset', () => {
         },
       },
     });
-    expect(Math.round(offset - axis.get('title').offset)).toBe(90);
+    expect(Math.round(offset - axis.get('title').offset)).toBe(80);
   });
+
   afterAll(() => {
     axis.destroy();
     canvas.destroy();
+  });
+});
+
+describe('axis title auto offset', () => {
+  const dom = document.createElement('div');
+  document.body.append(dom);
+  const canvas = new Canvas({
+    container: dom,
+    width: 500,
+    height: 400,
+  });
+  const container = canvas.addGroup();
+
+  const getTicks = (labels: string[]) => {
+    return labels.map((item, idx) => ({
+      name: item,
+      value: (1 / (labels.length - 1)) * idx,
+    }));
+  };
+
+  it('auto axis title offset', () => {
+    const axis = new LineAxis({
+      animate: false,
+      id: 'it1',
+      container,
+      verticalFactor: -1,
+      start: {
+        x: 50,
+        y: 50,
+      },
+      end: {
+        x: 450,
+        y: 50,
+      },
+      ticks: getTicks([
+        '大于等于￥50000',
+        '小于￥100',
+        '￥100-￥2000',
+        '￥10000-￥50000',
+        '￥2000-￥5000',
+        '￥5000-￥10000',
+      ]),
+      label: {
+        autoRotate: false,
+        autoHide: false,
+      },
+      title: {
+        text: '标题',
+      },
+    });
+    axis.init();
+    axis.render();
+
+    // default auto offset: label_offset + label_height + title_spacing + title_height / 2
+    expect(axis.get('title').offset).toBe(10 + 12 + 5 + 6);
+
+    axis.destroy();
+  });
+
+  it('auto axis title offset /w autoHide', () => {
+    const axis = new LineAxis({
+      animate: false,
+      id: 'it1',
+      container,
+      verticalFactor: -1,
+      start: {
+        x: 50,
+        y: 50,
+      },
+      end: {
+        x: 450,
+        y: 50,
+      },
+      ticks: getTicks([
+        '大于等于￥50000',
+        '小于￥100',
+        '￥100-￥2000',
+        '￥10000-￥50000',
+        '￥2000-￥5000',
+        '￥5000-￥10000',
+      ]),
+      label: {
+        autoRotate: false,
+        autoHide: true,
+      },
+      title: {
+        text: '标题',
+      },
+    });
+    axis.init();
+    axis.render();
+
+    // default auto offset: label_offset + label_height + title_spacing + title_height / 2
+    expect(axis.get('title').offset).toBe(10 + 12 + 5 + 6);
+
+    axis.destroy();
+  });
+
+  it('auto axis title offset /w autoRotate', () => {
+    const axis = new LineAxis({
+      animate: false,
+      id: 'it1',
+      container,
+      verticalFactor: -1,
+      start: {
+        x: 50,
+        y: 50,
+      },
+      end: {
+        x: 450,
+        y: 50,
+      },
+      ticks: getTicks([
+        '大于等于￥50000',
+        '小于￥100',
+        '￥100-￥2000',
+        '￥10000-￥50000',
+        '￥2000-￥5000',
+        '￥5000-￥10000',
+      ]),
+      label: {
+        autoRotate: true,
+        autoHide: false,
+      },
+      title: {
+        text: '标题',
+      },
+    });
+    axis.init();
+    axis.render();
+
+    const group: IGroup = axis.get('group');
+    const labelGroup = group.findAllByName('axis-label-group')[0];
+    const labelHeight = labelGroup.getCanvasBBox().height;
+    // default auto offset: label_offset + label_height + title_spacing + title_height / 2
+    expect(axis.get('title').offset).toBe(10 + labelHeight + 5 + 6);
+
+    axis.destroy();
+  });
+
+  it('auto axis title offset /w rotate unfixedAngle', () => {
+    const axis = new LineAxis({
+      animate: false,
+      id: 'it1',
+      container,
+      verticalFactor: -1,
+      start: {
+        x: 50,
+        y: 50,
+      },
+      end: {
+        x: 450,
+        y: 50,
+      },
+      ticks: getTicks([
+        '大于等于￥50000',
+        '小于￥100',
+        '￥100-￥2000',
+        '￥10000-￥50000',
+        '￥2000-￥5000',
+        '￥5000-￥10000',
+      ]),
+      label: {
+        autoRotate: 'unfixedAngle',
+        autoHide: false,
+      },
+      title: {
+        text: '标题',
+      },
+    });
+    axis.init();
+    axis.render();
+
+    const group: IGroup = axis.get('group');
+    const labelGroup = group.findAllByName('axis-label-group')[0];
+    const labelHeight = labelGroup.getCanvasBBox().height;
+    // default auto offset: label_offset + label_height + title_spacing + title_height / 2
+    expect(axis.get('title').offset).toBe(10 + labelHeight + 5 + 6);
+
+    axis.destroy();
+  });
+
+  it('vertical axis title offset', () => {
+    const axis = new LineAxis({
+      animate: false,
+      id: 'it1',
+      container,
+      verticalFactor: -1,
+      start: {
+        x: 200,
+        y: 50,
+      },
+      end: {
+        x: 200,
+        y: 450,
+      },
+      ticks: getTicks([
+        '大于等于￥50000',
+        '小于￥100',
+        '￥100-￥2000',
+        '￥10000-￥50000',
+        '￥2000-￥5000',
+        '￥5000-￥10000',
+      ]),
+      label: {
+        autoRotate: false,
+        autoHide: false,
+      },
+      title: {
+        text: '标题',
+      },
+    });
+    axis.init();
+    axis.render();
+
+    // default auto offset: label_offset + label_width + title_spacing + title_height / 2
+    const group: IGroup = axis.get('group');
+    const labelGroup = group.findAllByName('axis-label-group')[0];
+    const labelWidth = labelGroup.getCanvasBBox().width;
+    expect(axis.get('title').offset).toBe(10 + labelWidth + 5 + 6);
+
+    axis.destroy();
+  });
+
+  it('vertical axis title offset /w autoRotate', () => {
+    const axis = new LineAxis({
+      animate: false,
+      id: 'it1',
+      container,
+      verticalFactor: -1,
+      verticalLimitLength: 100,
+      start: {
+        x: 200,
+        y: 50,
+      },
+      end: {
+        x: 200,
+        y: 450,
+      },
+      ticks: getTicks([
+        '大于等于￥50000',
+        '小于￥100',
+        '￥100-￥2000',
+        '￥10000-￥50000',
+        '￥2000-￥5000',
+        '￥5000-￥10000',
+      ]),
+      label: {
+        autoRotate: true,
+        autoHide: false,
+      },
+      title: {
+        text: '标题',
+      },
+    });
+    axis.init();
+    axis.render();
+
+    // default auto offset: label_offset + label_width + title_spacing + title_height / 2
+    const group: IGroup = axis.get('group');
+    const labelGroup = group.findAllByName('axis-label-group')[0];
+    const labelWidth = labelGroup.getCanvasBBox().width;
+    expect(axis.get('title').offset).toBe(10 + labelWidth + 5 + 6);
+
+    axis.destroy();
+  });
+
+  it('vertical axis title offset /w rotate', () => {
+    const axis = new LineAxis({
+      animate: false,
+      id: 'it1',
+      container,
+      verticalFactor: -1,
+      verticalLimitLength: 100,
+      start: {
+        x: 200,
+        y: 50,
+      },
+      end: {
+        x: 200,
+        y: 450,
+      },
+      ticks: getTicks([
+        '大于等于￥50000',
+        '小于￥100',
+        '￥100-￥2000',
+        '￥10000-￥50000',
+        '￥2000-￥5000',
+        '￥5000-￥10000',
+      ]),
+      label: {
+        rotate: Math.PI / 2,
+        autoHide: false,
+      },
+      title: {
+        text: '标题',
+      },
+    });
+    axis.init();
+    axis.render();
+
+    // default auto offset: label_offset + label_width + title_spacing + title_height / 2
+    expect(axis.get('title').offset).toBe(10 + 12 + 5 + 6);
+
+    axis.destroy();
   });
 });
