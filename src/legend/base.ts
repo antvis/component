@@ -28,19 +28,18 @@ abstract class LegendBase<T extends LegendBaseCfg = LegendBaseCfg> extends Group
 
   public getLayoutBBox(): BBox {
     const bbox = super.getLayoutBBox();
-    const minX = this.get('x');
-    const minY = this.get('y');
     const maxWidth = this.get('maxWidth');
     const maxHeight = this.get('maxHeight');
-    let width = bbox.maxX - minX;
-    let height = bbox.maxY - minY;
+
+    let { width, height } = bbox;
     if (maxWidth) {
       width = Math.min(width, maxWidth);
     }
     if (maxHeight) {
       height = Math.min(height, maxHeight);
     }
-    return createBBox(minX, minY, width, height);
+    
+    return createBBox(bbox.minX, bbox.minY, width, height);
   }
 
   public setLocation(cfg: PointLocationCfg) {

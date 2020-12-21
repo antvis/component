@@ -166,9 +166,9 @@ describe('text with background', () => {
     expect(textShape.get('tip')).toBe('我是一段很长很长很长很长很长很长很长的文本');
     const textBg = text.getElementById('a-annotation-text-bg');
     expect(textBg).toBeDefined();
-    expect(textBg.getCanvasBBox().minX).toBe(73.3388671875);
+    expect(textBg.getCanvasBBox().minX).toBeCloseTo(73.3388671875, 0);
     expect(textBg.getCanvasBBox().minY).toBeCloseTo(134);
-    expect(textBg.getCanvasBBox().width).toBe(53.322265625);
+    expect(textBg.getCanvasBBox().width).toBeCloseTo(53.322265625, 0);
     expect(textBg.getCanvasBBox().height).toBeCloseTo(32);
   });
 
