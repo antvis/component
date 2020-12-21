@@ -15,3 +15,5 @@ export { Scrollbar } from './scrollbar';
 
 export * from './interfaces';
 export * from './types';
+
+export { propagationDelegate } from './util/event';
