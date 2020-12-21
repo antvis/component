@@ -18,4 +18,5 @@ export * from './types';
 
 export { propagationDelegate } from './util/event';
 
-export * as TOOLTIP_CSS_CONST from './tooltip/css-const';
+import * as TOOLTIP_CSS_CONST from './tooltip/css-const';
+export { TOOLTIP_CSS_CONST };
