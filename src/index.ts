@@ -14,3 +14,4 @@ export { Slider } from './slider';
 export { Scrollbar } from './scrollbar';
 
 export * from './interfaces';
+export * from './types';
