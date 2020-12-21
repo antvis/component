@@ -128,39 +128,12 @@ class Line extends AxisBase<LineAxisCfg> implements ILocation<RegionLocationCfg>
     if (titleCfg) {
       if (isNil(titleCfg.offset)) {
         // 调整 title 的 offset
-        const length = this.getRotateLength(labelGroup);
+        const bbox = labelGroup.getCanvasBBox();
+        const length = isVertical ? bbox.width : bbox.height;
         // 如果用户没有设置 offset，则自动计算
         titleCfg.offset = labelOffset + length + titleSpacing + titleHeight / 2;
       }
     }
-  }
-
-  /**
-   * 获取 labelGroup 的选择长度
-   * @param {IGroup}
-   */
-  private getRotateLength(labelGroup: IGroup) {
-    const labelCfg = this.get('label');
-    const { rotate: customRotate } = labelCfg;
-    const groupBbox = labelGroup.getBBox();
-    if (this.isVertical() && !customRotate) {
-      return groupBbox.width;
-    }
-    const labels = labelGroup.getChildren();
-    const isVertical = this.isVertical();
-    let maxLength = -Infinity;
-    labels.forEach((label) => {
-      const bbox = label.getBBox();
-      const { width } = bbox;
-      // 用于计算距离：不区分正负
-      const rotate = customRotate || Theme.verticalAxisRotate;
-      const length = isVertical ? Math.cos(rotate) : Math.sin(rotate);
-      const rotateLength = width * Math.abs(length);
-      if (rotateLength > maxLength) {
-        maxLength = rotateLength;
-      }
-    });
-    return maxLength;
   }
 
   /**
