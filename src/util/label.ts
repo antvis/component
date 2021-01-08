@@ -1,14 +1,24 @@
 import { IElement } from '@antv/g-base';
-import { each } from '@antv/util';
+import { each, isNil } from '@antv/util';
 
 import { ellipsisString, strLen } from './text';
 
 const ELLIPSIS_CODE = '\u2026';
 const ELLIPSIS_CODE_LENGTH = 2; // 省略号的长度
-const OPTIMIZE_THRESHOLD = 400;
 
+/** 大数据量阈值 */
+const OPTIMIZE_THRESHOLD = 400;
+/**
+ * 针对大数据量做优化的 getMaxLabelWidth，做法不是直接去比较每一个 label 的最大宽度
+ * 而是先通过比较每个 label 每个的字符串的长度，这里区分了下中英文字符
+ * 最终是去字符串最“长”的那个 label 的宽度。
+ * @param labels
+ */
 function getMaxLabelWidthOptimized(labels: IElement[]) {
-  const texts: string[] = labels.map((label) => label.attr('text'));
+  const texts: string[] = labels.map((label) => {
+    const text = label.attr('text');
+    return isNil(text) ? '' : `${text}`;
+  });
   let maxLen = 0;
   let maxIdx = 0;
 
