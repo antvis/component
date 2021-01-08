@@ -1,5 +1,7 @@
 import { getAlignPoint, getOutSides, getPointByPosition } from '../../src/util/align';
 import { createBBox, intersectBBox, mergeBBox } from '../../src/util/util';
+import { getMaxLabelWidth } from '../../src/util/label';
+import { IElement } from '@antv/g-base';
 describe('test util', () => {
   it('out side test', () => {
     const limtBox = createBBox(100, 100, 500, 500);
@@ -174,5 +176,27 @@ describe('test util', () => {
         y: 210,
       });
     });
+  });
+});
+
+describe('getMaxLabelWidthOptimized', () => {
+  const generateLabels = (labels: string[], sizes?: number[]) => {
+    return labels.map((label, idx) => ({
+      attr: () => label,
+      getBBox: () => ({ width: sizes?.[idx] || idx, height: sizes?.[idx] || idx }),
+    })) as IElement[];
+  };
+
+  it('small data', () => {
+    expect(getMaxLabelWidth(generateLabels(['A'], [20]))).toBe(20);
+    expect(getMaxLabelWidth(generateLabels(['A', 'B', 'C', 'D', 'E'], [10, 20, 30, 25, 4]))).toBe(30);
+  });
+
+  it('large data', () => {
+    const labels = new Array(400).fill(0).map(() => 'noop');
+
+    expect(getMaxLabelWidth(generateLabels(labels.concat(['noop_AB', 'noop_ABC', 'noop_ABCD', 'noop_B'])))).toBe(402);
+    expect(getMaxLabelWidth(generateLabels(labels.concat(['noop_A', 'noop_东'])))).toBe(401);
+    expect(getMaxLabelWidth(generateLabels(labels.concat(['noop_A', 'noop_东', 'noop_A东', 'noop_A东东'])))).toBe(403);
   });
 });
