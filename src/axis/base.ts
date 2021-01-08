@@ -98,6 +98,7 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
             },
           },
         },
+        // 针对大数据量进行优化配置
         optimize: {
           enable: true,
           threshold: 400,
@@ -449,6 +450,9 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
     });
   }
 
+  /**
+   * 根据 optimize 配置对 ticks 进行抽样，对抽样过后的 ticks 才进行真实的渲染
+   */
   private optimizeTicks() {
     const optimize: OptimizeCfg = this.get('optimize');
     const ticks = this.get('ticks');
