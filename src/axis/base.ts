@@ -1,9 +1,9 @@
 import { IGroup } from '@antv/g-base';
 import { ext } from '@antv/matrix-util';
-import { each, filter, get, isFunction, isNil, isNumberEqual, mix } from '@antv/util';
+import { each, filter, get, isFunction, isNil, isNumberEqual, mix, size } from '@antv/util';
 import GroupComponent from '../abstract/group-component';
 import { IList } from '../interfaces';
-import { AxisBaseCfg, ListItem, Point } from '../types';
+import { AxisBaseCfg, ListItem, OptimizeCfg, Point } from '../types';
 import { getMatrixByAngle } from '../util/matrix';
 import { getStatesStyle } from '../util/state';
 import Theme from '../util/theme';
@@ -31,6 +31,7 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
       verticalLimitLength: null,
       overlapOrder: ['autoRotate', 'autoEllipsis', 'autoHide'],
       tickStates: {},
+      optimize: {},
       defaultCfg: {
         line: {
           // @type {Attrs} 坐标轴线的图形属性,如果设置成null，则不显示轴线
@@ -96,6 +97,10 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
               fill: Theme.uncheckedColor,
             },
           },
+        },
+        optimize: {
+          enable: true,
+          threshold: 400,
         },
       },
       theme: {},
@@ -428,6 +433,7 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
 
   // 绘制 ticks 包括文本和 tickLine
   private drawTicks(group: IGroup) {
+    this.optimizeTicks();
     this.processTicks();
     if (this.get('label')) {
       this.drawLabels(group);
@@ -441,6 +447,20 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
     each(ticks, (tick) => {
       this.applyTickStates(tick, group);
     });
+  }
+
+  private optimizeTicks() {
+    const optimize: OptimizeCfg = this.get('optimize');
+    const ticks = this.get('ticks');
+    if (optimize && optimize.enable && optimize.threshold > 0) {
+      const len = size(ticks);
+      if (len > optimize.threshold) {
+        const page = Math.ceil(len / optimize.threshold);
+        const optimizedTicks = ticks.filter((tick, idx) => idx % page === 0);
+        this.set('ticks', optimizedTicks);
+        this.set('originalTicks', ticks);
+      }
+    }
   }
 
   // 获取 label 的配置项
@@ -496,11 +516,11 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
     const defaultLabelStyle = get(this.get('theme'), ['label', 'style'], {});
     const { style, formatter } = this.get('label');
     if (isFunction(style)) {
-      const afterProcessTicks = labels.map(label => get(label.get('delegateObject'), 'tick'));
+      const afterProcessTicks = labels.map((label) => get(label.get('delegateObject'), 'tick'));
       each(labels, (label, index) => {
         const { tick } = label.get('delegateObject');
         const text = formatter ? formatter(tick.name, tick, index) : tick.name;
-        const newStyle = mix({}, defaultLabelStyle, style(text, index, afterProcessTicks))
+        const newStyle = mix({}, defaultLabelStyle, style(text, index, afterProcessTicks));
         label.attr(newStyle);
       });
     }

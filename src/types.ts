@@ -385,6 +385,13 @@ export interface HtmlComponentCfg extends ComponentCfg {
   domStyles?: LooseObject;
 }
 
+export interface OptimizeCfg {
+  /** 是否启动大数据量优化 */
+  enable: boolean;
+  /** 大数据数据量配置，达到 threshold 后启动优化，默认 400 */
+  threshold?: number;
+}
+
 export interface AxisBaseCfg extends GroupComponentCfg {
   /**
    * 坐标轴刻度的集合
@@ -428,6 +435,10 @@ export interface AxisBaseCfg extends GroupComponentCfg {
    * 处理遮挡时的顺序，默认 ['autoRotate', 'autoHide']
    */
   overlapOrder?: string[];
+  /**
+   * 针对大数据量进行优化配置
+   */
+  optimize?: OptimizeCfg;
 }
 
 export interface LineAxisCfg extends AxisBaseCfg {
