@@ -24,7 +24,7 @@ describe('Scrollbar', () => {
     trackLen: 300,
     thumbLen: 30,
     updateAutoRender: true,
-    size: 8,
+    size,
   });
   scrollbar.init();
 
@@ -401,5 +401,38 @@ describe('Scrollbar', () => {
       clientX: 4,
     });
     simulateTouchEvent(containerDOM, 'touchend', {});
+  });
+
+  it('size, cfg.size > theme.default.size', () => {
+    const scrollbar2 = new Scrollbar({
+      container: canvas.addGroup(),
+      id: 's',
+      x: 50,
+      y: 40,
+      trackLen: 300,
+      thumbLen: 30,
+      updateAutoRender: true,
+    });
+    scrollbar2.init();
+    scrollbar2.render();
+
+    expect(scrollbar2.getElementByLocalId('thumb').getCanvasBBox().width).toBe(30);
+    expect(scrollbar2.getElementByLocalId('thumb').getCanvasBBox().height).toBe(8);
+    scrollbar2.update({
+      theme: { default: {  size: 20 } },
+    });
+    const thumb = scrollbar2.getElementByLocalId('thumb');
+
+    expect(thumb.attr('lineCap')).toBe('round');
+    expect(thumb.attr('lineWidth')).toBe(20);
+    expect(thumb.getCanvasBBox().height).toBe(20);
+    expect(scrollbar2.getElementByLocalId('track').attr('lineWidth')).toBe(20);
+
+    // cfg.size 的优先级大于 theme，因此更新无效
+    scrollbar.update({
+      theme: { default: {  size: 20 } },
+    });
+    expect(scrollbar.getElementByLocalId('thumb').attr('lineWidth')).toBe(8);
+    expect(scrollbar.getElementByLocalId('track').attr('lineWidth')).toBe(8);
   });
 });
