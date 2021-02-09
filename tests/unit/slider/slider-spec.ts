@@ -211,4 +211,25 @@ describe('slider', () => {
     // @ts-ignore
     expect(slider.maxHandler.get('y')).toBe(4);
   });
+
+  it('update handlerStyle', () => {
+    slider.update({
+      handlerStyle: {
+        stroke: 'red',
+        fill: 'lightgreen',
+        highLightFill: 'pink',
+      },
+    });
+
+    slider.render();
+     // @ts-ignore
+    const minHandler: Handler = slider.minHandler
+    expect(minHandler.get('style').fill).toBe('lightgreen');
+    expect(minHandler.get('style').highLightFill).toBe('pink');
+    expect(minHandler.get('style').stroke).toBe('red');
+  });
+
+  afterAll(() => {
+    slider.destroy();
+  });
 });

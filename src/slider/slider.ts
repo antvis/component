@@ -3,6 +3,7 @@ import { clamp, each, get, isArray, isNil, size } from '@antv/util';
 import GroupComponent from '../abstract/group-component';
 import { ISlider } from '../interfaces';
 import { Trend } from '../trend/trend';
+import { Handler, HandlerCfg } from './handler';
 import { GroupComponentCfg, Range } from '../types';
 import {
   BACKGROUND_STYLE,
@@ -12,7 +13,6 @@ import {
   SLIDER_CHANGE,
   TEXT_STYLE,
 } from './constant';
-import { Handler } from './handler';
 
 export interface TrendCfg {
   // 数据
@@ -25,6 +25,14 @@ export interface TrendCfg {
   readonly areaStyle?: object;
 }
 
+/**
+ * slider handler style 设置
+ */
+type HandlerStyle = HandlerCfg['style'] & {
+  readonly width?: number;
+  readonly height?: number;
+};
+
 export interface SliderCfg extends GroupComponentCfg {
   // position size
   readonly x: number;
@@ -36,7 +44,7 @@ export interface SliderCfg extends GroupComponentCfg {
   readonly trendCfg?: TrendCfg;
   readonly backgroundStyle?: any;
   readonly foregroundStyle?: any;
-  readonly handlerStyle?: any;
+  readonly handlerStyle?: HandlerStyle;
   readonly textStyle?: any;
   // 允许滑动位置
   readonly minLimit?: number;
@@ -239,7 +247,7 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
     });
 
     // 滑块相关的大小信息
-    // const handlerWidth = get(handlerStyle, 'width', 10);
+    const handlerWidth = get(handlerStyle, 'width', DEFAULT_HANDLER_WIDTH);
     const handlerHeight = get(handlerStyle, 'height', 24);
 
     // 4. 左右滑块
@@ -249,10 +257,10 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
       name: 'handler-min',
       x: 0,
       y: (height - handlerHeight) / 2,
-      width,
+      width: handlerWidth,
       height: handlerHeight,
       cursor: 'ew-resize',
-      ...handlerStyle,
+      style: handlerStyle,
     });
 
     this.maxHandler = this.addComponent(group, {
@@ -261,10 +269,10 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
       name: 'handler-max',
       x: 0,
       y: (height - handlerHeight) / 2,
-      width,
+      width: handlerWidth,
       height: handlerHeight,
       cursor: 'ew-resize',
-      ...handlerStyle,
+      style: handlerStyle,
     });
   }
 

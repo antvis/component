@@ -78,4 +78,28 @@ describe('handler', () => {
     expect(handler.getElementByLocalId('line-right').attr('stroke')).toBe('#222');
     expect(handler.getElementByLocalId('background').attr('fill')).toBe('#111');
   });
+
+  it('handler init with style', () => {
+    const handler1 = new Handler({
+      id: 'h',
+      container: canvas.addGroup(),
+      x: 50,
+      y: 60,
+      width: 8,
+      height: 30,
+      style: {
+        fill: 'red',
+      },
+    });
+
+    handler1.init();
+    handler1.render();
+    expect(handler1.getElementByLocalId('background').attr('fill')).toBe('red');
+
+    handler1.destroy();
+  });
+
+  afterAll(() => {
+    handler.destroy();
+  });
 });
