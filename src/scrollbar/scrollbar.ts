@@ -14,7 +14,7 @@ export interface ScrollbarStyle {
 
 export interface ScrollbarTheme {
   default?: Partial<Readonly<ScrollbarStyle>>;
-  hover?: Partial<Readonly<ScrollbarStyle>>;
+  hover?: Pick<Readonly<ScrollbarStyle>, 'thumbColor'>;
 }
 
 const DEFAULT_STYLE: ScrollbarStyle = {
