@@ -1,6 +1,6 @@
 import { addEventListener } from '@antv/dom-util';
-import { Event, IGroup, IShape } from '@antv/g-base';
-import { clamp, get, noop } from '@antv/util';
+import { Event, IGroup } from '@antv/g-base';
+import { clamp, deepMix, get, noop } from '@antv/util';
 import GroupComponent from '../abstract/group-component';
 import { ISlider } from '../interfaces';
 import { GroupComponentCfg, Range } from '../types';
@@ -14,7 +14,7 @@ export interface ScrollbarStyle {
 
 export interface ScrollbarTheme {
   default?: Partial<Readonly<ScrollbarStyle>>;
-  hover?: Partial<Readonly<ScrollbarStyle>>;
+  hover?: Pick<Readonly<ScrollbarStyle>, 'thumbColor'>;
 }
 
 const DEFAULT_STYLE: ScrollbarStyle = {
@@ -47,6 +47,8 @@ export interface ScrollbarCfg extends GroupComponentCfg {
   minThumbLen?: number;
   // 滑块相对滑道的偏移, 非必传，默认值为 0
   thumbOffset?: number;
+  // 滚动条大小（横向代表高度，纵向代表宽度），优先级大于 theme
+  size?: number;
   // 滚动条样式，非必传
   theme?: ScrollbarTheme;
 
@@ -125,7 +127,9 @@ export class Scrollbar extends GroupComponent<ScrollbarCfg> implements ISlider {
   // 创建滑道的 shape
   private renderTrackShape(group: IGroup) {
     const { trackLen, theme = { default: {} } } = this.cfg;
-    const { lineCap, trackColor, size } = theme.default;
+    const { lineCap, trackColor, size: themeSize } = deepMix({}, DEFAULT_THEME, theme).default;
+    const size = get(this.cfg, 'size', themeSize)
+
     const attrs = this.get('isHorizontal')
       ? {
           x1: 0 + size / 2,
@@ -155,8 +159,10 @@ export class Scrollbar extends GroupComponent<ScrollbarCfg> implements ISlider {
 
   // 创建滑块的 shape
   private renderThumbShape(group: IGroup) {
-    const { thumbOffset, thumbLen, theme = { default: {} } } = this.cfg;
-    const { size, lineCap, thumbColor } = theme.default;
+    const { thumbOffset, thumbLen, theme } = this.cfg;
+    const { size: themeSize, lineCap, thumbColor } = deepMix({}, DEFAULT_THEME, theme).default;
+    const size = get(this.cfg, 'size', themeSize)
+
     const attrs = this.get('isHorizontal')
       ? {
           x1: thumbOffset + size / 2,
