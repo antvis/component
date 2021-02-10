@@ -1284,3 +1284,4 @@ export interface CrosshairTextBackgroundCfg {
 }
 
 export { SliderCfg, TrendCfg } from './slider';
+export { ScrollbarCfg, ScrollbarTheme } from './scrollbar';
