@@ -3,7 +3,7 @@ import { clamp, deepMix, each, get, isArray, isNil, size } from '@antv/util';
 import GroupComponent from '../abstract/group-component';
 import { ISlider } from '../interfaces';
 import { Trend } from '../trend/trend';
-import { DEFAULT_HANDLE_STYLE, Handler, HandlerCfg } from './handler';
+import { DEFAULT_HANDLER_STYLE, Handler, HandlerCfg } from './handler';
 import { GroupComponentCfg, Range } from '../types';
 import {
   BACKGROUND_STYLE,
@@ -175,7 +175,7 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
       textStyle = {},
     } = this.cfg;
 
-    const handlerStyle = deepMix({}, DEFAULT_HANDLE_STYLE, this.cfg.handlerStyle);
+    const handlerStyle = deepMix({}, DEFAULT_HANDLER_STYLE, this.cfg.handlerStyle);
 
     const min = start * width;
     const max = end * width;

@@ -235,6 +235,6 @@ describe('slider', () => {
   });
 
   afterAll(() => {
-    // slider.destroy();
+    slider.destroy();
   });
 });
