@@ -21,7 +21,7 @@ export interface HandlerCfg extends GroupComponentCfg {
   readonly style?: IStyle;
 }
 
-export const DEFAULT_HANDLE_STYLE = {
+export const DEFAULT_HANDLER_STYLE = {
   fill: '#F7F7F7',
   stroke: '#BFBFBF',
   radius: 2,
@@ -41,7 +41,7 @@ export class Handler extends GroupComponent<HandlerCfg> {
       y: 0,
       width: 10,
       height: 24,
-      style: DEFAULT_HANDLE_STYLE,
+      style: DEFAULT_HANDLER_STYLE,
     };
   }
   protected renderInner(group: IGroup) {
