@@ -213,23 +213,28 @@ describe('slider', () => {
   });
 
   it('update handlerStyle', () => {
+    // @ts-ignore
+    const minHandler: Handler = slider.minHandler;
+    // 默认带样式
+    expect(minHandler.get('style').fill).not.toBeUndefined();
+    expect(minHandler.get('style').highLightFill).not.toBeUndefined();
+    expect(minHandler.get('style').stroke).not.toBeUndefined();
     slider.update({
       handlerStyle: {
-        stroke: 'red',
         fill: 'lightgreen',
         highLightFill: 'pink',
       },
     });
 
     slider.render();
-     // @ts-ignore
-    const minHandler: Handler = slider.minHandler
+    // @ts-ignore
+    minHandler = slider.minHandler;
     expect(minHandler.get('style').fill).toBe('lightgreen');
     expect(minHandler.get('style').highLightFill).toBe('pink');
-    expect(minHandler.get('style').stroke).toBe('red');
+    expect(minHandler.get('style').stroke).not.toBeUndefined();
   });
 
   afterAll(() => {
-    slider.destroy();
+    // slider.destroy();
   });
 });
