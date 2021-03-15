@@ -535,11 +535,13 @@ describe('test category legend', () => {
       expect(children[0].get('type')).toBe('path');
       expect(children[0].attr('matrix')).toBeNull();
       // left disabled
+      expect(children[0].attr('fill')).toBe('#000');
       expect(children[0].attr('opacity')).toBe(0.45);
       expect(children[0].attr('cursor')).toBe('not-allowed');
 
       // text
       expect(children[1].get('type')).toBe('text');
+      expect(children[1].attr('fill')).toBe('#ccc');
       expect(children[1].attr('text')).toEqual('1/4');
 
       // right arrow: \/
@@ -547,6 +549,7 @@ describe('test category legend', () => {
       expect(getAngleByMatrix(children[2].attr('matrix'))).toBe(Math.PI);
       // right arrow enabled
       expect(children[2].attr('opacity')).toBe(1);
+      expect(children[2].attr('fill')).toBe('#000');
       expect(children[2].attr('cursor')).toBe('pointer');
     });
 
@@ -692,6 +695,96 @@ describe('test category legend', () => {
       // right arrow: \/
       expect(children[2].get('type')).toBe('path');
       expect(getAngleByMatrix(children[2].attr('matrix'))).toBe(Math.PI);
+    });
+
+    it('update pageNavigator style', () => {
+      legend.update({
+        pageNavigator: undefined,
+      });
+
+      let children = legend.getElementById('c-legend-navigation-group').getChildren();
+      expect(children).toHaveLength(3); // left arrow + text + right arrow
+
+      // left arrow: /\
+      // left disabled
+      expect(children[0].attr('fill')).toBe('#000');
+      expect(children[0].attr('opacity')).toBe(0.45);
+
+      // text
+      expect(children[1].attr('fill')).toBe('#ccc');
+
+      // right arrow: \/
+      // right arrow enabled
+      expect(children[2].attr('opacity')).toBe(1);
+      expect(children[2].attr('fill')).toBe('#000');
+
+      legend.update({
+        pageNavigator: {
+          marker: {
+            style: {
+              fill: 'red',
+              activeOpacity: 0.8,
+            },
+          },
+        },
+      });
+
+      children = legend.getElementById('c-legend-navigation-group').getChildren();
+      expect(children).toHaveLength(3); // left arrow + text + right arrow
+
+      // left arrow: /\
+      // left disabled
+      expect(children[0].attr('fill')).toBe('red');
+      expect(children[0].attr('opacity')).toBe(0.45);
+      // right arrow: \/
+      // right arrow enabled
+      expect(children[2].attr('opacity')).toBe(0.8);
+      expect(children[2].attr('fill')).toBe('#000');
+
+      legend.update({
+        pageNavigator: {
+          marker: {
+            style: {
+              fill: 'green',
+              opacity: 0.6,
+              activeFill: 'pink',
+              // 每一次更新，不是增量的
+              activeOpacity: 0.8,
+            },
+          },
+        },
+      });
+
+      children = legend.getElementById('c-legend-navigation-group').getChildren();
+      expect(children).toHaveLength(3); // left arrow + text + right arrow
+
+      // left arrow: /\
+      // left disabled
+      expect(children[0].attr('fill')).toBe('green');
+      expect(children[0].attr('opacity')).toBe(0.6);
+      // right arrow: \/
+      // right arrow enabled
+      expect(children[2].attr('opacity')).toBe(0.8);
+      expect(children[2].attr('fill')).toBe('pink');
+
+      legend.update({
+        pageNavigator: {
+          text: {
+            style: {
+              fill: 'green',
+              fontSize: 10
+            },
+          },
+        },
+      });
+
+      children = legend.getElementById('c-legend-navigation-group').getChildren();
+      expect(children).toHaveLength(3); // left arrow + text + right arrow
+
+      // left arrow: /\
+      // left disabled
+      expect(children[1].attr('fill')).toBe('green');
+      expect(children[1].attr('fontSize')).toBe(10);
     });
 
     it('destroy', () => {

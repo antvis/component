@@ -1,12 +1,31 @@
 import { IGroup } from '@antv/g-base';
-import { clamp, each, filter, get, mix } from '@antv/util';
+import { clamp, deepMix, each, filter, get, mix } from '@antv/util';
 import { IList } from '../interfaces';
-import { CategoryLegendCfg, LegendItemNameCfg, LegendMarkerCfg, ListItem } from '../types';
+import { CategoryLegendCfg, LegendPageNavigatorCfg, LegendItemNameCfg, LegendMarkerCfg, ListItem } from '../types';
 import { ellipsisLabel } from '../util/label';
 import { getMatrixByAngle, getMatrixByTranslate } from '../util/matrix';
 import { getStatesStyle } from '../util/state';
 import Theme from '../util/theme';
 import LegendBase from './base';
+
+/**
+ * 分页器 默认配置
+ */
+const DEFAULT_PAGE_NAVIGATOR = {
+  marker: {
+    style: {
+      fill: '#000',
+      opacity: 0.45,
+      activeFill: '#000',
+      activeOpacity: 1,
+    },
+  },
+  text: {
+    style: {
+      fill: '#ccc',
+    },
+  },
+};
 
 class Category extends LegendBase<CategoryLegendCfg> implements IList {
   private currentPageIndex = 1;
@@ -35,6 +54,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
       items: [],
       itemStates: {},
       itemBackground: {},
+      pageNavigator: {},
       defaultCfg: {
         title: {
           spacing: 5,
@@ -57,6 +77,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
             fill: '#fff',
           },
         },
+        pageNavigator: DEFAULT_PAGE_NAVIGATOR,
         itemName: {
           spacing: 16, // 如果右边有 value 使用这个间距
           style: {
@@ -449,7 +470,8 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     const itemWidth = this.get('itemWidth');
     const itemSpacing = this.get('itemSpacing');
     const itemHeight = this.getItemHeight();
-    const navigation = this.drawNavigation(container, layout, '00/00', 12);
+    const pageNavigator: LegendPageNavigatorCfg = deepMix({}, DEFAULT_PAGE_NAVIGATOR, this.get('pageNavigator'));
+    const navigation = this.drawNavigation(container, layout, '00/00', 12, pageNavigator);
     const navigationBBox = navigation.getBBox();
     const currentPoint = { x: startX, y: startY };
     let pages = 1;
@@ -506,7 +528,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
         maxItemWidth = Math.min(maxWidth, maxItemWidth);
       }
       this.pageWidth = pageWidth;
-      this.pageHeight = maxHeight - Math.max(navigationBBox.height, (itemHeight + itemMarginBottom));
+      this.pageHeight = maxHeight - Math.max(navigationBBox.height, itemHeight + itemMarginBottom);
       const cntPerPage = Math.floor(this.pageHeight / (itemHeight + itemMarginBottom));
       each(subGroups, (item, index) => {
         if (index !== 0 && index % cntPerPage === 0) {
@@ -555,7 +577,16 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     itemGroup.attr('matrix', this.getCurrentNavigationMatrix());
   }
 
-  private drawNavigation(group: IGroup, layout: 'horizontal' | 'vertical', text: string, size: number) {
+  /**
+   * 绘制分页器
+   */
+  private drawNavigation(
+    group: IGroup,
+    layout: 'horizontal' | 'vertical',
+    text: string,
+    size: number,
+    styleCfg?: LegendPageNavigatorCfg
+  ) {
     const currentPoint = { x: 0, y: 0 };
     const subGroup = this.addGroup(group, {
       id: this.getElementId('navigation-group'),
@@ -566,7 +597,8 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
       currentPoint,
       'navigation-arrow-left',
       layout === 'horizontal' ? 'up' : 'left',
-      size
+      size,
+      get(styleCfg.marker, 'style')
     );
     leftArrow.on('click', this.onNavigationBack);
     const leftArrowBBox = leftArrow.getBBox();
@@ -580,9 +612,10 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
         x: currentPoint.x,
         y: currentPoint.y + size / 2,
         text,
-        fontSize: 12,
+        fontSize: size,
         fill: '#ccc',
         textBaseline: 'middle',
+        ...get(styleCfg.text, 'style'),
       },
     });
     const textBBox = textShape.getBBox();
@@ -593,7 +626,8 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
       currentPoint,
       'navigation-arrow-right',
       layout === 'horizontal' ? 'down' : 'right',
-      size
+      size,
+      get(styleCfg.marker, 'style')
     );
     rightArrow.on('click', this.onNavigationAfter);
 
@@ -601,6 +635,9 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
   }
 
   private updateNavigation(navigation?: IGroup) {
+    const pageNavigator: LegendPageNavigatorCfg = deepMix({}, DEFAULT_PAGE_NAVIGATOR, this.get('pageNavigator'));
+    const { fill, opacity, activeFill, activeOpacity } = get(pageNavigator.marker, 'style');
+
     const text = `${this.currentPageIndex}/${this.totalPagesCnt}`;
     const textShape = navigation ? navigation.getChildren()[1] : this.getElementByLocalId('navigation-text');
     const leftArrow = navigation
@@ -613,9 +650,13 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     textShape.attr('text', text);
     const newBBox = textShape.getBBox();
     textShape.attr('x', textShape.attr('x') - (newBBox.width - origBBox.width) / 2);
-    leftArrow.attr('opacity', this.currentPageIndex === 1 ? 0.45 : 1);
+    // 更新 left-arrow marker
+    leftArrow.attr('opacity', this.currentPageIndex === 1 ? opacity : activeOpacity);
+    leftArrow.attr('fill', this.currentPageIndex === 1 ? fill : activeFill);
     leftArrow.attr('cursor', this.currentPageIndex === 1 ? 'not-allowed' : 'pointer');
-    rightArrow.attr('opacity', this.currentPageIndex === this.totalPagesCnt ? 0.45 : 1);
+    // 更新 right-arrow marker
+    rightArrow.attr('opacity', this.currentPageIndex === this.totalPagesCnt ? opacity : activeOpacity);
+    rightArrow.attr('fill', this.currentPageIndex === this.totalPagesCnt ? fill : activeFill);
     rightArrow.attr('cursor', this.currentPageIndex === this.totalPagesCnt ? 'not-allowed' : 'pointer');
   }
 
@@ -624,7 +665,8 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     currentPoint: { x: number; y: number },
     name: string,
     direction: 'left' | 'right' | 'up' | 'down',
-    size: number
+    size: number,
+    style?: LegendPageNavigatorCfg['marker']['style']
   ) {
     const { x, y } = currentPoint;
     const rotateMap = {
@@ -641,6 +683,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
         path: [['M', x + size / 2, y], ['L', x, y + size], ['L', x + size, y + size], ['Z']],
         fill: '#000',
         cursor: 'pointer',
+        ...style,
       },
     });
     shape.attr('matrix', getMatrixByAngle({ x: x + size / 2, y: y + size / 2 }, rotateMap[direction]));
