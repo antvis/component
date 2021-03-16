@@ -808,11 +808,13 @@ export interface LegendPageNavigatorCfg {
       /** 分页导航器 icon 填充色, 默认 #000 */
       fill?: string;
       /** 分页导航器 icon 填充色 透明度, 默认 1 */
-      opacity?: string;
+      opacity?: number;
       /** 分页导航器 icon 非激活时的填充色 */
       inactiveFill?: string;
       /** 分页导航器 icon 非激活时的填充色 透明度, 默认 0.45 */
-      inactiveOpacity?: string;
+      inactiveOpacity?: number;
+      /** 分页器的大小 */
+      size?: number;
     };
   };
   text?: {
