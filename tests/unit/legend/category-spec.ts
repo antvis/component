@@ -537,6 +537,7 @@ describe('test category legend', () => {
       // left disabled
       expect(children[0].attr('fill')).toBe('#000');
       expect(children[0].attr('opacity')).toBe(0.45);
+      expect(children[0].attr('opacity')).toBe(0.45);
       expect(children[0].attr('cursor')).toBe('not-allowed');
 
       // text
@@ -750,6 +751,7 @@ describe('test category legend', () => {
               activeFill: 'pink',
               // 每一次更新，不是增量的
               activeOpacity: 0.8,
+              size: 8,
             },
           },
         },
@@ -762,6 +764,7 @@ describe('test category legend', () => {
       // left disabled
       expect(children[0].attr('fill')).toBe('green');
       expect(children[0].attr('opacity')).toBe(0.6);
+      expect(children[1].attr('fontSize')).toBe(8);
       // right arrow: \/
       // right arrow enabled
       expect(children[2].attr('opacity')).toBe(0.8);
@@ -769,6 +772,11 @@ describe('test category legend', () => {
 
       legend.update({
         pageNavigator: {
+          marker: {
+            style: {
+              size: 8,
+            }
+          },
           text: {
             style: {
               fill: 'green',

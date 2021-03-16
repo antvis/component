@@ -18,6 +18,7 @@ const DEFAULT_PAGE_NAVIGATOR = {
       opacity: 0.45,
       activeFill: '#000',
       activeOpacity: 1,
+      size: 12,
     },
   },
   text: {
@@ -471,7 +472,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     const itemSpacing = this.get('itemSpacing');
     const itemHeight = this.getItemHeight();
     const pageNavigator: LegendPageNavigatorCfg = deepMix({}, DEFAULT_PAGE_NAVIGATOR, this.get('pageNavigator'));
-    const navigation = this.drawNavigation(container, layout, '00/00', 12, pageNavigator);
+    const navigation = this.drawNavigation(container, layout, '00/00', pageNavigator);
     const navigationBBox = navigation.getBBox();
     const currentPoint = { x: startX, y: startY };
     let pages = 1;
@@ -584,7 +585,6 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     group: IGroup,
     layout: 'horizontal' | 'vertical',
     text: string,
-    size: number,
     styleCfg?: LegendPageNavigatorCfg
   ) {
     const currentPoint = { x: 0, y: 0 };
@@ -592,13 +592,14 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
       id: this.getElementId('navigation-group'),
       name: 'legend-navigation',
     });
+    const { size = 12, ...arrowStyle } = get(styleCfg.marker, 'style', {});
     const leftArrow = this.drawArrow(
       subGroup,
       currentPoint,
       'navigation-arrow-left',
       layout === 'horizontal' ? 'up' : 'left',
       size,
-      get(styleCfg.marker, 'style')
+      arrowStyle
     );
     leftArrow.on('click', this.onNavigationBack);
     const leftArrowBBox = leftArrow.getBBox();
@@ -627,7 +628,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
       'navigation-arrow-right',
       layout === 'horizontal' ? 'down' : 'right',
       size,
-      get(styleCfg.marker, 'style')
+      arrowStyle
     );
     rightArrow.on('click', this.onNavigationAfter);
 
