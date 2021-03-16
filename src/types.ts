@@ -598,6 +598,11 @@ export interface CategoryLegendCfg extends LegendBaseCfg {
    * @type {ListItem[]}
    */
   items: ListItem[];
+  /**
+   * 分页器配置
+   * @type {LegendPageNavigatorCfg}
+   */
+  flipNavigation: LegendPageNavigatorCfg;
 }
 
 export interface ContinueLegendCfg extends LegendBaseCfg {
@@ -793,6 +798,35 @@ export interface LegendMarkerCfg {
    */
   style?: ShapeAttrs;
 }
+
+/**
+ * 图例导航器，代指分页器
+ */
+export interface LegendPageNavigatorCfg {
+  marker?: {
+    style?: {
+      /** 分页导航器 icon 填充色, 默认 #000 */
+      fill?: string;
+      /** 分页导航器 icon 填充色 透明度, 默认 1 */
+      opacity?: number;
+      /** 分页导航器 icon 非激活时的填充色 */
+      inactiveFill?: string;
+      /** 分页导航器 icon 非激活时的填充色 透明度, 默认 0.45 */
+      inactiveOpacity?: number;
+      /** 分页器的大小 */
+      size?: number;
+    };
+  };
+  text?: {
+    style?: {
+      /** 分页导航器 文本 填充色，默认 #ccc */
+      fill?: string;
+      /** 字体大小, 默认 12px */
+      fontSize?: number;
+    };
+  };
+}
+
 export type TooltipPosition = 'top' | 'left' | 'right' | 'bottom' | 'auto';
 export interface TooltipCfg extends HtmlComponentCfg {
   /**
