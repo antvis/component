@@ -723,8 +723,8 @@ describe('test category legend', () => {
         pageNavigator: {
           marker: {
             style: {
-              fill: 'red',
-              activeOpacity: 0.8,
+              inactiveFill: 'red',
+              opacity: 0.8,
             },
           },
         },
@@ -746,11 +746,11 @@ describe('test category legend', () => {
         pageNavigator: {
           marker: {
             style: {
-              fill: 'green',
-              opacity: 0.6,
-              activeFill: 'pink',
+              inactiveFill: 'green',
+              inactiveOpacity: 0.6,
+              fill: 'pink',
               // 每一次更新，不是增量的
-              activeOpacity: 0.8,
+              opacity: 0.8,
               size: 8,
             },
           },
@@ -764,7 +764,7 @@ describe('test category legend', () => {
       // left disabled
       expect(children[0].attr('fill')).toBe('green');
       expect(children[0].attr('opacity')).toBe(0.6);
-      expect(children[1].attr('fontSize')).toBe(8);
+      expect(children[1].attr('fontSize')).toBe(12);
       // right arrow: \/
       // right arrow enabled
       expect(children[2].attr('opacity')).toBe(0.8);
@@ -775,12 +775,12 @@ describe('test category legend', () => {
           marker: {
             style: {
               size: 8,
-            }
+            },
           },
           text: {
             style: {
               fill: 'green',
-              fontSize: 10
+              fontSize: 10,
             },
           },
         },

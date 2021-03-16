@@ -807,12 +807,12 @@ export interface LegendPageNavigatorCfg {
     style?: {
       /** 分页导航器 icon 填充色, 默认 #000 */
       fill?: string;
-      /** 分页导航器 icon 填充色 透明度, 默认 0.45 */
+      /** 分页导航器 icon 填充色 透明度, 默认 1 */
       opacity?: string;
-      /** 分页导航器 icon 激活时的填充色 */
-      activeFill?: string;
-      /** 分页导航器 icon 激活时的填充色 透明度, 默认 1 */
-      activeOpacity?: string;
+      /** 分页导航器 icon 非激活时的填充色 */
+      inactiveFill?: string;
+      /** 分页导航器 icon 非激活时的填充色 透明度, 默认 0.45 */
+      inactiveOpacity?: string;
     };
   };
   text?: {

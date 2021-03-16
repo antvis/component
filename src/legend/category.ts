@@ -14,16 +14,17 @@ import LegendBase from './base';
 const DEFAULT_PAGE_NAVIGATOR = {
   marker: {
     style: {
+      inactiveFill: '#000',
+      inactiveOpacity: 0.45,
       fill: '#000',
-      opacity: 0.45,
-      activeFill: '#000',
-      activeOpacity: 1,
+      opacity: 1,
       size: 12,
     },
   },
   text: {
     style: {
       fill: '#ccc',
+      fontSize: 12,
     },
   },
 };
@@ -613,8 +614,6 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
         x: currentPoint.x,
         y: currentPoint.y + size / 2,
         text,
-        fontSize: size,
-        fill: '#ccc',
         textBaseline: 'middle',
         ...get(styleCfg.text, 'style'),
       },
@@ -637,7 +636,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
 
   private updateNavigation(navigation?: IGroup) {
     const pageNavigator: LegendPageNavigatorCfg = deepMix({}, DEFAULT_PAGE_NAVIGATOR, this.get('pageNavigator'));
-    const { fill, opacity, activeFill, activeOpacity } = get(pageNavigator.marker, 'style');
+    const { fill, opacity, inactiveFill, inactiveOpacity } = pageNavigator.marker.style;
 
     const text = `${this.currentPageIndex}/${this.totalPagesCnt}`;
     const textShape = navigation ? navigation.getChildren()[1] : this.getElementByLocalId('navigation-text');
@@ -652,12 +651,12 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     const newBBox = textShape.getBBox();
     textShape.attr('x', textShape.attr('x') - (newBBox.width - origBBox.width) / 2);
     // 更新 left-arrow marker
-    leftArrow.attr('opacity', this.currentPageIndex === 1 ? opacity : activeOpacity);
-    leftArrow.attr('fill', this.currentPageIndex === 1 ? fill : activeFill);
+    leftArrow.attr('opacity', this.currentPageIndex === 1 ? inactiveOpacity : opacity);
+    leftArrow.attr('fill', this.currentPageIndex === 1 ? inactiveFill : fill);
     leftArrow.attr('cursor', this.currentPageIndex === 1 ? 'not-allowed' : 'pointer');
     // 更新 right-arrow marker
-    rightArrow.attr('opacity', this.currentPageIndex === this.totalPagesCnt ? opacity : activeOpacity);
-    rightArrow.attr('fill', this.currentPageIndex === this.totalPagesCnt ? fill : activeFill);
+    rightArrow.attr('opacity', this.currentPageIndex === this.totalPagesCnt ? inactiveOpacity : opacity);
+    rightArrow.attr('fill', this.currentPageIndex === this.totalPagesCnt ? inactiveFill : fill);
     rightArrow.attr('cursor', this.currentPageIndex === this.totalPagesCnt ? 'not-allowed' : 'pointer');
   }
 
@@ -682,7 +681,6 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
       name,
       attrs: {
         path: [['M', x + size / 2, y], ['L', x, y + size], ['L', x + size, y + size], ['Z']],
-        fill: '#000',
         cursor: 'pointer',
         ...style,
       },
