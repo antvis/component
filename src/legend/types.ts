@@ -1,8 +1,8 @@
 /**
  * @file typings of legend
  */
-import { ShapeAttrs } from "@antv/g-base";
-import { formatterCallback, GroupComponentCfg, ListItem } from "../types";
+import { ShapeAttrs } from '@antv/g-base';
+import { formatterCallback, GroupComponentCfg, ListItem } from '../types';
 
 export interface LegendBaseCfg extends GroupComponentCfg {
   /**
@@ -189,6 +189,11 @@ export interface ContinueLegendLabelCfg {
    * @type {string}
    */
   align?: string;
+  /**
+   * 文本格式化
+   * @type {string}
+   */
+  formatter?: (text: string | number | null) => string;
   /**
    * 文本同滑轨的距离
    * @type {number}
