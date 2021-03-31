@@ -1,33 +1,11 @@
 import { IGroup } from '@antv/g-base';
 import { clamp, deepMix, each, filter, get, mix } from '@antv/util';
+import { getMatrixByAngle, getMatrixByTranslate, getStatesStyle, ellipsisLabel } from '../util';
 import { IList } from '../interfaces';
-import { CategoryLegendCfg, LegendPageNavigatorCfg, LegendItemNameCfg, LegendMarkerCfg, ListItem } from '../types';
-import { ellipsisLabel } from '../util/label';
-import { getMatrixByAngle, getMatrixByTranslate } from '../util/matrix';
-import { getStatesStyle } from '../util/state';
-import Theme from '../util/theme';
+import { ListItem } from '../types';
 import LegendBase from './base';
-
-/**
- * 分页器 默认配置
- */
-const DEFAULT_PAGE_NAVIGATOR = {
-  marker: {
-    style: {
-      inactiveFill: '#000',
-      inactiveOpacity: 0.45,
-      fill: '#000',
-      opacity: 1,
-      size: 12,
-    },
-  },
-  text: {
-    style: {
-      fill: '#ccc',
-      fontSize: 12,
-    },
-  },
-};
+import { CATEGORY_LEGEND_DEFAULT_CFG, DEFAULT_PAGE_NAVIGATOR } from './constant';
+import { CategoryLegendCfg, LegendPageNavigatorCfg, LegendItemNameCfg, LegendMarkerCfg } from './types';
 
 class Category extends LegendBase<CategoryLegendCfg> implements IList {
   private currentPageIndex = 1;
@@ -43,94 +21,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
       ...cfg,
       name: 'legend',
       type: 'category',
-      itemSpacing: 24,
-      itemMarginBottom: 8,
-      maxItemWidth: null,
-      itemWidth: null,
-      itemHeight: null,
-      itemName: {},
-      itemValue: null,
-      maxWidth: null,
-      maxHeight: null,
-      marker: {},
-      items: [],
-      itemStates: {},
-      itemBackground: {},
-      pageNavigator: {},
-      defaultCfg: {
-        title: {
-          spacing: 5,
-          style: {
-            fill: Theme.textColor,
-            fontSize: 12,
-            textAlign: 'start',
-            textBaseline: 'top',
-          },
-        },
-        background: {
-          padding: 5,
-          style: {
-            stroke: Theme.lineColor,
-          },
-        },
-        itemBackground: {
-          style: {
-            opacity: 0,
-            fill: '#fff',
-          },
-        },
-        pageNavigator: DEFAULT_PAGE_NAVIGATOR,
-        itemName: {
-          spacing: 16, // 如果右边有 value 使用这个间距
-          style: {
-            fill: Theme.textColor,
-            fontSize: 12,
-            textAlign: 'start',
-            textBaseline: 'middle',
-          },
-        },
-        marker: {
-          spacing: 8,
-          style: {
-            r: 6,
-            symbol: 'circle',
-          },
-        },
-        itemValue: {
-          alignRight: false, // 只有itemWidth 不为 null 时此属性有效
-          formatter: null,
-          style: {
-            fill: Theme.textColor,
-            fontSize: 12,
-            textAlign: 'start',
-            textBaseline: 'middle',
-          },
-        },
-        itemStates: {
-          active: {
-            nameStyle: {
-              opacity: 0.8,
-            },
-          },
-          unchecked: {
-            nameStyle: {
-              fill: Theme.uncheckedColor,
-            },
-            markerStyle: {
-              fill: Theme.uncheckedColor,
-              stroke: Theme.uncheckedColor,
-            },
-          },
-          inactive: {
-            nameStyle: {
-              fill: Theme.uncheckedColor,
-            },
-            markerStyle: {
-              opacity: 0.2,
-            },
-          },
-        },
-      },
+      ...CATEGORY_LEGEND_DEFAULT_CFG,
     };
   }
 
