@@ -303,6 +303,24 @@ describe('test continue legend', () => {
       );
     });
 
+    it('add label formatter', () => {
+      let minLabel = legend.getElementById('b-legend-label-min');
+      let maxLabel = legend.getElementById('b-legend-label-max');
+      expect(minLabel.attr('text')).toBe(100);
+      expect(maxLabel.attr('text')).toBe(500);
+
+      legend.update({
+        label: {
+          formatter: (text) => `${text}%`,
+        },
+      });
+      legend.render();
+      minLabel = legend.getElementById('b-legend-label-min');
+      maxLabel = legend.getElementById('b-legend-label-max');
+      expect(minLabel.attr('text')).toBe('100%');
+      expect(maxLabel.attr('text')).toBe('500%');
+    });
+
     it('change value', () => {
       legend.update({
         min: 100,

@@ -1,5 +1,5 @@
 import { IElement, IGroup } from '@antv/g-base';
-import { clone, mix, upperFirst } from '@antv/util';
+import { clone, isFunction, mix, upperFirst } from '@antv/util';
 import { ISlider } from '../interfaces';
 import { BBox, ContinueLegendCfg } from '../types';
 import Theme from '../util/theme';
@@ -205,6 +205,7 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> implements ISlider {
     const labelCfg = this.get('label');
     const style = labelCfg.style;
     const labelAlign = labelCfg.align;
+    const labelFormatter = labelCfg.formatter;
     const value = this.get(name);
     const alignAttrs = this.getLabelAlignAttrs(name, labelAlign);
     const localId = `label-${name}`;
@@ -215,7 +216,7 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> implements ISlider {
       attrs: {
         x: 0,
         y: 0,
-        text: value,
+        text: isFunction(labelFormatter) ? labelFormatter(value) : value,
         ...style,
         ...alignAttrs,
       },
