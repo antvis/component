@@ -707,6 +707,11 @@ export interface ContinueLegendLabelCfg {
    */
   align?: string;
   /**
+   * 文本格式化
+   * @type {string}
+   */
+  formatter?: (text: string | number | null) => string;
+  /**
    * 文本同滑轨的距离
    * @type {number}
    */
