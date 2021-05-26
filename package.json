@@ -35,6 +35,8 @@
     "GUI"
   ],
   "dependencies": {
+    "@antv/g": "^3.4.10",
+    "@antv/g-canvas": "^0.5.10",
     "@antv/util": "^2.0.13"
   },
   "devDependencies": {
