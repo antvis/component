@@ -592,7 +592,7 @@ export interface CategoryLegendCfg extends LegendBaseCfg {
    * 图例项的 marker 图标的配置
    * @type {LegendMarkerCfg}
    */
-  marker?: LegendMarkerCfg;
+  marker?: LegendMarkerCfg | LegendMarkerCfgCallback;
   /**
    * 图例项集合
    * @type {ListItem[]}
@@ -803,6 +803,11 @@ export interface LegendMarkerCfg {
    */
   style?: ShapeAttrs;
 }
+
+/**
+ * @param {String} text - itemName 图例名称
+ */
+export type LegendMarkerCfgCallback = (text: string, index: number, item: ListItem) => LegendMarkerCfg;
 
 /**
  * 图例导航器，代指分页器

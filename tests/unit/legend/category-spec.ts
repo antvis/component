@@ -1096,4 +1096,87 @@ describe('test category legend', () => {
       expect(legend.destroyed).toBe(true);
     });
   });
+
+  describe('legend: marker', () => {
+    const items = [
+      { name: '111111', value: 1 },
+      { name: '222222', value: 2 },
+      { name: '333333', value: 13 },
+    ];
+    const container = canvas.addGroup();
+    const legend = new CategroyLegend({
+      id: 'd',
+      container,
+      layout: 'vertical',
+      itemBackground: null,
+      updateAutoRender: true,
+      x: 100,
+      y: 100,
+      items,
+      marker: {
+        symbol: 'circle',
+        style: {
+          fill: 'lightgreen',
+        },
+      },
+    });
+    legend.init();
+    legend.render();
+
+    it('default', () => {
+      let item1 = legend.getElementsByName('legend-item-marker')[0];
+      expect(item1.attr('fill')).toBe('lightgreen');
+      expect(item1.attr('symbol')).toBe('circle');
+
+      legend.update({
+        marker: {
+          symbol: 'square',
+          style: { fill: 'blue' },
+        },
+      });
+      item1 = legend.getElementsByName('legend-item-marker')[0];
+      expect(item1.attr('fill')).toBe('blue');
+      expect(item1.attr('symbol')).toBe('square');
+    });
+
+    it('callback', () => {
+      legend.update({
+        marker: (text, index, item) => {
+          return {
+            symbol: 'diamond',
+            style: { fill: index === 0 ? 'red' : 'purple' },
+          };
+        },
+      });
+      let item1 = legend.getElementsByName('legend-item-marker')[0];
+      let item2 = legend.getElementsByName('legend-item-marker')[1];
+
+      expect(item1.get('type')).toBe('marker');
+      expect(item1.attr('fill')).toBe('red');
+      expect(item2.attr('fill')).toBe('purple');
+      expect(item1.attr('symbol')).toBe('diamond');
+    });
+
+    it('marker: symbol with callback', () => {
+      legend.update({
+        marker: {
+          symbol: (x: number, y: number, r: number = 5.5) => {
+            return [['M', x - r, y - 2], ['L', x + r, y - 2], ['L', x + r, y + 2], ['L', x - r, y + 4], ['Z']];
+          },
+          style: { fill: 'green' },
+        },
+      });
+      let item1 = legend.getElementsByName('legend-item-marker')[0];
+      let item2 = legend.getElementsByName('legend-item-marker')[1];
+      expect(item1.attr('fill')).toBe('green');
+      expect(item2.attr('fill')).toBe('green');
+      expect(typeof item1.attr('symbol')).toBe('function');
+      expect(typeof item2.attr('symbol')).toBe('function');
+    });
+
+    it('destroy', () => {
+      legend.destroy();
+      expect(legend.destroyed).toBe(true);
+    });
+  });
 });

@@ -1,5 +1,5 @@
 import { Base } from '@antv/g-base';
-import { deepMix, each, hasKey, isObject } from '@antv/util';
+import { deepMix, each, hasKey, isFunction, isObject } from '@antv/util';
 import { ILocation } from '../interfaces';
 import { BBox, ComponentCfg, LocationCfg, OffsetPoint } from '../types';
 const LOCATION_FIELD_MAP = {
@@ -71,7 +71,7 @@ abstract class Component<T extends ComponentCfg = ComponentCfg> extends Base imp
       let newCfg = value;
       if (originCfg !== value) {
         // 判断两者是否相等，主要是进行 null 的判定
-        if (isObject(value) && defaultCfg[name]) {
+        if ((isObject(value) && !isFunction(value)) && defaultCfg[name]) {
           // 新设置的属性与默认值进行合并
           newCfg = deepMix({}, defaultCfg[name], value);
         }

@@ -1,5 +1,5 @@
 import { IGroup } from '@antv/g-base';
-import { clamp, deepMix, each, filter, get, mix } from '@antv/util';
+import { clamp, deepMix, each, filter, get, isFunction, mix } from '@antv/util';
 import { IList } from '../interfaces';
 import { CategoryLegendCfg, LegendPageNavigatorCfg, LegendItemNameCfg, LegendMarkerCfg, ListItem } from '../types';
 import { ellipsisLabel } from '../util/label';
@@ -91,9 +91,9 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
         },
         marker: {
           spacing: 8,
+          symbol: 'circle',
           style: {
             r: 6,
-            symbol: 'circle',
           },
         },
         itemValue: {
@@ -337,7 +337,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
       x: 0,
       y: itemHeight / 2,
       ...markerCfg.style,
-      symbol: get(item.marker, 'symbol', 'circle'),
+      symbol: get(item.marker, 'symbol') || get(markerCfg, 'symbol', 'circle'),
       ...get(item.marker, 'style', {}),
     };
 
@@ -413,7 +413,11 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
 
     let curX = 0; // 记录当前 x 的位置
     if (marker) {
-      const markerShape = this.drawMarker(subGroup, marker, item, itemHeight);
+      let markerCfg = marker;
+      if (isFunction(markerCfg)) {
+        markerCfg = deepMix({}, this.get('defaultCfg').marker, markerCfg(itemName, index, item));
+      }
+      const markerShape = this.drawMarker(subGroup, markerCfg, item, itemHeight);
       curX = markerShape.getBBox().maxX + marker.spacing;
     }
 
