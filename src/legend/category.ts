@@ -1,5 +1,5 @@
 import { IGroup } from '@antv/g-base';
-import { clamp, deepMix, each, filter, get, mix } from '@antv/util';
+import { clamp, deepMix, each, filter, get, mix, isFunction } from '@antv/util';
 import { IList } from '../interfaces';
 import { CategoryLegendCfg, LegendPageNavigatorCfg, LegendItemNameCfg, LegendMarkerCfg, ListItem } from '../types';
 import { ellipsisLabel } from '../util/label';
@@ -371,11 +371,13 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     index: number
   ) {
     const formatter = cfg.formatter;
+    const style = cfg.style;
     const attrs = {
       x: xPosition,
       y: itemHeight / 2,
       text: formatter ? formatter(item[textName], item, index) : item[textName],
       ...cfg.style,
+      ...(isFunction(style) ? style.apply(null, [item[textName], item, index]) : style),
     };
     return this.addShape(container, {
       type: 'text',
