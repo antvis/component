@@ -1,3 +1,10 @@
+#### 0.8.12 (2021-06-03)
+
+##### New Features
+
+- **legend:**
+  - 图例 itemName, itemValue 支持回调方法 ([#227](https://github.com/antvis/component/pull/227)) ([f67dad81](https://github.com/antvis/component/commit/f67dad813eb363e4ff37338761a84915865f1c4e))
+
 #### 0.8.4 (2020-12-17)
 
 #### New Features
