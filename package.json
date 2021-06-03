@@ -1,6 +1,6 @@
 {
   "name": "@antv/component",
-  "version": "0.8.11",
+  "version": "0.8.12",
   "description": "The component module for antv",
   "author": "https://github.com/orgs/antvis/people",
   "license": "MIT",
@@ -32,6 +32,7 @@
     "coverage": "jest --coverage",
     "test": "jest",
     "test-live": "DEBUG_MODE=1 jest --watch tests",
+    "changelog": "generate-changelog",
     "ci": "run-s build test coverage",
     "prepublishOnly": "npm-run-all --parallel test build"
   },
@@ -44,6 +45,7 @@
     "@antv/color-util": "^2.0.3",
     "@antv/g-canvas": "0.5.6",
     "@types/jest": "^24.0.18",
+    "generate-changelog": "^1.8.0",
     "husky": "^3.0.4",
     "jest": "^24.9.0",
     "jest-electron": "^0.1.6",
