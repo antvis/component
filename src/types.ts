@@ -764,7 +764,7 @@ export interface LegendItemNameCfg {
    * 文本配置项
    * @type {ShapeAttrs}
    */
-  style?: ShapeAttrs | ShapeAttrsCallback;
+  style?: ShapeAttrs;
 }
 
 type formatterCallback = (text: string, item: ListItem, index: number) => any;
@@ -784,7 +784,7 @@ export interface LegendItemValueCfg {
    * 图例项附加值的配置
    * @type {ShapeAttrs}
    */
-  style?: ShapeAttrs | ShapeAttrsCallback;
+  style?: ShapeAttrs;
 }
 
 export interface LegendMarkerCfg {
