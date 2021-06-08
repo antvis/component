@@ -1,4 +1,4 @@
-import { SheetOptions  } from './types';
+import { SheetOptions } from './types';
 
 export { SheetOptions };
 

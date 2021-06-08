@@ -1,4 +1,4 @@
-import { AxisOptions  } from './types';
+import { AxisOptions } from './types';
 
 export { AxisOptions };
 

@@ -1,4 +1,4 @@
-import { LegendOptions  } from './types';
+import { LegendOptions } from './types';
 
 export { LegendOptions };
 

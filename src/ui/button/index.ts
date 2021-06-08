@@ -1,4 +1,4 @@
-import { ButtonOptions  } from './types';
+import { ButtonOptions } from './types';
 
 export { ButtonOptions };
 

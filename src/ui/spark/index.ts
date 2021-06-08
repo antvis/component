@@ -1,4 +1,4 @@
-import { SparkOptions  } from './types';
+import { SparkOptions } from './types';
 
 export { SparkOptions };
 

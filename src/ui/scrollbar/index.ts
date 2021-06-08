@@ -1,4 +1,4 @@
-import { ScrollbarOptions  } from './types';
+import { ScrollbarOptions } from './types';
 
 export { ScrollbarOptions };
 

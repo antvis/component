@@ -1,4 +1,4 @@
-import { ArrowOptions  } from './types';
+import { ArrowOptions } from './types';
 
 export { ArrowOptions };
 

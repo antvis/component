@@ -1,4 +1,4 @@
-import { TimelineOptions  } from './types';
+import { TimelineOptions } from './types';
 
 export { TimelineOptions };
 

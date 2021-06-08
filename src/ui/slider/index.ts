@@ -1,4 +1,4 @@
-import { SliderOptions  } from './types';
+import { SliderOptions } from './types';
 
 export { SliderOptions };
 
