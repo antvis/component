@@ -1,11 +1,16 @@
-# Arrow
+---
+title: Icon
+order: 2
+---
 
-> A mark or sign like an arrow (→), used to show direction or position.
+# Icon
+
+> An icon with text description for clicking.
 
 ## Usage
 
 ```ts
-import { Arrow } from '@antv/gui';
+import { Icon } from '@antv/gui';
 ```
 
 ## Options

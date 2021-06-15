@@ -14,12 +14,16 @@
     "dist"
   ],
   "scripts": {
+    "start": "gatsby clean && npm run site:develop",
+    "site:develop": "PORT=3000 gatsby develop --open -H 0.0.0.0",
+    "site:build": "npm run site:clean && gatsby build --prefix-paths",
     "clean": "rimraf lib esm dist",
     "lint-staged": "lint-staged",
     "size": "limit-size",
     "lint": "eslint ./src/**/*.ts ./__tests__/**/*.ts && prettier ./src ./__tests__ --check ",
     "fix": "eslint ./src/**/*.ts ./__tests__/**/*.ts --fix && prettier ./src ./__tests__ --write ",
     "test": "jest",
+    "test-live": "DEBUG_MODE=1 jest --watch ./__tests__",
     "build": "father-build & limit-size",
     "ci": "run-s lint test build",
     "prepublishOnly": "npm run ci",
@@ -35,7 +39,11 @@
     "@antv/g": "^1.0.0-alpha.0",
     "@antv/g-canvas": "^1.0.0-alpha.0",
     "@antv/util": "^2.0.13",
-    "svg-path-parser": "^1.1.0"
+    "svg-path-parser": "^1.1.0",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "react-i18next": "^11.7.0",
+    "@antv/gatsby-theme-antv": "^1.1.5"
   },
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
@@ -51,6 +59,7 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.3.1",
     "father-build": "^1.19.6",
+    "gatsby": "^2.24.63",
     "husky": "^5.0.9",
     "jest": "^26.6.3",
     "jest-electron": "^0.1.11",
@@ -70,6 +79,9 @@
     "preset": "ts-jest",
     "collectCoverage": true,
     "testRegex": "(/__tests__/.*\\.(test|spec))\\.ts$",
+    "setupFilesAfterEnv": [
+      "./jest.setup.js"
+    ],
     "collectCoverageFrom": [
       "src/**/*.ts"
     ]
@@ -102,5 +114,10 @@
   },
   "bugs": {
     "url": "https://github.com/antvis/gui/issues"
+  },
+  "resolutions": {
+    "monaco-editor": "0.21.3",
+    "@babel/plugin-transform-spread": "7.12.1",
+    "@babel/standalone": "7.12.6"
   }
 }

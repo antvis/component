@@ -1,0 +1,24 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "triangle.ts",
+      "title": {
+        "zh": "三角形 marker",
+        "en": "Triangle marker"
+      },
+      "screenshot": ""
+    },
+    {
+      "filename": "register-symbol.ts",
+      "title": {
+        "zh": "自定义 marker symbol",
+        "en": "Register marker symbol"
+      },
+      "screenshot": ""
+    }
+  ]
+}
