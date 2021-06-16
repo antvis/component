@@ -43,6 +43,7 @@
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-i18next": "^11.7.0",
+    "babel-polyfill": "^6.26.0",
     "@antv/gatsby-theme-antv": "^1.1.5"
   },
   "devDependencies": {
@@ -51,7 +52,6 @@
     "@types/jest": "^26.0.20",
     "@typescript-eslint/eslint-plugin": "^4.18.0",
     "@typescript-eslint/parser": "^4.19.0",
-    "babel-polyfill": "^6.26.0",
     "eslint": "^7.22.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.1.0",
@@ -79,9 +79,6 @@
     "preset": "ts-jest",
     "collectCoverage": true,
     "testRegex": "(/__tests__/.*\\.(test|spec))\\.ts$",
-    "setupFilesAfterEnv": [
-      "./jest.setup.js"
-    ],
     "collectCoverageFrom": [
       "src/**/*.ts"
     ]
