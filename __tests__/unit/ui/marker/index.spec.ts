@@ -1,4 +1,3 @@
-import 'babel-polyfill';
 import { Canvas } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Marker, svg2marker } from '../../../../src';
