@@ -24,7 +24,7 @@
     "fix": "eslint ./src/**/*.ts ./__tests__/**/*.ts --fix && prettier ./src ./__tests__ --write ",
     "test": "jest",
     "test-live": "DEBUG_MODE=1 jest --watch ./__tests__",
-    "build": "father-build & limit-size",
+    "build": "father-build && limit-size",
     "ci": "run-s lint test build",
     "prepublishOnly": "npm run ci",
     "prepare": "husky install"
@@ -41,9 +41,6 @@
     "@antv/gatsby-theme-antv": "^1.1.5",
     "@antv/util": "^2.0.13",
     "csstype": "^3.0.8",
-    "react": "^16.11.0",
-    "react-dom": "^16.11.0",
-    "react-i18next": "^11.7.0",
     "svg-path-parser": "^1.1.0"
   },
   "devDependencies": {
@@ -72,7 +69,10 @@
     "rimraf": "^3.0.2",
     "ts-jest": "^26.5.1",
     "tslib": "^2.2.0",
-    "typescript": "^4.1.5"
+    "typescript": "^4.1.5",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "react-i18next": "^11.7.0"
   },
   "jest": {
     "runner": "jest-electron/runner",
@@ -81,7 +81,6 @@
     "preset": "ts-jest",
     "collectCoverage": true,
     "testRegex": "(/__tests__/.*\\.(test|spec))\\.ts$",
-
     "setupFilesAfterEnv": [
       "./jest.setup.js"
     ],
