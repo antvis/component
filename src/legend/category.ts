@@ -1,5 +1,5 @@
 import { IGroup } from '@antv/g-base';
-import { clamp, deepMix, each, filter, get, mix } from '@antv/util';
+import { clamp, deepMix, each, filter, get, mix, isNumber } from '@antv/util';
 import { IList } from '../interfaces';
 import { CategoryLegendCfg, LegendPageNavigatorCfg, LegendItemNameCfg, LegendMarkerCfg, ListItem } from '../types';
 import { ellipsisLabel } from '../util/label';
@@ -414,7 +414,13 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     let curX = 0; // 记录当前 x 的位置
     if (marker) {
       const markerShape = this.drawMarker(subGroup, marker, item, itemHeight);
-      curX = markerShape.getBBox().maxX + marker.spacing;
+      const itemMarkerSpacing = get(item, ['marker', 'spacing']);
+      if (isNumber(itemMarkerSpacing) && itemMarkerSpacing !== marker.spacing) {
+        // 如果 item 的特异配置 marker.spacing 和 通用配置 marker.spacing 不一致，采用 item 的配置
+        curX = markerShape.getBBox().maxX + itemMarkerSpacing;
+      } else {
+        curX = markerShape.getBBox().maxX + marker.spacing;
+      }
     }
 
     if (itemName) {
@@ -696,13 +702,13 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     const translate =
       layout === 'horizontal'
         ? {
-            x: 0,
-            y: pageHeight * (1 - currentPageIndex),
-          }
+          x: 0,
+          y: pageHeight * (1 - currentPageIndex),
+        }
         : {
-            x: pageWidth * (1 - currentPageIndex),
-            y: 0,
-          };
+          x: pageWidth * (1 - currentPageIndex),
+          y: 0,
+        };
 
     return getMatrixByTranslate(translate);
   }
