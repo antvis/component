@@ -9,5 +9,5 @@ export { Legend, LegendOptions } from './legend';
 export { Scrollbar, ScrollbarOptions } from './scrollbar';
 export { Sheet, SheetOptions } from './sheet';
 export { Slider, SliderOptions } from './slider';
-export { Spark, SparkOptions } from './spark';
+export { Sparkline, SparklineOptions } from './sparkline';
 export { Timeline, TimelineOptions } from './timeline';
