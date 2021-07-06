@@ -255,6 +255,11 @@ export interface AxisTitleCfg {
    * @type {string}
    */
   text?: string;
+  /**
+   * 文本对齐方式
+   * @type {string} start, center, end
+   */
+   position?: string;
 }
 
 export interface BaseCfg {
