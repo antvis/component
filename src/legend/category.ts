@@ -1,5 +1,5 @@
 import { IGroup } from '@antv/g-base';
-import { clamp, deepMix, each, filter, get, mix } from '@antv/util';
+import { clamp, deepMix, each, filter, get, mix, isNumber } from '@antv/util';
 import { IList } from '../interfaces';
 import { CategoryLegendCfg, LegendPageNavigatorCfg, LegendItemNameCfg, LegendMarkerCfg, ListItem } from '../types';
 import { ellipsisLabel } from '../util/label';
@@ -414,7 +414,15 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     let curX = 0; // 记录当前 x 的位置
     if (marker) {
       const markerShape = this.drawMarker(subGroup, marker, item, itemHeight);
-      curX = markerShape.getBBox().maxX + marker.spacing;
+      let spacing = marker.spacing;
+      const itemMarkerSpacing = get(item, ['marker', 'spacing']);
+
+      if (isNumber(itemMarkerSpacing)) {
+        // 如果 item 有配置 marker.spacing，采用 item 的配置
+        spacing = itemMarkerSpacing;
+      }
+
+      curX = markerShape.getBBox().maxX + spacing;
     }
 
     if (itemName) {

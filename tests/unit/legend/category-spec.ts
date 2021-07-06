@@ -1096,4 +1096,89 @@ describe('test category legend', () => {
       expect(legend.destroyed).toBe(true);
     });
   });
+
+  describe('test marker', () => {
+    const container = canvas.addGroup();
+    const originItems = [
+      { name: 'a', value: 1 },
+      { name: 'b', value: 2 },
+      { name: 'c', value: 3 },
+      { name: 'd', value: 4 },
+    ];
+    const legend = new CategroyLegend({
+      id: 'c',
+      container,
+      x: 100,
+      y: 100,
+      items: originItems,
+      updateAutoRender: true,
+      itemBackground: null,
+    });
+    legend.init();
+
+    it('common marker config', () => {
+      const marker = {
+        spacing: 100,
+        symbol: 'circle',
+        style: {
+          r: 4,
+          fill: "#eee",
+        }
+      }
+      legend.update({
+        marker: marker
+      });
+
+      originItems.forEach(item => {
+        const itemGroup = legend.getElementById(`c-legend-item-${item.name}`)
+        const markerElement = itemGroup.getChildren()[0];
+        const textElement = itemGroup.getChildren()[1];
+        expect(textElement.getBBox().minX - markerElement.getBBox().minX).toBe(
+          markerElement.getBBox().maxX + marker.spacing
+        );
+        expect(markerElement.attrs.fill).toBe(marker.style.fill);
+        expect(markerElement.attrs.r).toBe(marker.style.r);
+        expect(markerElement.attrs.symbol).toBe(marker.symbol);
+      })
+    })
+
+    it('item has marker config', () => {
+      const marker = {
+        spacing: 100,
+        symbol: 'circle',
+        style: {
+          r: 4,
+          fill: "#eee",
+        }
+      }
+      const newItem = [
+        { name: 'a', value: 1, marker: { spacing: 10, symbol: 'circle', style: { r: 4, fill: 'red' } } },
+        { name: 'b', value: 2, marker: { spacing: 20, symbol: 'square', style: { r: 5, fill: 'red' } } },
+        { name: 'c', value: 3, marker: { spacing: 30, symbol: 'triangle', style: { r: 6, fill: 'blue' } } },
+        { name: 'd', value: 4 },
+      ]
+      legend.update({
+        marker: marker,
+        items: newItem,
+      });
+
+      newItem.forEach(item => {
+        const itemGroup = legend.getElementById(`c-legend-item-${item.name}`)
+        const markerElement = itemGroup.getChildren()[0];
+        const textElement = itemGroup.getChildren()[1];
+        const markerObj = item.marker || marker;
+        expect(textElement.getBBox().minX - markerElement.getBBox().minX).toBe(
+          markerElement.getBBox().maxX + markerObj.spacing
+        );
+        expect(markerElement.attrs.fill).toBe(markerObj.style.fill);
+        expect(markerElement.attrs.r).toBe(markerObj.style.r);
+        expect(markerElement.attrs.symbol).toBe(markerObj.symbol);
+      })
+    })
+
+    it('destroy', () => {
+      legend.destroy();
+      expect(legend.destroyed).toBe(true);
+    });
+  })
 });
