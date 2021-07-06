@@ -20,23 +20,9 @@ export type Scales = {
 );
 
 /**
- * 数据转换为堆叠数据
- */
-export function getStackedData(data: Data) {
-  // 生成堆叠数据
-  for (let i = 1; i < data.length; i += 1) {
-    const datum = data[i];
-    for (let j = 0; j < datum.length; j += 1) {
-      datum[j] += data[i - 1][j];
-    }
-  }
-  return data;
-}
-
-/**
  * 根据数据获得每条线各点x，y值
  */
-export function dataToLines(data: Data, scales: Scales) {
+export function dataToLines(data: Data, scales: Scales): Line[] {
   const { x, y } = scales;
   return data.map((points) => {
     const _ = points.map((val: number, idx: number) => {
@@ -50,7 +36,8 @@ export function dataToLines(data: Data, scales: Scales) {
  * 根据线的点数据生成折线path
  */
 export function lineToLinePath(line: Line, reverse = false) {
-  const _ = line.map((point: Point, idx: number) => [idx === 0 ? 'M' : 'L', ...point]) as PathCommand[];
+  const M = reverse ? line.length - 1 : 0;
+  const _ = line.map((point: Point, idx: number) => [idx === M ? 'M' : 'L', ...point]) as PathCommand[];
   return reverse ? _.reverse() : _;
 }
 
@@ -73,7 +60,7 @@ export function lineToCurvePath(line: Line, reverse = false) {
   }
   const path = catmullRom2Bezier(data, false);
   if (reverse) {
-    path.push(['M', ...line[0]], ['M', 0, 0]);
+    path.unshift(['M', ...line[len - 1]]);
   } else {
     path.unshift(['M', 0, 0], ['M', ...line[0]]);
   }
@@ -83,7 +70,7 @@ export function lineToCurvePath(line: Line, reverse = false) {
 /**
  * 根据baseline将path闭合
  */
-function closePathByBaseLine(path: PathCommand[], width: number, baseline: number) {
+export function closePathByBaseLine(path: PathCommand[], width: number, baseline: number) {
   const _ = clone(path);
   _.push(['L', width, baseline], ['L', 0, baseline], ['Z']);
   return _;
@@ -99,6 +86,9 @@ export function linesToAreaPaths(lines: Line[], smooth: boolean, width: number, 
   });
 }
 
+/**
+ * 生成折线堆叠区域封闭图形路径
+ */
 export function linesToStackAreaPaths(lines: Line[], width: number, baseline: number) {
   const paths: PathCommand[][] = [];
   for (let idx = lines.length - 1; idx >= 0; idx -= 1) {
@@ -112,7 +102,7 @@ export function linesToStackAreaPaths(lines: Line[], width: number, baseline: nu
       // 计算下一根曲线的反向路径
       const belowLine = lines[idx - 1];
       const belowCurvePath = lineToLinePath(belowLine, true);
-      belowCurvePath[belowCurvePath.length - 1][0] = 'L';
+      belowCurvePath[0][0] = 'L';
 
       // 连接路径
       path = [...currCurvePath, ...belowCurvePath, ['Z']];
@@ -124,7 +114,7 @@ export function linesToStackAreaPaths(lines: Line[], width: number, baseline: nu
 }
 
 /**
- * 将多条线数据生成区域堆积图
+ * 生成曲线堆叠区域封闭图形路径
  */
 export function linesToStackCurveAreaPaths(lines: Line[], width: number, baseline: number) {
   const paths: PathCommand[][] = [];
@@ -139,8 +129,9 @@ export function linesToStackCurveAreaPaths(lines: Line[], width: number, baselin
       // 计算下一根曲线的反向路径
       const belowLine = lines[idx - 1];
       const belowCurvePath = lineToCurvePath(belowLine, true);
+
       // TODO: shift 是为了移除 M 0 0标记
-      belowCurvePath.pop();
+      // belowCurvePath.pop();
       /**
        * 将线条连接成闭合路径
        *  M C C C C C
@@ -156,7 +147,7 @@ export function linesToStackCurveAreaPaths(lines: Line[], width: number, baselin
       // const D = belowLine[0];
 
       // 将反向曲线开头 M X Y 改为 L X Y
-      // belowCurvePath[0][0] = 'L';
+      belowCurvePath[0][0] = 'L';
       // 连接路径
       path = [...currCurvePath, ...belowCurvePath, ['M', ...A], ['Z']];
     }

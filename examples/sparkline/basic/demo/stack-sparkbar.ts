@@ -11,7 +11,7 @@ const renderer = new CanvasRenderer({
 // @ts-ignore
 const canvas = new Canvas({
   container: 'container',
-  width: 300,
+  width: 350,
   height: 300,
   renderer,
 });
@@ -21,7 +21,7 @@ const sparkbar = new Sparkline({
     x: 10,
     y: 10,
     type: 'column',
-    width: 250,
+    width: 300,
     height: 40,
     isStack: true,
     isGroup: true,

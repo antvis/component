@@ -50,7 +50,7 @@ describe('sparkline', () => {
     expect(path0[5][2]).toBe(y(10));
 
     canvas.appendChild(sparkline);
-    // sparkline.destroy();
+    sparkline.destroy();
   });
 
   test('stack line', () => {
@@ -81,7 +81,7 @@ describe('sparkline', () => {
     });
 
     canvas.appendChild(sparkline);
-    // sparkline.destroy();
+    sparkline.destroy();
   });
 
   test('stack curve', () => {
@@ -112,7 +112,7 @@ describe('sparkline', () => {
     });
 
     canvas.appendChild(sparkline);
-    // sparkline.destroy();
+    sparkline.destroy();
   });
 
   test('area line', () => {
@@ -146,7 +146,7 @@ describe('sparkline', () => {
     });
 
     canvas.appendChild(sparkline);
-    // sparkline.destroy();
+    sparkline.destroy();
   });
 
   test('area curve', () => {
@@ -180,7 +180,7 @@ describe('sparkline', () => {
     });
 
     canvas.appendChild(sparkline);
-    // sparkline.destroy();
+    sparkline.destroy();
   });
 
   test('area stack line', () => {
@@ -215,7 +215,7 @@ describe('sparkline', () => {
     });
 
     canvas.appendChild(sparkline);
-    // sparkline.destroy();
+    sparkline.destroy();
   });
   test('area stack curve', () => {
     const div = createDiv();
@@ -249,7 +249,7 @@ describe('sparkline', () => {
     });
 
     canvas.appendChild(sparkline);
-    // sparkline.destroy();
+    sparkline.destroy();
   });
 
   test('basic bar', () => {
@@ -279,7 +279,7 @@ describe('sparkline', () => {
     });
 
     canvas.appendChild(sparkline);
-    // sparkline.destroy();
+    sparkline.destroy();
   });
 
   test('stack bar', () => {
@@ -310,7 +310,7 @@ describe('sparkline', () => {
     });
 
     canvas.appendChild(sparkline);
-    // sparkline.destroy();
+    sparkline.destroy();
   });
   test('group bar', () => {
     const div = createDiv();
@@ -340,7 +340,7 @@ describe('sparkline', () => {
     });
 
     canvas.appendChild(sparkline);
-    // sparkline.destroy();
+    sparkline.destroy();
   });
   test('stack group bar', () => {
     const div = createDiv();
@@ -371,7 +371,7 @@ describe('sparkline', () => {
     });
 
     canvas.appendChild(sparkline);
-    // sparkline.destroy();
+    sparkline.destroy();
   });
 
   test('color', () => {
@@ -409,13 +409,13 @@ describe('sparkline', () => {
         data: [
           [10, 2, 3, 4, 15, 10, 5, 0, 3, 1],
           [5, 7, 10, 3, 10, 6, 10, 1, 5, 0],
-          [1, 3, 4, 10, 15, 13, 3, 3, 10, 12],
+          [1, 3, 4, 10, 15, -13, 3, 3, 10, 12],
         ],
       },
     });
 
     canvas.appendChild(sparkline);
-    // sparkline.destroy();
-    // canvas.destroy();
+    sparkline.destroy();
+    canvas.destroy();
   });
 });

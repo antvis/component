@@ -11,7 +11,7 @@ const renderer = new CanvasRenderer({
 // @ts-ignore
 const canvas = new Canvas({
   container: 'container',
-  width: 300,
+  width: 350,
   height: 300,
   renderer,
 });
