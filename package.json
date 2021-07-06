@@ -39,7 +39,6 @@
     "@antv/g": "^1.0.0-alpha.0",
     "@antv/g-base": "^0.5.9",
     "@antv/g-canvas": "^1.0.0-alpha.0",
-    "@antv/gatsby-theme-antv": "^1.1.5",
     "@antv/util": "^2.0.13",
     "@antv/path-util": "^2.0.9",
     "@antv/scale": "^0.4.3",
@@ -47,6 +46,7 @@
     "svg-path-parser": "^1.1.0"
   },
   "devDependencies": {
+    "@antv/gatsby-theme-antv": "^1.1.5",
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^12.0.1",
     "@types/jest": "^26.0.20",

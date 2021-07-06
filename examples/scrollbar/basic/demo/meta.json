@@ -1,0 +1,32 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "vertical.ts",
+      "title": {
+        "zh": "垂直滚动条",
+        "en": "Vertical scrollbar"
+      },
+      "screenshot": ""
+    },
+    {
+      "filename": "horizontal.ts",
+      "title": {
+        "zh": "水平滚动条",
+        "en": "Horizontal scrollbar"
+      },
+      "screenshot": ""
+    },
+    {
+      "filename": "custom.ts",
+      "title": {
+        "zh": "自定义样式滚动条",
+        "en": "Custom style scrollbar"
+      },
+      "screenshot": ""
+    }
+  ]
+}
