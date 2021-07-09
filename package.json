@@ -89,7 +89,14 @@
     ],
     "collectCoverageFrom": [
       "src/**/*.ts"
-    ]
+    ],
+    "globals": {
+      "ts-jest": {
+        "tsConfig": {
+          "target": "ES2019"
+        }
+      }
+    }
   },
   "lint-staged": {
     "*.{ts,tsx}": [

@@ -25,7 +25,7 @@ export class Sparkline extends CustomElement {
       type: 'line',
       width: 200,
       height: 20,
-      data: [],
+      // data: [],
       isStack: false,
       color: ['#83daad', '#edbf45', '#d2cef9', '#e290b3', '#6f63f4'],
       smooth: true,
@@ -53,16 +53,15 @@ export class Sparkline extends CustomElement {
   }
 
   private init() {
-    const { x, y, type, width, height } = this.attributes;
+    const { data, type, width, height } = this.attributes;
     this.sparkShapes = new Rect({
       attrs: {
-        x,
-        y,
         width,
         height,
       },
     });
     this.appendChild(this.sparkShapes);
+    if (!data) return;
     switch (type) {
       case 'line':
         this.createLine();
@@ -109,7 +108,7 @@ export class Sparkline extends CustomElement {
               paddingInner: isGroup ? barPadding : 0,
             }),
       y: new Linear({
-        domain: [minVal > 0 ? 0 : minVal, maxVal],
+        domain: [minVal >= 0 ? 0 : minVal, maxVal],
         range: [height, 0],
       }),
     };

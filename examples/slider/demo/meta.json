@@ -1,0 +1,40 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "basic-slider.ts",
+      "title": {
+        "zh": "基础缩略轴",
+        "en": "Basic Slider"
+      },
+      "screenshot": ""
+    },
+    {
+      "filename": "vertical-slider.ts",
+      "title": {
+        "zh": "垂直缩略轴",
+        "en": "Vertical Slider"
+      },
+      "screenshot": ""
+    },
+    {
+      "filename": "custom-handleIcon-slider.ts",
+      "title": {
+        "zh": "自定义手柄缩略轴",
+        "en": "Custom Handle Icon Slider"
+      },
+      "screenshot": ""
+    },
+    {
+      "filename": "sparkline-slider.ts",
+      "title": {
+        "zh": "具有缩略图的缩略轴",
+        "en": "Slider with Sparkline"
+      },
+      "screenshot": ""
+    }
+  ]
+}
