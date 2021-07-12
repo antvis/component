@@ -1,7 +1,8 @@
 import { Path } from '@antv/g';
 import { deepMix, isFunction } from '@antv/util';
-import { CustomElement, DisplayObject } from '../../types';
-import { MarkerOptions, FunctionalSymbol } from './types';
+import { GUI } from '../core/gui';
+import type { DisplayObject } from '../../types';
+import type { MarkerOptions, FunctionalSymbol } from './types';
 import { circle, square, diamond, triangleDown, triangle } from './symbol';
 
 export { MarkerOptions, FunctionalSymbol };
@@ -9,7 +10,7 @@ export { MarkerOptions, FunctionalSymbol };
 /**
  * Marker
  */
-export class Marker extends CustomElement {
+export class Marker extends GUI<MarkerOptions> {
   /**
    * 标签类型
    */
@@ -57,7 +58,7 @@ export class Marker extends CustomElement {
   /**
    * 根据 type 获取 maker shape
    */
-  private init(): void {
+  public init(): void {
     const { x, y, r, symbol, ...args } = this.attributes;
 
     const symbolFn = isFunction(symbol) ? symbol : Marker.MARKER_SYMBOL_MAP.get(symbol);
@@ -73,6 +74,20 @@ export class Marker extends CustomElement {
       },
     });
     this.appendChild(this.pathShape);
+  }
+
+  /**
+   * 组件的更新
+   */
+  public update() {
+    throw new Error('Method not implemented.');
+  }
+
+  /**
+   * 组件的清除
+   */
+  public clear() {
+    throw new Error('Method not implemented.');
   }
 }
 

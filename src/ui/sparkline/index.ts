@@ -2,7 +2,8 @@ import { Path, Rect } from '@antv/g';
 import { clone, deepMix, isNumber, isArray, isFunction } from '@antv/util';
 import { Linear, Band } from '@antv/scale';
 import { PathCommand } from '@antv/g-base';
-import { SparklineOptions } from './types';
+import { GUI } from '../core/gui';
+import type { DisplayObject } from '../../types';
 import {
   Data,
   dataToLines,
@@ -13,11 +14,11 @@ import {
   linesToStackCurveAreaPaths,
 } from './path';
 import { getRange, getStackedData } from './utils';
-import { CustomElement, DisplayObject } from '../../types';
+import type { SparklineOptions } from './types';
 
 export { SparklineOptions };
 
-export class Sparkline extends CustomElement {
+export class Sparkline extends GUI<SparklineOptions> {
   public static tag = 'Sparkline';
 
   private static defaultOptions = {
@@ -52,7 +53,7 @@ export class Sparkline extends CustomElement {
     console.log(name, value);
   }
 
-  private init() {
+  public init() {
     const { data, type, width, height } = this.attributes;
     this.sparkShapes = new Rect({
       attrs: {
@@ -72,6 +73,20 @@ export class Sparkline extends CustomElement {
       default:
         break;
     }
+  }
+
+  /**
+   * 组件的更新
+   */
+  public update() {
+    throw new Error('Method not implemented.');
+  }
+
+  /**
+   * 组件的清除
+   */
+  public clear() {
+    throw new Error('Method not implemented.');
   }
 
   /**

@@ -1,15 +1,16 @@
 import { Rect, Text } from '@antv/g';
 import { deepMix } from '@antv/util';
-import { CustomElement, DisplayObject } from '../../types';
+import { GUI } from '../core/gui';
 import { Marker } from '../marker';
-import { IconOptions } from './types';
+import type { DisplayObject } from '../../types';
+import type { IconOptions } from './types';
 
 export { IconOptions };
 
 /**
  * 带文本的 图标组件，支持 iconfont 组件
  */
-export class Icon extends CustomElement {
+export class Icon extends GUI<IconOptions> {
   /**
    * 标签类型
    */
@@ -78,7 +79,7 @@ export class Icon extends CustomElement {
   /**
    * 根据 type 获取 maker shape
    */
-  private init(): void {
+  public init(): void {
     const { x, y, symbol, size, fill, spacing, text, textStyle, markerStyle } = this.attributes;
 
     //  图标
@@ -130,6 +131,20 @@ export class Icon extends CustomElement {
     this.translate(x + size / 2, y + size / 2);
 
     this.bindEvents();
+  }
+
+  /**
+   * 组件的更新
+   */
+  public update() {
+    throw new Error('Method not implemented.');
+  }
+
+  /**
+   * 组件的清除
+   */
+  public clear() {
+    throw new Error('Method not implemented.');
   }
 
   private bindEvents() {

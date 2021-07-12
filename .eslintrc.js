@@ -15,7 +15,7 @@ module.exports = {
   rules: {
     semi: 'error',
     'no-unused-vars': 'off',
-    '@typescript-eslint/no-unused-vars': ['error'],
+    '@typescript-eslint/no-unused-vars': ['warn'],
     'import/extensions': 'off',
     'import/prefer-default-export': 'off',
     'object-curly-newline': 'off',

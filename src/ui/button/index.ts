@@ -1,13 +1,14 @@
 import { Rect, Text } from '@antv/g';
 import { deepMix, pick } from '@antv/util';
-import { ButtonOptions } from './types';
-import { CustomElement, ShapeAttrs, DisplayObject } from '../../types';
+import { GUI } from '../core/gui';
 import { getEllipsisText } from '../../util';
+import type { ShapeAttrs, DisplayObject } from '../../types';
 import { SIZE_STYLE, TYPE_STYLE, DISABLED_STYLE } from './constant';
+import type { ButtonOptions } from './types';
 
 export { ButtonOptions };
 
-export class Button extends CustomElement {
+export class Button extends GUI<ButtonOptions> {
   /**
    * 标签类型
    */
@@ -102,7 +103,7 @@ export class Button extends CustomElement {
   /**
    * 初始化button
    */
-  private init(): void {
+  public init(): void {
     const { x, y, text, padding, ellipsis, onClick } = this.attributes;
     const textStyle = this.getMixinStyle('textStyle');
     const buttonStyle = this.getMixinStyle('buttonStyle');
@@ -163,6 +164,20 @@ export class Button extends CustomElement {
     this.translate(x, y);
 
     this.bindEvents(onClick);
+  }
+
+  /**
+   * 组件的更新
+   */
+  public update() {
+    throw new Error('Method not implemented.');
+  }
+
+  /**
+   * 组件的清除
+   */
+  public clear() {
+    throw new Error('Method not implemented.');
   }
 
   /**
