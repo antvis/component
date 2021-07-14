@@ -9,29 +9,29 @@ const renderer = new CanvasRenderer({
   enableDirtyRectangleRendering: true,
 });
 
+const div = createDiv();
+
+// @ts-ignore
+const canvas = new Canvas({
+  container: div,
+  width: 800,
+  height: 300,
+  renderer,
+});
+
+const slider = new Slider({
+  attrs: {
+    x: 50,
+    y: 50,
+    width: 400,
+    height: 40,
+    values: [0.3, 0.7],
+    names: ['leftVal', 'rightVal'],
+  },
+});
+
 describe('slider', () => {
   test('basic', async () => {
-    const div = createDiv();
-
-    // @ts-ignore
-    const canvas = new Canvas({
-      container: div,
-      width: 800,
-      height: 300,
-      renderer,
-    });
-
-    const slider = new Slider({
-      attrs: {
-        x: 50,
-        y: 50,
-        width: 400,
-        height: 40,
-        values: [0.3, 0.7],
-        names: ['leftVal', 'rightVal'],
-      },
-    });
-
     expect(slider.getValues()).toStrictEqual([0.3, 0.7]);
     expect(slider.getNames()).toStrictEqual(['leftVal', 'rightVal']);
 
@@ -55,129 +55,71 @@ describe('slider', () => {
   });
 
   test('vertical', async () => {
-    const div = createDiv();
-
-    // @ts-ignore
-    const canvas = new Canvas({
-      container: div,
-      width: 800,
-      height: 300,
-      renderer,
+    slider.update({
+      x: 50,
+      y: 50,
+      width: 40,
+      height: 400,
+      orient: 'vertical',
+      values: [0.3, 0.7],
+      names: ['aboveVal', 'belowVal'],
     });
-
-    const slider = new Slider({
-      attrs: {
-        x: 50,
-        y: 50,
-        width: 40,
-        height: 400,
-        orient: 'vertical',
-        values: [0.3, 0.7],
-        names: ['aboveVal', 'belowVal'],
-      },
-    });
-
-    canvas.appendChild(slider);
-    slider.destroy();
   });
 
   test('custom icon', async () => {
-    const div = createDiv();
-
-    // @ts-ignore
-    const canvas = new Canvas({
-      container: div,
-      width: 800,
-      height: 300,
-      renderer,
-    });
-
-    const slider = new Slider({
-      attrs: {
-        x: 50,
-        y: 50,
-        width: 400,
-        height: 40,
-        values: [0.3, 0.7],
-        names: ['leftVal', 'rightVal'],
-        handle: {
-          start: {
-            size: 15,
-            formatter: (name, value) => {
-              return `${name}: ${value * 100}%`;
-            },
-            handleIcon: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
+    slider.update({
+      x: 50,
+      y: 50,
+      width: 400,
+      height: 40,
+      values: [0.3, 0.7],
+      names: ['leftVal', 'rightVal'],
+      handle: {
+        start: {
+          size: 15,
+          formatter: (name, value) => {
+            return `${name}: ${value * 100}%`;
           },
-          end: {
-            spacing: 20,
-            handleIcon: 'diamond',
-          },
+          handleIcon: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
+        },
+        end: {
+          spacing: 20,
+          handleIcon: 'diamond',
         },
       },
     });
-
-    canvas.appendChild(slider);
-    slider.destroy();
   });
 
   test('vertical', async () => {
-    const div = createDiv();
-
-    // @ts-ignore
-    const canvas = new Canvas({
-      container: div,
-      width: 800,
-      height: 300,
-      renderer,
+    slider.update({
+      x: 50,
+      y: 50,
+      width: 40,
+      height: 400,
+      orient: 'vertical',
+      values: [0.3, 0.7],
+      names: ['aboveVal', 'belowVal'],
     });
-
-    const slider = new Slider({
-      attrs: {
-        x: 50,
-        y: 50,
-        width: 40,
-        height: 400,
-        orient: 'vertical',
-        values: [0.3, 0.7],
-        names: ['aboveVal', 'belowVal'],
-      },
-    });
-
-    canvas.appendChild(slider);
-    slider.destroy();
   });
 
   test('slider with sparkline', async () => {
-    const div = createDiv();
-
-    // @ts-ignore
-    const canvas = new Canvas({
-      container: div,
-      width: 800,
-      height: 300,
-      renderer,
-    });
-
-    const slider = new Slider({
-      attrs: {
-        x: 50,
-        y: 50,
-        width: 400,
-        height: 40,
-        values: [0.3, 0.7],
-        names: ['leftVal', 'rightVal'],
-        sparklineCfg: {
-          // type: 'column',
-          data: [
-            [1, 3, 2, -4, 1, 3, 2, -4],
-            [5, 1, 5, -8, 5, 1, 5, -8],
-          ],
-        },
+    slider.update({
+      x: 50,
+      y: 50,
+      width: 400,
+      height: 40,
+      values: [0.3, 0.7],
+      names: ['leftVal', 'rightVal'],
+      sparklineCfg: {
+        // type: 'column',
+        data: [
+          [1, 3, 2, -4, 1, 3, 2, -4],
+          [5, 1, 5, -8, 5, 1, 5, -8],
+        ],
       },
     });
-
-    canvas.appendChild(slider);
-    slider.destroy();
-    canvas.destroy();
   });
 });
+
+slider.destroy();
+canvas.destroy();

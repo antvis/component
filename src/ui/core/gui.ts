@@ -11,7 +11,7 @@ export abstract class GUI<O = unknown> extends CustomElement {
   /**
    * 组件的更新
    */
-  public abstract update(): void;
+  public abstract update(cfg: O): void;
 
   /**
    * 组件的清除

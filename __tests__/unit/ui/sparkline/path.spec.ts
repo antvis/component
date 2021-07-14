@@ -1,6 +1,6 @@
 import { Linear } from '@antv/scale';
+import { Scales } from '../../../../src/ui/sparkline/types';
 import {
-  Scales,
   dataToLines,
   lineToLinePath,
   lineToCurvePath,

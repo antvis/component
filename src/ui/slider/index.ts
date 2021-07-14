@@ -1,16 +1,16 @@
-import { Rect, Text, Image, Line, DisplayObject } from '@antv/g';
-import { deepMix, get, isFunction, isString, isObject } from '@antv/util';
+import { Rect, Text, DisplayObject } from '@antv/g';
+import { deepMix, get } from '@antv/util';
 import { GUI } from '../core/gui';
-import { applyAttrs, toPrecision } from '../../util';
+import { Handle } from './handle';
+import { SliderAttrs, SliderOptions, HandleCfg, Pair } from './types';
+import { toPrecision } from '../../util';
 import { Sparkline } from '../sparkline';
-import { Marker, MarkerOptions } from '../marker';
-import type { SliderOptions, HandleCfg, Pair } from './types';
 
-export { SliderOptions };
+export { SliderAttrs, SliderOptions };
 
 type HandleType = 'start' | 'end';
 
-export class Slider extends GUI<SliderOptions> {
+export class Slider extends GUI<SliderAttrs> {
   public static tag = 'slider';
 
   /**
@@ -19,33 +19,27 @@ export class Slider extends GUI<SliderOptions> {
    *  |- sparklineShape
    *  |- foregroundShape
    *       |- startHandle
+   *           |- handleIcon
+   *           |- handleText
    *       |- endHandle
+   *           |- handleIcon
+   *           |- handleText
    */
 
-  /**
-   * 背景
-   */
+  // 背景、滑道
   private backgroundShape: DisplayObject;
 
-  /**
-   * 缩略图
-   */
-  private sparklineShape: DisplayObject;
+  // 迷你图
+  private sparklineShape: Sparkline;
 
-  /**
-   * 前景，即选区
-   */
+  // 前景、选区
   private foregroundShape: DisplayObject;
 
-  /**
-   * 起始手柄
-   */
-  private startHandle: DisplayObject;
+  // 开始滑块
+  private startHandle: Handle;
 
-  /**
-   * 终点手柄
-   */
-  private endHandle: DisplayObject;
+  // 结束滑块
+  private endHandle: Handle;
 
   /**
    * 选区开始的位置
@@ -83,19 +77,9 @@ export class Slider extends GUI<SliderOptions> {
       width: 200,
       height: 20,
       sparklineCfg: {
-        padding: {
-          left: 1,
-          right: 1,
-          top: 1,
-          bottom: 1,
-        },
+        padding: [1, 1, 1, 1],
       },
-      padding: {
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
-      },
+      padding: [0, 0, 0, 0],
       backgroundStyle: {
         fill: '#fff',
         stroke: '#e4eaf5',
@@ -164,16 +148,19 @@ export class Slider extends GUI<SliderOptions> {
   /**
    * 组件的更新
    */
-  public update() {
-    throw new Error('Method not implemented.');
+  public update(attrs: SliderAttrs) {
+    this.attr(deepMix({}, this.attributes, attrs));
+    this.backgroundShape.attr(this.getBackgroundAttrs());
+    this.sparklineShape.update(this.getSparklineAttrs());
+    this.foregroundShape.attr(this.getForegroundAttrs());
+    this.startHandle.attr(this.getHandleAttrs('start'));
+    this.endHandle.attr(this.getHandleAttrs('end'));
   }
 
   /**
    * 组件的清除
    */
-  public clear() {
-    throw new Error('Method not implemented.');
-  }
+  public clear() {}
 
   /**
    * 获得安全的Values
@@ -211,11 +198,12 @@ export class Slider extends GUI<SliderOptions> {
 
   private getAvailableSpace() {
     const { padding, width, height } = this.attributes;
+    const [top, right, bottom, left] = padding;
     return {
-      x: padding.left,
-      y: padding.top,
-      width: width - (padding.left + padding.right),
-      height: height - (padding.top + padding.bottom),
+      x: left,
+      y: top,
+      width: width - (left + right),
+      height: height - (top + bottom),
     };
   }
 
@@ -233,44 +221,51 @@ export class Slider extends GUI<SliderOptions> {
     return args?.default || args;
   }
 
+  private getBackgroundAttrs() {
+    return {
+      cursor: 'crosshair',
+      ...this.getAvailableSpace(),
+      ...this.getStyle('backgroundStyle'),
+    };
+  }
+
   private createBackground() {
     this.backgroundShape = new Rect({
       name: 'background',
-      attrs: {
-        cursor: 'crosshair',
-        ...this.getAvailableSpace(),
-        ...this.getStyle('backgroundStyle'),
-      },
+      attrs: this.getBackgroundAttrs(),
     });
+    this.backgroundShape.toBack();
     this.appendChild(this.backgroundShape);
+  }
+
+  private getSparklineAttrs() {
+    const { orient, sparklineCfg } = this.attributes;
+    // 暂时只在水平模式下绘制
+    if (orient !== 'horizontal') {
+      return {};
+    }
+    const { padding, ...args } = sparklineCfg;
+    const [top, right, bottom, left] = padding;
+    const { width, height } = this.getAvailableSpace();
+    const { lineWidth: bkgLW } = this.getStyle('backgroundStyle');
+    return {
+      x: bkgLW / 2 + left,
+      y: bkgLW / 2 + top,
+      width: width - bkgLW - left - right,
+      height: height - bkgLW - top - bottom,
+      ...args,
+    };
   }
 
   /**
    * 生成sparkline
    */
   private createSparkline() {
-    const { orient, sparklineCfg } = this.attributes;
-    console.log(sparklineCfg);
-
-    // 暂时只在水平模式下绘制
-    if (orient !== 'horizontal') {
-      return;
-    }
-    const { padding, ...args } = sparklineCfg;
-
-    const { width, height } = this.getAvailableSpace();
-    const { lineWidth: bkgLW } = this.getStyle('backgroundStyle');
     this.sparklineShape = new Sparkline({
-      attrs: {
-        x: bkgLW / 2 + padding.left,
-        y: bkgLW / 2 + padding.top,
-        width: width - bkgLW - padding.left - padding.right,
-        height: height - bkgLW - padding.top - padding.bottom,
-        ...args,
-      },
+      name: 'sparkline',
+      attrs: this.getSparklineAttrs(),
     });
     this.backgroundShape.appendChild(this.sparklineShape);
-    this.sparklineShape.toBack();
   }
 
   /**
@@ -297,14 +292,14 @@ export class Slider extends GUI<SliderOptions> {
     ]);
   }
 
+  private getForegroundAttrs() {
+    return { cursor: 'move', ...this.calcMask(), ...this.getStyle('foregroundStyle') };
+  }
+
   private createForeground() {
     this.foregroundShape = new Rect({
       name: 'foreground',
-      attrs: {
-        cursor: 'move',
-        ...this.calcMask(),
-        ...this.getStyle('foregroundStyle'),
-      },
+      attrs: this.getForegroundAttrs(),
     });
     this.backgroundShape.appendChild(this.foregroundShape);
   }
@@ -329,11 +324,12 @@ export class Slider extends GUI<SliderOptions> {
    * 3. 更新文本位置
    */
   private setHandle() {
-    applyAttrs(this.foregroundShape, this.calcMask());
-    applyAttrs(this.startHandle, this.calcHandlePosition('start'));
-    applyAttrs(this.endHandle, this.calcHandlePosition('end'));
-    this.getElementsByName('handleText').forEach((handleText) => {
-      applyAttrs(handleText, this.calcHandleText(handleText.getConfig().identity));
+    this.foregroundShape.attr(this.calcMask());
+    (['start', 'end'] as HandleType[]).forEach((handleType) => {
+      const handle = this[`${handleType}Handle`];
+      handle.attr(this.calcHandlePosition(handleType));
+      const handleText = handle.getElementsByName('handleText')[0];
+      handleText.attr(this.calcHandleText(handleType));
     });
   }
 
@@ -389,160 +385,96 @@ export class Slider extends GUI<SliderOptions> {
     return { x, y, text: formattedText };
   }
 
-  /**
-   * 解析icon类型
-   */
-  private parseIcon(icon: MarkerOptions['symbol'] | string) {
-    let type = 'unknown';
-    if (isObject(icon) && icon instanceof Image) type = 'image';
-    else if (isFunction(icon)) type = 'symbol';
-    else if (isString(icon)) {
-      const dataURLsPattern = new RegExp('data:(image|text)');
-      if (icon.match(dataURLsPattern)) {
-        type = 'base64';
-      } else if (/^(https?:\/\/(([a-zA-Z0-9]+-?)+[a-zA-Z0-9]+\.)+[a-zA-Z]+)(:\d+)?(\/.*)?(\?.*)?(#.*)?$/.test(icon)) {
-        type = 'url';
-      } else {
-        // 不然就当作symbol string 处理
-        type = 'symbol';
-      }
+  private getHandleAttrs(handleType: HandleType) {
+    return this.calcHandlePosition(handleType);
+  }
+
+  private getHandleTextAttrs(handleType: HandleType) {
+    const handleCfg = this.getHandleCfg(handleType);
+    const { textStyle } = handleCfg;
+    return {
+      ...textStyle,
+      ...this.calcHandleText(handleType),
+    };
+  }
+
+  private getHandleIconAttrs(handleType: HandleType) {
+    const { height: H, orient } = this.attributes;
+    const handleCfg = this.getHandleCfg(handleType);
+    const { show, handleIcon, handleStyle: attrs } = handleCfg;
+    const cursor = this.getOrientVal(['ew-resize', 'ns-resize']);
+    const size = this.getHandleSize(handleType);
+    if (!show) {
+      // 不显示handleIcon
+      return {
+        type: 'hide',
+        cursor,
+        x: -size / 2,
+        y: -H / 2,
+        height: H,
+        width: size,
+        opacity: 0,
+        fill: 'red',
+      };
     }
-    return type;
+    if (!handleIcon) {
+      // 默认handleIcon
+      return {
+        type: 'default',
+        orient,
+        ...attrs,
+        size,
+      };
+    }
+    // 使用symbol
+    return {
+      type: 'symbol',
+      ...attrs,
+      r: size,
+      symbol: handleIcon,
+    };
   }
 
   /**
    * 创建手柄
    */
   private createHandle(options: HandleCfg, handleType: HandleType) {
-    const { show, textStyle, handleIcon: icon, handleStyle } = options;
-    const size = this.getHandleSize(handleType);
-    const iconType = this.parseIcon(icon);
-    const baseCfg = {
-      name: 'handleIcon',
-      identity: handleType,
-    };
-    const cursor = this.getOrientVal(['ew-resize', 'ns-resize']);
+    // 手柄容器
 
-    const handleIcon = (() => {
-      if (!show) {
-        // 如果不显示的话，就创建透明的rect
-        return new Marker({
-          ...baseCfg,
-          attrs: {
-            r: size / 2,
-            symbol: 'square',
-            markerStyle: {
-              opacity: 0,
-            },
-            cursor,
-          },
-        });
-      }
+    const handleEl = new DisplayObject({
+      handleType,
+      name: 'handle',
+      attrs: this.getHandleAttrs(handleType),
+    });
+    // 将手柄容器挂载到foregroundShape下
+    this.foregroundShape.appendChild(handleEl);
 
-      if (['base64', 'url', 'image'].includes(iconType)) {
-        // TODO G那边似乎还是有点问题，暂不考虑Image
-        return new Image({
-          ...baseCfg,
-          attrs: {
-            x: -size / 2,
-            y: -size / 2,
-            width: size,
-            height: size,
-            img: icon,
-            cursor,
-          },
-        });
-      }
-      if (iconType === 'symbol') {
-        return new Marker({
-          ...baseCfg,
-          attrs: {
-            r: size / 2,
-            symbol: icon,
-            cursor,
-            ...handleStyle,
-          },
-        });
-      }
-
-      const width = size;
-      const height = size * 2.4;
-
-      // 创建默认图形
-      const handleBody = new Rect({
-        ...baseCfg,
-        attrs: {
-          cursor,
-          width,
-          height,
-          x: -width / 2,
-          y: -height / 2,
-          radius: size / 4,
-          ...handleStyle,
-        },
-      });
-      const { stroke, lineWidth } = handleStyle;
-      const X1 = (1 / 3) * width;
-      const X2 = (2 / 3) * width;
-      const Y1 = (1 / 4) * height;
-      const Y2 = (3 / 4) * height;
-
-      const createLine = (x1: number, y1: number, x2: number, y2: number) => {
-        return new Line({
-          name: 'line',
-          attrs: {
-            x1,
-            y1,
-            x2,
-            y2,
-            cursor,
-            stroke,
-            lineWidth,
-          },
-        });
-      };
-
-      handleBody.appendChild(createLine(X1, Y1, X1, Y2));
-      handleBody.appendChild(createLine(X2, Y1, X2, Y2));
-
-      // 根据orient进行rotate
-      // 设置旋转中心
-      handleBody.setOrigin(width / 2, height / 2);
-      handleBody.rotate(this.getOrientVal([0, 90]));
-
-      return handleBody;
-    })();
-
+    // 手柄文本挂载到handle容器下
     const handleText = new Text({
       name: 'handleText',
-      identity: handleType,
-      attrs: {
-        // TODO 之后考虑添加文字超长省略，可以在calcHandleTextPosition中实现
-        ...textStyle,
-        ...this.calcHandleText(handleType),
-      },
+      attrs: this.getHandleTextAttrs(handleType),
     });
+    handleEl.appendChild(handleText);
 
-    // 用 Group 创建对象会提示没有attrs属性
-    const handle = new DisplayObject({
-      name: 'handle',
-      identity: handleType,
-      attrs: this.calcHandlePosition(handleType),
+    // 手柄icon也挂载到handle容器
+    const handleIcon = new Handle({
+      name: 'handleIcon',
+      attrs: this.getHandleIconAttrs(handleType),
     });
-    handle.appendChild(handleIcon);
-    handle.appendChild(handleText);
-    return handle;
+    handleEl.appendChild(handleIcon);
+
+    this[`${handleType}Handle`] = handleEl;
   }
 
   private getHandleCfg(handleType: HandleType) {
     const { start, end, ...args } = this.getAttribute('handle');
-    let _ = {};
+    let handleCfg = {};
     if (handleType === 'start') {
-      _ = start;
+      handleCfg = start;
     } else if (handleType === 'end') {
-      _ = end;
+      handleCfg = end;
     }
-    return deepMix({}, args, _);
+    return deepMix({}, args, handleCfg);
   }
 
   private getHandleSize(handleType: HandleType) {
@@ -556,10 +488,8 @@ export class Slider extends GUI<SliderOptions> {
   }
 
   private createHandles() {
-    this.startHandle = this.createHandle(this.getHandleCfg('start'), 'start');
-    this.foregroundShape.appendChild(this.startHandle);
-    this.endHandle = this.createHandle(this.getHandleCfg('end'), 'end');
-    this.foregroundShape.appendChild(this.endHandle);
+    this.createHandle(this.getHandleCfg('start'), 'start');
+    this.createHandle(this.getHandleCfg('end'), 'end');
   }
 
   private bindEvents() {
@@ -567,15 +497,33 @@ export class Slider extends GUI<SliderOptions> {
     this.backgroundShape.addEventListener('mousedown', this.onDragStart('background'));
     this.backgroundShape.addEventListener('touchstart', this.onDragStart('background'));
 
-    this.foregroundShape.addEventListener('mousedown', this.onDragStart('foreground'));
-    this.foregroundShape.addEventListener('touchstart', this.onDragStart('foreground'));
-
-    this.getElementsByName('handleIcon').forEach((handleIcon) => {
-      handleIcon.addEventListener('mousedown', this.onDragStart(`${handleIcon.getConfig().identity}Handle`));
-      handleIcon.addEventListener('touchstart', this.onDragStart(`${handleIcon.getConfig().identity}Handle`));
+    const fg = this.foregroundShape;
+    // 选区drag事件
+    fg.addEventListener('mousedown', this.onDragStart('foreground'));
+    fg.addEventListener('touchstart', this.onDragStart('foreground'));
+    // 选区hover事件
+    fg.addEventListener('mouseenter', () => {
+      fg.attr(this.getStyle('foregroundStyle'));
     });
-    // Hover
-    this.bindHoverEvents();
+    fg.addEventListener('mouseleave', () => {
+      fg.attr(this.getStyle('foregroundStyle'));
+    });
+
+    this.getElementsByName('handle').forEach((handle) => {
+      const { handleType } = handle.getConfig();
+      const handleIcon = handle.getElementsByName('handleIcon')[0];
+      // 手柄按下开始drag
+      handleIcon.addEventListener('mousedown', this.onDragStart(handleType));
+      handleIcon.addEventListener('touchstart', this.onDragStart(handleType));
+
+      // icon hover事件
+      handleIcon.addEventListener('mouseenter', () => {
+        handleIcon.attr(this.getStyle('handleStyle', true, handleType));
+      });
+      handleIcon.addEventListener('mouseleave', () => {
+        handleIcon.attr(this.getStyle('handleStyle', false, handleType));
+      });
+    });
   }
 
   private getOrientVal<T>([x, y]: Pair<T>) {
@@ -615,10 +563,10 @@ export class Slider extends GUI<SliderOptions> {
     const dVal = this.getRatio(_);
 
     switch (this.target) {
-      case 'startHandle':
+      case 'start':
         this.setValuesOffset(dVal);
         break;
-      case 'endHandle':
+      case 'end':
         this.setValuesOffset(0, dVal);
         break;
       case 'foreground':
@@ -641,27 +589,5 @@ export class Slider extends GUI<SliderOptions> {
     this.removeEventListener('mousemove', this.onDragging);
     document.removeEventListener('mouseup', this.onDragEnd);
     document.removeEventListener('touchend', this.onDragEnd);
-  };
-
-  private bindHoverEvents = () => {
-    this.foregroundShape.addEventListener('mouseenter', () => {
-      applyAttrs(this.foregroundShape, this.getStyle('foregroundStyle', true));
-    });
-    this.foregroundShape.addEventListener('mouseleave', () => {
-      applyAttrs(this.foregroundShape, this.getStyle('foregroundStyle'));
-    });
-
-    this.getElementsByName('handle').forEach((handle) => {
-      const icon = handle.getElementsByName('handleIcon')[0];
-      const text = handle.getElementsByName('handleText')[0];
-      handle.addEventListener('mouseenter', () => {
-        applyAttrs(icon, this.getStyle('handleStyle', true, icon.getConfig().identity));
-        applyAttrs(text, this.getStyle('textStyle', true, text.getConfig().identity));
-      });
-      handle.addEventListener('mouseleave', () => {
-        applyAttrs(icon, this.getStyle('handleStyle', false, icon.getConfig().identity));
-        applyAttrs(text, this.getStyle('textStyle', false, text.getConfig().identity));
-      });
-    });
   };
 }

@@ -1,11 +1,12 @@
-import { Path, Rect } from '@antv/g';
+import { Rect } from '@antv/g';
 import { clone, deepMix, isNumber, isArray, isFunction } from '@antv/util';
 import { Linear, Band } from '@antv/scale';
 import { PathCommand } from '@antv/g-base';
 import { GUI } from '../core/gui';
 import type { DisplayObject } from '../../types';
+import { getRange, getStackedData } from './utils';
+import { Data, SparklineAttrs, SparklineOptions } from './types';
 import {
-  Data,
   dataToLines,
   lineToLinePath,
   lineToCurvePath,
@@ -13,13 +14,19 @@ import {
   linesToStackAreaPaths,
   linesToStackCurveAreaPaths,
 } from './path';
-import { getRange, getStackedData } from './utils';
-import type { SparklineOptions } from './types';
+import { Lines } from './lines';
+import { Columns } from './columns';
 
-export { SparklineOptions };
+export { SparklineAttrs, SparklineOptions };
 
-export class Sparkline extends GUI<SparklineOptions> {
+export class Sparkline extends GUI<SparklineAttrs> {
   public static tag = 'Sparkline';
+
+  // sparkline容器
+  private containerShape: DisplayObject;
+
+  // Lines或者Columns
+  private sparkShape: DisplayObject;
 
   private static defaultOptions = {
     attrs: {
@@ -42,44 +49,30 @@ export class Sparkline extends GUI<SparklineOptions> {
     },
   };
 
-  private sparkShapes: DisplayObject;
-
   constructor(options: SparklineOptions) {
     super(deepMix({}, Sparkline.defaultOptions, options));
     this.init();
   }
 
   attributeChangedCallback(name: string, value: any) {
-    console.log(name, value);
+    // 如果type变了，需要清空this.sparkShapes子元素
+    if (name === 'type') {
+      this.sparkShape?.destroy();
+    }
   }
 
   public init() {
-    const { data, type, width, height } = this.attributes;
-    this.sparkShapes = new Rect({
-      attrs: {
-        width,
-        height,
-      },
-    });
-    this.appendChild(this.sparkShapes);
-    if (!data) return;
-    switch (type) {
-      case 'line':
-        this.createLine();
-        break;
-      case 'column':
-        this.createBar();
-        break;
-      default:
-        break;
-    }
+    this.createContainer();
+    this.createSparkline();
   }
 
   /**
    * 组件的更新
    */
-  public update() {
-    throw new Error('Method not implemented.');
+  public update(cfg: SparklineAttrs) {
+    this.attr(deepMix({}, this.attributes, cfg));
+    this.containerShape.removeChildren();
+    this.createSparkline();
   }
 
   /**
@@ -87,6 +80,20 @@ export class Sparkline extends GUI<SparklineOptions> {
    */
   public clear() {
     throw new Error('Method not implemented.');
+  }
+
+  private createSparkline() {
+    const { type } = this.attributes;
+    switch (type) {
+      case 'line':
+        this.createLine();
+        break;
+      case 'column':
+        this.createColumn();
+        break;
+      default:
+        break;
+    }
   }
 
   /**
@@ -135,6 +142,7 @@ export class Sparkline extends GUI<SparklineOptions> {
    */
   private getData(): Data {
     const { data: _ } = this.attributes;
+    if (!_ || _?.length === 0) return undefined;
     let data = clone(_);
     // number[] -> number[][]
     if (isNumber(data[0])) {
@@ -143,71 +151,85 @@ export class Sparkline extends GUI<SparklineOptions> {
     return data;
   }
 
+  private getContainerAttrs() {
+    const { width, height } = this.attributes;
+    return { width, height };
+  }
+
+  private createContainer() {
+    this.containerShape = new Rect({
+      name: 'container',
+      attrs: this.getContainerAttrs(),
+    });
+    this.appendChild(this.containerShape);
+  }
+
+  private getLinesAttrs() {
+    const { areaStyle, isStack, lineStyle, smooth, width } = this.attributes;
+    let data = this.getData();
+    if (!data)
+      return {
+        linesCfg: {
+          linesAttrs: [],
+          areasAttrs: [],
+        },
+      };
+    if (isStack) data = getStackedData(data);
+    const { x, y } = this.createScales(data) as { x: Linear; y: Linear };
+    // 线条Path
+    const lines = dataToLines(data, { type: 'line', x, y });
+
+    // 生成区域path
+    let areas: PathCommand[][] = [];
+    if (areaStyle) {
+      const range = getRange(data);
+      const baseline = y.map(range[0] < 0 ? 0 : range[0]);
+      if (isStack) {
+        areas = smooth
+          ? linesToStackCurveAreaPaths(lines, width, baseline)
+          : linesToStackAreaPaths(lines, width, baseline);
+      } else {
+        areas = linesToAreaPaths(lines, smooth, width, baseline);
+      }
+    }
+    return {
+      linesCfg: {
+        linesAttrs: lines.map((line, idx) => {
+          return {
+            stroke: this.getColor(idx),
+            path: smooth ? lineToCurvePath(line) : lineToLinePath(line),
+            ...lineStyle,
+          };
+        }),
+        areasAttrs: areas.map((path, idx) => {
+          return {
+            path,
+            fill: this.getColor(idx),
+            ...areaStyle,
+          };
+        }),
+      },
+    };
+  }
+
   /**
    * 创建迷你折线图
    */
   private createLine() {
-    const { isStack, lineStyle, smooth, areaStyle, width } = this.attributes;
-    let data = this.getData();
-    if (isStack) data = getStackedData(data);
-    const { x, y } = this.createScales(data) as { x: Linear; y: Linear };
-    const lines = dataToLines(data, { type: 'line', x, y });
-    const linesPaths: PathCommand[][] = [];
-    // 线条path
-    lines.forEach((line) => {
-      linesPaths.push(smooth ? lineToCurvePath(line) : lineToLinePath(line));
+    this.sparkShape = new Lines({
+      name: 'sparkline',
+      attrs: this.getLinesAttrs(),
     });
-    // 绘制线条
-    linesPaths.forEach((path, idx) => {
-      this.sparkShapes.appendChild(
-        new Path({
-          name: 'line',
-          id: `line-path-${idx}`,
-          attrs: {
-            path,
-            stroke: this.getColor(idx),
-            ...lineStyle,
-          },
-        })
-      );
-    });
-
-    // 生成area图形
-    if (areaStyle) {
-      const range = getRange(data);
-      const baseline = y.map(range[0] < 0 ? 0 : range[0]);
-      // 折线、堆叠折线和普通曲线直接
-      let areaPaths: PathCommand[][];
-      if (isStack) {
-        areaPaths = smooth
-          ? linesToStackCurveAreaPaths(lines, width, baseline)
-          : linesToStackAreaPaths(lines, width, baseline);
-      } else {
-        areaPaths = linesToAreaPaths(lines, smooth, width, baseline);
-      }
-
-      areaPaths.forEach((path, idx) => {
-        this.sparkShapes.appendChild(
-          new Path({
-            name: 'area',
-            id: `line-area-${idx}`,
-            attrs: {
-              path,
-              fill: this.getColor(idx),
-              ...areaStyle,
-            },
-          })
-        );
-      });
-    }
+    this.containerShape.appendChild(this.sparkShape);
   }
 
-  /**
-   * 创建mini柱状图
-   */
-  private createBar() {
+  private getColumnsAttrs() {
     const { isStack, height, columnStyle } = this.attributes;
     let data = this.getData();
+    if (!data)
+      return {
+        columnsCfg: [],
+      };
     if (isStack) data = getStackedData(data);
     const { x, y } = this.createScales(data) as {
       x: Band;
@@ -218,37 +240,43 @@ export class Sparkline extends GUI<SparklineOptions> {
       domain: [0, maxVal - (minVal > 0 ? 0 : minVal)],
       range: [0, height],
     });
-
     const bandWidth = x.getBandWidth();
     const rawData = this.getData();
 
-    data.forEach((column, i) => {
-      column.forEach((val, j) => {
-        const barWidth = bandWidth / data.length;
-        this.sparkShapes.appendChild(
-          new Rect({
-            name: 'column',
-            id: `column-${i}-${j}`,
-            attrs: {
-              fill: this.getColor(i),
-              ...columnStyle,
-              ...(isStack
-                ? {
-                    x: x.map(j),
-                    y: y.map(val),
-                    width: bandWidth,
-                    height: heightScale.map(rawData[i][j]),
-                  }
-                : {
-                    x: x.map(j) + barWidth * i,
-                    y: val >= 0 ? y.map(val) : y.map(0),
-                    width: barWidth,
-                    height: heightScale.map(Math.abs(val)),
-                  }),
-            },
-          })
-        );
-      });
+    return {
+      columnsCfg: data.map((column, i) => {
+        return column.map((val, j) => {
+          const barWidth = bandWidth / data.length;
+          return {
+            fill: this.getColor(i),
+            ...columnStyle,
+            ...(isStack
+              ? {
+                  x: x.map(j),
+                  y: y.map(val),
+                  width: bandWidth,
+                  height: heightScale.map(rawData[i][j]),
+                }
+              : {
+                  x: x.map(j) + barWidth * i,
+                  y: val >= 0 ? y.map(val) : y.map(0),
+                  width: barWidth,
+                  height: heightScale.map(Math.abs(val)),
+                }),
+          };
+        });
+      }),
+    };
+  }
+
+  /**
+   * 创建mini柱状图
+   */
+  private createColumn() {
+    this.sparkShape = new Columns({
+      name: 'sparkline',
+      attrs: this.getColumnsAttrs(),
     });
+    this.containerShape.appendChild(this.sparkShape);
   }
 }

@@ -4,11 +4,11 @@ import { GUI } from '../core/gui';
 import { getEllipsisText } from '../../util';
 import type { ShapeAttrs, DisplayObject } from '../../types';
 import { SIZE_STYLE, TYPE_STYLE, DISABLED_STYLE } from './constant';
-import type { ButtonOptions } from './types';
+import { ButtonAttrs, ButtonOptions } from './types';
 
-export { ButtonOptions };
+export { ButtonAttrs, ButtonOptions };
 
-export class Button extends GUI<ButtonOptions> {
+export class Button extends GUI<ButtonAttrs> {
   /**
    * 标签类型
    */
@@ -55,23 +55,7 @@ export class Button extends GUI<ButtonOptions> {
     },
   };
 
-  attributeChangedCallback(name: string, value: any): void {
-    console.log('attributeChangedCallback', name, value);
-  }
-
-  /**
-   * 获取text
-   */
-  public getTextShape(): DisplayObject {
-    return this.textShape;
-  }
-
-  /**
-   * 获取button
-   */
-  public getBackground(): DisplayObject {
-    return this.background;
-  }
+  attributeChangedCallback(name: string, value: any): void {}
 
   /**
    * 根据size、type属性生成实际渲染的属性
@@ -169,16 +153,14 @@ export class Button extends GUI<ButtonOptions> {
   /**
    * 组件的更新
    */
-  public update() {
-    throw new Error('Method not implemented.');
+  public update(cfg: ButtonAttrs) {
+    this.attr(deepMix({}, this.attributes, cfg));
   }
 
   /**
    * 组件的清除
    */
-  public clear() {
-    throw new Error('Method not implemented.');
-  }
+  public clear() {}
 
   /**
    * 应用多个属性
@@ -203,8 +185,8 @@ export class Button extends GUI<ButtonOptions> {
       if (!disabled) {
         // 鼠标悬浮事件
         const hoverStyle = this.getMixinStyle('hoverStyle');
-        this.applyAttrs('textShape', hoverStyle.textStyle);
-        this.applyAttrs('background', hoverStyle.buttonStyle);
+        this.textShape.attr(hoverStyle.textStyle);
+        this.background.attr(hoverStyle.buttonStyle);
         this.attr('cursor', 'pointer');
       } else {
         // 设置指针icon
@@ -214,8 +196,8 @@ export class Button extends GUI<ButtonOptions> {
 
     this.on('mouseleave', () => {
       // 恢复默认状态
-      this.applyAttrs('textShape', this.getMixinStyle('textStyle'));
-      this.applyAttrs('background', this.getMixinStyle('buttonStyle'));
+      this.textShape.attr(this.getMixinStyle('textStyle'));
+      this.background.attr(this.getMixinStyle('buttonStyle'));
     });
   }
 }

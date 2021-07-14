@@ -1,5 +1,5 @@
 import { clone, min, minBy, max, maxBy } from '@antv/util';
-import { Data } from './path';
+import { Data } from './types';
 
 /**
  * 获得数据的最值

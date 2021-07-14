@@ -3,33 +3,24 @@ import { deepMix } from '@antv/util';
 import { GUI } from '../core/gui';
 import { Marker } from '../marker';
 import type { DisplayObject } from '../../types';
-import type { IconOptions } from './types';
+import { IconAttrs, IconOptions } from './types';
 
 export { IconOptions };
 
 /**
  * 带文本的 图标组件，支持 iconfont 组件
  */
-export class Icon extends GUI<IconOptions> {
+export class Icon extends GUI<IconAttrs> {
   /**
    * 标签类型
    */
   public static tag = 'icon';
 
-  /**
-   * 图标
-   */
-  private iconShape: DisplayObject;
+  private markerShape: GUI;
 
-  /**
-   * 文本
-   */
   private textShape: DisplayObject;
 
-  /**
-   * 背景，用于在交互中显示
-   */
-  private background: DisplayObject;
+  private backgroundShape: DisplayObject;
 
   /**
    * 默认参数
@@ -54,106 +45,98 @@ export class Icon extends GUI<IconOptions> {
 
   constructor(options: IconOptions) {
     super(deepMix({}, Icon.defaultOptions, options));
-
     this.init();
   }
 
-  attributeChangedCallback(name: string, value: any): void {
-    console.log('attributeChangedCallback', name, value);
-  }
-
-  /**
-   * 获取 icon 图标
-   */
-  public getIconShape() {
-    return this.iconShape;
-  }
-
-  /**
-   * 获取 text 文本
-   */
-  public getTextShape() {
-    return this.textShape;
-  }
+  attributeChangedCallback(name: string, value: any): void {}
 
   /**
    * 根据 type 获取 maker shape
    */
   public init(): void {
-    const { x, y, symbol, size, fill, spacing, text, textStyle, markerStyle } = this.attributes;
-
-    //  图标
-    this.iconShape = new Marker({
-      attrs: {
-        // 左上角锚点
-        x: 0,
-        y: 0,
-        symbol,
-        ...markerStyle,
-        // 优先级
-        fill,
-        r: size / 2,
-      },
+    // marker
+    this.markerShape = new Marker({
+      name: 'tag-marker',
+      attrs: this.getMarkerAttrs(),
     });
-    this.appendChild(this.iconShape);
+    this.appendChild(this.markerShape);
 
-    // 文字
+    // text
     this.textShape = new Text({
-      attrs: {
-        // 居中，和 icon 间距 4px
-        x: size / 2 + spacing,
-        y: 0,
-        ...textStyle,
-        text,
-      },
+      name: 'tag-text',
+      attrs: this.getTextAttrs(),
     });
     this.appendChild(this.textShape);
 
-    // 背景
-    const bbox = this.getBounds();
-    this.background = new Rect({
-      attrs: {
-        // 加一个 边距
-        x: -size / 2 - 2,
-        y: -size / 2 - 2,
-        width: bbox.getMax()[0] - bbox.getMin()[0],
-        height: bbox.getMax()[1] - bbox.getMin()[1],
-        radius: 2,
-        fill: '#fff',
-      },
+    // background
+    this.backgroundShape = new Rect({
+      name: 'tag-background',
+      attrs: this.getBackgroundAttrs(),
     });
-
-    this.appendChild(this.background);
-    // 放到背景中
-    this.background.toBack();
-
-    // 3. 最后移动到对应的位置
-    this.translate(x + size / 2, y + size / 2);
-
+    this.appendChild(this.backgroundShape);
+    this.backgroundShape.toBack();
     this.bindEvents();
   }
 
   /**
    * 组件的更新
    */
-  public update() {
-    throw new Error('Method not implemented.');
+  public update(cfg: IconAttrs) {
+    this.attr(deepMix({}, this.attributes, cfg));
+    this.markerShape.update(this.getMarkerAttrs());
+    this.textShape.attr(this.getTextAttrs());
+    this.backgroundShape.attr(this.getBackgroundAttrs());
   }
 
   /**
    * 组件的清除
    */
   public clear() {
-    throw new Error('Method not implemented.');
+    this.markerShape.destroy();
+    this.textShape.destroy();
+    this.backgroundShape.destroy();
   }
 
   private bindEvents() {
     this.on('mouseenter', () => {
-      this.background.attr('fill', '#F5F5F5');
+      this.backgroundShape.attr('fill', '#F5F5F5');
     });
 
     this.on('mouseleave', () => {
-      this.background.attr('fill', '#fff');
+      this.backgroundShape.attr('fill', '#fff');
     });
+  }
+
+  private getMarkerAttrs() {
+    const { symbol, size, fill, markerStyle } = this.attributes;
+    return {
+      symbol,
+      ...markerStyle,
+      fill,
+      r: size / 2,
+    };
+  }
+
+  private getTextAttrs() {
+    const { size, spacing, text, textStyle } = this.attributes;
+    return {
+      x: size / 2 + spacing,
+      y: 0,
+      ...textStyle,
+      text,
+    };
+  }
+
+  private getBackgroundAttrs() {
+    const { size } = this.attributes;
+    const bbox = this.getBounds();
+    return {
+      x: -size / 2 - 1,
+      y: -size / 2 - 1,
+      width: bbox.getMax()[0] - bbox.getMin()[0],
+      height: bbox.getMax()[1] - bbox.getMin()[1],
+      radius: 2,
+      fill: '#fff',
+    };
   }
 }

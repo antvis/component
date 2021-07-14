@@ -9,34 +9,28 @@ const renderer = new CanvasRenderer({
   enableDirtyRectangleRendering: true,
 });
 
+const div = createDiv();
+
+// @ts-ignore
+const canvas = new Canvas({
+  container: div,
+  width: 300,
+  height: 300,
+  renderer,
+});
+
+const marker = new Marker({
+  attrs: {
+    symbol: 'triangle-down',
+    x: 50,
+    y: 50,
+    size: 16,
+    fill: 'green',
+  },
+});
+canvas.appendChild(marker);
+
 describe('marker', () => {
-  test('basic', async () => {
-    const div = createDiv();
-
-    // @ts-ignore
-    const canvas = new Canvas({
-      container: div,
-      width: 300,
-      height: 300,
-      renderer,
-    });
-
-    const marker = new Marker({
-      attrs: {
-        symbol: 'triangle-down',
-        x: 50,
-        y: 50,
-        r: 16,
-        fill: 'green',
-      },
-    });
-
-    canvas.appendChild(marker);
-
-    expect(marker.getPathShape().getBounds().center[0]).toBe(100);
-    expect(marker.getPathShape().getBounds().center[1]).toBe(100);
-  });
-
   test('customize marker', async () => {
     Marker.registerSymbol(
       'star',
@@ -45,26 +39,15 @@ describe('marker', () => {
       )
     );
 
-    const div = createDiv();
-
-    // @ts-ignore
-    const canvas = new Canvas({
-      container: div,
-      width: 300,
-      height: 300,
-      renderer,
+    marker.update({
+      symbol: 'star',
+      x: 50,
+      y: 50,
+      size: 16,
+      stroke: 'red',
     });
-
-    const marker = new Marker({
-      attrs: {
-        symbol: 'star',
-        x: 50,
-        y: 50,
-        r: 16,
-        stroke: 'red',
-      },
-    });
-
-    canvas.appendChild(marker);
   });
 });
+
+marker.destroy();
+canvas.destroy();

@@ -1,6 +1,6 @@
 import { ShapeAttrs, ShapeCfg } from '../../types';
 import { MarkerOptions } from '../marker';
-import { SparklineOptions } from '../sparkline';
+import { SparklineAttrs } from '../sparkline/types';
 
 export type Pair<T> = [T, T];
 
@@ -20,15 +20,15 @@ export type HandleCfg = {
   /**
    * 文本格式化
    */
-  formatter?: (text: string) => string;
+  formatter?: (text: string, idx: number) => string;
   /**
    * 文字样式
    */
-  textStyle: ShapeAttrs;
+  textStyle?: ShapeAttrs;
   /**
    * 文字与手柄的间隔
    */
-  spacing: number;
+  spacing?: number;
   /**
    * 手柄图标
    */
@@ -36,10 +36,10 @@ export type HandleCfg = {
   /**
    * 手柄图标样式
    */
-  handleStyle: MixAttrs;
+  handleStyle?: MixAttrs;
 };
 
-export type SliderOptions = ShapeCfg & {
+export type SliderAttrs = ShapeAttrs & {
   orient?: 'vertical' | 'horizontal';
   values?: Pair<number>;
   names?: Pair<string>;
@@ -59,12 +59,16 @@ export type SliderOptions = ShapeCfg & {
   handle?:
     | HandleCfg
     | {
-        start: HandleCfg;
-        end: HandleCfg;
+        start?: HandleCfg;
+        end?: HandleCfg;
       };
 
   /**
    * 缩略图数据及其配置
    */
-  sparklineCfg?: SparklineOptions;
+  sparklineCfg?: SparklineAttrs;
+};
+
+export type SliderOptions = ShapeCfg & {
+  attrs: SliderAttrs;
 };

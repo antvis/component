@@ -1,23 +1,7 @@
 import { clone, isEqual } from '@antv/util';
-import { Linear, Band } from '@antv/scale';
 import { catmullRom2Bezier } from '@antv/path-util';
 import { PathCommand } from '@antv/g-base';
-
-export type Point = [number, number];
-export type Line = Point[];
-export type Data = number[][];
-export type Scales = {
-  y: Linear;
-} & (
-  | {
-      type: 'line';
-      x: Linear;
-    }
-  | {
-      type: 'column';
-      x: Band;
-    }
-);
+import { Data, Line, Point, Scales } from './types';
 
 /**
  * 根据数据获得每条线各点x，y值
@@ -25,10 +9,10 @@ export type Scales = {
 export function dataToLines(data: Data, scales: Scales): Line[] {
   const { x, y } = scales;
   return data.map((points) => {
-    const _ = points.map((val: number, idx: number) => {
+    const lines = points.map((val: number, idx: number) => {
       return [x.map(idx), y.map(val)] as Point;
     });
-    return _;
+    return lines;
   });
 }
 
@@ -37,8 +21,8 @@ export function dataToLines(data: Data, scales: Scales): Line[] {
  */
 export function lineToLinePath(line: Line, reverse = false) {
   const M = reverse ? line.length - 1 : 0;
-  const _ = line.map((point: Point, idx: number) => [idx === M ? 'M' : 'L', ...point]) as PathCommand[];
-  return reverse ? _.reverse() : _;
+  const linePath = line.map((point: Point, idx: number) => [idx === M ? 'M' : 'L', ...point]) as PathCommand[];
+  return reverse ? linePath.reverse() : linePath;
 }
 
 /**
@@ -71,9 +55,9 @@ export function lineToCurvePath(line: Line, reverse = false) {
  * 根据baseline将path闭合
  */
 export function closePathByBaseLine(path: PathCommand[], width: number, baseline: number) {
-  const _ = clone(path);
-  _.push(['L', width, baseline], ['L', 0, baseline], ['Z']);
-  return _;
+  const closedPath = clone(path);
+  closedPath.push(['L', width, baseline], ['L', 0, baseline], ['Z']);
+  return closedPath;
 }
 
 /**
