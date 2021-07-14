@@ -1176,6 +1176,37 @@ describe('test category legend', () => {
       })
     })
 
+    it('item has itemName styleCallBack config', () => {
+      const itemName = {
+        style: (item, index, items) => {
+          return {
+            fill: item.marker.style.fill,
+            fontSize: index ? 20 : 30,
+          }
+        }
+      }
+      const newItem = [
+        { name: 'a', value: 1, marker: { spacing: 10, symbol: 'circle', style: { r: 4, fill: 'red' } } },
+        { name: 'b', value: 2, marker: { spacing: 20, symbol: 'square', style: { r: 5, fill: 'red' } } },
+        { name: 'c', value: 3, marker: { spacing: 30, symbol: 'triangle', style: { r: 6, fill: 'blue' } } },
+        { name: 'd', value: 4, marker: { spacing: 40, symbol: 'line', style: { r: 6, fill: 'blue' } } },
+      ];
+
+      legend.update({
+        itemName,
+        items: newItem,
+      });
+
+      newItem.forEach((item, index) => {
+        const itemGroup = legend.getElementById(`c-legend-item-${item.name}`)
+        const textElement = itemGroup.getChildren()[1];
+
+        expect(textElement.attrs.fill).toBe(newItem[index].marker.style.fill);
+        expect(textElement.attrs.fontSize).toBe(index ? 20 : 30);
+        expect(itemGroup.getCanvasBBox().height).toBe(index ? 20 : 30);
+      });
+    })
+
     it('destroy', () => {
       legend.destroy();
       expect(legend.destroyed).toBe(true);

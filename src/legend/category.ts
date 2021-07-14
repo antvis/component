@@ -1,5 +1,5 @@
 import { IGroup } from '@antv/g-base';
-import { clamp, deepMix, each, filter, get, mix, isNumber } from '@antv/util';
+import { clamp, deepMix, each, filter, get, mix, isNumber, isFunction } from '@antv/util';
 import { IList } from '../interfaces';
 import { CategoryLegendCfg, LegendPageNavigatorCfg, LegendItemNameCfg, LegendMarkerCfg, ListItem } from '../types';
 import { ellipsisLabel } from '../util/label';
@@ -27,6 +27,17 @@ const DEFAULT_PAGE_NAVIGATOR = {
       fontSize: 12,
     },
   },
+};
+
+// 默认 文本style
+const textStyle = {
+  fill: Theme.textColor,
+  fontSize: 12,
+  textAlign: 'start',
+  textBaseline: 'middle',
+  fontFamily: Theme.fontFamily,
+  fontWeight: "normal",
+  lineHeight: 12,
 };
 
 class Category extends LegendBase<CategoryLegendCfg> implements IList {
@@ -82,12 +93,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
         pageNavigator: DEFAULT_PAGE_NAVIGATOR,
         itemName: {
           spacing: 16, // 如果右边有 value 使用这个间距
-          style: {
-            fill: Theme.textColor,
-            fontSize: 12,
-            textAlign: 'start',
-            textBaseline: 'middle',
-          },
+          style: textStyle,
         },
         marker: {
           spacing: 8,
@@ -99,12 +105,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
         itemValue: {
           alignRight: false, // 只有itemWidth 不为 null 时此属性有效
           formatter: null,
-          style: {
-            fill: Theme.textColor,
-            fontSize: 12,
-            textAlign: 'start',
-            textBaseline: 'middle',
-          },
+          style: textStyle,
         },
         itemStates: {
           active: {
@@ -324,9 +325,18 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
   private getItemHeight() {
     let itemHeight = this.get('itemHeight');
     if (!itemHeight) {
-      const nameCfg = this.get('itemName');
-      if (nameCfg) {
-        itemHeight = nameCfg.style.fontSize;
+      const { style }: LegendItemNameCfg = this.get('itemName') || {};
+
+      if (isFunction(style)) {
+        const items = this.getItems();
+        items.forEach((item, index) => {
+          const { fontSize } = { ...textStyle, ...style(item, index, items) };
+          if (itemHeight < fontSize) {
+            itemHeight = fontSize;
+          }
+        })
+      } else if (style) {
+        itemHeight = style.fontSize;
       }
     }
     return itemHeight;
@@ -371,11 +381,14 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     index: number
   ) {
     const formatter = cfg.formatter;
+    const { style } = cfg;
+
     const attrs = {
       x: xPosition,
       y: itemHeight / 2,
       text: formatter ? formatter(item[textName], item, index) : item[textName],
-      ...cfg.style,
+      ...textStyle,
+      ...(isFunction(style) ? style(item, index, this.getItems()) : style),
     };
     return this.addShape(container, {
       type: 'text',
