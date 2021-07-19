@@ -673,4 +673,33 @@ describe('test continue legend', () => {
       expect(legend.getValue()).toEqual([500, 1000]);
     });
   });
+
+  describe('test continuous values', () => {
+    const container = canvas.addGroup();
+    const legend = new ContinuousLegend({
+      id: 'e',
+      container,
+      x: 300,
+      y: 300,
+      min: 100,
+      max: 1000,
+      values: [200, 800]
+    });
+    legend.init();
+    it('change values', () => {
+      expect(legend.getValue()).toEqual([200, 800]);
+
+      legend.update({ values: [0, 2000] });
+      expect(legend.getValue()).toEqual([100, 1000]);
+
+      legend.update({ values: [500] });
+      expect(legend.getValue()).toEqual([500, 500]);
+
+      legend.update({ values: [0] });
+      expect(legend.getValue()).toEqual([100, 100]);
+
+      legend.update({ values: [] });
+      expect(legend.getValue()).toEqual([1000, 100]);
+    });
+  });
 });
