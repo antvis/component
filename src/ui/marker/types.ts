@@ -1,4 +1,4 @@
-import { ShapeCfg, ShapeAttrs } from '../../types';
+import type { ShapeCfg, ShapeAttrs } from '../../types';
 
 export type FunctionalSymbol = (x: number, y: number, r: number) => any;
 

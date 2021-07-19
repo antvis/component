@@ -1,7 +1,6 @@
 import { Rect } from '@antv/g';
 import { clamp, deepMix, get } from '@antv/util';
 import { GUI } from '../core/gui';
-import type { DisplayObject } from '../../types';
 import type { ScrollbarOptions, ScrollbarAttrs } from './types';
 
 export type { ScrollbarOptions, ScrollbarAttrs };
@@ -13,10 +12,10 @@ export class Scrollbar extends GUI<ScrollbarAttrs> {
   public static tag = 'scrollbar';
 
   // 滑道
-  private trackShape: DisplayObject;
+  private trackShape: Rect;
 
   // 滑块
-  private thumbShape: DisplayObject;
+  private thumbShape: Rect;
 
   /**
    * 拖动开始位置

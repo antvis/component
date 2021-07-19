@@ -1,5 +1,5 @@
-import { ShapeAttrs, ShapeCfg } from '../../types';
-import { MarkerOptions } from '../marker';
+import type { ShapeAttrs, ShapeCfg } from '../../types';
+import type { MarkerOptions } from '../marker';
 
 export type IconAttrs = ShapeAttrs & {
   /**

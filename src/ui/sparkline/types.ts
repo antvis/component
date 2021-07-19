@@ -1,5 +1,5 @@
 import { Linear, Band } from '@antv/scale';
-import { ShapeAttrs, ShapeCfg } from '../../types';
+import type { ShapeAttrs, ShapeCfg } from '../../types';
 
 export type Point = [number, number];
 export type Line = Point[];

@@ -3,9 +3,11 @@ import { clone, deepMix, isNumber, isArray, isFunction } from '@antv/util';
 import { Linear, Band } from '@antv/scale';
 import { PathCommand } from '@antv/g-base';
 import { GUI } from '../core/gui';
-import type { DisplayObject } from '../../types';
+import { Lines } from './lines';
+import { Columns } from './columns';
 import { getRange, getStackedData } from './utils';
-import { Data, SparklineAttrs, SparklineOptions } from './types';
+import type { DisplayObject } from '../../types';
+import type { Data, SparklineAttrs, SparklineOptions } from './types';
 import {
   dataToLines,
   lineToLinePath,
@@ -14,8 +16,6 @@ import {
   linesToStackAreaPaths,
   linesToStackCurveAreaPaths,
 } from './path';
-import { Lines } from './lines';
-import { Columns } from './columns';
 
 export { SparklineAttrs, SparklineOptions };
 

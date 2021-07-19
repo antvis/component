@@ -1,6 +1,6 @@
-import { ShapeAttrs, ShapeCfg } from '../../types';
-import { MarkerOptions } from '../marker';
-import { SparklineAttrs } from '../sparkline/types';
+import type { ShapeAttrs, ShapeCfg } from '../../types';
+import type { MarkerOptions } from '../marker';
+import type { SparklineAttrs } from '../sparkline/types';
 
 export type Pair<T> = [T, T];
 

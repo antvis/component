@@ -1,5 +1,5 @@
-import { TimelineOptions } from './types';
+import type { TimelineOptions } from './types';
 
-export { TimelineOptions };
+export type { TimelineOptions };
 
 export class Timeline {}

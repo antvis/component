@@ -1,5 +1,5 @@
-import { Rect } from '@antv/g';
-import { CustomElement, ShapeCfg } from '../../types';
+import { CustomElement, Rect } from '@antv/g';
+import type { ShapeCfg } from '../../types';
 
 type AttrsType = { [key: string]: any };
 type ColumnsCfg = AttrsType[][];

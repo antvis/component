@@ -1,4 +1,4 @@
-import { ShapeAttrs, ShapeCfg } from '../../types';
+import type { ShapeAttrs, ShapeCfg } from '../../types';
 
 export interface ScrollStyle {
   default: ShapeAttrs;

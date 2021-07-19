@@ -2,7 +2,7 @@ import { Path, Image } from '@antv/g';
 import { deepMix, isFunction, isObject, isString } from '@antv/util';
 import { GUI } from '../core/gui';
 import type { DisplayObject } from '../../types';
-import { MarkerAttrs, MarkerOptions, FunctionalSymbol } from './types';
+import type { MarkerAttrs, MarkerOptions, FunctionalSymbol } from './types';
 import { circle, square, diamond, triangleDown, triangle } from './symbol';
 
 export { MarkerAttrs, MarkerOptions, FunctionalSymbol };

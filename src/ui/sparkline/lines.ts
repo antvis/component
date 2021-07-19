@@ -1,5 +1,5 @@
-import { Path } from '@antv/g';
-import { CustomElement, ShapeCfg } from '../../types';
+import { CustomElement, Path } from '@antv/g';
+import type { ShapeCfg } from '../../types';
 
 type AttrsType = { [key: string]: any };
 type LinesCfg = { linesAttrs: AttrsType[]; areasAttrs?: AttrsType[] };

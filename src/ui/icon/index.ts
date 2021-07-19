@@ -3,7 +3,7 @@ import { deepMix } from '@antv/util';
 import { GUI } from '../core/gui';
 import { Marker } from '../marker';
 import type { DisplayObject } from '../../types';
-import { IconAttrs, IconOptions } from './types';
+import type { IconAttrs, IconOptions } from './types';
 
 export { IconOptions };
 

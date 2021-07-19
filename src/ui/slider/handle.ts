@@ -1,6 +1,6 @@
-import { Rect, Line } from '@antv/g';
+import { CustomElement, Rect, Line } from '@antv/g';
 import { Marker } from '../marker';
-import { CustomElement, ShapeCfg } from '../../types';
+import type { ShapeCfg } from '../../types';
 
 type AttrsType = { [key: string]: any };
 type HandleCfg = AttrsType & {

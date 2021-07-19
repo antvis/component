@@ -1,7 +1,7 @@
 import { clone, isEqual } from '@antv/util';
 import { catmullRom2Bezier } from '@antv/path-util';
 import { PathCommand } from '@antv/g-base';
-import { Data, Line, Point, Scales } from './types';
+import type { Data, Line, Point, Scales } from './types';
 
 /**
  * 根据数据获得每条线各点x，y值

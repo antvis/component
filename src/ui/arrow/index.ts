@@ -1,5 +1,5 @@
-import { ArrowOptions } from './types';
+import type { ArrowOptions } from './types';
 
-export { ArrowOptions };
+export type { ArrowOptions };
 
 export class Arrow {}

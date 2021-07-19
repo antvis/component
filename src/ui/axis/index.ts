@@ -1,5 +1,5 @@
 import { GUI } from '../core/gui';
-import { AxisOptions } from './types';
+import type { AxisOptions } from './types';
 
 export { AxisOptions };
 

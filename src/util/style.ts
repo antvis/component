@@ -1,24 +1,21 @@
 import { clone, deepMix, get } from '@antv/util';
-import { ShapeAttrs } from '@antv/g';
-
-const STATE_LIST = ['active', 'inactive', 'checked', 'unchecked', 'enable', 'disabled'] as const;
-export type StyleState = typeof STATE_LIST[number];
-
-export type MixAttrs = ShapeAttrs &
-  {
-    [state in StyleState]?: ShapeAttrs;
-  };
+import type { ShapeAttrs } from '@antv/g';
+import type { MixAttrs, StyleState } from '../types';
+import { STATE_LIST } from '../constant';
 
 /**
  * 从带状态样式中返回移除了状态样式的默认样式
  */
 export function getDefaultStyle(style: MixAttrs): ShapeAttrs {
+  if ('default' in style) {
+    return style.default;
+  }
   const duplicateStyle = clone(style);
   // 移除其他带状态的样式得到默认样式
   STATE_LIST.forEach((state) => {
     if (state in duplicateStyle) delete duplicateStyle[state];
   });
-  return duplicateStyle;
+  return duplicateStyle as ShapeAttrs;
 }
 
 /**
