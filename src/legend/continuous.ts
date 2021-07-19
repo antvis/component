@@ -478,10 +478,14 @@ class ContinueLegend extends LegendBase<ContinueLegendCfg> implements ISlider {
 
   // 当前选中的范围
   private getCurrentValue(): number[] {
-    let value = this.get('value');
+    const value = this.get('value');
     if (!value) {
-      // 如果没有定义，取最大范围
-      value = [this.get('min'), this.get('max')];
+      const values = this.get('values');
+      if (!values) {
+        return [this.get('min'), this.get('max')];
+      }
+      // 如果没有定义，取最大范围  最小值 为 values 中的最小值， 如果最小值 超过了 定义的最大值 则 做限制  最大值 反之
+      return [Math.max(Math.min(...values, this.get('max')), this.get('min')), Math.min(Math.max(...values, this.get('min')), this.get('max'))];
     }
     return value;
   }

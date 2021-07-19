@@ -360,13 +360,13 @@ describe('test category legend', () => {
         maxItemWidth: 80,
       });
       const item1 = legend.getElementById('c-legend-item-测试测试测试测试测试 1');
-      expect(item1.getBBox().width).toBeCloseTo(40);
+      expect(item1.getBBox().width).toBeLessThan(40);
       const item1Name = legend.getElementById('c-legend-item-测试测试测试测试测试 1-name');
       expect(item1Name.attr('text').indexOf('…')).toBeGreaterThan(-1);
       expect(item1Name.get('tip')).toBe('测试测试测试测试测试 1');
 
       const item2 = legend.getElementById('c-legend-item-测试 2');
-      expect(item2.getBBox().width).toBeCloseTo(40);
+      expect(item2.getBBox().width).toBeLessThan(40);
       const item2Name = legend.getElementById('c-legend-item-测试 2-name');
       expect(item2Name.attr('text').indexOf('…')).toBeGreaterThan(-1);
       expect(item2Name.get('tip')).toBe('测试 2');
@@ -378,13 +378,13 @@ describe('test category legend', () => {
         itemWidth: 80,
       });
       const item1 = legend.getElementById('c-legend-item-测试测试测试测试测试 1');
-      expect(item1.getBBox().width).toBeCloseTo(40);
+      expect(item1.getBBox().width).toBeLessThan(40);
       const item1Name = legend.getElementById('c-legend-item-测试测试测试测试测试 1-name');
       expect(item1Name.attr('text').indexOf('…')).toBeGreaterThan(-1);
       expect(item1Name.get('tip')).toBe('测试测试测试测试测试 1');
 
       const item2 = legend.getElementById('c-legend-item-测试 2');
-      expect(item2.getBBox().width).toBeCloseTo(40);
+      expect(item2.getBBox().width).toBeLessThan(40);
       const item2Name = legend.getElementById('c-legend-item-测试 2-name');
       expect(item2Name.attr('text').indexOf('…')).toBeGreaterThan(-1);
       expect(item2Name.get('tip')).toBe('测试 2');
