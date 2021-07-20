@@ -1,3 +1,14 @@
+#### 0.8.15 (2021-07-20)
+
+##### New Features
+
+- **legend:** 修改连续图例 中的 values 配置 ([#236](https://github.com/antvis/component/pull/236)) ([d113b801](https://github.com/antvis/component/commit/d113b8019ad5ef02d366be58bf80fde0971de795))
+- **legend:** 图例 itemName.style 以及 itemValue.style 支持回调方法 ([#227](https://github.com/antvis/component/pull/227))" ([#231](https://github.com/antvis/component/pull/231)) ([6bb88825](https://github.com/antvis/component/commit/6bb88825c5415933ce0901012f817163fb2b771b))
+
+##### Bug Fixes
+
+- **types:** axis title 增加 position 的类型定义 ([#235](https://github.com/antvis/component/pull/235)) ([f097180d](https://github.com/antvis/component/commit/f097180d0d856202d845f0e18c88f5f95fc47bb4))
+
 #### 0.8.14 (2021-07-06)
 
 ##### Bug Fixes
