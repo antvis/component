@@ -12,3 +12,4 @@ export { Sheet, SheetOptions } from './sheet';
 export { Slider, SliderOptions } from './slider';
 export { Sparkline, SparklineOptions } from './sparkline';
 export { Timeline, TimelineOptions } from './timeline';
+export { BreadCrumb, BreadCrumbOptions } from './breadcrumb';

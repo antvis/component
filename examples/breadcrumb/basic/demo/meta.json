@@ -1,0 +1,16 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "simple-breadcrumb.ts",
+      "title": {
+        "zh": "简单面包屑",
+        "en": "Simple breadcrumb"
+      },
+      "screenshot": ""
+    }
+  ]
+}
