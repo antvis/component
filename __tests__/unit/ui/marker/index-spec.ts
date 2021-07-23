@@ -28,9 +28,18 @@ const marker = new Marker({
     fill: 'green',
   },
 });
+
 canvas.appendChild(marker);
 
 describe('marker', () => {
+  test('basic', () => {
+    expect(marker.attr('x')).toBe(50);
+    expect(marker.attr('y')).toBe(50);
+    expect(marker.attr('size')).toBe(16);
+    expect(marker.attr('fill')).toBe('green');
+    expect(marker.attr('symbol')).toBe('triangle-down');
+  });
+
   test('customize marker', async () => {
     Marker.registerSymbol(
       'star',
@@ -43,9 +52,15 @@ describe('marker', () => {
       symbol: 'star',
       x: 50,
       y: 50,
-      size: 16,
+      size: 20,
       stroke: 'red',
     });
+    expect(marker.attr('x')).toBe(50);
+    expect(marker.attr('y')).toBe(50);
+    expect(marker.attr('size')).toBe(20);
+    expect(marker.attr('fill')).toBe('green');
+    expect(marker.attr('symbol')).toBe('star');
+    expect(marker.attr('stroke')).toBe('red');
   });
 });
 

@@ -28,7 +28,7 @@ const marker = new Marker({
     symbol: 'star',
     x: 50,
     y: 50,
-    r: 16,
+    size: 16,
     fill: 'orange',
   },
 });

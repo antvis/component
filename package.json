@@ -83,7 +83,7 @@
     "testTimeout": 30000,
     "preset": "ts-jest",
     "collectCoverage": true,
-    "testRegex": "(/__tests__/.*\\.(test|spec))\\.ts$",
+    "testRegex": "/__tests__/.*-spec\\.ts?$",
     "setupFilesAfterEnv": [
       "./jest.setup.js"
     ],

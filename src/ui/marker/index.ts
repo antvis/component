@@ -1,5 +1,5 @@
 import { Path, Image } from '@antv/g';
-import { deepMix, isFunction, isObject, isString } from '@antv/util';
+import { deepMix, isFunction } from '@antv/util';
 import { GUI } from '../core/gui';
 import type { DisplayObject } from '../../types';
 import type { MarkerAttrs, MarkerOptions, FunctionalSymbol } from './types';
@@ -37,7 +37,7 @@ export class Marker extends GUI<MarkerAttrs> {
     attrs: {
       x: 0,
       y: 0,
-      r: 16,
+      size: 16,
     },
   };
 
@@ -74,7 +74,7 @@ export class Marker extends GUI<MarkerAttrs> {
 
   private createMarker() {
     const { symbol } = this.attributes;
-    const markerType = this.parseMarker(symbol);
+    const markerType = parseMarker(symbol);
     if (['base64', 'url', 'image'].includes(markerType)) {
       this.markerShape = new Image({
         name: 'marker-image',
@@ -94,10 +94,10 @@ export class Marker extends GUI<MarkerAttrs> {
 
   // symbol marker
   private getMarkerSymbolAttrs() {
-    const { x, y, r, symbol, ...args } = this.attributes;
-    const halfR = r / 2;
+    const { x, y, size, symbol, ...args } = this.attributes;
+    const halfR = size / 2;
     const symbolFn = isFunction(symbol) ? symbol : Marker.MARKER_SYMBOL_MAP.get(symbol);
-    const path = symbolFn(x, y, r);
+    const path = symbolFn(x, y, size);
     return {
       path,
       r: halfR,
@@ -107,8 +107,8 @@ export class Marker extends GUI<MarkerAttrs> {
 
   // image marker
   private getMarkerImageAttrs() {
-    const { r, symbol, ...args } = this.attributes;
-    const r2 = r * 2;
+    const { size, symbol, ...args } = this.attributes;
+    const r2 = size * 2;
     return {
       x: -r2,
       y: -r2,
@@ -117,27 +117,6 @@ export class Marker extends GUI<MarkerAttrs> {
       img: symbol,
       ...args,
     };
-  }
-
-  /**
-   * 解析marker类型
-   */
-  private parseMarker(icon: MarkerOptions['symbol'] | string) {
-    let type = 'default';
-    if (isObject(icon) && icon instanceof Image) type = 'image';
-    else if (isFunction(icon)) type = 'symbol';
-    else if (isString(icon)) {
-      const dataURLsPattern = new RegExp('data:(image|text)');
-      if (icon.match(dataURLsPattern)) {
-        type = 'base64';
-      } else if (/^(https?:\/\/(([a-zA-Z0-9]+-?)+[a-zA-Z0-9]+\.)+[a-zA-Z]+)(:\d+)?(\/.*)?(\?.*)?(#.*)?$/.test(icon)) {
-        type = 'url';
-      } else {
-        // 不然就当作symbol string 处理
-        type = 'symbol';
-      }
-    }
-    return type;
   }
 }
 
