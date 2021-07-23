@@ -1,7 +1,7 @@
 import { GUI } from '../core/gui';
 import type { AxisOptions } from './types';
 
-export { AxisOptions };
+export type { AxisOptions };
 
 export class Axis extends GUI<AxisOptions> {
   attributeChangedCallback(name: string, value: any) {

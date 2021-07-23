@@ -3,4 +3,3 @@ export { measureTextWidth, getEllipsisText } from './text';
 export { toPrecision } from './number';
 export { normalPadding } from './padding';
 export { getDefaultStyle, getStateStyle } from './style';
-

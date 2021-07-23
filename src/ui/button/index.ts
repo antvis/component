@@ -6,7 +6,7 @@ import { SIZE_STYLE, TYPE_STYLE, DISABLED_STYLE } from './constant';
 import type { ShapeAttrs, DisplayObject } from '../../types';
 import type { ButtonAttrs, ButtonOptions } from './types';
 
-export { ButtonAttrs, ButtonOptions };
+export type { ButtonAttrs, ButtonOptions };
 
 export class Button extends GUI<ButtonAttrs> {
   /**

@@ -6,7 +6,7 @@ import { toPrecision } from '../../util';
 import { Sparkline } from '../sparkline';
 import type { SliderAttrs, SliderOptions, HandleCfg, Pair } from './types';
 
-export { SliderAttrs, SliderOptions };
+export type { SliderAttrs, SliderOptions };
 
 type HandleType = 'start' | 'end';
 

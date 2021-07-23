@@ -1,5 +1,5 @@
 import { isObject, isString, isFunction } from '@antv/util';
-import { MarkerOptions } from './types';
+import type { MarkerOptions } from './types';
 /**
  * 解析marker类型
  */

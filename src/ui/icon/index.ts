@@ -5,7 +5,7 @@ import { Marker } from '../marker';
 import type { DisplayObject } from '../../types';
 import type { IconAttrs, IconOptions } from './types';
 
-export { IconOptions };
+export type { IconOptions };
 
 /**
  * 带文本的 图标组件，支持 iconfont 组件

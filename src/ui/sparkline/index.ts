@@ -17,7 +17,7 @@ import {
   linesToStackCurveAreaPaths,
 } from './path';
 
-export { SparklineAttrs, SparklineOptions };
+export type { SparklineAttrs, SparklineOptions };
 
 export class Sparkline extends GUI<SparklineAttrs> {
   public static tag = 'Sparkline';

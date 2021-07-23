@@ -1,11 +1,12 @@
 import { Path, Image } from '@antv/g';
 import { deepMix, isFunction } from '@antv/util';
 import { GUI } from '../core/gui';
+import { parseMarker } from './utils';
+import { circle, square, diamond, triangleDown, triangle } from './symbol';
 import type { DisplayObject } from '../../types';
 import type { MarkerAttrs, MarkerOptions, FunctionalSymbol } from './types';
-import { circle, square, diamond, triangleDown, triangle } from './symbol';
 
-export { MarkerAttrs, MarkerOptions, FunctionalSymbol };
+export type { MarkerAttrs, MarkerOptions, FunctionalSymbol };
 
 /**
  * Marker
@@ -75,16 +76,18 @@ export class Marker extends GUI<MarkerAttrs> {
   private createMarker() {
     const { symbol } = this.attributes;
     const markerType = parseMarker(symbol);
+    console.log(markerType, this);
+
     if (['base64', 'url', 'image'].includes(markerType)) {
       this.markerShape = new Image({
-        name: 'marker-image',
+        name: 'markerImage',
         attrs: this.getMarkerImageAttrs(),
       });
       const { r } = this.attributes;
-      this.translate(-r, -r);
+      // this.translate(-r, -r);
     } else if (markerType === 'symbol') {
       this.markerShape = new Path({
-        name: 'marker-symbol',
+        name: 'markerSymbol',
         attrs: this.getMarkerSymbolAttrs(),
       });
     }
@@ -107,15 +110,14 @@ export class Marker extends GUI<MarkerAttrs> {
 
   // image marker
   private getMarkerImageAttrs() {
-    const { size, symbol, ...args } = this.attributes;
+    const { size, symbol } = this.attributes;
     const r2 = size * 2;
     return {
-      x: -r2,
-      y: -r2,
+      x: r2,
+      y: r2,
       width: r2,
       height: r2,
       img: symbol,
-      ...args,
     };
   }
 }

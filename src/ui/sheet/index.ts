@@ -1,5 +1,5 @@
 import type { SheetOptions } from './types';
 
-export { SheetOptions };
+export type { SheetOptions };
 
 export class Sheet {}
