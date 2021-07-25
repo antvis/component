@@ -47,12 +47,7 @@ export type SliderAttrs = ShapeAttrs & {
   max?: number;
   width?: number;
   height?: number;
-  padding?: {
-    left: number;
-    right: number;
-    top: number;
-    buttons: number;
-  };
+  padding?: number[];
   backgroundStyle?: MixAttrs;
   selectionStyle?: MixAttrs;
   foregroundStyle?: MixAttrs;

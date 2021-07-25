@@ -1,10 +1,9 @@
 import { Group } from '@antv/g';
-import { ShapeAttrs, ShapeCfg } from '../../types';
+import type { ShapeAttrs, ShapeCfg } from '../../types';
 
 export type BreadCrumbItem = {
   /** 展示的文案 */
   name: string;
-
   /** id */
   id: string;
 };

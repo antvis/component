@@ -214,7 +214,7 @@ export class BreadCrumb extends GUI<BreadCrumbAttrs> {
    */
   private bindEvents(shape: DisplayObject, item: BreadCrumbItem) {
     const style = this.getMixinStyle(item);
-    const { items, onClick } = this.attributes;
+    const { items, onclick } = this.attributes;
 
     shape.on('mouseenter', () => {
       /**
@@ -227,9 +227,9 @@ export class BreadCrumb extends GUI<BreadCrumbAttrs> {
       shape.attr(style);
     });
 
-    if (onClick) {
+    if (onclick) {
       shape.on('click', () => {
-        onClick.call(shape, item.name, item, items);
+        onclick.call(shape, item.name, item, items);
       });
     }
   }

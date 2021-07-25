@@ -1,6 +1,8 @@
 import type { ShapeAttrs, ShapeCfg } from '../../types';
 
 export type ButtonAttrs = {
+  x?: number;
+  y?: number;
   /**
    * 按钮类型
    */
