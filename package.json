@@ -36,12 +36,13 @@
     "GUI"
   ],
   "dependencies": {
-    "@antv/g": "^1.0.0-alpha.0",
+    "@antv/g": "^1.0.0-alpha.3",
     "@antv/g-base": "^0.5.9",
-    "@antv/g-canvas": "^1.0.0-alpha.0",
-    "@antv/util": "^2.0.13",
+    "@antv/g-canvas": "^1.0.0-alpha.3",
+    "@antv/g-svg": "^1.0.0-alpha.3",
     "@antv/path-util": "^2.0.9",
     "@antv/scale": "^0.4.3",
+    "@antv/util": "^2.0.13",
     "csstype": "^3.0.8",
     "svg-path-parser": "^1.1.0"
   },

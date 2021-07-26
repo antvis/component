@@ -1,0 +1,40 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "basic.ts",
+      "title": {
+        "zh": "基本连续图例",
+        "en": "Basic continuous legend"
+      },
+      "screenshot": ""
+    },
+    {
+      "filename": "size-type.ts",
+      "title": {
+        "zh": "尺寸类型",
+        "en": "Size type"
+      },
+      "screenshot": ""
+    },
+    {
+      "filename": "color-type.ts",
+      "title": {
+        "zh": "颜色类型",
+        "en": "Color type"
+      },
+      "screenshot": ""
+    },
+    {
+      "filename": "chunked.ts",
+      "title": {
+        "zh": "分块",
+        "en": "Chunked"
+      },
+      "screenshot": ""
+    }
+  ]
+}

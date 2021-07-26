@@ -10,8 +10,6 @@ export { Axis } from './axis';
 export type { AxisOptions } from './axis';
 export { Button } from './button';
 export type { ButtonOptions } from './button';
-export { Legend } from './legend';
-export type { LegendOptions } from './legend';
 export { Scrollbar } from './scrollbar';
 export type { ScrollbarOptions, ScrollbarAttrs } from './scrollbar';
 export { Sheet } from './sheet';
