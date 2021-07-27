@@ -34,7 +34,7 @@ export abstract class LegendBase<T extends LegendBaseCfg> extends GUI<T> {
   /**
    * 获取颜色
    */
-  protected abstract getColor(): string;
+  protected abstract getColor(): string | string[];
 
   /**
    * 背景属性

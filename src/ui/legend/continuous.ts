@@ -9,7 +9,7 @@ import { Marker } from '../marker';
 import { toPrecision } from '../../util';
 import type { Pair } from '../slider/types';
 import type { MarkerAttrs } from '../marker';
-import type { ContinuousCfg, ContinuousOptions } from './types';
+import type { ContinuousCfg, ContinuousOptions, IndicatorCfg } from './types';
 import type { DisplayObject, ShapeAttrs } from '../../types';
 
 export type { ContinuousOptions };
@@ -127,7 +127,7 @@ export class Continuous extends LegendBase<ContinuousCfg> {
     // 值校验
     const { min, max, rail, indicator } = this.attributes;
     const safeValue = value === false ? false : clamp(value, min, max);
-    if (safeValue === false) {
+    if (safeValue === false || !indicator) {
       this.indicatorShape.hide();
       return;
     }
@@ -516,7 +516,8 @@ export class Continuous extends LegendBase<ContinuousCfg> {
    */
   private getIndicatorAttrs() {
     const { indicator } = this.attributes;
-    const { size, text, backgroundStyle } = indicator;
+    if (!indicator) return {};
+    const { size, text, backgroundStyle } = indicator as IndicatorCfg;
     const { style: textStyle } = text;
     return {
       markerAttrs: {
@@ -528,12 +529,12 @@ export class Continuous extends LegendBase<ContinuousCfg> {
         text: '',
         ...this.getOrientVal([
           {
-            textAlign: 'center',
-            textBaseline: 'middle',
+            textAlign: 'center' as 'center',
+            textBaseline: 'middle' as 'middle',
           },
           {
-            textAlign: 'left',
-            textBaseline: 'middle',
+            textAlign: 'left' as 'left',
+            textBaseline: 'middle' as 'middle',
           },
         ]),
         ...textStyle,
@@ -543,6 +544,8 @@ export class Continuous extends LegendBase<ContinuousCfg> {
   }
 
   private createIndicator() {
+    const { indicator } = this.attributes;
+    if (!indicator) return;
     const { markerAttrs, textAttrs, backgroundAttrs } = this.getIndicatorAttrs();
     const el = new Group({
       name: 'indicator',
@@ -637,6 +640,7 @@ export class Continuous extends LegendBase<ContinuousCfg> {
    */
   private adjustLabels() {
     const { min, max, label, rail, orient } = this.attributes;
+    if (!label) return;
     // 容器内可用空间起点
     const { x: innerX, y: innerY } = this.getAvailableSpace();
     const { width: railWidth, height: railHeight, ticks: _t } = rail;

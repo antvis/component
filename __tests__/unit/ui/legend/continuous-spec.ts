@@ -1,6 +1,6 @@
 import { Canvas } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
-import { Continuous } from '../../../../src';
+import { Continuous } from '../../../../src/ui/legend';
 import { createDiv } from '../../../utils';
 
 // const webglRenderer = new WebGLRenderer();

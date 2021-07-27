@@ -21,6 +21,17 @@ export type RailCfg = {
   backgroundColor?: string;
 };
 
+export type IndicatorCfg = {
+  size?: number;
+  backgroundStyle?: ShapeAttrs;
+  spacing?: number;
+  padding?: number | number[];
+  text?: {
+    formatter?: (value: number) => string;
+    style?: ShapeAttrs;
+  };
+};
+
 // 滑动手柄
 type HandleCfg = {
   size?: number;
@@ -120,8 +131,6 @@ export type LegendBaseCfg = ShapeCfg['attrs'] & {
   };
   // Legend类型
   type?: 'category' | 'continuous';
-  // 指示器
-  indicator?: false | {};
 };
 
 export type LegendBaseOptions = {
@@ -131,13 +140,17 @@ export type LegendBaseOptions = {
 // 连续图例配置
 export type ContinuousCfg = LegendBaseCfg & {
   // 最小值
-  min: number;
+  min?: number;
   // 最大值
-  max: number;
+  max?: number;
+  // 开始区间
+  start?: number;
+  // 结束区间
+  end?: number;
   // 色板颜色
   color?: string | string[];
   // 标签
-  label:
+  label?:
     | false
     | {
         style?: ShapeAttrs;
@@ -154,7 +167,9 @@ export type ContinuousCfg = LegendBaseCfg & {
   // 滑动步长
   step?: number;
   // 手柄配置
-  Handle?: false | HandleCfg;
+  handle?: false | HandleCfg;
+  // 指示器
+  indicator?: false | IndicatorCfg;
 };
 
 export type ContinuousOptions = {
