@@ -604,10 +604,18 @@ export interface CategoryLegendCfg extends LegendBaseCfg {
    */
   items: ListItem[];
   /**
+   * 是否翻页
+   */
+   flipPage?: boolean;
+   /**
+    * 翻页行数（只适用于横向） 
+    */
+   flipPageRows?: number;
+  /**
    * 分页器配置
    * @type {LegendPageNavigatorCfg}
    */
-  flipNavigation: LegendPageNavigatorCfg;
+  flipNavigation?: LegendPageNavigatorCfg;
 }
 
 export interface ContinueLegendCfg extends LegendBaseCfg {

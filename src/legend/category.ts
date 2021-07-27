@@ -503,7 +503,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     let maxItemWidth = 0;
 
     if (layout === 'horizontal') {
-      this.pageHeight = itemHeight;
+      this.pageHeight = itemHeight * (this.get('flipPageRows') || 1);
       each(subGroups, (item) => {
         const bbox = item.getBBox();
         const width = itemWidth || bbox.width;
@@ -590,8 +590,12 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
         },
       });
     }
-
-    this.totalPagesCnt = pages;
+    // 重新计算 totalPagesCnt
+    if (layout === 'horizontal' && this.get('flipPageRows')) {
+      this.totalPagesCnt = Math.ceil(pages / this.get('flipPageRows'));
+    } else {
+      this.totalPagesCnt = pages;
+    }
     if (this.currentPageIndex > this.totalPagesCnt) {
       this.currentPageIndex = 1;
     }
@@ -717,13 +721,13 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     const translate =
       layout === 'horizontal'
         ? {
-            x: 0,
-            y: pageHeight * (1 - currentPageIndex),
-          }
+          x: 0,
+          y: pageHeight * (1 - currentPageIndex),
+        }
         : {
-            x: pageWidth * (1 - currentPageIndex),
-            y: 0,
-          };
+          x: pageWidth * (1 - currentPageIndex),
+          y: 0,
+        };
 
     return getMatrixByTranslate(translate);
   }
