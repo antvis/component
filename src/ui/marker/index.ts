@@ -76,7 +76,6 @@ export class Marker extends GUI<MarkerAttrs> {
   private createMarker() {
     const { symbol } = this.attributes;
     const markerType = parseMarker(symbol);
-    console.log(markerType, this);
 
     if (['base64', 'url', 'image'].includes(markerType)) {
       this.markerShape = new Image({

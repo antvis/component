@@ -29,7 +29,7 @@ export function getDefaultStyle(style: MixAttrs): ShapeAttrs {
  * @param state 状态
  * @param isMerge 是否将状态样式与默认样式合并
  */
-export function getStateStyle(style: MixAttrs, state?: StyleState, isMerge: boolean = false): ShapeAttrs {
+export function getStateStyle(style?: MixAttrs, state?: StyleState, isMerge: boolean = false): ShapeAttrs {
   if (!state) {
     return getDefaultStyle(style);
   }

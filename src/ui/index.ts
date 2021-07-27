@@ -1,5 +1,7 @@
 export { Icon } from './icon';
 export type { IconOptions } from './icon';
+export { Tag } from './tag';
+export type { TagOptions } from './tag';
 export { Marker } from './marker';
 export type { MarkerOptions } from './marker';
 

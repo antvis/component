@@ -1,0 +1,48 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "basic.ts",
+      "title": {
+        "zh": "基础标签",
+        "en": "Basic tag"
+      },
+      "screenshot": ""
+    },
+    {
+      "filename": "colorful.ts",
+      "title": {
+        "zh": "五彩标签",
+        "en": "Colorful tag"
+      },
+      "screenshot": ""
+    },
+    {
+      "filename": "marker.ts",
+      "title": {
+        "zh": "带 marker 标签",
+        "en": "Tag contains marker"
+      },
+      "screenshot": ""
+    },
+    {
+      "filename": "text-style.ts",
+      "title": {
+        "zh": "设置字体样式",
+        "en": "TextStyle of tag"
+      },
+      "screenshot": ""
+    },
+    {
+      "filename": "non-background.ts",
+      "title": {
+        "zh": "不带背景标签",
+        "en": "Tag not contains background"
+      },
+      "screenshot": ""
+    }
+  ]
+}
