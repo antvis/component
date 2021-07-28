@@ -43,7 +43,7 @@ module.exports = {
       {
         slug: 'examples',
         title: {
-          zh: '图表示例',
+          zh: '组件示例',
           en: 'Examples',
         },
         order: 0,
@@ -69,19 +69,27 @@ module.exports = {
         },
       },
       {
-        slug: 'marker',
+        slug: 'basic-ui',
         icon: 'gallery',
         title: {
-          zh: 'Marker',
-          en: 'Marker',
+          zh: '基础 UI',
+          en: 'Basic UI',
         },
       },
       {
-        slug: 'icon',
+        slug: 'chart-ui',
         icon: 'gallery',
         title: {
-          zh: 'Icon',
-          en: 'Icon',
+          zh: '图表组件',
+          en: 'Chart UI',
+        },
+      },
+      {
+        slug: 'others',
+        icon: 'other',
+        title: {
+          zh: '其它 UI',
+          en: 'Other UI',
         },
       },
     ],
