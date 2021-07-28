@@ -503,7 +503,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     let maxItemWidth = 0;
 
     if (layout === 'horizontal') {
-      this.pageHeight = itemHeight * (this.get('flipPageRows') || 1);
+      this.pageHeight = itemHeight * (this.get('maxRow') || 1);
       each(subGroups, (item) => {
         const bbox = item.getBBox();
         const width = itemWidth || bbox.width;
@@ -591,8 +591,8 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
       });
     }
     // 重新计算 totalPagesCnt
-    if (layout === 'horizontal' && this.get('flipPageRows')) {
-      this.totalPagesCnt = Math.ceil(pages / this.get('flipPageRows'));
+    if (layout === 'horizontal' && this.get('maxRow')) {
+      this.totalPagesCnt = Math.ceil(pages / this.get('maxRow'));
     } else {
       this.totalPagesCnt = pages;
     }

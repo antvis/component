@@ -610,7 +610,7 @@ export interface CategoryLegendCfg extends LegendBaseCfg {
    /**
     * 翻页行数（只适用于横向） 
     */
-   flipPageRows?: number;
+   maxRow?: number;
   /**
    * 分页器配置
    * @type {LegendPageNavigatorCfg}

@@ -80,13 +80,13 @@ describe('test category legend', () => {
       let itemGroup = legend.getElementById('c-legend-item-group');
       expect(itemGroup.getParent().getClip().getBBox().height).toBe(12)
 
-      legend.update({ flipPageRows: 2 });
+      legend.update({ maxRow: 2 });
       itemGroup = legend.getElementById('c-legend-item-group');
       expect(itemGroup.getParent().getClip().getBBox().height).toBe(24)
     });
 
-    it('flipPageRows', () => {
-      legend.update({ flipPageRows: 3 });
+    it('maxRow', () => {
+      legend.update({ maxRow: 3 });
       const itemGroup = legend.getElementById('c-legend-item-group');
       expect(itemGroup.getParent().getClip().getBBox().height).toBe(36)
     });
