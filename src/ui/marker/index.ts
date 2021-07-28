@@ -2,7 +2,7 @@ import { Path, Image } from '@antv/g';
 import { deepMix, isFunction } from '@antv/util';
 import { GUI } from '../core/gui';
 import { parseMarker } from './utils';
-import { circle, square, diamond, triangleDown, triangle } from './symbol';
+import { circle, square, diamond, triangleDown, triangle, line, dot, dash, smooth, hv, vh, hvh, vhv } from './symbol';
 import type { DisplayObject } from '../../types';
 import type { MarkerAttrs, MarkerOptions, FunctionalSymbol } from './types';
 
@@ -127,3 +127,12 @@ Marker.registerSymbol('square', square);
 Marker.registerSymbol('diamond', diamond);
 Marker.registerSymbol('triangle', triangle);
 Marker.registerSymbol('triangle-down', triangleDown);
+/** LineSymbols */
+Marker.registerSymbol('line', line);
+Marker.registerSymbol('dot', dot);
+Marker.registerSymbol('dash', dash);
+Marker.registerSymbol('smooth', smooth);
+Marker.registerSymbol('hv', hv);
+Marker.registerSymbol('vh', vh);
+Marker.registerSymbol('hvh', hvh);
+Marker.registerSymbol('vhv', vhv);
