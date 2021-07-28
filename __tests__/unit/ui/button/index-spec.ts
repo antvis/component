@@ -13,7 +13,6 @@ describe('button', () => {
   test('basic', async () => {
     const div = createDiv();
 
-    // @ts-ignore
     const canvas = new Canvas({
       container: div,
       width: 300,
@@ -53,7 +52,6 @@ describe('button', () => {
   test('text', async () => {
     const div = createDiv();
 
-    // @ts-ignore
     const canvas = new Canvas({
       container: div,
       width: 300,
@@ -77,7 +75,6 @@ describe('button', () => {
   test('position', async () => {
     const div = createDiv();
 
-    // @ts-ignore
     const canvas = new Canvas({
       container: div,
       width: 300,

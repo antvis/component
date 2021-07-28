@@ -14,7 +14,6 @@ describe('breadcrumb', () => {
   test('basic', async () => {
     const div = createDiv();
 
-    // @ts-ignore
     const canvas = new Canvas({
       container: div,
       width: 500,
@@ -67,7 +66,6 @@ describe('breadcrumb', () => {
   test('custom style', async () => {
     const div = createDiv();
 
-    // @ts-ignore
     const canvas = new Canvas({
       container: div,
       width: 300,
@@ -121,7 +119,6 @@ describe('breadcrumb', () => {
   test('custom separator', async () => {
     const div = createDiv();
 
-    // @ts-ignore
     const canvas = new Canvas({
       container: div,
       width: 300,
@@ -172,7 +169,6 @@ describe('breadcrumb', () => {
   test('custom width', async () => {
     const div = createDiv();
 
-    // @ts-ignore
     const canvas = new Canvas({
       container: div,
       width: 300,

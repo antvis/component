@@ -13,7 +13,6 @@ describe('disabled button', () => {
   test('disable', async () => {
     const div = createDiv();
 
-    // @ts-ignore
     const canvas = new Canvas({
       container: div,
       width: 300,

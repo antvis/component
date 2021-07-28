@@ -12,7 +12,6 @@ const renderer = new CanvasRenderer({
 
 const div = createDiv();
 
-// @ts-ignore
 const canvas = new Canvas({
   container: div,
   width: 300,

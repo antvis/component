@@ -8,7 +8,6 @@ const renderer = new CanvasRenderer({
   enableDirtyRectangleRendering: true,
 });
 
-// @ts-ignore
 const canvas = new Canvas({
   container: 'container',
   width: 300,

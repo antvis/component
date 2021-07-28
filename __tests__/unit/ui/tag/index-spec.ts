@@ -13,7 +13,6 @@ const renderer = new CanvasRenderer({
 describe('tag', () => {
   const div = createDiv();
 
-  // @ts-ignore
   const canvas = new Canvas({
     container: div,
     width: 500,
