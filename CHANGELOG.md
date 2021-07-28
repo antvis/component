@@ -1,3 +1,10 @@
+#### 0.8.16 (2021-07-28)
+
+##### New Features
+
+- **legend:**
+  - 图例支持多行分页 ([#239](https://github.com/antvis/component/pull/239)) ([1bbb0533](https://github.com/antvis/component/commit/1bbb0533dcd8a7ac3741320d33c6f3e3f1296002))
+
 #### 0.8.15 (2021-07-20)
 
 ##### New Features
