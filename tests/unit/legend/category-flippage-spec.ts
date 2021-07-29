@@ -82,13 +82,13 @@ describe('test category legend', () => {
 
       legend.update({ maxRow: 2 });
       itemGroup = legend.getElementById('c-legend-item-group');
-      expect(itemGroup.getParent().getClip().getBBox().height).toBe(24)
+      expect(itemGroup.getParent().getClip().getBBox().height).toBe(40)
     });
 
     it('maxRow', () => {
       legend.update({ maxRow: 3 });
       const itemGroup = legend.getElementById('c-legend-item-group');
-      expect(itemGroup.getParent().getClip().getBBox().height).toBe(36)
+      expect(itemGroup.getParent().getClip().getBBox().height).toBe(60)
     });
 
     afterAll(() => {

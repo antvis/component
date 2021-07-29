@@ -501,9 +501,11 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     let widthLimit = 0;
     let pageWidth = 0;
     let maxItemWidth = 0;
-
+    const itemMarginBottom = this.get('itemMarginBottom');
     if (layout === 'horizontal') {
-      this.pageHeight = itemHeight * (this.get('maxRow') || 1);
+      const maxRow = this.get('maxRow') || 1;
+      const maxRowHeight = itemHeight + (maxRow === 1 ? 0 : itemMarginBottom);
+      this.pageHeight = maxRowHeight * maxRow;
       each(subGroups, (item) => {
         const bbox = item.getBBox();
         const width = itemWidth || bbox.width;
@@ -521,7 +523,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
           }
           pages += 1;
           currentPoint.x = startX;
-          currentPoint.y += itemHeight;
+          currentPoint.y += maxRowHeight;
         }
         this.moveElementTo(item, currentPoint);
         item.getParent().setClip({
@@ -536,7 +538,6 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
         currentPoint.x += width + itemSpacing;
       });
     } else {
-      const itemMarginBottom = this.get('itemMarginBottom');
       each(subGroups, (item) => {
         const bbox = item.getBBox();
         if (bbox.width > pageWidth) {
