@@ -1,4 +1,5 @@
 /** Basic UI */
+
 // author by [visiky](https://github.com/visiky)
 export { Tag } from './tag';
 export type { TagOptions } from './tag';
@@ -33,4 +34,8 @@ export { Sheet } from './sheet';
 export type { SheetOptions } from './sheet';
 export { Timeline } from './timeline';
 export type { TimelineOptions } from './timeline';
+export { Statistic } from './statistic';
+export type { StatisticOptions } from './statistic';
+export { Countdown } from './countdown';
+export type { CountdownOptions } from './countdown';
 // to be continued...

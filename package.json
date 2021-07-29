@@ -44,6 +44,7 @@
     "@antv/scale": "^0.4.3",
     "@antv/util": "^2.0.13",
     "csstype": "^3.0.8",
+    "fecha": "^4.2.1",
     "svg-path-parser": "^1.1.0"
   },
   "devDependencies": {
