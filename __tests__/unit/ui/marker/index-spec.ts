@@ -37,6 +37,10 @@ describe('marker', () => {
     expect(marker.attr('size')).toBe(16);
     expect(marker.attr('fill')).toBe('green');
     expect(marker.attr('symbol')).toBe('triangle-down');
+    const path = marker.firstChild.attr('path');
+    expect(path[0][1]).toBe(-8);
+    expect(path[1][1]).toBe(8);
+    expect(path[2][1]).toBe(0);
   });
 
   test('customize marker', async () => {
@@ -49,19 +53,22 @@ describe('marker', () => {
 
     marker.update({
       symbol: 'star',
-      x: 50,
-      y: 50,
+      x: 20,
+      y: 20,
       size: 20,
+      fill: 'gold',
       stroke: 'red',
     });
-    expect(marker.attr('x')).toBe(50);
-    expect(marker.attr('y')).toBe(50);
+    expect(marker.attr('x')).toBe(20);
+    expect(marker.attr('y')).toBe(20);
     expect(marker.attr('size')).toBe(20);
-    expect(marker.attr('fill')).toBe('green');
+    expect(marker.attr('fill')).toBe('gold');
     expect(marker.attr('symbol')).toBe('star');
     expect(marker.attr('stroke')).toBe('red');
   });
-});
 
-marker.destroy();
-canvas.destroy();
+  afterAll(() => {
+    marker.destroy();
+    canvas.destroy();
+  });
+});
