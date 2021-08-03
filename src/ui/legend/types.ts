@@ -1,7 +1,8 @@
-import type { ShapeCfg, ShapeAttrs, MixAttrs } from '../../types';
+import type { ShapeCfg, ShapeAttrs, StyleState, MixAttrs } from '../../types';
 import type { MarkerAttrs } from '../marker/types';
 // marker配置
 type MarkerCfg = string | MarkerAttrs['symbol'];
+export type State = StyleState | 'default-active' | 'selected-active';
 
 // 色板
 export type RailCfg = {
@@ -49,54 +50,57 @@ type HandleCfg = {
 
 // 图例项
 type CategoryItem = {
-  name: string;
-  value: number | string;
-  id: number | string;
+  state?: State;
+  name?: string;
+  value?: string;
+  id?: string;
 };
 
 // 图例项图标
-type ItemMarkerCfg = {
-  symbol: MarkerCfg;
+export type ItemMarkerCfg = {
+  marker: MarkerCfg;
   size: number;
   style: MixAttrs;
 };
 
 // 图例项Name
-type ItemNameCfg = {
+export type ItemNameCfg = {
   // name与marker的距离
   spacing: number;
   style: MixAttrs;
-  formatter: (name: string, item: CategoryItem, index: number) => string;
+  formatter: (text: string) => string;
 };
 
 // 图例项值
-type ItemValueCfg = {
+export type ItemValueCfg = {
   spacing: number;
   align: 'left' | 'right';
   style: MixAttrs;
-  formatter: (value: number, item: CategoryItem, index: number) => number | string;
+  formatter: (text: string) => string;
 };
 
-// 图例项配置
-export type CategoryItemsCfg = {
-  items: CategoryItem[];
-  itemCfg: {
-    // 单个图例项高度
-    height: number;
-    // 单个图例项宽度
-    width: number;
-    // 图例项间的间隔
-    spacing: number;
-    marker: ItemMarkerCfg | ((item: CategoryItem, index: number, items: CategoryItem[]) => ItemMarkerCfg);
-    name: ItemNameCfg | ((item: CategoryItem, index: number, items: CategoryItem[]) => ItemNameCfg);
-    value: ItemValueCfg | ((item: CategoryItem, index: number, items: CategoryItem[]) => ItemValueCfg);
-    // 图例项背景
-    backgroundStyle: MixAttrs | ((item: CategoryItem, index: number, items: CategoryItem[]) => MixAttrs);
+// 单个图例的配置
+export type CategoryItemCfg = {
+  identify?: string;
+  itemWidth?: number;
+  maxItemWidth?: number;
+  state?: State;
+  itemMarker: ItemMarkerCfg;
+  itemName: {
+    content?: string;
+    spacing?: number;
+    style?: MixAttrs;
   };
+  itemValue: {
+    content?: string;
+    spacing?: number;
+    style: MixAttrs;
+  };
+  backgroundStyle: MixAttrs;
 };
 
 // 分页器
-type pageNavigatorCfg = {
+type PageNavigatorCfg = {
   // 按钮
   button: {
     // 按钮图标
@@ -140,9 +144,9 @@ export type LegendBaseOptions = {
 // 连续图例配置
 export type ContinuousCfg = LegendBaseCfg & {
   // 最小值
-  min?: number;
+  min: number;
   // 最大值
-  max?: number;
+  max: number;
   // 开始区间
   start?: number;
   // 结束区间
@@ -162,8 +166,6 @@ export type ContinuousCfg = LegendBaseCfg & {
   rail?: RailCfg;
   // 是否可滑动
   slidable?: boolean;
-  // 选择区域
-  value?: [number, number];
   // 滑动步长
   step?: number;
   // 手柄配置
@@ -178,11 +180,31 @@ export type ContinuousOptions = {
 
 // 分类图例配置
 export type CategoryCfg = LegendBaseCfg & {
-  items: CategoryItemsCfg;
-  reverse: boolean;
-  pageNavigator: false | pageNavigatorCfg;
+  items: CategoryItem[];
+  // 图例最大宽(横)/高（纵）
+  maxWidth?: number;
+  maxHeight?: number;
+  // 最大行（横）/列（纵）数
+  maxCols?: number;
+  maxRows?: number;
+  // 图例项宽度（等分形式）
+  itemWidth?: number;
+  // 图例项最大宽度（跟随形式）
+  maxItemWidth?: number;
+  // 图例项间的间隔
+  spacing?: [number, number];
+  itemMarker?: Partial<ItemMarkerCfg> | ((item: CategoryItem, index: number, items: CategoryItem[]) => ItemMarkerCfg);
+  itemName?: Partial<ItemNameCfg> | ((item: CategoryItem, index: number, items: CategoryItem[]) => ItemNameCfg);
+  itemValue?: Partial<ItemValueCfg> | ((item: CategoryItem, index: number, items: CategoryItem[]) => ItemValueCfg);
+  itemBackgroundStyle?: MixAttrs | ((item: CategoryItem, index: number, items: CategoryItem[]) => MixAttrs);
+  // 自动换行、列
+  autoWrap?: boolean;
+  // 图例项倒序
+  reverse?: boolean;
+  // 分页
+  pageNavigator?: false | PageNavigatorCfg;
 };
 
-export type CategoryOptions = {
+export type CategoryOptions = LegendBaseCfg & {
   attrs: CategoryCfg;
 };

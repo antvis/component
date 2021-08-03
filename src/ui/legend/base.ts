@@ -31,10 +31,10 @@ export abstract class LegendBase<T extends LegendBaseCfg> extends GUI<T> {
     this.createTitle();
   }
 
-  /**
-   * 获取颜色
-   */
-  protected abstract getColor(): string | string[];
+  public update(attrs?: Partial<LegendBaseCfg>) {
+    this.titleShape.attr(this.getTitleAttrs());
+    this.adjustTitle();
+  }
 
   /**
    * 背景属性

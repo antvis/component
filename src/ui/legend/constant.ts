@@ -9,7 +9,7 @@ export const LEGEND_BASE_DEFAULT_OPTIONS = {
     orient: 'horizontal',
     backgroundStyle: {
       default: {
-        fill: '#dcdee2',
+        fill: 'white',
         lineWidth: 0,
       },
     },
@@ -31,54 +31,78 @@ export const LEGEND_BASE_DEFAULT_OPTIONS = {
 export const CATEGORY_DEFAULT_OPTIONS = deepMix({}, LEGEND_BASE_DEFAULT_OPTIONS, {
   attrs: {
     type: 'category',
-    items: {
-      items: [],
-      itemCfg: {
-        height: 16,
-        width: 40,
-        spacing: 10,
-        marker: {
-          symbol: 'circle',
-          size: 16,
-          style: {
-            fill: '#f8be4b',
-            lineWidth: 0,
-            active: {
-              fill: '#f3774a',
-            },
-          },
+    items: [],
+    maxWidth: undefined,
+    maxHeight: undefined,
+    maxCols: undefined,
+    maxRows: undefined,
+    spacing: [10, 10],
+    itemMarker: {
+      marker: 'circle',
+      size: 8,
+      style: {
+        default: {
+          fill: '#f8be4b',
+          lineWidth: 0,
         },
-        name: {
-          spacing: 5,
-          style: {
-            stroke: 'gray',
-            fontSize: 16,
-            checked: {
-              stroke: 'black',
-              fontWeight: 'bold',
-            },
-          },
-          formatter: (name: string) => name,
+        active: {
+          fill: '#f3774a',
         },
-        value: {
-          spacing: 5,
-          align: 'right',
-          style: {
-            stroke: 'gray',
-            fontSize: 16,
-            checked: {
-              stroke: 'black',
-              fontWeight: 'bold',
-            },
-          },
+        selected: {},
+      },
+    },
+    itemName: {
+      spacing: 10,
+      style: {
+        default: {
+          fill: 'gray',
+          fontSize: 16,
+          fontWeight: 'normal',
+          textBaseline: 'middle',
         },
-        backgroundStyle: {
+        selected: {
           fill: 'white',
-          opacity: 0.5,
-          active: {
-            fill: '#2c2c2c',
-          },
+          fontWeight: 'bold',
         },
+        active: {
+          fill: 'white',
+          fontWeight: 'bold',
+        },
+      },
+      formatter: (name: string) => name,
+    },
+    itemValue: {
+      spacing: 10,
+      align: 'right',
+      style: {
+        default: {
+          fill: 'gray',
+          fontSize: 16,
+          fontWeight: 'normal',
+          textBaseline: 'middle',
+        },
+        selected: {
+          fill: 'white',
+          fontWeight: 'bold',
+        },
+        active: {
+          fill: 'white',
+          fontWeight: 'bold',
+        },
+      },
+      formatter: (name: string) => name,
+    },
+    itemBackgroundStyle: {
+      default: {
+        fill: '#fdf6e3',
+      },
+      selected: {
+        opacity: 1,
+        fill: '#dea739',
+      },
+      active: {
+        opacity: 1,
+        fill: '#2c2c2c',
       },
     },
     reverse: false, // 倒序放置图例
@@ -186,5 +210,8 @@ export const CONTINUOUS_DEFAULT_OPTIONS = deepMix({}, LEGEND_BASE_DEFAULT_OPTION
   },
 });
 
-// 步长比例
+// 连续图例步长比例
 export const STEP_RATIO = 0.01;
+
+// 分类图例name和value宽度比例
+export const NAME_VALUE_RATIO = 1.2 / 1;

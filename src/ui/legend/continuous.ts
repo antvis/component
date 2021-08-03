@@ -92,7 +92,7 @@ export class Continuous extends LegendBase<ContinuousCfg> {
     this.bindEvents();
   }
 
-  public update(attrs: ContinuousCfg) {
+  public update(attrs: Partial<ContinuousCfg>) {
     this.attr(deepMix({}, this.attributes, attrs));
     // 更新label内容
     this.labelsShape.attr({ labelsAttrs: this.getLabelsAttrs() });

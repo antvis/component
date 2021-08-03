@@ -5,15 +5,15 @@
   },
   "demos": [
     {
-      "filename": "basic.ts",
+      "filename": "basic-continuous.ts",
       "title": {
         "zh": "基本连续图例",
-        "en": "Basic continuous legend"
+        "en": "Basic continuous"
       },
       "screenshot": ""
     },
     {
-      "filename": "size-type.ts",
+      "filename": "size-type-continuous.ts",
       "title": {
         "zh": "尺寸类型",
         "en": "Size type"
@@ -21,7 +21,7 @@
       "screenshot": ""
     },
     {
-      "filename": "color-type.ts",
+      "filename": "color-type-continuous.ts",
       "title": {
         "zh": "颜色类型",
         "en": "Color type"
@@ -29,10 +29,34 @@
       "screenshot": ""
     },
     {
-      "filename": "chunked.ts",
+      "filename": "chunked-continuous.ts",
       "title": {
         "zh": "分块",
         "en": "Chunked"
+      },
+      "screenshot": ""
+    },
+    {
+      "filename": "basic-category.ts",
+      "title": {
+        "zh": "基本分类图例",
+        "en": "Basic category"
+      },
+      "screenshot": ""
+    },
+    {
+      "filename": "vertical-category.ts",
+      "title": {
+        "zh": "纵向分类图例",
+        "en": "Vertical"
+      },
+      "screenshot": ""
+    },
+    {
+      "filename": "wrap-category.ts",
+      "title": {
+        "zh": "分行",
+        "en": "Wrap"
       },
       "screenshot": ""
     }

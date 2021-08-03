@@ -34,6 +34,9 @@ export { Sheet } from './sheet';
 export type { SheetOptions } from './sheet';
 export { Timeline } from './timeline';
 export type { TimelineOptions } from './timeline';
+// author by [Aarebecca](https://github.com/Aarebecca)
+export { Continuous, Category } from './legend';
+export type { ContinuousOptions, CategoryOptions } from './legend';
 export { Statistic } from './statistic';
 export type { StatisticOptions } from './statistic';
 export { Countdown } from './countdown';

@@ -1,4 +1,5 @@
-import { isString, memoize, values, toString } from '@antv/util';
+import { Text } from '@antv/g';
+import { isString, memoize, values, toString, pick } from '@antv/util';
 import * as CSS from 'csstype';
 
 type Font = Pick<CSS.Properties, 'fontFamily' | 'fontWeight' | 'fontStyle' | 'fontVariant'> & {
@@ -105,3 +106,7 @@ export const getEllipsisText = (text: any, maxWidth: number, font?: Font) => {
 
   return `${r.join('')}...`;
 };
+
+export function getFont(textShape: Text) {
+  return pick(textShape.attr(), ['fontSize', 'fontFamily', 'fontWeight', 'fontStyle', 'fontVariant']);
+}

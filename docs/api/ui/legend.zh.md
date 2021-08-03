@@ -39,6 +39,26 @@ import { Category, Continuous } from '@antv/gui';
 | handle     | <code>false \| HandleCfg</code>    | 手柄配置   | `[]`           |
 | indicator  | <code>false \| indicatorCfg</code> | 指示器配置 | `[]`           |
 
+### 分类图例配置
+
+| **属性名**          | **类型**                                                          | **描述**             | **默认值** |
+| ------------------- | ----------------------------------------------------------------- | -------------------- | ---------- |
+| items               | <code>CategoryItem[]</code>                                       | 图例项               | `[]`       |
+| maxWidth            | <code>number</code>                                               | 最大宽度             | `[]`       |
+| maxHeight           | <code>number</code>                                               | 最大高度             | `[]`       |
+| maxCols             | <code>number</code>                                               | 最大行数             | `[]`       |
+| maxRows             | <code>number</code>                                               | 最大列数             | `[]`       |
+| itemWidth           | <code>number</code>                                               | 图例项宽度           | `[]`       |
+| maxItemWidth        | <code>number</code>                                               | 最大图例项宽度       | `[]`       |
+| spacing             | <code>[number,number]</code>                                      | 图例项横向、纵向间隔 | `[]`       |
+| itemMarker          | <code>ItemMarkerCfg \| (item, index, items)=>ItemMarkerCfg</code> | 图例项图标           | `[]`       |
+| itemName            | <code>ItemNameCfg \| (item, index, items)=>ItemNameCfg</code>     | 图例项名             | `[]`       |
+| itemValue           | <code>ItemValueCfg \| (item, index, items)=>ItemValueCfg</code>   | 图例项值             | `[]`       |
+| itemBackgroundStyle | <code>MixAttrs \| (item, index, items)=>MixAttrs</code>           | 图例项背景           | `[]`       |
+| autoWrap            | <code>boolean</code>                                              | 自动换行、列         | `[]`       |
+| reverse             | <code>boolean</code>                                              | 图例项倒序           | `[]`       |
+| pageNavigator       | <code>false \| PageNavigatorCfg</code>                            | 分页器               | `[]`       |
+
 ### TitleCfg
 
 | **属性名** | **类型**                                   | **描述**           | **默认值** |
@@ -88,3 +108,43 @@ import { Category, Continuous } from '@antv/gui';
 | padding         | <code>number \| number[]</code> | 指示器文本内边距     | `5`                                                      |
 | backgroundStyle | <code>ShapeAttrs</code>         | 指示器背景样式       | `[]`                                                     |
 | text            | <code>Object</code>             | 指示器文本样式       | `{style: ShapeAttrs, formatter:(value: number)=>string}` |
+
+### CategoryItem
+
+| **属性名** | **类型**                                                       | **描述**   | **默认值**   |
+| ---------- | -------------------------------------------------------------- | ---------- | ------------ |
+| state      | <code>'default' \| 'active' \| 'selected' \| 'disabled'</code> | 图例项状态 | `default`    |
+| name       | <code>string</code>                                            | 图例项名   | ``           |
+| value      | <code>string</code>                                            | 图例项值   | ``           |
+| id         | <code>string</code>                                            | 图例项 ID  | `name-index` |
+
+### ItemMarkerCfg
+
+| **属性名** | **类型**               | **描述** | **默认值** |
+| ---------- | ---------------------- | -------- | ---------- |
+| marker     | <code>MarkerCfg</code> | 图标     | `{}`       |
+| size       | <code>number</code>    | 图标大小 | `8`        |
+| style      | <code>MixAttrs</code>  | 图例样式 | `{}`       |
+
+### ItemNameCfg
+
+| **属性名** | **类型**                            | **描述**           | **默认值** |
+| ---------- | ----------------------------------- | ------------------ | ---------- |
+| spacing    | <code>number</code>                 | 图例名与图标的间距 | `10`       |
+| style      | <code>MixAttrs</code>               | 图例名样式         | `{}`       |
+| formatter  | <code>(text: string)=>string</code> | 图例名格式化       | ``         |
+
+### ItemValueCfg
+
+| **属性名** | **类型**                            | **描述**       | **默认值** |
+| ---------- | ----------------------------------- | -------------- | ---------- |
+| spacing    | <code>number</code>                 | 图例值与图例名 | `10`       |
+| align      | <code>'left' \| 'right'</code>      | 图例值对齐方式 | `left`     |
+| style      | <code>MixAttrs</code>               | 图例值样式     | `{}`       |
+| formatter  | <code>(text: string)=>string</code> | 图例值格式化   | ``         |
+
+### PageNavigatorCfg
+
+| **属性名** | **类型**      | **描述** | **默认值** |
+| ---------- | ------------- | -------- | ---------- |
+|            | <code></code> |          | ``         |
