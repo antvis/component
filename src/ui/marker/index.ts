@@ -1,4 +1,4 @@
-import { Path, Image } from '@antv/g';
+import { Path, Image, PathCommand } from '@antv/g';
 import { deepMix, isFunction } from '@antv/util';
 import { GUI } from '../core/gui';
 import { parseMarker } from './utils';
@@ -17,7 +17,7 @@ export class Marker extends GUI<MarkerAttrs> {
    */
   public static tag = 'marker';
 
-  private markerShape: DisplayObject;
+  private markerShape?: DisplayObject<any>;
 
   private static MARKER_SYMBOL_MAP = new Map<string, FunctionalSymbol>();
 
@@ -47,8 +47,6 @@ export class Marker extends GUI<MarkerAttrs> {
     this.init();
   }
 
-  attributeChangedCallback(name: string, value: any): void {}
-
   /**
    * 根据 type 获取 maker shape
    */
@@ -69,7 +67,7 @@ export class Marker extends GUI<MarkerAttrs> {
    * 组件的清除
    */
   public clear() {
-    this.markerShape.destroy();
+    this.markerShape?.destroy();
     this.removeChildren();
   }
 
@@ -80,23 +78,28 @@ export class Marker extends GUI<MarkerAttrs> {
     if (['base64', 'url', 'image'].includes(markerType)) {
       this.markerShape = new Image({
         name: 'markerImage',
-        attrs: this.getMarkerImageAttrs(),
+        style: this.getMarkerImageAttrs(),
       });
+      // const { r } = this.attributes;
+      // this.translate(-r, -r);
     } else if (markerType === 'symbol') {
       this.markerShape = new Path({
         name: 'markerSymbol',
-        attrs: this.getMarkerSymbolAttrs(),
+        style: this.getMarkerSymbolAttrs(),
       });
     }
-    this.appendChild(this.markerShape);
+    if (this.markerShape) {
+      this.appendChild(this.markerShape);
+    }
   }
 
   // symbol marker
   private getMarkerSymbolAttrs() {
-    const { size, symbol, ...args } = this.attributes;
+    const { x = 0, y = 0, size = 0, symbol, ...args } = this.attributes;
     const halfR = size / 2;
     const symbolFn = isFunction(symbol) ? symbol : Marker.MARKER_SYMBOL_MAP.get(symbol);
-    const path = symbolFn(0, 0, size / 2);
+    const path = symbolFn?.(x, y, size) as PathCommand;
+
     return {
       path,
       r: halfR,
@@ -106,14 +109,14 @@ export class Marker extends GUI<MarkerAttrs> {
 
   // image marker
   private getMarkerImageAttrs() {
-    const { size, symbol } = this.attributes;
+    const { size = 0, symbol } = this.attributes;
     const r2 = size * 2;
     return {
       x: 0,
       y: 0,
       width: r2,
       height: r2,
-      img: symbol,
+      img: symbol as unknown as HTMLImageElement,
     };
   }
 }
