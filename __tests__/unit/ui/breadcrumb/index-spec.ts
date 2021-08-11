@@ -60,7 +60,7 @@ describe('breadcrumb', () => {
     expect(containerShapes[0].attr().width).toBeCloseTo(
       lastItemRect.right - headItemRect.left + padding[1] + padding[3]
     );
-    expect(containerShapes[0].attr().height).toBeCloseTo(textStyle.default!.lineHeight + padding[2] + padding[0]);
+    expect(containerShapes[0].attr().height).toBeCloseTo(textStyle!.default!.lineHeight! + padding[2] + padding[0]);
 
     canvas.appendChild(breadcrumb);
   });

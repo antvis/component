@@ -31,6 +31,7 @@ export function path2marker(
   viewBoxHeight: number = 1014
 ): (x: number, y: number, r: number) => (string | number)[][] {
   return (x: number, y: number, r: number): (string | number)[][] => {
+    // @ts-ignore
     const paths: ISVGPathCmd[] = svgPathParser(svgPath);
 
     return paths.map((path: ISVGPathCmd) => {
