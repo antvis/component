@@ -16,7 +16,7 @@ const canvas = new Canvas({
 });
 
 const continuous = new Continuous({
-  attrs: {
+  style: {
     x: 50,
     y: 50,
     title: {

@@ -16,7 +16,7 @@ const canvas = new Canvas({
 });
 
 const tag = new Tag({
-  attrs: {
+  style: {
     text: 'Hello',
     padding: [4, 7],
     backgroundStyle: {

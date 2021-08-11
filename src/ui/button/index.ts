@@ -1,14 +1,14 @@
 import { Rect, Text } from '@antv/g';
-import { deepMix, pick } from '@antv/util';
+import { deepMix, get } from '@antv/util';
 import { GUI } from '../core/gui';
-import { getEllipsisText } from '../../util';
 import { SIZE_STYLE, TYPE_STYLE, DISABLED_STYLE } from './constant';
-import type { ShapeAttrs, DisplayObject } from '../../types';
-import type { ButtonAttrs, ButtonOptions } from './types';
+import { getEllipsisText, measureTextWidth, getFont, getStateStyle } from '../../util';
+import type { ButtonCfg, ButtonOptions } from './types';
+import type { TextProps, RectProps } from '../../types';
 
-export type { ButtonAttrs, ButtonOptions };
+export type { ButtonCfg, ButtonOptions };
 
-export class Button extends GUI<ButtonAttrs> {
+export class Button extends GUI<Required<ButtonCfg>> {
   /**
    * 标签类型
    */
@@ -17,16 +17,15 @@ export class Button extends GUI<ButtonAttrs> {
   /**
    * 文本
    */
-  private textShape: DisplayObject;
+  private textShape!: Text;
 
   /**
    * 按钮容器
    */
-  private background: DisplayObject;
+  private backgroundShape!: Rect;
 
   constructor(options: ButtonOptions) {
     super(deepMix({}, Button.defaultOptions, options));
-
     this.init();
   }
 
@@ -35,52 +34,51 @@ export class Button extends GUI<ButtonAttrs> {
    */
   private static defaultOptions = {
     type: Button.tag,
-    attrs: {
+    style: {
       disabled: false,
       padding: 10,
       size: 'middle',
       type: 'default',
       textStyle: {
-        textAlign: 'center',
-        textBaseline: 'middle',
+        default: {
+          textAlign: 'center',
+          textBaseline: 'middle',
+        },
+        active: {},
       },
       buttonStyle: {
-        lineWidth: 1,
-        radius: 5,
-      },
-      hoverStyle: {
-        textStyle: {},
-        buttonStyle: {},
+        default: {
+          lineWidth: 1,
+          radius: 5,
+        },
+        active: {},
       },
     },
   };
 
-  attributeChangedCallback(name: string, value: any): void {}
-
   /**
    * 根据size、type属性生成实际渲染的属性
    */
-  private getMixinStyle(name: 'textStyle' | 'buttonStyle' | 'hoverStyle') {
+  private getStyle(name: 'textStyle' | 'buttonStyle', state: 'default' | 'active' = 'default'): TextProps | RectProps {
     const { size, type, disabled } = this.attributes;
     const mixedStyle = deepMix(
       {},
-      TYPE_STYLE[type][name],
-      name === 'hoverStyle' ? {} : SIZE_STYLE[size][name],
-      this.attributes[name]
+      get(SIZE_STYLE, [size, name]),
+      getStateStyle(get(TYPE_STYLE, [type, name]), state),
+      getStateStyle(this.attributes[name], state)
     );
 
-    if (disabled && name !== 'hoverStyle') {
+    if (disabled && state !== 'active') {
       // 从DISABLED_STYLE中pick中pick mixedStyle里已有的style
       Object.keys(mixedStyle).forEach((key) => {
         if (key in DISABLED_STYLE[name]) {
-          mixedStyle[key] = DISABLED_STYLE[name][key];
+          mixedStyle[key] = get(DISABLED_STYLE, [name, key]);
         }
       });
       Object.keys(DISABLED_STYLE.strict[name]).forEach((key) => {
-        mixedStyle[key] = DISABLED_STYLE.strict[name][key];
+        mixedStyle[key] = get(DISABLED_STYLE, ['strict', name, key]);
       });
     }
-
     return mixedStyle;
   }
 
@@ -88,23 +86,57 @@ export class Button extends GUI<ButtonAttrs> {
    * 初始化button
    */
   public init(): void {
-    const { x, y, text, padding, ellipsis, onClick } = this.attributes;
-    const textStyle = this.getMixinStyle('textStyle');
-    const buttonStyle = this.getMixinStyle('buttonStyle');
+    this.initShape();
+    this.createText();
+    this.createButton();
+    this.bindEvents();
+  }
 
-    const { height, width } = buttonStyle;
-    const { fontSize } = textStyle;
+  /**
+   * 组件的更新
+   */
+  public update(cfg: Partial<ButtonCfg>) {
+    this.attr(deepMix({}, this.attributes, cfg));
+  }
 
-    this.textShape = new Text({
-      attrs: {
-        x: 0,
-        y: height - fontSize,
-        lineHeight: fontSize,
-        ...textStyle,
-        text,
-      },
+  /**
+   * 组件的清除
+   */
+  public clear() {}
+
+  private initShape() {
+    // 初始化成员变量
+    this.textShape = new Text({ name: 'text', style: this.getStyle('textStyle') as TextProps });
+    this.backgroundShape = new Rect({ name: 'background', style: this.getStyle('buttonStyle') as RectProps });
+    this.backgroundShape.appendChild(this.textShape);
+    this.appendChild(this.backgroundShape);
+  }
+
+  private getButtonWidth() {
+    const { ellipsis, text, padding } = this.attributes;
+    const { width } = this.getStyle('buttonStyle');
+    const textAvailableWidth = width - padding * 2;
+    const textWidth = measureTextWidth(text, getFont(this.textShape));
+    if (ellipsis && textAvailableWidth < textWidth) {
+      return width;
+    }
+    return textWidth + padding * 2;
+  }
+
+  private createText() {
+    const { text, padding, disabled } = this.attributes;
+    const { height } = this.getStyle('buttonStyle');
+    this.textShape.attr({
+      x: padding + measureTextWidth(text, getFont(this.textShape)) / 2,
+      y: height / 2,
+      cursor: disabled ? 'not-allowed' : 'default',
+      text,
     });
+  }
 
+  private createButton() {
+    const { text, padding, ellipsis } = this.attributes;
+    const buttonStyle = this.getStyle('buttonStyle');
     /**
      * 文本超长
      *
@@ -114,90 +146,41 @@ export class Button extends GUI<ButtonAttrs> {
      *
      * 2. 省略文本
      */
-    const textBbox = this.textShape.getBounds();
-    const textWidth = textBbox.getMax()[0] - textBbox.getMin()[0] + padding * 2;
-    let newWidth = width;
-
-    if (ellipsis && textWidth > width) {
-      // 缩略文本
-      const style = pick(this.textShape.attr(), ['fontSize', 'fontFamily', 'fontWeight', 'fontStyle', 'fontVariant']);
-      const ellipsisText = getEllipsisText(text, width - padding * 2, style);
-      this.textShape.attr('text', ellipsisText);
-    } else if (textWidth > newWidth) {
-      // 加宽button
-      newWidth = textWidth;
-      this.attr('buttonStyle', {
-        ...buttonStyle,
-        width: newWidth,
-      });
+    const buttonWidth = this.getButtonWidth();
+    if (ellipsis) {
+      // 需要缩略文本
+      const ellipsisText = getEllipsisText(text, buttonWidth - padding * 2, getFont(this.textShape));
+      this.textShape.attr({ text: ellipsisText, x: buttonWidth / 2 });
     }
 
-    this.background = new Rect({
-      attrs: {
-        x: -newWidth / 2,
-        y: 0,
-        ...this.getMixinStyle('buttonStyle'),
-        // width: newWidth,
-      },
-    });
-
-    this.appendChild(this.background);
-    this.appendChild(this.textShape);
-
-    // 设置位置
-    this.translate(x, y);
-
-    this.bindEvents(onClick);
-  }
-
-  /**
-   * 组件的更新
-   */
-  public update(cfg: ButtonAttrs) {
-    this.attr(deepMix({}, this.attributes, cfg));
-  }
-
-  /**
-   * 组件的清除
-   */
-  public clear() {}
-
-  /**
-   * 应用多个属性
-   */
-  private applyAttrs(shape: 'textShape' | 'background', attrs: ShapeAttrs) {
-    Object.entries(attrs).forEach((attr) => {
-      this[shape].attr(attr[0], attr[1]);
+    this.backgroundShape.attr({
+      ...buttonStyle,
+      width: buttonWidth,
     });
   }
 
-  private bindEvents(onClick: Function): void {
-    const { disabled } = this.attributes;
+  private bindEvents(): void {
+    const { disabled, onClick } = this.attributes;
 
     if (!disabled && onClick) {
-      this.on('click', () => {
+      this.addEventListener('click', () => {
         // 点击事件
         onClick.call(this, this);
       });
     }
 
-    this.on('mouseenter', () => {
+    this.addEventListener('mouseenter', () => {
       if (!disabled) {
         // 鼠标悬浮事件
-        const hoverStyle = this.getMixinStyle('hoverStyle');
-        this.textShape.attr(hoverStyle.textStyle);
-        this.background.attr(hoverStyle.buttonStyle);
-        this.attr('cursor', 'pointer');
-      } else {
-        // 设置指针icon
-        this.attr('cursor', 'not-allowed');
+        this.textShape.attr(this.getStyle('textStyle', 'active'));
+        this.backgroundShape.attr({ ...this.getStyle('buttonStyle', 'active'), width: this.getButtonWidth() });
       }
     });
 
-    this.on('mouseleave', () => {
+    this.addEventListener('mouseleave', () => {
       // 恢复默认状态
-      this.textShape.attr(this.getMixinStyle('textStyle'));
-      this.background.attr(this.getMixinStyle('buttonStyle'));
+      this.textShape.attr(this.getStyle('textStyle'));
+      this.backgroundShape.attr({ ...this.getStyle('buttonStyle'), width: this.getButtonWidth() });
     });
   }
 }

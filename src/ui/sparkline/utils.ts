@@ -4,8 +4,9 @@ import type { Data } from './types';
 /**
  * 获得数据的最值
  */
-export function getRange(data: Data) {
-  return [min(minBy(data, (arr) => min(arr))), max(maxBy(data, (arr) => max(arr)))];
+export function getRange(data: Data): [number, number] {
+  if (data.length === 0) return [0, 0];
+  return [min(minBy(data, (arr) => min(arr) || 0)), max(maxBy(data, (arr) => max(arr) || 0))] as [number, number];
 }
 
 /**

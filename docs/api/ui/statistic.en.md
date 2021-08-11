@@ -1,8 +1,6 @@
 ---
-
 title: Statistic
 order: 4
-
 ---
 
 # Statistic
@@ -28,7 +26,7 @@ import { Statistic } from '@antv/gui';
 | **Property** | **Description**   | **Type**                              | **Default** |
 | ------------ | ----------------- | ------------------------------------- | ----------- |
 | text         | text              | <code>string</code>                   | `''`        |
-| style        | style of text     | <code>ShapeAttrs</code>               | `{}`        |
+| style        | style of text     | <code>TextProps</code>                | `{}`        |
 | formatter    | formatter of text | <code>(text: string) => string <code> | `null`      |
 
 # Statistic（Countdown）
@@ -46,8 +44,7 @@ import { Countdown } from '@antv/gui';
 | **Property** | **Description**   | **Type**                              | **Default** |
 | ------------ | ----------------- | ------------------------------------- | ----------- |
 | text         | text              | <code>string &#124; number</code>     | `''`        |
-| style        | style of text     | <code>ShapeAttrs</code>               | `{}`        |
+| style        | style of text     | <code>TextProps</code>                | `{}`        |
 | format       | format of text    | <code> string <code>                  | `null`      |
 | formatter    | formatter of text | <code>(text: string) => string <code> | `null`      |
 | dynamicTime  | dynamicTime       | <code>boolean<code>                   | `false`     |
-

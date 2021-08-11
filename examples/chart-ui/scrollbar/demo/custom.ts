@@ -16,7 +16,7 @@ const canvas = new Canvas({
 });
 
 const scrollbar = new Scrollbar({
-  attrs: {
+  style: {
     x: 5,
     y: 50,
     orient: 'horizontal',

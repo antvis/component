@@ -19,7 +19,7 @@ const canvas = new Canvas({
 });
 
 const marker = new Marker({
-  attrs: {
+  style: {
     symbol: 'triangle-down',
     x: 50,
     y: 50,
@@ -37,7 +37,8 @@ describe('marker', () => {
     expect(marker.attr('size')).toBe(16);
     expect(marker.attr('fill')).toBe('green');
     expect(marker.attr('symbol')).toBe('triangle-down');
-    const path = marker.firstChild.attr('path');
+    // @ts-ignore
+    const path = marker.markerShape.attr('path');
     expect(path[0][1]).toBe(-8);
     expect(path[1][1]).toBe(8);
     expect(path[2][1]).toBe(0);

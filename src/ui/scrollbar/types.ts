@@ -1,4 +1,4 @@
-import type { ShapeAttrs, ShapeCfg } from '../../types';
+import type { DisplayObjectConfig, ShapeAttrs } from '../../types';
 
 export interface ScrollStyle {
   default: ShapeAttrs;
@@ -10,7 +10,7 @@ export type Orient = 'horizontal' | 'vertical';
 /**
  * 滚动条组件的属性配置
  */
-export type ScrollbarAttrs = ShapeAttrs & {
+export type ScrollbarCfg = ShapeAttrs & {
   /**
    * 滑条朝向
    */
@@ -70,4 +70,4 @@ export type ScrollbarAttrs = ShapeAttrs & {
 /**
  * 滚动条组件的配置项
  */
-export type ScrollbarOptions = ShapeCfg & { attrs: ScrollbarAttrs };
+export type ScrollbarOptions = DisplayObjectConfig<ScrollbarCfg>;

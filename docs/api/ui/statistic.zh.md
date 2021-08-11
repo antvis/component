@@ -25,8 +25,8 @@ import { Statistic } from '@antv/gui';
 
 | **属性**      | **描述** | **类型**                              | **默认值** |
 | ------------- | -------- | ------------------------------------- | ---------- |
-| text          | 文本     | <code>string  &#124; number</code>    | `''`       |
-| style         | 文本样式 | <code>ShapeAttrs</code>               | `{}`       |
+| text          | 文本     | <code>string &#124; number</code>     | `''`       |
+| style         | 文本样式 | <code>TextProps</code>                | `{}`       |
 | formatter     | 文本回调 | <code>(text: string) => string <code> | `null`     |
 | prefix/suffix | 前后缀   | <code>string &#124; gui <code>        | `null`     |
 
@@ -42,13 +42,11 @@ import { Countdown } from '@antv/gui';
 
 ## TextOption
 
-| **属性**    | **描述**   | **类型**                              | **默认值** |
-| ----------- | ---------- | ------------------------------------- | ---------- |
-| text        | 文本       | <code>string &#124; number</code>     | `''`       |
-| style       | 文本样式   | <code>ShapeAttrs</code>               | `{}`       |
-| format      | 格式化时间 | <code> string <code>                  | `null`     |
-| prefix/suffix | 前后缀   | <code>string &#124; gui <code>        | `null`     |
-| formatter   | 文本回调   | <code>(text: string) => string <code> | `null`     |
-| dynamicTime | 动态时间   | <code>boolean<code>                   | `false`    |
-
-
+| **属性**      | **描述**   | **类型**                              | **默认值** |
+| ------------- | ---------- | ------------------------------------- | ---------- |
+| text          | 文本       | <code>string &#124; number</code>     | `''`       |
+| style         | 文本样式   | <code>TextProps</code>                | `{}`       |
+| format        | 格式化时间 | <code> string <code>                  | `null`     |
+| prefix/suffix | 前后缀     | <code>string &#124; gui <code>        | `null`     |
+| formatter     | 文本回调   | <code>(text: string) => string <code> | `null`     |
+| dynamicTime   | 动态时间   | <code>boolean<code>                   | `false`    |

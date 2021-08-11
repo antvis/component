@@ -1,4 +1,3 @@
-import { get } from '@antv/util';
 import { Canvas } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Sparkline } from '../../../../src';
@@ -20,7 +19,7 @@ const canvas = new Canvas({
 });
 
 const sparkline = new Sparkline({
-  attrs: {
+  style: {
     x: 10,
     y: 10,
     width: 300,
@@ -37,8 +36,9 @@ canvas.appendChild(sparkline);
 
 describe('sparkline', () => {
   test('basic line', async () => {
-    const path0 = sparkline.getElementsByName('sparkline')[0].firstChild.attr('path');
-    const y = (val) => {
+    // @ts-ignore
+    const path0 = sparkline.sparkShape.linesGroup.children[0].attr('path');
+    const y = (val: number) => {
       return (1 - (val + 10) / 25) * 50;
     };
     expect(path0[0][1]).toBe(0);

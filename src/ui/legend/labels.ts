@@ -1,23 +1,23 @@
-import { CustomElement, Text } from '@antv/g';
-import type { ShapeCfg } from '../../types';
+import { DisplayObject, Text } from '@antv/g';
+import { TextProps } from '../../types';
 
-type LabelsAttrs = ShapeCfg[];
+export interface ILabelsCfg {
+  labels: TextProps[];
+}
 
-export class Labels extends CustomElement {
-  constructor({ attrs, ...rest }: ShapeCfg) {
-    super({ type: 'lines', attrs, ...rest });
-    this.render(attrs.labelsAttrs);
+export class Labels extends DisplayObject<ILabelsCfg> {
+  constructor({ style, ...rest }: Partial<DisplayObject<ILabelsCfg>>) {
+    super({ type: 'lines', style, ...rest });
   }
 
-  public render(labelsAttrs: LabelsAttrs): void {
-    // 清空label
-    this.removeChildren(true);
+  public render(): void {
+    const { labels } = this.attributes;
     // 重新绘制
-    labelsAttrs.forEach((attr) => {
+    labels.forEach((cfg) => {
       this.appendChild(
         new Text({
           name: 'label',
-          attrs: attr,
+          style: cfg,
         })
       );
     });
@@ -25,7 +25,9 @@ export class Labels extends CustomElement {
 
   attributeChangedCallback(name: string, value: any) {
     if (name === 'labelsAttrs') {
-      this.render(value);
+      // 清空label
+      this.removeChildren(true);
+      this.render();
     }
   }
 }

@@ -1,39 +1,68 @@
-import { CustomElement, Path } from '@antv/g';
-import type { ShapeCfg } from '../../types';
+import { Path, DisplayObject, Group } from '@antv/g';
+import type { PathStyleProps } from '@antv/g';
 
-type AttrsType = { [key: string]: any };
-type LinesCfg = { linesAttrs: AttrsType[]; areasAttrs?: AttrsType[] };
+export interface ILinesCfg {
+  lines: PathStyleProps[];
+  areas: PathStyleProps[];
+}
 
-export class Lines extends CustomElement {
-  constructor({ attrs, ...rest }: ShapeCfg) {
-    super({ type: 'lines', attrs, ...rest });
-    this.render(attrs.linesCfg);
+export class Lines extends DisplayObject<ILinesCfg> {
+  private linesGroup: Group;
+
+  private areasGroup: Group;
+
+  constructor({ style, ...rest }: Partial<DisplayObject<ILinesCfg>>) {
+    super({ type: 'lines', style, ...rest });
+    this.linesGroup = new Group({
+      name: 'lines',
+    });
+    this.appendChild(this.linesGroup);
+
+    this.areasGroup = new Group({
+      name: 'areas',
+    });
+    this.appendChild(this.areasGroup);
+    this.render();
   }
 
-  public render(linesCfg: LinesCfg): void {
-    this.removeChildren(true);
-    const { linesAttrs, areasAttrs } = linesCfg;
-    linesAttrs.forEach((cfg) => {
-      this.appendChild(
+  public render(): void {
+    const { lines, areas } = this.attributes;
+    if (lines) this.createLines(lines);
+    if (areas) this.createAreas(areas);
+  }
+
+  public clear(): void {
+    this.linesGroup.removeChildren(true);
+    this.areasGroup.removeChildren(true);
+  }
+
+  public update(cfg: Partial<ILinesCfg>) {
+    const { lines, areas } = cfg;
+    this.clear();
+    lines && this.setAttribute('lines', lines);
+    areas && this.setAttribute('areas', areas);
+    this.render();
+  }
+
+  private createLines(lines: ILinesCfg['lines']) {
+    lines.forEach((cfg) => {
+      this.linesGroup.appendChild(
         new Path({
           name: 'line',
-          attrs: cfg,
-        })
-      );
-    });
-    areasAttrs?.forEach((cfg) => {
-      this.appendChild(
-        new Path({
-          name: 'area',
-          attrs: cfg,
+          style: cfg,
         })
       );
     });
   }
 
-  attributeChangedCallback(name: string, value: any) {
-    if (name === 'linesCfg') {
-      this.render(value);
-    }
+  private createAreas(areas: ILinesCfg['areas']) {
+    areas.forEach((cfg) => {
+      this.areasGroup.appendChild(
+        new Path({
+          name: 'area',
+          style: cfg,
+        })
+      );
+    });
   }
 }

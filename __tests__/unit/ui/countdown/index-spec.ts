@@ -21,7 +21,7 @@ describe('countdown', () => {
   });
 
   const countdown = new Countdown({
-    attrs: {
+    style: {
       x: 50,
       y: 50,
       value: {
@@ -34,6 +34,7 @@ describe('countdown', () => {
 
   test('now countdown', async () => {
     const {
+      // @ts-ignore
       value: { format },
     } = countdown.attributes;
 

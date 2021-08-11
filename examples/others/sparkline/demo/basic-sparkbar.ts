@@ -16,7 +16,7 @@ const canvas = new Canvas({
 });
 
 const sparkbar = new Sparkline({
-  attrs: {
+  style: {
     x: 10,
     y: 10,
     type: 'column',

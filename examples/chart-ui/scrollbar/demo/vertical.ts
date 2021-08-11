@@ -16,7 +16,7 @@ const canvas = new Canvas({
 });
 
 const scrollbar = new Scrollbar({
-  attrs: {
+  style: {
     x: 50,
     y: 5,
     value: 0.1,

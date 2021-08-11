@@ -1,5 +1,5 @@
 import { Group } from '@antv/g';
-import type { ShapeAttrs, ShapeCfg } from '../../types';
+import type { TextProps, DisplayObjectConfig } from '../../types';
 
 export type BreadCrumbItem = {
   /** 展示的文案 */
@@ -8,7 +8,7 @@ export type BreadCrumbItem = {
   id: string;
 };
 
-export type BreadCrumbAttrs = {
+export type BreadCrumbCfg = {
   /** 起点 x 坐标位置 */
   readonly x: number;
   /** 起点 y 坐标位置 */
@@ -26,7 +26,7 @@ export type BreadCrumbAttrs = {
     /** 分隔符内容, 默认: '/'. 支持传入一个 group, 外部自行控制大小 */
     text?: string | Group;
     /** 分隔符样式（不需要激活样式） */
-    style?: ShapeAttrs;
+    style?: Partial<TextProps>;
     /** 分隔符两边间距 */
     spacing?: number;
   };
@@ -35,15 +35,13 @@ export type BreadCrumbAttrs = {
   /** 字体样式 */
   readonly textStyle?: {
     /** 默认字体样式 */
-    default?: ShapeAttrs;
+    default?: Partial<TextProps>;
     /** 激活字体样式 */
-    active?: ShapeAttrs;
+    active?: Partial<TextProps>;
   };
 
   /** 如果作为通用组件，给其它用户使用 */
-  readonly onclick?: (evt: any /** 这个我来定义把 */) => void;
+  readonly onclick?: (...args: any[]) => void;
 };
 
-export type BreadCrumbOptions = ShapeCfg & {
-  attrs: BreadCrumbAttrs;
-};
+export type BreadCrumbOptions = DisplayObjectConfig<BreadCrumbCfg>;

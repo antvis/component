@@ -1,6 +1,5 @@
-import type { PathCommand } from '@antv/g-base';
+import type { PathCommand } from '@antv/g';
 import { isUndefined } from '@antv/util';
-import { DisplayObject } from '@antv/g';
 import { Marker } from '../marker';
 import { toPrecision } from '../../util';
 
@@ -57,21 +56,6 @@ export function createRectRailPath(
   const ed = isUndefined(end) ? x + width : end;
 
   return [['M', st, height], ['L', st, 0], ['L', ed, 0], ['L', ed, height], ['Z']] as PathCommand[];
-}
-
-/**
- * 获得图形的x、y、width、height
- */
-export function getShapeSpace(shape: DisplayObject) {
-  const bounds = shape.getBounds();
-  const max = bounds.getMax();
-  const min = bounds.getMin();
-  return {
-    x: min[0],
-    y: min[1],
-    width: max[0] - min[0],
-    height: max[1] - min[1],
-  };
 }
 
 /**

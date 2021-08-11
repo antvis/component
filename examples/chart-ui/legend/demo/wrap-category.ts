@@ -16,7 +16,7 @@ const canvas = new Canvas({
 });
 
 const category = new Category({
-  attrs: {
+  style: {
     x: 10,
     y: 10,
     orient: 'vertical',

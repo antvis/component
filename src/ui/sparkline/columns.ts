@@ -1,34 +1,52 @@
-import { CustomElement, Rect } from '@antv/g';
-import type { ShapeCfg } from '../../types';
+import { DisplayObject, Rect, Group } from '@antv/g';
+import { deepMix } from '@antv/util';
+import type { ShapeAttrs } from '../../types';
 
-type AttrsType = { [key: string]: any };
-type ColumnsCfg = AttrsType[][];
+export interface IColumnCfg extends ShapeAttrs {
+  width: number;
+  height: number;
+}
 
-export class Columns extends CustomElement {
-  constructor({ attrs, ...rest }: ShapeCfg) {
-    super({ type: 'column', attrs, ...rest });
-    this.render(attrs.columnsCfg);
+export interface IColumnsCfg {
+  columns: IColumnCfg[][];
+}
+
+export class Columns extends DisplayObject<IColumnsCfg> {
+  columnsGroup: Group;
+
+  constructor({ style, ...rest }: Partial<DisplayObject<IColumnsCfg>>) {
+    super({ type: 'column', style, ...rest });
+    this.columnsGroup = new Group({
+      name: 'columns',
+    });
+    this.appendChild(this.columnsGroup);
+    this.render();
   }
 
-  public render(columnsCfg: ColumnsCfg): void {
-    this.removeChildren();
-    columnsCfg.forEach((column) => {
+  public render(): void {
+    const { columns } = this.attributes;
+    columns.forEach((column) => {
       column.forEach((cfg) => {
-        this.appendChild(
+        this.columnsGroup.appendChild(
           new Rect({
             name: 'column',
-            attrs: {
-              ...cfg,
-            },
+            style: cfg,
           })
         );
       });
     });
   }
 
-  attributeChangedCallback(name: string, value: any) {
-    if (name === 'columnsCfg') {
-      this.render(value);
+  public update(cfg: Partial<IColumnsCfg>): void {
+    this.attr(deepMix({}, this.attributes, cfg));
+    const { columns } = cfg;
+    if (columns) {
+      this.clear();
+      this.render();
     }
+  }
+
+  public clear(): void {
+    this.removeChildren(true);
   }
 }

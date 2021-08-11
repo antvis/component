@@ -1,8 +1,8 @@
-import { BaseStyleProps, DisplayObjectConfig } from '../../types';
+import { ShapeAttrs, DisplayObjectConfig } from '../../types';
 
 export type FunctionalSymbol = (x: number, y: number, r: number) => any;
 
-export interface MarkerAttrs extends BaseStyleProps {
+export interface MarkerCfg extends ShapeAttrs {
   /**
    * 标记的位置 x，默认为 0
    */
@@ -21,4 +21,4 @@ export interface MarkerAttrs extends BaseStyleProps {
   symbol: string | FunctionalSymbol;
 }
 
-export type MarkerOptions = DisplayObjectConfig<MarkerAttrs>;
+export type MarkerOptions = DisplayObjectConfig<MarkerCfg>;

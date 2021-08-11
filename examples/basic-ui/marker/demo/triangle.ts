@@ -16,7 +16,7 @@ const canvas = new Canvas({
 });
 
 const marker = new Marker({
-  attrs: {
+  style: {
     symbol: 'triangle-down',
     x: 50,
     y: 50,

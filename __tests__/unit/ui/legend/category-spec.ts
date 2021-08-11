@@ -2,10 +2,10 @@ import { Canvas } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Category } from '../../../../src/ui/legend';
 import { createDiv } from '../../../utils';
-import { getShapeSpace } from '../../../../src/ui/legend/utils';
+import { getShapeSpace } from '../../../../src/util';
 
 const style = {
-  itemMarker: (item, idx) => {
+  itemMarker: (item: any, idx: number) => {
     return {
       marker: ['diamond', 'circle', 'triangle'][idx % 3],
       size: 8,
@@ -59,7 +59,7 @@ const canvas = new Canvas({
 });
 
 const category = new Category({
-  attrs: {
+  style: {
     x: 10,
     y: 10,
     items,
@@ -88,8 +88,8 @@ describe('category', () => {
     expect(category.getItem('IE').getElementsByName('name')[0].attr('fill')).toBe('gray');
 
     // G bug， getElementsByName 找不到background
-    expect(category.getItem('chrome').firstChild.attr('fill')).toBe('#dea739');
-    expect(category.getItem('IE').firstChild.attr('fill')).toBe('#fdf6e3');
+    expect(category.getItem('chrome').firstChild!.attr('fill')).toBe('#dea739');
+    expect(category.getItem('IE').firstChild!.attr('fill')).toBe('#fdf6e3');
   });
 
   test('horizontal wrap', async () => {

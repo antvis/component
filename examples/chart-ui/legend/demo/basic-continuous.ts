@@ -16,7 +16,7 @@ const canvas = new Canvas({
 });
 
 const continuous = new Continuous({
-  attrs: {
+  style: {
     title: {
       content: '连续图例',
     },

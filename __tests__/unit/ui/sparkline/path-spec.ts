@@ -1,3 +1,4 @@
+import { PathCommand } from '@antv/g';
 import { Linear } from '@antv/scale';
 import { Scales } from '../../../../src/ui/sparkline/types';
 import {
@@ -10,7 +11,7 @@ import {
   linesToStackCurveAreaPaths,
 } from '../../../../src/ui/sparkline/path';
 
-const _ = (d) => {
+const _ = (d: PathCommand[]) => {
   return d.map((command) => {
     return command.slice(-1)[0];
   });

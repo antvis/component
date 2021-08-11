@@ -1,9 +1,10 @@
 import fecha from 'fecha';
 import { deepMix, isNil } from '@antv/util';
 import { Statistic } from '../statistic';
-import type { CountdownAttrs, CountdownOptions } from './types';
+import type { TitleOption, ValueOption } from '../statistic/types';
+import type { CountdownCfg, CountdownOptions } from './types';
 
-export type { CountdownAttrs, CountdownOptions };
+export type { CountdownCfg, CountdownOptions };
 
 const timeFormatList = {
   D: 1000 * 60 * 60 * 24,
@@ -13,7 +14,7 @@ const timeFormatList = {
   S: 1,
 };
 
-export class Countdown extends Statistic<CountdownAttrs> {
+export class Countdown extends Statistic {
   /**
    * 标签类型
    */
@@ -22,14 +23,12 @@ export class Countdown extends Statistic<CountdownAttrs> {
   /**
    * 记录初始化时间戳 倒计时用
    */
-  public initTime: number;
+  public initTime!: number;
 
   /**
    * 记录初始化value
    */
-  public initValue: string | number;
-
-  attributeChangedCallback(name: string, value: any): void {}
+  public initValue!: string | number;
 
   constructor(options: CountdownOptions) {
     super(deepMix({}, options));
@@ -37,7 +36,7 @@ export class Countdown extends Statistic<CountdownAttrs> {
 
   public init(): void {
     const { x, y, value } = this.attributes;
-    this.initValue = value.text;
+    this.initValue = value.text!;
     this.createText();
     this.timeDynamicTime();
     // 设置位置
@@ -45,8 +44,10 @@ export class Countdown extends Statistic<CountdownAttrs> {
   }
 
   // 过滤用
-  public getNewText(key) {
-    const { text, formatter, format } = this.attributes[key];
+  public getNewText(key: 'title' | 'value') {
+    // to be fix later
+    // @ts-ignore
+    const { text, formatter, format } = this.attributes[key] as Required<TitleOption> | Required<ValueOption>;
     const { initValue } = this;
     if (isNil(text) && !format) {
       return '';
@@ -65,6 +66,8 @@ export class Countdown extends Statistic<CountdownAttrs> {
    */
   public timeAdapter() {
     const {
+      // to be fix later
+      // @ts-ignore
       value: { format: formatAttr },
     } = this.attributes;
 
@@ -83,6 +86,8 @@ export class Countdown extends Statistic<CountdownAttrs> {
     if (timeStamp <= 0) {
       // 为0 时 返回 0 并且 关闭定时器
       timeStamp = 0;
+      // to be fix later
+      // @ts-ignore
       this.attributes.value.dynamicTime = false;
     }
 
@@ -92,8 +97,14 @@ export class Countdown extends Statistic<CountdownAttrs> {
     Object.keys(timeFormatList).forEach((key) => {
       const regExp = new RegExp(`${key}{1,${key === 'S' ? 3 : 2}}`, 'g');
       if (regExp.test(format)) {
+        // to be fix later
+        // @ts-ignore
         const time = Math.floor(timeStamp / timeFormatList[key]);
+        // to be fix later
+        // @ts-ignore
         timeStamp -= time * timeFormatList[key];
+        // to be fix later
+        // @ts-ignore
         format = format.replace(regExp, (v) => {
           if (!v) return '';
           if (key === 'S') {
@@ -116,6 +127,8 @@ export class Countdown extends Statistic<CountdownAttrs> {
 
   // 动态时间（计时器 | 当前时间）
   public timeDynamicTime() {
+    // to be fix later
+    // @ts-ignore
     if (this.getAttribute('value')?.dynamicTime) {
       requestAnimationFrame(() => this.timeDynamicTime());
       const text = this.getNewText('value');
@@ -128,17 +141,17 @@ export class Countdown extends Statistic<CountdownAttrs> {
     }
   }
 
-  public update(cfg: CountdownAttrs) {
+  public update(cfg: Partial<CountdownCfg>) {
     if (cfg?.value?.text) {
       this.initValue = cfg?.value?.text;
     }
     this.updateText(cfg);
   }
 
-  public updateText(cfg: CountdownAttrs) {
+  public updateText(cfg: Partial<CountdownCfg>) {
     this.attr(deepMix({}, this.attributes, cfg));
-    this.titleShape.attr(this.getTitleShapeAttrs());
-    this.valueShape.attr(this.getValueShapeAttrs());
+    this.titleShape.attr(this.getTitleShapeShapeCfg());
+    this.valueShape.attr(this.getValueShapeShapeCfg());
   }
 
   public clear() {

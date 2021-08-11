@@ -1,10 +1,6 @@
 import { normalPadding } from '../../../src/util';
 
 describe('padding', () => {
-  test('undefined', async () => {
-    expect(normalPadding(undefined)).toStrictEqual([0, 0, 0, 0]);
-  });
-
   test('number', async () => {
     expect(normalPadding(1)).toStrictEqual([1, 1, 1, 1]);
   });

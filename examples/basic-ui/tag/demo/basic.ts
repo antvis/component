@@ -16,7 +16,7 @@ const canvas = new Canvas({
 });
 
 const tag1 = new Tag({
-  attrs: {
+  style: {
     x: 0,
     y: 10,
     text: 'Tag 1',
@@ -32,7 +32,7 @@ const tag1 = new Tag({
 canvas.appendChild(tag1);
 
 const linkTag = new Tag({
-  attrs: {
+  style: {
     x: 0,
     y: 40,
     text: 'Link Tag',

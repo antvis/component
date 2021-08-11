@@ -17,7 +17,7 @@ const canvas = new Canvas({
 });
 
 const countdown = new Countdown({
-  attrs: {
+  style: {
     x: 0,
     y: 0,
     title: {

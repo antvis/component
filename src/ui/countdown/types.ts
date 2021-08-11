@@ -1,4 +1,5 @@
-import type { StatisticAttrs, StatisticOptions, ValueOption as Option } from '../statistic/types';
+import { DisplayObjectConfig } from '../../types';
+import type { StatisticCfg, ValueOption as Option } from '../statistic/types';
 
 export interface ValueOption extends Option {
   /**
@@ -11,10 +12,8 @@ export interface ValueOption extends Option {
   dynamicTime?: boolean;
 }
 
-export interface CountdownAttrs extends StatisticAttrs {
+export interface CountdownCfg extends StatisticCfg {
   value?: ValueOption;
 }
 
-export interface CountdownOptions extends StatisticOptions {
-  attrs: CountdownAttrs;
-}
+export type CountdownOptions = DisplayObjectConfig<CountdownCfg>;

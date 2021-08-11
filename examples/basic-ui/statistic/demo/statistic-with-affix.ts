@@ -24,7 +24,7 @@ Marker.registerSymbol(
 );
 
 const marker = new Marker({
-  attrs: {
+  style: {
     symbol: 'star',
     x: 8,
     y: 4,
@@ -33,7 +33,7 @@ const marker = new Marker({
   },
 });
 const tag1 = new Tag({
-  attrs: {
+  style: {
     x: 0,
     y: 8,
     text: 'Tag 1',
@@ -47,7 +47,7 @@ const tag1 = new Tag({
   },
 });
 const statistic = new Statistic({
-  attrs: {
+  style: {
     x: 0,
     y: 0,
     title: {

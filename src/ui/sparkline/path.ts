@@ -1,6 +1,6 @@
 import { clone, isEqual } from '@antv/util';
 import { catmullRom2Bezier } from '@antv/path-util';
-import { PathCommand } from '@antv/g-base';
+import type { PathCommand } from '@antv/g';
 import type { Data, Line, Point, Scales } from './types';
 
 /**

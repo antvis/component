@@ -1,6 +1,6 @@
 import { CustomElement } from '@antv/g';
 
-export abstract class GUI<CustomAttr> extends CustomElement<CustomAttr> {
+export abstract class GUI<CustomAttr> extends CustomElement<Required<CustomAttr>> {
   public static tag: string = 'gui';
 
   connectedCallback(): void {}
@@ -21,7 +21,7 @@ export abstract class GUI<CustomAttr> extends CustomElement<CustomAttr> {
   /**
    * 组件的更新
    */
-  public abstract update(cfg: CustomAttr): void;
+  public abstract update(cfg: Partial<CustomAttr>): void;
 
   /**
    * 组件的清除

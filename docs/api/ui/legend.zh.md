@@ -66,14 +66,14 @@ import { Category, Continuous } from '@antv/gui';
 | content    | <code>string</code>                        | 标题               |            |
 | spacing    | <code>number</code>                        | 标题与图例元素间距 |            |
 | align      | <code>'left' \| 'center' \| 'right'</code> | 标题对齐方式       |            |
-| style      | <code>ShapeAttrs</code>                    | 标题样式           |            |
+| style      | <code>TextProps</code>                     | 标题样式           |            |
 | formatter  | <code>(text:string)=>string</code>         | 标题格式化         |            |
 
 ### LabelCfg
 
 | **属性名** | **类型**                                          | **描述**       | **默认值** |
 | ---------- | ------------------------------------------------- | -------------- | ---------- |
-| style      | <code>ShapeAttrs</code>                           | 标签样式       | `[]`       |
+| style      | <code>TextProps</code>                            | 标签样式       | `[]`       |
 | spacing    | <code>number</code>                               | 标签与图例间距 | `10`       |
 | formatter  | <code>(value: number, idx: number)=>string</code> | 标签文本格式化 | `[]`       |
 | align      | <code>'rail' \| 'inside' \| 'outside'</code>      | 标签对齐方式   | `rail`     |
@@ -92,22 +92,22 @@ import { Category, Continuous } from '@antv/gui';
 
 ### HandleCfg
 
-| **属性名** | **类型**            | **描述**                 | **默认值**                                                                                        |
-| ---------- | ------------------- | ------------------------ | ------------------------------------------------------------------------------------------------- |
-| size       | <code>number</code> | 手柄大小                 | `4`                                                                                               |
-| text       | <code>Object</code> | 手柄文本                 | `{formatter: (value:number)=>string, style: ShapeAttrs, align: 'rail' \| 'inside' \| 'outside' }` |
-| icon       | <code>Object</code> | 手柄图标                 | `{marker: MarkerCfg}`                                                                             |
-| spacing    | <code>number</code> | 手柄文本到手柄图标的间距 | `10`                                                                                              |
+| **属性名** | **类型**            | **描述**                 | **默认值**                                                                                       |
+| ---------- | ------------------- | ------------------------ | ------------------------------------------------------------------------------------------------ |
+| size       | <code>number</code> | 手柄大小                 | `4`                                                                                              |
+| text       | <code>Object</code> | 手柄文本                 | `{formatter: (value:number)=>string, style: TextProps, align: 'rail' \| 'inside' \| 'outside' }` |
+| icon       | <code>Object</code> | 手柄图标                 | `{marker: MarkerCfg}`                                                                            |
+| spacing    | <code>number</code> | 手柄文本到手柄图标的间距 | `10`                                                                                             |
 
 ### IndicatorCfg
 
-| **属性名**      | **类型**                        | **描述**             | **默认值**                                               |
-| --------------- | ------------------------------- | -------------------- | -------------------------------------------------------- |
-| size            | <code>number</code>             | 指示器大小           | `8`                                                      |
-| spacing         | <code>number</code>             | 指示器文本到色板间距 | `5`                                                      |
-| padding         | <code>number \| number[]</code> | 指示器文本内边距     | `5`                                                      |
-| backgroundStyle | <code>ShapeAttrs</code>         | 指示器背景样式       | `[]`                                                     |
-| text            | <code>Object</code>             | 指示器文本样式       | `{style: ShapeAttrs, formatter:(value: number)=>string}` |
+| **属性名**      | **类型**                        | **描述**             | **默认值**                                              |
+| --------------- | ------------------------------- | -------------------- | ------------------------------------------------------- |
+| size            | <code>number</code>             | 指示器大小           | `8`                                                     |
+| spacing         | <code>number</code>             | 指示器文本到色板间距 | `5`                                                     |
+| padding         | <code>number \| number[]</code> | 指示器文本内边距     | `5`                                                     |
+| backgroundStyle | <code>RectProps</code>          | 指示器背景样式       | `[]`                                                    |
+| text            | <code>Object</code>             | 指示器文本样式       | `{style: TextProps, formatter:(value: number)=>string}` |
 
 ### CategoryItem
 

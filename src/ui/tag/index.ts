@@ -1,34 +1,35 @@
 import { Rect, Text } from '@antv/g';
 import { deepMix } from '@antv/util';
-import { getStateStyle, normalPadding } from '../../util';
 import { GUI } from '../core/gui';
-import { Marker } from '../marker';
-import type { DisplayObject } from '../../types';
-import type { TagAttrs, TagOptions } from './types';
+import { Marker, MarkerCfg } from '../marker';
+import { getStateStyle as getStyle, normalPadding, getShapeSpace } from '../../util';
+import type { RectProps, TextProps } from '../../types';
+import type { TagCfg, TagOptions } from './types';
 
 export type { TagOptions };
 
 /**
  * 带文本的 图标组件，支持 iconfont 组件
  */
-export class Tag extends GUI<TagAttrs> {
+export class Tag extends GUI<Required<TagCfg>> {
   /**
    * 标签类型
    */
   public static tag = 'tag';
 
-  private markerShape: GUI;
+  private markerShape!: Marker;
 
-  private textShape: DisplayObject;
+  private textShape!: Text;
 
-  private backgroundShape: DisplayObject;
+  private backgroundShape!: Rect;
 
   /**
    * 默认参数
    */
   public static defaultOptions = {
     type: Tag.tag,
-    attrs: {
+    style: {
+      text: '',
       radius: 2,
       padding: 4,
       textStyle: {
@@ -52,7 +53,7 @@ export class Tag extends GUI<TagAttrs> {
           lineWidth: 1,
         },
       },
-    } as TagAttrs,
+    },
   };
 
   constructor(options: TagOptions) {
@@ -60,15 +61,14 @@ export class Tag extends GUI<TagAttrs> {
     this.init();
   }
 
-  attributeChangedCallback(name: string, value: any): void {}
-
   /**
    * 根据 type 获取 maker shape
    */
   public init(): void {
-    this.createBackground();
-    this.createMarker();
-    this.createText();
+    this.initShape();
+    this.updateBackground();
+    this.updateMarker();
+    this.updateText();
     this.autoFit();
     this.bindEvents();
   }
@@ -76,11 +76,11 @@ export class Tag extends GUI<TagAttrs> {
   /**
    * 组件的更新
    */
-  public update(cfg: Partial<TagAttrs>) {
+  public update(cfg: Partial<TagCfg>) {
     this.attr(deepMix({}, this.attributes, cfg));
-    this.markerShape.attr(this.getMarkerAttrs());
-    this.textShape.attr(this.getTextAttrs());
-    this.backgroundShape.attr(this.getBackgroundAttrs());
+    this.updateBackground();
+    this.updateMarker();
+    this.updateText();
     this.autoFit();
   }
 
@@ -93,40 +93,47 @@ export class Tag extends GUI<TagAttrs> {
     this.backgroundShape.destroy();
   }
 
-  /**
-   * 创建 background
-   */
-  private createBackground() {
-    this.backgroundShape = new Rect({
-      name: 'tag-background',
-      attrs: this.getBackgroundAttrs(),
+  private initShape() {
+    this.markerShape = new Marker({
+      name: 'marker',
+      style: Tag.defaultOptions.style.marker,
     });
+    this.textShape = new Text({
+      name: 'text',
+      style: {
+        text: Tag.defaultOptions.style.text,
+      },
+    });
+    this.backgroundShape = new Rect({ name: 'background' });
+    this.backgroundShape.appendChild(this.markerShape);
+    this.backgroundShape.appendChild(this.textShape);
     this.appendChild(this.backgroundShape);
     this.backgroundShape.toBack();
   }
 
-  private getBackgroundAttrs() {
+  /**
+   * 创建 background
+   */
+  private updateBackground() {
+    this.backgroundShape.attr(this.getBackgroundShapeCfg());
+  }
+
+  private getBackgroundShapeCfg(): RectProps {
     const { backgroundStyle, radius = 0 } = this.attributes;
     return {
-      ...backgroundStyle?.default,
-      x: 0,
-      y: 0,
       radius,
+      ...(getStyle<Partial<RectProps>>(backgroundStyle) as RectProps),
     };
   }
 
   /**
    * 创建 marker
    */
-  private createMarker() {
-    this.markerShape = new Marker({
-      name: 'tag-marker',
-      attrs: this.getMarkerAttrs(),
-    });
-    this.backgroundShape.appendChild(this.markerShape);
+  private updateMarker() {
+    this.markerShape.update(this.getMarkerShapeCfg());
   }
 
-  private getMarkerAttrs() {
+  private getMarkerShapeCfg(): MarkerCfg {
     const { marker } = this.attributes;
     return marker;
   }
@@ -134,19 +141,14 @@ export class Tag extends GUI<TagAttrs> {
   /**
    * 创建 text
    */
-  private createText() {
-    this.textShape = new Text({
-      name: 'tag-text',
-      attrs: this.getTextAttrs(),
-    });
-    this.backgroundShape.appendChild(this.textShape);
+  private updateText() {
+    this.textShape.attr(this.getTextShapeCfg());
   }
 
-  private getTextAttrs() {
+  private getTextShapeCfg(): TextProps {
     const { text, textStyle } = this.attributes;
-
     return {
-      ...textStyle.default,
+      ...getStyle(textStyle),
       x: 0,
       y: 0,
       text,
@@ -154,49 +156,53 @@ export class Tag extends GUI<TagAttrs> {
   }
 
   private autoFit() {
-    const { padding, spacing } = this.attributes;
+    const { padding, spacing, marker, text } = this.attributes;
+    const [top, right, bottom, left] = normalPadding(padding);
+    const { size = 0 } = marker;
 
-    const [p0, p1, p2, p3] = normalPadding(padding);
-    let width = p1 + p3;
+    const { width: markerWidth, height: markerHeight } = getShapeSpace(this.markerShape);
+    const { width: textWidth, height: textHeight } = this.textShape.getBoundingClientRect();
+    let width = left + right;
     let height = 0;
-
-    if (this.markerShape?.attr('size')) {
-      const markerRect = this.markerShape.getBoundingClientRect();
-      width += markerRect.width + spacing;
-      height = Math.max(height, markerRect.height);
+    if (size > 0) {
+      width += markerWidth + spacing;
+      height = Math.max(height, markerHeight);
     }
-    if (this.textShape) {
-      const { width: tWidth, height: tHeight } = this.textShape.getBoundingClientRect();
-      width += tWidth;
-      height = Math.max(height, tHeight);
+    if (text !== '') {
+      width += textWidth;
+      height = Math.max(height, textHeight);
     }
 
-    height += p0 + p2;
+    height += top + bottom;
 
     // background
     this.backgroundShape.attr({ width, height });
     // marker
-    this.markerShape.setLocalPosition(p3 + this.markerShape.getBoundingClientRect().width / 2, height / 2);
+    this.markerShape.attr({
+      x: left + markerWidth / 2,
+      y: height / 2,
+    });
     // text
-    let textX = p3;
-    if (this.markerShape?.attr('size')) {
-      textX += this.markerShape.getBoundingClientRect().width + spacing;
-    }
+    let textX = left;
+    if (size) textX += markerWidth + spacing;
     // 设置 局部坐标系 下的位置
-    this.textShape.setLocalPosition(textX, height / 2);
+    this.textShape.attr({
+      x: textX,
+      y: height / 2,
+    });
   }
 
   private bindEvents() {
     this.on('mouseenter', () => {
       const { backgroundStyle, textStyle } = this.attributes;
-      this.textShape.attr(getStateStyle(textStyle, 'active', true));
-      this.backgroundShape.attr(getStateStyle(backgroundStyle, 'active', true));
+      this.textShape.attr(getStyle(textStyle, 'active', true));
+      this.backgroundShape.attr(getStyle(backgroundStyle, 'active', true));
       this.autoFit();
     });
 
     this.on('mouseleave', () => {
-      this.textShape.attr(this.getTextAttrs());
-      this.backgroundShape.attr(this.getBackgroundAttrs());
+      this.textShape.attr(this.getTextShapeCfg());
+      this.backgroundShape.attr(this.getBackgroundShapeCfg());
       this.autoFit();
     });
   }

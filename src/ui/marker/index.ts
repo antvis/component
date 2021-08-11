@@ -3,21 +3,20 @@ import { deepMix, isFunction } from '@antv/util';
 import { GUI } from '../core/gui';
 import { parseMarker } from './utils';
 import { circle, square, diamond, triangleDown, triangle, line, dot, dash, smooth, hv, vh, hvh, vhv } from './symbol';
-import type { DisplayObject } from '../../types';
-import type { MarkerAttrs, MarkerOptions, FunctionalSymbol } from './types';
+import type { MarkerCfg, MarkerOptions, FunctionalSymbol } from './types';
 
-export type { MarkerAttrs, MarkerOptions, FunctionalSymbol };
+export type { MarkerCfg, MarkerOptions, FunctionalSymbol };
 
 /**
  * Marker
  */
-export class Marker extends GUI<MarkerAttrs> {
+export class Marker extends GUI<Required<MarkerCfg>> {
   /**
    * 标签类型
    */
   public static tag = 'marker';
 
-  private markerShape?: DisplayObject<any>;
+  private markerShape?: Path | Image;
 
   private static MARKER_SYMBOL_MAP = new Map<string, FunctionalSymbol>();
 
@@ -35,7 +34,7 @@ export class Marker extends GUI<MarkerAttrs> {
    */
   private static defaultOptions = {
     type: Marker.tag,
-    attrs: {
+    style: {
       x: 0,
       y: 0,
       size: 16,
@@ -57,8 +56,8 @@ export class Marker extends GUI<MarkerAttrs> {
   /**
    * 组件的更新
    */
-  public update(attrs: MarkerAttrs): void {
-    this.attr(deepMix({}, this.attributes, attrs));
+  public update(cfg: Partial<MarkerCfg>): void {
+    this.attr(deepMix({}, this.attributes, cfg));
     this.clear();
     this.createMarker();
   }
@@ -78,42 +77,39 @@ export class Marker extends GUI<MarkerAttrs> {
     if (['base64', 'url', 'image'].includes(markerType)) {
       this.markerShape = new Image({
         name: 'markerImage',
-        style: this.getMarkerImageAttrs(),
+        style: this.getMarkerImageShapeCfg(),
       });
-      // const { r } = this.attributes;
-      // this.translate(-r, -r);
     } else if (markerType === 'symbol') {
       this.markerShape = new Path({
         name: 'markerSymbol',
-        style: this.getMarkerSymbolAttrs(),
+        style: this.getMarkerSymbolShapeCfg(),
       });
     }
+
     if (this.markerShape) {
       this.appendChild(this.markerShape);
     }
   }
 
   // symbol marker
-  private getMarkerSymbolAttrs() {
+  private getMarkerSymbolShapeCfg() {
     const { x = 0, y = 0, size = 0, symbol, ...args } = this.attributes;
-    const halfR = size / 2;
+    const r = size / 2;
     const symbolFn = isFunction(symbol) ? symbol : Marker.MARKER_SYMBOL_MAP.get(symbol);
-    const path = symbolFn?.(x, y, size) as PathCommand;
-
+    const path = symbolFn?.(0, 0, r) as PathCommand[];
     return {
       path,
-      r: halfR,
       ...args,
     };
   }
 
   // image marker
-  private getMarkerImageAttrs() {
+  private getMarkerImageShapeCfg() {
     const { size = 0, symbol } = this.attributes;
     const r2 = size * 2;
     return {
-      x: 0,
-      y: 0,
+      x: -size,
+      y: -size,
       width: r2,
       height: r2,
       img: symbol as unknown as HTMLImageElement,

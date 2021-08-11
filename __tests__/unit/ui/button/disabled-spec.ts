@@ -21,39 +21,45 @@ describe('disabled button', () => {
     });
 
     const button = new Button({
-      attrs: {
+      style: {
         x: 50,
         y: 40,
         text: 'hoverStyle',
         textStyle: {
-          fill: '#abc',
-          fontSize: 20,
-          fontWeight: 'bold',
-          fontFamily: 'Helvetica',
-          textAlign: 'right',
-          textBaseline: 'top',
+          default: {
+            fill: '#abc',
+            fontSize: 20,
+            fontWeight: 'bold',
+            fontFamily: 'Helvetica',
+            textAlign: 'right',
+            textBaseline: 'top',
+          },
         },
         buttonStyle: {
-          width: 150,
-          height: 40,
-          fill: 'pink',
-          opacity: 0.5,
-          stroke: '#666',
-          lineWidth: 5,
-          radius: 10,
-          lineDash: [6, 10],
+          default: {
+            width: 150,
+            height: 40,
+            fill: 'pink',
+            opacity: 0.5,
+            stroke: '#666',
+            lineWidth: 5,
+            radius: 10,
+            lineDash: [6, 10],
+          },
         },
         disabled: true,
       },
     });
 
-    const rect = button.firstChild;
+    // @ts-ignore
+    const rect = button.backgroundShape;
     const { fill, stroke } = rect.attributes;
     expect(fill).toBe('#f5f5f5');
     expect(stroke).toBe('#d9d9d9');
 
-    const text = button.lastChild;
-    expect(text.attributes.fill).toBe('#b8b8b8');
+    // @ts-ignore
+    const text = button.textShape;
+    expect(text.attr('fill')).toBe('#b8b8b8');
 
     canvas.appendChild(button);
   });

@@ -1,16 +1,24 @@
-import { Rect, Text, DisplayObject } from '@antv/g';
+import type { Cursor } from '@antv/g';
+import { Rect, Text, CustomEvent } from '@antv/g';
 import { deepMix, get } from '@antv/util';
 import { GUI } from '../core/gui';
 import { Handle } from './handle';
-import { toPrecision } from '../../util';
 import { Sparkline } from '../sparkline';
-import type { SliderAttrs, SliderOptions, HandleCfg, Pair } from './types';
+import { toPrecision, getShapeSpace, getEventPos, getStateStyle } from '../../util';
+import type { SparklineCfg } from '../sparkline';
+import type { IHandleCfg } from './handle';
+import type { ShapeAttrs, RectProps } from '../../types';
+import type { SliderCfg, SliderOptions, HandleCfg, Pair } from './types';
 
-export type { SliderAttrs, SliderOptions };
+export type { SliderCfg, SliderOptions };
 
 type HandleType = 'start' | 'end';
+type HandleName = 'startHandle' | 'endHandle';
+interface IBackgroundStyleCfg extends ShapeAttrs {
+  lineWidth: number;
+}
 
-export class Slider extends GUI<SliderAttrs> {
+export class Slider extends GUI<SliderCfg> {
   public static tag = 'slider';
 
   /**
@@ -27,13 +35,13 @@ export class Slider extends GUI<SliderAttrs> {
    */
 
   // 背景、滑道
-  private backgroundShape: DisplayObject;
+  private backgroundShape: Rect;
 
   // 迷你图
   private sparklineShape: Sparkline;
 
   // 前景、选区
-  private foregroundShape: DisplayObject;
+  private foregroundShape: Rect;
 
   // 开始滑块
   private startHandle: Handle;
@@ -63,12 +71,42 @@ export class Slider extends GUI<SliderAttrs> {
 
   constructor(options: SliderOptions) {
     super(deepMix({}, Slider.defaultOptions, options));
+    this.backgroundShape = new Rect({
+      name: 'background',
+      style: this.getBackgroundShapeCfg(),
+    });
+    this.backgroundShape.toBack();
+    this.appendChild(this.backgroundShape);
+
+    this.foregroundShape = new Rect({
+      name: 'foreground',
+      style: this.getForegroundShapeCfg(),
+    });
+    this.backgroundShape.appendChild(this.foregroundShape);
+
+    this.startHandle = this.createHandle('start');
+    this.foregroundShape.appendChild(this.startHandle);
+
+    this.endHandle = this.createHandle('end');
+    this.foregroundShape.appendChild(this.endHandle);
+
+    this.sparklineShape = new Sparkline({
+      name: 'sparkline',
+      style: this.getSparklineShapeCfg(),
+    });
+    this.backgroundShape.appendChild(this.sparklineShape);
+
+    this.selectionStartPos = 0;
+    this.selectionWidth = 0;
+    this.prevPos = 0;
+    this.target = '';
+
     this.init();
   }
 
   private static defaultOptions = {
     type: Slider.tag,
-    attrs: {
+    style: {
       orient: 'horizontal',
       values: [0, 1],
       names: ['', ''],
@@ -81,15 +119,19 @@ export class Slider extends GUI<SliderAttrs> {
       },
       padding: [0, 0, 0, 0],
       backgroundStyle: {
-        fill: '#fff',
-        stroke: '#e4eaf5',
-        lineWidth: 1,
+        default: {
+          fill: '#fff',
+          stroke: '#e4eaf5',
+          lineWidth: 1,
+        },
       },
       foregroundStyle: {
-        fill: '#afc9fb',
-        opacity: 0.5,
-        stroke: '#afc9fb',
-        lineWidth: 1,
+        default: {
+          fill: '#afc9fb',
+          opacity: 0.5,
+          stroke: '#afc9fb',
+          lineWidth: 1,
+        },
         active: {
           fill: '#ccdaf5',
         },
@@ -112,9 +154,15 @@ export class Slider extends GUI<SliderAttrs> {
     },
   };
 
-  attributeChangedCallback(name: string, value: any) {
+  attributeChangedCallback<Key extends keyof SliderCfg>(name: Key, oldValue: SliderCfg[Key], newValue: SliderCfg[Key]) {
     if (name === 'values') {
-      this.emit('valuechange', value);
+      const evt = new CustomEvent('valueChange', {
+        detail: {
+          oldValue,
+          value: newValue,
+        },
+      });
+      this.dispatchEvent(evt);
     }
     if (name in ['names', 'values']) {
       this.setHandle();
@@ -122,10 +170,10 @@ export class Slider extends GUI<SliderAttrs> {
   }
 
   public getValues() {
-    return this.getAttribute('values');
+    return this.getAttribute('values') as Pair<number>;
   }
 
-  public setValues(values: SliderOptions['values']) {
+  public setValues(values: SliderCfg['values']) {
     this.setAttribute('values', this.getSafetyValues(values));
   }
 
@@ -133,28 +181,26 @@ export class Slider extends GUI<SliderAttrs> {
     return this.getAttribute('names');
   }
 
-  public setNames(names: SliderOptions['names']) {
+  public setNames(names: SliderCfg['names']) {
     this.setAttribute('names', names);
   }
 
   public init() {
-    this.createBackground();
-    this.createSparkline();
-    this.createForeground();
-    this.createHandles();
     this.bindEvents();
   }
 
   /**
    * 组件的更新
    */
-  public update(attrs: SliderAttrs) {
-    this.attr(deepMix({}, this.attributes, attrs));
-    this.backgroundShape.attr(this.getBackgroundAttrs());
-    this.sparklineShape.update(this.getSparklineAttrs());
-    this.foregroundShape.attr(this.getForegroundAttrs());
-    this.startHandle.attr(this.getHandleAttrs('start'));
-    this.endHandle.attr(this.getHandleAttrs('end'));
+  public update(cfg: Partial<SliderCfg>) {
+    this.attr(deepMix({}, this.attributes, cfg));
+
+    this.backgroundShape.attr(this.getBackgroundShapeCfg());
+    this.sparklineShape.update(this.getSparklineShapeCfg());
+    this.foregroundShape.attr(this.getForegroundShapeCfg());
+
+    this.startHandle.update(this.getHandleShapeCfg('start'));
+    this.endHandle.update(this.getHandleShapeCfg('end'));
   }
 
   /**
@@ -211,61 +257,40 @@ export class Slider extends GUI<SliderAttrs> {
    * 获取style
    * @param name style名
    * @param isActive 是否是active style
-   * @returns ShapeAttrs
+   * @returns ShapeCfg
    */
-  private getStyle(name: string | string[], isActive?: boolean, handleType?: HandleType) {
-    const { active, ...args } = get(handleType ? this.getHandleCfg(handleType) : this.attributes, name);
-    if (isActive) {
-      return active || {};
-    }
-    return args?.default || args;
+  private getStyle(name: string | string[], state: 'default' | 'active' = 'default', handleType?: HandleType) {
+    if (handleType) return this.getHandleCfg(handleType);
+    return getStateStyle(get(this.attributes, name), state, true) as RectProps;
   }
 
-  private getBackgroundAttrs() {
+  private getBackgroundShapeCfg() {
     return {
-      cursor: 'crosshair',
+      cursor: 'crosshair' as Cursor,
       ...this.getAvailableSpace(),
       ...this.getStyle('backgroundStyle'),
     };
   }
 
-  private createBackground() {
-    this.backgroundShape = new Rect({
-      name: 'background',
-      attrs: this.getBackgroundAttrs(),
-    });
-    this.backgroundShape.toBack();
-    this.appendChild(this.backgroundShape);
-  }
-
-  private getSparklineAttrs() {
+  private getSparklineShapeCfg() {
     const { orient, sparklineCfg } = this.attributes;
     // 暂时只在水平模式下绘制
-    if (orient !== 'horizontal') {
-      return {};
-    }
+    // if (orient !== 'horizontal') {
+    //   return {
+    //     data: [[]],
+    //   };
+    // }
     const { padding, ...args } = sparklineCfg;
     const [top, right, bottom, left] = padding;
     const { width, height } = this.getAvailableSpace();
-    const { lineWidth: bkgLW } = this.getStyle('backgroundStyle');
+    const { lineWidth: bkgLW } = this.getStyle('backgroundStyle') as IBackgroundStyleCfg;
     return {
       x: bkgLW / 2 + left,
       y: bkgLW / 2 + top,
+      ...args,
       width: width - bkgLW - left - right,
       height: height - bkgLW - top - bottom,
-      ...args,
-    };
-  }
-
-  /**
-   * 生成sparkline
-   */
-  private createSparkline() {
-    this.sparklineShape = new Sparkline({
-      name: 'sparkline',
-      attrs: this.getSparklineAttrs(),
-    });
-    this.backgroundShape.appendChild(this.sparklineShape);
+    } as SparklineCfg;
   }
 
   /**
@@ -292,16 +317,8 @@ export class Slider extends GUI<SliderAttrs> {
     ]);
   }
 
-  private getForegroundAttrs() {
-    return { cursor: 'move', ...this.calcMask(), ...this.getStyle('foregroundStyle') };
-  }
-
-  private createForeground() {
-    this.foregroundShape = new Rect({
-      name: 'foreground',
-      attrs: this.getForegroundAttrs(),
-    });
-    this.backgroundShape.appendChild(this.foregroundShape);
+  private getForegroundShapeCfg() {
+    return { cursor: 'move' as Cursor, ...this.calcMask(), ...this.getStyle('foregroundStyle') };
   }
 
   /**
@@ -326,10 +343,9 @@ export class Slider extends GUI<SliderAttrs> {
   private setHandle() {
     this.foregroundShape.attr(this.calcMask());
     (['start', 'end'] as HandleType[]).forEach((handleType) => {
-      const handle = this[`${handleType}Handle`];
-      handle.attr(this.calcHandlePosition(handleType));
-      const handleText = handle.getElementsByName('handleText')[0];
-      handleText.attr(this.calcHandleText(handleType));
+      const handle = this[`${handleType}Handle` as HandleName];
+      handle.setHandle(this.calcHandlePosition(handleType));
+      handle.setHandleText(this.calcHandleText(handleType));
     });
   }
 
@@ -349,22 +365,22 @@ export class Slider extends GUI<SliderAttrs> {
     const { width: iW, height: iH } = this.getAvailableSpace();
     const { x: fX, y: fY, width: fW, height: fH } = this.calcMask();
 
-    const formattedText = formatter(...(handleType === 'start' ? [names[0], values[0]] : [names[1], values[1]]));
-    const _ = new Text({
-      attrs: {
-        text: formattedText,
+    const [name, value] = handleType === 'start' ? [names[0], values[0]] : [names[1], values[1]];
+    const formattedText = formatter(name, value);
+    const temp = new Text({
+      style: {
         ...textStyle,
+        text: formattedText,
       },
     });
-    // 文字的包围盒
-    const tBox = _.getBounds();
-    _.destroy();
+    // 文字包围盒的宽高
+    const { width: textWidth, height: textHeight } = getShapeSpace(temp);
+    temp.destroy();
 
     let x = 0;
     let y = 0;
     const R = size / 2;
     if (orient === 'horizontal') {
-      const textWidth = tBox.getMax()[0] - tBox.getMin()[0];
       const sh = spacing + R;
       const _ = sh + textWidth / 2;
       if (handleType === 'start') {
@@ -375,7 +391,6 @@ export class Slider extends GUI<SliderAttrs> {
       }
     } else {
       const _ = spacing + R;
-      const textHeight = tBox.getMax()[1] - tBox.getMin()[1];
       if (handleType === 'start') {
         y = fY - R > textHeight ? -_ : _;
       } else {
@@ -385,11 +400,7 @@ export class Slider extends GUI<SliderAttrs> {
     return { x, y, text: formattedText };
   }
 
-  private getHandleAttrs(handleType: HandleType) {
-    return this.calcHandlePosition(handleType);
-  }
-
-  private getHandleTextAttrs(handleType: HandleType) {
+  private getHandleTextShapeCfg(handleType: HandleType) {
     const handleCfg = this.getHandleCfg(handleType);
     const { textStyle } = handleCfg;
     return {
@@ -398,23 +409,26 @@ export class Slider extends GUI<SliderAttrs> {
     };
   }
 
-  private getHandleIconAttrs(handleType: HandleType) {
+  private getHandleIconShapeCfg(handleType: HandleType): IHandleCfg['iconCfg'] {
     const { height: H, orient } = this.attributes;
     const handleCfg = this.getHandleCfg(handleType);
-    const { show, handleIcon, handleStyle: attrs } = handleCfg;
-    const cursor = this.getOrientVal(['ew-resize', 'ns-resize']);
+    const { show, handleIcon, handleStyle: style } = handleCfg;
+    const cursor = this.getOrientVal(['ew-resize', 'ns-resize']) as Cursor;
     const size = this.getHandleSize(handleType);
     if (!show) {
       // 不显示handleIcon
       return {
+        orient,
         type: 'hide',
-        cursor,
-        x: -size / 2,
-        y: -H / 2,
-        height: H,
-        width: size,
-        opacity: 0,
-        fill: 'red',
+        style: {
+          cursor,
+          x: -size / 2,
+          y: -H / 2,
+          height: H,
+          width: size,
+          opacity: 0,
+          fill: 'red',
+        },
       };
     }
     if (!handleIcon) {
@@ -422,52 +436,47 @@ export class Slider extends GUI<SliderAttrs> {
       return {
         type: 'default',
         orient,
-        ...attrs,
-        size,
+        style: {
+          ...style,
+          cursor,
+          size,
+        },
       };
     }
     // 使用symbol
     return {
+      orient,
       type: 'symbol',
-      ...attrs,
-      r: size,
-      symbol: handleIcon,
+      style: {
+        ...style,
+        cursor,
+        r: size,
+        symbol: handleIcon,
+      },
+    };
+  }
+
+  private getHandleShapeCfg(handleType: HandleType) {
+    return {
+      handleType,
+      ...this.calcHandlePosition(handleType),
+      iconCfg: this.getHandleIconShapeCfg(handleType),
+      textCfg: this.getHandleTextShapeCfg(handleType),
     };
   }
 
   /**
    * 创建手柄
    */
-  private createHandle(options: HandleCfg, handleType: HandleType) {
-    // 手柄容器
-
-    const handleEl = new DisplayObject({
-      handleType,
-      name: 'handle',
-      attrs: this.getHandleAttrs(handleType),
+  private createHandle(handleType: HandleType) {
+    return new Handle({
+      name: `handle`,
+      style: this.getHandleShapeCfg(handleType),
     });
-    // 将手柄容器挂载到foregroundShape下
-    this.foregroundShape.appendChild(handleEl);
-
-    // 手柄文本挂载到handle容器下
-    const handleText = new Text({
-      name: 'handleText',
-      attrs: this.getHandleTextAttrs(handleType),
-    });
-    handleEl.appendChild(handleText);
-
-    // 手柄icon也挂载到handle容器
-    const handleIcon = new Handle({
-      name: 'handleIcon',
-      attrs: this.getHandleIconAttrs(handleType),
-    });
-    handleEl.appendChild(handleIcon);
-
-    this[`${handleType}Handle`] = handleEl;
   }
 
-  private getHandleCfg(handleType: HandleType) {
-    const { start, end, ...args } = this.getAttribute('handle');
+  private getHandleCfg(handleType: HandleType): Required<HandleCfg> {
+    const { start, end, ...args } = get(this.attributes, 'handle');
     let handleCfg = {};
     if (handleType === 'start') {
       handleCfg = start;
@@ -487,11 +496,6 @@ export class Slider extends GUI<SliderAttrs> {
     return (this.getOrientVal([height, width]) * 0.8) / 2.4;
   }
 
-  private createHandles() {
-    this.createHandle(this.getHandleCfg('start'), 'start');
-    this.createHandle(this.getHandleCfg('end'), 'end');
-  }
-
   private bindEvents() {
     // Drag and brush
     this.backgroundShape.addEventListener('mousedown', this.onDragStart('background'));
@@ -509,24 +513,24 @@ export class Slider extends GUI<SliderAttrs> {
       fg.attr(this.getStyle('foregroundStyle'));
     });
 
-    this.getElementsByName('handle').forEach((handle) => {
-      const { handleType } = handle.getConfig();
-      const handleIcon = handle.getElementsByName('handleIcon')[0];
+    [this.startHandle, this.endHandle].forEach((handle) => {
+      const handleType = handle.getType();
+      const handleIcon = handle.getIcon();
       // 手柄按下开始drag
       handleIcon.addEventListener('mousedown', this.onDragStart(handleType));
       handleIcon.addEventListener('touchstart', this.onDragStart(handleType));
 
       // icon hover事件
       handleIcon.addEventListener('mouseenter', () => {
-        handleIcon.attr(this.getStyle('handleStyle', true, handleType));
+        handleIcon.attr(this.getStyle('handleStyle', 'active', handleType));
       });
       handleIcon.addEventListener('mouseleave', () => {
-        handleIcon.attr(this.getStyle('handleStyle', false, handleType));
+        handleIcon.attr(this.getStyle('handleStyle', 'default', handleType));
       });
     });
   }
 
-  private getOrientVal<T>([x, y]: Pair<T>) {
+  private getOrientVal<T>([x, y]: Pair<T>): T {
     const { orient } = this.attributes;
     return orient === 'horizontal' ? x : y;
   }
@@ -541,10 +545,10 @@ export class Slider extends GUI<SliderAttrs> {
     return val / this.getOrientVal([width, height]);
   }
 
-  private onDragStart = (target: string) => (e) => {
+  private onDragStart = (target: string) => (e: any) => {
     e.stopPropagation();
     this.target = target;
-    this.prevPos = this.getOrientVal([e.x, e.y]);
+    this.prevPos = this.getOrientVal(getEventPos(e));
     const { x, y } = this.getAvailableSpace();
     const { x: X, y: Y } = this.attributes;
     this.selectionStartPos = this.getRatio(this.prevPos - this.getOrientVal([x, y]) - this.getOrientVal([X, Y]));
@@ -555,9 +559,9 @@ export class Slider extends GUI<SliderAttrs> {
     document.addEventListener('touchend', this.onDragEnd);
   };
 
-  private onDragging = (e) => {
+  private onDragging = (e: any) => {
     e.stopPropagation();
-    const currPos = this.getOrientVal([e.x, e.y]);
+    const currPos = this.getOrientVal(getEventPos(e));
     const _ = currPos - this.prevPos;
     if (!_) return;
     const dVal = this.getRatio(_);

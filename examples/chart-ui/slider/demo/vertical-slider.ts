@@ -16,7 +16,7 @@ const canvas = new Canvas({
 });
 
 const slider = new Slider({
-  attrs: {
+  style: {
     x: 50,
     y: 50,
     width: 40,

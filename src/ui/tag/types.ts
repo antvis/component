@@ -1,7 +1,7 @@
-import type { ShapeAttrs, ShapeCfg } from '../../types';
-import type { MarkerAttrs } from '../marker';
+import type { MarkerCfg } from '../marker';
+import type { RectProps, TextProps, DisplayObjectConfig } from '../../types';
 
-export type TagAttrs = {
+export type TagCfg = {
   /** 位置 x */
   x?: number;
   /** 位置 y */
@@ -13,7 +13,7 @@ export type TagAttrs = {
   /**
    * 图标类型，也可以自定义; 默认不显示
    */
-  marker?: MarkerAttrs;
+  marker?: MarkerCfg;
   /**
    * text 和 marker 的间距，默认为 4px (只有当 marker 存在时，才生效)
    */
@@ -27,20 +27,18 @@ export type TagAttrs = {
   /** 文本的样式 */
   textStyle?: {
     /** 默认样式 */
-    default?: ShapeAttrs;
+    default?: Partial<TextProps>;
     /** 激活样式 */
-    active?: ShapeAttrs;
+    active?: Partial<TextProps>;
   };
 
   /** background 背景样式 */
   backgroundStyle?: {
     /** 默认样式 */
-    default?: ShapeAttrs;
+    default?: Partial<RectProps>;
     /** 激活样式 */
-    active?: ShapeAttrs;
+    active?: Partial<RectProps>;
   };
 };
 
-export type TagOptions = ShapeCfg & {
-  attrs: TagAttrs;
-};
+export type TagOptions = DisplayObjectConfig<TagCfg>;

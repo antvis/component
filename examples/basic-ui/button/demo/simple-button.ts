@@ -16,7 +16,7 @@ const canvas = new Canvas({
 });
 
 const button = new Button({
-  attrs: {
+  style: {
     x: 50,
     y: 50,
     text: 'Simple Button',

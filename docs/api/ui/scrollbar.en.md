@@ -15,18 +15,18 @@ import { Scrollbar } from '@antv/gui';
 
 ## Options
 
-| **属性**   | **描述**                                           | **类型**                                              | **默认值** |
-| ---------- | -------------------------------------------------- | ----------------------------------------------------- | ---------- |
-| orient     | The orientation of scrollbar                       | <code>horizontal &#124; vertical </code>              | `vertical` |
-| width      | Width                                              | <code>number</code>                                   | `[]`       |
-| disabled   | Height                                             | <code>number<code>                                    | `[]`       |
-| value      | 值                                                 | <code>number<code> ∈ [0, 1]                           | `0`        |
-| min        | The lower limit of values of the scrollable range. | <code>number<code> ∈ [0, 1)                           | `1`        |
-| max        | The upper limit of values of the scrollable range. | <code>number<code> ∈ (min, 1]                         | `0`        |
-| trackStyle | The style of scrollbar track                       | <code>{default: ShapeAttrs, active: ShapeAttrs}<code> | `[]`       |
-| isRound    | Whether the scrollbar thumb has round edge         | <code>boolean</code>                                  | `true`     |
-| thumbLen   | The length of scrollbar thumb                      | <code>boolean</code>                                  | `[]`       |
-| thumbStyle | The style of scrollbar thumb                       | <code>{default: ShapeAttrs, active: ShapeAttrs}<code> | `[]`       |
+| **属性**   | **描述**                                           | **类型**                                            | **默认值** |
+| ---------- | -------------------------------------------------- | --------------------------------------------------- | ---------- |
+| orient     | The orientation of scrollbar                       | <code>horizontal &#124; vertical </code>            | `vertical` |
+| width      | Width                                              | <code>number</code>                                 | `[]`       |
+| disabled   | Height                                             | <code>number<code>                                  | `[]`       |
+| value      | 值                                                 | <code>number<code> ∈ [0, 1]                         | `0`        |
+| min        | The lower limit of values of the scrollable range. | <code>number<code> ∈ [0, 1)                         | `1`        |
+| max        | The upper limit of values of the scrollable range. | <code>number<code> ∈ (min, 1]                       | `0`        |
+| trackStyle | The style of scrollbar track                       | <code>{default: RectProps, active: RectProps}<code> | `[]`       |
+| isRound    | Whether the scrollbar thumb has round edge         | <code>boolean</code>                                | `true`     |
+| thumbLen   | The length of scrollbar thumb                      | <code>boolean</code>                                | `[]`       |
+| thumbStyle | The style of scrollbar thumb                       | <code>{default: RectProps, active: RectProps}<code> | `[]`       |
 
 ## Events
 

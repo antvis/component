@@ -1,5 +1,5 @@
 import { Linear, Band } from '@antv/scale';
-import type { ShapeAttrs, ShapeCfg } from '../../types';
+import type { ShapeAttrs, DisplayObjectConfig } from '../../types';
 
 export type Point = [number, number];
 export type Line = Point[];
@@ -10,7 +10,7 @@ export type Scales = {
   x: Linear | Band;
 };
 
-export type SparklineAttrs = ShapeAttrs & {
+export type SparklineCfg = ShapeAttrs & {
   data?: number[] | number[][];
   width?: number;
   height?: number;
@@ -27,6 +27,4 @@ export type SparklineAttrs = ShapeAttrs & {
   columnStyle?: ShapeAttrs | ((idx: number) => ShapeAttrs);
 };
 
-export type SparklineOptions = ShapeCfg & {
-  attrs: SparklineAttrs;
-};
+export type SparklineOptions = DisplayObjectConfig<SparklineCfg>;

@@ -37,60 +37,52 @@ export const SIZE_STYLE = {
 export const TYPE_STYLE = {
   primary: {
     textStyle: {
-      fill: '#fff',
+      default: { fill: '#fff' },
+      active: {},
     },
     buttonStyle: {
-      fill: '#1890ff',
-      lineWidth: 0,
-    },
-    hoverStyle: {
-      textStyle: {},
-      buttonStyle: {
-        fill: '#40a9ff',
-      },
+      default: { fill: '#1890ff', lineWidth: 0 },
+      active: { fill: '#40a9ff' },
     },
   },
   dashed: {
-    textStyle: {},
-    buttonStyle: {
-      stroke: '#bbb',
-      lineDash: [5, 5],
+    textStyle: {
+      default: {},
+      active: {},
     },
-    hoverStyle: {
-      textStyle: {},
-      buttonStyle: {},
+    buttonStyle: {
+      default: { stroke: '#bbb', lineDash: [5, 5] },
+      active: {},
     },
   },
   link: {
     textStyle: {
-      fill: '#1890ff',
+      default: { fill: '#1890ff' },
+      active: {},
     },
     buttonStyle: {
-      lineWidth: 0,
+      default: { lineWidth: 0 },
+      active: {},
     },
-    hoverStyle: { textStyle: {}, buttonStyle: {} },
   },
   text: {
     textStyle: {
-      fill: '#000',
+      default: { fill: '#000' },
+      active: {},
     },
     buttonStyle: {
-      lineWidth: 0,
+      default: { lineWidth: 0 },
+      active: {},
     },
-    hoverStyle: { textStyle: {}, buttonStyle: {} },
   },
   default: {
     textStyle: {
-      fill: '#000',
+      default: { fill: '#000' },
+      active: { fill: '#1890ff' },
     },
-    buttonStyle: { stroke: '#bbb' },
-    hoverStyle: {
-      textStyle: {
-        fill: '#1890ff',
-      },
-      buttonStyle: {
-        stroke: '#1890ff',
-      },
+    buttonStyle: {
+      default: { stroke: '#bbb' },
+      active: { stroke: '#1890ff' },
     },
   },
 };

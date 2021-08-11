@@ -31,7 +31,7 @@ const canvas = new Canvas({
 const height = 100;
 const thumbLen = 30;
 const scrollbar = new Scrollbar({
-  attrs: {
+  style: {
     height,
     thumbLen,
     x: 100,

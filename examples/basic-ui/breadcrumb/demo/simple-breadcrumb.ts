@@ -16,7 +16,7 @@ const canvas = new Canvas({
 });
 
 const breadcrumb = new BreadCrumb({
-  attrs: {
+  style: {
     x: 50,
     y: 50,
     items: [{ name: '测试1' }, { name: '测试2' }, { name: '测试3' }, { name: '测试4' }, { name: '测试5' }],

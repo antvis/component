@@ -1,9 +1,9 @@
 import { isObject, isString, isFunction } from '@antv/util';
-import type { MarkerOptions } from './types';
+import type { MarkerCfg } from './types';
 /**
  * 解析marker类型
  */
-export function parseMarker(icon: MarkerOptions['symbol'] | string) {
+export function parseMarker(icon: MarkerCfg['symbol'] | string) {
   let type = 'default';
   if (isObject(icon) && icon instanceof Image) type = 'image';
   else if (isFunction(icon)) type = 'symbol';

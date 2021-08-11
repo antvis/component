@@ -23,7 +23,7 @@ Marker.registerSymbol(
 );
 
 const marker = new Marker({
-  attrs: {
+  style: {
     symbol: 'star',
     x: 50,
     y: 50,

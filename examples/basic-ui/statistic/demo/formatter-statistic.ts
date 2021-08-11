@@ -51,7 +51,7 @@ const getValueAdapter = (initValue) => {
 };
 
 const statistic = new Statistic({
-  attrs: {
+  style: {
     x: 0,
     y: 0,
     title: {

@@ -1,26 +1,27 @@
-import { Group } from '@antv/g';
-import { clone, deepMix, isFunction } from '@antv/util';
 import type { DisplayObject } from '@antv/g';
+import { CustomEvent, Group } from '@antv/g';
+import { clone, deepMix, isFunction } from '@antv/util';
 import { Marker } from '../marker';
 import { LegendBase } from './base';
 import { CategoryItem } from './category-item';
+import { getShapeSpace } from '../../util';
 import { CATEGORY_DEFAULT_OPTIONS } from './constant';
-import { getShapeSpace } from './utils';
-import type { CategoryCfg, CategoryOptions, CategoryItemCfg, ItemMarkerCfg, State } from './types';
 import type { StyleState } from '../../types';
+import type { CategoryCfg, CategoryOptions } from './types';
+import type { ICategoryItemCfg, IItemText } from './category-item';
 
 export type { CategoryOptions };
 
 export class Category extends LegendBase<CategoryCfg> {
   public static tag = 'Category';
 
-  private itemsGroup: Group;
+  private itemsGroup!: Group;
 
   // 前进按钮
-  private prevNavigation: Marker;
+  private prevNavigation!: Marker;
 
   // 后退按钮
-  private nextNavigation: Marker;
+  private nextNavigation!: Marker;
 
   protected static defaultOptions = {
     type: Category.tag,
@@ -33,8 +34,6 @@ export class Category extends LegendBase<CategoryCfg> {
     this.init();
   }
 
-  attributeChangedCallback(name: string, value: any) {}
-
   public init() {
     this.createItemsGroup();
     this.createItems();
@@ -44,16 +43,16 @@ export class Category extends LegendBase<CategoryCfg> {
     this.bindEvents();
   }
 
-  public update(attrs: Partial<CategoryCfg>) {
-    this.attr(deepMix({}, this.attributes, attrs));
+  public update(cfg: Partial<CategoryCfg>) {
+    this.attr(deepMix({}, this.attributes, cfg));
     super.update();
     // 对于items的变化目前进行重绘操作，后期可参考React Diff方法进行性能优化
-    // if ('items' in attrs) {
+    // if ('items' in style) {
     this.clearItems();
     this.createItems();
     // }
     this.adjustLayout();
-    this.backgroundShape.attr(this.getBackgroundAttrs());
+    this.backgroundShape.attr(this.getBackgroundShapeCfg());
   }
 
   /**
@@ -61,7 +60,7 @@ export class Category extends LegendBase<CategoryCfg> {
    */
   public getItem(id: string): CategoryItem {
     const items = this.getItems();
-    let item: CategoryItem;
+    let item!: CategoryItem;
     items.forEach((i) => {
       if (i.getID() === id) {
         item = i;
@@ -90,7 +89,7 @@ export class Category extends LegendBase<CategoryCfg> {
 
   public clear() {}
 
-  protected getBackgroundAttrs() {
+  protected getBackgroundShapeCfg() {
     const { width, height } = getShapeSpace(this);
     return {
       width,
@@ -106,7 +105,7 @@ export class Category extends LegendBase<CategoryCfg> {
     this.appendChild(this.itemsGroup);
   }
 
-  private getItemsAttrs() {
+  private getItemsShapeCfg() {
     const {
       items: _items,
       itemWidth,
@@ -117,50 +116,51 @@ export class Category extends LegendBase<CategoryCfg> {
       itemBackgroundStyle,
       reverse,
     } = this.attributes;
-    const attrs: CategoryItemCfg[] = [];
-    const items = clone(_items);
+    const cfg: ICategoryItemCfg[] = [];
+    const items = clone(_items) as CategoryCfg['items'];
     if (reverse) items.reverse();
 
     items.forEach((item, idx) => {
       const { state = 'default', name: nameContent = '', value: valueContent = '', id } = item;
-      attrs.push({
+      cfg.push({
+        x: 0,
+        y: 0,
         state,
         itemWidth,
         maxItemWidth,
         // 这里使用name-idx作为id
         identify: id !== undefined ? id : `${nameContent}-${idx}`,
-        itemMarker: isFunction(itemMarker) ? itemMarker(item, idx, items) : (itemMarker as ItemMarkerCfg),
+        itemMarker: isFunction(itemMarker) ? itemMarker(item, idx, items) : itemMarker,
         itemName: (() => {
           const { formatter, style, spacing } = isFunction(itemName) ? itemName(item, idx, items) : itemName;
           return {
             style,
             spacing,
-            content: formatter(nameContent),
-          };
+            content: formatter!(nameContent),
+          } as IItemText;
         })(),
         itemValue: (() => {
           const { formatter, style, spacing } = isFunction(itemValue) ? itemValue(item, idx, items) : itemValue;
           return {
             style,
             spacing,
-            content: formatter(valueContent),
-          };
+            content: formatter!(valueContent),
+          } as IItemText;
         })(),
         backgroundStyle: isFunction(itemBackgroundStyle) ? itemBackgroundStyle(item, idx, items) : itemBackgroundStyle,
       });
     });
-    return attrs;
+    return cfg;
   }
 
   /**
    * 创建图例项
    */
   private createItems() {
-    const itemsAttrs = this.getItemsAttrs();
-    itemsAttrs.forEach(({ identify, ...attrs }) => {
+    const itemsCfg = this.getItemsShapeCfg();
+    itemsCfg.forEach((cfg) => {
       const item = new CategoryItem({
-        identify,
-        attrs,
+        style: cfg,
         name: 'item',
       });
       this.itemsGroup.appendChild(item);
@@ -224,7 +224,7 @@ export class Category extends LegendBase<CategoryCfg> {
     const getParentItem = (node: DisplayObject) => {
       let item = node;
       while (item.getConfig().type !== 'categoryItem') {
-        item = item.parentNode;
+        item = item.parentNode!;
         if (!item) break;
       }
       return item as CategoryItem;
@@ -241,7 +241,12 @@ export class Category extends LegendBase<CategoryCfg> {
         } else {
           item.setState('default-active');
         }
-        this.emit('onValueChanged', this.getItemsStates());
+        const evt = new CustomEvent('valuechange', {
+          detail: {
+            value: this.getItemsStates(),
+          },
+        });
+        this.dispatchEvent(evt);
       }
     });
 

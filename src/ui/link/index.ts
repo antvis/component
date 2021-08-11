@@ -1,12 +1,12 @@
 import type { Line, Polyline, BaseStyleProps, DisplayObjectConfig, Point } from '@antv/g';
 import { Path } from '@antv/g';
 import { GUI } from 'ui/core/gui';
-import { Marker, MarkerAttrs } from 'ui/marker';
+import { Marker, MarkerCfg } from 'ui/marker';
 
 type ArrowBody = Line | Path | Polyline;
 export interface LinkStyleProps extends BaseStyleProps {
-  sourceMarker?: MarkerAttrs;
-  targetMarker?: MarkerAttrs;
+  sourceMarker?: MarkerCfg;
+  targetMarker?: MarkerCfg;
   body: ArrowBody;
 }
 
@@ -23,13 +23,15 @@ export interface LinkStyleProps extends BaseStyleProps {
 export class Link extends GUI<LinkStyleProps> {
   static tag = 'link';
 
-  private body: Line | Path | Polyline;
+  private body!: Line | Path | Polyline;
 
   private sourceMarker?: Marker;
 
   private targetMarker?: Marker;
 
   constructor(config: DisplayObjectConfig<LinkStyleProps>) {
+    // to be fix later
+    // @ts-ignore
     super({
       ...config,
     });
@@ -56,7 +58,7 @@ export class Link extends GUI<LinkStyleProps> {
     }
   }
 
-  public update(cfg: LinkStyleProps): void {
+  public update(cfg: Partial<LinkStyleProps>): void {
     throw new Error('Method not implemented.');
   }
 
@@ -64,29 +66,29 @@ export class Link extends GUI<LinkStyleProps> {
     throw new Error('Method not implemented.');
   }
 
-  attributeChangedCallback(name: string, value: any) {
-    // if (name === 'opacity' || name === 'strokeOpacity' || name === 'stroke' || name === 'lineWidth') {
-    //   this.applyArrowStyle({ [name]: value }, [this.body, this.startHead, this.endHead]);
-    // } else if (name === 'startHead' || name === 'endHead') {
-    //   const isStart = name === 'startHead';
-    //   // delete existed arrow head first
-    //   this.destroyArrowHead(isStart);
-    //   if (value) {
-    //     const { body, startHead, endHead, ...rest } = this.attributes;
-    //     // append new arrow head
-    //     this.appendArrowHead(this.getArrowHeadType(value), isStart);
-    //     this.applyArrowStyle(rest, [isStart ? this.startHead : this.endHead]);
-    //   }
-    // } else if (name === 'body') {
-    //   const { body, startHead, endHead, ...rest } = this.attributes;
-    //   this.removeChild(this.body!, true);
-    //   this.body = value;
-    //   this.appendChild(this.body!);
-    //   this.applyArrowStyle(rest, [this.body]);
-    // }
-  }
+  // attributeChangedCallback(name: string, value: any) {
+  // if (name === 'opacity' || name === 'strokeOpacity' || name === 'stroke' || name === 'lineWidth') {
+  //   this.applyArrowStyle({ [name]: value }, [this.body, this.startHead, this.endHead]);
+  // } else if (name === 'startHead' || name === 'endHead') {
+  //   const isStart = name === 'startHead';
+  //   // delete existed arrow head first
+  //   this.destroyArrowHead(isStart);
+  //   if (value) {
+  //     const { body, startHead, endHead, ...rest } = this.attributes;
+  //     // append new arrow head
+  //     this.appendArrowHead(this.getArrowHeadType(value), isStart);
+  //     this.applyArrowStyle(rest, [isStart ? this.startHead : this.endHead]);
+  //   }
+  // } else if (name === 'body') {
+  //   const { body, startHead, endHead, ...rest } = this.attributes;
+  //   this.removeChild(this.body!, true);
+  //   this.body = value;
+  //   this.appendChild(this.body!);
+  //   this.applyArrowStyle(rest, [this.body]);
+  // }
+  // }
 
-  private appendMarker(style: MarkerAttrs, type: 'source' | 'target') {
+  private appendMarker(style: MarkerCfg, type: 'source' | 'target') {
     const marker = new Marker({ style });
 
     // set position & rotation

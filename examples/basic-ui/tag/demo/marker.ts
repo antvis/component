@@ -74,7 +74,7 @@ Marker.registerSymbol('error', (x, y, r) => {
 
 canvas.appendChild(
   new Tag({
-    attrs: {
+    style: {
       x: 0,
       y: 10,
       text: 'Hello',
@@ -104,7 +104,7 @@ canvas.appendChild(
 );
 canvas.appendChild(
   new Tag({
-    attrs: {
+    style: {
       x: 0,
       y: 40,
       text: 'Hello',
@@ -125,7 +125,7 @@ canvas.appendChild(
         fill: '#000',
         stroke: '#000',
         fillOpacity: 0.85,
-        size: 5,
+        size: 10,
       },
       backgroundStyle: {
         default: {
@@ -139,7 +139,7 @@ canvas.appendChild(
 
 canvas.appendChild(
   new Tag({
-    attrs: {
+    style: {
       x: 0,
       y: 70,
       text: 'Hello',
@@ -158,7 +158,7 @@ canvas.appendChild(
         y: 0,
         fill: '#52c41a',
         fillOpacity: 0.85,
-        size: 12,
+        size: 20,
       },
       backgroundStyle: {
         default: {
@@ -172,7 +172,7 @@ canvas.appendChild(
 
 canvas.appendChild(
   new Tag({
-    attrs: {
+    style: {
       x: 0,
       y: 100,
       text: 'success',
@@ -190,7 +190,7 @@ canvas.appendChild(
         x: 0,
         y: 0,
         stroke: '#52c41a',
-        size: 5,
+        size: 10,
       },
       backgroundStyle: {
         default: {
@@ -204,7 +204,7 @@ canvas.appendChild(
 
 canvas.appendChild(
   new Tag({
-    attrs: {
+    style: {
       x: 0,
       y: 130,
       text: 'stop',
@@ -222,7 +222,7 @@ canvas.appendChild(
         x: 0,
         y: 0,
         stroke: '#000000d9',
-        size: 5,
+        size: 10,
       },
       backgroundStyle: {
         default: {
@@ -236,7 +236,7 @@ canvas.appendChild(
 
 canvas.appendChild(
   new Tag({
-    attrs: {
+    style: {
       x: 0,
       y: 160,
       text: 'error',
@@ -254,7 +254,7 @@ canvas.appendChild(
         x: 0,
         y: 0,
         stroke: '#f5222d',
-        size: 5,
+        size: 10,
       },
       backgroundStyle: {
         default: {

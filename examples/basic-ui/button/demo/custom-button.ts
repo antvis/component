@@ -16,7 +16,7 @@ const canvas = new Canvas({
 });
 
 const button = new Button({
-  attrs: {
+  style: {
     x: 50,
     y: 50,
     text: 'Custom Button',
@@ -24,18 +24,20 @@ const button = new Button({
     size: 'large',
     ellipsis: true,
     buttonStyle: {
-      width: 130,
-      lineDash: [10, 5],
-      lineWidth: 2,
-      radius: 10,
-      stroke: '#000',
-    },
-    hoverStyle: {
-      textStyle: {
-        fill: '#000',
+      default: {
+        width: 130,
+        lineDash: [10, 5],
+        lineWidth: 2,
+        radius: 10,
+        stroke: '#000',
       },
-      buttonStyle: {
+      active: {
         fill: 'red',
+      },
+    },
+    textStyle: {
+      active: {
+        fill: '#000',
       },
     },
   },

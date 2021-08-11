@@ -19,8 +19,4 @@ describe('parseMarker', () => {
 
     expect(parseMarker('https://gw.alipayobjects.com/zos/rmsportal/fSPDqijMJrYFdODpgEBV.png')).toBe('url');
   });
-
-  test('unknown', async () => {
-    expect(parseMarker(undefined)).toBe('default');
-  });
 });

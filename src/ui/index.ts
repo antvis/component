@@ -26,7 +26,7 @@ export { Slider } from './slider';
 export type { SliderOptions } from './slider';
 // author by [Aarebecca](https://github.com/Aarebecca)
 export { Scrollbar } from './scrollbar';
-export type { ScrollbarOptions, ScrollbarAttrs } from './scrollbar';
+export type { ScrollbarOptions, ScrollbarCfg } from './scrollbar';
 // author by [Aarebecca](https://github.com/Aarebecca)
 export { Axis } from './axis';
 export type { AxisOptions } from './axis';

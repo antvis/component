@@ -7,7 +7,7 @@
 | isStack     | 是否堆积           | <code>boolean</code>                                      | `false`                                                  |
 | color       | 颜色               | <code>color &#124; color[] &#124; (index) => color</code> | `'#83daad', '#edbf45', '#d2cef9', '#e290b3', '#6f63f4']` |
 | smooth      | 平滑曲线           | <code>boolean</code>                                      | `true`                                                   |
-| lineStyle   | 自定义线条样式     | <code>ShapeAttr</code>                                    | `[]`                                                     |
-| areaStyle   | 自定义线条填充样式 | <code>ShapeAttr</code>                                    | `[]`                                                     |
+| lineStyle   | 自定义线条样式     | <code>LineProps</code>                                    | `[]`                                                     |
+| areaStyle   | 自定义线条填充样式 | <code>PathProps</code>                                    | `[]`                                                     |
 | isGroup     | 是否分组           | <code>boolean</code>                                      | `false`                                                  |
-| columnStyle | 柱体样式           | ShapeAttrs                                                | `[]`                                                     |
+| columnStyle | 柱体样式           | <code>RectProps</code>                                    | `[]`                                                     |

@@ -16,23 +16,27 @@ const canvas = new Canvas({
 });
 
 const button = new Button({
-  attrs: {
+  style: {
     x: 50,
     y: 40,
     text: 'hoverStyle',
     hoverStyle: {
       textStyle: {
-        fill: '#abc',
-        fontWeight: 'bold',
-        fontFamily: 'Helvetica',
+        default: {
+          fill: '#abc',
+          fontWeight: 'bold',
+          fontFamily: 'Helvetica',
+        },
       },
       buttonStyle: {
-        fill: 'pink',
-        opacity: 0.5,
-        stroke: '#666',
-        lineWidth: 5,
-        radius: 10,
-        lineDash: [6, 10],
+        default: {
+          fill: 'pink',
+          opacity: 0.5,
+          stroke: '#666',
+          lineWidth: 5,
+          radius: 10,
+          lineDash: [6, 10],
+        },
       },
     },
     disabled: true,

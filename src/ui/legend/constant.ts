@@ -2,7 +2,7 @@ import { deepMix } from '@antv/util';
 import { leftArrow, rightArrow, upArrow, downArrow } from './utils';
 
 export const LEGEND_BASE_DEFAULT_OPTIONS = {
-  attrs: {
+  style: {
     x: 0,
     y: 0,
     padding: 0,
@@ -29,7 +29,7 @@ export const LEGEND_BASE_DEFAULT_OPTIONS = {
 };
 
 export const CATEGORY_DEFAULT_OPTIONS = deepMix({}, LEGEND_BASE_DEFAULT_OPTIONS, {
-  attrs: {
+  style: {
     type: 'category',
     items: [],
     maxWidth: undefined,
@@ -133,7 +133,7 @@ export const CATEGORY_DEFAULT_OPTIONS = deepMix({}, LEGEND_BASE_DEFAULT_OPTIONS,
 });
 
 export const CONTINUOUS_DEFAULT_OPTIONS = deepMix({}, LEGEND_BASE_DEFAULT_OPTIONS, {
-  attrs: {
+  style: {
     type: 'continuous',
     color: [
       '#d0e3fa',
@@ -170,7 +170,7 @@ export const CONTINUOUS_DEFAULT_OPTIONS = deepMix({}, LEGEND_BASE_DEFAULT_OPTION
     // 不可滑动时隐藏手柄
     slidable: true,
     handle: {
-      size: 12,
+      size: 25,
       spacing: 10,
       icon: {
         marker: 'default',

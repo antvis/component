@@ -17,7 +17,7 @@ const canvas = new Canvas({
 
 function createTag(x, y, text, fill, backgroundColor, backgroundBorderColor = 'transparent') {
   return new Tag({
-    attrs: {
+    style: {
       x,
       y,
       text,

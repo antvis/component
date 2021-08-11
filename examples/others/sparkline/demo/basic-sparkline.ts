@@ -16,7 +16,7 @@ const canvas = new Canvas({
 });
 
 const sparkline = new Sparkline({
-  attrs: {
+  style: {
     x: 10,
     y: 10,
     width: 300,

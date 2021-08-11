@@ -21,7 +21,7 @@ const canvas = new Canvas({
 });
 
 const continuous = new Continuous({
-  attrs: {
+  style: {
     title: {
       content: '连续图例',
     },
@@ -45,7 +45,7 @@ canvas.render();
 describe('continuous', () => {
   test('basic', async () => {
     // const continuous = new Continuous({
-    // attrs: {
+    // style: {
     //   // x: 50,
     //   // y: 50,
     //   title: {
@@ -104,25 +104,26 @@ describe('continuous', () => {
     // });
 
     // title
-    expect(continuous.firstChild.attr('text')).toBe('连续图例');
-    expect(continuous.getElementById('startHandle').attr('x')).toBe(0);
-    expect(continuous.getElementById('endHandle').attr('x')).toBe(300);
+    expect(continuous.firstChild!.attr('text')).toBe('连续图例');
+    expect(continuous.getElementById('startHandle')!.attr('x')).toBe(0);
+    expect(continuous.getElementById('endHandle')!.attr('x')).toBe(300);
 
     continuous.update({
       start: 10,
       end: 50,
     });
 
-    expect(continuous.getElementById('startHandle').attr('x')).toBe(30);
-    expect(continuous.getElementById('endHandle').attr('x')).toBe(150);
-
-    console.log(continuous);
+    expect(continuous.getElementById('startHandle')!.attr('x')).toBe(30);
+    expect(continuous.getElementById('endHandle')!.attr('x')).toBe(150);
   });
 
   test('size', async () => {
-    expect(continuous.getElementById('railPathGroup').children.length).toBe(1);
-    expect(continuous.getElementById('railPathGroup').firstChild.attr('path')[0][2]).toBe(30);
-    expect(continuous.getElementById('railPathGroup').firstChild.attr('path')[2][2]).toBe(0);
+    // @ts-ignore
+    expect(continuous.railShape.getRail().children.length).toBe(1);
+    // @ts-ignore
+    expect(continuous.railShape.getRail().firstChild!.attr('path')[0][2]).toBe(30);
+    // @ts-ignore
+    expect(continuous.railShape.getRail().firstChild!.attr('path')[2][2]).toBe(0);
   });
 
   test('size chunked', async () => {
@@ -144,14 +145,22 @@ describe('continuous', () => {
         '#e7655b',
       ],
     });
-    expect(continuous.getElementById('railPathGroup').children.length).toBe(5);
-    expect(continuous.getElementById('railPathGroup').children[0].attr('fill')).toBe('#d0e3fa');
-    expect(continuous.getElementById('railPathGroup').children[1].attr('fill')).toBe('#acc7f6');
-    expect(continuous.getElementById('railPathGroup').children[2].attr('fill')).toBe('#8daaf2');
-    expect(continuous.getElementById('railPathGroup').children[3].attr('fill')).toBe('#6d8eea');
-    expect(continuous.getElementById('railPathGroup').children[4].attr('fill')).toBe('#4d73cd');
-    expect(continuous.getElementById('railPathGroup').firstChild.attr('path')[2][2]).toBe(30 - 30 * 0.2);
-    expect(continuous.getElementById('railPathGroup').firstChild.attr('path')[3][2]).toBe(30);
+    // @ts-ignore
+    expect(continuous.railShape.getRail().children.length).toBe(5);
+    // @ts-ignore
+    expect(continuous.railShape.getRail().children[0].attr('fill')).toBe('#d0e3fa');
+    // @ts-ignore
+    expect(continuous.railShape.getRail().children[1].attr('fill')).toBe('#acc7f6');
+    // @ts-ignore
+    expect(continuous.railShape.getRail().children[2].attr('fill')).toBe('#8daaf2');
+    // @ts-ignore
+    expect(continuous.railShape.getRail().children[3].attr('fill')).toBe('#6d8eea');
+    // @ts-ignore
+    expect(continuous.railShape.getRail().children[4].attr('fill')).toBe('#4d73cd');
+    // @ts-ignore
+    expect(continuous.railShape.getRail().firstChild!.attr('path')[2][2]).toBe(30 - 30 * 0.2);
+    // @ts-ignore
+    expect(continuous.railShape.getRail().firstChild!.attr('path')[3][2]).toBe(30);
   });
 
   test('color', async () => {
@@ -161,8 +170,10 @@ describe('continuous', () => {
         chunked: false,
       },
     });
-    expect(continuous.getElementById('railPathGroup').children.length).toBe(1);
-    expect(continuous.getElementById('railPathGroup').children[0].attr('fill')).toBe('#d0e3fa');
+    // @ts-ignore
+    expect(continuous.railShape.getRail().children.length).toBe(1);
+    // @ts-ignore
+    expect(continuous.railShape.getRail().children[0].attr('fill')).toBe('#d0e3fa');
   });
 
   test('color chunked', async () => {
@@ -184,13 +195,20 @@ describe('continuous', () => {
         '#e7655b',
       ],
     });
-    expect(continuous.getElementById('railPathGroup').children.length).toBe(5);
-    expect(continuous.getElementById('railPathGroup').children[0].attr('fill')).toBe('#d0e3fa');
-    expect(continuous.getElementById('railPathGroup').children[1].attr('fill')).toBe('#acc7f6');
-    expect(continuous.getElementById('railPathGroup').children[2].attr('fill')).toBe('#8daaf2');
-    expect(continuous.getElementById('railPathGroup').children[3].attr('fill')).toBe('#6d8eea');
-    expect(continuous.getElementById('railPathGroup').children[4].attr('fill')).toBe('#4d73cd');
-    expect(continuous.getElementById('railPathGroup').firstChild.attr('path')[2][2]).toBe(0);
+    // @ts-ignore
+    expect(continuous.railShape.getRail().children.length).toBe(5);
+    // @ts-ignore
+    expect(continuous.railShape.getRail().children[0].attr('fill')).toBe('#d0e3fa');
+    // @ts-ignore
+    expect(continuous.railShape.getRail().children[1].attr('fill')).toBe('#acc7f6');
+    // @ts-ignore
+    expect(continuous.railShape.getRail().children[2].attr('fill')).toBe('#8daaf2');
+    // @ts-ignore
+    expect(continuous.railShape.getRail().children[3].attr('fill')).toBe('#6d8eea');
+    // @ts-ignore
+    expect(continuous.railShape.getRail().children[4].attr('fill')).toBe('#4d73cd');
+    // @ts-ignore
+    expect(continuous.railShape.getRail().firstChild!.attr('path')[2][2]).toBe(0);
   });
 
   // test('vertical', async () => {
@@ -205,7 +223,7 @@ describe('continuous', () => {
   //   });
 
   //   const continuous = new Continuous({
-  //     attrs: {
+  //     style: {
   //       x: 50,
   //       y: 0,
   //       title: {

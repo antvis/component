@@ -1,6 +1,7 @@
-import type { ShapeAttrs, ShapeCfg } from '../../types';
+import { Cursor } from '@antv/g';
+import type { DisplayObjectConfig, MixAttrs, TextProps, RectProps } from '../../types';
 
-export type ButtonAttrs = {
+export type ButtonCfg = {
   x?: number;
   y?: number;
   /**
@@ -38,20 +39,15 @@ export type ButtonAttrs = {
   /**
    * 自定义文本样式
    */
-  textStyle?: ShapeAttrs;
+  textStyle?: MixAttrs<Partial<TextProps>>;
   /**
    * 自定义按钮样式
    */
-  buttonStyle?: ShapeAttrs;
+  buttonStyle?: MixAttrs<Partial<RectProps>>;
   /**
-   * 自定义激活状态
+   * 指针
    */
-  hoverStyle?: {
-    textStyle: ShapeAttrs;
-    buttonStyle: ShapeAttrs;
-  };
+  cursor?: Cursor;
 };
 
-export type ButtonOptions = ShapeCfg & {
-  attrs: ButtonAttrs;
-};
+export type ButtonOptions = DisplayObjectConfig<ButtonCfg>;

@@ -1,40 +1,31 @@
-import { isString, deepMix } from '@antv/util';
-import { CustomElement, Group, Path } from '@antv/g';
-import type { PathCommand } from '@antv/g-base';
-import type { RailCfg as defaultCfg } from './types';
-import type { ShapeCfg } from '../../types';
+import { isString } from '@antv/util';
+import { DisplayObject, Group, Path } from '@antv/g';
+import type { Cursor, PathCommand } from '@antv/g';
+import type { RailCfg as DefaultCfg } from './types';
 import { createTrapezoidRailPath, createRectRailPath, getValueOffset } from './utils';
 
-type RailAttrs = defaultCfg & {
-  min?: number;
-  max?: number;
-  start?: number;
-  end?: number;
-  color?: string | string[];
-  orient?: 'horizontal' | 'vertical';
-};
+export interface IRailCfg extends Required<DefaultCfg> {
+  x: number;
+  y: number;
+  min: number;
+  max: number;
+  start: number;
+  end: number;
+  cursor: Cursor;
+  color: string | string[];
+  orient: 'horizontal' | 'vertical';
+}
 
-export class Rail extends CustomElement {
+export class Rail extends DisplayObject<Required<IRailCfg>> {
   // 色板的path group
-  private railPathGroup: Group;
+  private railPathGroup!: Group;
 
   // 背景的path group
-  private backgroundPathGroup: Group;
+  private backgroundPathGroup!: Group;
 
-  constructor({ attrs, ...rest }: ShapeCfg & { attrs: RailAttrs }) {
-    super({ type: 'rail', attrs, ...rest });
+  constructor({ style, ...rest }: Partial<DisplayObject<IRailCfg>>) {
+    super({ type: 'rail', style, ...rest });
     this.init();
-  }
-
-  attributeChangedCallback(name: string, value: any) {
-    // if (['type', 'chunked'].includes(name)) {
-    //   this.render();
-    // } else {
-    //   this.update(value);
-    // }
-    // if (['start', 'end'].includes(name)) {
-    //   this.updateSelection();
-    // }
   }
 
   public init() {
@@ -62,7 +53,7 @@ export class Rail extends CustomElement {
       this.backgroundPathGroup.appendChild(
         new Path({
           name: 'background',
-          attrs: {
+          style: {
             path,
             fill: backgroundColor,
           },
@@ -75,9 +66,9 @@ export class Rail extends CustomElement {
       this.railPathGroup.appendChild(
         new Path({
           name: 'railPath',
-          attrs: {
+          style: {
             path,
-            fill: isString(color) ? color : color[idx],
+            fill: isString(color) ? color : color![idx],
           },
         })
       );
@@ -85,7 +76,7 @@ export class Rail extends CustomElement {
     // 根据orient对railPath旋转
     if (orient === 'vertical') {
       this.setOrigin(0, width);
-      this.translateLocal(0, -width);
+      this.translateLocal(0, -width!);
       // this.rotate(45);
       setTimeout(() => {
         this.rotate(45);
@@ -93,9 +84,9 @@ export class Rail extends CustomElement {
     }
   }
 
-  public update(railAttrs: RailAttrs) {
+  public update(cfg: Partial<IRailCfg>) {
     // deepMix railAttrs into this.attributes
-    this.attr(railAttrs);
+    this.attr(cfg);
     this.render();
     this.updateSelection();
   }
@@ -111,6 +102,14 @@ export class Rail extends CustomElement {
         path: backgroundPaths[index],
       });
     });
+  }
+
+  public getRail() {
+    return this.railPathGroup;
+  }
+
+  public getRailBackground() {
+    return this.backgroundPathGroup;
   }
 
   public clear() {
@@ -136,7 +135,7 @@ export class Rail extends CustomElement {
    */
   private createRailPath() {
     const { width, height, type, chunked, min, max } = this.attributes;
-    let railPath: PathCommand[][];
+    let railPath!: PathCommand[][];
     // 颜色映射
     if (chunked) {
       railPath = this.createChunkPath();
@@ -187,11 +186,11 @@ export class Rail extends CustomElement {
       prevPos = currPos;
       prevThick = currThick;
     }
-    const paths = [];
+    const paths: PathCommand[][] = [];
     blocksPoints.forEach((points) => {
-      const path = [];
+      const path: PathCommand[] = [];
       points.forEach((point, index) => {
-        path.push([index === 0 ? 'M' : 'L', ...point]);
+        path.push([index === 0 ? 'M' : 'L', ...point] as PathCommand);
       });
       path.push(['Z']);
       paths.push(path);

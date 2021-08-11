@@ -1,9 +1,16 @@
-import type { ShapeCfg, ShapeAttrs, StyleState, MixAttrs } from '../../types';
-import type { MarkerAttrs } from '../marker/types';
-// marker配置
-type MarkerCfg = string | MarkerAttrs['symbol'];
-export type State = StyleState | 'default-active' | 'selected-active';
+import type {
+  DisplayObjectConfig,
+  ShapeAttrs,
+  StyleState,
+  MixAttrs,
+  TextProps,
+  ImageProps,
+  PathProps,
+} from '../../types';
+import type { MarkerCfg } from '../marker/types';
 
+export type State = StyleState | 'default-active' | 'selected-active';
+export type SymbolCfg = MarkerCfg['symbol'];
 // 色板
 export type RailCfg = {
   // 色板宽度
@@ -29,20 +36,20 @@ export type IndicatorCfg = {
   padding?: number | number[];
   text?: {
     formatter?: (value: number) => string;
-    style?: ShapeAttrs;
+    style?: TextProps;
   };
 };
 
 // 滑动手柄
-type HandleCfg = {
+export type HandleCfg = {
   size?: number;
   spacing?: number;
   icon?: {
-    marker?: MarkerCfg;
-    style?: ShapeAttrs;
+    marker?: SymbolCfg;
+    style?: ImageProps | PathProps;
   };
   text?: {
-    style?: ShapeAttrs;
+    style?: TextProps;
     formatter?: (value: number) => string;
     align?: 'rail' | 'inside' | 'outside';
   };
@@ -58,25 +65,25 @@ type CategoryItem = {
 
 // 图例项图标
 export type ItemMarkerCfg = {
-  marker: MarkerCfg;
-  size: number;
-  style: MixAttrs;
+  marker?: SymbolCfg;
+  size?: number;
+  style?: MixAttrs<ShapeAttrs>;
 };
 
 // 图例项Name
 export type ItemNameCfg = {
   // name与marker的距离
-  spacing: number;
-  style: MixAttrs;
-  formatter: (text: string) => string;
+  spacing?: number;
+  style?: MixAttrs<Partial<TextProps>>;
+  formatter?: (text: string) => string;
 };
 
 // 图例项值
 export type ItemValueCfg = {
-  spacing: number;
-  align: 'left' | 'right';
-  style: MixAttrs;
-  formatter: (text: string) => string;
+  spacing?: number;
+  align?: 'left' | 'right';
+  style?: MixAttrs<Partial<TextProps>>;
+  formatter?: (text: string) => string;
 };
 
 // 单个图例的配置
@@ -89,14 +96,14 @@ export type CategoryItemCfg = {
   itemName: {
     content?: string;
     spacing?: number;
-    style?: MixAttrs;
+    style?: MixAttrs<Partial<TextProps>>;
   };
   itemValue: {
     content?: string;
     spacing?: number;
-    style: MixAttrs;
+    style: MixAttrs<Partial<TextProps>>;
   };
-  backgroundStyle: MixAttrs;
+  backgroundStyle: MixAttrs<ShapeAttrs>;
 };
 
 // 分页器
@@ -104,42 +111,40 @@ type PageNavigatorCfg = {
   // 按钮
   button: {
     // 按钮图标
-    marker: MarkerCfg | ((type: 'prev' | 'next') => MarkerCfg);
+    marker: SymbolCfg | ((type: 'prev' | 'next') => SymbolCfg);
     // 按钮状态样式
-    style: MixAttrs;
+    style: MixAttrs<ShapeAttrs>;
     // 尺寸
     size: number;
   };
   // 页码
   pagination: {
-    style: ShapeAttrs;
+    style: TextProps;
     divider: string;
     formatter: (pageNumber: number) => number | string;
   };
 };
 
-export type LegendBaseCfg = ShapeCfg['attrs'] & {
+export type LegendBaseCfg = ShapeAttrs & {
   // 图例内边距
   padding?: number | number[];
   // 背景
-  backgroundStyle?: MixAttrs;
+  backgroundStyle?: MixAttrs<ShapeAttrs>;
   // 布局
   orient?: 'horizontal' | 'vertical';
   // 标题
   title?: {
-    content: string;
+    content?: string;
     spacing?: number;
     align?: 'left' | 'center' | 'right';
-    style?: ShapeAttrs;
+    style?: Partial<TextProps>;
     formatter?: (text: string) => string;
   };
   // Legend类型
   type?: 'category' | 'continuous';
 };
 
-export type LegendBaseOptions = {
-  attrs: LegendBaseCfg;
-};
+export type LegendBaseOptions = DisplayObjectConfig<LegendBaseCfg>;
 
 // 连续图例配置
 export type ContinuousCfg = LegendBaseCfg & {
@@ -157,7 +162,7 @@ export type ContinuousCfg = LegendBaseCfg & {
   label?:
     | false
     | {
-        style?: ShapeAttrs;
+        style?: TextProps;
         spacing?: number;
         formatter?: (value: number, idx: number) => string;
         align?: 'rail' | 'inside' | 'outside';
@@ -174,9 +179,7 @@ export type ContinuousCfg = LegendBaseCfg & {
   indicator?: false | IndicatorCfg;
 };
 
-export type ContinuousOptions = {
-  attrs: ContinuousCfg;
-};
+export type ContinuousOptions = DisplayObjectConfig<ContinuousCfg>;
 
 // 分类图例配置
 export type CategoryCfg = LegendBaseCfg & {
@@ -194,9 +197,11 @@ export type CategoryCfg = LegendBaseCfg & {
   // 图例项间的间隔
   spacing?: [number, number];
   itemMarker?: Partial<ItemMarkerCfg> | ((item: CategoryItem, index: number, items: CategoryItem[]) => ItemMarkerCfg);
-  itemName?: Partial<ItemNameCfg> | ((item: CategoryItem, index: number, items: CategoryItem[]) => ItemNameCfg);
-  itemValue?: Partial<ItemValueCfg> | ((item: CategoryItem, index: number, items: CategoryItem[]) => ItemValueCfg);
-  itemBackgroundStyle?: MixAttrs | ((item: CategoryItem, index: number, items: CategoryItem[]) => MixAttrs);
+  itemName?: ItemNameCfg | ((item: CategoryItem, index: number, items: CategoryItem[]) => ItemNameCfg);
+  itemValue?: ItemValueCfg | ((item: CategoryItem, index: number, items: CategoryItem[]) => ItemValueCfg);
+  itemBackgroundStyle?:
+    | MixAttrs<ShapeAttrs>
+    | ((item: CategoryItem, index: number, items: CategoryItem[]) => MixAttrs<ShapeAttrs>);
   // 自动换行、列
   autoWrap?: boolean;
   // 图例项倒序
@@ -205,6 +210,4 @@ export type CategoryCfg = LegendBaseCfg & {
   pageNavigator?: false | PageNavigatorCfg;
 };
 
-export type CategoryOptions = LegendBaseCfg & {
-  attrs: CategoryCfg;
-};
+export type CategoryOptions = DisplayObjectConfig<CategoryCfg>;

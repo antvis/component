@@ -1,5 +1,4 @@
-import { DisplayObject } from '@antv/g';
-import type { ShapeAttrs, ShapeCfg } from '../../types';
+import type { ShapeAttrs, DisplayObjectConfig } from '../../types';
 
 export interface TitleOption {
   text?: string | number;
@@ -10,7 +9,7 @@ export interface TitleOption {
   /**
    * 文本格式化
    */
-  formatter?: (text: string) => string | DisplayObject;
+  formatter?: (text: any) => string;
 }
 export interface ValueOption extends TitleOption {
   /**
@@ -23,7 +22,7 @@ export interface ValueOption extends TitleOption {
   suffix?: any;
 }
 
-export type StatisticAttrs = {
+export type StatisticCfg = {
   x?: number;
   y?: number;
   /**
@@ -40,6 +39,4 @@ export type StatisticAttrs = {
   spacing?: number;
 };
 
-export type StatisticOptions = ShapeCfg & {
-  attrs: StatisticAttrs;
-};
+export type StatisticOptions = DisplayObjectConfig<StatisticCfg>;
