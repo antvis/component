@@ -11,7 +11,7 @@ const renderer = new CanvasRenderer({
 // @ts-ignore
 const canvas = new Canvas({
   container: 'container',
-  width: 300,
+  width: 500,
   height: 100,
   renderer,
 });
@@ -21,10 +21,26 @@ const statistic = new Statistic({
     x: 0,
     y: 0,
     title: {
-      text: 'simple statistic',
+      text: 'Feedback',
+      marker: {
+        symbol: 'star',
+        x: 8,
+        y: 4,
+        r: 20,
+        fill: 'orange',
+      },
     },
     value: {
-      text: '5123415515.151',
+      text: '1,128',
+      spacing: 4,
+      textStlye: {
+        fontSize: 24,
+      },
+      marker: {
+        symbol: 'triangle',
+        fill: 'rgb(63, 134, 0)',
+        size: 14,
+      },
     },
   },
 });

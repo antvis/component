@@ -5,42 +5,34 @@
   },
   "demos": [
     {
-      "filename": "simple-statistic.ts",
+      "filename": "simple.ts",
       "title": {
-        "zh": "简单指标卡 statistic",
+        "zh": "简单指标卡",
         "en": "Simple statistic"
       },
       "screenshot": ""
     },
     {
-      "filename": "formatter-statistic.ts",
+      "filename": "with-marker",
       "title": {
-        "zh": "回调 statistic",
-        "en": "formatter statistic"
+        "zh": "带 marker 指标卡",
+        "en": "Statistic with marker"
       },
       "screenshot": ""
     },
     {
-      "filename": "statistic-with-affix ",
+      "filename": "countdown.ts",
       "title": {
-        "zh": "带前后缀的指标卡",
-        "en": "Statistic with affix"
+        "zh": "倒计时",
+        "en": "Countdown"
       },
       "screenshot": ""
     },
     {
-      "filename": "now-countdown.ts",
+      "filename": "countdown-format.ts",
       "title": {
-        "zh": "当前时间 countdown",
-        "en": "now countdown"
-      },
-      "screenshot": ""
-    },
-    {
-      "filename": "timer-countdown.ts",
-      "title": {
-        "zh": "计时器 countdown",
-        "en": "timer countdown"
+        "zh": "倒计时格式化",
+        "en": "Countdown format"
       },
       "screenshot": ""
     }

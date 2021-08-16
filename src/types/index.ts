@@ -10,5 +10,11 @@ export type {
   PathStyleProps as PathProps,
   PolylineStyleProps as PolylineProps,
   TextStyleProps as TextProps,
+  Group,
 } from '@antv/g';
 export type { MixAttrs, StyleState } from './styles';
+
+export type GUIOption<C> = {
+  type: string;
+  style: C;
+};

@@ -10,7 +10,7 @@ export function getDefaultStyle<T>(style: MixAttrs<T> | undefined): T | undefine
   if (style) {
     return style?.default;
   }
-  const duplicateStyle = clone(style);
+  const duplicateStyle = clone(style) || {};
   // 移除其他带状态的样式得到默认样式
   STATE_LIST.forEach((state) => {
     if (state in duplicateStyle) delete duplicateStyle[state];

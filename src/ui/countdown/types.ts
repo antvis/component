@@ -1,19 +1,21 @@
-import { DisplayObjectConfig } from '../../types';
-import type { StatisticCfg, ValueOption as Option } from '../statistic/types';
+import type { DisplayObjectConfig } from '../../types';
+import type { TagCfg } from '../tag/types';
+import type { StatisticCfg } from '../statistic/types';
 
-export interface ValueOption extends Option {
-  /**
-   * 格式化时间
-   */
+export type ValueCfg = TagCfg & {
+  /** 数值文本内容 fixme 倒计时不需要输入 text */
+  text?: string;
+  /** 倒计时时间戳 */
+  timestamp?: number;
+  /** 格式化倒计时展示 */
   format?: string;
-  /**
-   * 值 时间 是否动态时间 传入 value 为倒计时 不传入 为 当前时间
-   */
-  dynamicTime?: boolean;
-}
+};
 
 export interface CountdownCfg extends StatisticCfg {
-  value?: ValueOption;
+  /** 倒计时数值内容的配置项 */
+  value?: ValueCfg;
+  /** 倒计时完成时触发 */
+  onFinish?: () => void;
 }
 
 export type CountdownOptions = DisplayObjectConfig<CountdownCfg>;

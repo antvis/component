@@ -193,14 +193,14 @@ export class Tag extends GUI<Required<TagCfg>> {
   }
 
   private bindEvents() {
-    this.on('mouseenter', () => {
+    this.addEventListener('mouseenter', () => {
       const { backgroundStyle, textStyle } = this.attributes;
       this.textShape.attr(getStyle(textStyle, 'active', true));
       this.backgroundShape.attr(getStyle(backgroundStyle, 'active', true));
       this.autoFit();
     });
 
-    this.on('mouseleave', () => {
+    this.addEventListener('mouseleave', () => {
       this.textShape.attr(this.getTextShapeCfg());
       this.backgroundShape.attr(this.getBackgroundShapeCfg());
       this.autoFit();

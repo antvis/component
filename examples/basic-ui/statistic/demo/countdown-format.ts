@@ -11,7 +11,7 @@ const renderer = new CanvasRenderer({
 // @ts-ignore
 const canvas = new Canvas({
   container: 'container',
-  width: 400,
+  width: 500,
   height: 300,
   renderer,
 });
@@ -21,11 +21,11 @@ const countdown = new Countdown({
     x: 0,
     y: 0,
     title: {
-      text: 'now countdown',
+      text: '距离双十一还有:',
     },
     value: {
-      format: 'YYYY-MM-DD HH:mm:ss',
-      dynamicTime: true,
+      timestamp: new Date(`${new Date().getFullYear()}-11-11 00:00:00`),
+      format: 'D 天 HH 小时 mm 分钟 ss 秒 SSS 毫秒',
     },
   },
 });
