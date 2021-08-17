@@ -23,7 +23,7 @@ const slider = new Slider({
     height: 40,
     values: [0.3, 0.7],
     names: ['leftVal', 'rightVal'],
-    sparklineCfg: {
+    sparkline: {
       // type: 'column',
       data: [
         [1, 3, 2, -4, 1, 3, 2, -4],

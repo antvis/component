@@ -1,5 +1,5 @@
 import type { MarkerCfg } from '../marker';
-import type { RectProps, TextProps, DisplayObjectConfig } from '../../types';
+import type { RectProps, TextProps, MixAttrs, DisplayObjectConfig } from '../../types';
 
 export type TagCfg = {
   /** 位置 x */
@@ -25,20 +25,10 @@ export type TagCfg = {
   /** border-radius 圆角 */
   radius?: number;
   /** 文本的样式 */
-  textStyle?: {
-    /** 默认样式 */
-    default?: Partial<TextProps>;
-    /** 激活样式 */
-    active?: Partial<TextProps>;
-  };
+  textStyle?: MixAttrs<Partial<TextProps>>;
 
   /** background 背景样式 */
-  backgroundStyle?: {
-    /** 默认样式 */
-    default?: Partial<RectProps>;
-    /** 激活样式 */
-    active?: Partial<RectProps>;
-  };
+  backgroundStyle?: MixAttrs<Partial<TextProps>>;
 };
 
 export type TagOptions = DisplayObjectConfig<TagCfg>;

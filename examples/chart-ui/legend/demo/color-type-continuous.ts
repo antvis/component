@@ -32,7 +32,7 @@ const continuous = new Continuous({
     start: 10,
     end: 80,
     step: 5,
-    color: '#6720f5',
+    color: ['#f25662', '#bdd2f3', '#4799d0'],
   },
 });
 

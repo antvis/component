@@ -1,13 +1,14 @@
 import { DisplayObject, Text } from '@antv/g';
-import { TextProps } from '../../types';
+import { ShapeAttrs, TextProps } from '../../types';
 
-export interface ILabelsCfg {
+export interface ILabelsCfg extends ShapeAttrs {
   labels: TextProps[];
 }
 
 export class Labels extends DisplayObject<ILabelsCfg> {
   constructor({ style, ...rest }: Partial<DisplayObject<ILabelsCfg>>) {
     super({ type: 'lines', style, ...rest });
+    this.render();
   }
 
   public render(): void {

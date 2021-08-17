@@ -45,8 +45,8 @@ export class Sparkline extends GUI<SparklineCfg> {
       columnStyle: {
         lineWidth: 1,
         stroke: '#fff',
+        padding: 0.1,
       },
-      barPadding: 0.1,
     },
   };
 
@@ -125,7 +125,8 @@ export class Sparkline extends GUI<SparklineCfg> {
    * 根据数据生成scale
    */
   private createScales(data: number[][]) {
-    const { type, width, height, isGroup, barPadding } = this.attributes;
+    const { type, isGroup, barPadding } = this.attributes;
+    const { width, height } = this.getContainerCfg();
     const [minVal, maxVal] = getRange(data);
     return {
       type,
@@ -162,11 +163,12 @@ export class Sparkline extends GUI<SparklineCfg> {
 
   private getContainerCfg() {
     const { width, height } = this.attributes;
-    return { width, height };
+    return { width, height } as { width: number; height: number };
   }
 
   private getLinesCfg(): ILinesCfg {
-    const { areaStyle, isStack, lineStyle, smooth, width } = this.attributes;
+    const { areaStyle, isStack, lineStyle, smooth } = this.attributes;
+    const { width } = this.getContainerCfg();
     let data = this.getData();
     if (data[0].length === 0) return { lines: [], areas: [] };
     if (isStack) data = getStackedData(data);
@@ -184,7 +186,7 @@ export class Sparkline extends GUI<SparklineCfg> {
           ? linesToStackCurveAreaPaths(lines, width, baseline)
           : linesToStackAreaPaths(lines, width, baseline);
       } else {
-        areas = linesToAreaPaths(lines, smooth, width, baseline);
+        areas = linesToAreaPaths(lines, smooth!, width, baseline);
       }
     }
     return {
@@ -206,7 +208,8 @@ export class Sparkline extends GUI<SparklineCfg> {
   }
 
   private getColumnsCfg(): IColumnsCfg {
-    const { isStack, height, columnStyle } = this.attributes;
+    const { isStack, columnStyle } = this.attributes;
+    const { height } = this.getContainerCfg();
     let data = this.getData();
     if (!data) return { columns: [] };
     if (isStack) data = getStackedData(data);

@@ -168,17 +168,16 @@ export class CategoryItem extends GUI<ICategoryItemCfg> {
     });
 
     // 设置背景
-    const bWidth = this.getActualWidth();
     this.backgroundShape.attr({
-      width: itemWidth === undefined ? bWidth : itemWidth,
+      width: itemWidth === undefined ? this.getActualWidth() : itemWidth,
       height,
     });
   }
 
   private getMarkerShapeCfg() {
     const { itemMarker } = this.attributes;
-    const { marker, size: markerSize } = itemMarker;
-    return { symbol: marker, size: markerSize, ...this.getStyle(['itemMarker', 'style']) };
+    const { marker, spacing, size: markerSize } = itemMarker;
+    return { x: spacing, symbol: marker, size: markerSize, ...this.getStyle(['itemMarker', 'style']) };
   }
 
   private getNameShapeCfg() {
@@ -201,12 +200,10 @@ export class CategoryItem extends GUI<ICategoryItemCfg> {
   }
 
   private getActualWidth() {
-    // 使用 getShapeSpace(this) 来获取当前容器宽度可能会由于文字抖动而导致长度不断增长
-    const mBounds = this.markerShape.getBounds()!;
-    const nBounds = this.nameShape.getBounds()!;
-    const vBounds = this.valueShape.getBounds()!;
-    const maxX = max([mBounds.getMax()[0], nBounds.getMax()[0], vBounds.getMax()[0]])!;
-    const minX = min([mBounds.getMin()[0], nBounds.getMin()[0], vBounds.getMin()[0]])!;
-    return maxX - minX;
+    const { itemName, itemValue } = this.attributes;
+    const { width: markerWidth } = getShapeSpace(this.markerShape);
+    const { width: nameWidth } = getShapeSpace(this.nameShape);
+    const { width: valueWidth } = getShapeSpace(this.valueShape);
+    return markerWidth * 2 + nameWidth + valueWidth + itemName.spacing + itemValue.spacing;
   }
 }

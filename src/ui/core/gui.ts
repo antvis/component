@@ -1,6 +1,6 @@
 import { CustomElement } from '@antv/g';
 
-export abstract class GUI<CustomAttr> extends CustomElement<Required<CustomAttr>> {
+export abstract class GUI<CustomAttr> extends CustomElement<CustomAttr> {
   public static tag: string = 'gui';
 
   connectedCallback(): void {}

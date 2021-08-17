@@ -6,7 +6,7 @@ import { getStateStyle as getStyle, normalPadding, getShapeSpace } from '../../u
 import type { RectProps, TextProps } from '../../types';
 import type { TagCfg, TagOptions } from './types';
 
-export type { TagOptions };
+export type { TagCfg, TagOptions };
 
 /**
  * 带文本的 图标组件，支持 iconfont 组件

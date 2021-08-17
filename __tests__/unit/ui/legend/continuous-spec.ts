@@ -173,7 +173,9 @@ describe('continuous', () => {
     // @ts-ignore
     expect(continuous.railShape.getRail().children.length).toBe(1);
     // @ts-ignore
-    expect(continuous.railShape.getRail().children[0].attr('fill')).toBe('#d0e3fa');
+    expect(continuous.railShape.getRail().children[0].attr('fill')).toBe(
+      'l(0) 0:#d0e3fa 0.1:#acc7f6 0.2:#8daaf2 0.3:#6d8eea 0.4:#4d73cd 0.6:#325bb1 0.7:#5a3e75 0.8:#8c3c79 0.9:#e23455 1:#e7655b'
+    );
   });
 
   test('color chunked', async () => {

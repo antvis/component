@@ -1,18 +1,18 @@
 import { DisplayObject, Rect, Line, Text } from '@antv/g';
 import { deepMix, get } from '@antv/util';
 import { Marker } from '../marker';
-import { ShapeAttrs } from '../../types';
+import type { TextProps, ShapeAttrs } from '../../types';
 
 export interface IHandleCfg {
   x: number;
   y: number;
   handleType: 'start' | 'end';
-  iconCfg: {
+  iconCfg: ShapeAttrs & {
+    size?: number;
     type: 'hide' | 'symbol' | 'default';
     orient: 'horizontal' | 'vertical';
-    style: ShapeAttrs;
   };
-  textCfg: ShapeAttrs & { text: string };
+  textCfg: TextProps;
 }
 
 export class Handle extends DisplayObject<IHandleCfg> {
@@ -50,12 +50,12 @@ export class Handle extends DisplayObject<IHandleCfg> {
     this.attr(deepMix({}, this.attributes, cfg));
     const { iconCfg, textCfg } = cfg;
     if (iconCfg) {
-      const { type } = iconCfg;
+      const { type, orient, ...rest } = iconCfg;
       if (oldType !== type) {
         this.clear();
         this.iconShape = this.createHandleIcon();
       } else {
-        this.iconShape.attr({ ...iconCfg });
+        this.iconShape.attr(rest);
       }
       this.setHandleIconRotation();
     }
@@ -69,11 +69,11 @@ export class Handle extends DisplayObject<IHandleCfg> {
    */
   private createDefaultIcon() {
     const {
-      style: { size, ...rest },
-    } = get(this.attributes, ['iconCfg']);
+      iconCfg: { size, ...rest },
+    } = this.attributes;
     // 默认手柄
-    const width = size;
-    const height = size * 2.4;
+    const width = size!;
+    const height = width * 2.4;
 
     // 创建默认图形
     const defaultHandle = new Rect({
@@ -83,7 +83,7 @@ export class Handle extends DisplayObject<IHandleCfg> {
         height,
         x: -width / 2,
         y: -height / 2,
-        radius: size / 4,
+        radius: width / 4,
         ...rest,
       },
     });
@@ -105,7 +105,7 @@ export class Handle extends DisplayObject<IHandleCfg> {
   }
 
   private createHandleIcon() {
-    const { type, style } = get(this.attributes, ['iconCfg']);
+    const { type, orient, ...style } = get(this.attributes, ['iconCfg']);
     if (type === 'hide') {
       return new Rect({ style, name: 'icon' });
     }

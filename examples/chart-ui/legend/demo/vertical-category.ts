@@ -26,7 +26,7 @@ const category = new Category({
       content: '纵向',
     },
     items: [
-      { name: 'Chrome', value: '7.08%', id: 'chrome', state: 'selected' as 'selected' },
+      { name: 'Chrome', value: '7.08%', id: 'chrome', state: 'selected' },
       { name: 'IE', value: '5.41%', id: 'IE' },
       { name: 'QQ', value: '5.35%', id: 'QQ' },
       { name: 'Firefox', value: '1.23%', id: 'Firefox' },
@@ -39,7 +39,7 @@ const category = new Category({
     itemMarker: (item, idx) => {
       return {
         marker: ['diamond', 'circle', 'triangle'][idx % 3],
-        size: 8,
+        size: 14,
         style: {
           default: {
             fill: idx % 2 === 0 ? '#ecbf41' : '#d94948',

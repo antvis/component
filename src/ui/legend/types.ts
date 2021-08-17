@@ -67,6 +67,7 @@ type CategoryItem = {
 export type ItemMarkerCfg = {
   marker?: SymbolCfg;
   size?: number;
+  spacing?: number;
   style?: MixAttrs<ShapeAttrs>;
 };
 

@@ -1,10 +1,11 @@
 import type { Cursor } from '@antv/g';
-import { Rect, Text, CustomEvent } from '@antv/g';
+import { Rect, Text, CustomEvent, Group } from '@antv/g';
 import { deepMix, get } from '@antv/util';
 import { GUI } from '../core/gui';
 import { Handle } from './handle';
 import { Sparkline } from '../sparkline';
-import { toPrecision, getShapeSpace, getEventPos, getStateStyle } from '../../util';
+import { toPrecision, getShapeSpace, getEventPos, getStateStyle, normalPadding } from '../../util';
+import type { MarkerCfg } from '../marker';
 import type { SparklineCfg } from '../sparkline';
 import type { IHandleCfg } from './handle';
 import type { ShapeAttrs, RectProps } from '../../types';
@@ -21,89 +22,6 @@ interface IBackgroundStyleCfg extends ShapeAttrs {
 export class Slider extends GUI<SliderCfg> {
   public static tag = 'slider';
 
-  /**
-   * 层级关系
-   * backgroundShape
-   *  |- sparklineShape
-   *  |- foregroundShape
-   *       |- startHandle
-   *           |- handleIcon
-   *           |- handleText
-   *       |- endHandle
-   *           |- handleIcon
-   *           |- handleText
-   */
-
-  // 背景、滑道
-  private backgroundShape: Rect;
-
-  // 迷你图
-  private sparklineShape: Sparkline;
-
-  // 前景、选区
-  private foregroundShape: Rect;
-
-  // 开始滑块
-  private startHandle: Handle;
-
-  // 结束滑块
-  private endHandle: Handle;
-
-  /**
-   * 选区开始的位置
-   */
-  private selectionStartPos: number;
-
-  /**
-   * 选区宽度
-   */
-  private selectionWidth: number;
-
-  /**
-   * 记录上一次鼠标事件所在坐标
-   */
-  private prevPos: number;
-
-  /**
-   * drag事件当前选中的对象
-   */
-  private target: string;
-
-  constructor(options: SliderOptions) {
-    super(deepMix({}, Slider.defaultOptions, options));
-    this.backgroundShape = new Rect({
-      name: 'background',
-      style: this.getBackgroundShapeCfg(),
-    });
-    this.backgroundShape.toBack();
-    this.appendChild(this.backgroundShape);
-
-    this.foregroundShape = new Rect({
-      name: 'foreground',
-      style: this.getForegroundShapeCfg(),
-    });
-    this.backgroundShape.appendChild(this.foregroundShape);
-
-    this.startHandle = this.createHandle('start');
-    this.foregroundShape.appendChild(this.startHandle);
-
-    this.endHandle = this.createHandle('end');
-    this.foregroundShape.appendChild(this.endHandle);
-
-    this.sparklineShape = new Sparkline({
-      name: 'sparkline',
-      style: this.getSparklineShapeCfg(),
-    });
-    this.backgroundShape.appendChild(this.sparklineShape);
-
-    this.selectionStartPos = 0;
-    this.selectionWidth = 0;
-    this.prevPos = 0;
-    this.target = '';
-
-    this.init();
-  }
-
   private static defaultOptions = {
     type: Slider.tag,
     style: {
@@ -114,7 +32,7 @@ export class Slider extends GUI<SliderCfg> {
       max: 1,
       width: 200,
       height: 20,
-      sparklineCfg: {
+      sparkline: {
         padding: [1, 1, 1, 1],
       },
       padding: [0, 0, 0, 0],
@@ -125,7 +43,7 @@ export class Slider extends GUI<SliderCfg> {
           lineWidth: 1,
         },
       },
-      foregroundStyle: {
+      selectionStyle: {
         default: {
           fill: '#afc9fb',
           opacity: 0.5,
@@ -153,6 +71,68 @@ export class Slider extends GUI<SliderCfg> {
       },
     },
   };
+
+  /**
+   * 层级关系
+   * backgroundShape
+   *  |- sparklineShape
+   *  |- selectionShape
+   *       |- startHandle
+   *           |- handleIcon
+   *           |- handleText
+   *       |- endHandle
+   *           |- handleIcon
+   *           |- handleText
+   */
+
+  // 背景、滑道
+  private backgroundShape!: Rect;
+
+  // 迷你图
+  private sparklineShape!: Sparkline;
+
+  private foregroundGroup!: Group;
+
+  // 前景、选区
+  private selectionShape!: Rect;
+
+  // 开始滑块
+  private startHandle!: Handle;
+
+  // 结束滑块
+  private endHandle!: Handle;
+
+  /**
+   * 选区开始的位置
+   */
+  private selectionStartPos: number;
+
+  /**
+   * 选区宽度
+   */
+  private selectionWidth: number;
+
+  /**
+   * 记录上一次鼠标事件所在坐标
+   */
+  private prevPos: number;
+
+  /**
+   * drag事件当前选中的对象
+   */
+  private target: string;
+
+  constructor(options: SliderOptions) {
+    super(deepMix({}, Slider.defaultOptions, options));
+    this.initShape();
+
+    this.selectionStartPos = 0;
+    this.selectionWidth = 0;
+    this.prevPos = 0;
+    this.target = '';
+
+    this.init();
+  }
 
   attributeChangedCallback<Key extends keyof SliderCfg>(name: Key, oldValue: SliderCfg[Key], newValue: SliderCfg[Key]) {
     if (name === 'values') {
@@ -189,6 +169,38 @@ export class Slider extends GUI<SliderCfg> {
     this.bindEvents();
   }
 
+  public initShape() {
+    this.backgroundShape = new Rect({
+      name: 'background',
+      style: this.getBackgroundShapeCfg(),
+    });
+    this.backgroundShape.toBack();
+    this.appendChild(this.backgroundShape);
+
+    this.sparklineShape = new Sparkline({
+      name: 'sparkline',
+      style: this.getSparklineShapeCfg(),
+    });
+    this.backgroundShape.appendChild(this.sparklineShape);
+
+    this.foregroundGroup = new Group({ name: 'foreground' });
+    this.backgroundShape.appendChild(this.foregroundGroup);
+
+    this.selectionShape = new Rect({
+      name: 'selection',
+      style: this.getSelectionShapeCfg(),
+    });
+    this.foregroundGroup.appendChild(this.selectionShape);
+
+    this.startHandle = this.createHandle('start');
+    this.foregroundGroup.appendChild(this.startHandle);
+    this.startHandle.toFront();
+
+    this.endHandle = this.createHandle('end');
+    this.foregroundGroup.appendChild(this.endHandle);
+    this.startHandle.toFront();
+  }
+
   /**
    * 组件的更新
    */
@@ -197,7 +209,7 @@ export class Slider extends GUI<SliderCfg> {
 
     this.backgroundShape.attr(this.getBackgroundShapeCfg());
     this.sparklineShape.update(this.getSparklineShapeCfg());
-    this.foregroundShape.attr(this.getForegroundShapeCfg());
+    this.selectionShape.attr(this.getSelectionShapeCfg());
 
     this.startHandle.update(this.getHandleShapeCfg('start'));
     this.endHandle.update(this.getHandleShapeCfg('end'));
@@ -212,7 +224,7 @@ export class Slider extends GUI<SliderCfg> {
    * 获得安全的Values
    */
   private getSafetyValues(values = this.getValues(), precision = 4): Pair<number> {
-    const { min, max } = this.attributes;
+    const { min, max } = this.attributes as { min: number; max: number };
     const [prevStart, prevEnd] = this.getValues();
     let [startVal, endVal] = values || [prevStart, prevEnd];
     const range = endVal - startVal;
@@ -243,8 +255,12 @@ export class Slider extends GUI<SliderCfg> {
   }
 
   private getAvailableSpace() {
-    const { padding, width, height } = this.attributes;
-    const [top, right, bottom, left] = padding;
+    const { padding, width, height } = this.attributes as {
+      padding: number[];
+      width: number;
+      height: number;
+    };
+    const [top, right, bottom, left] = normalPadding(padding);
     return {
       x: left,
       y: top,
@@ -273,15 +289,15 @@ export class Slider extends GUI<SliderCfg> {
   }
 
   private getSparklineShapeCfg() {
-    const { orient, sparklineCfg } = this.attributes;
+    const { orient, sparkline } = this.attributes;
     // 暂时只在水平模式下绘制
     // if (orient !== 'horizontal') {
     //   return {
     //     data: [[]],
     //   };
     // }
-    const { padding, ...args } = sparklineCfg;
-    const [top, right, bottom, left] = padding;
+    const { padding, ...args } = sparkline!;
+    const [top, right, bottom, left] = normalPadding(padding!);
     const { width, height } = this.getAvailableSpace();
     const { lineWidth: bkgLW } = this.getStyle('backgroundStyle') as IBackgroundStyleCfg;
     return {
@@ -317,8 +333,8 @@ export class Slider extends GUI<SliderCfg> {
     ]);
   }
 
-  private getForegroundShapeCfg() {
-    return { cursor: 'move' as Cursor, ...this.calcMask(), ...this.getStyle('foregroundStyle') };
+  private getSelectionShapeCfg() {
+    return { cursor: 'move' as Cursor, ...this.calcMask(), ...this.getStyle('selectionStyle') };
   }
 
   /**
@@ -326,8 +342,8 @@ export class Slider extends GUI<SliderCfg> {
    */
   private calcHandlePosition(handleType: HandleType) {
     const { width, height } = this.getAvailableSpace();
-    const values = this.getSafetyValues();
-    const L = handleType === 'start' ? 0 : (values[1] - values[0]) * this.getOrientVal([width, height]);
+    const [stVal, endVal] = this.getSafetyValues();
+    const L = (handleType === 'start' ? stVal : endVal) * this.getOrientVal([width, height]);
     return {
       x: this.getOrientVal([L, width / 2]),
       y: this.getOrientVal([height / 2, L]),
@@ -341,7 +357,7 @@ export class Slider extends GUI<SliderCfg> {
    * 3. 更新文本位置
    */
   private setHandle() {
-    this.foregroundShape.attr(this.calcMask());
+    this.selectionShape.attr(this.calcMask());
     (['start', 'end'] as HandleType[]).forEach((handleType) => {
       const handle = this[`${handleType}Handle` as HandleName];
       handle.setHandle(this.calcHandlePosition(handleType));
@@ -409,54 +425,51 @@ export class Slider extends GUI<SliderCfg> {
     };
   }
 
-  private getHandleIconShapeCfg(handleType: HandleType): IHandleCfg['iconCfg'] {
-    const { height: H, orient } = this.attributes;
+  private getHandleIconShapeCfg(handleType: HandleType) {
+    const { height: H, orient } = this.attributes as Required<Pick<SliderCfg, 'height' | 'orient'>>;
     const handleCfg = this.getHandleCfg(handleType);
     const { show, handleIcon, handleStyle: style } = handleCfg;
     const cursor = this.getOrientVal(['ew-resize', 'ns-resize']) as Cursor;
     const size = this.getHandleSize(handleType);
+    let tempStyle!: RectProps | MarkerCfg | ShapeAttrs;
+    let type!: 'hide' | 'default' | 'symbol';
     if (!show) {
-      // 不显示handleIcon
-      return {
-        orient,
-        type: 'hide',
-        style: {
-          cursor,
-          x: -size / 2,
-          y: -H / 2,
-          height: H,
-          width: size,
-          opacity: 0,
-          fill: 'red',
-        },
-      };
+      type = 'hide';
+      tempStyle = {
+        cursor,
+        x: -size / 2,
+        y: -H / 2,
+        height: H,
+        width: size,
+        opacity: 0,
+        fill: 'red',
+      } as RectProps;
     }
     if (!handleIcon) {
-      // 默认handleIcon
-      return {
-        type: 'default',
-        orient,
-        style: {
-          ...style,
-          cursor,
-          size,
-        },
-      };
-    }
-    // 使用symbol
-    return {
-      orient,
-      type: 'symbol',
-      style: {
+      type = 'default';
+      tempStyle = {
         ...style,
         cursor,
-        r: size,
+        size,
+      } as ShapeAttrs;
+    } else {
+      type = 'symbol';
+      tempStyle = {
+        ...style,
+        cursor,
+        size,
         symbol: handleIcon,
-      },
+      } as MarkerCfg;
+    }
+
+    return {
+      orient,
+      type,
+      ...tempStyle,
     };
   }
 
-  private getHandleShapeCfg(handleType: HandleType) {
+  private getHandleShapeCfg(handleType: HandleType): IHandleCfg {
     return {
       handleType,
       ...this.calcHandlePosition(handleType),
@@ -469,6 +482,8 @@ export class Slider extends GUI<SliderCfg> {
    * 创建手柄
    */
   private createHandle(handleType: HandleType) {
+    console.log(this.getHandleShapeCfg(handleType));
+
     return new Handle({
       name: `handle`,
       style: this.getHandleShapeCfg(handleType),
@@ -493,7 +508,7 @@ export class Slider extends GUI<SliderCfg> {
 
     // 没设置size的话，高度就取height的80%高度，手柄宽度是高度的1/2.4
     const { width, height } = this.attributes;
-    return (this.getOrientVal([height, width]) * 0.8) / 2.4;
+    return (this.getOrientVal([height!, width!]) * 0.8) / 2.4;
   }
 
   private bindEvents() {
@@ -501,16 +516,16 @@ export class Slider extends GUI<SliderCfg> {
     this.backgroundShape.addEventListener('mousedown', this.onDragStart('background'));
     this.backgroundShape.addEventListener('touchstart', this.onDragStart('background'));
 
-    const fg = this.foregroundShape;
+    const fg = this.selectionShape;
     // 选区drag事件
-    fg.addEventListener('mousedown', this.onDragStart('foreground'));
-    fg.addEventListener('touchstart', this.onDragStart('foreground'));
+    fg.addEventListener('mousedown', this.onDragStart('selection'));
+    fg.addEventListener('touchstart', this.onDragStart('selection'));
     // 选区hover事件
     fg.addEventListener('mouseenter', () => {
-      fg.attr(this.getStyle('foregroundStyle'));
+      fg.attr(this.getStyle('selectionStyle') as RectProps);
     });
     fg.addEventListener('mouseleave', () => {
-      fg.attr(this.getStyle('foregroundStyle'));
+      fg.attr(this.getStyle('selectionStyle') as RectProps);
     });
 
     [this.startHandle, this.endHandle].forEach((handle) => {
@@ -522,10 +537,10 @@ export class Slider extends GUI<SliderCfg> {
 
       // icon hover事件
       handleIcon.addEventListener('mouseenter', () => {
-        handleIcon.attr(this.getStyle('handleStyle', 'active', handleType));
+        handleIcon.attr(this.getHandleCfg(handleType));
       });
       handleIcon.addEventListener('mouseleave', () => {
-        handleIcon.attr(this.getStyle('handleStyle', 'default', handleType));
+        handleIcon.attr(this.getHandleCfg(handleType));
       });
     });
   }
@@ -551,7 +566,7 @@ export class Slider extends GUI<SliderCfg> {
     this.prevPos = this.getOrientVal(getEventPos(e));
     const { x, y } = this.getAvailableSpace();
     const { x: X, y: Y } = this.attributes;
-    this.selectionStartPos = this.getRatio(this.prevPos - this.getOrientVal([x, y]) - this.getOrientVal([X, Y]));
+    this.selectionStartPos = this.getRatio(this.prevPos - this.getOrientVal([x, y]) - this.getOrientVal([X!, Y!]));
     this.selectionWidth = 0;
     this.addEventListener('mousemove', this.onDragging);
     this.addEventListener('touchmove', this.onDragging);
@@ -573,7 +588,7 @@ export class Slider extends GUI<SliderCfg> {
       case 'end':
         this.setValuesOffset(0, dVal);
         break;
-      case 'foreground':
+      case 'selection':
         this.setValuesOffset(dVal, dVal);
         break;
       case 'background':

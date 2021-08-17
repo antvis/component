@@ -25,6 +25,7 @@ export type SparklineCfg = ShapeAttrs & {
   // column
   isGroup?: boolean;
   columnStyle?: ShapeAttrs | ((idx: number) => ShapeAttrs);
+  barPadding?: number;
 };
 
 export type SparklineOptions = DisplayObjectConfig<SparklineCfg>;

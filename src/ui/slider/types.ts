@@ -56,7 +56,6 @@ export type SliderCfg = {
   padding?: number[];
   backgroundStyle?: MixAttrs<ShapeAttrs>;
   selectionStyle?: MixAttrs<RectProps>;
-  foregroundStyle?: MixAttrs<RectProps>;
   handle?:
     | HandleCfg
     | {
@@ -67,7 +66,7 @@ export type SliderCfg = {
   /**
    * 缩略图数据及其配置
    */
-  sparklineCfg?: SparklineCfg;
+  sparkline?: { padding?: number[] } & SparklineCfg;
 };
 
 export type SliderOptions = DisplayObjectConfig<SliderCfg>;

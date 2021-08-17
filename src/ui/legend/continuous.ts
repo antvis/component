@@ -40,7 +40,7 @@ export class Continuous extends LegendBase<ContinuousCfg> {
    */
 
   //
-  private labelsShape!: Group;
+  private labelsShape!: Labels;
 
   // 色板
   private railShape!: Rail;
@@ -101,7 +101,7 @@ export class Continuous extends LegendBase<ContinuousCfg> {
   public update(cfg: Partial<ContinuousCfg>) {
     this.attr(deepMix({}, this.attributes, cfg));
     // 更新label内容
-    this.labelsShape.attr({ labelsCfg: this.getLabelsShapeCfg() });
+    this.labelsShape.attr(this.getLabelsShapeCfg());
     // 更新rail
     this.railShape.update(this.getRailShapeCfg());
     // 更新选区
@@ -228,12 +228,6 @@ export class Continuous extends LegendBase<ContinuousCfg> {
    */
   protected getColor() {
     const { color } = this.attributes;
-    // TODO 待G 5.0 提供渐变色方法后使用
-    // // 数组颜色
-    // if (isArray(color)) {
-    //   // 生成渐变色样式
-    //   return color.join('-');
-    // }
     return color;
   }
 
@@ -670,25 +664,38 @@ export class Continuous extends LegendBase<ContinuousCfg> {
           x: innerX,
           y: innerY + railHeight / 2,
         });
+
+        let railStart = innerX;
+
+        const { firstChild } = this.labelsShape;
         // 设置左侧文本
-        this.labelsShape.firstChild!.attr({ textAlign: 'start' });
+        if (firstChild) {
+          firstChild.attr({ textAlign: 'start' });
+          const { width } = getShapeSpace(this.labelsShape.firstChild!);
+          railStart += width + labelSpacing!;
+        }
+
+        // this.labelsShape.firstChild!.attr({ textAlign: 'start' });
 
         // 左侧文本的宽度
-        const { width: leftTextWidth } = getShapeSpace(this.labelsShape.firstChild!);
 
-        const railStart = innerX + leftTextWidth + labelSpacing!;
+        // const railStart = innerX + leftTextWidth + labelSpacing!;
         // 设置rail位置
         this.railShape.attr({
           x: railStart,
           y: innerY,
         });
 
-        // 设置右侧文本位置
-        this.labelsShape.lastChild!.attr({
-          x: railStart + railWidth + labelSpacing!,
-          y: 0,
-          textAlign: 'start',
-        });
+        const { lastChild } = this.labelsShape;
+        if (lastChild) {
+          // 设置右侧文本位置
+          this.labelsShape.lastChild!.attr({
+            x: railStart + railWidth + labelSpacing!,
+            y: 0,
+            textAlign: 'start',
+          });
+        }
+
         return;
       }
       /**
@@ -869,7 +876,7 @@ export class Continuous extends LegendBase<ContinuousCfg> {
 
     // indicator hover事件
     this.railShape.getRail().addEventListener('mouseenter', this.onHoverStart('rail'));
-    this.backgroundShape.addEventListener('mouseover', this.onHoverEnd);
+    // this.backgroundShape.addEventListener('mouseover', this.onHoverEnd);
   }
 
   /**

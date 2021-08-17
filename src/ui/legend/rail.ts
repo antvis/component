@@ -1,7 +1,8 @@
-import { isString } from '@antv/util';
+import { isString, isArray } from '@antv/util';
 import { DisplayObject, Group, Path } from '@antv/g';
 import type { Cursor, PathCommand } from '@antv/g';
 import type { RailCfg as DefaultCfg } from './types';
+import { toPrecision } from '../../util';
 import { createTrapezoidRailPath, createRectRailPath, getValueOffset } from './utils';
 
 export interface IRailCfg extends Required<DefaultCfg> {
@@ -44,7 +45,7 @@ export class Rail extends DisplayObject<Required<IRailCfg>> {
 
   public render() {
     this.clear();
-    const { width, color, backgroundColor, orient } = this.attributes;
+    const { width, color, backgroundColor, orient, chunked } = this.attributes;
     const railPath = this.createRailPath();
     const railBackgroundPath = this.createBackgroundPath();
 
@@ -68,7 +69,7 @@ export class Rail extends DisplayObject<Required<IRailCfg>> {
           name: 'railPath',
           style: {
             path,
-            fill: isString(color) ? color : color![idx],
+            fill: chunked ? color![idx] : this.getGradientColor(),
           },
         })
       );
@@ -115,6 +116,20 @@ export class Rail extends DisplayObject<Required<IRailCfg>> {
   public clear() {
     this.railPathGroup.removeChildren();
     this.backgroundPathGroup.removeChildren();
+  }
+
+  private getGradientColor() {
+    const { color } = this.attributes;
+    if (isArray(color) && color.length > 0) {
+      // 生成线型渐变
+      const step = 1 / (color.length - 1);
+      let gradientColor = 'l(0)';
+      for (let i = 0; i < color.length; i += 1) {
+        gradientColor += ` ${toPrecision(i * step, 1)}:${color[i]}`;
+      }
+      return gradientColor;
+    }
+    return color as string;
   }
 
   private getOrientVal<T>(val1: T, val2: T) {

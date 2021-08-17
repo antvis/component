@@ -26,7 +26,7 @@ import { Slider } from '@antv/gui';
 | max             | 最大可滚动范围  | <code>number<code>                                        | `1`          |
 | sparkline       | 缩略图配置      | <code>SparklineOptions<code>                              | `[]`         |
 | backgroundStyle | 自定义背景样式  | <code>MixAttrs\<RectProps\><code>                         | `[]`         |
-| foregroundStyle | 自定义前景样式  | <code>MixAttrs\<RectProps\><code>                         | `[]`         |
+| selectionStyle  | 自定义选区样式  | <code>MixAttrs\<RectProps\><code>                         | `[]`         |
 | handle          | 手柄配置        | <code>handleCfg \| {start: handleCfg;end:handleCfg}<code> | `[]`         |
 
 ### SparklineOptions

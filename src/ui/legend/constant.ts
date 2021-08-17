@@ -40,6 +40,7 @@ export const CATEGORY_DEFAULT_OPTIONS = deepMix({}, LEGEND_BASE_DEFAULT_OPTIONS,
     itemMarker: {
       marker: 'circle',
       size: 8,
+      spacing: 10,
       style: {
         default: {
           fill: '#f8be4b',
@@ -52,7 +53,7 @@ export const CATEGORY_DEFAULT_OPTIONS = deepMix({}, LEGEND_BASE_DEFAULT_OPTIONS,
       },
     },
     itemName: {
-      spacing: 10,
+      spacing: 0,
       style: {
         default: {
           fill: 'gray',
@@ -72,7 +73,7 @@ export const CATEGORY_DEFAULT_OPTIONS = deepMix({}, LEGEND_BASE_DEFAULT_OPTIONS,
       formatter: (name: string) => name,
     },
     itemValue: {
-      spacing: 10,
+      spacing: 5,
       align: 'right',
       style: {
         default: {

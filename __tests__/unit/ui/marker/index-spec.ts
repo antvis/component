@@ -1,3 +1,4 @@
+import type { PathCommand } from '@antv/g';
 import { Canvas } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Marker, svg2marker } from '../../../../src';
@@ -38,7 +39,7 @@ describe('marker', () => {
     expect(marker.attr('fill')).toBe('green');
     expect(marker.attr('symbol')).toBe('triangle-down');
     // @ts-ignore
-    const path = marker.markerShape.attr('path');
+    const path = marker.markerShape.attr('path') as PathCommand[];
     expect(path[0][1]).toBe(-8);
     expect(path[1][1]).toBe(8);
     expect(path[2][1]).toBe(0);

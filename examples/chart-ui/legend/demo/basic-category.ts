@@ -38,7 +38,7 @@ const category = new Category({
     itemMarker: (item, idx) => {
       return {
         marker: ['diamond', 'circle', 'triangle'][idx % 3],
-        size: 8,
+        size: 14,
         style: {
           default: {
             fill: idx % 2 === 0 ? '#ecbf41' : '#d94948',

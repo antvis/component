@@ -31,7 +31,18 @@ const continuous = new Continuous({
     handle: false,
     min: 0,
     max: 100,
-    color: '#ef923c',
+    color: [
+      '#d0e3fa',
+      '#acc7f6',
+      '#8daaf2',
+      '#6d8eea',
+      '#4d73cd',
+      '#325bb1',
+      '#5a3e75',
+      '#8c3c79',
+      '#e23455',
+      '#e7655b',
+    ],
   },
 });
 
