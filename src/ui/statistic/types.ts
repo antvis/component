@@ -1,25 +1,5 @@
-import type { ShapeAttrs, DisplayObjectConfig, RectProps } from '../../types';
+import type { DisplayObjectConfig, RectProps } from '../../types';
 import type { TagCfg } from '../tag/types';
-
-export type TitleCfg = {
-  /** 文本内容 */
-  text?: string | number;
-  /** 文本样式 */
-  style?: ShapeAttrs;
-  /** 文本格式化 */
-  formatter?: (text: any) => string;
-};
-
-export type ValueCfg = TitleCfg & {
-  /**
-   * 值 前缀
-   */
-  prefix?: any;
-  /**
-   * 值 后缀
-   */
-  suffix?: any;
-};
 
 export type StatisticCfg = {
   x?: number;

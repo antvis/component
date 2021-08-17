@@ -1,4 +1,4 @@
-import { DisplayObject, Rect, Group } from '@antv/g';
+import { DisplayObject, BaseStyleProps, Rect, Group } from '@antv/g';
 import { deepMix } from '@antv/util';
 import type { ShapeAttrs } from '../../types';
 
@@ -7,7 +7,7 @@ export interface IColumnCfg extends ShapeAttrs {
   height: number;
 }
 
-export interface IColumnsCfg {
+export interface IColumnsCfg extends BaseStyleProps {
   columns: IColumnCfg[][];
 }
 

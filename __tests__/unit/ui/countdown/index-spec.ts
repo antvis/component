@@ -1,5 +1,5 @@
-import fecha from 'fecha';
 import { Canvas } from '@antv/g';
+import { get } from '@antv/util';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Countdown } from '../../../../src';
 import { createDiv } from '../../../utils';
@@ -9,6 +9,8 @@ const renderer = new CanvasRenderer({
   enableAutoRendering: true,
   enableDirtyRectangleRendering: true,
 });
+
+const nowDate = Date.now();
 
 describe('countdown', () => {
   const div = createDiv();
@@ -25,6 +27,7 @@ describe('countdown', () => {
       x: 50,
       y: 50,
       value: {
+        timestamp: nowDate,
         format: 'YYYY-MM-DD HH:mm:ss',
       },
     },
@@ -35,46 +38,41 @@ describe('countdown', () => {
   test('now countdown', async () => {
     const {
       // @ts-ignore
-      value: { format },
+      value,
     } = countdown.attributes;
 
-    expect(format).toBe('YYYY-MM-DD HH:mm:ss');
-    expect(countdown.getNewText('value')).toBe(fecha.format(new Date(), 'YYYY-MM-DD HH:mm:ss'));
+    expect(value.format).toBe('YYYY-MM-DD HH:mm:ss');
+    expect(value.timestamp).toBe(nowDate);
+    expect(value.timestamp).toBe(nowDate);
+    setTimeout(() => {
+      expect(get(countdown, 'valueShape.attributes.text')).toMatch(/^(\d{2}-){2}\d{2}\s(\d{2}:){2}\d{2}$/);
+    }, 1000);
   });
 
-  test('timer countdown', async () => {
+  test('onFinish countdown', async () => {
     countdown.update({
       value: {
-        text: 1000 * 60 * 60 * 24 + 1000 * 60 * 60 + 1000 * 60 + 1000 + 599,
+        timestamp: Date.now() + 1000 * 2,
         format: 'D 天 HH 小时 mm 分钟 ss 秒',
       },
-    });
-
-    expect(countdown.timeAdapter()).toBe('1 天 01 小时 01 分钟 01 秒');
-  });
-
-  test('dynamicTime countdown', async () => {
-    countdown.update({
-      value: {
-        text: 1000 * 60 * 60 * 24,
-        dynamicTime: true,
+      onFinish: () => {
+        expect(get(countdown, 'valueShape.attributes.text')).toBe('');
+        expect(!!countdown.countdownId).toBe(false);
       },
     });
+    expect(!!countdown.countdownId).toBe(true);
+  });
 
-    setTimeout(() => {
-      let time: string[] = countdown.timeAdapter().split(' 天 ');
-      const D = time[0];
-      time = time[1].split(' 小时 ');
-      const HH = time[0];
-      time = time[1].split(' 分钟 ');
-      const mm = time[0];
-      time = time[1].split(' 秒 ');
-      const ss = time[0];
-
-      expect(D).toBe('0');
-      expect(HH).toBe('23');
-      expect(mm).toBe('59');
-      expect(ss).toBe('59');
-    }, 1000);
+  test('formatCountdown countdown', async () => {
+    countdown.update({
+      value: {
+        timestamp: Date.now() + 1000 * 5,
+        format: 'HH 小时 mm 分钟 ss 秒',
+      },
+      onFinish: () => {
+        expect(get(countdown, 'formatCountdown').call(countdown)).toBe('00 小时 00 分钟 00 秒');
+      },
+    });
+    // expect(get(countdown, 'formatCountdown').call(countdown)).toBe('00 小时 00 分钟 00 秒');
   });
 });

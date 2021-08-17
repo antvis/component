@@ -36,6 +36,11 @@ export class Countdown extends Statistic<CountdownCfg> {
    */
   public timestamp!: number;
 
+  constructor(options: CountdownOptions) {
+    super(deepMix({}, Countdown.defaultOptions, options));
+    this.init();
+  }
+
   /**
    * @override
    */

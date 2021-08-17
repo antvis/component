@@ -86,7 +86,7 @@ export class BreadCrumb extends GUI<Required<BreadCrumbCfg>> {
       const style = this.getStyle(item);
       const breadcrumbItemShape = new Text({
         style: {
-          tag: `${BreadCrumb.tag}-item`,
+          // tag: `${BreadCrumb.tag}-item`,
           x: this.cursorX,
           y: this.cursorY,
           lineHeight: style!.fontSize,
@@ -173,7 +173,7 @@ export class BreadCrumb extends GUI<Required<BreadCrumbCfg>> {
     if (typeof text === 'string') {
       separatorShape = new Text({
         style: {
-          tag: `${BreadCrumb.tag}-separator`,
+          // tag: `${BreadCrumb.tag}-separator`,
           x: this.cursorX + spacing!,
           y: this.cursorY,
           lineHeight: style!.fontSize,
@@ -212,7 +212,7 @@ export class BreadCrumb extends GUI<Required<BreadCrumbCfg>> {
     }
     this.containerShape = new Rect({
       style: {
-        tag: `${BreadCrumb.tag}-container`,
+        // tag: `${BreadCrumb.tag}-container`,
         x: 0,
         y: 0,
         width,

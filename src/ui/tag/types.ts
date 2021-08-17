@@ -9,7 +9,7 @@ export type TagCfg = {
   /**
    * tag 文本
    */
-  text: string;
+  text?: string;
   /**
    * 图标类型，也可以自定义; 默认不显示
    */

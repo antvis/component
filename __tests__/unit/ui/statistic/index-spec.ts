@@ -28,16 +28,20 @@ describe('statistic', () => {
       y: 50,
       title: {
         text: initTitleText,
-        style: {
-          fontSize: 40,
-          fill: 'red',
+        textStyle: {
+          default: {
+            fontSize: 40,
+            fill: 'red',
+          },
         },
       },
       value: {
         text: initValueText,
-        style: {
-          fontSize: 50,
-          fill: 'pink',
+        textStyle: {
+          default: {
+            fontSize: 50,
+            fill: 'pink',
+          },
         },
       },
       spacing: 30,
@@ -46,77 +50,51 @@ describe('statistic', () => {
 
   canvas.appendChild(statistic);
 
-  test('basic', async () => {
+  test('basic', () => {
     const { x, y, title, value, spacing } = statistic.attributes;
 
-    const { text: titleText, style: titleStyle } = title;
-    const { text: valueText, style: valueStyle } = value;
+    const { text: titleText, textStyle: titleStyle } = title;
+    const { text: valueText, textStyle: valueStyle } = value;
 
     expect(titleText).toBe(initTitleText);
     expect(valueText).toBe(initValueText);
-    expect(titleStyle!.fontSize).toBe(40);
-    expect(valueStyle!.fontSize).toBe(50);
-    expect(titleStyle!.fill).toBe('red');
-    expect(valueStyle!.fill).toBe('pink');
+    expect(titleStyle).toEqual({
+      default: {
+        fontSize: 40,
+        fill: 'red',
+      },
+    });
+    expect(valueStyle).toEqual({
+      default: {
+        fontSize: 50,
+        fill: 'pink',
+      },
+    });
     expect(x).toBe(40);
     expect(y).toBe(50);
     expect(spacing).toBe(30);
   });
 
-  test('formatter', async () => {
-    statistic.update({
-      title: {
-        formatter: (text) => {
-          return `${text} /$`;
-        },
-      },
-      value: {
-        formatter: (text) => {
-          return `${text} /￥`;
-        },
-      },
-    });
-
-    expect(statistic.getNewText('title')).toBe(`${initTitleText} /$`);
-    expect(statistic.getNewText('value')).toBe(`${initValueText} /￥`);
-  });
-
-  test('affix', async () => {
-    const tag1 = new Tag({
-      style: {
-        x: 0,
-        y: 8,
-        text: 'Tag 1',
-      },
-    });
-
-    const tag2 = new Tag({
-      style: {
-        x: 0,
-        y: 8,
-        text: 'Tag 2',
-      },
-    });
-
+  test('marker', () => {
     statistic.update({
       value: {
-        prefix: tag1,
-        suffix: tag2,
+        text: '1,128',
+        spacing: 4,
+        marker: {
+          symbol: 'triangle',
+          fill: 'rgb(63, 134, 0)',
+          size: 14,
+        },
       },
     });
 
-    const {
-      value: { prefix, suffix },
-    } = statistic.attributes;
+    const valueShapeCfg = statistic.getValueShapeCfg();
 
-    expect(statistic.addAffixAdapter(tag1)).toBe(true);
-    expect(statistic.addAffixAdapter(tag2)).toBe(true);
-    const { height: prefixHeight, width: prefixWidth } = statistic.getGroupWidth(prefix);
-    expect(prefixHeight).toBeCloseTo(25);
-    expect(prefixWidth).toBeLessThan(42);
-    const { height: suffixHeight, width: suffixWidth } = statistic.getGroupWidth(suffix);
-    expect(suffixHeight).toBeCloseTo(25);
-    // to be fix later
-    // expect(suffixWidth).toBeLessThan(42);
+    expect(valueShapeCfg.marker).toEqual({
+      symbol: 'triangle',
+      fill: 'rgb(63, 134, 0)',
+      size: 14,
+    });
+    expect(valueShapeCfg.spacing).toBe(4);
   });
 });

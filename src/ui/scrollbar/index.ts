@@ -80,7 +80,7 @@ export class Scrollbar extends GUI<Required<ScrollbarCfg>> {
     // 变更属性时需要重新计算value
     if (name === 'value') {
       const { padding } = this.attributes;
-      const thumbOffset = this.valueOffset(newValue);
+      const thumbOffset = this.valueOffset(newValue as number);
       const [top, , , left] = padding;
       this.setThumbOffset(thumbOffset + this.getOrientVal([left, top]));
     }
@@ -110,7 +110,7 @@ export class Scrollbar extends GUI<Required<ScrollbarCfg>> {
    * @param offset 鼠标、滚轮的偏移量
    */
   public setOffset(deltaOffset: number) {
-    const value = this.getValue();
+    const value = this.getValue() as number;
     this.setValue(this.valueOffset(deltaOffset, true) + value);
   }
 
@@ -212,7 +212,7 @@ export class Scrollbar extends GUI<Required<ScrollbarCfg>> {
    * @param thumbOffset 滑块位置偏移量
    */
   private setThumbOffset(thumbOffset: number) {
-    this.thumbShape.attr(this.getOrientVal(['x', 'y']), thumbOffset);
+    this.thumbShape.attr(this.getOrientVal<'x' | 'y'>(['x', 'y']), thumbOffset);
   }
 
   private getTrackShapeCfg() {

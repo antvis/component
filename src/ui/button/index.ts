@@ -59,7 +59,7 @@ export class Button extends GUI<Required<ButtonCfg>> {
   /**
    * 根据size、type属性生成实际渲染的属性
    */
-  private getStyle(name: 'textStyle' | 'buttonStyle', state: 'default' | 'active' = 'default'): TextProps | RectProps {
+  private getStyle(name: 'textStyle' | 'buttonStyle', state: 'default' | 'active' = 'default'): TextProps & RectProps {
     const { size, type, disabled } = this.attributes;
     const mixedStyle = deepMix(
       {},

@@ -1,7 +1,7 @@
 import { Path, DisplayObject, Group } from '@antv/g';
-import type { PathStyleProps } from '@antv/g';
+import type { PathStyleProps, BaseStyleProps } from '@antv/g';
 
-export interface ILinesCfg {
+export interface ILinesCfg extends BaseStyleProps {
   lines: PathStyleProps[];
   areas: PathStyleProps[];
 }
