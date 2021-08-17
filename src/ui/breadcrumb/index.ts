@@ -85,8 +85,8 @@ export class BreadCrumb extends GUI<Required<BreadCrumbCfg>> {
 
       const style = this.getStyle(item);
       const breadcrumbItemShape = new Text({
+        name: `${BreadCrumb.tag}-item`,
         style: {
-          // tag: `${BreadCrumb.tag}-item`,
           x: this.cursorX,
           y: this.cursorY,
           lineHeight: style!.fontSize,
@@ -172,8 +172,8 @@ export class BreadCrumb extends GUI<Required<BreadCrumbCfg>> {
     // 如果分隔符是字符串，创建 Text
     if (typeof text === 'string') {
       separatorShape = new Text({
+        name: `${BreadCrumb.tag}-separator`,
         style: {
-          // tag: `${BreadCrumb.tag}-separator`,
           x: this.cursorX + spacing!,
           y: this.cursorY,
           lineHeight: style!.fontSize,
@@ -211,8 +211,8 @@ export class BreadCrumb extends GUI<Required<BreadCrumbCfg>> {
       width = this.cursorX + newPadding[1];
     }
     this.containerShape = new Rect({
+      name: `${BreadCrumb.tag}-container`,
       style: {
-        // tag: `${BreadCrumb.tag}-container`,
         x: 0,
         y: 0,
         width,

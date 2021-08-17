@@ -44,9 +44,9 @@ describe('breadcrumb', () => {
     const { children } = breadcrumb;
     expect(children.length).toBe(8);
 
-    const breadItemShapes = children.filter((item) => item.attr().tag === 'breadcrumb-item');
-    const separatorShapes = children.filter((item) => item.attr().tag === 'breadcrumb-separator');
-    const containerShapes = children.filter((item) => item.attr().tag === 'breadcrumb-container');
+    const breadItemShapes = children.filter((item) => item.name === 'breadcrumb-item');
+    const separatorShapes = children.filter((item) => item.name === 'breadcrumb-separator');
+    const containerShapes = children.filter((item) => item.name === 'breadcrumb-container');
 
     expect(breadItemShapes.length).toBe(4);
     expect(separatorShapes.length).toBe(3);
@@ -164,7 +164,7 @@ describe('breadcrumb', () => {
     // });
 
     const childrens = breadcrumb.children;
-    const separatorShapes = childrens.filter((item) => item.attr().tag === 'breadcrumb-separator');
+    const separatorShapes = childrens.filter((item) => item.name === 'breadcrumb-separator');
     separatorShapes.forEach((item) => expect(item.attr().text).toBe(`>`));
 
     canvas.appendChild(breadcrumb);
@@ -200,9 +200,9 @@ describe('breadcrumb', () => {
 
     const childrens = breadcrumb.children;
 
-    const breadItemShapes = childrens.filter((item) => item.attr().tag === 'breadcrumb-item');
-    const separatorShapes = childrens.filter((item) => item.attr().tag === 'breadcrumb-separator');
-    const containerShapes = childrens.filter((item) => item.attr().tag === 'breadcrumb-container');
+    const breadItemShapes = childrens.filter((item) => item.name === 'breadcrumb-item');
+    const separatorShapes = childrens.filter((item) => item.name === 'breadcrumb-separator');
+    const containerShapes = childrens.filter((item) => item.name === 'breadcrumb-container');
 
     expect(containerShapes[0].attr().width).toBe(width);
 
