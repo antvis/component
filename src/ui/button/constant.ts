@@ -10,6 +10,9 @@ export const SIZE_STYLE = {
       width: 40,
       height: 20,
     },
+    markerStyle: {
+      size: 8,
+    },
   },
   middle: {
     textStyle: {
@@ -19,6 +22,9 @@ export const SIZE_STYLE = {
       width: 60,
       height: 30,
     },
+    markerStyle: {
+      size: 12,
+    },
   },
   large: {
     textStyle: {
@@ -27,6 +33,9 @@ export const SIZE_STYLE = {
     buttonStyle: {
       width: 80,
       height: 40,
+    },
+    markerStyle: {
+      size: 16,
     },
   },
 };
@@ -44,6 +53,10 @@ export const TYPE_STYLE = {
       default: { fill: '#1890ff', lineWidth: 0 },
       active: { fill: '#40a9ff' },
     },
+    markerStyle: {
+      default: { fill: '#1890ff' },
+      active: { fill: '#40a9ff' },
+    },
   },
   dashed: {
     textStyle: {
@@ -54,6 +67,7 @@ export const TYPE_STYLE = {
       default: { stroke: '#bbb', lineDash: [5, 5] },
       active: {},
     },
+    markerStyle: {},
   },
   link: {
     textStyle: {
@@ -63,6 +77,9 @@ export const TYPE_STYLE = {
     buttonStyle: {
       default: { lineWidth: 0 },
       active: {},
+    },
+    markerStyle: {
+      default: { fill: '#1890ff' },
     },
   },
   text: {
@@ -74,6 +91,9 @@ export const TYPE_STYLE = {
       default: { lineWidth: 0 },
       active: {},
     },
+    markerStyle: {
+      default: { stroke: '#000' },
+    },
   },
   default: {
     textStyle: {
@@ -82,6 +102,10 @@ export const TYPE_STYLE = {
     },
     buttonStyle: {
       default: { stroke: '#bbb' },
+      active: { stroke: '#1890ff' },
+    },
+    markerStyle: {
+      default: { stroke: '#bbb', lineWidth: 1 },
       active: { stroke: '#1890ff' },
     },
   },
@@ -97,10 +121,14 @@ export const DISABLED_STYLE = {
       fill: '#b8b8b8',
     },
     buttonStyle: {},
+    markerStyle: {},
   },
   textStyle: {},
   buttonStyle: {
     stroke: '#d9d9d9',
     fill: '#f5f5f5',
+  },
+  markerStyle: {
+    stroke: '#d9d9d9',
   },
 };

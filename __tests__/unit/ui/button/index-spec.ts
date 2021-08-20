@@ -134,7 +134,7 @@ describe('button', () => {
 
     const { textStyle } = button.attributes;
 
-    const { fill, fontSize, fontWeight, fontFamily, textAlign, textBaseline } = textStyle.default as TextProps;
+    const { fill, fontSize, fontWeight, fontFamily, textAlign, textBaseline } = textStyle!.default as TextProps;
     expect(fill).toBe('#abc');
     expect(fontSize).toBe(20);
     expect(fontWeight).toBe('bold');
@@ -178,7 +178,7 @@ describe('button', () => {
 
     const { buttonStyle } = button.attributes;
 
-    const { width, height, fill, opacity, stroke, lineWidth, radius, lineDash } = buttonStyle.default as RectProps;
+    const { width, height, fill, opacity, stroke, lineWidth, radius, lineDash } = buttonStyle!.default as RectProps;
 
     expect(width).toBe(150);
     expect(height).toBe(40);

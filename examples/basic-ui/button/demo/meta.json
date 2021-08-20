@@ -21,6 +21,14 @@
       "screenshot": ""
     },
     {
+      "filename": "marker-button.ts",
+      "title": {
+        "zh": "图标按钮 button",
+        "en": "Marker button"
+      },
+      "screenshot": ""
+    },
+    {
       "filename": "disabled-button.ts",
       "title": {
         "zh": "禁用 button",

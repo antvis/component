@@ -1,4 +1,4 @@
 ---
 title: Sparkline
-order: 5
+order: 1
 ---

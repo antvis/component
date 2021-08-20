@@ -19,8 +19,10 @@ const button = new Button({
   style: {
     x: 50,
     y: 50,
-    text: 'Custom Button',
+    text: '',
     type: 'primary',
+    height: 40,
+    width: 40,
     marker: (x, y, r) => {
       const path = [];
       for (let i = 0; i < 5; i++) {
@@ -38,16 +40,16 @@ const button = new Button({
       path.push(['Z']);
       return path;
     },
-    padding: 5,
+    padding: 0,
     markerSpacing: 0,
     // ellipsis: true,
     buttonStyle: {
       default: {
-        radius: 5,
+        radius: 20,
         stroke: '#000',
       },
       active: {
-        stroke: '#eb913a',
+        stroke: '#c0365a',
         fill: '#fff',
       },
     },
@@ -56,17 +58,17 @@ const button = new Button({
         fill: '#fff',
       },
       active: {
-        fill: '#eb913a',
+        fill: '#c0365a',
       },
     },
     markerStyle: {
       default: {
         fill: '#fff',
-        size: 30,
+        size: 50,
       },
       active: {
-        fill: '#eb913a',
-        size: 30,
+        fill: '#c0365a',
+        size: 50,
       },
     },
   },

@@ -41,4 +41,7 @@ export { Statistic } from './statistic';
 export type { StatisticOptions } from './statistic';
 export { Countdown } from './countdown';
 export type { CountdownOptions } from './countdown';
+// author by [Aarebecca](https://github.com/Aarebecca)
+export { PageNavigator } from './page-navigator';
+export type { PageNavigatorOptions } from './page-navigator';
 // to be continued...

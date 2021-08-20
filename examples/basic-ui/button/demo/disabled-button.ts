@@ -19,24 +19,21 @@ const button = new Button({
   style: {
     x: 50,
     y: 40,
-    text: 'hoverStyle',
-    hoverStyle: {
-      textStyle: {
-        default: {
-          fill: '#abc',
-          fontWeight: 'bold',
-          fontFamily: 'Helvetica',
-        },
+    text: 'Disabled',
+    textStyle: {
+      default: {
+        fill: '#ce2c1e',
+        fontWeight: 'bold',
+        fontFamily: 'Helvetica',
       },
-      buttonStyle: {
-        default: {
-          fill: 'pink',
-          opacity: 0.5,
-          stroke: '#666',
-          lineWidth: 5,
-          radius: 10,
-          lineDash: [6, 10],
-        },
+    },
+    buttonStyle: {
+      default: {
+        fill: '#fcf1f0',
+        opacity: 1,
+        stroke: '#ce2c1e',
+        lineWidth: 1,
+        radius: 5,
       },
     },
     disabled: true,

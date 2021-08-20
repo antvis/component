@@ -1,18 +1,21 @@
 import { Rect, Text } from '@antv/g';
-import { deepMix, get } from '@antv/util';
+import { deepMix, get, isUndefined } from '@antv/util';
 import { GUI } from '../core/gui';
 import { SIZE_STYLE, TYPE_STYLE, DISABLED_STYLE } from './constant';
-import { getEllipsisText, measureTextWidth, getFont, getStateStyle } from '../../util';
-import type { ButtonCfg, ButtonOptions } from './types';
+import { getEllipsisText, measureTextWidth, getFont, getStateStyle, getShapeSpace } from '../../util';
+import { Marker } from '../marker';
+import type { ButtonCfg, ButtonOptions, IMarkerCfg } from './types';
 import type { TextProps, RectProps } from '../../types';
 
 export type { ButtonCfg, ButtonOptions };
 
-export class Button extends GUI<Required<ButtonCfg>> {
+export class Button extends GUI<ButtonCfg> {
   /**
    * 标签类型
    */
   public static tag = 'button';
+
+  private markerShape!: Marker;
 
   /**
    * 文本
@@ -24,8 +27,76 @@ export class Button extends GUI<Required<ButtonCfg>> {
    */
   private backgroundShape!: Rect;
 
+  private get disabled() {
+    return this.attributes.disabled;
+  }
+
+  private get markerWidth(): number {
+    if (this.markerShape.isVisible()) {
+      const { size } = this.getStyle('markerStyle') as IMarkerCfg;
+      return size!;
+    }
+    return 0;
+  }
+
+  /**
+   * 获得 button 文本
+   */
+  private get text(): string {
+    const { text } = this.attributes;
+    if (text === '') {
+      return text;
+    }
+    /* 可用宽度 */
+    const width = this.textAvailableWidth;
+    return getEllipsisText(text, width);
+  }
+
+  private get textWidth(): number {
+    if (this.textShape.attr('text') === '') {
+      return 0;
+    }
+    return measureTextWidth(this.text, getFont(this.textShape));
+  }
+
+  /* 获得文本可用宽度 */
+  private get textAvailableWidth(): number {
+    const { marker, padding, ellipsis, width: bWidth, markerSpacing: spacing } = this.attributes;
+    if (!ellipsis) return Infinity;
+    /* 按钮总宽度 */
+    const width = isUndefined(bWidth) ? (this.getStyle('buttonStyle') as RectProps).width : bWidth;
+    if (marker) return width - padding! * 2 - spacing! - this.markerWidth;
+    return width - padding! * 2;
+  }
+
+  /**
+   * 根据文本和marker来计算按钮宽度
+   */
+  private get buttonWidth() {
+    const { marker, padding, width: bWidth, ellipsis, markerSpacing: spacing } = this.attributes;
+    if (!isUndefined(bWidth)) return bWidth;
+    if (ellipsis) return (this.getStyle('buttonStyle') as RectProps).width;
+    const text = this.textShape.attr('text');
+    const { markerWidth } = this;
+    const { textWidth } = this;
+    let width = padding! * 2;
+
+    if (marker) {
+      if (text !== '') width += markerWidth + textWidth + spacing!;
+      else width += markerWidth;
+    } else if (text !== '') width += textWidth;
+    return width;
+  }
+
+  private get buttonHeight() {
+    const { height } = this.attributes;
+    if (height) return height;
+    return (this.getStyle('buttonStyle') as RectProps).height;
+  }
+
   constructor(options: ButtonOptions) {
     super(deepMix({}, Button.defaultOptions, options));
+    this.initShape();
     this.init();
   }
 
@@ -39,6 +110,9 @@ export class Button extends GUI<Required<ButtonCfg>> {
       padding: 10,
       size: 'middle',
       type: 'default',
+      text: '',
+      markerAlign: 'left',
+      markerSpacing: 5,
       textStyle: {
         default: {
           textAlign: 'center',
@@ -53,22 +127,28 @@ export class Button extends GUI<Required<ButtonCfg>> {
         },
         active: {},
       },
+      markerStyle: {
+        default: {},
+      },
     },
   };
 
   /**
    * 根据size、type属性生成实际渲染的属性
    */
-  private getStyle(name: 'textStyle' | 'buttonStyle', state: 'default' | 'active' = 'default'): TextProps & RectProps {
+  private getStyle(
+    name: 'textStyle' | 'buttonStyle' | 'markerStyle',
+    state: 'default' | 'active' = 'default'
+  ): TextProps | RectProps | IMarkerCfg {
     const { size, type, disabled } = this.attributes;
     const mixedStyle = deepMix(
       {},
       get(SIZE_STYLE, [size, name]),
       getStateStyle(get(TYPE_STYLE, [type, name]), state),
-      getStateStyle(this.attributes[name], state)
+      getStateStyle(get(this.attributes, name), state, true)
     );
 
-    if (disabled && state !== 'active') {
+    if (disabled) {
       // 从DISABLED_STYLE中pick中pick mixedStyle里已有的style
       Object.keys(mixedStyle).forEach((key) => {
         if (key in DISABLED_STYLE[name]) {
@@ -86,9 +166,10 @@ export class Button extends GUI<Required<ButtonCfg>> {
    * 初始化button
    */
   public init(): void {
-    this.initShape();
-    this.createText();
-    this.createButton();
+    this.updateMarker();
+    this.updateText();
+    this.updateButton();
+    this.adjustLayout();
     this.bindEvents();
   }
 
@@ -97,6 +178,10 @@ export class Button extends GUI<Required<ButtonCfg>> {
    */
   public update(cfg: Partial<ButtonCfg>) {
     this.attr(deepMix({}, this.attributes, cfg));
+    this.updateMarker();
+    this.updateText();
+    this.updateButton();
+    this.adjustLayout();
   }
 
   /**
@@ -105,82 +190,109 @@ export class Button extends GUI<Required<ButtonCfg>> {
   public clear() {}
 
   private initShape() {
-    // 初始化成员变量
-    this.textShape = new Text({ name: 'text', style: this.getStyle('textStyle') as TextProps });
-    this.backgroundShape = new Rect({ name: 'background', style: this.getStyle('buttonStyle') as RectProps });
+    this.markerShape = new Marker({
+      name: 'marker',
+      style: { symbol: 'circle', ...this.getStyle('markerStyle') },
+    });
+    this.textShape = new Text({ name: 'text', style: { text: '' } });
+    this.backgroundShape = new Rect({ name: 'background', style: { width: 0, height: 0 } });
+    this.backgroundShape.appendChild(this.markerShape);
     this.backgroundShape.appendChild(this.textShape);
     this.appendChild(this.backgroundShape);
   }
 
-  private getButtonWidth() {
-    const { ellipsis, text, padding } = this.attributes;
-    const { width } = this.getStyle('buttonStyle');
-    const textAvailableWidth = width - padding * 2;
-    const textWidth = measureTextWidth(text, getFont(this.textShape));
-    if (ellipsis && textAvailableWidth < textWidth) {
-      return width;
+  private updateMarker() {
+    const { marker } = this.attributes;
+    if (isUndefined(marker)) this.markerShape.hide();
+    else {
+      this.markerShape.update({
+        symbol: marker,
+        ...this.getStyle('markerStyle'),
+      });
+      this.markerShape.show();
     }
-    return textWidth + padding * 2;
   }
 
-  private createText() {
-    const { text, padding, disabled } = this.attributes;
-    const { height } = this.getStyle('buttonStyle');
-    this.textShape.attr({
-      x: padding + measureTextWidth(text, getFont(this.textShape)) / 2,
-      y: height / 2,
-      cursor: disabled ? 'not-allowed' : 'default',
-      text,
-    });
+  /**
+   * 更新文本内容和样式
+   */
+  private updateText() {
+    const { disabled } = this.attributes;
+    const { text } = this;
+    if (text === '') this.textShape.hide();
+    else {
+      this.textShape.attr({ text, cursor: disabled ? 'not-allowed' : 'default', ...this.getStyle('textStyle') });
+      this.textShape.show();
+    }
   }
 
-  private createButton() {
-    const { text, padding, ellipsis } = this.attributes;
-    const buttonStyle = this.getStyle('buttonStyle');
-    /**
-     * 文本超长
-     *
-     * 1. 按钮边长
-     * 计算文本实际长度
-     * canvas 需要调用ctx.measureText(text).width 方法
-     *
-     * 2. 省略文本
-     */
-    const buttonWidth = this.getButtonWidth();
-    if (ellipsis) {
-      // 需要缩略文本
-      const ellipsisText = getEllipsisText(text, buttonWidth - padding * 2, getFont(this.textShape));
-      this.textShape.attr({ text: ellipsisText, x: buttonWidth / 2 });
-    }
-
-    this.backgroundShape.attr({
-      ...buttonStyle,
-      width: buttonWidth,
-    });
+  private updateButton() {
+    const height = this.buttonHeight;
+    const buttonStyle = this.getStyle('buttonStyle') as RectProps;
+    this.backgroundShape.attr({ ...buttonStyle, height });
   }
 
   private bindEvents(): void {
     const { disabled, onClick } = this.attributes;
 
-    if (!disabled && onClick) {
-      this.addEventListener('click', () => {
-        // 点击事件
-        onClick.call(this, this);
-      });
-    }
+    this.addEventListener('click', () => {
+      // 点击事件
+      !this.disabled && onClick?.call(this, this);
+    });
 
     this.addEventListener('mouseenter', () => {
       if (!disabled) {
         // 鼠标悬浮事件
+        this.markerShape.update(this.getStyle('markerStyle', 'active'));
         this.textShape.attr(this.getStyle('textStyle', 'active'));
-        this.backgroundShape.attr({ ...this.getStyle('buttonStyle', 'active'), width: this.getButtonWidth() });
+        this.backgroundShape.attr({
+          ...this.getStyle('buttonStyle', 'active'),
+          width: this.buttonWidth,
+          height: this.buttonHeight,
+        });
       }
     });
-
     this.addEventListener('mouseleave', () => {
       // 恢复默认状态
+      this.markerShape.update(this.getStyle('markerStyle'));
       this.textShape.attr(this.getStyle('textStyle'));
-      this.backgroundShape.attr({ ...this.getStyle('buttonStyle'), width: this.getButtonWidth() });
+      this.backgroundShape.attr({
+        ...this.getStyle('buttonStyle'),
+        width: this.buttonWidth,
+        height: this.buttonHeight,
+      });
     });
+  }
+
+  private adjustLayout() {
+    const { padding, marker, markerAlign: align, markerSpacing: spacing } = this.attributes;
+    const width = this.buttonWidth;
+    const height = this.buttonHeight;
+    const halfButtonWidth = width / 2;
+    const halfTextWidth = this.textWidth / 2;
+    const text = this.textShape.attr('text');
+    let textX = 0;
+    let markerX = 0;
+    const markerY = height / 2;
+    const textY = height / 2;
+
+    if (marker) {
+      const { markerWidth } = this;
+      const halfMarkerWidth = markerWidth / 2;
+      if (text === '') markerX = halfButtonWidth;
+      else if (align === 'left') {
+        markerX = halfMarkerWidth + padding!;
+        textX = padding! + markerWidth + spacing! + halfTextWidth;
+      } else {
+        markerX = this.buttonWidth - padding! - halfMarkerWidth;
+        textX = padding! + halfTextWidth;
+      }
+    } else if (text !== '') textX = halfButtonWidth;
+
+    this.markerShape.attr({ x: markerX, y: markerY });
+    this.textShape.attr({ x: textX, y: textY });
+
+    // 设置button宽度
+    this.backgroundShape.attr({ width: this.buttonWidth });
   }
 }
