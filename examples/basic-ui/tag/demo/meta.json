@@ -37,7 +37,7 @@
       "screenshot": ""
     },
     {
-      "filename": "non-background.ts",
+      "filename": "background-style.ts",
       "title": {
         "zh": "不带背景标签",
         "en": "Tag not contains background"

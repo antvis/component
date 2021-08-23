@@ -19,7 +19,7 @@ import type {
 } from './types';
 import type { ShapeAttrs, StyleState as State, TextProps, PathProps } from '../../types';
 import type { TimeScale } from '../../util';
-import { GUI } from '../core/gui';
+import { GUI } from '../../core/gui';
 import { Marker } from '../marker';
 import {
   getStateStyle,
