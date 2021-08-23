@@ -1,6 +1,6 @@
 import { deepMix } from '@antv/util';
 import { Rect } from '@antv/g';
-import { GUI } from '../core/gui';
+import { GUI } from '../../core/gui';
 import { Tag } from '../tag';
 import { getStateStyle as getStyle } from '../../util';
 import type { RectProps, GUIOption } from '../../types';

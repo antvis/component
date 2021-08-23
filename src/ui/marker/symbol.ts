@@ -32,7 +32,7 @@ export function triangle(x: number, y: number, r: number) {
 }
 
 /**
- * 三角形
+ * 下三角形
  */
 export function triangleDown(x: number, y: number, r: number) {
   const diffY = r * Math.sin((1 / 3) * Math.PI);

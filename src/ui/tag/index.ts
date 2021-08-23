@@ -1,9 +1,8 @@
-import { Rect, Text } from '@antv/g';
+import { Rect, RectStyleProps, Text, TextStyleProps } from '@antv/g';
 import { deepMix } from '@antv/util';
-import { GUI } from '../core/gui';
-import { Marker, MarkerCfg } from '../marker';
+import { GUI } from '../../core/gui';
 import { getStateStyle as getStyle, normalPadding, getShapeSpace } from '../../util';
-import type { RectProps, TextProps } from '../../types';
+import { Marker, MarkerCfg } from '../marker';
 import type { TagCfg, TagOptions } from './types';
 
 export type { TagCfg, TagOptions };
@@ -30,7 +29,6 @@ export class Tag extends GUI<Required<TagCfg>> {
     type: Tag.tag,
     style: {
       text: '',
-      radius: 2,
       padding: 4,
       textStyle: {
         default: {
@@ -46,6 +44,7 @@ export class Tag extends GUI<Required<TagCfg>> {
         size: 0,
       },
       spacing: 4,
+      radius: 2,
       backgroundStyle: {
         default: {
           fill: '#fafafa',
@@ -66,17 +65,14 @@ export class Tag extends GUI<Required<TagCfg>> {
    */
   public init(): void {
     this.initShape();
-    this.updateBackground();
-    this.updateMarker();
-    this.updateText();
-    this.autoFit();
+    this.update();
     this.bindEvents();
   }
 
   /**
    * 组件的更新
    */
-  public update(cfg: Partial<TagCfg>) {
+  public update(cfg?: Partial<TagCfg>) {
     this.attr(deepMix({}, this.attributes, cfg));
     this.updateBackground();
     this.updateMarker();
@@ -95,18 +91,17 @@ export class Tag extends GUI<Required<TagCfg>> {
 
   private initShape() {
     this.markerShape = new Marker({
-      name: 'marker',
-      style: Tag.defaultOptions.style.marker,
+      name: 'tag-marker',
+      style: this.getMarkerShapeCfg(),
     });
     this.textShape = new Text({
-      name: 'text',
-      style: {
-        text: Tag.defaultOptions.style.text,
-      },
+      name: 'tag-text',
+      style: this.getTextShapeCfg(),
     });
     this.backgroundShape = new Rect({ name: 'background' });
     this.backgroundShape.appendChild(this.markerShape);
     this.backgroundShape.appendChild(this.textShape);
+
     this.appendChild(this.backgroundShape);
     this.backgroundShape.toBack();
   }
@@ -118,11 +113,11 @@ export class Tag extends GUI<Required<TagCfg>> {
     this.backgroundShape.attr(this.getBackgroundShapeCfg());
   }
 
-  private getBackgroundShapeCfg(): RectProps {
+  private getBackgroundShapeCfg(): RectStyleProps {
     const { backgroundStyle, radius = 0 } = this.attributes;
     return {
       radius,
-      ...(getStyle<Partial<RectProps>>(backgroundStyle) as RectProps),
+      ...(getStyle(backgroundStyle) as RectStyleProps),
     };
   }
 
@@ -145,7 +140,7 @@ export class Tag extends GUI<Required<TagCfg>> {
     this.textShape.attr(this.getTextShapeCfg());
   }
 
-  private getTextShapeCfg(): TextProps {
+  private getTextShapeCfg(): TextStyleProps {
     const { text, textStyle } = this.attributes;
     return {
       ...getStyle(textStyle),

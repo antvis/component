@@ -2,7 +2,7 @@ import type { PathCommand } from '@antv/g';
 import { Rect } from '@antv/g';
 import { clone, deepMix, isNumber, isArray, isFunction } from '@antv/util';
 import { Linear, Band } from '@antv/scale';
-import { GUI } from '../core/gui';
+import { GUI } from '../../core/gui';
 import { Lines } from './lines';
 import { Columns } from './columns';
 import { getRange, getStackedData } from './utils';

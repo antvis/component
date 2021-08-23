@@ -1,21 +1,17 @@
 ---
-
 title: Button
 order: 3
-
 ---
-
-# Button
 
 > 按钮用于开始一个即时操作。
 
 ## Usage
 
-```ts
-import { Button } from '@antv/gui';
-```
+<playground path="basic-ui/button/demo/basic.ts"></playground>
 
-## Options
+## API
+
+<!-- TODO 待完善 -->
 
 | **Property** | **Description**                           | **Type**                                                                  | **Default** |
 | ------------ | ----------------------------------------- | ------------------------------------------------------------------------- | ----------- |

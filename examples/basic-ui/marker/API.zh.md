@@ -1,1 +1,1 @@
-`markdown:docs/api/ui/arrow.zh.md`
+`markdown:docs/common/marker-cfg.zh.md`

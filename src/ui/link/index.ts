@@ -1,7 +1,7 @@
 import type { Line, Polyline, BaseStyleProps, DisplayObjectConfig, Point } from '@antv/g';
 import { Path } from '@antv/g';
-import { GUI } from 'ui/core/gui';
 import { Marker, MarkerCfg } from 'ui/marker';
+import { GUI } from '../../core/gui';
 
 type ArrowBody = Line | Path | Polyline;
 export interface LinkStyleProps extends BaseStyleProps {

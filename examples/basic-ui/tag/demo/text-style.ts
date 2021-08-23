@@ -17,7 +17,25 @@ const canvas = new Canvas({
 
 const tag = new Tag({
   style: {
-    text: 'Hello',
+    text: '字体激活',
+    padding: [4, 7],
+    textStyle: {
+      default: {
+        fontSize: 18,
+        fill: 'rgba(0, 0, 0, 0.85)',
+      },
+      active: {
+        fill: 'lightgreen',
+      },
+    },
+  },
+});
+canvas.appendChild(tag);
+
+const tag2 = new Tag({
+  style: {
+    x: 100,
+    text: '字体激活放大',
     padding: [4, 7],
     textStyle: {
       default: {
@@ -31,4 +49,4 @@ const tag = new Tag({
     },
   },
 });
-canvas.appendChild(tag);
+canvas.appendChild(tag2);

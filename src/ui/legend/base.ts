@@ -1,6 +1,6 @@
 import { deepMix, get } from '@antv/util';
 import { Rect, Text } from '@antv/g';
-import { GUI } from '../core/gui';
+import { GUI } from '../../core/gui';
 import { getStateStyle, normalPadding, getShapeSpace } from '../../util';
 import { LEGEND_BASE_DEFAULT_OPTIONS } from './constant';
 import type { Pair } from '../slider/types';

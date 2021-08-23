@@ -17,7 +17,7 @@ const canvas = new Canvas({
 
 const tag = new Tag({
   style: {
-    text: 'Hello',
+    text: '无背景',
     padding: [4, 7],
     backgroundStyle: {
       default: null,
@@ -25,3 +25,18 @@ const tag = new Tag({
   },
 });
 canvas.appendChild(tag);
+
+const tag2 = new Tag({
+  style: {
+    x: 100,
+    text: '设置背景激活样式',
+    padding: [4, 7],
+    backgroundStyle: {
+      active: {
+        fill: 'lightgreen',
+        lineWidth: 0,
+      },
+    },
+  },
+});
+canvas.appendChild(tag2);

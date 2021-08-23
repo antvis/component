@@ -1,6 +1,6 @@
 ---
-title: Icon
-order: 2
+title: Tag
+order: 1
 ---
 
-`markdown:docs/api/icon.zh.md`
+`markdown:docs/api/ui/tag.en.md`

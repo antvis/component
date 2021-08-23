@@ -1,6 +1,6 @@
 import { DisplayObject, Group, Rect, Text } from '@antv/g';
 import { deepMix, isNil, last, omit } from '@antv/util';
-import { GUI } from '../core/gui';
+import { GUI } from '../../core/gui';
 import { ACTIVE_STYLE, INACTIVE_STYLE, HOVER_STYLE } from './constant';
 import { normalPadding } from '../../util';
 import type { TextProps } from '../../types';

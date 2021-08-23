@@ -1,7 +1,7 @@
 import type { Cursor } from '@antv/g';
 import { Rect, Text, CustomEvent, Group } from '@antv/g';
 import { deepMix, get } from '@antv/util';
-import { GUI } from '../core/gui';
+import { GUI } from '../../core/gui';
 import { Handle } from './handle';
 import { Sparkline } from '../sparkline';
 import { toPrecision, getShapeSpace, getEventPos, getStateStyle, normalPadding } from '../../util';

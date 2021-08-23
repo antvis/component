@@ -1,6 +1,6 @@
 import { Rect, Text } from '@antv/g';
 import { deepMix, get, isUndefined } from '@antv/util';
-import { GUI } from '../core/gui';
+import { GUI } from '../../core/gui';
 import { SIZE_STYLE, TYPE_STYLE, DISABLED_STYLE } from './constant';
 import { getEllipsisText, measureTextWidth, getFont, getStateStyle, getShapeSpace } from '../../util';
 import { Marker } from '../marker';
@@ -11,7 +11,7 @@ export type { ButtonCfg, ButtonOptions };
 
 export class Button extends GUI<ButtonCfg> {
   /**
-   * 标签类型
+   * 组件类型
    */
   public static tag = 'button';
 

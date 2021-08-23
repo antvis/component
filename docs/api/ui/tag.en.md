@@ -1,20 +1,14 @@
 ---
-title: Icon
-order: 2
+title: Tag
+order: 1
 ---
 
-# Icon
-
-> An icon with text description for clicking.
+> Description about `tag`. Coming soon...
 
 ## Usage
 
-```ts
-import { Icon } from '@antv/gui';
-```
+<playground path="basic-ui/tag/demo/basic.ts"></playground>
 
-## Options
+## API
 
-| Key | Description | Type | Default|  
-| ----| ----------- | -----| -------|
-| domain | Sets the scale’s domain to the specified array of values. | <code>number[] &#124; string[]</code> | `[]` |
+`markdown:docs/common/tag-cfg.zh.md`

@@ -1,6 +1,6 @@
 import { Rect, CustomEvent } from '@antv/g';
 import { clamp, deepMix, get } from '@antv/util';
-import { GUI } from '../core/gui';
+import { GUI } from '../../core/gui';
 import { getStateStyle, getEventPos } from '../../util';
 import type { RectProps } from '../../types';
 import type { ScrollbarOptions, ScrollbarCfg } from './types';

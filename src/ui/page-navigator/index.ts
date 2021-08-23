@@ -1,6 +1,6 @@
 import { Rect, Group } from '@antv/g';
 import { deepMix, isUndefined, max } from '@antv/util';
-import { GUI } from '../core/gui';
+import { GUI } from '../../core/gui';
 import { Button } from '../button';
 import { ButtonPosition, PageNavigatorCfg, PageNavigatorOptions } from './types';
 import { getShapeSpace } from '../../util';

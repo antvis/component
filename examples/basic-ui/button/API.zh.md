@@ -1,1 +1,1 @@
-`markdown:docs/api/ui/button.zh.md`
+`markdown:docs/common/button-cfg.zh.md`

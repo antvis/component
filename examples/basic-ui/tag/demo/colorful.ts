@@ -32,7 +32,7 @@ function createTag(x, y, text, fill, backgroundColor, backgroundBorderColor = 't
         default: {
           fill: backgroundColor,
           stroke: backgroundBorderColor,
-          lineWidth: 1,
+          lineWidth: backgroundBorderColor === 'transparent' ? 0 : 1,
         },
       },
     },

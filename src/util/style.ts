@@ -35,7 +35,7 @@ export function getStateStyle<T>(style?: MixAttrs<T>, state?: StyleState, isMerg
     if (temp) return temp;
     return {};
   }
-  const stateStyle = get(style, state);
+  const stateStyle = get(style, state) as T;
   if (isMerge) {
     return deepMix({}, getDefaultStyle(style), stateStyle);
   }

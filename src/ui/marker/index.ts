@@ -1,6 +1,6 @@
-import { Path, Image, PathCommand } from '@antv/g';
+import { Path, Image, PathCommand, ImageStyleProps, PathStyleProps } from '@antv/g';
 import { deepMix, isFunction } from '@antv/util';
-import { GUI } from '../core/gui';
+import { GUI } from '../../core/gui';
 import { parseMarker } from './utils';
 import { circle, square, diamond, triangleDown, triangle, line, dot, dash, smooth, hv, vh, hvh, vhv } from './symbol';
 import type { MarkerCfg, MarkerOptions, FunctionalSymbol } from './types';
@@ -92,7 +92,7 @@ export class Marker extends GUI<Required<MarkerCfg>> {
   }
 
   // symbol marker
-  private getMarkerSymbolShapeCfg() {
+  private getMarkerSymbolShapeCfg(): PathStyleProps {
     const { x = 0, y = 0, size = 0, symbol, ...args } = this.attributes;
     const r = size / 2;
     const symbolFn = isFunction(symbol) ? symbol : Marker.MARKER_SYMBOL_MAP.get(symbol);
@@ -104,7 +104,7 @@ export class Marker extends GUI<Required<MarkerCfg>> {
   }
 
   // image marker
-  private getMarkerImageShapeCfg() {
+  private getMarkerImageShapeCfg(): ImageStyleProps {
     const { size = 0, symbol } = this.attributes;
     const r2 = size * 2;
     return {

@@ -1,6 +1,6 @@
 import { Text, Rect } from '@antv/g';
-import { deepMix, get, min, max } from '@antv/util';
-import { GUI } from '../core/gui';
+import { deepMix, get, max } from '@antv/util';
+import { GUI } from '../../core/gui';
 import { Marker } from '../marker';
 import { NAME_VALUE_RATIO } from './constant';
 import { getStateStyle, getEllipsisText, getFont, getShapeSpace } from '../../util';
