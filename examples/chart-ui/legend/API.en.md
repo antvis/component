@@ -1,1 +1,1 @@
-`markdown:docs/api/ui/continuous.en.md`
+`markdown:docs/api/ui/legend.en.md`

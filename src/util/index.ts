@@ -5,3 +5,4 @@ export * from './padding';
 export * from './style';
 export * from './event';
 export * from './shape';
+export * from './time';

@@ -1,22 +1,16 @@
-import { GUI } from '../core/gui';
-import type { AxisOptions } from './types';
+import type {
+  AxisBaseCfg,
+  AxisBaseOptions,
+  LinearCfg,
+  LinearOptions,
+  ArcCfg,
+  ArcOptions,
+  HelixCfg,
+  HelixOptions,
+} from './types';
 
-export type { AxisOptions };
+export type { AxisBaseCfg, AxisBaseOptions, LinearCfg, LinearOptions, ArcCfg, ArcOptions, HelixCfg, HelixOptions };
 
-export class Axis extends GUI<AxisOptions> {
-  attributeChangedCallback(name: string, value: any) {
-    throw new Error('Method not implemented.');
-  }
-
-  public init() {
-    throw new Error('Method not implemented.');
-  }
-
-  public update() {
-    throw new Error('Method not implemented.');
-  }
-
-  public clear() {
-    throw new Error('Method not implemented.');
-  }
-}
+export { Linear } from './linear';
+export { Arc } from './arc';
+export { Helix } from './helix';

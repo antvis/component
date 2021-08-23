@@ -1,0 +1,32 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "linear.ts",
+      "title": {
+        "zh": "直线坐标轴",
+        "en": "Linear axis"
+      },
+      "screenshot": ""
+    },
+    {
+      "filename": "arc.ts",
+      "title": {
+        "zh": "圆弧坐标轴",
+        "en": "Arc axis"
+      },
+      "screenshot": ""
+    },
+    {
+      "filename": "helix.ts",
+      "title": {
+        "zh": "螺旋坐标轴",
+        "en": "Helix axis"
+      },
+      "screenshot": ""
+    }
+  ]
+}
