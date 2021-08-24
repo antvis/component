@@ -14,7 +14,7 @@ export const AXIS_BASE_DEFAULT_OPTIONS = {
       offset: [0, 0],
       rotate: undefined,
     },
-    line: {
+    axisLine: {
       style: {
         fill: 'black',
         stroke: 'black',
@@ -121,6 +121,7 @@ export const NULL_ARROW = {
 export const NULL_TEXT = {
   text: '',
   fillOpacity: 0,
+  rotate: 0,
 };
 
 /**

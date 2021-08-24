@@ -12,7 +12,10 @@ export type TagCfg = {
   marker?: MarkerCfg;
   /** text 和 marker 的间距，默认为 4px (只有当 marker 存在时，才生效) */
   spacing?: number;
-
+  /** 水平对齐方式 */
+  align?: 'start' | 'center' | 'end';
+  /** 垂直对齐方式 */
+  verticalAlign?: 'top' | 'middle' | 'bottom';
   // 样式相关
   /** 内边距 */
   padding?: number | number[];

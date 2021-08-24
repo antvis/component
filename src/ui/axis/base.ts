@@ -1,42 +1,42 @@
 import { Group, Path, Text } from '@antv/g';
-import { clone, deepMix, minBy, maxBy, get, pick, sortBy, isString, isNumber } from '@antv/util';
+import { clone, deepMix, minBy, maxBy, get, sortBy, isString, isNumber, isUndefined } from '@antv/util';
 import { vec2 } from '@antv/matrix-util';
 import type { vec2 as Vector } from '@antv/matrix-util';
 import type { PathCommand } from '@antv/g';
 import type { MarkerCfg } from '../marker';
 import type {
   Point,
-  AxisType,
   TickDatum,
+  OverlapType,
   AxisBaseCfg,
-  AxisBaseOptions,
-  AxisTitleCfg,
   AxisLineCfg,
+  AxisTitleCfg,
+  AxisLabelCfg,
+  AxisBaseOptions,
   AxisTickLineCfg,
   AxisSubTickLineCfg,
-  AxisLabelCfg,
-  OverlapType,
 } from './types';
 import type { ShapeAttrs, StyleState as State, TextProps, PathProps } from '../../types';
 import type { TimeScale } from '../../util';
 import { GUI } from '../../core/gui';
 import { Marker } from '../marker';
 import {
-  getStateStyle,
-  measureTextWidth,
-  getEllipsisText,
-  toThousands,
-  toKNotation,
-  toScientificNotation,
-  getTimeScale,
+  getFont,
   getMask,
   formatTime,
+  toThousands,
+  toKNotation,
   getTimeStart,
+  getTimeScale,
+  getStateStyle,
+  getEllipsisText,
+  measureTextWidth,
+  toScientificNotation,
   scale as timeScale,
 } from '../../util';
 import { getVectorsAngle, centerRotate, formatAngle } from './utils';
 import { AXIS_BASE_DEFAULT_OPTIONS, NULL_ARROW, NULL_TEXT, COMMON_TIME_MAP } from './constant';
-import { isLabelsOverlap, isTextOverlap } from './overlap/is-overlap';
+import { isLabelsOverlap } from './overlap/is-overlap';
 
 interface IAxisLineCfg {
   style: ShapeAttrs;
@@ -66,180 +66,68 @@ Marker.registerSymbol('axis-arrow', (x: number, y: number, r: number) => {
 export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
   public static tag = 'axisBase';
 
-  // 标题
-  protected titleShape!: Text;
-
-  // 轴线
-  protected axisLineShape!: Group;
-
-  // 刻度
-  // protected ticksShape: Ticks;
-
-  private tickLinesGroup!: Group;
-
-  private labelsGroup!: Group;
-
-  private subTickLinesGroup!: Group;
-
   protected static defaultOptions = {
     type: AxisBase.tag,
     ...AXIS_BASE_DEFAULT_OPTIONS,
   };
 
-  constructor(options: AxisBaseOptions) {
-    super(deepMix({}, AxisBase.defaultOptions, options));
+  // 标题
+  protected titleShape!: Text;
+
+  // 轴线Group
+  protected axisLineGroup!: Group;
+
+  /** 轴线 path */
+  private get axisLine() {
+    return this.axisLineGroup.getElementsByName('line')[0]! as Path;
   }
 
-  public init() {
-    this.initShape();
-    // 绘制title
-    this.updateTitleShape();
-    // 绘制轴线
-    this.updateAxisLineShape();
-    // 绘制刻度与子刻度以及label
-    this.updateTicksShape();
+  private get axisStartArrow() {
+    return this.axisLineGroup.getElementsByName('startArrow')[0]! as Marker;
   }
 
-  public update(cfg: Partial<T>) {
-    this.attr(deepMix({}, this.attributes, cfg));
-    // 更新title
-    this.updateTitleShape();
-    // 更新轴线
-    this.updateAxisLineShape();
-    // 更新刻度与子刻度\刻度文本
-    this.updateTicksShape();
+  private get axisEndArrow() {
+    return this.axisLineGroup.getElementsByName('endArrow')[0]! as Marker;
   }
 
-  public clear() {}
+  private get ticksData(): Required<TickDatum>[] {
+    const { ticks, ticksThreshold, label } = this.attributes;
+    let ticksCopy = clone(ticks) as TickDatum[];
+    const len = ticksCopy.length;
+    sortBy(ticksCopy, (tick: TickDatum) => {
+      return tick.value;
+    });
 
-  /**
-   * 设置value对应的tick的状态样式
-   */
-  public setTickState(value: number): void {}
+    if (isNumber(ticksThreshold) && ticksThreshold < len) {
+      // 对ticks进行采样
+      const page = Math.ceil(len / ticksThreshold!);
+      ticksCopy = ticksCopy.filter((tick: TickDatum, idx: number) => idx % page === 0);
+    }
 
-  /**
-   * 设置label旋转角度
-   */
-  public setLabelEulerAngles(angle: number): void {
-    this.getLabels().forEach((label) => {
-      const labelVal = label.attr('value');
-      const tickAngle = getVectorsAngle([1, 0], this.getVerticalVector(labelVal));
-      const { rotate, textAlign } = this.getLabelLayout(labelVal, tickAngle, formatAngle(angle));
-      label.attr({ textAlign });
-      label.setEulerAngles(rotate);
+    let formatter = (val: Required<TickDatum>) => val.text;
+    if (label && label.formatter) formatter = label.formatter;
+
+    // 完善字段
+    return ticksCopy.map((datum, idx) => {
+      const { value, text = undefined, state = 'default', id = String(idx) } = datum;
+      const temp = {
+        id,
+        value,
+        state,
+        text: isUndefined(text) ? String(value) : text,
+      };
+      return { ...temp, text: formatter(temp) };
     });
   }
 
-  /**
-   * 获取label旋转角度
-   */
-  public getLabelEulerAngles() {
-    return this.getLabels()[0]?.getEulerAngles() || 0;
-  }
-
-  /**
-   * 生成轴线path
-   */
-  protected abstract getAxisLinePath(): PathCommand[];
-
-  /**
-   * 获取给定 value 在轴上的切线向量
-   */
-  protected abstract getTangentVector(value: number): Vector;
-
-  /**
-   * 获取给定 value 在轴上刻度的向量
-   */
-  protected abstract getVerticalVector(value: number): Vector;
-
-  /**
-   * 获取value值对应的位置
-   */
-  protected abstract getValuePoint(value: number): Point;
-
-  /**
-   * 获取线条两端点及其方向向量
-   */
-  protected abstract getTerminals(): { startPos: Point; endPos: Point };
-
-  /**
-   * 获取不同位置的 label 的对齐方式和旋转角度
-   * @param labelVal {number} label的值
-   * @param tickAngle {number} label对应的刻度角度
-   * @param angle {number} label的旋转角度
-   */
-  protected abstract getLabelLayout(labelVal: number, tickAngle: number, angle: number): ShapeAttrs;
-
-  /**
-   * 获得带状态样式
-   */
-  protected getStyle(name: string | string[], state: State = 'default') {
-    return getStateStyle(get(this.attributes, name), state);
-  }
-
-  private initShape() {
-    // 初始化group
-    // 标题
-    this.titleShape = new Text({
-      name: 'title',
-      style: {
-        text: AxisBase.defaultOptions.style.title.content,
-      },
-    });
-    this.appendChild(this.titleShape);
-    /** ------------轴线分组-------------------- */
-    this.axisLineShape = new Group({
-      name: 'axis',
-    });
-    this.appendChild(this.axisLineShape);
-    // 轴线
-    const axisLine = new Path({
-      name: 'line',
-      style: {
-        path: [],
-      },
-    });
-    this.axisLineShape.appendChild(axisLine);
-    // start arrow
-    const startArrow = new Marker({
-      name: 'arrow',
-      style: {
-        ...NULL_ARROW,
-        identity: 'start',
-      },
-    });
-    // end arrow
-    const endArrow = new Marker({
-      name: 'arrow',
-      style: {
-        ...NULL_ARROW,
-        identity: 'end',
-      },
-    });
-    this.axisLineShape.appendChild(startArrow);
-    this.axisLineShape.appendChild(endArrow);
-
-    /** ------------刻度分组-------------------- */
-    this.tickLinesGroup = new Group({
-      name: 'tickLinesGroup',
-    });
-    this.appendChild(this.tickLinesGroup);
-    // 子刻度分组
-    this.subTickLinesGroup = new Group({
-      name: 'subTickLinesGroup',
-    });
-    this.appendChild(this.subTickLinesGroup);
-    // 标题分组
-    this.labelsGroup = new Group({
-      name: 'labelsGroup',
-    });
-    this.appendChild(this.labelsGroup);
+  private get labels(): Text[] {
+    return this.labelsGroup.children;
   }
 
   /**
-   * 获得title属性
+   * title属性
    */
-  private getTitleCfg(): TextProps {
+  private get titleCfg(): TextProps & { rotate: number } {
     const { title } = this.attributes;
     if (!title) return NULL_TEXT;
     const {
@@ -282,20 +170,11 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
   }
 
   /**
-   * 创建title
-   */
-  private updateTitleShape() {
-    const { rotate, ...style } = this.getTitleCfg();
-    this.titleShape.attr(style);
-    centerRotate(this.titleShape, rotate);
-  }
-
-  /**
    * 获得轴线属性
    */
-  private getAxisLineCfg(): IAxisLineCfg {
-    const { type, line } = this.attributes;
-    if (!line) {
+  private get axisLineCfg(): IAxisLineCfg {
+    const { type, axisLine } = this.attributes;
+    if (!axisLine) {
       // 返回空line
       return {
         style: {},
@@ -308,7 +187,7 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
         },
       };
     }
-    const { style, arrow } = line as Required<AxisLineCfg>;
+    const { style, arrow } = axisLine as Required<AxisLineCfg>;
     const { start, end } = arrow!;
     const {
       startPos: [x1, y1],
@@ -342,110 +221,24 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
     };
   }
 
-  private getAxisLine(subNode?: 'line' | 'start' | 'end') {
-    if (!subNode) return this.axisLineShape;
-    if (subNode === 'line') return this.axisLineShape.getElementsByName('line')[0]! as Path;
-    let arrow!: Marker;
-    (this.axisLineShape.getElementsByName('arrow')! as [Marker, Marker]).forEach((arw) => {
-      if (arw.attr('identity') === subNode) arrow = arw;
-    });
-    return arrow;
-  }
-
-  /**
-   * 更新轴线和箭头
-   */
-  private updateAxisLineShape() {
-    const { arrow, line, style: lineStyle } = this.getAxisLineCfg();
-    // 更新 line
-    (this.getAxisLine('line') as Path).attr({
-      ...line,
-      ...lineStyle,
-      fillOpacity: 0,
-    });
-
-    Object.entries(arrow).forEach(([key, { rotate: angle, ...style }]) => {
-      const arw = this.getAxisLine(key as 'start' | 'end') as Marker;
-      arw.update({
-        identity: key,
-        ...lineStyle,
-        ...style,
-      });
-      arw.setLocalEulerAngles(angle);
-    });
-  }
-
-  /**
-   * 获取对应的tick
-   */
-  private getTickLineShape(idx: number) {
-    return this.tickLinesGroup.getElementsByName('tickLine').filter((tickLine) => {
-      if (tickLine.attr('identity') === idx) return true;
-      return false;
-    })[0] as Path;
-  }
-
-  /** ------------------------------绘制刻度线与label------------------------------------------ */
-  /**
-   * 获取刻度数据
-   */
-  private getTicksData(): Required<TickDatum>[] {
-    const { ticks, ticksThreshold } = this.attributes;
-    let ticksCopy = clone(ticks) as TickDatum[];
-    const len = ticksCopy.length;
-    sortBy(ticksCopy, (tick: TickDatum) => {
-      return tick.value;
-    });
-
-    if (isNumber(ticksThreshold) && ticksThreshold < len) {
-      // 对ticks进行采样
-      const page = Math.ceil(len / ticksThreshold!);
-      ticksCopy = ticksCopy.filter((tick: TickDatum, idx: number) => idx % page === 0);
-    }
-
-    // 完善字段
-    return ticksCopy.map((datum, idx) => {
-      const { value, text = undefined, state = 'default', id = String(idx) } = datum;
-      return {
-        id,
-        value,
-        state,
-        text: text === undefined ? String(value) : text,
-      } as Required<TickDatum>;
-    });
-  }
-
-  /**
-   * 计算刻度起始位置
-   */
-  private calcTick(value: number, len: number, offset: number): [Point, Point] {
-    const [s1, s2] = this.getValuePoint(value);
-    const v = this.getVerticalVector(value);
-    const [v1, v2] = vec2.scale([0, 0], v, len);
-    // 偏移量
-    const [o1, o2] = vec2.scale([0, 0], v, offset);
-    return [
-      [s1 + o1, s2 + o2],
-      [s1 + v1 + o1, s2 + v2 + o2],
-    ];
-  }
-
   /**
    * 获得绘制刻度线的属性
    */
-  private getTicksCfg(): ITicksCfg {
+  private get ticksCfg(): ITicksCfg {
     const { tickLine, subTickLine, label } = this.attributes;
+
     const style = {
       tickLines: [],
       subTickLines: [],
       labels: [],
-      // labelsCfg: label,
     } as ITicksCfg;
-    const ticks = this.getTicksData();
+    const ticks = this.ticksData;
     // 不绘制刻度
     if (!tickLine) {
       return style;
     }
+
+    this.labelsValues = [];
 
     const { length, offset, appendTick } = tickLine as Required<AxisTickLineCfg>;
     if (appendTick) {
@@ -463,7 +256,7 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
 
     ticks.forEach((tick: TickDatum, idx: number) => {
       const nextTickValue = idx === ticks.length - 1 ? 1 : ticks[idx + 1].value;
-      const { value: currTickValue } = tick;
+      const { value: currTickValue, text } = tick;
       const [st, end] = this.calcTick(currTickValue, length, offset);
       style.tickLines.push({
         path: [
@@ -474,20 +267,17 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
       });
       if (label) {
         const {
-          formatter,
           alignTick,
           // TODO 暂时只支持平行于刻度方向的偏移量
           offset: [, o2],
         } = label as Required<AxisLabelCfg>;
         const labelVal = alignTick ? currTickValue : (currTickValue + nextTickValue) / 2;
         const [st] = this.calcTick(labelVal, length, o2);
-        const formattedText = formatter(tick);
+        this.labelsValues.push(labelVal);
         style.labels.push({
           x: st[0],
           y: st[1],
-          value: labelVal,
-          text: formattedText,
-          rawText: formattedText, // 缩略时保留原始文本
+          text: text!,
           ...this.getStyle(['label', 'style']),
         });
       }
@@ -512,6 +302,250 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
   }
 
   /**
+   * 获得 label 配置项
+   * 前提是确保 label 不为false
+   */
+  private get labelsCfg() {
+    const { label } = this.attributes;
+    return label as Required<AxisLabelCfg>;
+  }
+
+  /**
+   * 取在label属性
+   */
+  private get labelFont() {
+    const { labels } = this;
+    if (labels.length > 0) return getFont(this.labels[0]);
+    return {};
+  }
+
+  /**
+   * 获取label旋转角度
+   */
+  public get labelEulerAngles() {
+    return this.labels[0]?.getEulerAngles() || 0;
+  }
+
+  /**
+   * 记录每个label对应的值
+   */
+  private labelsValues: number[] = [];
+
+  private tickLinesGroup!: Group;
+
+  private labelsGroup!: Group;
+
+  private subTickLinesGroup!: Group;
+
+  constructor(options: AxisBaseOptions) {
+    super(deepMix({}, AxisBase.defaultOptions, options));
+  }
+
+  public init() {
+    this.initShape();
+    // 绘制title
+    this.updateTitleShape();
+    // 绘制轴线
+    this.updateAxisLineShape();
+    // 绘制刻度与子刻度以及label
+    this.updateTicksShape();
+  }
+
+  public update(cfg: Partial<T>) {
+    this.attr(deepMix({}, this.attributes, cfg));
+    // 更新title
+    this.updateTitleShape();
+    // 更新轴线
+    this.updateAxisLineShape();
+    // 更新刻度与子刻度\刻度文本
+    this.updateTicksShape();
+  }
+
+  public clear() {}
+
+  /**
+   * 设置value对应的tick的状态样式
+   */
+  public setTickState(value: number): void {}
+
+  /**
+   * 设置label旋转角度
+   */
+  public setLabelEulerAngles(angle: number): void {
+    this.labels.forEach((label, idx) => {
+      const labelVal = this.labelsValues[idx];
+      const tickAngle = getVectorsAngle([1, 0], this.getVerticalVector(labelVal));
+      const { rotate, textAlign } = this.getLabelLayout(labelVal, tickAngle, formatAngle(angle));
+      label.attr({ textAlign });
+      label.setEulerAngles(rotate);
+    });
+  }
+
+  /**
+   * 生成轴线path
+   */
+  protected abstract getAxisLinePath(): PathCommand[];
+
+  /**
+   * 获取给定 value 在轴上的切线向量
+   */
+  protected abstract getTangentVector(value: number): Vector;
+
+  /**
+   * 获取给定 value 在轴上刻度的向量
+   */
+  protected abstract getVerticalVector(value: number): Vector;
+
+  /**
+   * 获取value值对应的位置
+   */
+  protected abstract getValuePoint(value: number): Point;
+
+  /**
+   * 获取线条两端点及其方向向量
+   */
+  protected abstract getTerminals(): { startPos: Point; endPos: Point };
+
+  /**
+   * 获取不同位置的 label 的对齐方式和旋转角度
+   * @param labelVal {number} label的值
+   * @param tickAngle {number} label对应的刻度角度
+   * @param angle {number} label的旋转角度
+   */
+  protected abstract getLabelLayout(
+    labelVal: number,
+    tickAngle: number,
+    angle: number
+  ): {
+    textAlign: TextProps['textAlign'];
+    rotate: number;
+  };
+
+  /**
+   * 获得带状态样式
+   */
+  protected getStyle(name: string | string[], state: State = 'default') {
+    return getStateStyle(get(this.attributes, name), state);
+  }
+
+  private initShape() {
+    // 初始化group
+    // 标题
+    this.titleShape = new Text({
+      name: 'title',
+      style: {
+        text: AxisBase.defaultOptions.style.title.content,
+      },
+    });
+    this.appendChild(this.titleShape);
+    /** ------------轴线分组-------------------- */
+    this.axisLineGroup = new Group({
+      name: 'axis',
+    });
+    this.appendChild(this.axisLineGroup);
+    // 轴线
+    const axisLine = new Path({
+      name: 'line',
+      style: {
+        path: [],
+      },
+    });
+    this.axisLineGroup.appendChild(axisLine);
+    // start arrow
+    const startArrow = new Marker({
+      name: 'startArrow',
+      style: {
+        ...NULL_ARROW,
+        // identity: 'start',
+      },
+    });
+    // end arrow
+    const endArrow = new Marker({
+      name: 'endArrow',
+      style: {
+        ...NULL_ARROW,
+        // identity: 'end',
+      },
+    });
+    this.axisLineGroup.appendChild(startArrow);
+    this.axisLineGroup.appendChild(endArrow);
+
+    /** ------------刻度分组-------------------- */
+    this.tickLinesGroup = new Group({
+      name: 'tickLinesGroup',
+    });
+    this.appendChild(this.tickLinesGroup);
+    // 子刻度分组
+    this.subTickLinesGroup = new Group({
+      name: 'subTickLinesGroup',
+    });
+    this.appendChild(this.subTickLinesGroup);
+    // 标题分组
+    this.labelsGroup = new Group({
+      name: 'labelsGroup',
+    });
+    this.appendChild(this.labelsGroup);
+  }
+
+  /**
+   * 创建title
+   */
+  private updateTitleShape() {
+    const { rotate, ...style } = this.titleCfg;
+    this.titleShape.attr(style);
+    centerRotate(this.titleShape, rotate);
+  }
+
+  /**
+   * 更新轴线和箭头
+   */
+  private updateAxisLineShape() {
+    const { arrow, line, style: lineStyle } = this.axisLineCfg;
+    // 更新 line
+    this.axisLine.attr({
+      ...line,
+      ...lineStyle,
+      fillOpacity: 0,
+    });
+
+    Object.entries(arrow).forEach(([key, { rotate: angle, ...style }]) => {
+      const arw = key === 'start' ? this.axisStartArrow : this.axisEndArrow;
+      arw.update({
+        ...lineStyle,
+        ...style,
+      });
+      arw.setLocalEulerAngles(angle);
+    });
+  }
+
+  /**
+   * 获取对应的tick
+   */
+  private getTickLineShape(idx: number) {
+    return this.tickLinesGroup.getElementsByName('tickLine').filter((tickLine, index) => {
+      if (index === idx) return true;
+      return false;
+    })[0] as Path;
+  }
+
+  /** -----------------------------绘制刻度线与label-------------------------------------- */
+
+  /**
+   * 计算刻度起始位置
+   */
+  private calcTick(value: number, len: number, offset: number): [Point, Point] {
+    const [s1, s2] = this.getValuePoint(value);
+    const v = this.getVerticalVector(value);
+    const [v1, v2] = vec2.scale([0, 0], v, len);
+    // 偏移量
+    const [o1, o2] = vec2.scale([0, 0], v, offset);
+    return [
+      [s1 + o1, s2 + o2],
+      [s1 + v1 + o1, s2 + v2 + o2],
+    ];
+  }
+
+  /**
    * 创建刻度线、子刻度线和label
    */
   private updateTicksShape() {
@@ -519,14 +553,15 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
     this.subTickLinesGroup.removeChildren(true);
     this.labelsGroup.removeChildren(true);
 
-    const { tickLines, labels, subTickLines } = this.getTicksCfg();
+    const { tickLines, labels, subTickLines } = this.ticksCfg;
+
     // 刻度
-    tickLines.forEach((style, idx) => {
+    tickLines.forEach((style) => {
       this.tickLinesGroup.appendChild(
         new Path({
           name: 'tickLine',
           style: {
-            identity: idx,
+            // identity: idx,
             ...style,
           },
         })
@@ -553,19 +588,6 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
     });
 
     this.adjustLabels();
-  }
-
-  private getLabels(): Text[] {
-    return this.labelsGroup.children;
-  }
-
-  /**
-   * 获得 label 配置项
-   * 前提是确保 label 不为false
-   */
-  private getLabelsCfg() {
-    const { label } = this.attributes;
-    return label as Required<AxisLabelCfg>;
   }
 
   /** ------------------------------label 调整------------------------------------------ */
@@ -606,8 +628,8 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
    * 判断标签是否发生碰撞
    */
   private isLabelsOverlap() {
-    const { margin } = this.getLabelsCfg();
-    return isLabelsOverlap(this.getLabels(), margin);
+    const { margin } = this.labelsCfg;
+    return isLabelsOverlap(this.labels, margin);
   }
 
   /**
@@ -619,11 +641,11 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
       rotate,
       rotateRange: [min, max],
       rotateStep: step,
-    } = this.getLabelsCfg();
+    } = this.labelsCfg;
     if (rotate !== undefined) {
       return rotate;
     }
-    const prevAngles = this.getLabelEulerAngles();
+    const prevAngles = this.labelEulerAngles;
     for (let angle = min; angle < max; angle += step) {
       this.setLabelEulerAngles(angle);
       // 判断 label 是否发生碰撞
@@ -643,8 +665,8 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
    * 自动隐藏
    */
   private autoHideLabel() {
-    const { margin, autoHideTickLine } = this.getLabelsCfg();
-    const labels = this.getLabels();
+    const { margin, autoHideTickLine } = this.labelsCfg;
+    const { labels } = this;
     //  确定采样频率
     let seq = 1;
 
@@ -685,9 +707,9 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
    * @param idx {number} label 索引
    */
   public getLabelEllipsisStrategy(width: number) {
-    const { type } = this.getLabelsCfg();
+    const { type } = this.labelsCfg;
     if (type === 'text') {
-      const font = this.getLabelFont();
+      const font = this.labelFont;
       return (...args: [string, number]) => getEllipsisText(args[0], width, font);
     }
     if (type === 'number') {
@@ -702,20 +724,10 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
   }
 
   /**
-   * 取在label属性
-   */
-  private getLabelFont() {
-    return pick(
-      this.getLabels()[0]?.attr(),
-      ['fontSize', 'fontFamily', 'fontWeight', 'fontStyle', 'fontVariant'] || []
-    );
-  }
-
-  /**
    * 获得文本以label字体下的宽度
    */
   private getTextWidthByLabelFont(text: string) {
-    return measureTextWidth(text, this.getLabelFont());
+    return measureTextWidth(text, this.labelFont);
   }
 
   /**
@@ -724,9 +736,9 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
   private getNumberSimplifyStrategy(width: number) {
     // 确定最长的数字使用的计数方法
     // 其余数字都采用该方法
-    const { labels } = this.getTicksCfg();
+    const { labels } = this.ticksCfg;
     const num = Number(maxBy(labels, ({ text }) => text.length).text);
-    const font = this.getLabelFont();
+    const font = this.labelFont;
     /**
      * 输入： 100000000， 宽度x
      * 1. 原始数值    100,000,000
@@ -749,7 +761,7 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
    * 时间缩略
    */
   private getTimeSimplifyStrategy(width: number) {
-    const ticks = this.getTicksData();
+    const ticks = this.ticksData;
     const { text: startTime } = minBy(ticks, ({ text }) => new Date(text).getTime());
     const { text: endTime } = maxBy(ticks, ({ text }) => new Date(text).getTime());
     const scale = getTimeScale(startTime, endTime);
@@ -764,7 +776,7 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
      */
 
     const baseTime = new Date('1970-01-01 00:00:00');
-    const font = this.getLabelFont();
+    const font = this.labelFont;
 
     /**
      * 非关键节点mask
@@ -817,9 +829,8 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
    */
   private labelsEllipsis(width: number) {
     const strategy = this.getLabelEllipsisStrategy(width);
-    this.getLabels().forEach((label, idx) => {
-      const rawText = label.attr('rawText');
-      label.attr('text', strategy.call(this, rawText, idx));
+    this.labels.forEach((label, idx) => {
+      label.attr('text', strategy.call(this, this.ticksData[idx].text, idx));
     });
   }
 
@@ -828,8 +839,8 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
   }
 
   private autoEllipsisLabel() {
-    const { ellipsisStep, minLength, maxLength, margin } = this.getLabelsCfg();
-    const labels = this.getLabels();
+    const { ellipsisStep, minLength, maxLength, margin } = this.labelsCfg;
+    const { labels } = this;
     const step = this.parseLength(ellipsisStep);
     const max = this.parseLength(maxLength);
     // 不限制长度

@@ -76,12 +76,10 @@ export class Rail extends DisplayObject<Required<IRailCfg>> {
     });
     // 根据orient对railPath旋转
     if (orient === 'vertical') {
-      this.setOrigin(0, width);
-      this.translateLocal(0, -width!);
-      // this.rotate(45);
-      setTimeout(() => {
-        this.rotate(45);
-      });
+      this.railPathGroup.setOrigin(width / 2, width / 2);
+      this.backgroundPathGroup.setOrigin(width / 2, width / 2);
+      this.railPathGroup.setEulerAngles(90);
+      this.backgroundPathGroup.setEulerAngles(90);
     }
   }
 
@@ -125,7 +123,7 @@ export class Rail extends DisplayObject<Required<IRailCfg>> {
       const step = 1 / (color.length - 1);
       let gradientColor = 'l(0)';
       for (let i = 0; i < color.length; i += 1) {
-        gradientColor += ` ${toPrecision(i * step, 1)}:${color[i]}`;
+        gradientColor += ` ${toPrecision(i * step, 2)}:${color[i]}`;
       }
       return gradientColor;
     }
@@ -151,6 +149,8 @@ export class Rail extends DisplayObject<Required<IRailCfg>> {
   private createRailPath() {
     const { width, height, type, chunked, min, max } = this.attributes;
     let railPath!: PathCommand[][];
+    const [rectWidth, rectHeight] = this.getOrientVal([width, height], [height, width]);
+
     // 颜色映射
     if (chunked) {
       railPath = this.createChunkPath();
@@ -159,10 +159,10 @@ export class Rail extends DisplayObject<Required<IRailCfg>> {
       const endOffset = this.getValueOffset(max);
       switch (type) {
         case 'color':
-          railPath = [createRectRailPath(width, height, 0, 0, startOffset, endOffset)];
+          railPath = [createRectRailPath(rectWidth, rectHeight, 0, 0, startOffset, endOffset)];
           break;
         case 'size':
-          railPath = [createTrapezoidRailPath(width, height, 0, 0, startOffset, endOffset)];
+          railPath = [createTrapezoidRailPath(rectWidth, rectHeight, 0, 0, startOffset, endOffset)];
           break;
         default:
           break;
@@ -218,12 +218,16 @@ export class Rail extends DisplayObject<Required<IRailCfg>> {
    */
   private createBackgroundPath() {
     const { width, height, min, max, start, end, type } = this.attributes;
+    const [rectWidth, rectHeight] = this.getOrientVal([width, height], [height, width]);
     const startOffset = this.getValueOffset(start);
     const endOffset = this.getValueOffset(end);
     const minOffset = this.getValueOffset(min);
     const maxOffset = this.getValueOffset(max);
     const creator = type === 'size' ? createTrapezoidRailPath : createRectRailPath;
 
-    return [creator(width, height, 0, 0, minOffset, startOffset), creator(width, height, 0, 0, endOffset, maxOffset)];
+    return [
+      creator(rectWidth, rectHeight, 0, 0, minOffset, startOffset),
+      creator(rectWidth, rectHeight, 0, 0, endOffset, maxOffset),
+    ];
   }
 }

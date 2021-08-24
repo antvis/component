@@ -15,6 +15,15 @@ export type { CategoryOptions };
 export class Category extends LegendBase<CategoryCfg> {
   public static tag = 'Category';
 
+  protected get backgroundShapeCfg() {
+    const { width, height } = getShapeSpace(this);
+    return {
+      width,
+      height,
+      ...this.getStyle('backgroundStyle'),
+    };
+  }
+
   private itemsGroup!: Group;
 
   // 前进按钮
@@ -52,7 +61,7 @@ export class Category extends LegendBase<CategoryCfg> {
     this.createItems();
     // }
     this.adjustLayout();
-    this.backgroundShape.attr(this.getBackgroundShapeCfg());
+    this.backgroundShape.attr(this.backgroundShapeCfg);
   }
 
   /**
@@ -88,15 +97,6 @@ export class Category extends LegendBase<CategoryCfg> {
   }
 
   public clear() {}
-
-  protected getBackgroundShapeCfg() {
-    const { width, height } = getShapeSpace(this);
-    return {
-      width,
-      height,
-      ...this.getStyle('backgroundStyle'),
-    };
-  }
 
   private createItemsGroup() {
     this.itemsGroup = new Group({

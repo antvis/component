@@ -13,6 +13,14 @@
       "screenshot": ""
     },
     {
+      "filename": "vertical-continuous.ts",
+      "title": {
+        "zh": "垂直连续图例",
+        "en": "Vertical continuous"
+      },
+      "screenshot": ""
+    },
+    {
       "filename": "size-type-continuous.ts",
       "title": {
         "zh": "尺寸类型",

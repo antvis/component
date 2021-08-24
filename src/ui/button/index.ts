@@ -2,7 +2,7 @@ import { Rect, Text } from '@antv/g';
 import { deepMix, get, isUndefined } from '@antv/util';
 import { GUI } from '../../core/gui';
 import { SIZE_STYLE, TYPE_STYLE, DISABLED_STYLE } from './constant';
-import { getEllipsisText, measureTextWidth, getFont, getStateStyle, getShapeSpace } from '../../util';
+import { getEllipsisText, measureTextWidth, getFont, getStateStyle } from '../../util';
 import { Marker } from '../marker';
 import type { ButtonCfg, ButtonOptions, IMarkerCfg } from './types';
 import type { TextProps, RectProps } from '../../types';
@@ -189,6 +189,12 @@ export class Button extends GUI<ButtonCfg> {
    */
   public clear() {}
 
+  public destroy() {
+    this.unBindEvents();
+    this.removeChildren(true);
+    super.destroy();
+  }
+
   private initShape() {
     this.markerShape = new Marker({
       name: 'marker',
@@ -232,36 +238,47 @@ export class Button extends GUI<ButtonCfg> {
     this.backgroundShape.attr({ ...buttonStyle, height });
   }
 
-  private bindEvents(): void {
-    const { disabled, onClick } = this.attributes;
+  private clickEvents = () => {
+    const { onClick } = this.attributes;
+    // 点击事件
+    !this.disabled && onClick?.call(this, this);
+  };
 
-    this.addEventListener('click', () => {
-      // 点击事件
-      !this.disabled && onClick?.call(this, this);
-    });
-
-    this.addEventListener('mouseenter', () => {
-      if (!disabled) {
-        // 鼠标悬浮事件
-        this.markerShape.update(this.getStyle('markerStyle', 'active'));
-        this.textShape.attr(this.getStyle('textStyle', 'active'));
-        this.backgroundShape.attr({
-          ...this.getStyle('buttonStyle', 'active'),
-          width: this.buttonWidth,
-          height: this.buttonHeight,
-        });
-      }
-    });
-    this.addEventListener('mouseleave', () => {
-      // 恢复默认状态
-      this.markerShape.update(this.getStyle('markerStyle'));
-      this.textShape.attr(this.getStyle('textStyle'));
+  private mouseenterEvent = () => {
+    const { disabled } = this.attributes;
+    if (!disabled) {
+      // 鼠标悬浮事件
+      this.markerShape.update(this.getStyle('markerStyle', 'active'));
+      this.textShape.attr(this.getStyle('textStyle', 'active'));
       this.backgroundShape.attr({
-        ...this.getStyle('buttonStyle'),
+        ...this.getStyle('buttonStyle', 'active'),
         width: this.buttonWidth,
         height: this.buttonHeight,
       });
+    }
+  };
+
+  private mouseleaveEvent = () => {
+    // 恢复默认状态
+    this.markerShape.update(this.getStyle('markerStyle'));
+    this.textShape.attr(this.getStyle('textStyle'));
+    this.backgroundShape.attr({
+      ...this.getStyle('buttonStyle'),
+      width: this.buttonWidth,
+      height: this.buttonHeight,
     });
+  };
+
+  private bindEvents(): void {
+    this.addEventListener('click', this.clickEvents);
+    this.addEventListener('mouseenter', this.mouseenterEvent);
+    this.addEventListener('mouseleave', this.mouseleaveEvent);
+  }
+
+  private unBindEvents(): void {
+    this.removeEventListener('click', this.clickEvents);
+    this.removeEventListener('mouseenter', this.mouseenterEvent);
+    this.removeEventListener('mouseleave', this.mouseleaveEvent);
   }
 
   private adjustLayout() {

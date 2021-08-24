@@ -95,7 +95,7 @@ export type AxisBaseCfg = {
   // 标题
   title?: false | AxisTitleCfg;
   // 轴线
-  line?: false | AxisLineCfg;
+  axisLine?: false | AxisLineCfg;
   // 刻度数据
   ticks?: TickDatum[];
   // 刻度数量阈值，超过则进行重新采样

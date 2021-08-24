@@ -194,10 +194,11 @@ export const CONTINUOUS_DEFAULT_OPTIONS = deepMix({}, LEGEND_BASE_DEFAULT_OPTION
     },
     indicator: {
       size: 8,
-      spacing: 5,
+      spacing: 10,
       padding: 5,
       backgroundStyle: {
         fill: '#262626',
+        stroke: '#262626',
         radius: 5,
       },
       text: {

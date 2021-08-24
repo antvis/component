@@ -48,7 +48,7 @@ describe('linear', () => {
         offset: [0, -40],
         position: 'start',
       },
-      line: {
+      axisLine: {
         arrow: {
           end: {
             symbol: 'axis-arrow',
@@ -101,7 +101,7 @@ describe('linear', () => {
     });
 
     // @ts-ignore
-    const axisLine = linear.getAxisLine('line') as Path;
+    const { axisLine } = linear;
     const linePath = axisLine.attr('path');
     expect(linePath[0]).toStrictEqual(['M', 250, 50]);
     expect(linePath[1]).toStrictEqual(['L', 250, 450]);
@@ -140,7 +140,7 @@ describe('linear', () => {
       endPos: [450, 50],
     });
     // @ts-ignore
-    const axisLine = linear.getAxisLine('line') as Path;
+    const { axisLine } = linear;
     expect(axisLine.attr('x')).toBe(50);
     expect(axisLine.attr('y')).toBe(50);
     const linePath = axisLine.attr('path');
@@ -150,7 +150,7 @@ describe('linear', () => {
 
   test('arrow', async () => {
     // @ts-ignore
-    expect((linear.getAxisLine('end') as Marker).getEulerAngles()).toBeCloseTo(0);
+    expect(linear.axisEndArrow.getEulerAngles()).toBeCloseTo(0);
   });
 
   // test('subTicks', async () => {});
@@ -235,7 +235,7 @@ describe('linear', () => {
       },
     });
     // @ts-ignore
-    const bounds = (linear.labelsGroup.children[0]! as Text).getBounds()!;
+    const bounds = linear.labels[0].getBounds()!;
     const [x1] = bounds.getMin();
     const [x2] = bounds.getMax();
     expect(x2 - x1).toBeGreaterThanOrEqual(50);

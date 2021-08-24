@@ -1,8 +1,6 @@
-import type { Path } from '@antv/g';
 import { Canvas } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Arc } from '../../../../src';
-import type { Marker } from '../../../../src';
 import { createDiv } from '../../../utils';
 import type { StyleState as State } from '../../../../src/types';
 import type { TickDatum } from '../../../../src/ui/axis/types';
@@ -50,7 +48,7 @@ describe('arc', () => {
         position: 'center',
         offset: [0, 50],
       },
-      line: {
+      axisLine: {
         arrow: {
           start: {
             symbol: 'diamond',
@@ -72,7 +70,7 @@ describe('arc', () => {
       },
     });
     // @ts-ignore
-    const [CMD1, CMD2, CMD3] = (arc.getAxisLine('line') as Path).attr('path');
+    const [CMD1, CMD2, CMD3] = arc.axisLine.attr('path');
 
     // 圆心
     expect(CMD1).toStrictEqual(['M', 200, 200]);
@@ -84,7 +82,7 @@ describe('arc', () => {
 
   test('arrow', async () => {
     // @ts-ignore
-    expect((arc.getAxisLine('end') as Marker).getEulerAngles()).toBeCloseTo(-90);
+    expect(arc.axisEndArrow.getEulerAngles()).toBeCloseTo(-90);
   });
 
   test('ticks', async () => {

@@ -44,77 +44,69 @@ canvas.render();
 
 describe('continuous', () => {
   test('basic', async () => {
-    // const continuous = new Continuous({
-    // style: {
-    //   // x: 50,
-    //   // y: 50,
-    //   title: {
-    //     content: "I'm title",
-    //     spacing: 20,
-    //     align: 'left',
-    //     style: {
-    //       fill: 'gray',
-    //       fontSize: 16,
-    //       fontWeight: 'bold',
-    //     },
-    //   },
-    //   padding: 10,
-    //   // label: false,
-    //   label: {
-    //     // align: 'rail',
-    //     // align: 'outside',
-    //     align: 'outside',
-    //     spacing: 10,
-    //     // formatter: (val, idx) => {
-    //     //   if (val === 100 || val === 200) {
-    //     //     return String(val);
-    //     //   }
-    //     //   return '';
-    //     // },
-    //   },
-    //   backgroundStyle: {
-    //     default: {
-    //       fill: '#f3f3f3',
-    //     },
-    //   },
-    //   // handle: false,
-    //   // handle: {
-    //   //   text: {
-    //   //     align: 'inside',
-    //   //   },
-    //   // },
-    //   rail: {
-    //     width: 280,
-    //     height: 30,
-    //     // type: 'size',
-    //     chunked: true,
-    //     ticks: [110, 120, 130, 140, 150, 160, 170, 180, 190],
-    //     backgroundColor: '#eee8d5',
-    //   },
-    //   // slidable: false,
-    //   min: 100,
-    //   max: 200,
-    //   // start: 110,
-    //   // end: 190,
-    //   step: 10,
-    //   color: ['#d0e3fa', '#acc7f6', '#8daaf2', '#6d8eea', '#4d73cd', '#325bb1', '#5a3e75', '#8c3c79', '#e23455', '#e7655b'],
-    //   value: [100, 200],
-    // },
-
-    // });
-
-    // title
-    expect(continuous.firstChild!.attr('text')).toBe('连续图例');
-    expect(continuous.getElementById('startHandle')!.attr('x')).toBe(0);
-    expect(continuous.getElementById('endHandle')!.attr('x')).toBe(300);
-
-    continuous.update({
-      start: 10,
-      end: 50,
+    const continuous = new Continuous({
+      style: {
+        title: {
+          content: "I'm title",
+          spacing: 20,
+          align: 'left',
+          style: {
+            fill: 'gray',
+            fontSize: 16,
+            fontWeight: 'bold',
+          },
+        },
+        padding: 10,
+        label: {
+          align: 'outside',
+          spacing: 10,
+        },
+        backgroundStyle: {
+          default: {
+            fill: '#f3f3f3',
+          },
+        },
+        handle: false,
+        rail: {
+          width: 280,
+          height: 30,
+          chunked: true,
+          ticks: [110, 120, 130, 140, 150, 160, 170, 180, 190],
+          backgroundColor: '#eee8d5',
+        },
+        min: 100,
+        max: 200,
+        step: 10,
+        color: [
+          '#d0e3fa',
+          '#acc7f6',
+          '#8daaf2',
+          '#6d8eea',
+          '#4d73cd',
+          '#325bb1',
+          '#5a3e75',
+          '#8c3c79',
+          '#e23455',
+          '#e7655b',
+        ],
+      },
     });
 
-    expect(continuous.getElementById('startHandle')!.attr('x')).toBe(30);
-    expect(continuous.getElementById('endHandle')!.attr('x')).toBe(150);
+    // title
+    // @ts-ignore
+    expect(continuous.titleShape!.attr('text')).toBe("I'm title");
+    // @ts-ignore
+    expect(continuous.startHandle!.attr('x')).toBe(0);
+    // @ts-ignore
+    expect(continuous.endHandle!.attr('x')).toBe(280);
+
+    continuous.update({
+      start: 100,
+      end: 200,
+    });
+
+    expect(continuous.getElementById('startHandle')!.attr('x')).toBe(0);
+    expect(continuous.getElementById('endHandle')!.attr('x')).toBe(280);
   });
 
   test('size', async () => {
@@ -174,7 +166,7 @@ describe('continuous', () => {
     expect(continuous.railShape.getRail().children.length).toBe(1);
     // @ts-ignore
     expect(continuous.railShape.getRail().children[0].attr('fill')).toBe(
-      'l(0) 0:#d0e3fa 0.1:#acc7f6 0.2:#8daaf2 0.3:#6d8eea 0.4:#4d73cd 0.6:#325bb1 0.7:#5a3e75 0.8:#8c3c79 0.9:#e23455 1:#e7655b'
+      'l(0) 0:#d0e3fa 0.11:#acc7f6 0.22:#8daaf2 0.33:#6d8eea 0.44:#4d73cd 0.55:#325bb1 0.66:#5a3e75 0.77:#8c3c79 0.88:#e23455 1:#e7655b'
     );
   });
 
@@ -213,51 +205,47 @@ describe('continuous', () => {
     expect(continuous.railShape.getRail().firstChild!.attr('path')[2][2]).toBe(0);
   });
 
-  // test('vertical', async () => {
-  //   const div = createDiv();
+  test('vertical', async () => {
+    const div = createDiv();
 
-  //   // @ts-ignore
-  //   const canvas = new Canvas({
-  //     container: div,
-  //     width: 600,
-  //     height: 600,
-  //     renderer,
-  //   });
+    // @ts-ignore
+    const canvas = new Canvas({
+      container: div,
+      width: 600,
+      height: 600,
+      renderer,
+    });
 
-  //   const continuous = new Continuous({
-  //     style: {
-  //       x: 50,
-  //       y: 0,
-  //       title: {
-  //         content: "I'm title",
-  //       },
-  //       label: {
-  //         align: 'rail',
-  //         spacing: 0
-  //       },
-  //       orient: 'vertical',
-  //       width: 100,
-  //       height: 300,
-  //       backgroundStyle: {
-  //         default: {
-  //           fill: 'gray',
-  //         },
-  //       },
-  //       handle: false,
-  //       rail: {
-  //         width: 50,
-  //         height: 200,
-  //         // type: 'size',
-  //         chunked: true,
-  //         ticks: [120, 140, 160, 180],
-  //       },
-  //       min: 100,
-  //       max: 200,
-  //       color: ['#d0e3fa', '#acc7f6', '#8daaf2', '#6d8eea', '#4d73cd', '#325bb1'],
-  //       value: [100, 200],
-  //     },
-  //   });
-  //   canvas.appendChild(continuous);
-  //   canvas.render();
-  // });
+    const continuous = new Continuous({
+      style: {
+        x: 50,
+        y: 0,
+        title: {
+          content: "I'm title",
+        },
+        label: {
+          align: 'rail',
+          spacing: 0,
+        },
+        orient: 'vertical',
+        backgroundStyle: {
+          default: {
+            fill: 'gray',
+          },
+        },
+        handle: false,
+        rail: {
+          width: 50,
+          height: 200,
+          chunked: true,
+          ticks: [120, 140, 160, 180],
+        },
+        min: 100,
+        max: 200,
+        color: ['#d0e3fa', '#acc7f6', '#8daaf2', '#6d8eea', '#4d73cd', '#325bb1'],
+      },
+    });
+    canvas.appendChild(continuous);
+    canvas.render();
+  });
 });

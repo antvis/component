@@ -1,7 +1,8 @@
-import { CustomEvent, Group, Rect, Text } from '@antv/g';
+import { CustomEvent, Group, Text } from '@antv/g';
 import { clamp, deepMix, get, isUndefined } from '@antv/util';
 import { Rail } from './rail';
 import { Labels } from './labels';
+import { Tag } from '../tag';
 import { Marker } from '../marker';
 import { LegendBase } from './base';
 import { getValueOffset, getStepValueByValue } from './utils';
@@ -39,7 +40,182 @@ export class Continuous extends LegendBase<ContinuousCfg> {
    *      |- indicator
    */
 
-  //
+  public get selection() {
+    const { min, max, start, end } = this.attributes;
+    return [start || min, end || max] as [number, number];
+  }
+
+  /* 背景配置项 */
+  protected get backgroundShapeCfg() {
+    const { handle } = this.attributes;
+    const { width, height } = getShapeSpace(this);
+    const [, right, bottom, left] = this.getPadding();
+    // 问就是调试工程
+    const offsetX = handle ? -20 : 0;
+    const offsetY = handle ? -10 : 0;
+    return {
+      width: width + left + right + offsetX,
+      height: height + bottom + offsetY,
+      ...this.getStyle('backgroundStyle'),
+    };
+  }
+
+  /**
+   * 获得滑动步长
+   * 未指定时默认为range的1%;
+   */
+  private get step(): number {
+    const { step, min, max } = this.attributes;
+    if (isUndefined(step)) {
+      return toPrecision((max - min) * STEP_RATIO, 0);
+    }
+    return step;
+  }
+
+  private get indicator() {
+    return this.indicatorShape.getElementsByName('tag')[0] as Tag;
+  }
+
+  /**
+   * 获得指示器配置
+   */
+  private get indicatorShapeCfg() {
+    const { indicator } = this.attributes;
+    if (!indicator) return {};
+    const { size, text, backgroundStyle } = indicator as Required<IndicatorCfg>;
+    const { style: textStyle } = text;
+    return {
+      markerCfg: {
+        size,
+        ...this.getOrientVal([
+          { x: 0, y: size },
+          { x: -size, y: 0 },
+        ]),
+        symbol: this.getOrientVal(['downArrow', 'leftArrow']),
+        fill: backgroundStyle.fill,
+      },
+      tagCfg: {
+        text: '',
+        align: this.getOrientVal(['center', 'start']) as 'center' | 'start',
+        verticalAlign: 'middle' as const,
+        ...this.getOrientVal([
+          { x: 0, y: -size / 2 },
+          { x: -size / 2, y: 0 },
+        ]),
+        textStyle: {
+          default: textStyle,
+        },
+        backgroundStyle: {
+          default: backgroundStyle,
+        },
+      },
+    };
+  }
+
+  /**
+   * 获取颜色
+   */
+  protected get color() {
+    const { color } = this.attributes;
+    return color;
+  }
+
+  // 获取色板属性
+  private get railShapeCfg(): IRailCfg {
+    // 直接绘制色板，布局在adjustLayout方法中进行
+    const { min, max, rail, orient } = this.attributes;
+    const [start, end] = this.selection;
+    const { color } = this;
+    return {
+      x: 0,
+      y: 0,
+      min,
+      max,
+      start,
+      end,
+      orient,
+      color,
+      cursor: 'pointer' as 'pointer',
+      ...(rail as Required<RailCfg>),
+    };
+  }
+
+  /**
+   * 获取手柄属性
+   */
+  private get handleShapeCfg(): IHandleCfg {
+    const { handle } = this.attributes;
+    if (!handle)
+      return {
+        markerCfg: {
+          size: 8,
+          symbol: 'hiddenHandle',
+          opacity: 0,
+        },
+        textCfg: {
+          text: '',
+          opacity: 0,
+        },
+      };
+
+    const { size, icon, text } = handle as Required<Pick<HandleCfg, 'size' | 'icon' | 'text'>>;
+    const { style: textStyle } = text;
+    const { marker, style: markerStyle } = icon;
+    // 替换默认手柄
+    const symbol =
+      marker === 'default' ? this.getOrientVal(['horizontalHandle', 'verticalHandle']) : (marker as SymbolCfg);
+    return {
+      markerCfg: {
+        symbol,
+        size,
+        cursor: this.getOrientVal(['ew-resize', 'ns-resize']),
+        ...markerStyle,
+      },
+      textCfg: {
+        text: '',
+        ...textStyle,
+      },
+    };
+  }
+
+  // 获取Label属性
+  private get labelsShapeCfg(): ILabelsCfg {
+    const { label } = this.attributes;
+    // 不绘制label
+    if (!label) {
+      return {
+        labels: [],
+      };
+    }
+    const { min, max, rail } = this.attributes;
+    const { style, formatter, align } = label;
+    const cfg: TextProps[] = [];
+    // align为rail时仅显示min、max的label
+    if (align === 'rail') {
+      [min, max].forEach((value, idx) => {
+        cfg.push({
+          x: 0,
+          y: 0,
+          text: formatter!(value, idx),
+          ...style,
+        });
+      });
+    } else {
+      const ticks = [min, ...rail.ticks!, max];
+      ticks.forEach((value, idx) => {
+        cfg.push({
+          x: 0,
+          y: 0,
+          text: formatter!(value, idx),
+          ...style,
+        });
+      });
+    }
+    return {
+      labels: cfg,
+    };
+  }
+
   private labelsShape!: Labels;
 
   // 色板
@@ -101,11 +277,11 @@ export class Continuous extends LegendBase<ContinuousCfg> {
   public update(cfg: Partial<ContinuousCfg>) {
     this.attr(deepMix({}, this.attributes, cfg));
     // 更新label内容
-    this.labelsShape.attr(this.getLabelsShapeCfg());
+    this.labelsShape.attr(this.labelsShapeCfg);
     // 更新rail
-    this.railShape.update(this.getRailShapeCfg());
+    this.railShape.update(this.railShapeCfg);
     // 更新选区
-    this.setSelection(...this.getSelection());
+    this.setSelection(...this.selection);
     // 更新title内容
     this.titleShape.attr(this.getTitleShapeCfg());
     // 更新handle
@@ -117,7 +293,7 @@ export class Continuous extends LegendBase<ContinuousCfg> {
     // 更新布局
     this.adjustLayout();
     // 更新背景
-    this.backgroundShape.attr(this.getBackgroundShapeCfg());
+    this.backgroundShape.attr(this.backgroundShapeCfg);
   }
 
   public clear() {}
@@ -153,31 +329,17 @@ export class Continuous extends LegendBase<ContinuousCfg> {
     this.indicatorShape?.attr(
       this.getOrientVal([
         { x: offsetX, y: offsetY - spacing! },
-        { x: offsetY + spacing!, y: offsetX },
+        { x: railWidth - offsetY + spacing!, y: offsetX },
       ])
     );
 
     const formatter = get(this.attributes, ['indicator', 'text', 'formatter']);
-    let showText = text || safeValue;
+    let showText = text || String(safeValue);
     if (useFormatter) {
       showText = formatter(showText);
     }
     // 设置文本
-    this.getIndicator('text').attr({ text: showText });
-
-    // 调整指示器
-    this.adjustIndicator();
-  }
-
-  public getIndicator(subNode?: 'text' | 'background') {
-    if (!subNode) return this.indicatorShape;
-    if (subNode === 'text') return this.indicatorShape.getElementsByName('text')[0] as Text;
-    return this.indicatorShape.getElementsByName('background')[0] as Rect;
-  }
-
-  public getSelection() {
-    const { min, max, start, end } = this.attributes;
-    return [start || min, end || max] as [number, number];
+    this.indicator.update({ text: showText });
   }
 
   /**
@@ -187,7 +349,7 @@ export class Continuous extends LegendBase<ContinuousCfg> {
    * @param isOffset stVal和endVal是否为偏移量
    */
   public setSelection(stVal: number, endVal: number, isOffset: boolean = false) {
-    const [currSt, currEnd] = this.getSelection();
+    const [currSt, currEnd] = this.selection;
     let [start, end] = [stVal, endVal];
     if (isOffset) {
       // 获取当前值
@@ -208,7 +370,7 @@ export class Continuous extends LegendBase<ContinuousCfg> {
    * 设置Handle的文本
    */
   public setHandleText(text1?: string, text2?: string, useFormatter: boolean = true) {
-    const [start, end] = this.getSelection();
+    const [start, end] = this.selection;
     let [startText, endText] = [text1 || String(start), text2 || String(end)];
     if (useFormatter) {
       const formatter =
@@ -220,56 +382,19 @@ export class Continuous extends LegendBase<ContinuousCfg> {
     this.getHandle('end', 'text').attr({ text: endText });
   }
 
-  // TODO
-  // public getBounds() {}
-
-  /**
-   * 获取颜色
-   */
-  protected getColor() {
-    const { color } = this.attributes;
-    return color;
-  }
-
-  protected getBackgroundShapeCfg() {
-    const { handle } = this.attributes;
-    const { width, height } = getShapeSpace(this);
-    const [, right, bottom, left] = this.getPadding();
-    // 问就是调试工程
-    const offsetX = handle ? -20 : 0;
-    const offsetY = handle ? -10 : 0;
-    return {
-      width: width + left + right + offsetX,
-      height: height + bottom + offsetY,
-      ...this.getStyle('backgroundStyle'),
-    };
-  }
-
-  /**
-   * 获得滑动步长
-   * 未指定时默认为range的1%;
-   */
-  private getStep(): number {
-    const { step, min, max } = this.attributes;
-    if (isUndefined(step)) {
-      return toPrecision((max - min) * STEP_RATIO, 0);
-    }
-    return step;
-  }
-
   /**
    * 取值附近的步长刻度上的值
    */
   private getStepValueByValue(value: number): number {
     const { min } = this.attributes;
-    return getStepValueByValue(value, this.getStep(), min);
+    return getStepValueByValue(value, this.step, min);
   }
 
   /**
    * 取值所在的刻度范围
    */
   private getTickIntervalByValue(value: number) {
-    const [start, end] = this.getSelection();
+    const [start, end] = this.selection;
     const ticks = get(this.attributes, ['rail', 'ticks']);
     const temp = [start, ...ticks, end];
     for (let i = 1; i < temp.length; i += 1) {
@@ -280,14 +405,6 @@ export class Continuous extends LegendBase<ContinuousCfg> {
       }
     }
     return false;
-  }
-
-  /**
-   * 将选区调整至tick位置
-   */
-  private adjustSelection() {
-    const [start, end] = this.getSelection();
-    this.setSelection(this.getStepValueByValue(start), this.getStepValueByValue(end));
   }
 
   /**
@@ -303,7 +420,7 @@ export class Continuous extends LegendBase<ContinuousCfg> {
 
   private getSafetySelections(start: number, end: number, precision: number = 4): [number, number] {
     const { min, max } = this.attributes;
-    const [prevStart, prevEnd] = this.getSelection();
+    const [prevStart, prevEnd] = this.selection;
     let [startVal, endVal] = [start, end];
     const range = endVal - startVal;
     // 交换startVal endVal
@@ -332,73 +449,15 @@ export class Continuous extends LegendBase<ContinuousCfg> {
     return [toPrecision(startVal, precision), toPrecision(endVal, precision)];
   }
 
-  // 获取Label属性
-  private getLabelsShapeCfg(): ILabelsCfg {
-    const { label } = this.attributes;
-    // 不绘制label
-    if (!label) {
-      return {
-        labels: [],
-      };
-    }
-    const { min, max, rail } = this.attributes;
-    const { style, formatter, align } = label;
-    const cfg: TextProps[] = [];
-    // align为rail时仅显示min、max的label
-    if (align === 'rail') {
-      [min, max].forEach((value, idx) => {
-        cfg.push({
-          x: 0,
-          y: 0,
-          text: formatter!(value, idx),
-          ...style,
-        });
-      });
-    } else {
-      const ticks = [min, ...rail.ticks!, max];
-      ticks.forEach((value, idx) => {
-        cfg.push({
-          x: 0,
-          y: 0,
-          text: formatter!(value, idx),
-          ...style,
-        });
-      });
-    }
-    return {
-      labels: cfg,
-    };
-  }
-
   // 创建Label
   private createLabels() {
     // 创建label容器
     this.labelsShape = new Labels({
       name: 'labels',
       id: 'labels',
-      style: this.getLabelsShapeCfg(),
+      style: this.labelsShapeCfg,
     });
     this.appendChild(this.labelsShape);
-  }
-
-  // 获取色板属性
-  private getRailShapeCfg(): IRailCfg {
-    // 直接绘制色板，布局在adjustLayout方法中进行
-    const { min, max, rail, orient } = this.attributes;
-    const [start, end] = this.getSelection();
-    const color = this.getColor();
-    return {
-      x: 0,
-      y: 0,
-      min,
-      max,
-      start,
-      end,
-      orient,
-      color,
-      cursor: 'pointer' as 'pointer',
-      ...(rail as Required<RailCfg>),
-    };
   }
 
   // 创建色板
@@ -407,54 +466,16 @@ export class Continuous extends LegendBase<ContinuousCfg> {
     this.railShape = new Rail({
       name: 'rail',
       id: 'rail',
-      style: this.getRailShapeCfg(),
+      style: this.railShapeCfg,
     });
     this.appendChild(this.railShape);
-  }
-
-  /**
-   * 获取手柄属性
-   */
-  private getHandleShapeCfg(): IHandleCfg {
-    const { handle } = this.attributes;
-    if (!handle)
-      return {
-        markerCfg: {
-          size: 8,
-          symbol: 'hiddenHandle',
-          opacity: 0,
-        },
-        textCfg: {
-          text: '',
-          opacity: 0,
-        },
-      };
-
-    const { size, icon, text } = handle as Required<Pick<HandleCfg, 'size' | 'icon' | 'text'>>;
-    const { style: textStyle } = text;
-    const { marker, style: markerStyle } = icon;
-    // 替换默认手柄
-    const symbol =
-      marker === 'default' ? this.getOrientVal(['horizontalHandle', 'verticalHandle']) : (marker as SymbolCfg);
-    return {
-      markerCfg: {
-        symbol,
-        size,
-        cursor: this.getOrientVal(['ew-resize', 'ns-resize']),
-        ...markerStyle,
-      },
-      textCfg: {
-        text: '',
-        ...textStyle,
-      },
-    };
   }
 
   /**
    *  创建手柄
    */
   private createHandle(handleType: HandleType) {
-    const { markerCfg, textCfg } = this.getHandleShapeCfg();
+    const { markerCfg, textCfg } = this.handleShapeCfg;
     const groupName = `${handleType}Handle`;
     const el = new Group({
       name: groupName,
@@ -489,7 +510,7 @@ export class Continuous extends LegendBase<ContinuousCfg> {
    * 更新handle
    */
   public updateHandles() {
-    const { markerCfg, textCfg } = this.getHandleShapeCfg();
+    const { markerCfg, textCfg } = this.handleShapeCfg;
     (['start', 'end'] as HandleType[]).forEach((handleType) => {
       (this.getHandle(handleType, 'icon') as Marker).update(markerCfg);
       (this.getHandle(handleType, 'text') as Text).attr(textCfg);
@@ -510,42 +531,10 @@ export class Continuous extends LegendBase<ContinuousCfg> {
     return handle.getElementsByName('icon')[0] as Marker;
   }
 
-  /**
-   * 获得指示器配置
-   */
-  private getIndicatorShapeCfg() {
-    const { indicator } = this.attributes;
-    if (!indicator) return {};
-    const { size, text, backgroundStyle } = indicator as Required<IndicatorCfg>;
-    const { style: textStyle } = text;
-    return {
-      markerCfg: {
-        size,
-        symbol: this.getOrientVal(['downArrow', 'leftArrow']),
-        fill: backgroundStyle.fill,
-      },
-      textCfg: {
-        text: '',
-        ...this.getOrientVal([
-          {
-            textAlign: 'center' as 'center',
-            textBaseline: 'middle' as 'middle',
-          },
-          {
-            textAlign: 'left' as 'left',
-            textBaseline: 'middle' as 'middle',
-          },
-        ]),
-        ...textStyle,
-      },
-      backgroundCfg: backgroundStyle,
-    };
-  }
-
   private createIndicator() {
     const { indicator } = this.attributes;
     if (!indicator) return;
-    const { markerCfg, textCfg, backgroundCfg } = this.getIndicatorShapeCfg();
+    const { markerCfg, tagCfg } = this.indicatorShapeCfg;
     const el = new Group({
       name: 'indicator',
       id: 'indicator',
@@ -553,31 +542,20 @@ export class Continuous extends LegendBase<ContinuousCfg> {
     // 将tag挂载到rail
     this.railShape.appendChild(el);
 
-    const text = new Text({
-      name: 'text',
-      style: textCfg,
-    });
-    el.appendChild(text);
-
     // 创建 取用icon填充色
     // 位置大小在setIndicator中设置
-
-    const background = new Rect({
-      name: 'background',
-      style: {
-        width: 0,
-        height: 0,
-        ...backgroundCfg,
-      },
+    const tag = new Tag({
+      name: 'tag',
+      style: tagCfg,
     });
-    el.appendChild(background);
-    background.toBack();
 
+    el.appendChild(tag);
     // 指示器小箭头
     const icon = new Marker({
-      name: `icon`,
+      name: `arrow`,
       style: markerCfg as MarkerCfg,
     });
+    icon.toBack();
     el.appendChild(icon);
     this.indicatorShape = el;
     // 默认隐藏
@@ -590,8 +568,8 @@ export class Continuous extends LegendBase<ContinuousCfg> {
   private adjustHandle() {
     const { x: innerX, y: innerY } = this.getAvailableSpace();
     const { rail, handle } = this.attributes;
-    const [start, end] = this.getSelection();
-    const { height: railHeight } = rail as Required<Pick<IRailCfg, 'height'>>;
+    const [start, end] = this.selection;
+    const { width: railWidth, height: railHeight } = rail as Required<Pick<IRailCfg, 'width' | 'height'>>;
 
     // handle为false时，取默认布局方式进行布局，但不会显示出来
     const handleCfg = handle || get(Continuous.defaultOptions, ['style', 'handle']);
@@ -603,31 +581,65 @@ export class Continuous extends LegendBase<ContinuousCfg> {
       y: innerY,
     });
     // 设置Handle位置
-    const startHandle = this.getHandle('start');
-    const endHandle = this.getHandle('end');
-    startHandle.attr({
-      x: this.getValueOffset(start),
-      y: railHeight / 2,
-    });
-    endHandle.attr({
-      x: this.getValueOffset(end),
-      y: railHeight / 2,
-    });
+    const { startHandle } = this;
+    const { endHandle } = this;
+    startHandle.attr(
+      this.getOrientVal([
+        {
+          x: this.getValueOffset(start),
+          y: railHeight / 2,
+        },
+        {
+          x: railWidth / 2,
+          y: this.getValueOffset(start),
+        },
+      ])
+    );
+    endHandle.attr(
+      this.getOrientVal([
+        {
+          x: this.getValueOffset(end),
+          y: railHeight / 2,
+        },
+        {
+          x: railWidth / 2,
+          y: this.getValueOffset(end),
+        },
+      ])
+    );
     // 调整文本位置
     let handleTextStyle = {};
-    if (handleTextAlign === 'rail') {
-      // 不做处理
-      handleTextStyle = {};
-    } else if (handleTextAlign === 'inside') {
-      handleTextStyle = {
-        y: -railHeight / 2 - handleSpacing,
-        textBaseline: 'bottom',
-      };
+    // rail 不做处理
+    if (handleTextAlign === 'inside') {
+      handleTextStyle = this.getOrientVal([
+        {
+          x: 0,
+          y: -railHeight / 2 - handleSpacing,
+          textAlign: 'center',
+          textBaseline: 'bottom',
+        },
+        {
+          x: railWidth + handleSpacing,
+          y: 0,
+          textAlign: 'start',
+          textBaseline: 'middle',
+        },
+      ]);
     } else if (handleTextAlign === 'outside') {
-      handleTextStyle = {
-        y: railHeight / 2 + handleSpacing,
-        textBaseline: 'top',
-      };
+      handleTextStyle = this.getOrientVal([
+        {
+          x: 0,
+          y: railHeight / 2 + handleSpacing,
+          textAlign: 'center',
+          textBaseline: 'top',
+        },
+        {
+          x: -railWidth / 2 - handleSpacing,
+          y: 0,
+          textAlign: 'end',
+          textBaseline: 'middle',
+        },
+      ]);
     }
 
     this.getHandle('start', 'text').attr(handleTextStyle);
@@ -648,7 +660,10 @@ export class Continuous extends LegendBase<ContinuousCfg> {
       ticks: _t,
     } = rail as Required<Pick<IRailCfg, 'width' | 'height' | 'ticks'>>;
     // 绘制label
-    const { align: labelAlign, spacing: labelSpacing } = label;
+    const { align: labelAlign, spacing: labelSpacing } = label as {
+      align: 'inside' | 'outside' | 'rail';
+      spacing: number;
+    };
     // label位置
     if (labelAlign === 'rail') {
       /**
@@ -659,46 +674,35 @@ export class Continuous extends LegendBase<ContinuousCfg> {
         /**
          * 0  ||||||||||||||||||||||  100
          */
-
         this.labelsShape.attr({
           x: innerX,
           y: innerY + railHeight / 2,
         });
-
         let railStart = innerX;
-
         const { firstChild } = this.labelsShape;
         // 设置左侧文本
         if (firstChild) {
-          firstChild.attr({ textAlign: 'start' });
-          const { width } = getShapeSpace(this.labelsShape.firstChild!);
-          railStart += width + labelSpacing!;
+          firstChild.attr({ textAlign: 'end' });
+          railStart += labelSpacing;
         }
-
-        // this.labelsShape.firstChild!.attr({ textAlign: 'start' });
-
-        // 左侧文本的宽度
-
-        // const railStart = innerX + leftTextWidth + labelSpacing!;
         // 设置rail位置
         this.railShape.attr({
           x: railStart,
           y: innerY,
         });
-
         const { lastChild } = this.labelsShape;
         if (lastChild) {
           // 设置右侧文本位置
           this.labelsShape.lastChild!.attr({
-            x: railStart + railWidth + labelSpacing!,
+            x: railStart + railWidth + labelSpacing,
             y: 0,
             textAlign: 'start',
           });
         }
-
         return;
       }
       /**
+       * rail-vertical
        * else if orient === 'vertical'
        *   0
        *  --
@@ -710,26 +714,26 @@ export class Continuous extends LegendBase<ContinuousCfg> {
        *  400
        */
       this.labelsShape.attr({
-        x: railWidth / 2,
+        x: innerX + railWidth / 2,
         y: innerY,
       });
       // 顶部文本高度
       const { height: topTextHeight } = getShapeSpace(this.labelsShape.firstChild!);
       this.labelsShape.firstChild!.attr({
-        textBaseline: 'top',
+        y: topTextHeight / 2,
+        textAlign: 'center',
+        textBaseline: 'middle',
       });
       // rail位置
-      const railStart = innerY + topTextHeight + labelSpacing;
       this.railShape.attr({
         x: innerX,
-        y: railStart,
+        y: innerY + topTextHeight + labelSpacing,
       });
-
       // 底部文本位置
       this.labelsShape.lastChild!.attr({
-        x: 0,
-        y: railStart + railHeight + labelSpacing,
-        textBaseline: 'top',
+        y: railHeight + 1.5 * topTextHeight + labelSpacing * 2,
+        textAlign: 'center',
+        textBaseline: 'middle',
       });
       return;
     }
@@ -749,30 +753,24 @@ export class Continuous extends LegendBase<ContinuousCfg> {
     if (orient === 'horizontal') {
       // labelsShape 高度
       const { height: labelsHeight } = getShapeSpace(this.labelsShape);
-      const labelSpace = labelsHeight + labelSpacing!;
-
       this.railShape.attr({
         x: innerX,
-        // label在上，rail在下
-        y: innerY + (labelAlign === 'inside' ? labelSpace : 0),
+        y: innerY + (labelAlign === 'inside' ? labelSpacing + labelsHeight : 0),
       });
       this.labelsShape.attr({
         x: innerX,
-        // label在上
-        y: innerY + (labelAlign === 'inside' ? 0 : labelSpace) + 10,
+        y: innerY + (labelAlign === 'inside' ? labelsHeight / 2 : labelSpacing + railHeight + labelsHeight / 2),
       });
-
       // 补上min，max
       const ticks = [min, ..._t, max];
       // 设置labelsShape中每个文本的位置
       this.labelsShape.children.forEach((child, idx) => {
         const val = ticks[idx];
         // 通过val拿到偏移量
-
         child.attr({
           x: this.getValueOffset(val),
           y: 0,
-          textBaseline: 'top',
+          textBaseline: 'middle',
           textAlign: (() => {
             // 调整两端label位置
             if (idx === 0) return 'start';
@@ -784,33 +782,33 @@ export class Continuous extends LegendBase<ContinuousCfg> {
       return;
     }
     /**
-     * orient === 'vertical'
+     * vertical inside/outside
      */
-    const a = 1;
-  }
-
-  /**
-   * 调整指示器结构
-   */
-  private adjustIndicator() {
-    const text = this.getIndicator('text');
-    const background = this.getIndicator('background');
-    const { width, height } = getShapeSpace(text);
-
-    const [top, right, bottom, left] = this.getPadding(get(this.attributes, ['indicator', 'padding']));
-
-    const leftRight = left + right;
-    const topBottom = top + bottom;
-
-    // 设置背景大小
-    background.attr({
-      x: -width / 2 - left,
-      y: -height - topBottom,
-      width: width + leftRight,
-      height: height + topBottom,
+    // 调整labelsShape位置
+    this.railShape.attr({
+      x: innerX + (labelAlign === 'inside' ? 0 : labelSpacing),
+      y: innerY,
     });
-    text.attr({
-      y: -height / 2 - top,
+    this.labelsShape.attr({
+      x: innerX + (labelAlign === 'inside' ? labelSpacing + railWidth : 0),
+      y: innerY,
+    });
+    // 补上min，max
+    const ticks = [min, ..._t, max];
+    this.labelsShape.children.forEach((child, idx) => {
+      const val = ticks[idx];
+      // 通过val拿到偏移量
+      child.attr({
+        x: 0,
+        y: this.getValueOffset(val),
+        textBaseline: (() => {
+          // 调整两端label位置
+          if (idx === 0) return 'top';
+          if (idx === ticks.length - 1) return 'bottom';
+          return 'middle';
+        })(),
+        textAlign: labelAlign === 'inside' ? 'start' : 'end',
+      });
     });
   }
 
@@ -831,7 +829,7 @@ export class Continuous extends LegendBase<ContinuousCfg> {
     } else {
       this.labelsShape?.show();
     }
-    if (this.getHandle('start')) {
+    if (this.startHandle) {
       this.adjustHandle();
     }
 
@@ -901,7 +899,7 @@ export class Continuous extends LegendBase<ContinuousCfg> {
    */
   private onDragging = (e: any) => {
     e.stopPropagation();
-    const [start, end] = this.getSelection();
+    const [start, end] = this.selection;
     const currValue = this.getStepValueByValue(this.getEventPosValue(e));
     const diffValue = currValue - this.prevValue;
     const { target } = this;

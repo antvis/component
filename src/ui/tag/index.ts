@@ -16,6 +16,29 @@ export class Tag extends GUI<Required<TagCfg>> {
    */
   public static tag = 'tag';
 
+  private get backgroundShapeCfg(): RectStyleProps {
+    const { backgroundStyle, radius = 0 } = this.attributes;
+    return {
+      radius,
+      ...(getStyle(backgroundStyle) as RectStyleProps),
+    };
+  }
+
+  private get markerShapeCfg(): MarkerCfg {
+    const { marker } = this.attributes;
+    return marker;
+  }
+
+  private get textShapeCfg(): TextStyleProps {
+    const { text, textStyle } = this.attributes;
+    return {
+      ...getStyle(textStyle),
+      x: 0,
+      y: 0,
+      text,
+    };
+  }
+
   private markerShape!: Marker;
 
   private textShape!: Text;
@@ -30,10 +53,12 @@ export class Tag extends GUI<Required<TagCfg>> {
     style: {
       text: '',
       padding: 4,
+      align: 'start',
+      verticalAlign: 'top',
       textStyle: {
         default: {
           fontSize: 12,
-          textAlign: 'left',
+          textAlign: 'start',
           textBaseline: 'middle',
           fill: '#000',
         },
@@ -92,11 +117,11 @@ export class Tag extends GUI<Required<TagCfg>> {
   private initShape() {
     this.markerShape = new Marker({
       name: 'tag-marker',
-      style: this.getMarkerShapeCfg(),
+      style: this.markerShapeCfg,
     });
     this.textShape = new Text({
       name: 'tag-text',
-      style: this.getTextShapeCfg(),
+      style: this.textShapeCfg,
     });
     this.backgroundShape = new Rect({ name: 'background' });
     this.backgroundShape.appendChild(this.markerShape);
@@ -110,48 +135,25 @@ export class Tag extends GUI<Required<TagCfg>> {
    * 创建 background
    */
   private updateBackground() {
-    this.backgroundShape.attr(this.getBackgroundShapeCfg());
-  }
-
-  private getBackgroundShapeCfg(): RectStyleProps {
-    const { backgroundStyle, radius = 0 } = this.attributes;
-    return {
-      radius,
-      ...(getStyle(backgroundStyle) as RectStyleProps),
-    };
+    this.backgroundShape.attr(this.backgroundShapeCfg);
   }
 
   /**
    * 创建 marker
    */
   private updateMarker() {
-    this.markerShape.update(this.getMarkerShapeCfg());
-  }
-
-  private getMarkerShapeCfg(): MarkerCfg {
-    const { marker } = this.attributes;
-    return marker;
+    this.markerShape.update(this.markerShapeCfg);
   }
 
   /**
    * 创建 text
    */
   private updateText() {
-    this.textShape.attr(this.getTextShapeCfg());
-  }
-
-  private getTextShapeCfg(): TextStyleProps {
-    const { text, textStyle } = this.attributes;
-    return {
-      ...getStyle(textStyle),
-      x: 0,
-      y: 0,
-      text,
-    };
+    this.textShape.attr(this.textShapeCfg);
   }
 
   private autoFit() {
-    const { padding, spacing, marker, text } = this.attributes;
+    const { padding, spacing, marker, text, align, verticalAlign } = this.attributes;
     const [top, right, bottom, left] = normalPadding(padding);
     const { size = 0 } = marker;
 
@@ -170,8 +172,16 @@ export class Tag extends GUI<Required<TagCfg>> {
 
     height += top + bottom;
 
+    let horizontalAlignOffset = 0;
+    let verticalAlignOffset = 0;
+    if (align === 'center') horizontalAlignOffset = -width / 2;
+    else if (align === 'end') horizontalAlignOffset = -width;
+    if (verticalAlign === 'middle') verticalAlignOffset = -height / 2;
+    else if (verticalAlign === 'bottom') verticalAlignOffset = -height;
+
     // background
-    this.backgroundShape.attr({ width, height });
+    this.backgroundShape.attr({ x: horizontalAlignOffset, y: verticalAlignOffset, width, height });
+
     // marker
     this.markerShape.attr({
       x: left + markerWidth / 2,
@@ -196,8 +206,8 @@ export class Tag extends GUI<Required<TagCfg>> {
     });
 
     this.addEventListener('mouseleave', () => {
-      this.textShape.attr(this.getTextShapeCfg());
-      this.backgroundShape.attr(this.getBackgroundShapeCfg());
+      this.textShape.attr(this.textShapeCfg);
+      this.backgroundShape.attr(this.backgroundShapeCfg);
       this.autoFit();
     });
   }
