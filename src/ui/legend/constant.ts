@@ -108,27 +108,7 @@ export const CATEGORY_DEFAULT_OPTIONS = deepMix({}, LEGEND_BASE_DEFAULT_OPTIONS,
     },
     reverse: false, // 倒序放置图例
     pageNavigator: {
-      button: {
-        marker: (type: 'prev' | 'next', orient: 'horizontal' | 'vertical') => {
-          if (orient === 'horizontal') {
-            if (type === 'prev') {
-              return leftArrow;
-            }
-            return rightArrow;
-          }
-          // vertical
-          if (type === 'prev') {
-            return upArrow;
-          }
-          return downArrow;
-        },
-        size: 12,
-        style: {
-          default: {},
-          active: {},
-          disabled: {},
-        },
-      },
+      loop: false,
     },
   },
 });

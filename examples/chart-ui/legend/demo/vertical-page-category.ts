@@ -11,20 +11,20 @@ const renderer = new CanvasRenderer({
 const canvas = new Canvas({
   container: 'container',
   width: 600,
-  height: 300,
+  height: 400,
   renderer,
 });
 
 const category = new Category({
   style: {
-    x: 10,
-    y: 10,
+    x: 50,
+    y: 50,
     orient: 'vertical',
-    maxHeight: 100,
     itemWidth: 160,
+    maxHeight: 200,
     spacing: [10, 10],
     title: {
-      content: '分列',
+      content: '纵向',
     },
     items: [
       { name: 'Chrome', value: '7.08%', id: 'chrome', state: 'selected' },

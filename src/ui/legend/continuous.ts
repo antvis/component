@@ -283,7 +283,7 @@ export class Continuous extends LegendBase<ContinuousCfg> {
     // 更新选区
     this.setSelection(...this.selection);
     // 更新title内容
-    this.titleShape.attr(this.getTitleShapeCfg());
+    this.titleShape.attr(this.titleShapeCfg);
     // 更新handle
     this.updateHandles();
     // 更新手柄文本
@@ -566,7 +566,7 @@ export class Continuous extends LegendBase<ContinuousCfg> {
    * 调整handle结构
    */
   private adjustHandle() {
-    const { x: innerX, y: innerY } = this.getAvailableSpace();
+    const { x: innerX, y: innerY } = this.availableSpace;
     const { rail, handle } = this.attributes;
     const [start, end] = this.selection;
     const { width: railWidth, height: railHeight } = rail as Required<Pick<IRailCfg, 'width' | 'height'>>;
@@ -653,7 +653,7 @@ export class Continuous extends LegendBase<ContinuousCfg> {
     const { min, max, label, rail, orient } = this.attributes;
     if (!label) return;
     // 容器内可用空间起点
-    const { x: innerX, y: innerY } = this.getAvailableSpace();
+    const { x: innerX, y: innerY } = this.availableSpace;
     const {
       width: railWidth,
       height: railHeight,

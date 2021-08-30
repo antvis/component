@@ -1,19 +1,34 @@
 import type { DisplayObject } from '@antv/g';
 import { CustomEvent, Group } from '@antv/g';
-import { clone, deepMix, isFunction } from '@antv/util';
-import { Marker } from '../marker';
+import { clone, deepMix, isFunction, isNumber } from '@antv/util';
 import { LegendBase } from './base';
 import { CategoryItem } from './category-item';
 import { getShapeSpace } from '../../util';
+import { PageNavigator } from '../page-navigator';
 import { CATEGORY_DEFAULT_OPTIONS } from './constant';
-import type { StyleState } from '../../types';
+import type { StyleState as State } from '../../types';
 import type { CategoryCfg, CategoryOptions } from './types';
 import type { ICategoryItemCfg, IItemText } from './category-item';
 
 export type { CategoryOptions };
 
+// 找到node节点所在的CategoryItem节点
+function getParentItem(node: DisplayObject) {
+  let item = node;
+  while (item.getConfig().type !== 'categoryItem') {
+    item = item.parentNode!;
+    if (!item) break;
+  }
+  return item as CategoryItem;
+}
+
 export class Category extends LegendBase<CategoryCfg> {
   public static tag = 'Category';
+
+  protected static defaultOptions = {
+    type: Category.tag,
+    ...CATEGORY_DEFAULT_OPTIONS,
+  };
 
   protected get backgroundShapeCfg() {
     const { width, height } = getShapeSpace(this);
@@ -24,91 +39,15 @@ export class Category extends LegendBase<CategoryCfg> {
     };
   }
 
-  private itemsGroup!: Group;
-
-  // 前进按钮
-  private prevNavigation!: Marker;
-
-  // 后退按钮
-  private nextNavigation!: Marker;
-
-  protected static defaultOptions = {
-    type: Category.tag,
-    ...CATEGORY_DEFAULT_OPTIONS,
-  };
-
-  constructor(options: CategoryOptions) {
-    super(deepMix({}, Category.defaultOptions, options));
-    super.init();
-    this.init();
+  private get items() {
+    return this.itemsGroup.children as CategoryItem[];
   }
 
-  public init() {
-    this.createItemsGroup();
-    this.createItems();
-    this.createPageNavigator();
-    this.adjustLayout();
-    this.createBackground();
-    this.bindEvents();
-  }
-
-  public update(cfg: Partial<CategoryCfg>) {
-    this.attr(deepMix({}, this.attributes, cfg));
-    super.update();
-    // 对于items的变化目前进行重绘操作，后期可参考React Diff方法进行性能优化
-    // if ('items' in style) {
-    this.clearItems();
-    this.createItems();
-    // }
-    this.adjustLayout();
-    this.backgroundShape.attr(this.backgroundShapeCfg);
-  }
-
-  /**
-   * 根据id获取item
-   */
-  public getItem(id: string): CategoryItem {
-    const items = this.getItems();
-    let item!: CategoryItem;
-    items.forEach((i) => {
-      if (i.getID() === id) {
-        item = i;
-      }
-    });
-    return item;
-  }
-
-  /**
-   * 设置某个item的状态
-   * 会改变其样式
-   */
-  public setItemState(name: string, state: StyleState) {
-    this.getItem(name).setState(state);
-  }
-
-  /**
-   * 获得items状态列表
-   */
-  public getItemsStates(): { id: string; state: StyleState }[] {
-    const items = this.getItems();
-    return items.map((item) => {
-      return { id: item.getID(), state: item.getState() };
-    });
-  }
-
-  public clear() {}
-
-  private createItemsGroup() {
-    this.itemsGroup = new Group({
-      name: 'itemsGroup',
-    });
-    this.appendChild(this.itemsGroup);
-  }
-
-  private getItemsShapeCfg() {
+  private get itemsShapeCfg() {
     const {
       items: _items,
       itemWidth,
+      maxWidth,
       maxItemWidth,
       itemMarker,
       itemName,
@@ -127,7 +66,7 @@ export class Category extends LegendBase<CategoryCfg> {
         y: 0,
         state,
         itemWidth,
-        maxItemWidth,
+        maxItemWidth: maxItemWidth > maxWidth ? maxWidth : maxItemWidth,
         // 这里使用name-idx作为id
         identify: id !== undefined ? id : `${nameContent}-${idx}`,
         itemMarker: isFunction(itemMarker) ? itemMarker(item, idx, items) : itemMarker,
@@ -153,128 +92,207 @@ export class Category extends LegendBase<CategoryCfg> {
     return cfg;
   }
 
+  private get itemHeight(): number {
+    return getShapeSpace(this.items[0]).height;
+  }
+
+  /** 分页相关配置 */
+  private pageWidth: number | undefined;
+
+  private pageHeight: number | undefined;
+
+  private pageNum: number = 1;
+
+  private pageNavigator!: PageNavigator;
+
+  private itemsGroup!: Group;
+
+  constructor(options: CategoryOptions) {
+    super(deepMix({}, Category.defaultOptions, options));
+    super.init();
+    this.init();
+  }
+
+  public init() {
+    this.initShape();
+    this.createItems();
+    this.adjustLayout();
+    this.createBackground();
+    this.bindEvents();
+  }
+
+  public update(cfg: Partial<CategoryCfg>) {
+    this.attr(deepMix({}, this.attributes, cfg));
+    super.update();
+    // TODO 对于items的变化目前进行重绘操作，后期可参考React Diff方法进行性能优化
+    this.createItems();
+    this.adjustLayout();
+    this.backgroundShape.attr(this.backgroundShapeCfg);
+  }
+
+  public clear() {}
+
+  public destroy(): void {
+    this.unBindEvents();
+  }
+
+  /**
+   * 根据id获取item
+   */
+  public getItem(id: string): CategoryItem | undefined {
+    const { items } = this;
+    return items.filter((item: CategoryItem) => {
+      return item.getID() === id;
+    })[0];
+  }
+
+  /**
+   * 设置某个item的状态
+   * 会改变其样式
+   */
+  public setItemState(name: string, state: State) {
+    this.getItem(name)?.setState(state);
+  }
+
+  /**
+   * 获得items状态列表
+   */
+  public getItemsStates(): { id: string; state: State }[] {
+    const { items } = this;
+    return items.map((item) => {
+      return { id: item.getID(), state: item.getState() };
+    });
+  }
+
+  private initShape() {
+    this.itemsGroup = new Group({
+      name: 'itemsGroup',
+    });
+  }
+
   /**
    * 创建图例项
    */
   private createItems() {
-    const itemsCfg = this.getItemsShapeCfg();
-    itemsCfg.forEach((cfg) => {
-      const item = new CategoryItem({
-        style: cfg,
-        name: 'item',
-      });
-      this.itemsGroup.appendChild(item);
+    this.clearItems();
+    this.itemsShapeCfg.forEach((cfg) => {
+      this.itemsGroup.appendChild(new CategoryItem({ style: cfg, name: 'item' }));
     });
   }
 
-  private getItems() {
-    return this.itemsGroup.children as CategoryItem[];
-  }
-
   private clearItems() {
-    this.getItems().forEach((child) => child.destroy());
-    this.itemsGroup.removeChildren();
+    this.itemsGroup.removeChildren(true);
   }
 
   /**
-   * 获得一页图例项可用空间
+   * 创建分页的items
    */
-  private getItemsSpace() {
-    /**
-     * 情况1 按钮在上下、左右 无页码
-     *            ↑
-     *    item  item  item
-     *  ← item  item  item →
-     *    item  item  item
-     *            ↓
-     *
-     * 情况2 按钮在内
-     *    item  item  item
-     *    item  item  <- ->
-     *
-     *    item  item  item
-     *    item  <- 1/3 ->
-     *
-     * 情况3 按钮在外
-     *       <- 1/3 ->
-     *  ↑ item  item  item  ↑
-     *1/3 item  item  item 1/3
-     *  ↓ item  item  item  ↓
-     *       <- 1/3 ->
-     */
+  private createPageItems() {
+    const { orient, pageNavigator } = this.attributes;
+    const { pageWidth, pageHeight, pageNum } = this;
+    const { x: left, y: top } = this.availableSpace;
+    const flag = pageNum > 1 && isNumber(pageWidth) && isNumber(pageHeight);
+
+    const cfg = {
+      orient,
+      pageWidth: pageWidth!,
+      pageHeight: pageHeight!,
+      view: this.itemsGroup,
+      ...pageNavigator,
+    };
+    // 1. 存在分页器实例且flag为true，则更新分页器
+    if (this.pageNavigator && flag) {
+      this.pageNavigator.update(cfg);
+    }
+    // 2. 不存在分页器实例且flag为true，则创建分页器
+    else if (!this.pageNavigator && flag) {
+      this.pageNavigator = new PageNavigator({
+        name: 'page-navigator',
+        style: cfg,
+      });
+      this.appendChild(this.pageNavigator);
+      this.itemsGroup.attr({ x: 0, y: 0 });
+      this.pageNavigator.attr({ x: left, y: top });
+    } else {
+      // this.pageNavigator && !flag
+      // remove and destroy
+      // append itemsGroup to this children list
+      // 3. 存在分页器实例且flag为false，则删除分页器
+      if (this.pageNavigator) {
+        this.pageNavigator.clear();
+        this.removeChild(this.pageNavigator, true);
+      }
+      this.appendChild(this.itemsGroup);
+      this.itemsGroup.attr({ x: left, y: top });
+    }
+    // 4. 不存在分页器实例且flag为false，则不做任何操作
   }
-
-  // 创建翻页器
-  private createPageNavigator() {}
-
-  // 前翻页
-  private onNavigationPrev = () => {};
-
-  // 后翻页
-  private onNavigationNext = () => {};
-
-  // 设置图例项状态
-  private setItemStatus() {}
 
   private bindEvents() {
     // 图例项hover事件
     // 图例项点击事件
     // 翻页按钮点击事件
-    // 找到node节点所在的CategoryItem节点
-    const getParentItem = (node: DisplayObject) => {
-      let item = node;
-      while (item.getConfig().type !== 'categoryItem') {
-        item = item.parentNode!;
-        if (!item) break;
-      }
-      return item as CategoryItem;
-    };
+    this.itemsGroup.addEventListener('click', this.ItemsGroupClickEvent);
+    this.itemsGroup.addEventListener('mousemove', this.mousemoveEvent);
+    this.itemsGroup.addEventListener('mouseleave', this.mouseleaveEvent);
+  }
 
-    this.itemsGroup.addEventListener('click', (e) => {
-      const { target } = e;
-      if (target) {
-        const item = getParentItem(target as DisplayObject); // (target as DisplayObject).parentNode.parentNode as CategoryItem;
-        if (!item) return;
-        const state = item.getState();
-        if (!['selected', 'selected-active'].includes(state)) {
-          item.setState('selected-active');
-        } else {
-          item.setState('default-active');
-        }
-        const evt = new CustomEvent('valuechange', {
-          detail: {
-            value: this.getItemsStates(),
-          },
-        });
-        this.dispatchEvent(evt);
-      }
-    });
+  private unBindEvents() {
+    this.itemsGroup.removeEventListener('click', this.ItemsGroupClickEvent);
+    this.itemsGroup.removeEventListener('mousemove', this.mousemoveEvent);
+    this.itemsGroup.removeEventListener('mouseleave', this.mouseleaveEvent);
+  }
 
-    this.itemsGroup.addEventListener('mousemove', (e) => {
-      const { target } = e;
-      if (target) {
-        const item = getParentItem(target as DisplayObject);
-        if (!item) {
-          this.getItems().forEach((item) => {
-            item.onUnHover();
-          });
-          return;
-        }
-        const state = item.getState();
-        if (state !== 'active') {
-          this.getItems().forEach((item) => {
-            item.onUnHover();
-          });
-          item.onHover();
-        }
-      }
-    });
-
-    this.itemsGroup.addEventListener('mouseleave', (e) => {
-      this.getItems().forEach((item) => {
-        item.onUnHover();
+  private ItemsGroupClickEvent = (e: any) => {
+    const { target } = e;
+    if (target) {
+      const item = getParentItem(target as DisplayObject); // (target as DisplayObject).parentNode.parentNode as CategoryItem;
+      if (!item) return;
+      const state = item.getState();
+      if (!['selected', 'selected-active'].includes(state)) item.setState('selected-active');
+      else item.setState('default-active');
+      const evt = new CustomEvent('valuechange', {
+        detail: {
+          value: this.getItemsStates(),
+        },
       });
+      this.dispatchEvent(evt);
+    }
+  };
+
+  private mousemoveEvent = (e: any) => {
+    const { target } = e;
+    if (target) {
+      const item = getParentItem(target as DisplayObject);
+      if (!item) {
+        this.items.forEach((item) => {
+          item.onUnHover();
+        });
+        return;
+      }
+      const state = item.getState();
+      if (state !== 'active') {
+        this.items.forEach((item) => {
+          item.onUnHover();
+        });
+        item.onHover();
+      }
+    }
+  };
+
+  private mouseleaveEvent = () => {
+    this.items.forEach((item) => {
+      item.onUnHover();
     });
+  };
+
+  /**
+   * 重置分页配置
+   */
+  private resetPageCfg() {
+    this.pageWidth = undefined;
+    this.pageHeight = undefined;
+    this.pageNum = 1;
   }
 
   /**
@@ -283,8 +301,10 @@ export class Category extends LegendBase<CategoryCfg> {
    */
   private adjustLayout() {
     const { orient } = this.attributes;
+    this.resetPageCfg();
     if (orient === 'horizontal') this.adjustHorizontal();
     else this.adjustVertical();
+    this.createPageItems();
   }
 
   /**
@@ -293,73 +313,123 @@ export class Category extends LegendBase<CategoryCfg> {
   private adjustHorizontal() {
     const {
       maxWidth,
-      spacing: [row, col],
+      spacing: [rowSpacing, colSpacing],
       autoWrap,
-      maxCols,
+      maxRows,
     } = this.attributes;
-    const { x: left, y: top } = this.getAvailableSpace();
+    const height = this.itemHeight;
 
-    if (!maxWidth) {
-      // 不限制宽度，一行拉通
-      //  item item item item item
-      let prevWidth = left;
-      this.getItems().forEach((item) => {
-        item.attr('x', prevWidth);
-        prevWidth += getShapeSpace(item).width + row;
-      });
+    /** 不分页 */
+    const noPagingFlag = !maxWidth || maxWidth === Infinity;
+    /** 单行分页  */
+    const oneLineWrapFlag = !autoWrap;
+    if (oneLineWrapFlag) {
+      this.pageWidth = maxWidth;
+      this.pageHeight = height;
     }
-    if (!autoWrap) {
-      // <- item item item item ->
-      // 不允许自动换行，【若超出宽度】横向出现翻页按钮
-      // 调整 itemsGroup 位置
-      // 调整翻页器位置
+    /** 多行分页 */
+    const multiRowWrapFlag = !noPagingFlag && !oneLineWrapFlag;
+    if (multiRowWrapFlag) {
+      this.pageWidth = maxWidth;
+      this.pageHeight = (height + colSpacing) * maxRows;
     }
-    // 换行
-    let prevWidth = left;
-    let prevHeight = top;
-    this.getItems().forEach((item) => {
-      const { width, height } = getShapeSpace(item);
-      if (prevWidth >= maxWidth) {
-        prevHeight += height + col;
-        prevWidth = left;
+    const pageWidth = this.pageWidth!;
+    /** 当前图例项的将放置于currY, currY 坐标，当前行数 */
+    let [currX, currY, currRows, pageNum] = [0, 0, 1, this.pageNum];
+    this.items.forEach((item) => {
+      const { width } = getShapeSpace(item);
+      let [x, y] = [0, 0];
+      if (noPagingFlag) {
+        [x, y] = [currX, currY];
+        currX += width + rowSpacing;
+      } else {
+        const nextPageStart = pageWidth * pageNum;
+        if (currX + width > nextPageStart) {
+          if (oneLineWrapFlag) {
+            // 单行分页 and 分页
+            currX = nextPageStart;
+            pageNum += 1;
+          } else if (currRows === maxRows) {
+            // 多行分页 and 分页
+            // 分页
+            currRows = 1;
+            currX = nextPageStart;
+            currY = 0;
+            pageNum += 1;
+          } else {
+            // 多行分页 and 分行
+            // 分行
+            currRows += 1;
+            currX = nextPageStart - pageWidth;
+            currY += height + colSpacing;
+          }
+        }
+        [x, y] = [currX, currY];
+        currX += width + rowSpacing;
       }
-      item.attr({ x: prevWidth, y: prevHeight });
-      prevWidth += width + row;
+      item.attr({ x, y });
     });
-
-    // 超出最大行数
+    this.pageNum = pageNum;
   }
 
+  /**
+   * 纵向布局
+   */
   private adjustVertical() {
     const {
       maxHeight,
-      spacing: [row, col],
+      spacing: [rowSpacing, colSpacing],
       autoWrap,
-      maxRows,
+      maxCols,
       itemWidth,
     } = this.attributes;
-    const { x: left, y: top } = this.getAvailableSpace();
-    if (!maxHeight) {
-      // 不限制高度，一列拉通
-      let prevHeight = top;
-      this.getItems().forEach((item) => {
-        item.attr('y', prevHeight);
-        prevHeight += getShapeSpace(item).height + col;
-      });
+    const { itemHeight } = this;
+    /** 不分页  */
+    const noPagingFlag = !maxHeight || maxHeight === Infinity;
+
+    /** 单列分页 */
+    const oneColWrapFlag = !autoWrap;
+    if (oneColWrapFlag) {
+      this.pageWidth = itemWidth;
+      this.pageHeight = maxHeight;
     }
-    if (!autoWrap) {
-      // 不自动换列，【若超出高度】纵向出现翻页按钮
+    /** 多列分页 */
+    const multiColWrapFlag = !noPagingFlag && !oneColWrapFlag;
+    if (multiColWrapFlag) {
+      this.pageWidth = (itemWidth + rowSpacing) * maxCols;
+      this.pageHeight = maxHeight;
     }
-    let prevWidth = left;
-    let prevHeight = top;
-    this.getItems().forEach((item) => {
-      if (prevHeight >= maxHeight) {
-        prevWidth += itemWidth + row;
-        prevHeight = top;
+    const pageHeight = this.pageHeight!;
+    let [currX, currY, currCols, pageNum] = [0, 0, 1, this.pageNum];
+    this.items.forEach((item) => {
+      let [x, y] = [0, 0];
+      if (noPagingFlag) {
+        [x, y] = [currX, currY];
+        currY += itemHeight + colSpacing;
+      } else {
+        /** 下一页开始的y坐标 */
+        const nexPageStart = pageHeight * pageNum;
+        if (currY + itemHeight > nexPageStart) {
+          if (oneColWrapFlag) {
+            currY = nexPageStart;
+            pageNum += 1;
+          } else if (currCols === maxCols) {
+            currCols = 1;
+            currX = 0;
+            currY = nexPageStart;
+            pageNum += 1;
+          } else {
+            // 分列
+            currCols += 1;
+            currX += itemWidth + rowSpacing;
+            currY = nexPageStart - pageHeight;
+          }
+        }
+        [x, y] = [currX, currY];
+        currY += itemHeight + colSpacing;
       }
-      item.attr({ x: prevWidth, y: prevHeight });
-      prevHeight += getShapeSpace(item).height + col;
+      item.attr({ x, y });
     });
-    // 超出列数翻页
+    this.pageNum = pageNum;
   }
 }

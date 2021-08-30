@@ -8,6 +8,7 @@ import type {
   PathProps,
 } from '../../types';
 import type { MarkerCfg } from '../marker/types';
+import type { PageNavigatorCfg } from '../page-navigator';
 
 export type State = StyleState | 'default-active' | 'selected-active';
 export type SymbolCfg = MarkerCfg['symbol'];
@@ -105,25 +106,6 @@ export type CategoryItemCfg = {
     style: MixAttrs<Partial<TextProps>>;
   };
   backgroundStyle: MixAttrs<ShapeAttrs>;
-};
-
-// 分页器
-type PageNavigatorCfg = {
-  // 按钮
-  button: {
-    // 按钮图标
-    marker: SymbolCfg | ((type: 'prev' | 'next') => SymbolCfg);
-    // 按钮状态样式
-    style: MixAttrs<ShapeAttrs>;
-    // 尺寸
-    size: number;
-  };
-  // 页码
-  pagination: {
-    style: TextProps;
-    divider: string;
-    formatter: (pageNumber: number) => number | string;
-  };
 };
 
 export type LegendBaseCfg = ShapeAttrs & {

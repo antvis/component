@@ -15,6 +15,34 @@ export abstract class LegendBase<T extends LegendBaseCfg> extends GUI<Required<T
    */
   protected abstract get backgroundShapeCfg(): RectProps;
 
+  // 获取容器内可用空间, 排除掉title的空间
+  protected get availableSpace() {
+    // 连续图例不固定外部大小
+    // 容器大小 - padding - title
+    const { title } = this.attributes;
+    const { content, spacing } = title!;
+    const [top, , , left] = this.getPadding();
+    if (!content || content === '') return { x: left, y: top };
+    const { height: titleHeight } = getShapeSpace(this.titleShape);
+    return {
+      x: left,
+      y: top + titleHeight + spacing!,
+    };
+  }
+
+  /**
+   * 创建图例标题配置
+   */
+  protected get titleShapeCfg() {
+    const { title } = this.attributes;
+    const { content, style, formatter } = title!;
+
+    return {
+      ...style,
+      text: formatter!(content!),
+    };
+  }
+
   // background
   protected backgroundShape!: Rect;
 
@@ -34,7 +62,7 @@ export abstract class LegendBase<T extends LegendBaseCfg> extends GUI<Required<T
   }
 
   public update(cfg?: Partial<LegendBaseCfg>) {
-    this.titleShape.attr(this.getTitleShapeCfg());
+    this.titleShape.attr(this.titleShapeCfg);
     this.adjustTitle();
   }
 
@@ -57,20 +85,6 @@ export abstract class LegendBase<T extends LegendBaseCfg> extends GUI<Required<T
     return normalPadding(padding);
   }
 
-  // 获取容器内可用空间, 排除掉title的空间
-  protected getAvailableSpace() {
-    // 连续图例不固定外部大小
-    // 容器大小 - padding - title
-    const spacing = get(this.attributes, ['title', 'spacing']);
-    const [top, , , left] = this.getPadding();
-    const { height: titleHeight } = getShapeSpace(this.titleShape);
-
-    return {
-      x: left,
-      y: top + titleHeight + spacing,
-    };
-  }
-
   // 绘制背景
   protected createBackground() {
     this.backgroundShape = new Rect({
@@ -82,25 +96,12 @@ export abstract class LegendBase<T extends LegendBaseCfg> extends GUI<Required<T
   }
 
   /**
-   * 创建图例标题配置
-   */
-  protected getTitleShapeCfg() {
-    const { title } = this.attributes;
-    const { content, style, formatter } = title!;
-
-    return {
-      ...style,
-      text: formatter!(content!),
-    };
-  }
-
-  /**
    * 创建图例标题
    */
   protected createTitle() {
     this.titleShape = new Text({
       name: 'title',
-      style: this.getTitleShapeCfg(),
+      style: this.titleShapeCfg,
     });
 
     this.appendChild(this.titleShape);

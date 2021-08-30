@@ -38,6 +38,39 @@ export class CategoryItem extends GUI<ICategoryItemCfg> {
 
   private prevState!: State;
 
+  private get markerShapeCfg() {
+    const { itemMarker } = this.attributes;
+    const { marker, spacing, size: markerSize } = itemMarker;
+    return { x: spacing, symbol: marker, size: markerSize, ...this.getStyle(['itemMarker', 'style']) };
+  }
+
+  private get nameShapeCfg() {
+    const { itemName } = this.attributes;
+    const { content: nameContent } = itemName;
+    return { text: nameContent, ...this.getStyle(['itemName', 'style']) };
+  }
+
+  private get valueShapeCfg() {
+    const { itemValue } = this.attributes;
+    const { content: valueContent } = itemValue;
+    return {
+      text: valueContent,
+      ...this.getStyle(['itemValue', 'style']),
+    };
+  }
+
+  private get backgroundShapeCfg() {
+    return { ...this.getStyle('backgroundStyle') };
+  }
+
+  private get actualWidth() {
+    const { itemName, itemValue } = this.attributes;
+    const { width: markerWidth } = getShapeSpace(this.markerShape);
+    const { width: nameWidth } = getShapeSpace(this.nameShape);
+    const { width: valueWidth } = getShapeSpace(this.valueShape);
+    return markerWidth * 2 + nameWidth + valueWidth + itemName.spacing + itemValue.spacing;
+  }
+
   constructor({ style, ...rest }: CategoryItemOptions) {
     super({ type: 'categoryItem', style, ...rest });
     this.init();
@@ -47,25 +80,25 @@ export class CategoryItem extends GUI<ICategoryItemCfg> {
     // render backgroundShape
     this.backgroundShape = new Rect({
       name: 'background',
-      style: this.getBackgroundShapeCfg(),
+      style: this.backgroundShapeCfg,
     });
     this.appendChild(this.backgroundShape);
     // render markerShape
     this.markerShape = new Marker({
       name: 'marker',
-      style: this.getMarkerShapeCfg(),
+      style: this.markerShapeCfg,
     });
     this.backgroundShape.appendChild(this.markerShape);
     // render nameShape
     this.nameShape = new Text({
       name: 'name',
-      style: this.getNameShapeCfg(),
+      style: this.nameShapeCfg,
     });
     this.backgroundShape.appendChild(this.nameShape);
     // render valueShape
     this.valueShape = new Text({
       name: 'value',
-      style: this.getValueShapeCfg(),
+      style: this.valueShapeCfg,
     });
     this.backgroundShape.appendChild(this.valueShape);
     this.backgroundShape.toBack();
@@ -112,10 +145,10 @@ export class CategoryItem extends GUI<ICategoryItemCfg> {
 
     this.attr(deepMix({}, this.attributes, cfg));
     // update style
-    this.markerShape.attr(this.getMarkerShapeCfg());
-    this.nameShape.attr(this.getNameShapeCfg());
-    this.valueShape.attr(this.getValueShapeCfg());
-    this.backgroundShape.attr(this.getBackgroundShapeCfg());
+    this.markerShape.attr(this.markerShapeCfg);
+    this.nameShape.attr(this.nameShapeCfg);
+    this.valueShape.attr(this.valueShapeCfg);
+    this.backgroundShape.attr(this.backgroundShapeCfg);
     // adjustLayout
     this.adjustLayout();
   }
@@ -169,41 +202,8 @@ export class CategoryItem extends GUI<ICategoryItemCfg> {
 
     // 设置背景
     this.backgroundShape.attr({
-      width: itemWidth === undefined ? this.getActualWidth() : itemWidth,
+      width: itemWidth === undefined ? this.actualWidth : itemWidth,
       height,
     });
-  }
-
-  private getMarkerShapeCfg() {
-    const { itemMarker } = this.attributes;
-    const { marker, spacing, size: markerSize } = itemMarker;
-    return { x: spacing, symbol: marker, size: markerSize, ...this.getStyle(['itemMarker', 'style']) };
-  }
-
-  private getNameShapeCfg() {
-    const { itemName } = this.attributes;
-    const { content: nameContent } = itemName;
-    return { text: nameContent, ...this.getStyle(['itemName', 'style']) };
-  }
-
-  private getValueShapeCfg() {
-    const { itemValue } = this.attributes;
-    const { content: valueContent } = itemValue;
-    return {
-      text: valueContent,
-      ...this.getStyle(['itemValue', 'style']),
-    };
-  }
-
-  private getBackgroundShapeCfg() {
-    return { ...this.getStyle('backgroundStyle') };
-  }
-
-  private getActualWidth() {
-    const { itemName, itemValue } = this.attributes;
-    const { width: markerWidth } = getShapeSpace(this.markerShape);
-    const { width: nameWidth } = getShapeSpace(this.nameShape);
-    const { width: valueWidth } = getShapeSpace(this.valueShape);
-    return markerWidth * 2 + nameWidth + valueWidth + itemName.spacing + itemValue.spacing;
   }
 }

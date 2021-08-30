@@ -35,7 +35,7 @@ function createPages(count, width, height) {
       style: {
         x: width / 2,
         y: height / 2,
-        text: `第${i}页`,
+        text: `第${i + 1}页`,
         fill: 'black',
         fontSize: 20,
         textAlign: 'center',
@@ -115,6 +115,20 @@ const pageNavigator = new PageNavigator({
       position: 'bottom',
     },
   },
+});
+
+pages.removeChildren();
+createPages(10, pageWidth, pageHeight).forEach((shape) => pages.appendChild(shape));
+
+pageNavigator.update({
+  loop: true,
+  view: pages,
+});
+
+const newPages = new Group({});
+createPages(15, pageWidth, pageHeight).forEach((shape) => newPages.appendChild(shape));
+pageNavigator.update({
+  view: newPages,
 });
 
 canvas.appendChild(pageNavigator);

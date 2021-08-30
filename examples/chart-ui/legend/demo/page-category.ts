@@ -17,6 +17,11 @@ const canvas = new Canvas({
 
 const category = new Category({
   style: {
+    pageNavigator: {
+      button: {
+        position: 'right',
+      },
+    },
     x: 10,
     y: 10,
     items: [
@@ -34,7 +39,8 @@ const category = new Category({
       content: '基本分类图例',
     },
     spacing: [10, 10],
-    maxItemWidth: 160,
+    maxWidth: 350,
+    maxItemWidth: 180,
     itemMarker: (item, idx) => {
       return {
         marker: ['diamond', 'circle', 'triangle'][idx % 3],

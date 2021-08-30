@@ -43,9 +43,9 @@ export class PageNavigator extends GUI<PageNavigatorCfg> {
   /**
    * 显示内容的窗口
    */
-  private pageView!: Rect;
+  private clipView!: Rect;
 
-  private fullView!: DisplayObject;
+  private fullView: DisplayObject | undefined;
 
   /**
    * 当前是否正在翻页
@@ -75,33 +75,55 @@ export class PageNavigator extends GUI<PageNavigatorCfg> {
    * 一共有多少页
    */
   private get totalPages(): number {
-    const { width, height, pageWidth, pageHeight, orient, pageLimit, pageCallback } = this.attributes;
-
+    const { pageWidth, pageHeight, orient, pageLimit, pageCallback } = this.attributes;
     if (pageCallback || pageLimit !== Infinity) return pageLimit!;
     let totalPages = 0;
     if (orient === 'horizontal') {
-      totalPages = Math.ceil(width! / pageWidth);
+      totalPages = Math.ceil(this.width! / pageWidth);
     } else {
-      totalPages = Math.ceil(height! / pageHeight);
+      totalPages = Math.ceil(this.height! / pageHeight);
     }
     return totalPages;
   }
 
   private get view() {
-    return this.fullView;
+    return this.fullView!;
   }
 
   private set view(view: DisplayObject) {
-    this.fullView = view;
     const { width, height } = this.attributes;
+    view.setLocalPosition(0, 0);
+    this.fullView = view;
     if (!width || !height) {
       const { width: w, height: h } = getShapeSpace(view);
-      this.attr({
-        width: w,
-        height: h,
-      });
+      this.width = w;
+      this.height = h;
     }
   }
+
+  private get width() {
+    const { width } = this.attributes;
+    if (width) return width;
+    return this.viewWidth;
+  }
+
+  private set width(width: number) {
+    this.viewWidth = width;
+  }
+
+  private get height() {
+    const { height } = this.attributes;
+    if (height) return height;
+    return this.viewHeight;
+  }
+
+  private set height(height: number) {
+    this.viewHeight = height;
+  }
+
+  private viewWidth!: number;
+
+  private viewHeight!: number;
 
   private static defaultOptions = {
     type: PageNavigator.tag,
@@ -156,36 +178,41 @@ export class PageNavigator extends GUI<PageNavigatorCfg> {
   public init() {
     this.initShape();
     // 更新窗口
-    this.updatePageView();
+    this.updateClipView();
     // 更新背景
-    this.updateFullView();
+    this.updateView();
     // 更新按钮
     this.updateButton();
     this.updateButtonState();
     // 调整布局
     this.adjustLayout();
-    // 绑定事件
-    this.bindEvents();
   }
 
   public update(cfg: Partial<PageNavigatorCfg>) {
-    this.attr(deepMix({}, this.attributes, cfg));
-    this.updatePageView();
-    if ('view' in cfg) {
-      const { view } = cfg;
-      this.view.style.clipPath = null;
-      this.removeChild(this.view);
+    const { view } = cfg;
+    if (view) {
+      if (this.view) {
+        this.view.style.clipPath = null;
+        this.removeChild(this.view, false);
+      }
       // 更新full view
-      this.view = view!;
-      this.view.style.clipPath = this.pageView;
+      this.currPage = this.attributes.initPageNum!;
+      this.view = view;
+      this.view.style.clipPath = this.clipView;
       this.appendChild(this.view);
     }
+    this.attr(deepMix({}, this.attributes, cfg));
+    this.updateClipView();
     this.updateButton();
     this.updateButtonState();
     this.adjustLayout();
   }
 
-  public clear() {}
+  public clear() {
+    this.removeChild(this.view, false);
+    this.fullView = undefined;
+    this.removeChildren(true);
+  }
 
   /**
    * 从xx页翻到xx页
@@ -194,15 +221,14 @@ export class PageNavigator extends GUI<PageNavigatorCfg> {
   public goTo(to: number, from?: number) {
     if (this.playState === 'idle') {
       const { effect, duration } = this.attributes;
-      const { x: fromX, y: fromY } = this.getPageViewSpace(isUndefined(from) ? this.currPage : from);
-      const { x: toX, y: toY } = this.getPageViewSpace(to);
-      const currX = this.view.attr('x');
-      const currY = this.view.attr('y');
-      const [targetX, targetY] = [currX + fromX - toX, currY + fromY - toY];
-
+      const { x: fromX, y: fromY } = this.getClipViewSpace(isUndefined(from) ? this.currPage : from);
+      const { x: toX, y: toY } = this.getClipViewSpace(to);
+      const currX = this.view.attr('x') || 0;
+      const currY = this.view.attr('y') || 0;
+      const { x: targetX, y: targetY } = this.calcViewPosition(to);
       this.playState = 'running';
       // 播放动画
-      this.pageView.animate(
+      this.clipView.animate(
         [{ transform: `translate(${fromX}px, ${fromY}px)` }, { transform: `translate(${toX}px, ${toY}px)` }],
         { duration, easing: effect }
       );
@@ -213,7 +239,7 @@ export class PageNavigator extends GUI<PageNavigatorCfg> {
       );
       // 设置最终位置
       animation?.finished.then(() => {
-        this.pageView.attr({ x: toX, y: toY });
+        this.clipView.attr({ x: toX, y: toY });
         this.view.attr({ x: targetX, y: targetY });
         this.currPage = to;
         this.updateButtonState();
@@ -250,8 +276,8 @@ export class PageNavigator extends GUI<PageNavigatorCfg> {
 
   private initShape() {
     // 初始化 窗口
-    this.pageView = new Rect({
-      name: 'pageView',
+    this.clipView = new Rect({
+      name: 'clipView',
       style: {
         x: 0,
         y: 0,
@@ -259,7 +285,7 @@ export class PageNavigator extends GUI<PageNavigatorCfg> {
         height: 0,
       },
     });
-    this.view.style.clipPath = this.pageView;
+    this.view.style.clipPath = this.clipView;
     // 将全景图挂载到翻页器
     this.appendChild(this.view);
 
@@ -288,14 +314,20 @@ export class PageNavigator extends GUI<PageNavigatorCfg> {
     this.appendChild(this.paginationGroup);
   }
 
-  private updatePageView() {
-    this.pageView.attr(this.getPageViewSpace(this.currPage));
+  /**
+   * 更新窗口位置
+   */
+  private updateClipView() {
+    this.clipView.attr(this.getClipViewSpace(this.currPage));
   }
 
-  private updateFullView() {
-    this.view.attr(this.calcFullViewPosition(this.currPage));
+  private updateView() {
+    this.view.attr(this.calcViewPosition(this.currPage));
   }
 
+  /**
+   * 更新 button
+   */
   private updateButton() {
     const { button } = this.attributes;
     const { prev, next } = button!;
@@ -319,13 +351,16 @@ export class PageNavigator extends GUI<PageNavigatorCfg> {
       } else {
         this.prevButton.update({ disabled: false });
       }
+    } else {
+      this.nextButton.update({ disabled: false });
+      this.prevButton.update({ disabled: false });
     }
   }
 
   /**
    * 根据页码获得该页的位置
    */
-  private getPageViewSpace(num: number): Page {
+  private getClipViewSpace(num: number): Page {
     const { orient, pageWidth, pageHeight, pageCallback } = this.attributes;
     const pageSpace = { x: 0, y: 0, width: pageWidth, height: pageHeight };
     const { totalPages } = this;
@@ -342,18 +377,12 @@ export class PageNavigator extends GUI<PageNavigatorCfg> {
   /**
    * 计算切换到第num页时，fullView应当放置的位置
    */
-  private calcFullViewPosition(num: number): { x: number; y: number } {
+  private calcViewPosition(num: number): { x: number; y: number } {
     // 第1页的pageView位置 应当对应fullView 的位置
-    const { x: p1X, y: p1Y } = this.getPageViewSpace(1);
-    const { x: pnX, y: pnY } = this.getPageViewSpace(num);
+    const { x: p1X, y: p1Y } = this.getClipViewSpace(1);
+    const { x: pnX, y: pnY } = this.getClipViewSpace(num);
     const [diffX, diffY] = [-pnX + p1X, -pnY + p1Y];
     return { x: diffX, y: diffY };
-  }
-
-  private bindEvents() {
-    // 按钮点击事件
-    // this.prevButton.addEventListener('click', () => this.prev());
-    // this.nextButton.addEventListener('click', () => this.next());
   }
 
   /**

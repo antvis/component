@@ -1,4 +1,4 @@
-import { isString, isArray } from '@antv/util';
+import { isArray } from '@antv/util';
 import { DisplayObject, Group, Path } from '@antv/g';
 import type { Cursor, PathCommand } from '@antv/g';
 import type { RailCfg as DefaultCfg } from './types';
@@ -23,6 +23,20 @@ export class Rail extends DisplayObject<Required<IRailCfg>> {
 
   // 背景的path group
   private backgroundPathGroup!: Group;
+
+  private get gradientColor() {
+    const { color } = this.attributes;
+    if (isArray(color) && color.length > 0) {
+      // 生成线型渐变
+      const step = 1 / (color.length - 1);
+      let gradientColor = 'l(0)';
+      for (let i = 0; i < color.length; i += 1) {
+        gradientColor += ` ${toPrecision(i * step, 2)}:${color[i]}`;
+      }
+      return gradientColor;
+    }
+    return color as string;
+  }
 
   constructor({ style, ...rest }: Partial<DisplayObject<IRailCfg>>) {
     super({ type: 'rail', style, ...rest });
@@ -69,7 +83,7 @@ export class Rail extends DisplayObject<Required<IRailCfg>> {
           name: 'railPath',
           style: {
             path,
-            fill: chunked ? color![idx] : this.getGradientColor(),
+            fill: chunked ? color![idx] : this.gradientColor,
           },
         })
       );
@@ -114,20 +128,6 @@ export class Rail extends DisplayObject<Required<IRailCfg>> {
   public clear() {
     this.railPathGroup.removeChildren();
     this.backgroundPathGroup.removeChildren();
-  }
-
-  private getGradientColor() {
-    const { color } = this.attributes;
-    if (isArray(color) && color.length > 0) {
-      // 生成线型渐变
-      const step = 1 / (color.length - 1);
-      let gradientColor = 'l(0)';
-      for (let i = 0; i < color.length; i += 1) {
-        gradientColor += ` ${toPrecision(i * step, 2)}:${color[i]}`;
-      }
-      return gradientColor;
-    }
-    return color as string;
   }
 
   private getOrientVal<T>(val1: T, val2: T) {

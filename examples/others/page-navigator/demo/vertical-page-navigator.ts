@@ -35,7 +35,7 @@ function createPages(count: number, width: number, height: number) {
       style: {
         x: width / 2,
         y: height / 2,
-        text: `第${i}页`,
+        text: `第${i + 1}页`,
         fill: 'black',
         fontSize: 20,
         textAlign: 'center',

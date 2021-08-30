@@ -19,6 +19,15 @@ const category = new Category({
   style: {
     x: 10,
     y: 10,
+    orient: 'vertical',
+    itemWidth: 140,
+    maxHeight: 80,
+    maxCols: 3,
+    autoWrap: true,
+    spacing: [10, 10],
+    title: {
+      content: '纵向',
+    },
     items: [
       { name: 'Chrome', value: '7.08%', id: 'chrome', state: 'selected' },
       { name: 'IE', value: '5.41%', id: 'IE' },
@@ -30,11 +39,6 @@ const category = new Category({
       { name: 'Sogou', value: '1.06%' },
       { name: 'Others', value: '0.59%' },
     ],
-    title: {
-      content: '基本分类图例',
-    },
-    spacing: [10, 10],
-    maxItemWidth: 160,
     itemMarker: (item, idx) => {
       return {
         marker: ['diamond', 'circle', 'triangle'][idx % 3],
