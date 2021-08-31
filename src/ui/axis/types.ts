@@ -34,7 +34,7 @@ export type AxisLineCfg = {
 
 export type AxisTickLineCfg = {
   // 刻度线长度
-  length?: number;
+  len?: number;
   style?: MixAttrs<Partial<LineProps>>;
   // 刻度线在其方向上的偏移量
   offset?: number;
@@ -44,7 +44,7 @@ export type AxisTickLineCfg = {
 
 export type AxisSubTickLineCfg = {
   // 刻度线长度
-  length?: number;
+  len?: number;
   // 两个刻度之间的子刻度数
   count?: number;
   style?: MixAttrs<Partial<LineProps>>;

@@ -41,3 +41,28 @@ export function getStateStyle<T>(style?: MixAttrs<T>, state?: StyleState, isMerg
   }
   return stateStyle;
 }
+
+/**
+ * 对给定HTML对象应用给定样式
+ * @param style {[key: string]: Object}
+ * 样式表参考结构
+ * {
+ *  '.selector': {
+ *   'attrName': 'attr',
+ *   'padding': '0 0 0 0',
+ *   'background-color': 'red'
+ *  }
+ * }
+ */
+export function applyStyleSheet(element: HTMLElement, style: { [key: string]: Object }): void {
+  Object.entries(style).forEach(([selector, styleString]) => {
+    [element, ...element.querySelectorAll(selector)]
+      .filter((el) => el.matches(selector))
+      .forEach((target) => {
+        const temp = target as HTMLElement;
+        temp.style.cssText += Object.entries(styleString).reduce((total, currVal) => {
+          return `${total}${currVal.join(':')};`;
+        }, '');
+      });
+  });
+}

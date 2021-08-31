@@ -133,24 +133,24 @@ describe('page navigator', () => {
 
     const { width, height } = getShapeSpace(pages);
     // 被裁切后
-    expect(width).toBe(pageWidth);
-    expect(height).toBe(pageHeight);
+    expect(width).toBeCloseTo(pageWidth);
+    expect(height).toBeCloseTo(pageHeight);
     // 第1页
-    expect(pages.attr('x')).toBe(0);
+    expect(pages.attr('x')).toBeCloseTo(0);
     // 第二页
     await pageNavigator.next().then((e) => {
       console.log('to page:', e);
     });
-    expect(pages.attr('x')).toBe(-pageWidth);
+    expect(pages.attr('x')).toBeCloseTo(-pageWidth);
     // 第三页
     await pageNavigator.goTo(3).then((e) => {
       console.log('to page:', e);
     });
-    expect(pages.attr('x')).toBe(-pageWidth * 2);
+    expect(pages.attr('x')).toBeCloseTo(-pageWidth * 2);
     // 第四页
     await pageNavigator.next().then((e) => {
       console.log('to page:', e);
     });
-    expect(pages.attr('x')).toBe(-pageWidth * 3);
+    expect(pages.attr('x')).toBeCloseTo(-pageWidth * 3);
   });
 });

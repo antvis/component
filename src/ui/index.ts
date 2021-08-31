@@ -50,6 +50,8 @@ export { Statistic } from './statistic';
 export type { StatisticOptions } from './statistic';
 export { Countdown } from './countdown';
 export type { CountdownOptions } from './countdown';
+export { Tooltip } from './tooltip';
+export type { TooltipCfg } from './tooltip';
 export { Switch } from './switch';
 export type { SwitchOptions } from './switch';
 // author by [Aarebecca](https://github.com/Aarebecca)

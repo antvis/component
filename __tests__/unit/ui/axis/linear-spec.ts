@@ -1,9 +1,7 @@
-import type { Path, Text } from '@antv/g';
-import { Canvas } from '@antv/g';
+import { Canvas, Text } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Linear } from '../../../../src';
 import { createDiv } from '../../../utils';
-import type { Marker } from '../../../../src';
 import type { StyleState as State } from '../../../../src/types';
 import type { TickDatum } from '../../../../src/ui/axis/types';
 
@@ -41,7 +39,7 @@ function createData(values: number[], texts?: string[], states?: State[], ids?: 
 }
 
 describe('linear', () => {
-  test('basic', async () => {
+  test('basic', () => {
     linear.update({
       title: {
         content: '直线轴线',
@@ -65,7 +63,6 @@ describe('linear', () => {
       },
       ticks: createData([0, 0.2, 0.4, 0.6, 0.8], ['A', 'B', 'C', 'D', 'E']),
     });
-
     // @ts-ignore
     expect(linear.tickLinesGroup.children.length).toBe(5);
     // @ts-ignore
@@ -74,7 +71,6 @@ describe('linear', () => {
     expect(linear.subTickLinesGroup.children.length).toBe(4 * 5);
     // @ts-ignore
     expect(linear.tickLinesGroup.children[0]!.attr('stroke')).toBe('black');
-
     linear.update({
       tickLine: {
         appendTick: true,
@@ -90,8 +86,7 @@ describe('linear', () => {
     // @ts-ignore
     expect(linear.tickLinesGroup.children[0]!.attr('stroke')).toBe('red');
   });
-
-  test('vertical', async () => {
+  test('vertical', () => {
     linear.update({
       startPos: [250, 50],
       endPos: [250, 450],
@@ -99,15 +94,13 @@ describe('linear', () => {
         offset: [0, 0],
       },
     });
-
     // @ts-ignore
     const { axisLine } = linear;
     const linePath = axisLine.attr('path');
     expect(linePath[0]).toStrictEqual(['M', 250, 50]);
     expect(linePath[1]).toStrictEqual(['L', 250, 450]);
   });
-
-  test('oblique', async () => {
+  test('oblique', () => {
     linear.update({
       startPos: [50, 50],
       endPos: [450, 450],
@@ -119,19 +112,16 @@ describe('linear', () => {
       },
     });
   });
-
-  test('ticks', async () => {
+  test('ticks', () => {
     // @ts-ignore
     const [[, x1, y1], [, x2, y2]] = linear.tickLinesGroup.children[0]!.attr('path');
     expect((y2 - y1) / (x2 - x1)).toBeCloseTo(-1);
   });
-
-  test('title', async () => {
+  test('title', () => {
     // @ts-ignore
     expect(linear.titleShape.attr('text')).toBe('直线轴线');
   });
-
-  test('line', async () => {
+  test('line', () => {
     linear.update({
       title: {
         offset: [0, -40],
@@ -147,15 +137,11 @@ describe('linear', () => {
     expect(linePath[0]).toStrictEqual(['M', 50, 50]);
     expect(linePath[1]).toStrictEqual(['L', 450, 50]);
   });
-
-  test('arrow', async () => {
+  test('arrow', () => {
     // @ts-ignore
     expect(linear.axisEndArrow.getEulerAngles()).toBeCloseTo(0);
   });
-
-  // test('subTicks', async () => {});
-
-  test('label', async () => {
+  test('label', () => {
     linear.update({
       label: {
         alignTick: true,
@@ -178,8 +164,7 @@ describe('linear', () => {
     // @ts-ignore
     expect(linear.labelsGroup.children[4]!.attr('text')).toBe('0.8-E');
   });
-
-  test('autoRotate', async () => {
+  test('autoRotate', () => {
     linear.update({
       label: {
         formatter: () => {
@@ -193,8 +178,7 @@ describe('linear', () => {
     // @ts-ignore
     expect(linear.labelsGroup.children[0]!.getEulerAngles()).toBeCloseTo(15);
   });
-
-  test('autoHide', async () => {
+  test('autoHide', () => {
     linear.update({
       label: {
         autoRotate: false,
@@ -202,7 +186,6 @@ describe('linear', () => {
         autoHide: true,
       },
     });
-
     // @ts-ignore
     const group = linear.labelsGroup.children! as Text[];
     expect(group[0]!.attr('visibility')).toBe('visible');
@@ -211,8 +194,7 @@ describe('linear', () => {
     expect(group[3]!.attr('visibility')).toBe('hidden');
     expect(group[4]!.attr('visibility')).toBe('visible');
   });
-
-  test('autoEllipsis text', async () => {
+  test('autoEllipsis text', () => {
     // 没有现在最大长度
     linear.update({
       label: {
@@ -227,7 +209,6 @@ describe('linear', () => {
     });
     // @ts-ignore
     expect(linear.labelsGroup.children[0]!.attr('text')).toBe('这是一段很长的文本');
-
     linear.update({
       label: {
         minLength: 50,
@@ -241,8 +222,7 @@ describe('linear', () => {
     expect(x2 - x1).toBeGreaterThanOrEqual(50);
     expect(x2 - x1).toBeLessThanOrEqual(100);
   });
-
-  test('autoEllipsis time', async () => {
+  test('autoEllipsis time', () => {
     linear.update({
       ticks: createData(
         [0, 0.2, 0.4, 0.6, 0.8, 1],
@@ -261,14 +241,12 @@ describe('linear', () => {
         formatter: (tick) => tick.text!,
       },
     });
-
     // @ts-ignore
     const group = linear.labelsGroup.children! as Text[];
     expect(group[0].attr('text')).toBe('2021-08-11');
     expect(group[1].attr('text')).toBe('09-11');
   });
-
-  test('autoEllipsis number', async () => {
+  test('autoEllipsis number', () => {
     linear.update({
       ticks: createData([0, 0.2, 0.4, 0.6, 0.8, 1]),
       label: {
@@ -281,12 +259,10 @@ describe('linear', () => {
         formatter: ({ value }: TickDatum) => String(value * 5000),
       },
     });
-
     // @ts-ignore
     let group = linear.labelsGroup.children! as Text[];
     expect(group[0].attr('text')).toBe('0');
     expect(group[1].attr('text')).toBe('1,000');
-
     linear.update({
       label: {
         minLength: 30,
@@ -298,7 +274,6 @@ describe('linear', () => {
     group = linear.labelsGroup.children! as Text[];
     expect(group[1].attr('text')).toBe('2,000K');
     expect(group[5].attr('text')).toBe('10,000K');
-
     linear.update({
       label: {
         minLength: 30,

@@ -225,7 +225,11 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
    * 获得绘制刻度线的属性
    */
   private get ticksCfg(): ITicksCfg {
-    const { tickLine, subTickLine, label } = this.attributes;
+    const { tickLine, subTickLine, label } = this.attributes as {
+      tickLine: Required<AxisTickLineCfg>;
+      subTickLine: Required<AxisSubTickLineCfg>;
+      label: Required<AxisLabelCfg>;
+    };
 
     const style = {
       tickLines: [],
@@ -240,7 +244,7 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
 
     this.labelsValues = [];
 
-    const { length, offset, appendTick } = tickLine as Required<AxisTickLineCfg>;
+    const { len, offset, appendTick } = tickLine;
     if (appendTick) {
       const { value, state, id } = ticks[ticks.length - 1];
       if (value !== 1) {
@@ -252,12 +256,12 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
         });
       }
     }
-    const isCreateSubTickLines = subTickLine && (subTickLine as Required<AxisSubTickLineCfg>).count >= 0;
+    const isCreateSubTickLines = subTickLine?.count >= 0;
 
     ticks.forEach((tick: TickDatum, idx: number) => {
       const nextTickValue = idx === ticks.length - 1 ? 1 : ticks[idx + 1].value;
       const { value: currTickValue, text } = tick;
-      const [st, end] = this.calcTick(currTickValue, length, offset);
+      const [st, end] = this.calcTick(currTickValue, len, offset);
       style.tickLines.push({
         path: [
           ['M', ...st],
@@ -270,9 +274,9 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
           alignTick,
           // TODO 暂时只支持平行于刻度方向的偏移量
           offset: [, o2],
-        } = label as Required<AxisLabelCfg>;
+        } = label;
         const labelVal = alignTick ? currTickValue : (currTickValue + nextTickValue) / 2;
-        const [st] = this.calcTick(labelVal, length, o2);
+        const [st] = this.calcTick(labelVal, len, o2);
         this.labelsValues.push(labelVal);
         style.labels.push({
           x: st[0],
@@ -284,10 +288,10 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
       // 子刻度属性
       if (isCreateSubTickLines && idx >= 0 && currTickValue < 1) {
         // 子刻度只在两个刻度之间绘制
-        const { count, length, offset } = subTickLine as Required<AxisSubTickLineCfg>;
+        const { count, len, offset } = subTickLine;
         const subStep = (nextTickValue - currTickValue) / (count + 1);
         for (let i = 1; i <= count; i += 1) {
-          const [st, end] = this.calcTick(currTickValue + i * subStep, length, offset);
+          const [st, end] = this.calcTick(currTickValue + i * subStep, len, offset);
           style.subTickLines.push({
             path: [
               ['M', ...st],

@@ -50,7 +50,7 @@ describe('switch', () => {
     expect(get(switchShape, 'backgroundShape.attributes.fill')).toBe('#1890FF');
     expect(get(switchShape, 'rectStrokeShape.attributes.stroke')).toBe('#1890FF');
 
-    expect(get(switchShape, 'rectStrokeShape.attributes.lineWidth')).toBe('0');
+    expect(get(switchShape, 'rectStrokeShape.attributes.lineWidth')).toBe(0);
   });
 
   test('size switch', () => {

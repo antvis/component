@@ -36,14 +36,14 @@
     "GUI"
   ],
   "dependencies": {
-    "@antv/g": "^1.0.0-alpha.9",
-    "@antv/g-canvas": "^1.0.0-alpha.10",
-    "@antv/g-svg": "^1.0.0-alpha.10",
+    "@antv/dom-util": "^2.0.3",
+    "@antv/g": "^1.0.0-alpha.13",
+    "@antv/g-canvas": "^1.0.0-alpha.14",
+    "@antv/g-svg": "^1.0.0-alpha.14",
     "@antv/matrix-util": "^3.0.4",
     "@antv/path-util": "^2.0.9",
     "@antv/scale": "^0.4.3",
     "@antv/util": "^2.0.13",
-    "csstype": "^3.0.8",
     "fecha": "^4.2.1",
     "svg-path-parser": "^1.1.0"
   },
@@ -57,6 +57,7 @@
     "@typescript-eslint/parser": "^4.19.0",
     "core-js": "^3.14.0",
     "cross-env": "^7.0.3",
+    "csstype": "^3.0.8",
     "eslint": "^7.22.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.1.0",
@@ -77,6 +78,7 @@
     "react-i18next": "^11.7.0",
     "regenerator-runtime": "^0.13.7",
     "rimraf": "^3.0.2",
+    "ts-essentials": "^8.0.0",
     "ts-jest": "^26.5.1",
     "tslib": "^2.2.0",
     "typescript": "^4.1.5"

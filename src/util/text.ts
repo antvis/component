@@ -1,8 +1,8 @@
 import { Text } from '@antv/g';
-import { isString, memoize, values, toString, pick } from '@antv/util';
-import * as CSS from 'csstype';
+import { isString, memoize, values, toString } from '@antv/util';
+import type { Properties } from 'csstype';
 
-type Font = Pick<CSS.Properties, 'fontFamily' | 'fontWeight' | 'fontStyle' | 'fontVariant'> & {
+type Font = Pick<Properties, 'fontFamily' | 'fontWeight' | 'fontStyle' | 'fontVariant'> & {
   fontSize?: number;
 };
 

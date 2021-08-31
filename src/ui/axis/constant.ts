@@ -34,7 +34,7 @@ export const AXIS_BASE_DEFAULT_OPTIONS = {
     ticks: [],
     ticksThreshold: 400,
     tickLine: {
-      length: 10,
+      len: 10,
       style: {
         default: {
           stroke: 'black',
@@ -70,8 +70,8 @@ export const AXIS_BASE_DEFAULT_OPTIONS = {
       maxLength: Infinity,
     },
     subTickLine: {
-      length: 6,
-      count: 9,
+      len: 6,
+      count: 0,
       style: {
         default: {
           stroke: 'black',

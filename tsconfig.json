@@ -11,12 +11,12 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "pretty": true,
-    "lib": ["dom", "esnext"],
+    "lib": ["dom", "DOM.Iterable", "esnext"],
     "skipLibCheck": true,
     "sourceRoot": "src",
     "baseUrl": "src",
     "strict": true
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "examples"]
 }
