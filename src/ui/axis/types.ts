@@ -59,7 +59,7 @@ export type AxisLabelCfg = {
   alignTick?: boolean;
   // 标签文本与轴线的对齐方式，normal-水平，tangential-切向 radial-径向
   align?: 'normal' | 'tangential' | 'radial';
-  formatter?: (tick: TickDatum) => string;
+  formatter?: (tick: TickDatum, index: number) => string;
   offset?: [number, number];
   // 处理label重叠的优先级
   overlapOrder?: OverlapType[];
@@ -69,9 +69,11 @@ export type AxisLabelCfg = {
   autoRotate?: boolean;
   // 自动旋转范围
   // 自动旋转时，将会尝试从 min 旋转到 max
-  rotateRange?: [number, number];
+  // rotateRange?: [number, number];
   // 旋转更新步长
-  rotateStep?: number;
+  // rotateStep?: number;
+  // 自动选择的可选角度
+  optionalAngles?: number[];
   // 手动指定旋转角度
   rotate?: number;
   // 自动隐藏

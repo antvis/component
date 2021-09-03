@@ -1,4 +1,3 @@
-import { throttle, pick } from '@antv/util';
 import { Canvas, Rect } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Tooltip } from '@antv/gui';
@@ -32,17 +31,17 @@ canvas.appendChild(
 );
 
 /* 边界区域 */
-canvas.appendChild(
-  new Rect({
-    style: {
-      x: 50,
-      y: 50,
-      width: 500,
-      height: 500,
-      fill: 'lightgreen',
-    },
-  })
-);
+const tooltipArea = new Rect({
+  style: {
+    x: 50,
+    y: 50,
+    width: 500,
+    height: 500,
+    fill: '#a6ec9a',
+  },
+});
+
+canvas.appendChild(tooltipArea);
 
 const tooltip = new Tooltip({
   style: {
@@ -51,6 +50,10 @@ const tooltip = new Tooltip({
     y: 0,
     offset: [20, 20],
     position: 'bottom-right',
+    filterBy: (item) => {
+      if (item.value < 2000) return false;
+      return true;
+    },
     items: [
       {
         value: 1000,
@@ -65,7 +68,6 @@ const tooltip = new Tooltip({
         color: '#616f8f',
       },
     ],
-    parent: document.getElementById('container').firstChild,
     bounding: {
       x: 50,
       y: 50,
@@ -79,22 +81,14 @@ const tooltip = new Tooltip({
 Array.from(document.getElementsByClassName('tooltip')).forEach((tooltip) => tooltip.remove());
 // 添加tooltip
 document.body.appendChild(tooltip.HTMLTooltipElement);
-// 使用throttle函数，防止tooltip的移动速度过快
-const mousemove = throttle(
-  (e) => {
-    tooltip.position = [e.offsetX, e.offsetY];
-  },
-  100,
-  {}
-);
 // 绑定tooltip事件
-canvas.addEventListener('mousemove', (e) => {
-  mousemove(e);
+tooltipArea.addEventListener('mousemove', (e) => {
+  tooltip.position = [e.offsetX, e.offsetY];
 });
-canvas.addEventListener('mouseenter', () => {
+tooltipArea.addEventListener('mouseenter', () => {
   tooltip.show();
 });
-canvas.addEventListener('mouseleave', () => {
+tooltipArea.addEventListener('mouseleave', () => {
   tooltip.hide();
 });
 
@@ -124,3 +118,11 @@ setTimeout(() => {
     ],
   });
 }, 3000);
+
+const { left, top } = document.getElementById('container').getBoundingClientRect();
+tooltip.update({
+  container: {
+    x: left,
+    y: top,
+  },
+});

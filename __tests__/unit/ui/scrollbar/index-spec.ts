@@ -47,8 +47,8 @@ describe('scrollbar', () => {
   test('basic', async () => {
     expect(scrollbar.getValue()).toBe(0.5);
 
-    const { padding } = scrollbar.attributes;
-    const [top, , bottom] = padding;
+    // @ts-ignore
+    const [top, , bottom] = scrollbar.padding;
     const verticalPadding = top + bottom;
 
     let value = 0.2;
@@ -78,7 +78,7 @@ describe('scrollbar', () => {
 
     value = 10;
     scrollbar.setValue(value);
-    expect(scrollbar.getValue()).toBe(value);
+    expect(scrollbar.getValue()).toBe(1);
     expect(scrollbar.getElementsByName('thumb')[0].attr('y')).toBeCloseTo(
       top + (height - verticalPadding - thumbLen) * clamp(value, 0, 1),
       1
@@ -86,7 +86,7 @@ describe('scrollbar', () => {
 
     value = -10086;
     scrollbar.setValue(value);
-    expect(scrollbar.getValue()).toBe(value);
+    expect(scrollbar.getValue()).toBe(0);
     expect(scrollbar.getElementsByName('thumb')[0].attr('y')).toBeCloseTo(
       top + (height - verticalPadding - thumbLen) * clamp(value, 0, 1),
       1
@@ -108,8 +108,8 @@ describe('scrollbar', () => {
 
     expect(scrollbar.getValue()).toBe(0.5);
 
-    const { padding } = scrollbar.attributes;
-    const [, right, , left] = padding;
+    // @ts-ignore
+    const [, right, , left] = scrollbar.padding;
     const horizonPadding = left + right;
 
     let value = 0.2;
@@ -138,7 +138,7 @@ describe('scrollbar', () => {
 
     value = 10;
     scrollbar.setValue(value);
-    expect(scrollbar.getValue()).toBe(value);
+    expect(scrollbar.getValue()).toBe(1);
     expect(scrollbar.getElementsByName('thumb')[0].attr('x')).toBeCloseTo(
       left + (width - horizonPadding - thumbLen) * clamp(value, 0, 1),
       1
@@ -146,13 +146,13 @@ describe('scrollbar', () => {
 
     value = -10086;
     scrollbar.setValue(value);
-    expect(scrollbar.getValue()).toBe(value);
+    expect(scrollbar.getValue()).toBe(0);
     expect(scrollbar.getElementsByName('thumb')[0].attr('x')).toBeCloseTo(
       left + (width - horizonPadding - thumbLen) * clamp(value, 0, 1),
       1
     );
 
-    scrollbar.addEventListener('valuechange', (e) => {
+    scrollbar.addEventListener('valueChanged', (e) => {
       e;
     });
 

@@ -2,7 +2,7 @@ import { Rect, Text } from '@antv/g';
 import { deepMix, get, isUndefined } from '@antv/util';
 import { GUI } from '../../core/gui';
 import { SIZE_STYLE, TYPE_STYLE, DISABLED_STYLE } from './constant';
-import { getEllipsisText, measureTextWidth, getFont, getStateStyle } from '../../util';
+import { deepAssign, getEllipsisText, measureTextWidth, getFont, getStateStyle } from '../../util';
 import { Marker } from '../marker';
 import type { ButtonCfg, ButtonOptions, IMarkerCfg } from './types';
 import type { TextProps, RectProps } from '../../types';
@@ -14,6 +14,40 @@ export class Button extends GUI<ButtonCfg> {
    * 组件类型
    */
   public static tag = 'button';
+
+  /**
+   * 默认参数
+   */
+  private static defaultOptions = {
+    type: Button.tag,
+    style: {
+      disabled: false,
+      cursor: 'pointer',
+      padding: 10,
+      size: 'middle',
+      type: 'default',
+      text: '',
+      markerAlign: 'left',
+      markerSpacing: 5,
+      textStyle: {
+        default: {
+          textAlign: 'center',
+          textBaseline: 'middle',
+        },
+        active: {},
+      },
+      buttonStyle: {
+        default: {
+          lineWidth: 1,
+          radius: 5,
+        },
+        active: {},
+      },
+      markerStyle: {
+        default: {},
+      },
+    },
+  };
 
   private markerShape!: Marker;
 
@@ -95,43 +129,9 @@ export class Button extends GUI<ButtonCfg> {
   }
 
   constructor(options: ButtonOptions) {
-    super(deepMix({}, Button.defaultOptions, options));
-    this.initShape();
+    super(deepAssign({}, Button.defaultOptions, options));
     this.init();
   }
-
-  /**
-   * 默认参数
-   */
-  private static defaultOptions = {
-    type: Button.tag,
-    style: {
-      disabled: false,
-      padding: 10,
-      size: 'middle',
-      type: 'default',
-      text: '',
-      markerAlign: 'left',
-      markerSpacing: 5,
-      textStyle: {
-        default: {
-          textAlign: 'center',
-          textBaseline: 'middle',
-        },
-        active: {},
-      },
-      buttonStyle: {
-        default: {
-          lineWidth: 1,
-          radius: 5,
-        },
-        active: {},
-      },
-      markerStyle: {
-        default: {},
-      },
-    },
-  };
 
   /**
    * 根据size、type属性生成实际渲染的属性
@@ -158,6 +158,7 @@ export class Button extends GUI<ButtonCfg> {
       Object.keys(DISABLED_STYLE.strict[name]).forEach((key) => {
         mixedStyle[key] = get(DISABLED_STYLE, ['strict', name, key]);
       });
+      deepMix(mixedStyle, getStateStyle(get(this.attributes, name), 'disabled'));
     }
     return mixedStyle;
   }
@@ -166,6 +167,7 @@ export class Button extends GUI<ButtonCfg> {
    * 初始化button
    */
   public init(): void {
+    this.initShape();
     this.updateMarker();
     this.updateText();
     this.updateButton();
@@ -190,7 +192,6 @@ export class Button extends GUI<ButtonCfg> {
   public clear() {}
 
   public destroy() {
-    this.unBindEvents();
     this.removeChildren(true);
     super.destroy();
   }
@@ -223,16 +224,18 @@ export class Button extends GUI<ButtonCfg> {
    * 更新文本内容和样式
    */
   private updateText() {
-    const { disabled } = this.attributes;
     const { text } = this;
     if (text === '') this.textShape.hide();
     else {
-      this.textShape.attr({ text, cursor: disabled ? 'not-allowed' : 'default', ...this.getStyle('textStyle') });
+      this.textShape.attr({ text, ...this.getStyle('textStyle') });
       this.textShape.show();
     }
   }
 
   private updateButton() {
+    const { disabled } = this.attributes;
+    this.attr('cursor', disabled ? 'not-allowed' : 'pointer');
+
     const height = this.buttonHeight;
     const buttonStyle = this.getStyle('buttonStyle') as RectProps;
     this.backgroundShape.attr({ ...buttonStyle, height });
@@ -273,12 +276,6 @@ export class Button extends GUI<ButtonCfg> {
     this.addEventListener('click', this.clickEvents);
     this.addEventListener('mouseenter', this.mouseenterEvent);
     this.addEventListener('mouseleave', this.mouseleaveEvent);
-  }
-
-  private unBindEvents(): void {
-    this.removeEventListener('click', this.clickEvents);
-    this.removeEventListener('mouseenter', this.mouseenterEvent);
-    this.removeEventListener('mouseleave', this.mouseleaveEvent);
   }
 
   private adjustLayout() {

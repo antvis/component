@@ -1,3 +1,4 @@
+import { deepMix } from '@antv/util';
 import { DisplayObject, Text } from '@antv/g';
 import { ShapeAttrs, TextProps } from '../../types';
 
@@ -24,9 +25,10 @@ export class Labels extends DisplayObject<ILabelsCfg> {
     });
   }
 
-  attributeChangedCallback(name: string, value: any) {
-    if (name === 'labelsAttrs') {
-      // 清空label
+  public update(cfg: Partial<ILabelsCfg>) {
+    this.attr(deepMix({}, this.attributes, cfg));
+    const { labels } = cfg;
+    if (labels) {
       this.removeChildren(true);
       this.render();
     }

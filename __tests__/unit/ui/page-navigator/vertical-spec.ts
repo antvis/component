@@ -143,17 +143,17 @@ describe('vertical page navigator', () => {
     expect(pages.attr('y')).toBeCloseTo(0);
     // 第二页
     await pageNavigator.next().then((e) => {
-      console.log('to page:', e);
+      //
     });
     expect(pages.attr('y')).toBeCloseTo(-pageHeight);
     // 第三页
     await pageNavigator.goTo(3).then((e) => {
-      console.log('to page:', e);
+      //
     });
     expect(pages.attr('y')).toBeCloseTo(-pageHeight * 2);
     // 第四页
     await pageNavigator.next().then((e) => {
-      console.log('to page:', e);
+      //
     });
     expect(pages.attr('y')).toBeCloseTo(-pageHeight * 3);
   });

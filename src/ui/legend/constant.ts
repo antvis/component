@@ -43,31 +43,35 @@ export const CATEGORY_DEFAULT_OPTIONS = deepMix({}, LEGEND_BASE_DEFAULT_OPTIONS,
       spacing: 10,
       style: {
         default: {
-          fill: '#f8be4b',
+          fill: '#d3d2d3',
+          opacity: 1,
           lineWidth: 0,
         },
-        active: {
-          fill: '#f3774a',
+        selected: {
+          fill: '#d3d2d3',
+          opacity: 1,
         },
-        selected: {},
+        active: {},
       },
     },
     itemName: {
       spacing: 0,
       style: {
         default: {
-          fill: 'gray',
-          fontSize: 16,
+          fill: '#d3d2d3',
+          fontSize: 12,
+          opacity: 1,
           fontWeight: 'normal',
           textBaseline: 'middle',
         },
         selected: {
-          fill: 'white',
-          fontWeight: 'bold',
+          fill: '#646464',
+          opacity: 1,
+          textBaseline: 'middle',
         },
         active: {
-          fill: 'white',
-          fontWeight: 'bold',
+          opacity: 0.5,
+          textBaseline: 'middle',
         },
       },
       formatter: (name: string) => name,
@@ -77,33 +81,35 @@ export const CATEGORY_DEFAULT_OPTIONS = deepMix({}, LEGEND_BASE_DEFAULT_OPTIONS,
       align: 'right',
       style: {
         default: {
-          fill: 'gray',
-          fontSize: 16,
+          fill: '#d3d2d3',
+          fontSize: 12,
+          opacity: 1,
           fontWeight: 'normal',
           textBaseline: 'middle',
         },
         selected: {
-          fill: 'white',
-          fontWeight: 'bold',
+          fill: '#646464',
+          textBaseline: 'middle',
+          opacity: 1,
         },
         active: {
-          fill: 'white',
-          fontWeight: 'bold',
+          textBaseline: 'middle',
+          opacity: 0.5,
         },
       },
       formatter: (name: string) => name,
     },
     itemBackgroundStyle: {
       default: {
-        fill: '#fdf6e3',
+        fill: '#fff',
       },
       selected: {
         opacity: 1,
-        fill: '#dea739',
+        fill: '#fff',
       },
       active: {
         opacity: 1,
-        fill: '#2c2c2c',
+        fill: '#fff',
       },
     },
     reverse: false, // 倒序放置图例
@@ -196,4 +202,4 @@ export const CONTINUOUS_DEFAULT_OPTIONS = deepMix({}, LEGEND_BASE_DEFAULT_OPTION
 export const STEP_RATIO = 0.01;
 
 // 分类图例name和value宽度比例
-export const NAME_VALUE_RATIO = 1.2 / 1;
+export const NAME_VALUE_RATIO = 0.5;

@@ -29,11 +29,18 @@ export interface TooltipCfg {
   offset?: [number, number];
   /* 自动调整位置，需要设置容器属性 */
   autoPosition?: boolean;
-  /* tooltip所在的父容器 */
-  parent: HTMLCanvasElement;
-  /**
-   * tooltip 在画布中的边界
-   */
+  /** 节流频率 */
+  throttleFrequency?: number;
+  /** 排序 */
+  sortBy?: (item: TooltipItem) => any;
+  /** 过滤 */
+  filterBy?: (item: TooltipItem) => boolean;
+  /** 画布的左上角坐标 */
+  container: {
+    x: number;
+    y: number;
+  };
+  /** tooltip 在画布中的边界 */
   bounding: {
     x: number;
     y: number;

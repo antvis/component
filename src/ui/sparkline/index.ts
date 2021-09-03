@@ -23,12 +23,6 @@ export type { SparklineCfg, SparklineOptions };
 export class Sparkline extends GUI<SparklineCfg> {
   public static tag = 'Sparkline';
 
-  // sparkline容器
-  private containerShape!: Rect;
-
-  // Lines或者Columns
-  private sparkShape!: Lines | Columns;
-
   private static defaultOptions = {
     style: {
       type: 'line',
@@ -50,109 +44,17 @@ export class Sparkline extends GUI<SparklineCfg> {
     },
   };
 
-  constructor(options: SparklineOptions) {
-    super(deepMix({}, Sparkline.defaultOptions, options));
+  // sparkline容器
+  private containerShape!: Rect;
 
-    this.containerShape = new Rect({
-      name: 'container',
-      style: this.getContainerCfg(),
-    });
-    this.appendChild(this.containerShape);
-    this.init();
-  }
-
-  public init() {
-    this.sparkShape = this.createSparkline();
-    this.appendChild(this.sparkShape);
-  }
-
-  /**
-   * 组件的更新
-   */
-  public update(cfg: Partial<SparklineCfg>) {
-    const { type: oldType } = this.attributes;
-    this.attr(deepMix({}, this.attributes, cfg));
-    const { type } = cfg;
-    // 如果type变了，需要清空this.sparkShapes子元素
-    if (type && type !== oldType) {
-      this.clear();
-      this.sparkShape = this.createSparkline();
-      this.appendChild(this.sparkShape);
-    }
-    if (this.sparkShape instanceof Lines) this.sparkShape.update(this.getLinesCfg());
-    else this.sparkShape.update(this.getColumnsCfg());
-  }
-
-  /**
-   * 组件的清除
-   */
-  public clear() {
-    this.removeChild(this.sparkShape);
-    this.sparkShape.clear();
-    this.sparkShape.destroy();
-  }
-
-  private createSparkline() {
-    const { type } = this.attributes;
-    const baseCfg = { name: 'sparkline' };
-    if (type === 'line')
-      return new Lines({
-        ...baseCfg,
-        style: this.getLinesCfg(),
-      });
-    // if (type === 'column')
-    return new Columns({
-      ...baseCfg,
-      style: this.getColumnsCfg(),
-    });
-  }
-
-  /**
-   * 根据数据索引获取color
-   */
-  private getColor(index: number) {
-    const { color } = this.attributes;
-    if (isArray(color)) {
-      return color[index % color.length];
-    }
-    if (isFunction(color)) {
-      return color.call(null, index);
-    }
-    return color;
-  }
-
-  /**
-   * 根据数据生成scale
-   */
-  private createScales(data: number[][]) {
-    const { type, isGroup, barPadding } = this.attributes;
-    const { width, height } = this.getContainerCfg();
-    const [minVal, maxVal] = getRange(data);
-    return {
-      type,
-      x:
-        type === 'line'
-          ? new Linear({
-              domain: [0, data[0].length - 1],
-              range: [0, width],
-            })
-          : new Band({
-              domain: data[0].map((val, idx) => idx),
-              range: [0, width],
-              paddingInner: isGroup ? barPadding : 0,
-            }),
-      y: new Linear({
-        domain: [minVal >= 0 ? 0 : minVal, maxVal],
-        range: [height, 0],
-      }),
-    };
-  }
+  // Lines或者Columns
+  private sparkShape!: Lines | Columns;
 
   /**
    * 将data统一格式化为数组形式
    * 如果堆叠，则生成堆叠数据
    */
-  private getData(): Data {
+  private get data(): Data {
     const { data: _ } = this.attributes;
     if (!_ || _?.length === 0) return [[]];
     let data = clone(_);
@@ -161,15 +63,15 @@ export class Sparkline extends GUI<SparklineCfg> {
     return data;
   }
 
-  private getContainerCfg() {
+  private get containerCfg() {
     const { width, height } = this.attributes;
     return { width, height } as { width: number; height: number };
   }
 
-  private getLinesCfg(): ILinesCfg {
+  private get linesCfg(): ILinesCfg {
     const { areaStyle, isStack, lineStyle, smooth } = this.attributes;
-    const { width } = this.getContainerCfg();
-    let data = this.getData();
+    const { width } = this.containerCfg;
+    let { data } = this;
     if (data[0].length === 0) return { lines: [], areas: [] };
     if (isStack) data = getStackedData(data);
     const { x, y } = this.createScales(data) as { x: Linear; y: Linear };
@@ -207,10 +109,10 @@ export class Sparkline extends GUI<SparklineCfg> {
     };
   }
 
-  private getColumnsCfg(): IColumnsCfg {
+  private get columnsCfg(): IColumnsCfg {
     const { isStack, columnStyle } = this.attributes;
-    const { height } = this.getContainerCfg();
-    let data = this.getData();
+    const { height } = this.containerCfg;
+    let { data } = this;
     if (!data) return { columns: [] };
     if (isStack) data = getStackedData(data);
     const { x, y } = this.createScales(data) as { x: Band; y: Linear };
@@ -221,7 +123,7 @@ export class Sparkline extends GUI<SparklineCfg> {
     });
 
     const bandWidth = x.getBandWidth();
-    const rawData = this.getData();
+    const rawData = this.data;
     return {
       columns: data.map((column, i) => {
         return column.map((val, j) => {
@@ -244,6 +146,104 @@ export class Sparkline extends GUI<SparklineCfg> {
                 }),
           } as IColumnCfg;
         });
+      }),
+    };
+  }
+
+  constructor(options: SparklineOptions) {
+    super(deepMix({}, Sparkline.defaultOptions, options));
+
+    this.containerShape = new Rect({
+      name: 'container',
+      style: this.containerCfg,
+    });
+    this.appendChild(this.containerShape);
+    this.init();
+  }
+
+  public init() {
+    this.sparkShape = this.createSparkline();
+    this.appendChild(this.sparkShape);
+  }
+
+  /**
+   * 组件的更新
+   */
+  public update(cfg: Partial<SparklineCfg>) {
+    const { type: oldType } = this.attributes;
+    this.attr(deepMix({}, this.attributes, cfg));
+    const { type } = cfg;
+    // 如果type变了，需要清空this.sparkShapes子元素
+    if (type && type !== oldType) {
+      this.clear();
+      this.sparkShape = this.createSparkline();
+      this.appendChild(this.sparkShape);
+    }
+    if (this.sparkShape instanceof Lines) this.sparkShape.update(this.linesCfg);
+    else this.sparkShape.update(this.columnsCfg);
+  }
+
+  /**
+   * 组件的清除
+   */
+  public clear() {
+    this.removeChild(this.sparkShape);
+    this.sparkShape.clear();
+    this.sparkShape.destroy();
+  }
+
+  private createSparkline() {
+    const { type } = this.attributes;
+    const baseCfg = { name: 'sparkline' };
+    if (type === 'line')
+      return new Lines({
+        ...baseCfg,
+        style: this.linesCfg,
+      });
+    // if (type === 'column')
+    return new Columns({
+      ...baseCfg,
+      style: this.columnsCfg,
+    });
+  }
+
+  /**
+   * 根据数据索引获取color
+   */
+  private getColor(index: number) {
+    const { color } = this.attributes;
+    if (isArray(color)) {
+      return color[index % color.length];
+    }
+    if (isFunction(color)) {
+      return color.call(null, index);
+    }
+    return color;
+  }
+
+  /**
+   * 根据数据生成scale
+   */
+  private createScales(data: number[][]) {
+    const { type, isGroup, barPadding } = this.attributes;
+    const { width, height } = this.containerCfg;
+    const [minVal, maxVal] = getRange(data);
+    return {
+      type,
+      x:
+        type === 'line'
+          ? new Linear({
+              domain: [0, data[0].length - 1],
+              range: [0, width],
+            })
+          : new Band({
+              domain: data[0].map((val, idx) => idx),
+              range: [0, width],
+              paddingInner: isGroup ? barPadding : 0,
+            }),
+      y: new Linear({
+        domain: [minVal >= 0 ? 0 : minVal, maxVal],
+        range: [height, 0],
       }),
     };
   }

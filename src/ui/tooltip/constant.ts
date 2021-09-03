@@ -27,7 +27,7 @@ export const TOOLTIP_STYLE = {
     'font-size': '12px',
     // 'font-family': ,
     'line-height': '20px',
-    padding: '10px 10px 6px 10px',
+    padding: '10px 10px 10px 10px',
   },
   [`.${CLASS_NAME.TITLE}`]: {
     'margin-bottom': '4px',

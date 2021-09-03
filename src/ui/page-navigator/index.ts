@@ -1,9 +1,11 @@
 import { Rect, Group } from '@antv/g';
-import { deepMix, isUndefined, max } from '@antv/util';
+import { deepMix, max, get } from '@antv/util';
 import { GUI } from '../../core/gui';
+import { Marker } from '../marker';
 import { Button } from '../button';
 import { ButtonPosition, PageNavigatorCfg, PageNavigatorOptions } from './types';
 import { getShapeSpace } from '../../util';
+import { DEFAULT_BUTTON_STYLE } from './constant';
 import type { DisplayObject } from '../../types';
 
 export { PageNavigatorCfg, PageNavigatorOptions } from './types';
@@ -19,6 +21,47 @@ type PlayState = 'idle' | 'running' | 'finished';
 
 export class PageNavigator extends GUI<PageNavigatorCfg> {
   public static tag = 'pageNavigator';
+
+  private static defaultOptions = {
+    type: PageNavigator.tag,
+    style: {
+      x: 0,
+      y: 0,
+      effect: 'linear',
+      duration: 200,
+      orient: 'horizontal', // 默认横向翻页
+      initPageNum: 1,
+      pageLimit: Infinity,
+      loop: false,
+      button: {
+        prev: {
+          spacing: 0,
+          ...DEFAULT_BUTTON_STYLE,
+        },
+        next: {
+          spacing: 0,
+          ...DEFAULT_BUTTON_STYLE,
+        },
+        style: {
+          default: {},
+          active: {},
+          disabled: {},
+        },
+        spacing: 5,
+        position: 'bottom',
+      },
+      pagination: {
+        type: 'currTotal',
+        style: {
+          default: {},
+          active: {},
+        },
+        separator: '/',
+        spacing: 5,
+        position: 'bottom',
+      },
+    },
+  };
 
   /**
    * 当前页面的索引
@@ -74,16 +117,16 @@ export class PageNavigator extends GUI<PageNavigatorCfg> {
   /**
    * 一共有多少页
    */
-  private get totalPages(): number {
+  private get maxPages(): number {
     const { pageWidth, pageHeight, orient, pageLimit, pageCallback } = this.attributes;
     if (pageCallback || pageLimit !== Infinity) return pageLimit!;
-    let totalPages = 0;
+    let maxPages = 0;
     if (orient === 'horizontal') {
-      totalPages = Math.ceil(this.width! / pageWidth);
+      maxPages = Math.ceil(this.width! / pageWidth);
     } else {
-      totalPages = Math.ceil(this.height! / pageHeight);
+      maxPages = Math.ceil(this.height! / pageHeight);
     }
-    return totalPages;
+    return maxPages;
   }
 
   private get view() {
@@ -121,50 +164,37 @@ export class PageNavigator extends GUI<PageNavigatorCfg> {
     this.viewHeight = height;
   }
 
+  /**
+   * 获得按钮的默认箭头形状
+   */
+  private get defaultShape() {
+    const position = get(this.attributes, ['button', 'position']);
+    if (['top', 'bottom', 'left-right'].includes(position)) {
+      return ['left', 'right'];
+    }
+    return ['up', 'down'];
+  }
+
+  private get buttonCfg() {
+    const [startMarker, endMarker] = this.defaultShape;
+    const {
+      button: { prev, next },
+    } = this.attributes as Required<Pick<PageNavigatorCfg, 'button'>>;
+    return {
+      prev: {
+        marker: startMarker,
+        ...prev,
+      },
+      next: {
+        marker: endMarker,
+        ...next,
+      },
+    };
+  }
+
   private viewWidth!: number;
 
   private viewHeight!: number;
-
-  private static defaultOptions = {
-    type: PageNavigator.tag,
-    style: {
-      x: 0,
-      y: 0,
-      effect: 'linear',
-      duration: 200,
-      orient: 'horizontal', // 默认横向翻页
-      initPageNum: 1,
-      pageLimit: Infinity,
-      loop: false,
-      button: {
-        prev: {
-          text: '上一页',
-          spacing: 0,
-        },
-        next: {
-          text: '下一页',
-          spacing: 0,
-        },
-        style: {
-          default: {},
-          active: {},
-          disabled: {},
-        },
-        spacing: 5,
-        position: 'bottom',
-      },
-      pagination: {
-        type: 'currTotal',
-        style: {
-          default: {},
-          active: {},
-        },
-        separator: '/',
-        spacing: 5,
-        position: 'bottom',
-      },
-    },
-  };
 
   constructor(options: PageNavigatorOptions) {
     super(deepMix({}, PageNavigator.defaultOptions, options));
@@ -177,9 +207,6 @@ export class PageNavigator extends GUI<PageNavigatorCfg> {
 
   public init() {
     this.initShape();
-    // 更新窗口
-    this.updateClipView();
-    // 更新背景
     this.updateView();
     // 更新按钮
     this.updateButton();
@@ -202,45 +229,53 @@ export class PageNavigator extends GUI<PageNavigatorCfg> {
       this.appendChild(this.view);
     }
     this.attr(deepMix({}, this.attributes, cfg));
-    this.updateClipView();
+    // this.updateClipView();
+    this.updateView();
     this.updateButton();
     this.updateButtonState();
     this.adjustLayout();
   }
 
   public clear() {
-    this.removeChild(this.view, false);
+    if (this.view) {
+      this.view.style.clipPath = null;
+      this.removeChild(this.view, false);
+    }
     this.fullView = undefined;
     this.removeChildren(true);
   }
 
+  public destroy() {
+    this.removeChildren(true);
+    super.destroy();
+  }
+
   /**
    * 从xx页翻到xx页
-   * from 默认为当前页
    */
-  public goTo(to: number, from?: number) {
+  public goTo(to: number) {
     if (this.playState === 'idle') {
       const { effect, duration } = this.attributes;
-      const { x: fromX, y: fromY } = this.getClipViewSpace(isUndefined(from) ? this.currPage : from);
-      const { x: toX, y: toY } = this.getClipViewSpace(to);
-      const currX = this.view.attr('x') || 0;
-      const currY = this.view.attr('y') || 0;
-      const { x: targetX, y: targetY } = this.calcViewPosition(to);
+      const { viewFromX, viewFromY, viewToX, viewToY, clipFromX, clipFromY, clipToX, clipToY } =
+        this.calcRelativePagingOffset(to);
       this.playState = 'running';
       // 播放动画
       this.clipView.animate(
-        [{ transform: `translate(${fromX}px, ${fromY}px)` }, { transform: `translate(${toX}px, ${toY}px)` }],
-        { duration, easing: effect }
+        [
+          { transform: `translate(${clipFromX}px, ${clipFromY}px)` },
+          { transform: `translate(${clipToX}px, ${clipToY}px)` },
+        ],
+        { duration, easing: effect, fill: 'both' }
       );
-
       const animation = this.view.animate(
-        [{ transform: `translate(${currX}px, ${currY}px)` }, { transform: `translate(${targetX}px, ${targetY}px)` }],
-        { duration, easing: effect }
+        [
+          { transform: `translate(${viewFromX}px, ${viewFromY}px)` },
+          { transform: `translate(${viewToX}px, ${viewToY}px)` },
+        ],
+        { duration, easing: effect, fill: 'both' }
       );
       // 设置最终位置
       animation?.finished.then(() => {
-        this.clipView.attr({ x: toX, y: toY });
-        this.view.attr({ x: targetX, y: targetY });
         this.currPage = to;
         this.updateButtonState();
         this.resolveFinishedPromise();
@@ -258,7 +293,7 @@ export class PageNavigator extends GUI<PageNavigatorCfg> {
     const { loop } = this.attributes;
     const page = this.currPage;
     let to = page - 1;
-    if (to <= 1) to = loop ? this.totalPages : 1;
+    if (to < 1) to = loop ? this.maxPages : 1;
     return this.goTo(to);
   }
 
@@ -267,10 +302,10 @@ export class PageNavigator extends GUI<PageNavigatorCfg> {
    */
   public next() {
     const { loop } = this.attributes;
-    const { totalPages } = this;
+    const { maxPages } = this;
     const page = this.currPage;
     let to = page + 1;
-    if (to > totalPages!) to = loop ? 1 : totalPages;
+    if (to > maxPages) to = loop ? 1 : maxPages;
     return this.goTo(to);
   }
 
@@ -289,11 +324,13 @@ export class PageNavigator extends GUI<PageNavigatorCfg> {
     // 将全景图挂载到翻页器
     this.appendChild(this.view);
 
+    const [startMarker, endMarker] = this.defaultShape;
     // 初始化按钮
     this.prevButton = new Button({
       name: 'prevButton',
       style: {
         ...PageNavigator.defaultOptions.style.button.prev,
+        marker: startMarker,
         onClick: this.prev.bind(this),
       },
     });
@@ -302,6 +339,7 @@ export class PageNavigator extends GUI<PageNavigatorCfg> {
       name: 'nextButton',
       style: {
         ...PageNavigator.defaultOptions.style.button.next,
+        marker: endMarker,
         onClick: this.next.bind(this),
       },
     });
@@ -315,22 +353,21 @@ export class PageNavigator extends GUI<PageNavigatorCfg> {
   }
 
   /**
-   * 更新窗口位置
+   * 更新裁切窗口和画布位置
    */
-  private updateClipView() {
-    this.clipView.attr(this.getClipViewSpace(this.currPage));
-  }
-
   private updateView() {
-    this.view.attr(this.calcViewPosition(this.currPage));
+    const { width, height } = this.getClipViewSpace(this.currPage);
+    this.clipView.attr({ width, height });
+    this.view.setLocalPosition(0, 0);
+    this.clipView.setLocalPosition(0, 0);
   }
 
   /**
    * 更新 button
    */
   private updateButton() {
-    const { button } = this.attributes;
-    const { prev, next } = button!;
+    // const { button } = this.attributes;
+    const { prev, next } = this.buttonCfg;
     prev && this.prevButton.update(prev);
     next && this.nextButton.update(next);
   }
@@ -341,7 +378,7 @@ export class PageNavigator extends GUI<PageNavigatorCfg> {
   private updateButtonState() {
     const { loop } = this.attributes;
     if (!loop) {
-      if (this.currPage === this.totalPages) {
+      if (this.currPage === this.maxPages) {
         this.nextButton.update({ disabled: true });
       } else {
         this.nextButton.update({ disabled: false });
@@ -358,14 +395,14 @@ export class PageNavigator extends GUI<PageNavigatorCfg> {
   }
 
   /**
-   * 根据页码获得该页的位置
+   * 根据页码获得该页的绝对位置
    */
   private getClipViewSpace(num: number): Page {
     const { orient, pageWidth, pageHeight, pageCallback } = this.attributes;
     const pageSpace = { x: 0, y: 0, width: pageWidth, height: pageHeight };
-    const { totalPages } = this;
+    const { maxPages } = this;
     if (pageCallback) return { ...pageSpace, ...pageCallback(num) };
-    if (num > totalPages! || num < 1) return pageSpace;
+    if (num > maxPages! || num < 1) return pageSpace;
     if (orient === 'vertical') {
       pageSpace.y = (num - 1) * pageHeight;
     } else if (orient === 'horizontal') {
@@ -375,14 +412,43 @@ export class PageNavigator extends GUI<PageNavigatorCfg> {
   }
 
   /**
+   * 将画布上所在页的绝对位置转换成动画所需的相对位置
+   */
+  private absolute2Relative(absX: number, absY: number) {
+    // 当前页位置为起始位置
+    const { currPage } = this;
+    const { x, y } = this.getClipViewSpace(currPage);
+    return [absX + x, absY + y];
+  }
+
+  /**
    * 计算切换到第num页时，fullView应当放置的位置
    */
-  private calcViewPosition(num: number): { x: number; y: number } {
+  private getViewPosition(num: number): { x: number; y: number } {
     // 第1页的pageView位置 应当对应fullView 的位置
     const { x: p1X, y: p1Y } = this.getClipViewSpace(1);
     const { x: pnX, y: pnY } = this.getClipViewSpace(num);
     const [diffX, diffY] = [-pnX + p1X, -pnY + p1Y];
     return { x: diffX, y: diffY };
+  }
+
+  private getRelativeViewPosition(num: number): { x: number; y: number } {
+    const { x, y } = this.getViewPosition(num);
+    const [relX, relY] = this.absolute2Relative(x, y);
+    return { x: relX, y: relY };
+  }
+
+  /**
+   * 计算从 x 翻到 y 页时，view 和 clipView 的相对位移
+   */
+  private calcRelativePagingOffset(to: number) {
+    const [viewFromX, viewFromY] = this.absolute2Relative(
+      ...(this.view.getLocalPosition().slice(0, 2) as [number, number])
+    );
+    const { x: viewToX, y: viewToY } = this.getRelativeViewPosition(to);
+    const [clipFromX, clipFromY] = [-viewFromX, -viewFromY];
+    const [clipToX, clipToY] = [-viewToX, -viewToY];
+    return { viewFromX, viewFromY, viewToX, viewToY, clipFromX, clipFromY, clipToX, clipToY };
   }
 
   /**
@@ -405,19 +471,19 @@ export class PageNavigator extends GUI<PageNavigatorCfg> {
     let prevY = 0;
     let nextX = 0;
     let nextY = 0;
-    if (position === 'horizontal') {
+    if (position === 'left-right') {
       /**
-       *  ⬅️ ||||||||| ➡️
+       *  ⬅ ||||||||| ➡️
        */
       prevX = -(spacing + prevWidth);
       prevY = (pageHeight - prevHeight) / 2;
       nextX = spacing + pageWidth;
       nextY = (pageHeight - nextHeight) / 2;
-    } else if (position === 'vertical') {
+    } else if (position === 'top-bottom') {
       /**
-       *     ⬆️
+       *     ⬆
        *  |||||||||
-       *     ⬇️
+       *     ⬇
        */
       prevX = (pageWidth - prevWidth) / 2;
       prevY = -(spacing + prevHeight);
@@ -425,7 +491,7 @@ export class PageNavigator extends GUI<PageNavigatorCfg> {
       nextY = spacing + pageHeight;
     } else if (position === 'top') {
       /**
-       *    ⬅️ ➡️
+       *    ⬅ ➡️
        *  |||||||||
        */
       const height = max([prevHeight, nextHeight]) as number;
@@ -436,7 +502,7 @@ export class PageNavigator extends GUI<PageNavigatorCfg> {
     } else if (position === 'bottom') {
       /**
        *  |||||||||
-       *    ⬅️ ➡️
+       *    ⬅ ➡️
        */
       prevX = (pageWidth - spacing) / 2 - prevWidth;
       prevY = spacing + pageHeight;
@@ -444,7 +510,13 @@ export class PageNavigator extends GUI<PageNavigatorCfg> {
       nextY = prevY;
     } else if (position === 'left') {
       /**
-       * ⬅️ ➡️  |||||||||
+       * ⬅ ➡️  |||||||||
+       *
+       * ->
+       *
+       *  ⬆
+       *    ||||||||
+       *  ⬇
        */
       const height = max([prevHeight, nextHeight]) as number;
       prevY = (pageHeight - height) / 2;
@@ -453,7 +525,11 @@ export class PageNavigator extends GUI<PageNavigatorCfg> {
       nextY = prevY;
     } else if (position === 'right') {
       /**
-       *  ||||||||| ⬅️ ➡️
+       *  ||||||||| ⬅ ➡️
+       * ->
+       *           ⬆
+       *  ||||||||
+       *           ⬇
        */
       const height = max([prevHeight, nextHeight]) as number;
       prevX = spacing + pageWidth;
@@ -461,13 +537,20 @@ export class PageNavigator extends GUI<PageNavigatorCfg> {
       nextX = prevX + prevWidth;
       nextY = prevY;
     }
-    this.prevButton.attr({
-      x: prevX,
-      y: prevY,
-    });
-    this.nextButton.attr({
-      x: nextX,
-      y: nextY,
-    });
+    this.prevButton.setLocalPosition(prevX, prevY);
+    this.nextButton.setLocalPosition(nextX, nextY);
   }
 }
+
+Marker.registerSymbol('left', (x: number, y: number, r: number) => {
+  return [['M', x - r, y], ['L', x + r, y - r], ['L', x + r, y + r], ['Z']];
+});
+Marker.registerSymbol('right', (x: number, y: number, r: number) => {
+  return [['M', x - r, y - r], ['L', x + r, y], ['L', x - r, y + r], ['Z']];
+});
+Marker.registerSymbol('up', (x: number, y: number, r: number) => {
+  return [['M', x - r, y + r], ['L', x, y - r], ['L', x + r, y + r], ['Z']];
+});
+Marker.registerSymbol('down', (x: number, y: number, r: number) => {
+  return [['M', x - r, y - r], ['L', x + r, y - r], ['L', x, y + r], ['Z']];
+});

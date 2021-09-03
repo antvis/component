@@ -1,7 +1,7 @@
 import { Rect, CustomEvent } from '@antv/g';
 import { clamp, deepMix, get } from '@antv/util';
 import { GUI } from '../../core/gui';
-import { getStateStyle, getEventPos } from '../../util';
+import { getStateStyle, getEventPos, normalPadding } from '../../util';
 import type { RectProps } from '../../types';
 import type { ScrollbarOptions, ScrollbarCfg } from './types';
 
@@ -12,17 +12,6 @@ export class Scrollbar extends GUI<Required<ScrollbarCfg>> {
    * tag
    */
   public static tag = 'scrollbar';
-
-  // 滑道
-  private trackShape!: Rect;
-
-  // 滑块
-  private thumbShape!: Rect;
-
-  /**
-   * 拖动开始位置
-   */
-  private prevPos!: number;
 
   private static defaultOptions = {
     type: Scrollbar.tag,
@@ -61,11 +50,101 @@ export class Scrollbar extends GUI<Required<ScrollbarCfg>> {
           fill: '#c1c1c1',
         },
         active: {
-          fill: '#7d7d7d',
+          opacity: 0.8,
         },
       },
     },
   };
+
+  /**
+   * 计算滑块重心在轨道的比例位置
+   * @param offset 额外的偏移量
+   */
+  public get value() {
+    return this.getAttribute('value') as number;
+  }
+
+  /**
+   * 设置value
+   * @param value 当前位置的占比
+   */
+  public set value(value: number) {
+    const { value: oldValue, min, max } = this.attributes;
+    this.setAttribute('value', clamp(value, min, max));
+    // 通知触发valueChanged
+    this.onValueChanged(oldValue);
+  }
+
+  // 滑道
+  private trackShape!: Rect;
+
+  // 滑块
+  private thumbShape!: Rect;
+
+  /**
+   * 拖动开始位置
+   */
+  private prevPos!: number;
+
+  private get padding(): [number, number, number, number] {
+    const { padding } = this.attributes;
+    return normalPadding(padding);
+  }
+
+  /**
+   * 获得轨道可用空间
+   */
+  private get availableSpace() {
+    const { width, height } = this.attributes;
+    const [top, right, bottom, left] = this.padding;
+    return {
+      x: left,
+      y: top,
+      width: width - (left + right),
+      height: height - (top + bottom),
+    };
+  }
+
+  /**
+   * 获得轨道长度
+   */
+  private get trackLen() {
+    const { width, height } = this.availableSpace;
+    return this.getOrientVal([width, height]);
+  }
+
+  /**
+   * 滑块的圆角半径
+   */
+  private get thumbRadius() {
+    const { isRound } = this.attributes;
+    const { width, height } = this.availableSpace;
+    const radius = get(this.attributes, ['thumbStyle', 'default', 'radius']);
+    if (!isRound) return 0;
+    return radius || this.getOrientVal([height, width]) / 2;
+  }
+
+  private get trackShapeCfg() {
+    const { x, y, width, height } = this.attributes;
+    return { x, y, ...this.getStyle('trackStyle'), width, height };
+  }
+
+  private get thumbShapeCfg() {
+    const { value, thumbLen } = this.attributes;
+    const trackInner = this.availableSpace;
+    const { x, y } = trackInner;
+    const { thumbRadius } = this;
+    const valueOffset = this.valueOffset(value);
+    return {
+      ...trackInner,
+      ...this.getStyle('thumbStyle'),
+      ...this.getOrientVal([
+        { x: x + valueOffset, width: thumbLen },
+        { y: y + valueOffset, height: thumbLen },
+      ]),
+      radius: thumbRadius,
+    };
+  }
 
   constructor(options: ScrollbarOptions) {
     super(deepMix({}, Scrollbar.defaultOptions, options));
@@ -79,9 +158,8 @@ export class Scrollbar extends GUI<Required<ScrollbarCfg>> {
   ): void {
     // 变更属性时需要重新计算value
     if (name === 'value') {
-      const { padding } = this.attributes;
       const thumbOffset = this.valueOffset(newValue as number);
-      const [top, , , left] = padding;
+      const [top, , , left] = this.padding;
       this.setThumbOffset(thumbOffset + this.getOrientVal([left, top]));
     }
   }
@@ -99,10 +177,7 @@ export class Scrollbar extends GUI<Required<ScrollbarCfg>> {
    * @param value 当前位置的占比
    */
   public setValue(value: number) {
-    const { value: oldValue } = this.attributes;
-    this.setAttribute('value', value);
-    // 通知触发valueChange
-    this.onValueChanged(oldValue);
+    this.value = value;
   }
 
   /**
@@ -116,8 +191,8 @@ export class Scrollbar extends GUI<Required<ScrollbarCfg>> {
 
   public init() {
     this.initShape();
-    this.trackShape.attr(this.getTrackShapeCfg());
-    this.thumbShape.attr(this.getThumbShapeCfg());
+    this.trackShape.attr(this.trackShapeCfg);
+    this.thumbShape.attr(this.thumbShapeCfg);
     this.bindEvents();
   }
 
@@ -126,14 +201,18 @@ export class Scrollbar extends GUI<Required<ScrollbarCfg>> {
    */
   public update(cfg: Partial<ScrollbarCfg>) {
     this.attr(deepMix({}, this.attributes, cfg));
-    this.trackShape.attr(this.getTrackShapeCfg());
-    this.thumbShape.attr(this.getThumbShapeCfg());
+    this.trackShape.attr(this.trackShapeCfg);
+    this.thumbShape.attr(this.thumbShapeCfg);
   }
 
   /**
    * 组件的清除
    */
   public clear() {}
+
+  public destroy() {
+    this.removeChildren(true);
+  }
 
   private initShape() {
     this.trackShape = new Rect({ name: 'track' });
@@ -146,7 +225,7 @@ export class Scrollbar extends GUI<Required<ScrollbarCfg>> {
    * 值改变事件
    */
   private onValueChanged = (oldValue: any) => {
-    const newValue = this.getValue();
+    const newValue = this.value;
     if (oldValue === newValue) return;
     const evtVal = {
       detail: {
@@ -156,8 +235,8 @@ export class Scrollbar extends GUI<Required<ScrollbarCfg>> {
     };
     const scrollEvt = new CustomEvent('scroll', evtVal);
     this.dispatchEvent(scrollEvt);
-    const valuechangeEvt = new CustomEvent('valueChange', evtVal);
-    this.dispatchEvent(valuechangeEvt);
+    const valueChangedEvt = new CustomEvent('valueChanged', evtVal);
+    this.dispatchEvent(valueChangedEvt);
   };
 
   /**
@@ -168,7 +247,7 @@ export class Scrollbar extends GUI<Required<ScrollbarCfg>> {
    */
   private valueOffset(num: number, reverse = false) {
     const { thumbLen, min, max } = this.attributes;
-    const L = this.getTrackLen() - thumbLen;
+    const L = this.trackLen - thumbLen;
     if (!reverse) {
       // value2offset
       return L * clamp(num, min, max);
@@ -186,64 +265,11 @@ export class Scrollbar extends GUI<Required<ScrollbarCfg>> {
   }
 
   /**
-   * 获得轨道可用空间
-   */
-  private getAvailableSpace() {
-    const { width, height, padding } = this.attributes;
-    const [top, right, bottom, left] = padding;
-    return {
-      x: left,
-      y: top,
-      width: width - (left + right),
-      height: height - (top + bottom),
-    };
-  }
-
-  /**
-   * 获得轨道长度
-   */
-  private getTrackLen() {
-    const { width, height } = this.getAvailableSpace();
-    return this.getOrientVal([width, height]);
-  }
-
-  /**
    * 将滑块移动至指定位置
    * @param thumbOffset 滑块位置偏移量
    */
   private setThumbOffset(thumbOffset: number) {
     this.thumbShape.attr(this.getOrientVal<'x' | 'y'>(['x', 'y']), thumbOffset);
-  }
-
-  private getTrackShapeCfg() {
-    const { x, y, width, height } = this.attributes;
-    return { x, y, ...this.getStyle('trackStyle'), width, height };
-  }
-
-  private getThumbShapeCfg() {
-    const { orient, value, isRound, thumbLen } = this.attributes;
-    const trackInner = this.getAvailableSpace();
-    const { x, y, width, height } = trackInner;
-    const baseCfg = {
-      ...trackInner,
-      ...this.getStyle('thumbStyle'),
-    };
-    let half = width / 2;
-    if (orient === 'vertical') {
-      return {
-        ...baseCfg,
-        y: y + this.valueOffset(value),
-        height: thumbLen,
-        radius: isRound ? half : 0,
-      };
-    }
-    half = height / 2;
-    return {
-      ...baseCfg,
-      x: x + this.valueOffset(value),
-      width: thumbLen,
-      radius: isRound ? half : 0,
-    };
   }
 
   private bindEvents() {
@@ -266,8 +292,8 @@ export class Scrollbar extends GUI<Required<ScrollbarCfg>> {
    * 点击轨道事件
    */
   private onTrackClick = (e: any) => {
-    const { x, y, padding, thumbLen } = this.attributes;
-    const [top, , , left] = padding;
+    const { x, y, thumbLen } = this.attributes;
+    const [top, , , left] = this.padding;
     const basePos = this.getOrientVal([x + left, y + top]);
     const clickPos = this.getOrientVal(getEventPos(e)) - thumbLen / 2;
     const value = this.valueOffset(clickPos - basePos, true);
@@ -278,16 +304,27 @@ export class Scrollbar extends GUI<Required<ScrollbarCfg>> {
    * 悬浮事件
    */
   private onHover() {
-    ['thumb', 'track'].forEach((name) => {
-      const target = get(this, `${name}Shape`);
-      target.addEventListener('mouseenter', () => {
-        target.attr(this.getStyle(`${name}Style` as 'thumbStyle' | 'trackStyle', 'active'));
-      });
-      target.addEventListener('mouseleave', () => {
-        target.attr(this.getStyle(`${name}Style` as 'thumbStyle' | 'trackStyle'));
-      });
-    });
+    this.thumbShape.addEventListener('mouseenter', this.onThumbMouseenter);
+    this.trackShape.addEventListener('mouseenter', this.onTrackMouseenter);
+    this.thumbShape.addEventListener('mouseleave', this.onThumbMouseleave);
+    this.trackShape.addEventListener('mouseleave', this.onTrackMouseleave);
   }
+
+  private onThumbMouseenter = () => {
+    this.thumbShape.attr(this.getStyle('thumbStyle', 'active'));
+  };
+
+  private onTrackMouseenter = () => {
+    this.trackShape.attr(this.getStyle('trackStyle', 'active'));
+  };
+
+  private onThumbMouseleave = () => {
+    this.thumbShape.attr(this.getStyle('thumbStyle'));
+  };
+
+  private onTrackMouseleave = () => {
+    this.trackShape.attr(this.getStyle('trackStyle'));
+  };
 
   private onDragStart = (e: any) => {
     e.stopPropagation();

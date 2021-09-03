@@ -53,7 +53,7 @@ export type SliderCfg = {
   max?: number;
   width?: number;
   height?: number;
-  padding?: number[];
+  padding?: number | number[];
   backgroundStyle?: MixAttrs<ShapeAttrs>;
   selectionStyle?: MixAttrs<RectProps>;
   handle?:

@@ -27,6 +27,22 @@
         "en": "Helix axis"
       },
       "screenshot": ""
+    },
+    {
+      "filename": "g2-style-axis.ts",
+      "title": {
+        "zh": "G2 风格",
+        "en": "G2 style axis"
+      },
+      "screenshot": ""
+    },
+    {
+      "filename": "formatter.ts",
+      "title": {
+        "zh": "格式化",
+        "en": "Formatter"
+      },
+      "screenshot": ""
     }
   ]
 }

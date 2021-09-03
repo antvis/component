@@ -58,7 +58,7 @@ export abstract class LegendBase<T extends LegendBaseCfg> extends GUI<Required<T
   }
 
   public init() {
-    this.createTitle();
+    this.initShape();
   }
 
   public update(cfg?: Partial<LegendBaseCfg>) {
@@ -98,7 +98,7 @@ export abstract class LegendBase<T extends LegendBaseCfg> extends GUI<Required<T
   /**
    * 创建图例标题
    */
-  protected createTitle() {
+  protected initShape() {
     this.titleShape = new Text({
       name: 'title',
       style: this.titleShapeCfg,

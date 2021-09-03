@@ -1,4 +1,3 @@
-import { throttle } from '@antv/util';
 import { Canvas, Rect } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Tooltip } from '@antv/gui';
@@ -30,17 +29,17 @@ canvas.appendChild(
   })
 );
 
-canvas.appendChild(
-  new Rect({
-    style: {
-      x: 50,
-      y: 50,
-      width: 500,
-      height: 500,
-      fill: 'lightgreen',
-    },
-  })
-);
+const tooltipArea = new Rect({
+  style: {
+    x: 50,
+    y: 50,
+    width: 500,
+    height: 500,
+    fill: '#a6ec9a',
+  },
+});
+
+canvas.appendChild(tooltipArea);
 
 const tooltip = new Tooltip({
   style: {
@@ -58,7 +57,6 @@ const tooltip = new Tooltip({
         color: 'red',
       },
     ],
-    parent: document.getElementById('container').firstChild,
     bounding: {
       x: 50,
       y: 50,
@@ -79,20 +77,19 @@ const tooltip = new Tooltip({
 // 移除之前的tooltip
 Array.from(document.getElementsByClassName('tooltip')).forEach((tooltip) => tooltip.remove());
 document.getElementsByTagName('body')[0].appendChild(tooltip.HTMLTooltipElement);
-const mousemove = throttle(
-  (e) => {
-    tooltip.position = [e.offsetX, e.offsetY];
-  },
-  100,
-  {}
-);
-
-canvas.addEventListener('mousemove', (e) => {
-  mousemove(e);
+tooltipArea.addEventListener('mousemove', (e) => {
+  tooltip.position = [e.offsetX, e.offsetY];
 });
-canvas.addEventListener('mouseenter', () => {
+tooltipArea.addEventListener('mouseenter', () => {
   tooltip.show();
 });
-canvas.addEventListener('mouseleave', () => {
+tooltipArea.addEventListener('mouseleave', () => {
   tooltip.hide();
+});
+const { left, top } = document.getElementById('container').getBoundingClientRect();
+tooltip.update({
+  container: {
+    x: left,
+    y: top,
+  },
 });

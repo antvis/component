@@ -85,6 +85,22 @@ export class Slider extends GUI<SliderCfg> {
    *           |- handleText
    */
 
+  public get values() {
+    return this.getAttribute('values') as Pair<number>;
+  }
+
+  public set values(values: SliderCfg['values']) {
+    this.setAttribute('values', this.getSafetyValues(values));
+  }
+
+  public get names() {
+    return this.getAttribute('names') as [string, string];
+  }
+
+  public set names(names: SliderCfg['names']) {
+    this.setAttribute('names', names);
+  }
+
   // 背景、滑道
   private backgroundShape!: Rect;
 
@@ -122,6 +138,56 @@ export class Slider extends GUI<SliderCfg> {
    */
   private target: string;
 
+  private get backgroundShapeCfg() {
+    return {
+      cursor: 'crosshair' as Cursor,
+      zIndex: 0,
+      ...this.availableSpace,
+      ...this.getStyle('backgroundStyle'),
+    };
+  }
+
+  private get sparklineShapeCfg() {
+    const { orient, sparkline } = this.attributes;
+    // 暂时只在水平模式下绘制
+    // if (orient !== 'horizontal') {
+    //   return {
+    //     data: [[]],
+    //   };
+    // }
+    const { padding, ...args } = sparkline!;
+    const [top, right, bottom, left] = normalPadding(padding!);
+    const { width, height } = this.availableSpace;
+    const { lineWidth: bkgLW } = this.getStyle('backgroundStyle') as IBackgroundStyleCfg;
+    return {
+      x: bkgLW / 2 + left,
+      y: bkgLW / 2 + top,
+      ...args,
+      zIndex: 0,
+      width: width - bkgLW - left - right,
+      height: height - bkgLW - top - bottom,
+    } as SparklineCfg;
+  }
+
+  private get availableSpace() {
+    const { padding, width, height } = this.attributes as {
+      padding: number[];
+      width: number;
+      height: number;
+    };
+    const [top, right, bottom, left] = normalPadding(padding);
+    return {
+      x: left,
+      y: top,
+      width: width - (left + right),
+      height: height - (top + bottom),
+    };
+  }
+
+  private get selectionShapeCfg() {
+    return { cursor: 'move' as Cursor, zIndex: 2, ...this.calcMask(), ...this.getStyle('selectionStyle') };
+  }
+
   constructor(options: SliderOptions) {
     super(deepMix({}, Slider.defaultOptions, options));
     this.initShape();
@@ -135,34 +201,25 @@ export class Slider extends GUI<SliderCfg> {
   }
 
   attributeChangedCallback<Key extends keyof SliderCfg>(name: Key, oldValue: SliderCfg[Key], newValue: SliderCfg[Key]) {
-    if (name === 'values') {
-      const evt = new CustomEvent('valueChange', {
-        detail: {
-          oldValue,
-          value: newValue,
-        },
-      });
-      this.dispatchEvent(evt);
-    }
     if (name in ['names', 'values']) {
       this.setHandle();
     }
   }
 
   public getValues() {
-    return this.getAttribute('values') as Pair<number>;
+    return this.values;
   }
 
   public setValues(values: SliderCfg['values']) {
-    this.setAttribute('values', this.getSafetyValues(values));
+    this.values = values;
   }
 
   public getNames() {
-    return this.getAttribute('names');
+    return this.names;
   }
 
   public setNames(names: SliderCfg['names']) {
-    this.setAttribute('names', names);
+    this.names = names;
   }
 
   public init() {
@@ -172,14 +229,13 @@ export class Slider extends GUI<SliderCfg> {
   public initShape() {
     this.backgroundShape = new Rect({
       name: 'background',
-      style: this.getBackgroundShapeCfg(),
+      style: this.backgroundShapeCfg,
     });
-    this.backgroundShape.toBack();
     this.appendChild(this.backgroundShape);
 
     this.sparklineShape = new Sparkline({
       name: 'sparkline',
-      style: this.getSparklineShapeCfg(),
+      style: this.sparklineShapeCfg,
     });
     this.backgroundShape.appendChild(this.sparklineShape);
 
@@ -188,17 +244,15 @@ export class Slider extends GUI<SliderCfg> {
 
     this.selectionShape = new Rect({
       name: 'selection',
-      style: this.getSelectionShapeCfg(),
+      style: this.selectionShapeCfg,
     });
     this.foregroundGroup.appendChild(this.selectionShape);
 
     this.startHandle = this.createHandle('start');
     this.foregroundGroup.appendChild(this.startHandle);
-    this.startHandle.toFront();
 
     this.endHandle = this.createHandle('end');
     this.foregroundGroup.appendChild(this.endHandle);
-    this.startHandle.toFront();
   }
 
   /**
@@ -207,9 +261,9 @@ export class Slider extends GUI<SliderCfg> {
   public update(cfg: Partial<SliderCfg>) {
     this.attr(deepMix({}, this.attributes, cfg));
 
-    this.backgroundShape.attr(this.getBackgroundShapeCfg());
-    this.sparklineShape.update(this.getSparklineShapeCfg());
-    this.selectionShape.attr(this.getSelectionShapeCfg());
+    this.backgroundShape.attr(this.backgroundShapeCfg);
+    this.sparklineShape.update(this.sparklineShapeCfg);
+    this.selectionShape.attr(this.selectionShapeCfg);
 
     this.startHandle.update(this.getHandleShapeCfg('start'));
     this.endHandle.update(this.getHandleShapeCfg('end'));
@@ -254,21 +308,6 @@ export class Slider extends GUI<SliderCfg> {
     return [toPrecision(startVal, precision), toPrecision(endVal, precision)];
   }
 
-  private getAvailableSpace() {
-    const { padding, width, height } = this.attributes as {
-      padding: number[];
-      width: number;
-      height: number;
-    };
-    const [top, right, bottom, left] = normalPadding(padding);
-    return {
-      x: left,
-      y: top,
-      width: width - (left + right),
-      height: height - (top + bottom),
-    };
-  }
-
   /**
    * 获取style
    * @param name style名
@@ -280,42 +319,13 @@ export class Slider extends GUI<SliderCfg> {
     return getStateStyle(get(this.attributes, name), state, true) as RectProps;
   }
 
-  private getBackgroundShapeCfg() {
-    return {
-      cursor: 'crosshair' as Cursor,
-      ...this.getAvailableSpace(),
-      ...this.getStyle('backgroundStyle'),
-    };
-  }
-
-  private getSparklineShapeCfg() {
-    const { orient, sparkline } = this.attributes;
-    // 暂时只在水平模式下绘制
-    // if (orient !== 'horizontal') {
-    //   return {
-    //     data: [[]],
-    //   };
-    // }
-    const { padding, ...args } = sparkline!;
-    const [top, right, bottom, left] = normalPadding(padding!);
-    const { width, height } = this.getAvailableSpace();
-    const { lineWidth: bkgLW } = this.getStyle('backgroundStyle') as IBackgroundStyleCfg;
-    return {
-      x: bkgLW / 2 + left,
-      y: bkgLW / 2 + top,
-      ...args,
-      width: width - bkgLW - left - right,
-      height: height - bkgLW - top - bottom,
-    } as SparklineCfg;
-  }
-
   /**
    * 计算蒙板坐标和宽高
    * 默认用来计算前景位置大小
    */
   private calcMask(values?: Pair<number>) {
     const [start, end] = this.getSafetyValues(values);
-    const { width, height } = this.getAvailableSpace();
+    const { width, height } = this.availableSpace;
 
     return this.getOrientVal([
       {
@@ -333,15 +343,11 @@ export class Slider extends GUI<SliderCfg> {
     ]);
   }
 
-  private getSelectionShapeCfg() {
-    return { cursor: 'move' as Cursor, ...this.calcMask(), ...this.getStyle('selectionStyle') };
-  }
-
   /**
    * 计算手柄的x y
    */
   private calcHandlePosition(handleType: HandleType) {
-    const { width, height } = this.getAvailableSpace();
+    const { width, height } = this.availableSpace;
     const [stVal, endVal] = this.getSafetyValues();
     const L = (handleType === 'start' ? stVal : endVal) * this.getOrientVal([width, height]);
     return {
@@ -378,7 +384,7 @@ export class Slider extends GUI<SliderCfg> {
     const values = this.getSafetyValues();
 
     // 相对于获取两端可用空间
-    const { width: iW, height: iH } = this.getAvailableSpace();
+    const { width: iW, height: iH } = this.availableSpace;
     const { x: fX, y: fY, width: fW, height: fH } = this.calcMask();
 
     const [name, value] = handleType === 'start' ? [names[0], values[0]] : [names[1], values[1]];
@@ -472,6 +478,7 @@ export class Slider extends GUI<SliderCfg> {
   private getHandleShapeCfg(handleType: HandleType): IHandleCfg {
     return {
       handleType,
+      zIndex: 3,
       ...this.calcHandlePosition(handleType),
       iconCfg: this.getHandleIconShapeCfg(handleType),
       textCfg: this.getHandleTextShapeCfg(handleType),
@@ -482,8 +489,6 @@ export class Slider extends GUI<SliderCfg> {
    * 创建手柄
    */
   private createHandle(handleType: HandleType) {
-    console.log(this.getHandleShapeCfg(handleType));
-
     return new Handle({
       name: `handle`,
       style: this.getHandleShapeCfg(handleType),
@@ -491,58 +496,22 @@ export class Slider extends GUI<SliderCfg> {
   }
 
   private getHandleCfg(handleType: HandleType): Required<HandleCfg> {
-    const { start, end, ...args } = get(this.attributes, 'handle');
+    const { start, end, ...rest } = get(this.attributes, 'handle');
     let handleCfg = {};
     if (handleType === 'start') {
       handleCfg = start;
     } else if (handleType === 'end') {
       handleCfg = end;
     }
-    return deepMix({}, args, handleCfg);
+    return deepMix({}, rest, handleCfg);
   }
 
   private getHandleSize(handleType: HandleType) {
-    const handleCfg = this.getHandleCfg(handleType);
-    const { size } = handleCfg;
+    const { size } = this.getHandleCfg(handleType);
     if (size) return size;
-
     // 没设置size的话，高度就取height的80%高度，手柄宽度是高度的1/2.4
     const { width, height } = this.attributes;
     return (this.getOrientVal([height!, width!]) * 0.8) / 2.4;
-  }
-
-  private bindEvents() {
-    // Drag and brush
-    this.backgroundShape.addEventListener('mousedown', this.onDragStart('background'));
-    this.backgroundShape.addEventListener('touchstart', this.onDragStart('background'));
-
-    const fg = this.selectionShape;
-    // 选区drag事件
-    fg.addEventListener('mousedown', this.onDragStart('selection'));
-    fg.addEventListener('touchstart', this.onDragStart('selection'));
-    // 选区hover事件
-    fg.addEventListener('mouseenter', () => {
-      fg.attr(this.getStyle('selectionStyle') as RectProps);
-    });
-    fg.addEventListener('mouseleave', () => {
-      fg.attr(this.getStyle('selectionStyle') as RectProps);
-    });
-
-    [this.startHandle, this.endHandle].forEach((handle) => {
-      const handleType = handle.getType();
-      const handleIcon = handle.getIcon();
-      // 手柄按下开始drag
-      handleIcon.addEventListener('mousedown', this.onDragStart(handleType));
-      handleIcon.addEventListener('touchstart', this.onDragStart(handleType));
-
-      // icon hover事件
-      handleIcon.addEventListener('mouseenter', () => {
-        handleIcon.attr(this.getHandleCfg(handleType));
-      });
-      handleIcon.addEventListener('mouseleave', () => {
-        handleIcon.attr(this.getHandleCfg(handleType));
-      });
-    });
   }
 
   private getOrientVal<T>([x, y]: Pair<T>): T {
@@ -552,19 +521,59 @@ export class Slider extends GUI<SliderCfg> {
 
   private setValuesOffset(stOffset: number, endOffset: number = 0) {
     const [oldStartVal, oldEndVal] = this.getValues();
-    this.setValues([oldStartVal + stOffset, oldEndVal + endOffset].sort() as Pair<number>);
+    const newValue = [oldStartVal + stOffset, oldEndVal + endOffset].sort() as Pair<number>;
+    this.setValues(newValue);
+    this.onValueChanged([oldStartVal, oldEndVal]);
   }
 
   private getRatio(val: number) {
-    const { width, height } = this.getAvailableSpace();
+    const { width, height } = this.availableSpace;
     return val / this.getOrientVal([width, height]);
   }
+
+  private bindEvents() {
+    const selection = this.selectionShape;
+    // 选区drag事件
+    selection.addEventListener('mousedown', this.onDragStart('selection'));
+    selection.addEventListener('touchstart', this.onDragStart('selection'));
+    // 选区hover事件
+    selection.addEventListener('mouseenter', this.onSelectionMouseenter);
+    selection.addEventListener('mouseleave', this.onSelectionMouseleave);
+
+    const exceptHandleText = (target: EventTarget | null) => {
+      return target && (target as Handle).name !== 'text';
+    };
+
+    [this.startHandle, this.endHandle].forEach((handle) => {
+      const handleType = handle.getType();
+      handle.addEventListener('mousedown', (e) => {
+        const { target } = e;
+        exceptHandleText(target) && this.onDragStart(handleType)(e);
+      });
+      handle.addEventListener('touchstart', (e) => {
+        const { target } = e;
+        exceptHandleText(target) && this.onDragStart(handleType)(e);
+      });
+    });
+
+    // Drag and brush
+    this.backgroundShape.addEventListener('mousedown', this.onDragStart('background'));
+    this.backgroundShape.addEventListener('touchstart', this.onDragStart('background'));
+  }
+
+  private onSelectionMouseenter = () => {
+    this.selectionShape.attr(this.getStyle('selectionStyle') as RectProps);
+  };
+
+  private onSelectionMouseleave = () => {
+    this.selectionShape.attr(this.getStyle('selectionStyle') as RectProps);
+  };
 
   private onDragStart = (target: string) => (e: any) => {
     e.stopPropagation();
     this.target = target;
     this.prevPos = this.getOrientVal(getEventPos(e));
-    const { x, y } = this.getAvailableSpace();
+    const { x, y } = this.availableSpace;
     const { x: X, y: Y } = this.attributes;
     this.selectionStartPos = this.getRatio(this.prevPos - this.getOrientVal([x, y]) - this.getOrientVal([X!, Y!]));
     this.selectionWidth = 0;
@@ -608,5 +617,15 @@ export class Slider extends GUI<SliderCfg> {
     this.removeEventListener('mousemove', this.onDragging);
     document.removeEventListener('mouseup', this.onDragEnd);
     document.removeEventListener('touchend', this.onDragEnd);
+  };
+
+  private onValueChanged = (oldValue: [number, number]) => {
+    const evt = new CustomEvent('valueChanged', {
+      detail: {
+        oldValue,
+        value: this.getValues(),
+      },
+    });
+    this.dispatchEvent(evt);
   };
 }

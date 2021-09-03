@@ -4,7 +4,7 @@ import { ShapeAttrs, DisplayObjectConfig } from '../../types';
 
 export type Effect = string;
 export type PaginationPosition = 'top' | 'bottom' | 'left' | 'right';
-export type ButtonPosition = PaginationPosition | 'horizontal' | 'vertical';
+export type ButtonPosition = PaginationPosition | 'top-bottom' | 'left-right';
 
 export interface PageNavigatorCfg extends ShapeAttrs {
   x?: number;

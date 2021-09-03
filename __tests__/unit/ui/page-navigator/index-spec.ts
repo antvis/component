@@ -139,17 +139,17 @@ describe('page navigator', () => {
     expect(pages.attr('x')).toBeCloseTo(0);
     // 第二页
     await pageNavigator.next().then((e) => {
-      console.log('to page:', e);
+      //
     });
     expect(pages.attr('x')).toBeCloseTo(-pageWidth);
     // 第三页
     await pageNavigator.goTo(3).then((e) => {
-      console.log('to page:', e);
+      //
     });
     expect(pages.attr('x')).toBeCloseTo(-pageWidth * 2);
     // 第四页
     await pageNavigator.next().then((e) => {
-      console.log('to page:', e);
+      //
     });
     expect(pages.attr('x')).toBeCloseTo(-pageWidth * 3);
   });

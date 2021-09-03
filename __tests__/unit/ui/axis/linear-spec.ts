@@ -176,7 +176,7 @@ describe('linear', () => {
       },
     });
     // @ts-ignore
-    expect(linear.labelsGroup.children[0]!.getEulerAngles()).toBeCloseTo(15);
+    expect(linear.labelsGroup.children[0]!.getEulerAngles()).toBeCloseTo(30);
   });
   test('autoHide', () => {
     linear.update({

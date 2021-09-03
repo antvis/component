@@ -17,7 +17,7 @@ const canvas = new Canvas({
 
 const pages = new Group({ name: 'group' });
 
-function createPages(count: number, width: number, height: number) {
+function createPages(count, width, height) {
   const pages = [];
   for (let i = 0; i < count; i += 1) {
     const rect = new Rect({
@@ -67,54 +67,6 @@ const pageNavigator = new PageNavigator({
     orient: 'vertical',
     loop: true,
     button: {
-      prev: {
-        text: '⇦ 前一页',
-        type: 'primary',
-        buttonStyle: {
-          default: {
-            fill: '#fff',
-            stroke: '#000',
-          },
-          active: {
-            stroke: '#c0365a',
-            fill: '#fff',
-          },
-        },
-        textStyle: {
-          default: {
-            fontSize: 10,
-            fill: 'gray',
-          },
-          active: {
-            fontSize: 10,
-            fill: '#c0365a',
-          },
-        },
-      },
-      next: {
-        text: '后一页 ⇨',
-        type: 'primary',
-        buttonStyle: {
-          default: {
-            fill: '#fff',
-            stroke: '#000',
-          },
-          active: {
-            stroke: '#c0365a',
-            fill: '#fff',
-          },
-        },
-        textStyle: {
-          default: {
-            fontSize: 10,
-            fill: 'gray',
-          },
-          active: {
-            fontSize: 10,
-            fill: '#c0365a',
-          },
-        },
-      },
       position: 'bottom',
     },
   },

@@ -1,4 +1,4 @@
-import { deepMix, substitute, isString, isElement, isFunction } from '@antv/util';
+import { deepMix, substitute, isString, isElement, isFunction, throttle } from '@antv/util';
 import { createDom } from '@antv/dom-util';
 import { GUI } from '../../core/gui';
 import { applyStyleSheet, parseHTML } from '../../util';
@@ -21,6 +21,17 @@ export class Tooltip extends GUI<Required<TooltipCfg>> {
       enterable: false,
       autoPosition: true,
       items: [],
+      throttleFrequency: 100,
+      container: {
+        x: 0,
+        y: 0,
+      },
+      bounding: {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0,
+      },
       template: {
         container: `<div class="${CLASS_NAME.CONTAINER}"></div>`,
         title: `<div class="${CLASS_NAME.TITLE}"></div>`,
@@ -51,9 +62,13 @@ export class Tooltip extends GUI<Required<TooltipCfg>> {
 
   private get items(): Required<TooltipItem[]> {
     const { items } = this.attributes;
-    return items.map(({ name = '', value, color = 'black', index, ...rest }, idx) => {
-      return { name, value, color, index: index === undefined ? idx : index, ...rest };
-    });
+    return this.sort(
+      this.filter(
+        items.map(({ name = '', value, color = 'black', index, ...rest }, idx) => {
+          return { name, value, color, index: index === undefined ? idx : index, ...rest };
+        })
+      )
+    );
   }
 
   private get HTMLTooltipItemsElements() {
@@ -83,6 +98,17 @@ export class Tooltip extends GUI<Required<TooltipCfg>> {
   private element!: HTMLElement;
 
   private visibility: 'visible' | 'hidden' = 'visible';
+
+  /**
+   * 节流位置更新
+   */
+  private throttleUpdatePosition = throttle(
+    () => {
+      this.setOffsetPosition(this.autoPosition(this.getRelativeOffsetFromCursor()));
+    },
+    this.attributes.throttleFrequency,
+    {}
+  );
 
   constructor(options: TooltipOptions) {
     super(deepMix({}, Tooltip.defaultOptions, options));
@@ -173,10 +199,10 @@ export class Tooltip extends GUI<Required<TooltipCfg>> {
   }
 
   /**
-   * 计算相对指针的偏移量
+   * 根据 position 和指针位置，计算出 tooltip 相对于指针的偏移量
    * @param assignPosition {TooltipPosition} tooltip相对于指针的位置，不指定时使用默认参数
    */
-  private getCursorOffset(assignPosition?: TooltipPosition) {
+  private getRelativeOffsetFromCursor(assignPosition?: TooltipPosition) {
     const {
       position,
       offset: [hOffset, vOffset],
@@ -203,12 +229,18 @@ export class Tooltip extends GUI<Required<TooltipCfg>> {
    * 将相对于指针的偏移量生效到dom元素上
    */
   private setOffsetPosition([offsetX, offsetY]: [number, number]) {
-    const { x, y, parent } = this.attributes;
+    const {
+      x,
+      y,
+      container: { x: cx, y: cy },
+    } = this.attributes;
 
-    const { x: pX, y: pY } = parent.getBoundingClientRect();
-    // 设置属性
-    this.element.style.left = `${x + pX + offsetX}px`;
-    this.element.style.top = `${y + pY + offsetY}px`;
+    // const { x: pX, y: pY } = parent.getBoundingClientRect();
+    // // 设置属性
+    // this.element.style.left = `${x + pX + offsetX}px`;
+    // this.element.style.top = `${y + pY + offsetY}px`;
+    this.element.style.left = `${x + cx + offsetX}px`;
+    this.element.style.top = `${y + cy + offsetY}px`;
   }
 
   /**
@@ -224,18 +256,17 @@ export class Tooltip extends GUI<Required<TooltipCfg>> {
      *    ⬇️
      * 实际摆放位置
      */
-
-    this.setOffsetPosition(this.autoPosition(this.getCursorOffset()));
+    this.throttleUpdatePosition();
   }
 
   /**
-   * 计算自动调整位置后的位置
+   * 计算自动调整位置后的相对位置
    * @param offsetX 根据position计算的横向偏移量
    * @param offsetY 根据position计算的纵向偏移量
    */
   private autoPosition([offsetX, offsetY]: [number, number]): [number, number] {
-    const { x: cursorX, y: cursorY, autoPosition, parent, bounding } = this.attributes;
-    if (!autoPosition || !parent) return [offsetX, offsetY];
+    const { x: cursorX, y: cursorY, autoPosition, bounding } = this.attributes;
+    if (!autoPosition) return [offsetX, offsetY];
     // 更新前的位置和宽度
     const { offsetWidth, offsetHeight } = this.element;
     // 预期放置的位置
@@ -267,6 +298,18 @@ export class Tooltip extends GUI<Required<TooltipCfg>> {
     });
 
     const correctedPositionString = correctivePosition.join('-');
-    return this.getCursorOffset(correctedPositionString as TooltipPosition);
+    return this.getRelativeOffsetFromCursor(correctedPositionString as TooltipPosition);
+  }
+
+  private filter(items: TooltipItem[]): TooltipItem[] {
+    const { filterBy } = this.attributes;
+    if (filterBy) return items.filter(filterBy);
+    return items;
+  }
+
+  private sort(items: TooltipItem[]): TooltipItem[] {
+    const { sortBy } = this.attributes;
+    if (sortBy) return items.sort(sortBy);
+    return items;
   }
 }

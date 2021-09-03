@@ -144,12 +144,12 @@ code.language-text {
 a.ant-anchor-link-title[href='#快速上手'],
 a.ant-anchor-link-title[href='#quick-start'],
 a.ant-anchor-link-title[href='#事件监听'],
-a.ant-anchor-link-title[href='#event-listener']  {
+a.ant-anchor-link-title[href='#event-listener'] {
   transform: translateX(-10px);
 }
 
 a.ant-anchor-link-title[href='#快速上手']::before,
-a.ant-anchor-link-title[href='#quick-start']::before, 
+a.ant-anchor-link-title[href='#quick-start']::before,
 a.ant-anchor-link-title[href='#事件监听']::before,
 a.ant-anchor-link-title[href='#event-listener']::before {
   content: ' ';
@@ -180,7 +180,7 @@ a.ant-anchor-link-title[href='#event-listener']::before {
 
 /** 自定义 组件-API 文档页样式 START **/
 
-[class*="markdown-module--main"] [class*="markdown-module--content"] .component-img {
+[class*='markdown-module--main'] [class*='markdown-module--content'] .component-img {
   display: block;
   margin: 0 auto;
   max-height: 400px;
@@ -194,3 +194,17 @@ img.img-400 {
 }
 
 /** 自定义 组件-API 文档页样式 END **/
+
+/** dat.gui 样式  */
+.dg {
+  select {
+    color: black;
+  }
+}
+.dg.main {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1;
+  background-color: #000;
+}

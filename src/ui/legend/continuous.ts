@@ -1,5 +1,5 @@
 import { CustomEvent, Group, Text } from '@antv/g';
-import { clamp, deepMix, get, isUndefined } from '@antv/util';
+import { clamp, deepMix, get, isUndefined, minBy } from '@antv/util';
 import { Rail } from './rail';
 import { Labels } from './labels';
 import { Tag } from '../tag';
@@ -7,7 +7,7 @@ import { Marker } from '../marker';
 import { LegendBase } from './base';
 import { getValueOffset, getStepValueByValue } from './utils';
 import { CONTINUOUS_DEFAULT_OPTIONS, STEP_RATIO } from './constant';
-import { toPrecision, getShapeSpace, getEventPos } from '../../util';
+import { toPrecision, getShapeSpace, getEventPos, deepAssign } from '../../util';
 import type { Pair } from '../slider/types';
 import type { IRailCfg } from './rail';
 import type { ILabelsCfg } from './labels';
@@ -25,6 +25,11 @@ interface IHandleCfg {
 
 export class Continuous extends LegendBase<ContinuousCfg> {
   public static tag = 'Continuous';
+
+  protected static defaultOptions = {
+    type: Continuous.tag,
+    ...CONTINUOUS_DEFAULT_OPTIONS,
+  };
 
   /**
    * 结构：
@@ -116,8 +121,9 @@ export class Continuous extends LegendBase<ContinuousCfg> {
    * 获取颜色
    */
   protected get color() {
-    const { color } = this.attributes;
-    return color;
+    const { color, rail } = this.attributes;
+    const { ticks, chunked } = rail;
+    return chunked ? color.slice(0, ticks!.length + 1) : color;
   }
 
   // 获取色板属性
@@ -168,11 +174,13 @@ export class Continuous extends LegendBase<ContinuousCfg> {
       markerCfg: {
         symbol,
         size,
+        opacity: 1,
         cursor: this.getOrientVal(['ew-resize', 'ns-resize']),
         ...markerStyle,
       },
       textCfg: {
         text: '',
+        opacity: 1,
         ...textStyle,
       },
     };
@@ -242,11 +250,6 @@ export class Continuous extends LegendBase<ContinuousCfg> {
    */
   private prevValue!: number;
 
-  protected static defaultOptions = {
-    type: Continuous.tag,
-    ...CONTINUOUS_DEFAULT_OPTIONS,
-  };
-
   constructor(options: ContinuousOptions) {
     super(deepMix({}, Continuous.defaultOptions, options));
     super.init();
@@ -275,13 +278,13 @@ export class Continuous extends LegendBase<ContinuousCfg> {
   }
 
   public update(cfg: Partial<ContinuousCfg>) {
-    this.attr(deepMix({}, this.attributes, cfg));
+    this.attr(deepAssign({}, this.attributes, cfg));
     // 更新label内容
-    this.labelsShape.attr(this.labelsShapeCfg);
+    this.labelsShape.update(this.labelsShapeCfg);
     // 更新rail
     this.railShape.update(this.railShapeCfg);
     // 更新选区
-    this.setSelection(...this.selection);
+    this.updateSelection(...this.selection);
     // 更新title内容
     this.titleShape.attr(this.titleShapeCfg);
     // 更新handle
@@ -308,13 +311,13 @@ export class Continuous extends LegendBase<ContinuousCfg> {
   public setIndicator(value: false | number, text?: string, useFormatter = true) {
     // 值校验
     const { min, max, rail, indicator } = this.attributes;
-    const safeValue = value === false ? false : clamp(value, min, max);
-    if (safeValue === false || !indicator) {
+
+    if (value === false || !indicator) {
       this.indicatorShape.hide();
       return;
     }
     this.indicatorShape.show();
-
+    const safeValue = clamp(value, min, max);
     const { type, width: railWidth, height: railHeight } = rail as Required<Pick<RailCfg, 'type' | 'width' | 'height'>>;
     const { spacing } = indicator;
     const offsetX = this.getValueOffset(safeValue);
@@ -342,28 +345,9 @@ export class Continuous extends LegendBase<ContinuousCfg> {
     this.indicator.update({ text: showText });
   }
 
-  /**
-   * 设置选区
-   * @param stVal 开始值
-   * @param endVal 结束值
-   * @param isOffset stVal和endVal是否为偏移量
-   */
-  public setSelection(stVal: number, endVal: number, isOffset: boolean = false) {
-    const [currSt, currEnd] = this.selection;
-    let [start, end] = [stVal, endVal];
-    if (isOffset) {
-      // 获取当前值
-      start += currSt;
-      end += currEnd;
-    }
+  public setSelection(stVal: number, endVal: number) {
     // 值校验
-    [start, end] = this.getSafetySelections(start, end);
-
-    this.setAttribute('start', start);
-    this.setAttribute('end', end);
-    this.railShape.update({ start, end });
-    this.adjustLayout();
-    this.setHandleText();
+    this.updateSelectionLayout(...this.getSafetySelections(stVal, endVal));
   }
 
   /**
@@ -382,11 +366,57 @@ export class Continuous extends LegendBase<ContinuousCfg> {
     this.getHandle('end', 'text').attr({ text: endText });
   }
 
+  protected initShape() {
+    super.initShape();
+  }
+
+  /**
+   * 设置选区
+   * @param stVal 开始值
+   * @param endVal 结束值
+   * @param isOffset stVal和endVal是否为偏移量
+   */
+  private updateSelection(stVal: number, endVal: number, isOffset: boolean = false) {
+    const [currSt, currEnd] = this.selection;
+    let [start, end] = [stVal, endVal];
+    if (isOffset) {
+      // 获取当前值
+      start += currSt;
+      end += currEnd;
+    }
+    // 值校验
+    [start, end] = this.getSafetySelections(start, end);
+    this.updateSelectionLayout(start, end);
+    this.dispatchSelection();
+  }
+
+  private updateSelectionLayout(start: number, end: number) {
+    this.setAttribute('start', start);
+    this.setAttribute('end', end);
+    this.railShape.update({ start, end });
+    this.adjustLayout();
+    this.setHandleText();
+  }
+
   /**
    * 取值附近的步长刻度上的值
    */
-  private getStepValueByValue(value: number): number {
-    const { min } = this.attributes;
+  private getTickValue(value: number): number {
+    const {
+      min,
+      max,
+      rail: { chunked, ticks },
+    } = this.attributes;
+    if (chunked) {
+      const range = [min, ...ticks!, max];
+      for (let i = 0; i < range.length - 1; i += 1) {
+        if (value >= range[i] && value <= range[i + 1]) {
+          console.log(minBy([range[i], range[i + 1]], (val) => Math.abs(value - val)));
+
+          return minBy([range[i], range[i + 1]], (val) => Math.abs(value - val));
+        }
+      }
+    }
     return getStepValueByValue(value, this.step, min);
   }
 
@@ -887,7 +917,7 @@ export class Continuous extends LegendBase<ContinuousCfg> {
     if (!slidable) return;
     this.onHoverEnd();
     this.target = target;
-    this.prevValue = this.getStepValueByValue(this.getEventPosValue(e));
+    this.prevValue = this.getTickValue(this.getEventPosValue(e));
     this.addEventListener('mousemove', this.onDragging);
     this.addEventListener('touchmove', this.onDragging);
     document.addEventListener('mouseup', this.onDragEnd);
@@ -900,15 +930,15 @@ export class Continuous extends LegendBase<ContinuousCfg> {
   private onDragging = (e: any) => {
     e.stopPropagation();
     const [start, end] = this.selection;
-    const currValue = this.getStepValueByValue(this.getEventPosValue(e));
+    const currValue = this.getTickValue(this.getEventPosValue(e));
     const diffValue = currValue - this.prevValue;
     const { target } = this;
-    if (target === 'start') start !== currValue && this.setSelection(currValue, end);
-    else if (target === 'end') end !== currValue && this.setSelection(start, currValue);
+    if (target === 'start') start !== currValue && this.updateSelection(currValue, end);
+    else if (target === 'end') end !== currValue && this.updateSelection(start, currValue);
     else if (target === 'rail') {
       if (diffValue !== 0) {
         this.prevValue = currValue;
-        this.setSelection(diffValue, diffValue, true);
+        this.updateSelection(diffValue, diffValue, true);
       }
     }
   };
@@ -947,7 +977,7 @@ export class Continuous extends LegendBase<ContinuousCfg> {
       // 计算value并发出事件
       this.dispatchIndicated(interval);
     } else {
-      const val = this.getStepValueByValue(value);
+      const val = this.getTickValue(value);
       this.setIndicator(val);
       // TODO 节流
       this.dispatchIndicated(val);
@@ -970,6 +1000,15 @@ export class Continuous extends LegendBase<ContinuousCfg> {
     const evt = new CustomEvent('onIndicated', {
       detail: {
         value: val,
+      },
+    });
+    this.dispatchEvent(evt);
+  }
+
+  private dispatchSelection() {
+    const evt = new CustomEvent('rangeChanged', {
+      detail: {
+        value: this.selection,
       },
     });
     this.dispatchEvent(evt);

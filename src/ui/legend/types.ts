@@ -62,6 +62,7 @@ type CategoryItem = {
   name?: string;
   value?: string;
   id?: string;
+  [key: string]: any;
 };
 
 // 图例项图标
@@ -69,7 +70,7 @@ export type ItemMarkerCfg = {
   marker?: SymbolCfg;
   size?: number;
   spacing?: number;
-  style?: MixAttrs<ShapeAttrs>;
+  style?: MixAttrs<ShapeAttrs & { size?: number }>;
 };
 
 // 图例项Name

@@ -24,6 +24,7 @@ import {
   getFont,
   getMask,
   formatTime,
+  deepAssign,
   toThousands,
   toKNotation,
   getTimeStart,
@@ -104,7 +105,7 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
       ticksCopy = ticksCopy.filter((tick: TickDatum, idx: number) => idx % page === 0);
     }
 
-    let formatter = (val: Required<TickDatum>) => val.text;
+    let formatter = (val: Required<TickDatum>, idx: number) => val.text;
     if (label && label.formatter) formatter = label.formatter;
 
     // 完善字段
@@ -116,7 +117,7 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
         state,
         text: isUndefined(text) ? String(value) : text,
       };
-      return { ...temp, text: formatter(temp) };
+      return { ...temp, text: formatter(temp, idx) };
     });
   }
 
@@ -221,25 +222,37 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
     };
   }
 
+  private get tickLineCfg(): Required<AxisTickLineCfg> {
+    const { tickLine } = this.attributes;
+    // tickLine is undefined | false
+    if (isUndefined(tickLine) || !tickLine) {
+      return {
+        ...AXIS_BASE_DEFAULT_OPTIONS.style.tickLine,
+        len: 0,
+      };
+    }
+    return tickLine as Required<AxisTickLineCfg>;
+  }
+
   /**
    * 获得绘制刻度线的属性
    */
   private get ticksCfg(): ITicksCfg {
-    const { tickLine, subTickLine, label } = this.attributes as {
-      tickLine: Required<AxisTickLineCfg>;
+    const { subTickLine, label } = this.attributes as {
       subTickLine: Required<AxisSubTickLineCfg>;
       label: Required<AxisLabelCfg>;
     };
+    const tickLine = this.tickLineCfg;
 
-    const style = {
+    const cfg = {
       tickLines: [],
       subTickLines: [],
       labels: [],
     } as ITicksCfg;
     const ticks = this.ticksData;
-    // 不绘制刻度
+    // 不绘制刻度线
     if (!tickLine) {
-      return style;
+      return cfg;
     }
 
     this.labelsValues = [];
@@ -262,7 +275,7 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
       const nextTickValue = idx === ticks.length - 1 ? 1 : ticks[idx + 1].value;
       const { value: currTickValue, text } = tick;
       const [st, end] = this.calcTick(currTickValue, len, offset);
-      style.tickLines.push({
+      cfg.tickLines.push({
         path: [
           ['M', ...st],
           ['L', ...end],
@@ -278,7 +291,7 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
         const labelVal = alignTick ? currTickValue : (currTickValue + nextTickValue) / 2;
         const [st] = this.calcTick(labelVal, len, o2);
         this.labelsValues.push(labelVal);
-        style.labels.push({
+        cfg.labels.push({
           x: st[0],
           y: st[1],
           text: text!,
@@ -292,7 +305,7 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
         const subStep = (nextTickValue - currTickValue) / (count + 1);
         for (let i = 1; i <= count; i += 1) {
           const [st, end] = this.calcTick(currTickValue + i * subStep, len, offset);
-          style.subTickLines.push({
+          cfg.subTickLines.push({
             path: [
               ['M', ...st],
               ['L', ...end],
@@ -302,7 +315,7 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
         }
       }
     });
-    return style;
+    return cfg;
   }
 
   /**
@@ -356,7 +369,7 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
   }
 
   public update(cfg: Partial<T>) {
-    this.attr(deepMix({}, this.attributes, cfg));
+    this.attr(deepAssign({}, this.attributes, cfg));
     // 更新title
     this.updateTitleShape();
     // 更新轴线
@@ -643,16 +656,18 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
   private autoRotateLabel(): number {
     const {
       rotate,
-      rotateRange: [min, max],
-      rotateStep: step,
+      optionalAngles,
+      // rotateRange: [min, max],
+      // rotateStep: step,
     } = this.labelsCfg;
     if (rotate !== undefined) {
       return rotate;
     }
     const prevAngles = this.labelEulerAngles;
-    for (let angle = min; angle < max; angle += step) {
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const angle of optionalAngles) {
       this.setLabelEulerAngles(angle);
-      // 判断 label 是否发生碰撞
       if (!this.isLabelsOverlap()) {
         return angle;
       }
@@ -833,9 +848,11 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
    */
   private labelsEllipsis(width: number) {
     const strategy = this.getLabelEllipsisStrategy(width);
-    this.labels.forEach((label, idx) => {
-      label.attr('text', strategy.call(this, this.ticksData[idx].text, idx));
-    });
+    const ticks = this.ticksData;
+    for (let index = 0; index < ticks.length; index += 1) {
+      const { text } = this.ticksData[index];
+      this.labels[index].attr('text', text ? strategy.call(this, text, index) : '');
+    }
   }
 
   private parseLength(length: string | number) {

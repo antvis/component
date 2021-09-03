@@ -64,54 +64,6 @@ const pageNavigator = new PageNavigator({
     initPageNum: 1,
     loop: false,
     button: {
-      prev: {
-        text: '⇦ 前一页',
-        type: 'primary',
-        buttonStyle: {
-          default: {
-            fill: '#fff',
-            stroke: '#000',
-          },
-          active: {
-            stroke: '#c0365a',
-            fill: '#fff',
-          },
-        },
-        textStyle: {
-          default: {
-            fontSize: 10,
-            fill: 'gray',
-          },
-          active: {
-            fontSize: 10,
-            fill: '#c0365a',
-          },
-        },
-      },
-      next: {
-        text: '后一页 ⇨',
-        type: 'primary',
-        buttonStyle: {
-          default: {
-            fill: '#fff',
-            stroke: '#000',
-          },
-          active: {
-            stroke: '#c0365a',
-            fill: '#fff',
-          },
-        },
-        textStyle: {
-          default: {
-            fontSize: 10,
-            fill: 'gray',
-          },
-          active: {
-            fontSize: 10,
-            fill: '#c0365a',
-          },
-        },
-      },
       position: 'bottom',
     },
   },

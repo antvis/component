@@ -19,22 +19,22 @@ type CollisionRectOptions = {
  * 基于分离轴定律(SAT)进行碰撞检测
  * TODO 目前只能应用于中心旋转
  */
-class CollisionRect {
+export class CollisionRect {
   public axisX!: Vector;
 
   public axisY!: Vector;
 
-  private halfWidth: number;
+  private width: number;
 
-  private halfHeight: number;
+  private height: number;
 
-  private centerPoint: [number, number];
+  private center: [number, number];
 
   constructor(options: CollisionRectOptions) {
     const { center, height, width, angle } = options;
-    this.centerPoint = center;
-    this.halfHeight = height / 2;
-    this.halfWidth = width / 2;
+    this.center = center;
+    this.height = height;
+    this.width = width;
     this.setRotation(angle);
   }
 
@@ -42,7 +42,7 @@ class CollisionRect {
     // 计算半径投影
     const projectionAxisX = this.dot(axis, this.axisX);
     const projectionAxisY = this.dot(axis, this.axisY);
-    return this.halfWidth * projectionAxisX + this.halfHeight * projectionAxisY;
+    return (this.width * projectionAxisX + this.height * projectionAxisY) / 2;
   }
 
   public dot(vectorA: Vector, vectorB: Vector) {
@@ -59,10 +59,7 @@ class CollisionRect {
   }
 
   public isCollision(check: CollisionRect) {
-    const centerDistanceVector = [
-      this.centerPoint[0] - check.centerPoint[0],
-      this.centerPoint[1] - check.centerPoint[1],
-    ] as Vector;
+    const centerDistanceVector = [this.center[0] - check.center[0], this.center[1] - check.center[1]] as Vector;
 
     const axes = [
       // 两个矩形一共4条检测轴
@@ -85,9 +82,9 @@ class CollisionRect {
 
   public getBounds() {
     return {
-      width: this.halfWidth * 2,
-      height: this.halfHeight * 2,
-      center: this.centerPoint,
+      width: this.width,
+      height: this.height,
+      center: this.center,
     };
   }
 }
@@ -107,30 +104,14 @@ export function getHorizontalShape(shape: DisplayObject) {
  * 获得 DisplayObject 的碰撞 Text
  */
 export function getCollisionText(shape: Text, [top, right, bottom, left]: Margin) {
-  // TODO 目前需要确保文本的 textBaseline 为 middle
-  const [x, y] = getBoundsCenter(shape);
-
-  // 水平状态下文本的宽高
+  const [x, y] = shape.getLocalPosition();
+  // // 水平状态下文本的宽高
   const { width, height } = getHorizontalShape(shape);
   const [boxWidth, boxHeight] = [left + width + right, top + height + bottom];
-  // 加上边距的包围盒中心
-  const [boxX, boxY] = [x - width / 2 - left + boxWidth / 2, y - height / 2 - top + boxHeight / 2];
-  const angle = shape.getEulerAngles();
-  let [deltaX, deltaY] = [0, 0];
-  const [diffX, diffY] = [boxX - x, boxY - y];
-  if (angle === 0 || diffX === 0) {
-    [deltaX, deltaY] = [diffX, diffY];
-  } else {
-    const alpha = atan2(diffY, diffX) + (angle / 180) * PI;
-    // 文本中心到包围盒中心的距离
-    const distance = sqrt(diffX ** 2 + diffY ** 2);
-    // 计算包围盒绕 x，y 旋转后的中心位置
-    // boxX - x = 0 时，会导致alpha为null
-    [deltaX, deltaY] = [distance * cos(alpha), distance * sin(alpha)];
-  }
+  const angle = shape.getLocalEulerAngles();
   return new CollisionRect({
     angle,
-    center: [x + deltaX, y + deltaY],
+    center: [x, y],
     width: boxWidth,
     height: boxHeight,
   });

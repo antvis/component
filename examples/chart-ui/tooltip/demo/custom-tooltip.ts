@@ -1,4 +1,3 @@
-import { throttle } from '@antv/util';
 import { Canvas, Rect } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Tooltip, Sparkline } from '@antv/gui';
@@ -29,17 +28,18 @@ canvas.appendChild(
     },
   })
 );
-canvas.appendChild(
-  new Rect({
-    style: {
-      x: 50,
-      y: 50,
-      width: 500,
-      height: 500,
-      fill: 'lightgreen',
-    },
-  })
-);
+/* 边界区域 */
+const tooltipArea = new Rect({
+  style: {
+    x: 50,
+    y: 50,
+    width: 500,
+    height: 500,
+    fill: '#a6ec9a',
+  },
+});
+
+canvas.appendChild(tooltipArea);
 
 // 创建自定义组件的容器
 const customElement = document.createElement('div');
@@ -53,7 +53,7 @@ const sparkline = new Sparkline({
   style: {
     x: 10,
     y: 10,
-    width: 300,
+    width: 100,
     height: 50,
     smooth: false,
     data: [
@@ -81,7 +81,6 @@ const tooltip = new Tooltip({
         color: 'red',
       },
     ],
-    parent: document.getElementById('container').firstChild,
     bounding: {
       x: 50,
       y: 50,
@@ -102,20 +101,20 @@ const tooltip = new Tooltip({
 // 移除之前的tooltip
 Array.from(document.getElementsByClassName('tooltip')).forEach((tooltip) => tooltip.remove());
 document.getElementsByTagName('body')[0].appendChild(tooltip.HTMLTooltipElement);
-const mousemove = throttle(
-  (e) => {
-    tooltip.position = [e.offsetX, e.offsetY];
-  },
-  100,
-  {}
-);
-
-canvas.addEventListener('mousemove', (e) => {
-  mousemove(e);
+tooltipArea.addEventListener('mousemove', (e) => {
+  tooltip.position = [e.offsetX, e.offsetY];
 });
-canvas.addEventListener('mouseenter', () => {
+tooltipArea.addEventListener('mouseenter', () => {
   tooltip.show();
 });
-canvas.addEventListener('mouseleave', () => {
+tooltipArea.addEventListener('mouseleave', () => {
   tooltip.hide();
+});
+
+const { left, top } = document.getElementById('container').getBoundingClientRect();
+tooltip.update({
+  container: {
+    x: left,
+    y: top,
+  },
 });

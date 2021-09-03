@@ -4,24 +4,12 @@ import { GUI } from '../../core/gui';
 import { Marker } from '../marker';
 import { NAME_VALUE_RATIO } from './constant';
 import { getStateStyle, getEllipsisText, getFont, getShapeSpace } from '../../util';
-import type { DisplayObjectConfig, StyleState, TextProps } from '../../types';
+import type { DisplayObjectConfig, StyleState, ShapeAttrs } from '../../types';
 import type { CategoryItemCfg as ItemCfg, State } from './types';
 
-// for itemValue and itemName
-export interface IItemText {
-  style: TextProps;
-  spacing: number;
-  content: string;
-}
+export interface ICategoryItemCfg extends ShapeAttrs, Required<ItemCfg> {}
 
-export interface ICategoryItemCfg extends Omit<Required<ItemCfg>, 'itemName' | 'itemValue'> {
-  x: number;
-  y: number;
-  itemName: IItemText;
-  itemValue: IItemText;
-}
-
-type CategoryItemOptions = DisplayObjectConfig<Required<ICategoryItemCfg>>;
+type CategoryItemOptions = DisplayObjectConfig<ICategoryItemCfg>;
 
 export class CategoryItem extends GUI<ICategoryItemCfg> {
   // marker
@@ -68,7 +56,7 @@ export class CategoryItem extends GUI<ICategoryItemCfg> {
     const { width: markerWidth } = getShapeSpace(this.markerShape);
     const { width: nameWidth } = getShapeSpace(this.nameShape);
     const { width: valueWidth } = getShapeSpace(this.valueShape);
-    return markerWidth * 2 + nameWidth + valueWidth + itemName.spacing + itemValue.spacing;
+    return markerWidth * 2 + nameWidth + valueWidth + itemName.spacing! + itemValue.spacing!;
   }
 
   constructor({ style, ...rest }: CategoryItemOptions) {
@@ -130,7 +118,7 @@ export class CategoryItem extends GUI<ICategoryItemCfg> {
     this.setState(`${currState}-active` as State);
   }
 
-  public onUnHover() {
+  public offHover() {
     const currState = this.getState();
     this.setState(currState.split('-')[0] as StyleState);
   }
@@ -145,7 +133,7 @@ export class CategoryItem extends GUI<ICategoryItemCfg> {
 
     this.attr(deepMix({}, this.attributes, cfg));
     // update style
-    this.markerShape.attr(this.markerShapeCfg);
+    this.markerShape.update(this.markerShapeCfg);
     this.nameShape.attr(this.nameShapeCfg);
     this.valueShape.attr(this.valueShapeCfg);
     this.backgroundShape.attr(this.backgroundShapeCfg);
@@ -158,14 +146,21 @@ export class CategoryItem extends GUI<ICategoryItemCfg> {
   protected getStyle(name: string | string[], state = this.attributes.state) {
     const style = get(this.attributes, name);
     const stateList = state.split('-') as StyleState[];
-    return deepMix({}, ...stateList.map((s) => getStateStyle(style, s, true)));
+    return deepMix({}, ...stateList.map((s) => getStateStyle(style, s)));
   }
 
   protected adjustLayout() {
     // icon <-spacing-> name <-spacing-> value
     const { itemWidth, maxItemWidth, itemMarker, itemName: name, itemValue: value } = this.attributes;
     const { content: nameContent, spacing: markerNameSpacing } = name as { content: string; spacing: number };
-    const { content: valueContent, spacing: nameValueSpacing } = value as { content: string; spacing: number };
+    const { content: valueContent, spacing: nVSpacing } = value as { content: string; spacing: number };
+
+    /**
+     * 是否显示 name 和 value
+     */
+    const noNameFlag = nameContent === '' || nameContent === undefined;
+    const noValueFlag = valueContent === '' || valueContent === undefined;
+    const nameValueSpacing = noNameFlag ? 0 : nVSpacing;
 
     const width = itemWidth || maxItemWidth || Infinity;
     // 计算每个元素的长度
@@ -176,23 +171,25 @@ export class CategoryItem extends GUI<ICategoryItemCfg> {
 
     // 计算name和value可用宽度
     const availableWidth = width - markerNameSpacing - nameValueSpacing - markerSize * 2;
+
     // name和value分得的空间
-    const availableValueWidth = availableWidth / (NAME_VALUE_RATIO + 1);
-    const availableNameWidth = NAME_VALUE_RATIO * availableValueWidth;
+    const availableValueWidth = noValueFlag ? 0 : availableWidth * NAME_VALUE_RATIO;
+    const availableNameWidth = noNameFlag ? 0 : availableWidth * (1 - NAME_VALUE_RATIO);
 
     // 得到缩略文本
-    const ellipsisName = getEllipsisText(nameContent, availableNameWidth, getFont(this.nameShape));
-    const ellipsisValue = getEllipsisText(valueContent, availableValueWidth, getFont(this.valueShape));
+    const nameText = noNameFlag ? '' : getEllipsisText(nameContent, availableNameWidth, getFont(this.nameShape));
+    const valueText = noValueFlag ? '' : getEllipsisText(valueContent, availableValueWidth, getFont(this.valueShape));
 
     const temp = markerSize * 2 + markerNameSpacing;
 
-    this.nameShape.attr({ text: ellipsisName, x: temp, y: height / 2 });
+    this.nameShape.attr({ text: nameText, x: temp, y: height / 2, visibility: noNameFlag ? 'hidden' : 'visible' });
 
-    const { width: nWidth } = getShapeSpace(this.nameShape);
+    const nameTextWidth = noNameFlag ? 0 : getShapeSpace(this.nameShape).width;
     this.valueShape.attr({
-      text: ellipsisValue,
-      x: temp + (itemWidth ? availableNameWidth : nWidth) + nameValueSpacing!,
+      text: valueText,
+      x: temp + (itemWidth ? availableNameWidth : nameTextWidth) + nameValueSpacing,
       y: height / 2,
+      visibility: noValueFlag ? 'hidden' : 'visible',
     });
 
     this.markerShape.attr({

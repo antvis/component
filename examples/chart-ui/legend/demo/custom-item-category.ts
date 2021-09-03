@@ -11,21 +11,19 @@ const renderer = new CanvasRenderer({
 const canvas = new Canvas({
   container: 'container',
   width: 600,
-  height: 400,
+  height: 300,
   renderer,
 });
 
 const category = new Category({
   style: {
-    x: 50,
-    y: 50,
-    orient: 'vertical',
-    itemWidth: 160,
-    maxHeight: 200,
-    spacing: [10, 10],
-    title: {
-      content: '纵向',
+    pageNavigator: {
+      button: {
+        position: 'right',
+      },
     },
+    x: 10,
+    y: 10,
     items: [
       { name: 'Chrome', value: '7.08%', id: 'chrome', state: 'selected' },
       { name: 'IE', value: '5.41%', id: 'IE' },
@@ -37,12 +35,18 @@ const category = new Category({
       { name: 'Sogou', value: '1.06%' },
       { name: 'Others', value: '0.59%' },
     ],
+    title: {
+      content: '基本分类图例',
+    },
+    spacing: [10, 10],
+    maxWidth: 350,
+    maxItemWidth: 180,
     itemMarker: (item, idx) => {
       return {
         marker: ['diamond', 'circle', 'triangle'][idx % 3],
-        size: 14,
+        size: 12,
         style: {
-          default: {
+          selected: {
             fill: idx % 2 === 0 ? '#ecbf41' : '#d94948',
           },
         },
@@ -50,15 +54,15 @@ const category = new Category({
     },
     itemName: {
       style: {
-        default: {
-          fontSize: 14,
+        selected: {
+          fill: '#1cb4a2',
         },
       },
     },
     itemValue: {
       style: {
-        default: {
-          fontSize: 14,
+        selected: {
+          fill: '#1cb4a2',
         },
       },
     },

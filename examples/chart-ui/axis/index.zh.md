@@ -1,4 +1,4 @@
 ---
-title: 轴
+title: 坐标轴
 order: 6
 ---

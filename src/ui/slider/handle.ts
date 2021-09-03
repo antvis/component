@@ -6,6 +6,7 @@ import type { TextProps, ShapeAttrs } from '../../types';
 export interface IHandleCfg {
   x: number;
   y: number;
+  zIndex: number;
   handleType: 'start' | 'end';
   iconCfg: ShapeAttrs & {
     size?: number;
@@ -46,22 +47,21 @@ export class Handle extends DisplayObject<IHandleCfg> {
   }
 
   public update(cfg: Partial<IHandleCfg>) {
-    const { type: oldType } = get(this.attributes, ['iconCfg', 'type']);
     this.attr(deepMix({}, this.attributes, cfg));
     const { iconCfg, textCfg } = cfg;
     if (iconCfg) {
-      const { type, orient, ...rest } = iconCfg;
-      if (oldType !== type) {
-        this.clear();
-        this.iconShape = this.createHandleIcon();
-      } else {
-        this.iconShape.attr(rest);
-      }
-      this.setHandleIconRotation();
+      this.updateIconShape();
     }
     if (textCfg) {
       this.textShape.attr({ ...textCfg });
     }
+  }
+
+  private updateIconShape() {
+    this.removeChild(this.iconShape, true);
+    this.iconShape = this.createHandleIcon();
+    this.appendChild(this.iconShape);
+    this.setHandleIconRotation();
   }
 
   /**
@@ -122,10 +122,6 @@ export class Handle extends DisplayObject<IHandleCfg> {
       name: 'text',
       style: textCfg,
     });
-  }
-
-  private clear() {
-    this.iconShape.destroy();
   }
 
   private setHandleIconRotation() {

@@ -57,10 +57,9 @@ export const AXIS_BASE_DEFAULT_OPTIONS = {
       formatter: (tick: Required<TickDatum>) => tick?.text || String(tick?.value || ''),
       offset: [0, 0],
       overlapOrder: ['autoRotate', 'autoEllipsis', 'autoHide'],
-      margin: [1, 1, 1, 1],
+      margin: [0, 0, 0, 0],
       autoRotate: true,
-      rotateRange: [0, 90],
-      rotateStep: 5,
+      optionalAngles: [0, 30, 45, 60, 90],
       autoHide: true,
       autoHideTickLine: true,
       minLabel: 0,
@@ -132,7 +131,8 @@ export const COMMON_TIME_MAP = {
     ['year', 'second'], // YYYY-MM-DD hh:mm:ss
     ['year', 'day'], // YYYY-MM-DD
     ['month', 'day'], // MM-DD
-    ['month', 'month'], // MM
+    // ['month', 'month'], // MM
+    ['day', 'day'], // MM
   ],
   month: [
     ['month', 'day'], // MM-DD

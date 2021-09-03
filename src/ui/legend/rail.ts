@@ -68,10 +68,7 @@ export class Rail extends DisplayObject<Required<IRailCfg>> {
       this.backgroundPathGroup.appendChild(
         new Path({
           name: 'background',
-          style: {
-            path,
-            fill: backgroundColor,
-          },
+          style: { path, fill: backgroundColor },
         })
       );
     });
@@ -81,19 +78,19 @@ export class Rail extends DisplayObject<Required<IRailCfg>> {
       this.railPathGroup.appendChild(
         new Path({
           name: 'railPath',
-          style: {
-            path,
-            fill: chunked ? color![idx] : this.gradientColor,
-          },
+          style: { path, fill: chunked ? color![idx] : this.gradientColor },
         })
       );
     });
+    this.railPathGroup.setOrigin(width / 2, width / 2);
+    this.backgroundPathGroup.setOrigin(width / 2, width / 2);
     // 根据orient对railPath旋转
     if (orient === 'vertical') {
-      this.railPathGroup.setOrigin(width / 2, width / 2);
-      this.backgroundPathGroup.setOrigin(width / 2, width / 2);
       this.railPathGroup.setEulerAngles(90);
       this.backgroundPathGroup.setEulerAngles(90);
+    } else {
+      this.railPathGroup.setEulerAngles(0);
+      this.backgroundPathGroup.setEulerAngles(0);
     }
   }
 

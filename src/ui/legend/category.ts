@@ -1,6 +1,6 @@
 import type { DisplayObject } from '@antv/g';
 import { CustomEvent, Group } from '@antv/g';
-import { clone, deepMix, isFunction, isNumber } from '@antv/util';
+import { clone, deepMix, get, isFunction, isNumber, min, pick } from '@antv/util';
 import { LegendBase } from './base';
 import { CategoryItem } from './category-item';
 import { getShapeSpace } from '../../util';
@@ -8,7 +8,7 @@ import { PageNavigator } from '../page-navigator';
 import { CATEGORY_DEFAULT_OPTIONS } from './constant';
 import type { StyleState as State } from '../../types';
 import type { CategoryCfg, CategoryOptions } from './types';
-import type { ICategoryItemCfg, IItemText } from './category-item';
+import type { ICategoryItemCfg } from './category-item';
 
 export type { CategoryOptions };
 
@@ -55,6 +55,12 @@ export class Category extends LegendBase<CategoryCfg> {
       itemBackgroundStyle,
       reverse,
     } = this.attributes;
+    const {
+      itemMarker: defaultMarker,
+      itemName: defaultName,
+      itemValue: defaultValue,
+      backgroundStyle: defaultBackgroundStyle,
+    } = get(CATEGORY_DEFAULT_OPTIONS, ['style']);
     const cfg: ICategoryItemCfg[] = [];
     const items = clone(_items) as CategoryCfg['items'];
     if (reverse) items.reverse();
@@ -66,27 +72,33 @@ export class Category extends LegendBase<CategoryCfg> {
         y: 0,
         state,
         itemWidth,
-        maxItemWidth: maxItemWidth > maxWidth ? maxWidth : maxItemWidth,
+        maxItemWidth: min([maxItemWidth, maxWidth])!,
         // 这里使用name-idx作为id
         identify: id !== undefined ? id : `${nameContent}-${idx}`,
-        itemMarker: isFunction(itemMarker) ? itemMarker(item, idx, items) : itemMarker,
+        itemMarker: isFunction(itemMarker) ? deepMix({}, defaultMarker, itemMarker(item, idx, items)) : itemMarker,
         itemName: (() => {
-          const { formatter, style, spacing } = isFunction(itemName) ? itemName(item, idx, items) : itemName;
+          const { formatter, style, spacing } = isFunction(itemName)
+            ? deepMix({}, defaultName, itemName(item, idx, items))
+            : itemName;
           return {
             style,
             spacing,
             content: formatter!(nameContent),
-          } as IItemText;
+          };
         })(),
         itemValue: (() => {
-          const { formatter, style, spacing } = isFunction(itemValue) ? itemValue(item, idx, items) : itemValue;
+          const { formatter, style, spacing } = isFunction(itemValue)
+            ? deepMix({}, defaultValue, itemValue(item, idx, items))
+            : itemValue;
           return {
             style,
             spacing,
             content: formatter!(valueContent),
-          } as IItemText;
+          } as ICategoryItemCfg['itemValue'];
         })(),
-        backgroundStyle: isFunction(itemBackgroundStyle) ? itemBackgroundStyle(item, idx, items) : itemBackgroundStyle,
+        backgroundStyle: isFunction(itemBackgroundStyle)
+          ? deepMix({}, defaultBackgroundStyle, itemBackgroundStyle(item, idx, items))
+          : itemBackgroundStyle,
       });
     });
     return cfg;
@@ -103,7 +115,7 @@ export class Category extends LegendBase<CategoryCfg> {
 
   private pageNum: number = 1;
 
-  private pageNavigator!: PageNavigator;
+  private pageNavigator!: PageNavigator | null;
 
   private itemsGroup!: Group;
 
@@ -132,10 +144,6 @@ export class Category extends LegendBase<CategoryCfg> {
 
   public clear() {}
 
-  public destroy(): void {
-    this.unBindEvents();
-  }
-
   /**
    * 根据id获取item
    */
@@ -150,8 +158,8 @@ export class Category extends LegendBase<CategoryCfg> {
    * 设置某个item的状态
    * 会改变其样式
    */
-  public setItemState(name: string, state: State) {
-    this.getItem(name)?.setState(state);
+  public setItemState(id: string, state: State) {
+    this.getItem(id)?.setState(state);
   }
 
   /**
@@ -164,7 +172,8 @@ export class Category extends LegendBase<CategoryCfg> {
     });
   }
 
-  private initShape() {
+  protected initShape() {
+    super.initShape();
     this.itemsGroup = new Group({
       name: 'itemsGroup',
     });
@@ -181,6 +190,7 @@ export class Category extends LegendBase<CategoryCfg> {
   }
 
   private clearItems() {
+    this.itemsGroup.setLocalPosition(0, 0);
     this.itemsGroup.removeChildren(true);
   }
 
@@ -211,8 +221,8 @@ export class Category extends LegendBase<CategoryCfg> {
         style: cfg,
       });
       this.appendChild(this.pageNavigator);
-      this.itemsGroup.attr({ x: 0, y: 0 });
-      this.pageNavigator.attr({ x: left, y: top });
+      this.itemsGroup.setLocalPosition(0, 0);
+      this.pageNavigator.setLocalPosition(left, top);
     } else {
       // this.pageNavigator && !flag
       // remove and destroy
@@ -221,9 +231,11 @@ export class Category extends LegendBase<CategoryCfg> {
       if (this.pageNavigator) {
         this.pageNavigator.clear();
         this.removeChild(this.pageNavigator, true);
+        this.pageNavigator.destroy();
+        this.pageNavigator = null;
       }
       this.appendChild(this.itemsGroup);
-      this.itemsGroup.attr({ x: left, y: top });
+      this.itemsGroup.setLocalPosition(left, top);
     }
     // 4. 不存在分页器实例且flag为false，则不做任何操作
   }
@@ -237,26 +249,15 @@ export class Category extends LegendBase<CategoryCfg> {
     this.itemsGroup.addEventListener('mouseleave', this.mouseleaveEvent);
   }
 
-  private unBindEvents() {
-    this.itemsGroup.removeEventListener('click', this.ItemsGroupClickEvent);
-    this.itemsGroup.removeEventListener('mousemove', this.mousemoveEvent);
-    this.itemsGroup.removeEventListener('mouseleave', this.mouseleaveEvent);
-  }
-
   private ItemsGroupClickEvent = (e: any) => {
     const { target } = e;
     if (target) {
-      const item = getParentItem(target as DisplayObject); // (target as DisplayObject).parentNode.parentNode as CategoryItem;
+      const item = getParentItem(target as DisplayObject);
       if (!item) return;
       const state = item.getState();
       if (!['selected', 'selected-active'].includes(state)) item.setState('selected-active');
       else item.setState('default-active');
-      const evt = new CustomEvent('valuechange', {
-        detail: {
-          value: this.getItemsStates(),
-        },
-      });
-      this.dispatchEvent(evt);
+      this.dispatchItemsChange();
     }
   };
 
@@ -266,14 +267,14 @@ export class Category extends LegendBase<CategoryCfg> {
       const item = getParentItem(target as DisplayObject);
       if (!item) {
         this.items.forEach((item) => {
-          item.onUnHover();
+          item.offHover();
         });
         return;
       }
       const state = item.getState();
       if (state !== 'active') {
         this.items.forEach((item) => {
-          item.onUnHover();
+          item.offHover();
         });
         item.onHover();
       }
@@ -282,7 +283,7 @@ export class Category extends LegendBase<CategoryCfg> {
 
   private mouseleaveEvent = () => {
     this.items.forEach((item) => {
-      item.onUnHover();
+      item.offHover();
     });
   };
 
@@ -367,7 +368,7 @@ export class Category extends LegendBase<CategoryCfg> {
         [x, y] = [currX, currY];
         currX += width + rowSpacing;
       }
-      item.attr({ x, y });
+      item.setLocalPosition(x, y);
     });
     this.pageNum = pageNum;
   }
@@ -428,8 +429,17 @@ export class Category extends LegendBase<CategoryCfg> {
         [x, y] = [currX, currY];
         currY += itemHeight + colSpacing;
       }
-      item.attr({ x, y });
+      item.setLocalPosition(x, y);
     });
     this.pageNum = pageNum;
+  }
+
+  private dispatchItemsChange() {
+    const evt = new CustomEvent('valueChanged', {
+      detail: {
+        value: this.getItemsStates(),
+      },
+    });
+    this.dispatchEvent(evt);
   }
 }
