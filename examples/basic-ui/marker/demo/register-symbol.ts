@@ -1,6 +1,6 @@
 import { Canvas } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
-import { Marker, svg2marker } from '@antv/gui';
+import { Marker } from '@antv/gui';
 
 const renderer = new CanvasRenderer({
   enableDirtyRectangleRenderingDebug: false,
@@ -15,21 +15,43 @@ const canvas = new Canvas({
   renderer,
 });
 
-Marker.registerSymbol(
-  'star',
-  svg2marker(
-    `<svg height="512" width="512" viewport="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M480 207H308.6L256 47.9 203.4 207H32l140.2 97.9L117.6 464 256 365.4 394.4 464l-54.7-159.1L480 207zM362.6 421.2l-106.6-76-106.6 76L192 298.7 84 224h131l41-123.3L297 224h131l-108 74.6 42.6 122.6z"/></svg>`
-  )
-);
+Marker.registerSymbol('star', (x, y, r) => {
+  const size = r * 2;
+  const path = [];
+  for (let i = 0; i < 5; i++) {
+    path.push([
+      i === 0 ? 'M' : 'L',
+      (Math.cos(((18 + i * 72) * Math.PI) / 180) * size) / 2 + x,
+      (-Math.sin(((18 + i * 72) * Math.PI) / 180) * size) / 2 + y,
+    ]);
+    path.push([
+      'L',
+      (Math.cos(((54 + i * 72) * Math.PI) / 180) * size) / 4 + x,
+      (-Math.sin(((54 + i * 72) * Math.PI) / 180) * size) / 4 + y,
+    ]);
+  }
+  path.push(['Z']);
+  return path;
+});
 
-const marker = new Marker({
+const star = new Marker({
   style: {
     symbol: 'star',
     x: 50,
     y: 50,
-    size: 32,
+    size: 16,
     fill: 'orange',
   },
 });
+canvas.appendChild(star);
 
-canvas.appendChild(marker);
+const triangle = new Marker({
+  style: {
+    symbol: 'triangle',
+    x: 80,
+    y: 50,
+    size: 16,
+    fill: 'green',
+  },
+});
+canvas.appendChild(triangle);

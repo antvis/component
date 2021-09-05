@@ -18,6 +18,14 @@
         "zh": "自定义 marker symbol",
         "en": "Register marker symbol"
       },
+      "screenshot": "https://gw.alipayobjects.com/zos/antfincdn/9f7QFadjCh/bbf6c9a5-76d2-46d1-8864-6b3f49047eaf.png"
+    },
+    {
+      "filename": "register-svg-symbol.ts",
+      "title": {
+        "zh": "自定义 marker symbol with svg",
+        "en": "Register marker symbol with svg"
+      },
       "screenshot": ""
     }
   ]
