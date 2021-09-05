@@ -1,4 +1,4 @@
 ---
-title: BreadCrumb
+title: Breadcrumb
 order: 3
 ---

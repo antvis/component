@@ -24,6 +24,6 @@ type UnionShapeProps =
 
 export type StyleState = typeof STATE_LIST[number];
 
-export type MixAttrs<T extends UnionShapeProps> = {
+export type MixAttrs<T extends UnionShapeProps | null> = {
   [state in StyleState]?: T;
 };

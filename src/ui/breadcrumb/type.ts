@@ -1,14 +1,17 @@
 import { Group } from '@antv/g';
 import type { TextProps, DisplayObjectConfig } from '../../types';
+import type { TagCfg } from '../tag/types';
 
-export type BreadCrumbItem = {
-  /** 展示的文案 */
-  name: string;
-  /** id */
+export type BreadcrumbItem = {
+  /** id, 必选 */
   id: string;
+  /** 展示的文案 */
+  text: string;
+  /** 图标 */
+  marker?: TagCfg['marker'];
 };
 
-export type BreadCrumbCfg = {
+export type BreadcrumbCfg = {
   /** 起点 x 坐标位置 */
   readonly x: number;
   /** 起点 y 坐标位置 */
@@ -20,11 +23,11 @@ export type BreadCrumbCfg = {
   /** 容器内边距。容器实际可用大小 = 容器宽高度 - 内边距 */
   readonly padding?: number | number[];
   /** 面包屑 items */
-  readonly items: BreadCrumbItem[];
+  readonly items: BreadcrumbItem[];
   /** 面包屑分隔符 */
   readonly separator?: {
-    /** 分隔符内容, 默认: '/'. 支持传入一个 group, 外部自行控制大小 */
-    text?: string | Group;
+    /** 分隔符内容, 默认: '/'. 暂不支持传入一个 group, 外部自行控制大小 */
+    text?: string;
     /** 分隔符样式（不需要激活样式） */
     style?: Partial<TextProps>;
     /** 分隔符两边间距 */
@@ -41,7 +44,7 @@ export type BreadCrumbCfg = {
   };
 
   /** 如果作为通用组件，给其它用户使用 */
-  readonly onclick?: (...args: any[]) => void;
+  readonly onClick?: (id: string, item: BreadcrumbItem, items: BreadcrumbItem[]) => void;
 };
 
-export type BreadCrumbOptions = DisplayObjectConfig<BreadCrumbCfg>;
+export type BreadcrumbOptions = DisplayObjectConfig<BreadcrumbCfg>;

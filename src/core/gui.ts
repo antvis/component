@@ -7,12 +7,6 @@ export abstract class GUI<CustomAttr> extends CustomElement<CustomAttr> {
 
   disconnectedCallback(): void {}
 
-  attributeChangedCallback<Key extends keyof CustomAttr>(
-    name: Key,
-    oldValue: CustomAttr[Key],
-    value: CustomAttr[Key]
-  ): void {}
-
   /**
    * 组件初始化
    */

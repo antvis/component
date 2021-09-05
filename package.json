@@ -22,10 +22,11 @@
     "size": "limit-size",
     "lint": "eslint ./src/**/*.ts ./__tests__/**/*.ts && prettier ./src ./__tests__ --check ",
     "fix": "eslint ./src/**/*.ts ./__tests__/**/*.ts --fix && prettier ./src ./__tests__ --write ",
+    "coverage": "jest -w 16 --coverage",
     "test": "jest",
     "test-live": "cross-env DEBUG_MODE=1 jest --watch ./__tests__",
     "build": "father-build && limit-size",
-    "ci": "run-s lint test build",
+    "ci": "run-s lint coverage build",
     "prepublishOnly": "npm run ci",
     "prepare": "husky install"
   },

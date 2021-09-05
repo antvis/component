@@ -24,7 +24,7 @@ export type TagCfg = {
   /** 文本的样式 */
   textStyle?: MixAttrs<Partial<TextProps>>;
   /** background 背景样式 */
-  backgroundStyle?: MixAttrs<Partial<RectProps>>;
+  backgroundStyle?: MixAttrs<Partial<RectProps>> | null;
 };
 
 export type TagOptions = DisplayObjectConfig<TagCfg>;

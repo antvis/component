@@ -10,8 +10,8 @@ export type { MarkerOptions } from './marker';
 export { Button } from './button';
 export type { ButtonOptions } from './button';
 // author by [banli](https://github.com/banli)
-export { BreadCrumb } from './breadcrumb';
-export type { BreadCrumbOptions } from './breadcrumb';
+export { Breadcrumb } from './breadcrumb';
+export type { BreadcrumbOptions } from './breadcrumb';
 
 /** Others */
 export { Arrow } from './arrow';

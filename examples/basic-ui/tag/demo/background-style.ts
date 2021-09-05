@@ -19,9 +19,7 @@ const tag = new Tag({
   style: {
     text: '无背景',
     padding: [4, 7],
-    backgroundStyle: {
-      default: null,
-    },
+    backgroundStyle: null,
   },
 });
 canvas.appendChild(tag);
@@ -31,10 +29,16 @@ const tag2 = new Tag({
     x: 100,
     text: '设置背景激活样式',
     padding: [4, 7],
+    textStyle: {
+      active: {
+        cursor: 'pointer',
+      },
+    },
     backgroundStyle: {
       active: {
         fill: 'lightgreen',
         lineWidth: 0,
+        cursor: 'pointer',
       },
     },
   },

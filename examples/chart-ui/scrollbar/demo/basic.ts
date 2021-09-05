@@ -31,49 +31,42 @@ const scrollbar = new Scrollbar({
 
 canvas.appendChild(scrollbar);
 
-const $wrapper = document.getElementById('container');
 const cfg = new dat.GUI({ autoPlace: false });
-$wrapper.appendChild(cfg.domElement);
+document.getElementById('container').appendChild(cfg.domElement);
 const folder = cfg.addFolder('配置项');
 folder.open();
-const scrollbarCfg = {
-  x: 5,
-  y: 50,
-  方向: 'vertical',
-  值: 0.5,
-  宽度: 200,
-  高度: 10,
-  圆角: false,
-  滑块长度: 30,
-  内边距: 1,
-};
-const width = folder.add(scrollbarCfg, '宽度', 10, 300).onChange((width) => {
-  scrollbar.update({ width });
-});
-const height = folder.add(scrollbarCfg, '高度', 10, 300).onChange((height) => {
-  scrollbar.update({ height });
-});
-folder.add(scrollbarCfg, '方向', ['horizontal', 'vertical']).onChange((orient) => {
-  const w = width.getValue();
-  const h = height.getValue();
-  width.setValue(h);
-  height.setValue(w);
-  scrollbar.update({ orient });
-});
-const value = folder.add(scrollbarCfg, '值', 0, 1).onChange((value) => {
-  scrollbar.update({ value });
-});
-folder.add(scrollbarCfg, '圆角', ['true', 'false']).onChange((isRound) => {
-  scrollbar.update({ isRound: isRound === 'true' });
-});
-folder.add(scrollbarCfg, '滑块长度', 10, 50).onChange((thumbLen) => {
-  scrollbar.update({ thumbLen });
-});
-folder.add(scrollbarCfg, '内边距', 0, 5).onChange((padding) => {
-  scrollbar.update({ padding });
+
+const schema = [
+  { attribute: 'width', label: '宽度', range: [10, 300] },
+  { attribute: 'height', label: '高度', range: [10, 300] },
+  { attribute: 'orient', label: '方向', options: ['horizontal', 'vertical'] },
+  { attribute: 'value', label: '值', range: [0, 1] },
+  { attribute: 'isRound', label: '圆角', options: ['true', 'false'] },
+  { attribute: 'thumbLen', label: '滑块长度', range: [10, 50] },
+  { attribute: 'padding', label: '内边距', range: [0, 5] },
+];
+const scrollbarCfg = {};
+schema.forEach((cfg) => {
+  const value = scrollbar.attributes[cfg.attribute];
+  scrollbarCfg[cfg.label] = Array.isArray(value) ? value[0] : value;
 });
 
-/** event listener */
-scrollbar.addEventListener('valueChanged', ({ detail }) => {
-  value.setValue(detail.value);
+let datGUIWidth, datGUIHeight;
+schema.forEach((cfg) => {
+  const result = folder.add(scrollbarCfg, cfg.label, ...(cfg.range || []), cfg.options).onChange((v) => {
+    const value = cfg.attribute === 'isRound' ? v === 'true' : v;
+    if (cfg.attribute === 'orient') {
+      const w = datGUIWidth.getValue();
+      const h = datGUIHeight.getValue();
+      datGUIWidth.setValue(h);
+      datGUIHeight.setValue(w);
+    }
+    scrollbar.update({ [cfg.attribute]: value });
+  });
+  if (cfg.attribute === 'width') {
+    datGUIWidth = result;
+  }
+  if (cfg.attribute === 'height') {
+    datGUIHeight = result;
+  }
 });

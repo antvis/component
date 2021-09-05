@@ -5,10 +5,26 @@
   },
   "demos": [
     {
-      "filename": "simple-breadcrumb.ts",
+      "filename": "basic.ts",
       "title": {
-        "zh": "简单面包屑",
-        "en": "Simple breadcrumb"
+        "zh": "基础面包屑",
+        "en": "Basic breadcrumb"
+      },
+      "screenshot": ""
+    },
+    {
+      "filename": "custom-seperator.ts",
+      "title": {
+        "zh": "自定义分隔符面包屑",
+        "en": "Breadcrumb with custom separator"
+      },
+      "screenshot": ""
+    },
+    {
+      "filename": "auto-wrap.ts",
+      "title": {
+        "zh": "面包屑 · 宽度溢出自动换行",
+        "en": "Breadcrumb auto wrap when overflow"
       },
       "screenshot": ""
     }

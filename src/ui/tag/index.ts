@@ -20,7 +20,7 @@ export class Tag extends GUI<Required<TagCfg>> {
     const { backgroundStyle, radius = 0 } = this.attributes;
     return {
       radius,
-      ...(getStyle(backgroundStyle) as RectStyleProps),
+      ...((backgroundStyle ? getStyle(backgroundStyle) : {}) as RectStyleProps),
     };
   }
 
@@ -201,7 +201,7 @@ export class Tag extends GUI<Required<TagCfg>> {
     this.addEventListener('mouseenter', () => {
       const { backgroundStyle, textStyle } = this.attributes;
       this.textShape.attr(getStyle(textStyle, 'active', true));
-      this.backgroundShape.attr(getStyle(backgroundStyle, 'active', true));
+      this.backgroundShape.attr(backgroundStyle ? getStyle(backgroundStyle, 'active', true) : {});
       this.autoFit();
     });
 

@@ -1,5 +1,5 @@
 ---
-title: BreadCrumb
+title: Breadcrumb
 order: 7
 ---
 
@@ -10,7 +10,7 @@ order: 7
 ## Usage
 
 ```ts
-import { BreadCrumb } from '@antv/gui';
+import { Breadcrumb } from '@antv/gui';
 ```
 
 ## Options

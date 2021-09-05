@@ -1,6 +1,6 @@
 import { Canvas } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
-import { BreadCrumb } from '@antv/gui';
+import { Breadcrumb } from '@antv/gui';
 
 const renderer = new CanvasRenderer({
   enableDirtyRectangleRenderingDebug: false,
@@ -15,12 +15,19 @@ const canvas = new Canvas({
   renderer,
 });
 
-const breadcrumb = new BreadCrumb({
+const breadcrumb = new Breadcrumb({
   style: {
     x: 50,
     y: 50,
-    items: [{ name: '测试1' }, { name: '测试2' }, { name: '测试3' }, { name: '测试4' }, { name: '测试5' }],
-    onClick: (...args) => console.log(args),
+    items: [
+      { text: 'AntV', id: '1' },
+      { text: 'GUI', id: '2' },
+      { text: 'Breadcrumb', id: '3' },
+    ],
+    seperator: {
+      text: '>',
+    },
+    onClick: (id, item, items) => console.log('id: %s, item: %o, items: %o', id, item, items),
   },
 });
 
