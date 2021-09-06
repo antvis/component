@@ -96,7 +96,7 @@ export class Arc extends AxisBase<ArcCfg> {
     let rotate = angle;
     let textAlign = 'center' as Position;
     if (align === 'tangential') {
-      rotate = getVectorsAngle([1, 0], this.getTangentVector(labelVal));
+      rotate = getVectorsAngle([1, 0], this.getTangentVector(labelVal)) % 180;
     } else {
       // 非径向垂直于刻度的情况下（水平、径向），调整锚点
 
@@ -104,16 +104,7 @@ export class Arc extends AxisBase<ArcCfg> {
       if (absAngle < 90) textAlign = 'start';
       else if (absAngle > 90) textAlign = 'end';
 
-      // 暂时有点问题
-      // const alpha = approxTickAngle;
-      // const flag = alpha > 270 || alpha < 90;
-      // if (angle > alpha - 90 && angle < alpha + 90) {
-      //   if (flag) textAlign = 'start';
-      //   else textAlign = 'end';
-      // } else if (flag) textAlign = 'end';
-      // else textAlign = 'start';
-
-      if (angle !== 0 || [-90, 90].includes(approxTickAngle)) {
+      if (angle !== 0 || [90].includes(approxTickAngle)) {
         const sign = angle > 0 ? 0 : 1;
         if (absAngle < 90) {
           textAlign = ['end', 'start'][sign] as Position;

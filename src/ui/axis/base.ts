@@ -389,10 +389,14 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
    * 设置label旋转角度
    */
   public setLabelEulerAngles(angle: number): void {
+    let accAngle = angle;
+    while (accAngle < 0) {
+      accAngle += 180;
+    }
     this.labels.forEach((label, idx) => {
       const labelVal = this.labelsValues[idx];
       const tickAngle = getVectorsAngle([1, 0], this.getVerticalVector(labelVal));
-      const { rotate, textAlign } = this.getLabelLayout(labelVal, tickAngle, formatAngle(angle));
+      const { rotate, textAlign } = this.getLabelLayout(labelVal, tickAngle, formatAngle(accAngle));
       label.attr({ textAlign });
       label.setEulerAngles(rotate);
     });

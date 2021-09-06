@@ -160,7 +160,7 @@ const layoutCfg = {
   末尾追加刻度: false,
   显示子刻度: false,
   子刻度数量: 4,
-  轴线正方向: 'left',
+  轴线正方向: 'right',
 };
 
 layoutFolder.add(layoutCfg, 'x', 0, 200).onChange((x) => {
@@ -185,7 +185,7 @@ const subTickCount = layoutFolder
     linear.update({ subTickLine: getDefaultSubTickLineCfg({ count }) });
   });
 layoutFolder.add(layoutCfg, '轴线正方向', ['left', 'right']).onChange((dir) => {
-  linear.update({ verticalFactor: dir === 'left' ? 1 : -1 });
+  linear.update({ verticalFactor: dir === 'left' ? -1 : 1 });
 });
 
 const styleFolder = cfg.addFolder('样式');
