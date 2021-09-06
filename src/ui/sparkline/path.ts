@@ -46,7 +46,7 @@ export function lineToCurvePath(line: Line, reverse = false) {
   if (reverse) {
     path.unshift(['M', ...line[len - 1]]);
   } else {
-    path.unshift(['M', 0, 0], ['M', ...line[0]]);
+    path.unshift(['M', ...line[0]]);
   }
   return path as PathCommand[];
 }
@@ -114,8 +114,6 @@ export function linesToStackCurveAreaPaths(lines: Line[], width: number, baselin
       const belowLine = lines[idx - 1];
       const belowCurvePath = lineToCurvePath(belowLine, true);
 
-      // TODO: shift 是为了移除 M 0 0标记
-      // belowCurvePath.pop();
       /**
        * 将线条连接成闭合路径
        *  M C C C C C
