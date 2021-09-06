@@ -21,7 +21,7 @@ export class Tooltip extends GUI<Required<TooltipCfg>> {
       enterable: false,
       autoPosition: true,
       items: [],
-      throttleFrequency: 100,
+      throttleFrequency: 50,
       container: {
         x: 0,
         y: 0,
