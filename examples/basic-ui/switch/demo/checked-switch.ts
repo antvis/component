@@ -36,6 +36,6 @@ const button = new Button({
     },
   },
 });
-button.flag = true;
+button.flag = false;
 canvas.appendChild(button);
 canvas.appendChild(checkedSwitch);

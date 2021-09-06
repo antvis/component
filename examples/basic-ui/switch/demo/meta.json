@@ -23,8 +23,8 @@
     {
       "filename": "checked-switch.ts",
       "title": {
-        "zh": "外部控制 开关",
-        "en": "External control switch"
+        "zh": "按钮控制 开关",
+        "en": "Push button control switch"
       },
       "screenshot": ""
     },

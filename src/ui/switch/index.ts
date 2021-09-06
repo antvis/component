@@ -261,7 +261,7 @@ export class Switch extends GUI<Required<SwitchCfg>> {
         // checked 控制这个有无
         (index === 0 ? this.checked : !this.checked)
           ? this.backgroundShape.appendChild(childrenShape)
-          : this.backgroundShape.removeChild(childrenShape);
+          : this.backgroundShape.removeChild(childrenShape, false);
 
         // 位置 为 开启 textSpacing, 关闭 整体width - 本身 width - textSpacing
         childrenShape.update({
