@@ -23,7 +23,7 @@ function getParentItem(node: DisplayObject) {
 }
 
 export class Category extends LegendBase<CategoryCfg> {
-  public static tag = 'Category';
+  public static tag = 'category';
 
   protected static defaultOptions = {
     type: Category.tag,

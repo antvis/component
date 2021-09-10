@@ -20,7 +20,7 @@ interface Page {
 type PlayState = 'idle' | 'running' | 'finished';
 
 export class PageNavigator extends GUI<PageNavigatorCfg> {
-  public static tag = 'pageNavigator';
+  public static tag = 'page-navigator';
 
   private static defaultOptions = {
     type: PageNavigator.tag,

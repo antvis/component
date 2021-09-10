@@ -65,7 +65,7 @@ Marker.registerSymbol('axis-arrow', (x: number, y: number, r: number) => {
 });
 
 export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
-  public static tag = 'axisBase';
+  public static tag = 'axis-base';
 
   protected static defaultOptions = {
     type: AxisBase.tag,

@@ -8,7 +8,7 @@ import type { StyleState, RectProps } from '../../types';
 import type { LegendBaseCfg, LegendBaseOptions } from './types';
 
 export abstract class LegendBase<T extends LegendBaseCfg> extends GUI<Required<T>> {
-  public static tag = 'legendBase';
+  public static tag = 'legend-base';
 
   /**
    * 背景属性

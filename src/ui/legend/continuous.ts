@@ -24,7 +24,7 @@ interface IHandleCfg {
 }
 
 export class Continuous extends LegendBase<ContinuousCfg> {
-  public static tag = 'Continuous';
+  public static tag = 'continuous';
 
   protected static defaultOptions = {
     type: Continuous.tag,

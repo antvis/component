@@ -21,7 +21,7 @@ import {
 export type { SparklineCfg, SparklineOptions };
 
 export class Sparkline extends GUI<SparklineCfg> {
-  public static tag = 'Sparkline';
+  public static tag = 'sparkline';
 
   private static defaultOptions = {
     style: {
