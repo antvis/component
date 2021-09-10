@@ -1,5 +1,5 @@
 import { Rect, Line } from '@antv/g';
-import { deepMix, isNil, omit, get, isPlainObject } from '@antv/util';
+import { deepMix, isNil, omit, get, isPlainObject, assign, isFunction } from '@antv/util';
 import type { RectStyleProps } from '@antv/g';
 import { Tag } from '../tag';
 import { GUI } from '../../core/gui';
@@ -27,7 +27,7 @@ const checkedChildrenStyle = {
 
 export class Switch extends GUI<Required<SwitchCfg>> {
   /**
-   * 组件 tag
+   * 组件 switch
    */
   public static tag = 'switch';
 
@@ -46,6 +46,9 @@ export class Switch extends GUI<Required<SwitchCfg>> {
   /** 轨迹 */
   private pathLineShape!: Line;
 
+  /** sizeStyle */
+  private sizeStyle!: RectStyleProps;
+
   /** 值 */
   private checked!: boolean;
 
@@ -54,9 +57,6 @@ export class Switch extends GUI<Required<SwitchCfg>> {
 
   /** 动画开启关闭 */
   private animateFlag!: boolean;
-
-  /** SizeStyle */
-  private sizeStyle!: RectStyleProps;
 
   /** 焦点 */
   private nowFocus: boolean = false;
@@ -137,16 +137,22 @@ export class Switch extends GUI<Required<SwitchCfg>> {
   }
 
   /**
-   * 组件的清除
+   * 组件的清理
    */
-  public clear() {
+  public clear() {}
+
+  /**
+   * 组件的销毁
+   */
+  public destroy() {
     this.handleShape.destroy();
     this.backgroundShape.destroy();
     this.rectStrokeShape.destroy();
-    this.childrenShape[0]?.clear();
-    this.childrenShape[1]?.clear();
     this.pathLineShape.destroy();
-    this.destroy();
+    this.childrenShape[0]?.destroy();
+    this.childrenShape[1]?.destroy();
+    this.removeChildren(true);
+    super.destroy();
   }
 
   /**
@@ -194,9 +200,9 @@ export class Switch extends GUI<Required<SwitchCfg>> {
       style: {
         ...Switch.defaultOptions.style,
         ...this.sizeStyle,
-        strokeOpacity: 0.4,
         lineWidth: 0,
         fill: '#efefef',
+        strokeOpacity: 0.4,
       },
     });
   }
@@ -219,7 +225,7 @@ export class Switch extends GUI<Required<SwitchCfg>> {
   // size 转化为 style
   private updateSizeStyle() {
     const size = Number(this.attributes.size) || (Switch.defaultOptions.style.size as number);
-    const { width, height } = get(this.attributes.style, [this.checked ? 'selected' : 'default']);
+    const { width, height } = get(this.attributes, ['style', this.checked ? 'selected' : 'default']);
     this.sizeStyle = {
       width: width || size * 2,
       height: height || size,
@@ -265,7 +271,7 @@ export class Switch extends GUI<Required<SwitchCfg>> {
 
         // 位置 为 开启 textSpacing, 关闭 整体width - 本身 width - textSpacing
         childrenShape.update({
-          x: index ? this.getShapeWidth() - getShapeSpace(childrenShape).width - textSpacing : textSpacing,
+          x: index ? this.getShapeWidth() - getShapeSpace(childrenShape)?.width - textSpacing : textSpacing,
         });
       } else {
         this.backgroundShape.removeChild(childrenShape);
@@ -276,14 +282,10 @@ export class Switch extends GUI<Required<SwitchCfg>> {
 
   // 更新背景 + 动效
   private updateBackgroundShape() {
-    const { style } = this.attributes;
-    const { disabled } = this.attributes;
+    const { style, disabled } = this.attributes;
     const width = this.getShapeWidth();
-    const newAttr = {
-      ...this.sizeStyle,
-      width,
-      ...get(style, this.checked ? 'selected' : 'default'),
-    };
+    const newAttr = assign({}, this.sizeStyle, { width }, get(style, this.checked ? 'selected' : 'default'));
+
     this.backgroundShape.attr({
       ...newAttr,
       fillOpacity: disabled ? 0.4 : 1,
@@ -295,16 +297,16 @@ export class Switch extends GUI<Required<SwitchCfg>> {
 
   // 更新控件
   private updateHandleShape() {
-    const spacing = Number(this.attributes.spacing) || 0;
+    const spacing = Number(this.attributes.spacing) || (Switch.defaultOptions.style.spacing as number);
     const { height, radius } = this.sizeStyle;
     const width = this.getShapeWidth();
     const r = Number(radius) - spacing;
 
     let updateAttr: RectStyleProps = {
-      width: r * 2,
-      height: r * 2,
       y: spacing,
       radius: r,
+      width: r * 2,
+      height: r * 2,
     };
 
     // 只有第一次的时候 才通过 width 改变 x 的位置, 使得它不会发生 animatyeFlag 时的闪烁
@@ -328,15 +330,15 @@ export class Switch extends GUI<Required<SwitchCfg>> {
 
   // 获取背景Shape宽度  在有tag 和 无tag 的情况下是不同的
   private getShapeWidth() {
-    const width = get(this.attributes.style, [this.checked ? 'selected' : 'default', 'width']);
+    const width = Number(get(this.attributes.style, [this.checked ? 'selected' : 'default', 'width']));
     if (width) {
       return width;
     }
 
-    const textSpacing = Number(this.attributes.textSpacing) || 0;
+    const textSpacing = Number(this.attributes.textSpacing) || (Switch.defaultOptions.style.textSpacing as number);
     const childrenStyle = get(this.attributes, [this.checked ? 'checkedChildren' : 'unCheckedChildren']);
     const childrenShape = this.childrenShape[this.checked ? 0 : 1];
-    const childrenWidth = childrenStyle ? getShapeSpace(childrenShape).width + textSpacing - this.sizeStyle.height : 0;
+    const childrenWidth = childrenStyle ? getShapeSpace(childrenShape)?.width + textSpacing - this.sizeStyle.height : 0;
 
     return childrenWidth + this.sizeStyle.width;
   }
@@ -393,17 +395,16 @@ export class Switch extends GUI<Required<SwitchCfg>> {
   // 点击 switch 交互
   private addSwitchClick() {
     this.addEventListener('click', (e) => {
+      const { onClick, onChange, checked } = this.attributes;
       this.banEvent(() => {
-        const { onChange, checked } = this.attributes;
         this.checked = checked || !this.checked;
         this.animateFlag = isNil(checked);
         this.nowFocus = true;
-        onChange && onChange(this.checked);
+        isFunction(onChange) && onChange(this.checked);
         this.updateShape();
         this.animateSiwtch();
       });
-      const { onClick } = this.attributes;
-      onClick && onClick(e, this.checked);
+      isFunction(onClick) && onClick(e, this.checked);
     });
   }
 
