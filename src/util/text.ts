@@ -1,5 +1,6 @@
 import { Text } from '@antv/g';
 import { isString, memoize, values, toString } from '@antv/util';
+import type { PathCommand } from '@antv/g';
 import type { Properties } from 'csstype';
 
 type Font = Pick<Properties, 'fontFamily' | 'fontWeight' | 'fontStyle' | 'fontVariant'> & {
@@ -29,12 +30,13 @@ export const measureTextWidth = memoize(
  * 1. 先通过 STEP 逐步计算，找到最后一个小于 maxWidth 的字符串
  * 2. 然后对最后这个字符串二分计算
  * @param text 需要计算的文本, 由于历史原因 除了支持string，还支持空值,number和数组等
- * @param maxWidth
- * @param font
+ * @param maxWidth 最大宽度
+ * @param font 字体
+ * @param str 要替换的文本
  */
-export const getEllipsisText = (text: any, maxWidth: number, font?: Font) => {
+export const getEllipsisText = (text: any, maxWidth: number, font?: Font, str: string = '...') => {
   const STEP = 16; // 每次 16，调参工程师
-  const DOT_WIDTH = measureTextWidth('...', font);
+  const DOT_WIDTH = measureTextWidth(str, font);
 
   let leftText;
 
@@ -55,6 +57,7 @@ export const getEllipsisText = (text: any, maxWidth: number, font?: Font) => {
   }
 
   // 首先通过 step 计算，找出最大的未超出长度的
+  // eslint-disable-next-line no-constant-condition
   while (true) {
     // 更新字符串
     currentText = leftText.substr(0, STEP);
@@ -82,6 +85,7 @@ export const getEllipsisText = (text: any, maxWidth: number, font?: Font) => {
   }
 
   // 最下的最后一个 STEP，使用 1 递增（用二分效果更高）
+  // eslint-disable-next-line no-constant-condition
   while (true) {
     // 更新字符串
     currentText = leftText.substr(0, 1);
@@ -104,10 +108,23 @@ export const getEllipsisText = (text: any, maxWidth: number, font?: Font) => {
     }
   }
 
-  return `${r.join('')}...`;
+  return `${r.join('')}${str}`;
 };
 
 export function getFont(textShape: Text) {
   const { fontSize, fontFamily, fontWeight, fontStyle, fontVariant } = textShape.attr();
   return { fontSize, fontFamily, fontWeight, fontStyle, fontVariant };
+}
+
+/**
+ * 对文本进行转换
+ * @param text
+ * @param pattern
+ * @returns
+ */
+export function transform(text: string, pattern: 'none' | 'capitalize' | 'uppercase' | 'lowercase') {
+  if (pattern === 'capitalize') return text.toLowerCase().replace(/( |^)[a-z]/g, (L) => L.toUpperCase());
+  if (pattern === 'lowercase') return text.toLowerCase();
+  if (pattern === 'uppercase') return text.toUpperCase();
+  return text;
 }
