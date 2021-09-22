@@ -1,6 +1,11 @@
+import { IGroup } from '@antv/g-base';
+import { each,isNil,isFunction,isObject } from '@antv/util';
 import { vec2 } from '@antv/matrix-util';
-import { CircleAxisCfg, Point } from '../types';
 import AxisBase from './base';
+import * as OverlapUtil from './overlap';
+import { AxisLabelAutoHideCfg } from '../types';
+
+import type { CircleAxisCfg, Point, } from '../types';
 
 class Circle extends AxisBase<CircleAxisCfg> {
   public getDefaultCfg() {
@@ -53,7 +58,7 @@ class Circle extends AxisBase<CircleAxisCfg> {
   // 获取垂直于坐标轴的向量
   protected getSideVector(offset: number, point: Point) {
     const center = this.get('center');
-    const vector: [ number, number ] = [point.x - center.x, point.y - center.y];
+    const vector: [number, number] = [point.x - center.x, point.y - center.y];
     const factor = this.get('verticalFactor');
     const vecLen = vec2.length(vector);
     vec2.scale(vector, vector, (factor * offset) / vecLen);
@@ -75,6 +80,101 @@ class Circle extends AxisBase<CircleAxisCfg> {
       x: center.x + Math.cos(angle) * radius,
       y: center.y + Math.sin(angle) * radius,
     };
+  }
+
+    /**
+   * 是否可以执行某一 overlap
+   * @param name
+   */
+     private canProcessOverlap(name: string) {
+      const labelCfg = this.get('label');
+
+      // 对 autoRotate，如果配置了旋转角度，直接进行固定角度旋转
+      if (name === 'autoRotate') {
+        return isNil(labelCfg.rotate);
+      }
+
+      // 默认所有 overlap 都可执行
+      return true;
+    }
+
+  protected processOverlap(labelGroup) {
+    const labelCfg = this.get('label');
+    const titleCfg = this.get('title');
+    const verticalLimitLength = this.get('verticalLimitLength');
+    const labelOffset = labelCfg.offset;
+    let limitLength = verticalLimitLength;
+    let titleHeight = 0;
+    let titleSpacing = 0;
+    if (titleCfg) {
+      titleHeight = titleCfg.style.fontSize;
+      titleSpacing = titleCfg.spacing;
+    }
+    if (limitLength) {
+      limitLength = limitLength - labelOffset - titleSpacing - titleHeight;
+    }
+    const overlapOrder = this.get('overlapOrder');
+    each(overlapOrder, (name) => {
+      if (labelCfg[name] && this.canProcessOverlap(name)) {
+        this.autoProcessOverlap(name, labelCfg[name], labelGroup, limitLength);
+      }
+    });
+    if (titleCfg) {
+      if (isNil(titleCfg.offset)) {
+        // 调整 title 的 offset
+        const {height: length} = labelGroup.getCanvasBBox();
+        // 如果用户没有设置 offset，则自动计算
+        titleCfg.offset = labelOffset + length + titleSpacing + titleHeight / 2;
+      }
+    }
+  }
+
+  private autoProcessOverlap(name: string, value: any, labelGroup: IGroup, limitLength: number) {
+    let hasAdjusted = false;
+    const util = OverlapUtil[name];
+    if (value === true) {
+      const labelCfg = this.get('label');
+      // true 形式的配置：使用 overlap 默认的的处理方法进行处理
+      hasAdjusted = util.getDefault()(false, labelGroup, limitLength);
+    } else if (isFunction(value)) {
+      // 回调函数形式的配置： 用户可以传入回调函数
+      hasAdjusted = value(false, labelGroup, limitLength);
+    } else if (isObject(value)) {
+      // object 形式的配置方式：包括 处理方法 type， 和可选参数配置 cfg
+      const overlapCfg = value as { type: string; cfg?: AxisLabelAutoHideCfg };
+      if (util[overlapCfg.type]) {
+        hasAdjusted = util[overlapCfg.type](false, labelGroup, limitLength, overlapCfg.cfg);
+      }
+    } else if (util[value]) {
+      // 字符串类型的配置：按照名称执行 overlap 处理方法
+      hasAdjusted = util[value](false, labelGroup, limitLength);
+    }
+    if (name === 'autoRotate') {
+      // 文本旋转后，文本的对齐方式可能就不合适了
+      if (hasAdjusted) {
+        const labels = labelGroup.getChildren();
+        const verticalFactor = this.get('verticalFactor');
+        each(labels, (label) => {
+          const textAlign = label.attr('textAlign');
+          if (textAlign === 'center') {
+            // 居中的文本需要调整旋转度
+            const newAlign = verticalFactor > 0 ? 'end' : 'start';
+            label.attr('textAlign', newAlign);
+          }
+        });
+      }
+    } else if (name === 'autoHide') {
+      const children = labelGroup.getChildren().slice(0); // 复制数组，删除时不会出错
+      each(children, (label) => {
+        if (!label.get('visible')) {
+          if (this.get('isRegister')) {
+            // 已经注册过了，则删除
+            this.unregisterElement(label);
+          }
+          label.remove(); // 防止 label 数量太多，所以统一删除
+        }
+      });
+    }
   }
 }
 
