@@ -59,7 +59,8 @@ describe('test axis label ellipsis', () => {
 
   it('ellipsis head, horizontal', () => {
     addLabels(labels, 20, 0);
-    EllipsisUtil.ellipsisTail(false, group, 30); // 不会进行任何省略
+    // ellipsisTail 使用了新的方法
+    EllipsisUtil.ellipsisTail(false, group, 60); // 不会进行任何省略
     group.getChildren().forEach((label) => {
       expect(label.get('tip')).toBe(null);
     });

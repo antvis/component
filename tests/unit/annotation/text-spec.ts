@@ -173,7 +173,9 @@ describe('text with background', () => {
   });
 
   it('update text', () => {
-    text.update({ content: 'change text' });
+    text.update({ content: 'change text text' });
+    console.log('_______',text.getElementById('a-annotation-text').attr('text'));
+
     expect(text.getElementById('a-annotation-text').attr('text').indexOf('…')).toBeGreaterThan(-1);
   });
 

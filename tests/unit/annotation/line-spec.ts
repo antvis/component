@@ -19,8 +19,8 @@ describe('test line annotation', () => {
     start: { x: 100, y: 100 },
     end: { x: 200, y: 200 },
     style: {
-      stroke: '#000'
-    }
+      stroke: '#000',
+    },
   });
 
   it('init', () => {
@@ -70,7 +70,7 @@ describe('test line annotation', () => {
         autoRotate: true,
       },
     });
-    const m = getMatrixByAngle({ x: 50, y: 50 }, Math.PI / 4, getMatrixByTranslate({x: 50, y: 50}));
+    const m = getMatrixByAngle({ x: 50, y: 50 }, Math.PI / 4, getMatrixByTranslate({ x: 50, y: 50 }));
     expect(textGroup.attr('matrix')).toEqual(m);
     line.update({
       text: null,
@@ -152,7 +152,7 @@ describe('test line annotation with text enhancement', () => {
         style: {
           fill: '#1890ff',
           fillOpacity: 0.5,
-        }
+        },
       },
       maxLength: 100,
       autoEllipsis: true,
@@ -162,11 +162,11 @@ describe('test line annotation with text enhancement', () => {
   line.init();
   line.render();
 
-  it('text auto ellipis', () => {
+  it('text auto ellipsis', () => {
     const textShape = line.getElementById('l-annotation-line-text');
     expect(textShape.attr('text').indexOf('…')).toBeGreaterThan(-1);
     expect(textShape.get('tip')).toBe('line text 123123243434');
-    expect(textShape.getBBox().width + 10).toBeLessThan(100);
+    expect(textShape.getBBox().width).toBeLessThan(100);
 
     const textBgShape = line.getElementById('l-annotation-line-text-bg');
     expect(textBgShape).toBeDefined();
@@ -179,7 +179,7 @@ describe('test line annotation with text enhancement', () => {
         autoRotate: true,
         maxLength: 100,
         autoEllipsis: true,
-      }
+      },
     });
     const textShape = line.getElementById('l-annotation-line-text');
     expect(textShape.attr('text').indexOf('…')).toBeGreaterThan(-1);
