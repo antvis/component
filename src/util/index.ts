@@ -8,3 +8,5 @@ export * from './shape';
 export * from './html';
 export * from './time';
 export * from './deep-assign';
+export * from './geometry';
+export * from './throttle';

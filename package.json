@@ -51,15 +51,18 @@
   },
   "devDependencies": {
     "@antv/gatsby-theme-antv": "^1.1.8",
+    "@babel/plugin-proposal-decorators": "^7.15.4",
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^12.0.1",
     "@types/jest": "^26.0.20",
     "@types/svg-path-parser": "^1.1.2",
     "@typescript-eslint/eslint-plugin": "^4.18.0",
     "@typescript-eslint/parser": "^4.19.0",
+    "babel-preset-gatsby": "^1.13.0",
     "core-js": "^3.14.0",
     "cross-env": "^7.0.3",
     "csstype": "^3.0.8",
+    "dat.gui": "^0.7.7",
     "eslint": "^7.22.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.1.0",
@@ -83,7 +86,6 @@
     "ts-essentials": "^8.0.0",
     "ts-jest": "^26.5.1",
     "tslib": "^2.2.0",
-    "dat.gui": "^0.7.7",
     "typescript": "^4.1.5"
   },
   "jest": {

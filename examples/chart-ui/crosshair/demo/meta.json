@@ -1,0 +1,32 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "line.ts",
+      "title": {
+        "zh": "直线形",
+        "en": "Line crosshair"
+      },
+      "screenshot": ""
+    },
+    {
+      "filename": "circle.ts",
+      "title": {
+        "zh": "圆形",
+        "en": "Circle crosshair"
+      },
+      "screenshot": ""
+    },
+    {
+      "filename": "polygon.ts",
+      "title": {
+        "zh": "多边形",
+        "en": "Polygon crosshair"
+      },
+      "screenshot": ""
+    }
+  ]
+}

@@ -11,6 +11,7 @@ export type {
   PolylineStyleProps as PolylineProps,
   TextStyleProps as TextProps,
   Group,
+  PathCommand,
 } from '@antv/g';
 export type { MixAttrs, StyleState } from './styles';
 
@@ -18,3 +19,5 @@ export type GUIOption<C> = {
   type: string;
   style: C;
 };
+
+export type Point = [number, number];
