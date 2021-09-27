@@ -8,9 +8,15 @@ const renderer = new CanvasRenderer({
   enableDirtyRectangleRendering: true,
 });
 
+function random(min, max) {
+  var range = max - min;
+  var rand = Math.random();
+  return min + Math.floor(rand * range);
+}
+
 const canvas = new Canvas({
   container: 'container',
-  width: 350,
+  width: 500,
   height: 300,
   renderer,
 });
@@ -19,18 +25,14 @@ const sparkline = new Sparkline({
   style: {
     x: 10,
     y: 10,
-    width: 300,
+    width: 500,
     height: 40,
     smooth: true,
     areaStyle: {
       lineWidth: 0,
       opacity: 0.5,
     },
-    data: [
-      [10, 2, 3, 4, 15, 10, 5, 0, 3, 1],
-      [5, 7, 10, 3, 10, 6, 10, 1, 5, 0],
-      [1, 3, 4, 10, 15, 13, 3, 3, 10, 12],
-    ],
+    data: [Array.from({ length: 100 }, (v, i) => random(0, 100))],
   },
 });
 
