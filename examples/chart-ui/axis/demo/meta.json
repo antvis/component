@@ -7,8 +7,32 @@
     {
       "filename": "linear.ts",
       "title": {
-        "zh": "直线坐标轴",
-        "en": "Linear axis"
+        "zh": "笛卡尔坐标轴",
+        "en": "Cartesian Axis"
+      },
+      "screenshot": ""
+    },
+    {
+      "filename": "style.ts",
+      "title": {
+        "zh": "样式设置",
+        "en": "Style Setting"
+      },
+      "screenshot": ""
+    },
+    {
+      "filename": "label-formatter.ts",
+      "title": {
+        "zh": "标签格式化",
+        "en": "Label Formatter"
+      },
+      "screenshot": ""
+    },
+    {
+      "filename": "label-layout.ts",
+      "title": {
+        "zh": "标签布局",
+        "en": "Label Layout"
       },
       "screenshot": ""
     },
@@ -16,7 +40,7 @@
       "filename": "arc.ts",
       "title": {
         "zh": "圆弧坐标轴",
-        "en": "Arc axis"
+        "en": "Arc Axis"
       },
       "screenshot": ""
     },
@@ -25,22 +49,6 @@
       "title": {
         "zh": "螺旋坐标轴",
         "en": "Helix axis"
-      },
-      "screenshot": ""
-    },
-    {
-      "filename": "g2-style-axis.ts",
-      "title": {
-        "zh": "G2 风格",
-        "en": "G2 style axis"
-      },
-      "screenshot": ""
-    },
-    {
-      "filename": "formatter.ts",
-      "title": {
-        "zh": "格式化",
-        "en": "Formatter"
       },
       "screenshot": ""
     }

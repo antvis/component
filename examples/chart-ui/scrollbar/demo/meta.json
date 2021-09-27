@@ -7,16 +7,24 @@
     {
       "filename": "basic.ts",
       "title": {
-        "zh": "滚动条",
-        "en": "Horizontal scrollbar"
+        "zh": "基本滚动条",
+        "en": "Basic Scrollbar"
       },
       "screenshot": ""
     },
     {
-      "filename": "custom.ts",
+      "filename": "event.ts",
       "title": {
-        "zh": "自定义样式",
-        "en": "Custom style scrollbar"
+        "zh": "事件监听",
+        "en": "Event Listener"
+      },
+      "screenshot": ""
+    },
+    {
+      "filename": "style.ts",
+      "title": {
+        "zh": "样式设置",
+        "en": "Custom Style"
       },
       "screenshot": ""
     },
@@ -24,7 +32,7 @@
       "filename": "more.ts",
       "title": {
         "zh": "更多样式",
-        "en": "More style scrollbar"
+        "en": "More Style"
       },
       "screenshot": ""
     }

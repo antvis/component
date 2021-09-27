@@ -47,6 +47,7 @@ const scrollbar = new Scrollbar({
 
 canvas.appendChild(scrollbar);
 
+/** -------------------------配置区域--------------------------------------- */
 const $wrapper = document.getElementById('container');
 const cfg = new dat.GUI({ autoPlace: false });
 $wrapper.appendChild(cfg.domElement);

@@ -7,24 +7,40 @@
     {
       "filename": "basic.ts",
       "title": {
-        "zh": "缩略轴",
+        "zh": "基本缩略轴",
         "en": "Basic Slider"
       },
       "screenshot": ""
     },
     {
-      "filename": "custom.ts",
+      "filename": "handle.ts",
       "title": {
-        "zh": "自定义",
-        "en": "Custom Slider"
+        "zh": "手柄设置",
+        "en": "Handle Setting"
+      },
+      "screenshot": ""
+    },
+    {
+      "filename": "event.ts",
+      "title": {
+        "zh": "事件监听",
+        "en": "Event Listener"
+      },
+      "screenshot": ""
+    },
+    {
+      "filename": "style.ts",
+      "title": {
+        "zh": "样式设置",
+        "en": "Custom Style"
       },
       "screenshot": ""
     },
     {
       "filename": "sparkline.ts",
       "title": {
-        "zh": "迷你图",
-        "en": "Slider with Sparkline"
+        "zh": "具有迷你图",
+        "en": "With Sparkline"
       },
       "screenshot": ""
     }

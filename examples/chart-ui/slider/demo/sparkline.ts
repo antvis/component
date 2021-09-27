@@ -36,11 +36,12 @@ const slider = new Slider({
 
 canvas.appendChild(slider);
 
+/** -------------------------配置区域--------------------------------------- */
 const $wrapper = document.getElementById('container');
 const cfg = new dat.GUI({ autoPlace: false });
 $wrapper.appendChild(cfg.domElement);
 
-const sliderFolder = cfg.addFolder('Slider配置项');
+const sliderFolder = cfg.addFolder('Slider边距');
 sliderFolder.open();
 const sliderCfg = { 左间距: 0, 右间距: 0, 上间距: 0, 下间距: 0 };
 
@@ -65,7 +66,7 @@ const sliderBottom = sliderFolder.add(sliderCfg, '下间距', 0, 10).onChange((v
   });
 });
 
-const sparklineFolder = cfg.addFolder('Sparkline配置项');
+const sparklineFolder = cfg.addFolder('Sparkline边距');
 sparklineFolder.open();
 const sparklineCfg = { 左间距: 0, 右间距: 0, 上间距: 0, 下间距: 0 };
 

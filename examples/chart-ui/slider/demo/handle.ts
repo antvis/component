@@ -40,24 +40,21 @@ const slider = new Slider({
 
 canvas.appendChild(slider);
 
+/** -------------------------配置区域--------------------------------------- */
 const $wrapper = document.getElementById('container');
 const cfg = new dat.GUI({ autoPlace: false });
 $wrapper.appendChild(cfg.domElement);
-const sliderFolder = cfg.addFolder('Slider');
+const sliderFolder = cfg.addFolder('Handle');
 sliderFolder.open();
 const sliderCfg = {
   起始手柄图标: 'AntV',
   起始手柄大小: 15,
   左间距: 10,
-  结束手柄图标: 'diamond',
-  结束手柄图标Color: '#fff',
+  结束手柄形状: 'diamond',
+  结束手柄颜色: '#fff',
   结束手柄大小: 15,
   右间距: 10,
   手柄文字颜色: '#63656e',
-  背景颜色: '#fff',
-  背景边框颜色: '#e4eaf5',
-  选区颜色: '#afc9fb',
-  选区边框颜色: '#afc9fb',
 };
 sliderFolder.add(sliderCfg, '起始手柄图标', ['AntV', 'yuque', 'default']).onChange((val) => {
   const iconMap = {
@@ -67,7 +64,7 @@ sliderFolder.add(sliderCfg, '起始手柄图标', ['AntV', 'yuque', 'default']).
   };
   slider.update({ handle: { start: { handleIcon: iconMap[val] } } });
 });
-sliderFolder.add(sliderCfg, '结束手柄图标', ['diamond', 'square', 'triangle', 'circle']).onChange((val) => {
+sliderFolder.add(sliderCfg, '结束手柄形状', ['diamond', 'square', 'triangle', 'circle']).onChange((val) => {
   slider.update({ handle: { end: { handleIcon: val } } });
 });
 sliderFolder.add(sliderCfg, '左间距', 0, 20).onChange((val) => {
@@ -76,7 +73,7 @@ sliderFolder.add(sliderCfg, '左间距', 0, 20).onChange((val) => {
 sliderFolder.add(sliderCfg, '起始手柄大小', 0, 20).onChange((val) => {
   slider.update({ handle: { start: { size: val } } });
 });
-sliderFolder.addColor(sliderCfg, '结束手柄图标Color').onChange((color) => {
+sliderFolder.addColor(sliderCfg, '结束手柄颜色').onChange((color) => {
   slider.update({ handle: { end: { handleStyle: { fill: color } } } });
 });
 sliderFolder.add(sliderCfg, '结束手柄大小', 0, 20).onChange((val) => {
@@ -91,16 +88,4 @@ sliderFolder.add(sliderCfg, '右间距', 0, 20).onChange((val) => {
 });
 sliderFolder.addColor(sliderCfg, '手柄文字颜色').onChange((color) => {
   slider.update({ handle: { textStyle: { fill: color } } });
-});
-sliderFolder.addColor(sliderCfg, '背景颜色').onChange((color) => {
-  slider.update({ backgroundStyle: { default: { fill: color } } });
-});
-sliderFolder.addColor(sliderCfg, '背景边框颜色').onChange((color) => {
-  slider.update({ backgroundStyle: { default: { stroke: color } } });
-});
-sliderFolder.addColor(sliderCfg, '选区颜色').onChange((color) => {
-  slider.update({ selectionStyle: { default: { fill: color } } });
-});
-sliderFolder.addColor(sliderCfg, '选区边框颜色').onChange((color) => {
-  slider.update({ selectionStyle: { default: { stroke: color } } });
 });
