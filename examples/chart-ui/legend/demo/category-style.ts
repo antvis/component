@@ -26,8 +26,8 @@ const category = new Category({
     y: 10,
     items: [
       { name: 'Chrome', value: '7.08%', id: 'chrome', state: 'selected' },
-      { name: 'IE', value: '5.41%', id: 'IE' },
-      { name: 'QQ', value: '5.35%', id: 'QQ' },
+      { name: 'IE', value: '5.41%', id: 'IE', state: 'selected' },
+      { name: 'QQ', value: '5.35%', id: 'QQ', state: 'selected' },
       { name: 'Firefox', value: '1.23%', id: 'Firefox' },
       { name: 'Microsoft Edge', value: '3.51%' },
       { name: '360', value: '2.59%' },
@@ -41,21 +41,17 @@ const category = new Category({
     spacing: [10, 10],
     maxWidth: 350,
     maxItemWidth: 180,
-    itemMarker: (item, idx) => {
-      return {
-        marker: ['diamond', 'circle', 'triangle'][idx % 3],
-        size: 12,
-        style: {
-          selected: {
-            fill: idx % 2 === 0 ? '#ecbf41' : '#d94948',
-          },
+    itemMarker: {
+      style: {
+        selected: {
+          fill: '#ecbf41',
         },
-      };
+      },
     },
     itemName: {
       style: {
         selected: {
-          fill: '#1cb4a2',
+          fill: '#d94948',
         },
       },
     },

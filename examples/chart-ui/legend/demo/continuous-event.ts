@@ -29,7 +29,7 @@ const continuous = new Continuous({
       height: 30,
       ticks: [10, 20, 30, 40, 50, 60, 70, 80, 90],
     },
-    handle: false,
+    handle: {},
     min: 0,
     max: 100,
     color: [
@@ -47,27 +47,50 @@ const continuous = new Continuous({
   },
 });
 
+/** valueChanged */
+continuous.addEventListener('valueChanged', (e) => {
+  const [stVal, endVal] = e.detail.value;
+  start.setValue(stVal);
+  end.setValue(endVal);
+});
+/** onIndicated */
+continuous.addEventListener('onIndicated', (e) => {
+  indicator.setValue(e.detail.value);
+});
+
 canvas.appendChild(continuous);
 
 /** -------------------------配置区域--------------------------------------- */
 const $wrapper = document.getElementById('container');
 const cfg = new dat.GUI({ autoPlace: false });
 $wrapper.appendChild(cfg.domElement);
+
 const continuousCfg = {
-  x: 0,
-  y: 0,
-  图例宽度: 300,
-  图例高度: 30,
+  起始值: 0,
+  结束值: 100,
+  指示器: 0,
 };
-cfg.add(continuousCfg, 'x', 0, 300).onChange((x) => {
-  continuous.attr({ x });
-});
-cfg.add(continuousCfg, 'y', 0, 300).onChange((y) => {
-  continuous.attr({ y });
-});
-cfg.add(continuousCfg, '图例宽度', 30, 300).onChange((width) => {
-  continuous.update({ rail: { width } });
-});
-cfg.add(continuousCfg, '图例高度', 30, 300).onChange((height) => {
-  continuous.update({ rail: { height } });
-});
+const events = cfg.addFolder('事件');
+events.open();
+const start = events
+  .add(continuousCfg, '起始值', 0, 100)
+  .step(1)
+  .onChange((value) => {
+    const endValue = end.getValue();
+    const startValue = value > endValue ? endValue : value;
+    continuous.setSelection(startValue, endValue);
+  });
+const end = events
+  .add(continuousCfg, '结束值', 0, 100)
+  .step(1)
+  .onChange((value) => {
+    const startValue = start.getValue();
+    const endValue = value < startValue ? startValue : value;
+    continuous.setSelection(startValue, endValue);
+  });
+const indicator = events
+  .add(continuousCfg, '指示器', 0, 100)
+  .step(1)
+  .onChange((value) => {
+    continuous.setIndicator(value);
+  });

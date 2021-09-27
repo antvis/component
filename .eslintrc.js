@@ -25,6 +25,8 @@ module.exports = {
     'arrow-body-style': 'off',
     'no-useless-constructor': 'off',
     'no-unused-expressions': 'off',
+    "no-dupe-class-members": "off",
+    "@typescript-eslint/no-dupe-class-members": ["error"]
   },
   settings: {
     'import/parsers': {

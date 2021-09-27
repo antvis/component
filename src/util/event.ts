@@ -2,9 +2,9 @@
  * 获得触发事件的坐标
  */
 export function getEventPos(e: any): [number, number] {
-  const { screen, touches, offsetX, offsetY } = e;
-  if (screen) {
-    const { x, y } = screen;
+  const { canvas, touches, offsetX, offsetY } = e;
+  if (canvas) {
+    const { x, y } = canvas;
     return [x, y];
   }
   if (touches) {

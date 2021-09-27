@@ -15,7 +15,7 @@ export type TickDatum = {
 
 export type AxisTitleCfg = {
   content?: string;
-  style?: ShapeAttrs;
+  style?: Omit<TextProps, 'text'>;
   // 标题位置
   position?: Position;
   // 标题偏移量，分别为平行与轴线方向和垂直于轴线方向的偏移量

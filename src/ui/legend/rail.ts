@@ -108,7 +108,7 @@ export class Rail extends DisplayObject<Required<IRailCfg>> {
     // 更新背景
     const backgroundPaths = this.createBackgroundPath();
     this.backgroundPathGroup.children.forEach((shape, index) => {
-      shape.attr({
+      (shape as Path).attr({
         path: backgroundPaths[index],
       });
     });

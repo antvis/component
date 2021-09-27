@@ -55,6 +55,7 @@ describe('scrollbar', () => {
     scrollbar.setValue(value);
     expect(scrollbar.getValue()).toBe(value);
 
+    // @ts-ignore
     expect(scrollbar.getElementsByName('thumb')[0].attr('y')).toBeCloseTo(
       top + (height - verticalPadding - thumbLen) * clamp(value, 0, 1),
       1
@@ -63,6 +64,7 @@ describe('scrollbar', () => {
     value = 0.1;
     scrollbar.setValue(value);
     expect(scrollbar.getValue()).toBe(value);
+    // @ts-ignore
     expect(scrollbar.getElementsByName('thumb')[0].attr('y')).toBeCloseTo(
       top + (height - verticalPadding - thumbLen) * clamp(value, 0, 1),
       1
@@ -71,6 +73,7 @@ describe('scrollbar', () => {
     value = 0.9;
     scrollbar.setValue(value);
     expect(scrollbar.getValue()).toBe(value);
+    // @ts-ignore
     expect(scrollbar.getElementsByName('thumb')[0].attr('y')).toBeCloseTo(
       top + (height - verticalPadding - thumbLen) * clamp(value, 0, 1),
       1
@@ -79,6 +82,7 @@ describe('scrollbar', () => {
     value = 10;
     scrollbar.setValue(value);
     expect(scrollbar.getValue()).toBe(1);
+    // @ts-ignore
     expect(scrollbar.getElementsByName('thumb')[0].attr('y')).toBeCloseTo(
       top + (height - verticalPadding - thumbLen) * clamp(value, 0, 1),
       1
@@ -87,6 +91,7 @@ describe('scrollbar', () => {
     value = -10086;
     scrollbar.setValue(value);
     expect(scrollbar.getValue()).toBe(0);
+    // @ts-ignore
     expect(scrollbar.getElementsByName('thumb')[0].attr('y')).toBeCloseTo(
       top + (height - verticalPadding - thumbLen) * clamp(value, 0, 1),
       1
@@ -115,6 +120,7 @@ describe('scrollbar', () => {
     let value = 0.2;
     scrollbar.setValue(value);
     expect(scrollbar.getValue()).toBe(value);
+    // @ts-ignore
     expect(scrollbar.getElementsByName('thumb')[0].attr('x')).toBeCloseTo(
       left + (width - horizonPadding - thumbLen) * clamp(value, 0, 1),
       1
@@ -123,6 +129,7 @@ describe('scrollbar', () => {
     value = 0.1;
     scrollbar.setValue(value);
     expect(scrollbar.getValue()).toBe(value);
+    // @ts-ignore
     expect(scrollbar.getElementsByName('thumb')[0].attr('x')).toBeCloseTo(
       left + (width - horizonPadding - thumbLen) * clamp(value, 0, 1),
       1
@@ -131,6 +138,7 @@ describe('scrollbar', () => {
     value = 0.9;
     scrollbar.setValue(value);
     expect(scrollbar.getValue()).toBe(value);
+    // @ts-ignore
     expect(scrollbar.getElementsByName('thumb')[0].attr('x')).toBeCloseTo(
       left + (width - horizonPadding - thumbLen) * clamp(value, 0, 1),
       1
@@ -139,6 +147,7 @@ describe('scrollbar', () => {
     value = 10;
     scrollbar.setValue(value);
     expect(scrollbar.getValue()).toBe(1);
+    // @ts-ignore
     expect(scrollbar.getElementsByName('thumb')[0].attr('x')).toBeCloseTo(
       left + (width - horizonPadding - thumbLen) * clamp(value, 0, 1),
       1
@@ -147,6 +156,7 @@ describe('scrollbar', () => {
     value = -10086;
     scrollbar.setValue(value);
     expect(scrollbar.getValue()).toBe(0);
+    // @ts-ignore
     expect(scrollbar.getElementsByName('thumb')[0].attr('x')).toBeCloseTo(
       left + (width - horizonPadding - thumbLen) * clamp(value, 0, 1),
       1

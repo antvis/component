@@ -2,7 +2,6 @@ import { Canvas } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Category } from '../../../../src/ui/legend';
 import { createDiv } from '../../../utils';
-import { getShapeSpace } from '../../../../src/util';
 
 const style = {
   itemMarker: (item: any, idx: number) => {
@@ -162,5 +161,5 @@ describe('category', () => {
   });
 });
 
-// category.destroy();
-// canvas.destroy();
+category.destroy();
+canvas.destroy();

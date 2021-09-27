@@ -15,11 +15,15 @@ export type { CategoryOptions };
 // 找到node节点所在的CategoryItem节点
 function getParentItem(node: DisplayObject) {
   let item = node;
-  while (item.getConfig().type !== 'categoryItem') {
-    item = item.parentNode!;
-    if (!item) break;
+  try {
+    while (item.config.type !== 'categoryItem') {
+      item = item.parentNode as DisplayObject;
+    }
+    if (item.config.type === 'categoryItem') return item as CategoryItem;
+  } catch (e) {
+    return null;
   }
-  return item as CategoryItem;
+  return null;
 }
 
 export class Category extends LegendBase<CategoryCfg> {

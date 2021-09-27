@@ -1,5 +1,5 @@
 import { deepMix } from '@antv/util';
-import { DisplayObject, Text } from '@antv/g';
+import { DisplayObject, Text, Group } from '@antv/g';
 import { ShapeAttrs, TextProps } from '../../types';
 
 export interface ILabelsCfg extends ShapeAttrs {
@@ -7,8 +7,12 @@ export interface ILabelsCfg extends ShapeAttrs {
 }
 
 export class Labels extends DisplayObject<ILabelsCfg> {
+  private labelsGroup: Group;
+
   constructor({ style, ...rest }: Partial<DisplayObject<ILabelsCfg>>) {
     super({ type: 'lines', style, ...rest });
+    this.labelsGroup = new Group({ name: 'labels' });
+    this.appendChild(this.labelsGroup);
     this.render();
   }
 
@@ -16,12 +20,11 @@ export class Labels extends DisplayObject<ILabelsCfg> {
     const { labels } = this.attributes;
     // 重新绘制
     labels.forEach((cfg) => {
-      this.appendChild(
-        new Text({
-          name: 'label',
-          style: cfg,
-        })
-      );
+      const text = new Text({
+        name: 'label',
+        style: cfg,
+      });
+      this.labelsGroup.appendChild(text);
     });
   }
 
@@ -29,8 +32,12 @@ export class Labels extends DisplayObject<ILabelsCfg> {
     this.attr(deepMix({}, this.attributes, cfg));
     const { labels } = cfg;
     if (labels) {
-      this.removeChildren(true);
+      this.labelsGroup.removeChildren(true);
       this.render();
     }
+  }
+
+  public getLabels() {
+    return this.labelsGroup.children as Text[];
   }
 }

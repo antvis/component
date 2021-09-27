@@ -47,7 +47,9 @@ describe('breadcrumb', () => {
     expect(breadItemShapes.length).toBe(4);
     expect(separatorShapes.length).toBe(3);
 
+    // @ts-ignore
     breadItemShapes.forEach((item, idx) => expect(item.attr().text).toBe(`测试${idx + 1}`));
+    // @ts-ignore
     separatorShapes.forEach((item) => expect(item.attr().text).toBe(`/`));
 
     canvas.appendChild(breadcrumb);
@@ -138,6 +140,7 @@ describe('breadcrumb', () => {
 
     const childrens = breadcrumb.children;
     const separatorShapes = childrens.filter((item) => item.name === 'breadcrumb-separator');
+    // @ts-ignore
     separatorShapes.forEach((item) => expect(item.attr().text).toBe(`>`));
 
     canvas.appendChild(breadcrumb);
@@ -179,6 +182,7 @@ describe('breadcrumb', () => {
     const separatorShapes = childrens.filter((item) => item.name === 'breadcrumb-separator');
 
     breadItemShapes.forEach((item) => {
+      // @ts-ignore
       const rect = item.getBoundingClientRect();
       expect(rect.right).not.toBeGreaterThan(x + width - (padding as number[])[1]);
       // fixme later
@@ -186,6 +190,7 @@ describe('breadcrumb', () => {
     });
 
     separatorShapes.forEach((item) => {
+      // @ts-ignore
       const rect = item.getBoundingClientRect();
       expect(rect.right).not.toBeGreaterThan(x + width - (padding as number[])[1]);
       expect(rect.left).not.toBeLessThan(x + (padding as number[])[3]);

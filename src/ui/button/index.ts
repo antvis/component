@@ -136,6 +136,12 @@ export class Button extends GUI<ButtonCfg> {
   /**
    * 根据size、type属性生成实际渲染的属性
    */
+  private getStyle(name: 'textStyle', state?: 'default' | 'active'): TextProps;
+
+  private getStyle(name: 'buttonStyle', state?: 'default' | 'active'): RectProps;
+
+  private getStyle(name: 'markerStyle', state?: 'default' | 'active'): IMarkerCfg;
+
   private getStyle(
     name: 'textStyle' | 'buttonStyle' | 'markerStyle',
     state: 'default' | 'active' = 'default'
@@ -227,7 +233,7 @@ export class Button extends GUI<ButtonCfg> {
     const { text } = this;
     if (text === '') this.textShape.hide();
     else {
-      this.textShape.attr({ text, ...this.getStyle('textStyle') });
+      this.textShape.attr({ ...this.getStyle('textStyle'), text });
       this.textShape.show();
     }
   }

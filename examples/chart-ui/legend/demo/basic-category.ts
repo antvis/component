@@ -16,88 +16,89 @@ const canvas = new Canvas({
   renderer,
 });
 
-const items = [
-  { name: 'Chrome', value: '7.08%' },
-  { name: 'IE', value: '5.41%' },
-  { name: 'QQ', value: '5.35%' },
-  { name: 'Firefox', value: '1.23%' },
-  { name: 'Microsoft Edge', value: '3.51%' },
-  { name: '360', value: '2.59%' },
-  { name: 'Opera', value: '0.87%' },
-  { name: 'Sogou', value: '1.06%' },
-  { name: 'Others', value: '0.59%' },
-].map(({ name, value }) => {
-  return { name, value, id: name, state: 'selected' };
+const items1 = [
+  { id: '事例一', color: '#4982f8' },
+  { id: '事例二', color: '#41d59c' },
+  { id: '事例三', color: '#516587' },
+  { id: '事例四', color: '#f9b41b' },
+  { id: '事例五', color: '#624ef7' },
+].map(({ id, color }) => {
+  return { name: id, id, state: 'selected', color };
 });
 
-const category = new Category({
-  style: {
-    x: 10,
-    y: 10,
-    items,
-    title: {
-      content: '基本分类图例',
-    },
-    spacing: [10, 10],
-    maxItemWidth: 160,
+const items2 = [
+  { id: '1991', color: '#4982f8' },
+  { id: '1992', color: '#41d59c' },
+  { id: '1993', color: '#516587' },
+  { id: '1994', color: '#f9b41b' },
+  { id: '1995', color: '#624ef7' },
+].map(({ id, color }) => {
+  return { value: id, id, state: 'selected', color };
+});
+
+const items3 = [
+  { id: 'Tokyo', color: '#4982f8' },
+  { id: 'London', color: '#41d59c' },
+].map(({ id, color }) => {
+  return { name: id, id, state: 'selected', color };
+});
+
+const items4 = [
+  { id: 'series1', color: '#4982f8' },
+  { id: 'series2', color: '#41d59c' },
+].map(({ id, color }) => {
+  return { name: id, id, state: 'selected', color };
+});
+
+function createCategory(x, y, items, marker = 'circle', furtherOptions = {}) {
+  canvas.appendChild(
+    new Category({
+      style: {
+        x,
+        y,
+        items,
+        itemMarker: ({ color }) => {
+          return {
+            size: 10,
+            marker: marker,
+            style: {
+              selected: {
+                fill: color,
+              },
+            },
+          };
+        },
+        spacing: [0, 0],
+        maxItemWidth: 160,
+        ...furtherOptions,
+      },
+    })
+  );
+}
+
+createCategory(10, 10, items1);
+createCategory(10, 50, items2, 'square');
+createCategory(10, 90, items3, undefined, {
+  itemMarker: ({ color }) => {
+    return {
+      size: 12,
+      marker: 'smooth',
+      style: {
+        default: { lineWidth: 2, fill: '#fff', stroke: '#d3d2d3' },
+        selected: { lineWidth: 2, fill: '#fff', stroke: color },
+      },
+    };
   },
 });
-
-canvas.appendChild(category);
-
-const $wrapper = document.getElementById('container');
-const cfg = new dat.GUI({ autoPlace: false });
-$wrapper.appendChild(cfg.domElement);
-const styleFolder = cfg.addFolder('样式');
-styleFolder.open();
-const categoryCfg = {
-  图标颜色: '#d3d2d3',
-  图标形状: 'circle',
-  图标大小: 8,
-  项颜色: '#646464',
-  项大小: 12,
-  值颜色: '#646464',
-  值大小: 12,
-};
-
-styleFolder.addColor(categoryCfg, '图标颜色').onChange((color) => {
-  category.update({ itemMarker: { style: { selected: { fill: color } } } });
-});
-styleFolder.add(categoryCfg, '图标形状', ['circle', 'diamond', 'triangle', 'square']).onChange((shape) => {
-  category.update({ itemMarker: { marker: shape } });
-});
-styleFolder.add(categoryCfg, '图标大小', 0, 20).onChange((size) => {
-  category.update({ itemMarker: { size } });
-});
-styleFolder.addColor(categoryCfg, '项颜色').onChange((color) => {
-  category.update({ itemName: { style: { selected: { fill: color } } } });
-});
-styleFolder.add(categoryCfg, '项大小', 0, 20).onChange((size) => {
-  category.update({
-    itemName: { style: { default: { fontSize: size }, selected: { fontSize: size } } },
-  });
-});
-styleFolder.addColor(categoryCfg, '值颜色').onChange((color) => {
-  category.update({ itemValue: { style: { selected: { fill: color } } } });
-});
-styleFolder.add(categoryCfg, '值大小', 0, 20).onChange((size) => {
-  category.update({
-    itemValue: { style: { default: { fontSize: size }, selected: { fontSize: size } } },
-  });
-});
-
-const options = cfg.addFolder('选项');
-options.open();
-
-const stateMap = { selected: true, default: false, true: 'selected', false: 'default' };
-const itemsState = {};
-items.forEach(({ id, state }) => {
-  itemsState[id] = options.add({ [id]: stateMap[state] }, id).onChange((state) => {
-    category.setItemState(id, stateMap[state]);
-  });
-});
-category.addEventListener('valueChanged', ({ detail: { value } }) => {
-  value.forEach(({ id, state }) => {
-    itemsState[id].setValue(stateMap[state]);
-  });
+createCategory(10, 130, items4, undefined, {
+  itemMarker: ({ color }) => {
+    return {
+      size: 12,
+      marker: 'hvh',
+      style: {
+        default: { lineWidth: 2, fill: '#fff', stroke: '#d3d2d3' },
+        selected: { lineWidth: 2, fill: '#fff', stroke: color },
+      },
+    };
+  },
 });

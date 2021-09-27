@@ -105,7 +105,9 @@ describe('continuous', () => {
       end: 200,
     });
 
+    // @ts-ignore
     expect(continuous.getElementById('startHandle')!.attr('x')).toBe(0);
+    // @ts-ignore
     expect(continuous.getElementById('endHandle')!.attr('x')).toBe(280);
   });
 

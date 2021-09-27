@@ -121,8 +121,8 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
     });
   }
 
-  private get labels(): Text[] {
-    return this.labelsGroup.children;
+  private get labels() {
+    return this.labelsGroup.children as Text[];
   }
 
   /**

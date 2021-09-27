@@ -43,21 +43,10 @@ const category = new Category({
 
 canvas.appendChild(category);
 
+/** -------------------------配置区域--------------------------------------- */
 const $wrapper = document.getElementById('container');
 const cfg = new dat.GUI({ autoPlace: false });
 $wrapper.appendChild(cfg.domElement);
-const positionFolder = cfg.addFolder('位置');
-positionFolder.open();
-const positionCfg = {
-  x: 0,
-  y: 0,
-};
-positionFolder.add(positionCfg, 'x', 0, 300).onChange((x) => {
-  category.attr({ x });
-});
-positionFolder.add(positionCfg, 'y', 0, 300).onChange((y) => {
-  category.attr({ y });
-});
 const layoutFolder = cfg.addFolder('布局');
 layoutFolder.open();
 const layoutCfg = {

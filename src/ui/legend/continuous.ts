@@ -313,7 +313,7 @@ export class Continuous extends LegendBase<ContinuousCfg> {
     const { min, max, rail, indicator } = this.attributes;
 
     if (value === false || !indicator) {
-      this.indicatorShape.hide();
+      this.indicatorShape?.hide();
       return;
     }
     this.indicatorShape.show();
@@ -709,7 +709,7 @@ export class Continuous extends LegendBase<ContinuousCfg> {
           y: innerY + railHeight / 2,
         });
         let railStart = innerX;
-        const { firstChild } = this.labelsShape;
+        const [firstChild] = this.labelsShape.getLabels();
         // 设置左侧文本
         if (firstChild) {
           firstChild.attr({ textAlign: 'end' });
@@ -720,10 +720,10 @@ export class Continuous extends LegendBase<ContinuousCfg> {
           x: railStart,
           y: innerY,
         });
-        const { lastChild } = this.labelsShape;
+        const [lastChild] = this.labelsShape.getLabels().slice(-1);
         if (lastChild) {
           // 设置右侧文本位置
-          this.labelsShape.lastChild!.attr({
+          lastChild.attr({
             x: railStart + railWidth + labelSpacing,
             y: 0,
             textAlign: 'start',
@@ -748,8 +748,9 @@ export class Continuous extends LegendBase<ContinuousCfg> {
         y: innerY,
       });
       // 顶部文本高度
-      const { height: topTextHeight } = getShapeSpace(this.labelsShape.firstChild!);
-      this.labelsShape.firstChild!.attr({
+      const firstLabelText = this.labelsShape.getLabels()[0];
+      const { height: topTextHeight } = getShapeSpace(firstLabelText);
+      firstLabelText.attr({
         y: topTextHeight / 2,
         textAlign: 'center',
         textBaseline: 'middle',
@@ -760,7 +761,8 @@ export class Continuous extends LegendBase<ContinuousCfg> {
         y: innerY + topTextHeight + labelSpacing,
       });
       // 底部文本位置
-      this.labelsShape.lastChild!.attr({
+      const lastLabelText = this.labelsShape.getLabels().slice(-1)[0];
+      lastLabelText.attr({
         y: railHeight + 1.5 * topTextHeight + labelSpacing * 2,
         textAlign: 'center',
         textBaseline: 'middle',
@@ -794,7 +796,7 @@ export class Continuous extends LegendBase<ContinuousCfg> {
       // 补上min，max
       const ticks = [min, ..._t, max];
       // 设置labelsShape中每个文本的位置
-      this.labelsShape.children.forEach((child, idx) => {
+      this.labelsShape.getLabels().forEach((child, idx) => {
         const val = ticks[idx];
         // 通过val拿到偏移量
         child.attr({
@@ -825,7 +827,7 @@ export class Continuous extends LegendBase<ContinuousCfg> {
     });
     // 补上min，max
     const ticks = [min, ..._t, max];
-    this.labelsShape.children.forEach((child, idx) => {
+    this.labelsShape.getLabels().forEach((child, idx) => {
       const val = ticks[idx];
       // 通过val拿到偏移量
       child.attr({
@@ -1006,7 +1008,7 @@ export class Continuous extends LegendBase<ContinuousCfg> {
   }
 
   private dispatchSelection() {
-    const evt = new CustomEvent('rangeChanged', {
+    const evt = new CustomEvent('valueChanged', {
       detail: {
         value: this.selection,
       },
