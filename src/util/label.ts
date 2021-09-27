@@ -71,9 +71,9 @@ export function testLabel(label: IElement, limitLength: number): boolean {
 
 /** 处理 text shape 的自动省略 */
 export function ellipsisLabel(isVertical: boolean, label: IElement, limitLength: number, position: string = 'tail') {
-  const text = label.attr('text');
+  const text = label.attr('text') ?? ''; // 避免出现null、undefined
   const labelLength = getLabelLength(isVertical, label);
-  const codeLength = strLen(text);
+  const codeLength = strLen(text); // 该函数入参数必须是字符串
   let ellipsised = false;
   if (limitLength < labelLength) {
     const reseveLength = Math.floor((limitLength / labelLength) * codeLength) - ELLIPSIS_CODE_LENGTH; // 计算出来的应该保存的长度
