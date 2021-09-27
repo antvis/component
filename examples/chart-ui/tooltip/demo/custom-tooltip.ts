@@ -11,59 +11,70 @@ const renderer = new CanvasRenderer({
 const canvas = new Canvas({
   container: 'container',
   width: 600,
-  height: 600,
+  height: 300,
   renderer,
 });
 
-canvas.appendChild(
-  new Rect({
-    style: {
-      x: 0,
-      y: 0,
-      height: 600,
-      width: 600,
-      lineWidth: 1,
-      fill: '#ddd',
-      stroke: 'black',
-    },
-  })
-);
+const color = ['#72e5cf', '#ff5d74', '#f9bc2e'];
+const data = [
+  [10, 2, 3, 4, 15, 10, 5, 0, 3, 1],
+  [5, 7, 10, 3, 10, 6, 10, 1, 5, 0],
+  [-10, 3, 4, 10, 15, 13, 3, 3, 10, 12],
+];
+
 /* 边界区域 */
 const tooltipArea = new Rect({
   style: {
     x: 50,
     y: 50,
     width: 500,
-    height: 500,
-    fill: '#a6ec9a',
+    height: 200,
+    lineWidth: 1,
+    fill: '#eee',
+    stroke: '#000',
   },
 });
-
 canvas.appendChild(tooltipArea);
+
+tooltipArea.appendChild(
+  new Sparkline({
+    style: {
+      data,
+      color,
+      x: 0,
+      y: 0,
+      width: 500,
+      height: 200,
+      smooth: false,
+    },
+  })
+);
 
 // 创建自定义组件的容器
 const customElement = document.createElement('div');
 const innerCanvas = new Canvas({
   container: customElement,
   width: 100,
-  height: 50,
+  height: 80,
   renderer,
 });
-const sparkline = new Sparkline({
-  style: {
-    x: 10,
-    y: 10,
-    width: 100,
-    height: 50,
-    smooth: false,
-    data: [
-      [10, 2, 3, 4, 15, 10, 5, 0, 3, 1],
-      [5, 7, 10, 3, 10, 6, 10, 1, 5, 0],
-      [-10, 3, 4, 10, 15, 13, 3, 3, 10, 12],
-    ],
-  },
+data.forEach((datum, idx) => {
+  innerCanvas.appendChild(
+    new Sparkline({
+      style: {
+        x: 0,
+        y: 30 * idx,
+        width: 100,
+        height: 20,
+        areaStyle: {
+          opacity: 0.5,
+        },
+        color: color[idx],
+        data: [datum],
+      },
+    })
+  );
 });
-innerCanvas.appendChild(sparkline);
 
 const tooltip = new Tooltip({
   style: {
@@ -85,7 +96,7 @@ const tooltip = new Tooltip({
       x: 50,
       y: 50,
       width: 500,
-      height: 500,
+      height: 200,
     },
     style: {
       '.tooltip': {
@@ -101,7 +112,7 @@ const tooltip = new Tooltip({
 // 移除之前的tooltip
 Array.from(document.getElementsByClassName('tooltip')).forEach((tooltip) => tooltip.remove());
 document.getElementsByTagName('body')[0].appendChild(tooltip.HTMLTooltipElement);
-tooltipArea.addEventListener('mousemove', (e) => {
+canvas.addEventListener('mousemove', (e) => {
   tooltip.position = [e.offsetX, e.offsetY];
 });
 tooltipArea.addEventListener('mouseenter', () => {

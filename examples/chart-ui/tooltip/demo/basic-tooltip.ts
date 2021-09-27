@@ -1,4 +1,4 @@
-import { Canvas, Rect } from '@antv/g';
+import { Canvas, Rect, Circle } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Tooltip } from '@antv/gui';
 
@@ -15,110 +15,79 @@ const canvas = new Canvas({
   renderer,
 });
 
-/* 创建背景 */
+/* create dots */
+new Array(10 ** 2).fill(Math.random() * 100).forEach((val, idx) => {
+  canvas.appendChild(
+    new Circle({
+      name: 'dot',
+      style: {
+        x: ((idx % 10) + 1.5) * 50,
+        y: (Math.floor(idx / 10) + 1.5) * 50,
+        r: 10,
+        fill: `rgb(${Array.from({ length: 3 }, () => {
+          return Math.round((0.4 + Math.random() * 0.6) * 255);
+        }).join(',')})`,
+        zIndex: 2,
+      },
+    })
+  );
+});
+
+/* 边界区域 */
 canvas.appendChild(
   new Rect({
     style: {
-      x: 0,
-      y: 0,
-      height: 600,
-      width: 600,
-      lineWidth: 1,
-      fill: '#ddd',
-      stroke: 'black',
+      x: 50,
+      y: 50,
+      width: 500,
+      height: 500,
+      fill: 'l(0) 0:#c97f7f 0.1:#cb8a87 0.2:#cd968f 0.3:#cfa197 0.4:#d1ac9f 0.5:#d3b8a6 0.6:#d5c3ae 0.7:#d7ceb6 0.8:#d9dabe 0.9:#dbe5c6',
     },
   })
 );
 
-/* 边界区域 */
-const tooltipArea = new Rect({
-  style: {
-    x: 50,
-    y: 50,
-    width: 500,
-    height: 500,
-    fill: '#a6ec9a',
-  },
-});
-
-canvas.appendChild(tooltipArea);
-
 const tooltip = new Tooltip({
   style: {
-    title: '标题',
+    title: 'Color',
     x: 0,
     y: 0,
     offset: [20, 20],
     position: 'bottom-right',
-    filterBy: (item) => {
-      if (item.value < 2000) return false;
-      return true;
-    },
-    items: [
-      {
-        value: 1000,
-        name: '第一项',
-        index: 0,
-        color: '#83c6e8',
-      },
-      {
-        value: 2000,
-        name: '第二项',
-        index: 1,
-        color: '#616f8f',
-      },
-    ],
+    items: [],
     bounding: {
       x: 50,
       y: 50,
       width: 500,
       height: 500,
     },
+    visibility: 'hidden',
   },
 });
 
-// 移除之前的tooltip
+// 移除其他 tooltip
 Array.from(document.getElementsByClassName('tooltip')).forEach((tooltip) => tooltip.remove());
 // 添加tooltip
 document.body.appendChild(tooltip.HTMLTooltipElement);
+
+let colorList = [];
 // 绑定tooltip事件
-tooltipArea.addEventListener('mousemove', (e) => {
-  tooltip.position = [e.offsetX, e.offsetY];
-});
-tooltipArea.addEventListener('mouseenter', () => {
-  tooltip.show();
-});
-tooltipArea.addEventListener('mouseleave', () => {
-  tooltip.hide();
+canvas.addEventListener('mousemove', (e) => {
+  if (e.target && e.target.name === 'dot') {
+    tooltip.show();
+    const fill = e.target.attr('fill');
+    fill !== colorList[0] && colorList.unshift(fill);
+    colorList = colorList.slice(0, 5);
+    tooltip.update({
+      x: e.offsetX,
+      y: e.offsetY,
+      items: colorList.map((color, idx) => ({ color, name: `${idx + 1}: ${color}`, fill: color })),
+    });
+  } else {
+    tooltip.hide();
+  }
 });
 
-// 3秒后更新tooltip
-setTimeout(() => {
-  tooltip.update({
-    title: '更新了标题',
-    items: [
-      {
-        value: '1,000',
-        name: '第三项',
-        index: 0,
-        color: '#678ef2',
-      },
-      {
-        value: '4,000',
-        name: '第四项',
-        index: 1,
-        color: '#7dd5a9',
-      },
-      {
-        value: '2,000',
-        name: '第五项',
-        index: 1,
-        color: '#edbf45',
-      },
-    ],
-  });
-}, 3000);
-
+// 更新边界信息
 const { left, top } = document.getElementById('container').getBoundingClientRect();
 tooltip.update({
   container: {

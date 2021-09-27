@@ -21,6 +21,7 @@ export type TooltipItem = {
 export interface TooltipCfg {
   x?: number;
   y?: number;
+  visibility?: 'visible' | 'hidden';
   /** 标题 */
   title?: string;
   /* tooltip 位置 */
