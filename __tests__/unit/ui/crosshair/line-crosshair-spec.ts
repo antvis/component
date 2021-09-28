@@ -2,6 +2,7 @@ import { Canvas } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { LineCrosshair } from '../../../../src';
 import { createDiv } from '../../../utils';
+import { delay } from '../../../utils/delay';
 
 const renderer = new CanvasRenderer({
   enableDirtyRectangleRenderingDebug: false,
@@ -36,8 +37,10 @@ canvas.appendChild(line);
 
 describe('line-crosshair', () => {
   test('basic', () => {
-    expect(line.attr('x')).toBe(100);
-    expect(line.attr('y')).toBe(50);
+    // @ts-ignore
+    expect(line.shapesGroup.attr('x')).toBe(100);
+    // @ts-ignore
+    expect(line.shapesGroup.attr('y')).toBe(50);
     // @ts-ignore
     expect(line.tagShape.attr('text')).toBe('123');
     // @ts-ignore
@@ -50,27 +53,40 @@ describe('line-crosshair', () => {
     expect(line.tagShape.attr('text')).toBe('new Text');
   });
 
-  test('setPointer', () => {
+  test('setPointer', async () => {
     line.setPointer([200, 200]);
-    // 水平移动只改变x坐标
-    expect(line.attr('x')).toBe(200);
-    expect(line.attr('y')).toBe(50);
+    await delay(20);
+    // 水平移动只改变 x 坐标
+    // @ts-ignore
+    expect(line.shapesGroup.attr('x')).toBe(200);
+    // @ts-ignore
+    expect(line.shapesGroup.attr('y')).toBe(50);
   });
 
-  test('vertical', () => {
+  test('horizontal', async () => {
     line.update({
       startPos: [50, 100],
       endPos: [400, 100],
     });
 
-    expect(line.attr('x')).toBe(50);
-    expect(line.attr('y')).toBe(100);
+    // @ts-ignore
+    expect(line.shapesGroup.attr('x')).toBe(50);
+    // pointer y is 200
+    // @ts-ignore
+    expect(line.shapesGroup.attr('y')).toBe(200);
     // @ts-ignore
     expect(line.crosshairShape.attr('path')).toStrictEqual([['M', 0, 0], ['L', 350, 0], ['Z']]);
 
-    line.setPointer([200, 200]);
-    // 水平移动只改变x坐标
-    expect(line.attr('x')).toBe(50);
-    expect(line.attr('y')).toBe(200);
+    line.setPointer([240, 250]);
+    await delay(20);
+    // 水平移动只改变 y 坐标
+    // @ts-ignore
+    expect(line.shapesGroup.attr('x')).toBe(50);
+    // @ts-ignore
+    expect(line.shapesGroup.attr('y')).toBe(250);
+  });
+
+  afterAll(() => {
+    line.destroy();
   });
 });

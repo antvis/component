@@ -2,6 +2,7 @@ import { Canvas } from '@antv/g';
 import { Renderer as SVGRenderer } from '@antv/g-svg';
 import { CircleCrosshair } from '../../../../src';
 import { createDiv } from '../../../utils';
+import { delay } from '../../../utils/delay';
 
 const renderer = new SVGRenderer({
   enableDirtyRectangleRenderingDebug: false,
@@ -52,15 +53,19 @@ describe('circle-crosshair', () => {
     ]);
   });
 
-  test('setPointer', () => {
+  test('setPointer', async () => {
     // r = 100
     circle.setPointer([50, 150]);
-
+    await delay(20);
     // @ts-ignore
     expect(circle.crosshairShape.attr('path')).toStrictEqual([
       ['M', -50, 50],
       ['A', 100, 100, 0, 1, 0, 150, 50],
       ['A', 100, 100, 0, 1, 0, -50, 50],
     ]);
+  });
+
+  afterAll(() => {
+    circle.destroy();
   });
 });

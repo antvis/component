@@ -49,12 +49,14 @@ export class PolygonCrosshair extends CrosshairBase<PolygonCrosshairCfg> {
    */
   @throttle(20)
   public setPointer([x, y]: Point) {
+    super.setPointer([x, y]);
+    const [lx, ly] = this.localPointer;
     const { center } = this.attributes;
     // 求交点
-    const [ix, iy] = this.intersection([x, y]);
+    const [ix, iy] = this.intersection([lx, ly]);
     if (!ix || !iy) return;
-    const equalRadius = lineLen(center, [x, y]) / lineLen(center, [ix, iy]);
-    const path = this.createPolygonPath(equalRadius);
+    const equivalentRadius = lineLen(center, [lx, ly]) / lineLen(center, [ix, iy]);
+    const path = this.createPolygonPath(equivalentRadius);
     this.crosshairShape.attr({ path });
   }
 

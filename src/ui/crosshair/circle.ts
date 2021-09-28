@@ -29,10 +29,12 @@ export class CircleCrosshair extends CrosshairBase<CircleCrosshairCfg> {
 
   @throttle(20)
   public setPointer([x, y]: Point) {
+    super.setPointer([x, y]);
+    const [lx, ly] = this.localPointer;
     const {
       center: [cx, cy],
     } = this.attributes;
-    const path = this.createCirclePath(((x - cx) ** 2 + (y - cy) ** 2) ** 0.5);
+    const path = this.createCirclePath(((lx - cx) ** 2 + (ly - cy) ** 2) ** 0.5);
     this.crosshairShape.attr({ path });
   }
 

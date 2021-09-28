@@ -2,6 +2,7 @@ import { Canvas } from '@antv/g';
 import { Renderer as SVGRenderer } from '@antv/g-svg';
 import { PolygonCrosshair } from '../../../../src';
 import { createDiv } from '../../../utils';
+import { delay } from '../../../utils/delay';
 
 const renderer = new SVGRenderer({
   enableDirtyRectangleRenderingDebug: false,
@@ -59,9 +60,10 @@ describe('polygon-crosshair', () => {
     });
   });
 
-  test('setPointer', () => {
+  test('setPointer', async () => {
     // 等效半径 100
     polygon.setPointer([200, 100]);
+    await delay(20);
     // @ts-ignore
     const path = polygon.crosshairShape.attr('path');
     // @ts-ignore
@@ -70,5 +72,9 @@ describe('polygon-crosshair', () => {
       expect(cx + x * 100).toBeCloseTo(px);
       expect(cx + y * 100).toBeCloseTo(py);
     });
+  });
+
+  afterAll(() => {
+    polygon.destroy();
   });
 });

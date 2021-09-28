@@ -1,4 +1,4 @@
-import { Path } from '@antv/g';
+import { Path, Group } from '@antv/g';
 import { deepMix } from '@antv/util';
 import { GUI } from '../../core/gui';
 import { Tag } from '../tag';
@@ -19,9 +19,20 @@ export abstract class CrosshairBase<T extends CrosshairBaseCfg> extends GUI<Requ
    */
   protected pointer!: Point;
 
+  protected shapesGroup!: Group;
+
   protected tagShape!: Tag;
 
   protected crosshairShape!: Path;
+
+  /**
+   * 获得 pointer 的相对坐标
+   */
+  protected get localPointer() {
+    const [bx, by] = this.getPosition();
+    const [x, y] = this.pointer;
+    return [x - bx, y - by];
+  }
 
   /**
    * 获得 crosshair 的 path
@@ -78,12 +89,14 @@ export abstract class CrosshairBase<T extends CrosshairBaseCfg> extends GUI<Requ
   protected abstract adjustLayout(): void;
 
   private initShape() {
+    this.shapesGroup = new Group({ name: 'crosshairGroup' });
+    this.appendChild(this.shapesGroup);
     this.tagShape = new Tag({ name: 'tag', style: this.tagCfg });
-    this.appendChild(this.tagShape);
+    this.shapesGroup.appendChild(this.tagShape);
     this.crosshairShape = new Path({
       name: 'crosshair',
       style: this.crosshairCfg,
     });
-    this.appendChild(this.crosshairShape);
+    this.shapesGroup.appendChild(this.crosshairShape);
   }
 }

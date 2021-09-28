@@ -23,6 +23,16 @@ export class LineCrosshair extends CrosshairBase<LineCrosshairCfg> {
     return path;
   }
 
+  /**
+   * 获得 pointer 的相对坐标
+   */
+  protected get localPointer() {
+    if (!this.pointer) return this.attributes.startPos;
+    const [bx, by] = this.getPosition();
+    const [x, y] = this.pointer;
+    return [x - bx, y - by];
+  }
+
   private get isVertical() {
     const {
       startPos: [x1, y1],
@@ -34,11 +44,6 @@ export class LineCrosshair extends CrosshairBase<LineCrosshairCfg> {
   private get tagShapeSpace() {
     const { width, height } = getShapeSpace(this.tagShape);
     return { width, height };
-  }
-
-  private get basePos() {
-    const { startPos } = this.attributes;
-    return startPos;
   }
 
   constructor(options: LineCrosshairOptions) {
@@ -55,43 +60,58 @@ export class LineCrosshair extends CrosshairBase<LineCrosshairCfg> {
   @throttle(20)
   public setPointer(pointer: Point) {
     super.setPointer(pointer);
-    const [x, y] = pointer;
-    const [bx, by] = this.basePos;
-    this.setLocalPosition(this.getOrientVal([bx, y], [x, by]));
+    this.adjustPosition();
   }
 
   public setText(text: string) {
     this.tagShape.update({ text });
+    this.adjustTag();
+  }
+
+  protected adjustLayout() {
+    this.adjustPosition();
+    this.adjustTag();
   }
 
   /**
-   * 调整tag和this位置
+   * 调整this位置
    */
-  protected adjustLayout() {
-    const { text } = this.attributes;
+  private adjustPosition() {
+    const [lx, ly] = this.localPointer;
+    const {
+      startPos: [sx, sy],
+    } = this.attributes;
+    const targetPos = this.getOrientVal<[number, number]>([sx, ly], [lx, sy]);
+    this.shapesGroup.setLocalPosition(targetPos);
+  }
+
+  /**
+   * 调整tag位置
+   */
+  private adjustTag() {
+    const {
+      text,
+      startPos: [x1, y1],
+      endPos: [x2, y2],
+    } = this.attributes;
+
     if (!text || text === '') {
       this.tagShape.hide();
       return;
     }
     this.tagShape.show();
+
     const { position } = text as { position: 'start' | 'end' };
     const { width, height } = this.tagShapeSpace;
-    const {
-      startPos: [x1, y1],
-      endPos: [x2, y2],
-    } = this.attributes;
-    this.setLocalPosition(x1, y1);
-    // 基准位置
-    const [x, y] = position === 'start' ? [x1, y1] : [x2, y2];
     // 偏移量
     const [xOffset, yOffset] = this.getOrientVal(
       {
         start: [-width, -height / 2],
-        end: [0, -height / 2],
+        end: [x2 - x1, -height / 2],
       },
       {
         start: [-width / 2, -height],
-        end: [-width / 2, 0],
+        end: [-width / 2, y2 - y1],
       }
     )[position];
     this.tagShape.setLocalPosition(xOffset, yOffset);
