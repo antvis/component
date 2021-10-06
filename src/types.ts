@@ -178,6 +178,16 @@ export interface AxisLabelCfg {
    */
   offset?: number;
   /**
+   * label 在X方向的额外偏移量
+   * @type {number}
+   */
+  offsetX?: number;
+  /**
+   * label 在Y方向的额外偏移量
+   * @type {number}
+   */
+  offsetY?: number;
+  /**
    * 文本旋转角度
    * @type {number}
    */

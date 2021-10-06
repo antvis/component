@@ -1,6 +1,6 @@
 import { IGroup } from '@antv/g-base';
 import { ext } from '@antv/matrix-util';
-import { each, filter, get, isFunction, isNil, isNumberEqual, mix, size } from '@antv/util';
+import { each, filter, get, isFunction, isNil, isNumberEqual, mix, size, isArray } from '@antv/util';
 import GroupComponent from '../abstract/group-component';
 import { IList } from '../interfaces';
 import { AxisBaseCfg, ListItem, OptimizeCfg, Point } from '../types';
@@ -70,6 +70,8 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
             fontWeight: 'normal',
           },
           offset: 10,
+          offsetX: 0,
+          offsetY: 0,
         },
         title: {
           autoRotate: true,
@@ -470,7 +472,7 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
   // 获取 label 的配置项
   private getLabelAttrs(tick: ListItem, index: number, ticks: ListItem[]) {
     const labelCfg = this.get('label');
-    const { offset, rotate, formatter } = labelCfg;
+    const { offset, offsetX, offsetY, rotate, formatter } = labelCfg;
     const point = this.getSidePoint(tick.point, offset);
     const vector = this.getSideVector(offset, point);
     const text = formatter ? formatter(tick.name, tick, index) : tick.name;
@@ -479,8 +481,8 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
 
     const attrs = mix(
       {
-        x: point.x,
-        y: point.y,
+        x: point.x + offsetX,
+        y: point.y + offsetY,
         text,
         textAlign: this.getTextAnchor(vector),
         textBaseline: this.getTextBaseline(vector),
