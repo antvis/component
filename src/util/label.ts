@@ -71,7 +71,7 @@ export function testLabel(label: IElement, limitLength: number): boolean {
 
 /** 处理 text shape 的自动省略 */
 export function ellipsisLabel(isVertical: boolean, label: IElement, limitLength: number, position: string = 'tail') {
-  const text = label.attr('text');
+  const text = label.attr('text') ?? ''; // 避免出现null、undefined
 
   if (position === 'tail') {
     // component 里的缩略处理做得很糟糕，文字长度测算完全不准确
