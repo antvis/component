@@ -252,11 +252,11 @@ export class Continuous extends LegendBase<ContinuousCfg> {
 
   constructor(options: ContinuousOptions) {
     super(deepMix({}, Continuous.defaultOptions, options));
-    super.init();
     this.init();
   }
 
   public init() {
+    super.init();
     // 创建labels
     this.createLabels();
     // 创建色板及其背景

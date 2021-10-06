@@ -125,11 +125,11 @@ export class Category extends LegendBase<CategoryCfg> {
 
   constructor(options: CategoryOptions) {
     super(deepMix({}, Category.defaultOptions, options));
-    super.init();
     this.init();
   }
 
   public init() {
+    super.init();
     this.initShape();
     this.createItems();
     this.adjustLayout();

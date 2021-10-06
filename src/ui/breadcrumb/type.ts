@@ -1,4 +1,3 @@
-import { Group } from '@antv/g';
 import type { TextProps, DisplayObjectConfig } from '../../types';
 import type { TagCfg } from '../tag/types';
 
