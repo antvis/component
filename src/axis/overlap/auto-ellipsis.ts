@@ -4,12 +4,12 @@ import { ellipsisLabel } from '../../util/label';
 
 function ellipseLabels(isVertical: boolean, labelGroup: IGroup, limitLength: number, position: string): boolean {
   const children = labelGroup.getChildren();
-  let ellipsised = false;
+  let ellipsisFlag = false;
   each(children, (label) => {
     const rst = ellipsisLabel(isVertical, label, limitLength, position);
-    ellipsised = ellipsised || rst;
+    ellipsisFlag = ellipsisFlag || rst;
   });
-  return ellipsised;
+  return ellipsisFlag;
 }
 
 export function getDefault() {
