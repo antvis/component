@@ -1,10 +1,9 @@
 import { IGroup } from '@antv/g-base';
-import { each,isNil,isFunction,isObject } from '@antv/util';
+import { each, isNil, isFunction, isObject } from '@antv/util';
 import { vec2 } from '@antv/matrix-util';
 import AxisBase from './base';
 import * as OverlapUtil from './overlap';
-import { AxisLabelAutoHideCfg } from '../types';
-
+import type { AxisLabelAutoHideCfg } from '../types';
 import type { CircleAxisCfg, Point, } from '../types';
 
 class Circle extends AxisBase<CircleAxisCfg> {
