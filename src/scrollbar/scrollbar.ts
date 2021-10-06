@@ -128,7 +128,7 @@ export class Scrollbar extends GroupComponent<ScrollbarCfg> implements ISlider {
   private renderTrackShape(group: IGroup) {
     const { trackLen, theme = { default: {} } } = this.cfg;
     const { lineCap, trackColor, size: themeSize } = deepMix({}, DEFAULT_THEME, theme).default;
-    const size = get(this.cfg, 'size', themeSize)
+    const size = get(this.cfg, 'size', themeSize);
 
     const attrs = this.get('isHorizontal')
       ? {
@@ -161,7 +161,7 @@ export class Scrollbar extends GroupComponent<ScrollbarCfg> implements ISlider {
   private renderThumbShape(group: IGroup) {
     const { thumbOffset, thumbLen, theme } = this.cfg;
     const { size: themeSize, lineCap, thumbColor } = deepMix({}, DEFAULT_THEME, theme).default;
-    const size = get(this.cfg, 'size', themeSize)
+    const size = get(this.cfg, 'size', themeSize);
 
     const attrs = this.get('isHorizontal')
       ? {

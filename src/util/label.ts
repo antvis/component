@@ -1,5 +1,5 @@
 import { IElement } from '@antv/g-base';
-import { each, isNil } from '@antv/util';
+import { each, isNil, getEllipsisText, pick } from '@antv/util';
 
 import { ellipsisString, strLen } from './text';
 
@@ -72,26 +72,41 @@ export function testLabel(label: IElement, limitLength: number): boolean {
 /** 处理 text shape 的自动省略 */
 export function ellipsisLabel(isVertical: boolean, label: IElement, limitLength: number, position: string = 'tail') {
   const text = label.attr('text') ?? ''; // 避免出现null、undefined
+
+  if (position === 'tail') {
+    // component 里的缩略处理做得很糟糕，文字长度测算完全不准确
+    // 这里暂时只对 tail 做处理
+    const font = pick(label.attr(), ['fontSize', 'fontFamily', 'fontWeight', 'fontStyle', 'fontVariant']);
+    const ellipsisText = getEllipsisText(text, limitLength, font, '…') as string;
+    if (text !== ellipsisText) {
+      label.attr('text', ellipsisText);
+      label.set('tip', text);
+      return true;
+    }
+    label.set('tip', null);
+    return false;
+  }
+
   const labelLength = getLabelLength(isVertical, label);
-  const codeLength = strLen(text); // 该函数入参数必须是字符串
-  let ellipsised = false;
+  const codeLength = strLen(text);
+  let ellipsisFlag = false;
   if (limitLength < labelLength) {
-    const reseveLength = Math.floor((limitLength / labelLength) * codeLength) - ELLIPSIS_CODE_LENGTH; // 计算出来的应该保存的长度
+    const reserveLength = Math.floor((limitLength / labelLength) * codeLength) - ELLIPSIS_CODE_LENGTH; // 计算出来的应该保存的长度
     let newText;
-    if (reseveLength >= 0) {
-      newText = ellipsisString(text, reseveLength, position);
+    if (reserveLength >= 0) {
+      newText = ellipsisString(text, reserveLength, position);
     } else {
       newText = ELLIPSIS_CODE;
     }
     if (newText) {
       label.attr('text', newText);
-      ellipsised = true;
+      ellipsisFlag = true;
     }
   }
-  if (ellipsised) {
+  if (ellipsisFlag) {
     label.set('tip', text);
   } else {
     label.set('tip', null);
   }
-  return ellipsised;
+  return ellipsisFlag;
 }

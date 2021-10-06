@@ -88,6 +88,20 @@ describe('test line axis', () => {
     expect(label1.attr('matrix')).toEqual(getMatrixByAngle({ x: 40, y: 400 }, angle));
   });
 
+  it('update label offsetX, offsetY', () => {
+    const label1 = axis.getElementById('a-axis-label-1');
+    const startX = label1.attr('x');
+    const startY = label1.attr('y');
+    axis.update({
+      label: {
+        offsetX: 12,
+        offsetY: 13,
+      },
+    });
+    expect(label1.attr('x')).toBe(startX + 12);
+    expect(label1.attr('y')).toBe(startY + 13);
+  });
+
   it('update title', () => {
     const title = axis.getElementById('a-axis-title');
     axis.update({
