@@ -1,3 +1,14 @@
+#### 0.8.18 (2021-10-07)
+
+##### New Features
+
+- **axis:** 坐标轴支持额外绝对偏移量 ([#246](https://github.com/antvis/component/pull/246)) ([df888f58](https://github.com/antvis/component/commit/df888f58e144da765f67121b565953c89ad0502b))
+
+##### Bug Fixes
+
+- **#2487:** 圆型坐标轴支持文本缩略 ([#245](https://github.com/antvis/component/pull/245)) ([22a01f3c](https://github.com/antvis/component/commit/22a01f3c67fe51dd457b033ff243f0ab9db13aa6))
+- 【legend】 期望分页场景下的多行和不分页的多行，展示一致 ([#242](https://github.com/antvis/component/pull/242)) ([030c7bad](https://github.com/antvis/component/commit/030c7bade1998dab5495701d4465f79ea981836a))
+
 #### 0.8.17 (2021-07-28)
 
 ##### New Features
