@@ -81,21 +81,21 @@ class Circle extends AxisBase<CircleAxisCfg> {
     };
   }
 
-    /**
+  /**
    * 是否可以执行某一 overlap
    * @param name
    */
-     private canProcessOverlap(name: string) {
-      const labelCfg = this.get('label');
+  private canProcessOverlap(name: string) {
+    const labelCfg = this.get('label');
 
-      // 对 autoRotate，如果配置了旋转角度，直接进行固定角度旋转
-      if (name === 'autoRotate') {
-        return isNil(labelCfg.rotate);
-      }
-
-      // 默认所有 overlap 都可执行
-      return true;
+    // 对 autoRotate，如果配置了旋转角度，直接进行固定角度旋转
+    if (name === 'autoRotate') {
+      return isNil(labelCfg.rotate);
     }
+
+    // 默认所有 overlap 都可执行
+    return true;
+  }
 
   protected processOverlap(labelGroup) {
     const labelCfg = this.get('label');
@@ -121,7 +121,7 @@ class Circle extends AxisBase<CircleAxisCfg> {
     if (titleCfg) {
       if (isNil(titleCfg.offset)) {
         // 调整 title 的 offset
-        const {height: length} = labelGroup.getCanvasBBox();
+        const { height: length } = labelGroup.getCanvasBBox();
         // 如果用户没有设置 offset，则自动计算
         titleCfg.offset = labelOffset + length + titleSpacing + titleHeight / 2;
       }
@@ -131,22 +131,23 @@ class Circle extends AxisBase<CircleAxisCfg> {
   private autoProcessOverlap(name: string, value: any, labelGroup: IGroup, limitLength: number) {
     let hasAdjusted = false;
     const util = OverlapUtil[name];
-    if (value === true) {
-      const labelCfg = this.get('label');
-      // true 形式的配置：使用 overlap 默认的的处理方法进行处理
-      hasAdjusted = util.getDefault()(false, labelGroup, limitLength);
-    } else if (isFunction(value)) {
-      // 回调函数形式的配置： 用户可以传入回调函数
-      hasAdjusted = value(false, labelGroup, limitLength);
-    } else if (isObject(value)) {
-      // object 形式的配置方式：包括 处理方法 type， 和可选参数配置 cfg
-      const overlapCfg = value as { type: string; cfg?: AxisLabelAutoHideCfg };
-      if (util[overlapCfg.type]) {
-        hasAdjusted = util[overlapCfg.type](false, labelGroup, limitLength, overlapCfg.cfg);
+    if (limitLength > 0) {
+      if (value === true) {
+        // true 形式的配置：使用 overlap 默认的的处理方法进行处理
+        hasAdjusted = util.getDefault()(false, labelGroup, limitLength);
+      } else if (isFunction(value)) {
+        // 回调函数形式的配置： 用户可以传入回调函数
+        hasAdjusted = value(false, labelGroup, limitLength);
+      } else if (isObject(value)) {
+        // object 形式的配置方式：包括 处理方法 type， 和可选参数配置 cfg
+        const overlapCfg = value as { type: string; cfg?: AxisLabelAutoHideCfg };
+        if (util[overlapCfg.type]) {
+          hasAdjusted = util[overlapCfg.type](false, labelGroup, limitLength, overlapCfg.cfg);
+        }
+      } else if (util[value]) {
+        // 字符串类型的配置：按照名称执行 overlap 处理方法
+        hasAdjusted = util[value](false, labelGroup, limitLength);
       }
-    } else if (util[value]) {
-      // 字符串类型的配置：按照名称执行 overlap 处理方法
-      hasAdjusted = util[value](false, labelGroup, limitLength);
     }
     if (name === 'autoRotate') {
       // 文本旋转后，文本的对齐方式可能就不合适了
