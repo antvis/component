@@ -1,3 +1,9 @@
+#### 0.8.19 (2021-10-08)
+
+##### Bug Fixes
+
+- **axis:** 修复 circle axis 处理 vertical limit 不当 ([#250](https://github.com/antvis/component/pull/250)) ([dd5ecb81](https://github.com/antvis/component/commit/dd5ecb815cef72010b2cba2da6bab2ab58ed1bc8))
+
 #### 0.8.18 (2021-10-07)
 
 ##### New Features
