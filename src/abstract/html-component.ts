@@ -15,7 +15,6 @@ abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends 
       containerClassName: '',
       parent: null,
     };
-    return cfg;
   }
 
   public getContainer(): HTMLElement {
