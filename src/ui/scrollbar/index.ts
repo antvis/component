@@ -125,8 +125,8 @@ export class Scrollbar extends GUI<Required<ScrollbarCfg>> {
   }
 
   private get trackShapeCfg() {
-    const { x, y, width, height } = this.attributes;
-    return { x, y, ...this.getStyle('trackStyle'), width, height };
+    const { width, height } = this.attributes;
+    return { ...this.getStyle('trackStyle'), width, height, x: 0, y: 0 };
   }
 
   private get thumbShapeCfg() {

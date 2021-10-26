@@ -168,6 +168,21 @@ describe('scrollbar', () => {
 
     canvas.appendChild(scrollbar);
   });
+
+  test('position', () => {
+    scrollbar.update({
+      x: 10,
+      y: 20,
+    });
+
+    expect(scrollbar.attr('x')).toBe(10);
+    expect(scrollbar.attr('y')).toBe(20);
+
+    // @ts-ignore
+    const track = scrollbar.trackShape;
+    expect(track.attr('x')).toBe(0);
+    expect(track.attr('y')).toBe(0);
+  });
 });
 
 // scrollbar.destroy();
