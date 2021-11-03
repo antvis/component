@@ -1,3 +1,10 @@
+#### 0.8.20 (2021-11-03)
+
+##### Bug Fixes
+
+- 修复依赖 ([d2970f99](https://github.com/antvis/component/commit/d2970f991f18bca0db6ae7dd54903fd87e2b2809))
+- unreachable code after return statement ([#244](https://github.com/antvis/component/pull/244)) ([b6f7bfef](https://github.com/antvis/component/commit/b6f7bfef3ffeb02dfd93f4926307bd0474ea738f))
+
 #### 0.8.19 (2021-10-08)
 
 ##### Bug Fixes
