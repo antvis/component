@@ -42,7 +42,6 @@
     }
   },
   "devDependencies": {
-    "@antv/color-util": "^2.0.3",
     "@antv/g-canvas": "0.5.6",
     "@types/jest": "^24.0.18",
     "conventional-changelog-cli": "^2.1.1",
@@ -60,6 +59,7 @@
     "typescript": "^3.5.3"
   },
   "dependencies": {
+    "@antv/color-util": "^2.0.3",
     "@antv/dom-util": "~2.0.1",
     "@antv/g-base": "0.5.6",
     "@antv/matrix-util": "^3.1.0-beta.1",
