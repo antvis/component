@@ -98,7 +98,6 @@ const categoryItem = new CategoryItem({
 });
 
 canvas.appendChild(categoryItem);
-console.log(categoryItem);
 
 describe('category-item', () => {
   test('default', () => {

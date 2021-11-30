@@ -16,7 +16,6 @@ UI components for [G](https://github.com/antvis/g).
 
 ## ✨ Features
 
-
 ## 📦 Installation
 
 ```bash
@@ -27,12 +26,16 @@ $ npm install @antv/gui
 
 ```ts
 import { Canvas } from '@antv/g';
-import { Arrow } from '@antv/gui';
+import { Button } from '@antv/gui';
 
 // add `arrow` instance into canvas
-const canvas = new Canvas({/* ... */});
-const arrow = new Arrow({/* ... */});
-canvas.appendChild(arrow);
+const canvas = new Canvas({
+  /* ... */
+});
+const button = new Button({
+  /* ... */
+});
+canvas.appendChild(button);
 
 // render it
 canvas.render();

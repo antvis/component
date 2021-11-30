@@ -1,12 +1,12 @@
 {
   "name": "@antv/gui",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "UI components for AntV G.",
   "license": "MIT",
-  "main": "dist/index.js",
-  "module": "dist/index.esm.js",
+  "main": "lib/index.js",
+  "module": "esm/index.js",
   "unpkg": "dist/gui.min.js",
-  "types": "dist/index.d.ts",
+  "types": "lib/index.d.ts",
   "files": [
     "src",
     "lib",
@@ -25,7 +25,10 @@
     "coverage": "jest -w 16 --coverage",
     "test": "jest",
     "test-live": "cross-env DEBUG_MODE=1 jest --watch ./__tests__",
-    "build": "father-build && limit-size",
+    "build": "run-s clean build:* size",
+    "build:umd": "webpack",
+    "build:cjs": "tsc -p tsconfig.json --target ES5 --module commonjs --outDir lib",
+    "build:esm": "tsc -p tsconfig.json --target ES5 --module ESNext --outDir esm",
     "ci": "run-s lint coverage build",
     "prepublishOnly": "npm run ci",
     "prepare": "husky install"
@@ -38,9 +41,6 @@
   ],
   "dependencies": {
     "@antv/dom-util": "^2.0.3",
-    "@antv/g": "^1.0.0-alpha.23",
-    "@antv/g-canvas": "^1.0.0-alpha.23",
-    "@antv/g-svg": "^1.0.0-alpha.23",
     "@antv/matrix-util": "^3.0.4",
     "@antv/path-util": "^2.0.15",
     "@antv/scale": "^0.4.3",
@@ -49,8 +49,15 @@
     "fecha": "^4.2.1",
     "svg-path-parser": "^1.1.0"
   },
+  "peerDependencies": {
+    "@antv/g": "^1.0.0-alpha.36"
+  },
   "devDependencies": {
+    "@antv/g": "^1.0.0-alpha.36",
+    "@antv/g-canvas": "^1.0.0-alpha.37",
+    "@antv/g-svg": "^1.0.0-alpha.37",
     "@antv/gatsby-theme-antv": "^1.1.8",
+    "@babel/plugin-proposal-class-properties": "^7.3.4",
     "@babel/plugin-proposal-decorators": "^7.15.4",
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^12.0.1",
@@ -69,7 +76,6 @@
     "eslint-import-resolver-typescript": "^2.4.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.3.1",
-    "father-build": "^1.19.6",
     "gatsby": "^2.24.63",
     "husky": "^5.0.9",
     "jest": "^26.6.3",
@@ -85,7 +91,10 @@
     "rimraf": "^3.0.2",
     "ts-jest": "^26.5.1",
     "tslib": "^2.2.0",
-    "typescript": "^4.1.5"
+    "typescript": "^4.3.4",
+    "ts-loader": "^9.2.6",
+    "webpack": "^5.64.4",
+    "webpack-cli": "^4.9.1"
   },
   "jest": {
     "runner": "jest-electron/runner",
@@ -118,12 +127,12 @@
   "limit-size": [
     {
       "path": "dist/gui.min.js",
-      "limit": "256 Kb",
+      "limit": "128 Kb",
       "gzip": true
     },
     {
       "path": "dist/gui.min.js",
-      "limit": "512 Kb"
+      "limit": "256 Kb"
     }
   ],
   "author": {

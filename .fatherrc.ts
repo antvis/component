@@ -1,9 +1,8 @@
 export default {
   esm: 'rollup',
   cjs: 'rollup',
-  umd: {
-    minFile: true,
-    file: 'gui',
-    name: 'GUI',
+  umd: false,
+  nodeResolveOpts: {
+    mainFields: ['module', 'browser', 'main'],
   },
 };

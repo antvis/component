@@ -49,7 +49,6 @@ describe('getStyle', () => {
       },
     };
     applyStyleSheet(dom, styleSheet);
-    console.log(dom);
 
     expect(dom.style.width).toBe('100px');
     expect(dom.querySelector('.b').style.backgroundColor).toBe('red');

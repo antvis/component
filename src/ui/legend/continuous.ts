@@ -411,8 +411,6 @@ export class Continuous extends LegendBase<ContinuousCfg> {
       const range = [min, ...ticks!, max];
       for (let i = 0; i < range.length - 1; i += 1) {
         if (value >= range[i] && value <= range[i + 1]) {
-          console.log(minBy([range[i], range[i + 1]], (val) => Math.abs(value - val)));
-
           return minBy([range[i], range[i + 1]], (val) => Math.abs(value - val));
         }
       }

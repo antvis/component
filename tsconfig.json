@@ -15,7 +15,9 @@
     "skipLibCheck": true,
     "sourceRoot": "src",
     "baseUrl": "src",
-    "strict": true
+    "strict": true,
+    "importHelpers": true,
+    "downlevelIteration": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "examples"]
