@@ -15,17 +15,6 @@ jobs:
         uses: actions/setup-node@v2.1.5
         with:
           node-version: '12'
-
-      - name: Cache node modules
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: ./node_modules
-          key: ${{ runner.os }}-build-cache-node-modules-${{ hashFiles('**/package.json') }}
-          restore-keys: |
-            cache-node-modules-
-
       - name: Run ci
         run: |
           npm install

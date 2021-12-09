@@ -1,6 +1,6 @@
 {
   "name": "@antv/gui",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "UI components for AntV G.",
   "license": "MIT",
   "main": "lib/index.js",
@@ -50,12 +50,12 @@
     "svg-path-parser": "^1.1.0"
   },
   "peerDependencies": {
-    "@antv/g": "^1.0.0-alpha.36"
+    "@antv/g": "^5.0.1"
   },
   "devDependencies": {
-    "@antv/g": "^1.0.0-alpha.36",
-    "@antv/g-canvas": "^1.0.0-alpha.37",
-    "@antv/g-svg": "^1.0.0-alpha.37",
+    "@antv/g": "^5.0.1",
+    "@antv/g-canvas": "^1.0.1",
+    "@antv/g-svg": "^1.0.1",
     "@antv/gatsby-theme-antv": "^1.1.8",
     "@babel/plugin-proposal-class-properties": "^7.3.4",
     "@babel/plugin-proposal-decorators": "^7.15.4",
