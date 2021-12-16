@@ -98,8 +98,14 @@ abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends 
   protected initContainer() {
     let container = this.get('container');
     if (isNil(container)) {
-      // 未指定 container 则创建
-      container = this.createDom();
+      if (this.get('customContent')) {
+        // 在生成container的时候, 如果是自定义内容的tooltip, 则生成一个恒定的容器, 用于定位
+        container = document.createElement('div');
+        container.className = 'g2-tooltip-position';
+      } else {
+        // 未指定 container 则创建
+        container = this.createDom();
+      }
       let parent = this.get('parent');
       if (isString(parent)) {
         parent = document.getElementById(parent);

@@ -135,12 +135,10 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
   protected initContainer() {
     super.initContainer();
     if (this.get('customContent')) {
-      if (this.get('container')) {
-        this.get('container').remove();
-      }
-      const container = this.getHtmlContentNode();
-      this.get('parent').appendChild(container);
-      this.set('container', container);
+      const node = this.getHtmlContentNode();
+      const container: HTMLElement = this.get('container');
+      container.innerHTML = '';
+      container.appendChild(node);
       this.resetStyles();
       this.applyStyles();
     }
@@ -198,14 +196,9 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
   // 根据 customContent 渲染
   private renderCustomContent() {
     const node = this.getHtmlContentNode();
-    const parent: HTMLElement = this.get('parent');
-    const curContainer: HTMLElement = this.get('container');
-    if (curContainer && curContainer.parentNode === parent) {
-      parent.replaceChild(node, curContainer);
-    } else {
-      parent.appendChild(node);
-    }
-    this.set('container', node);
+    const container: HTMLElement = this.get('container');
+    container.innerHTML = '';
+    container.appendChild(node);
     this.resetStyles();
     this.applyStyles();
   }
