@@ -269,7 +269,7 @@ export interface AxisTitleCfg {
    * 文本对齐方式
    * @type {string} start, center, end
    */
-   position?: string;
+  position?: string;
 }
 
 export interface BaseCfg {
@@ -594,6 +594,11 @@ export interface CategoryLegendCfg extends LegendBaseCfg {
    */
   itemValue?: LegendItemValueCfg;
   /**
+   *
+   * @type {LegendRadio}
+   */
+  radio?: LegendRadio;
+  /**
    * 最大宽度
    * @type {number}
    */
@@ -616,11 +621,11 @@ export interface CategoryLegendCfg extends LegendBaseCfg {
   /**
    * 是否翻页
    */
-   flipPage?: boolean;
-   /**
-    * 翻页行数（只适用于横向） 
-    */
-   maxRow?: number;
+  flipPage?: boolean;
+  /**
+   * 翻页行数（只适用于横向）
+   */
+  maxRow?: number;
   /**
    * 分页器配置
    * @type {LegendPageNavigatorCfg}
@@ -807,7 +812,20 @@ export interface LegendItemValueCfg {
    * 图例项附加值的配置
    * @type {ShapeAttrs}
    */
-  style?: ShapeAttrs  | ShapeAttrsCallback;
+  style?: ShapeAttrs | ShapeAttrsCallback;
+  /**
+   * 图例值和后面的间隔，可以控制和 RadioIcon 的间距
+   * @type {number}
+   */
+  spacing?: number;
+}
+
+export interface LegendRadio {
+  /**
+   * radio 的配置项
+   * @type {ShapeAttrs}
+   */
+  style?: ShapeAttrs;
 }
 
 export interface LegendMarkerCfg {

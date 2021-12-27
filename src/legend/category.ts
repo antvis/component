@@ -1,7 +1,14 @@
 import { IGroup } from '@antv/g-base';
 import { clamp, deepMix, each, filter, get, mix, isNumber, isFunction } from '@antv/util';
 import { IList } from '../interfaces';
-import { CategoryLegendCfg, LegendPageNavigatorCfg, LegendItemNameCfg, LegendMarkerCfg, ListItem } from '../types';
+import {
+  CategoryLegendCfg,
+  LegendPageNavigatorCfg,
+  LegendItemNameCfg,
+  LegendMarkerCfg,
+  ListItem,
+  LegendRadio,
+} from '../types';
 import { ellipsisLabel } from '../util/label';
 import { getMatrixByAngle, getMatrixByTranslate } from '../util/matrix';
 import { getStatesStyle } from '../util/state';
@@ -36,7 +43,7 @@ const textStyle = {
   textAlign: 'start',
   textBaseline: 'middle',
   fontFamily: Theme.fontFamily,
-  fontWeight: "normal",
+  fontWeight: 'normal',
   lineHeight: 12,
 };
 
@@ -64,6 +71,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
       maxWidth: null,
       maxHeight: null,
       marker: {},
+      radio: null,
       items: [],
       itemStates: {},
       itemBackground: {},
@@ -92,7 +100,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
         },
         pageNavigator: DEFAULT_PAGE_NAVIGATOR,
         itemName: {
-          spacing: 16, // 如果右边有 value 使用这个间距
+          spacing: 16, // 如果右边有 value 或者 RadioIcon 使用这个间距
           style: textStyle,
         },
         marker: {
@@ -106,6 +114,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
           alignRight: false, // 只有itemWidth 不为 null 时此属性有效
           formatter: null,
           style: textStyle,
+          spacing: 6, // 如果右边有 RadioIcon 使用在这个间距
         },
         itemStates: {
           active: {
@@ -334,7 +343,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
           if (itemHeight < fontSize) {
             itemHeight = fontSize;
           }
-        })
+        });
       } else if (style) {
         itemHeight = style.fontSize;
       }
@@ -390,10 +399,48 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
       ...textStyle,
       ...(isFunction(style) ? style(item, index, this.getItems()) : style),
     };
+
     return this.addShape(container, {
       type: 'text',
       id: this.getElementId(`item-${item.id}-${textName}`),
       name: `legend-item-${textName}`,
+      attrs,
+    });
+  }
+
+  private drawRadio(container: IGroup, style: LegendRadio, item: ListItem, itemHeight: number, x: number) {
+    const r = itemHeight / 2;
+    const lineWidth = (r * 3.6) / 8;
+    const [x0, y0] = [x + r, itemHeight / 2 - r];
+    const [x1, y1] = [x0 + r, y0 + r];
+    const [x2, y2] = [x0, y1 + r];
+    const [x3, y3] = [x, y0 + r];
+    const { showRadio } = item;
+    const attrs = {
+      path: [
+        ['M', x0, y0],
+        ['A', r, r, 0, 0, 1, x1, y1],
+        ['L', x1 - lineWidth, y1],
+        ['L', x1, y1],
+        ['A', r, r, 0, 0, 1, x2, y2],
+        ['L', x2, y2 - lineWidth],
+        ['L', x2, y2],
+        ['A', r, r, 0, 0, 1, x3, y3],
+        ['L', x3 + lineWidth, y3],
+        ['L', x3, y3],
+        ['A', r, r, 0, 0, 1, x0, y0],
+        ['L', x0, y0 + lineWidth],
+      ],
+      stroke: '#000000',
+      fill: '#ffffff',
+      ...style,
+      opacity: showRadio ? 0.45 : 0,
+    };
+
+    return this.addShape(container, {
+      type: 'path',
+      id: this.getElementId(`item-${item.id}-radio`),
+      name: 'legend-item-radio',
       attrs,
     });
   }
@@ -422,6 +469,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     const itemName = this.get('itemName');
     const itemValue = this.get('itemValue');
     const itemBackground = this.get('itemBackground');
+    const radio = this.get('radio');
     const itemWidth = this.getLimitItemWidth();
 
     let curX = 0; // 记录当前 x 的位置
@@ -446,6 +494,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
       }
       curX = nameShape.getBBox().maxX + itemName.spacing;
     }
+
     if (itemValue) {
       const valueShape = this.drawItemText(subGroup, 'value', itemValue, item, itemHeight, curX, index);
       if (itemWidth) {
@@ -459,7 +508,13 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
           ellipsisLabel(true, valueShape, clamp(itemWidth - curX, 0, itemWidth));
         }
       }
+      curX = valueShape.getBBox().maxX + itemValue.spacing;
     }
+
+    if (radio) {
+      this.drawRadio(subGroup, radio, item, itemHeight, curX);
+    }
+
     // 添加透明的背景，便于拾取和包围盒计算
     if (itemBackground) {
       const bbox = subGroup.getBBox();
@@ -722,13 +777,13 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     const translate =
       layout === 'horizontal'
         ? {
-          x: 0,
-          y: pageHeight * (1 - currentPageIndex),
-        }
+            x: 0,
+            y: pageHeight * (1 - currentPageIndex),
+          }
         : {
-          x: pageWidth * (1 - currentPageIndex),
-          y: 0,
-        };
+            x: pageWidth * (1 - currentPageIndex),
+            y: 0,
+          };
 
     return getMatrixByTranslate(translate);
   }
