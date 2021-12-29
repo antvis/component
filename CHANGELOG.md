@@ -1,3 +1,9 @@
+#### 0.8.21 (2021-12-29)
+
+##### New Features
+
+- **legend:** 添加正反选按钮 ([#259](https://github.com/antvis/component/pull/259)) ([2e8c7563](https://github.com/antvis/component/commit/2e8c7563b5b3e7360613d15c064a0387a23f6ccf))
+
 #### 0.8.20 (2021-11-03)
 
 ##### Bug Fixes
