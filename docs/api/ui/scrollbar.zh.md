@@ -19,7 +19,7 @@ import { Scrollbar } from '@antv/gui';
 | ---------- | -------------------- | --------------------------------------------------- | ---------- |
 | orient     | 方向                 | <code>horizontal &#124; vertical </code>            | `vertical` |
 | width      | 宽度                 | <code>number</code>                                 | `[]`       |
-| disabled   | 高度                 | <code>number<code>                                  | `[]`       |
+| height     | 高度                 | <code>number<code>                                  | `[]`       |
 | value      | 值                   | <code>number<code> ∈ [0, 1]                         | `0`        |
 | min        | 可滚动范围的值的下限 | <code>number<code> ∈ [0, 1)                         | `0`        |
 | max        | 可滚动范围的值的上限 | <code>number<code> ∈ (min, 1]                       | `1`        |

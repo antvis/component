@@ -19,7 +19,7 @@ import { Scrollbar } from '@antv/gui';
 | ---------- | -------------------------------------------------- | --------------------------------------------------- | ---------- |
 | orient     | The orientation of scrollbar                       | <code>horizontal &#124; vertical </code>            | `vertical` |
 | width      | Width                                              | <code>number</code>                                 | `[]`       |
-| disabled   | Height                                             | <code>number<code>                                  | `[]`       |
+| height     | Height                                             | <code>number<code>                                  | `[]`       |
 | value      | 值                                                 | <code>number<code> ∈ [0, 1]                         | `0`        |
 | min        | The lower limit of values of the scrollable range. | <code>number<code> ∈ [0, 1)                         | `1`        |
 | max        | The upper limit of values of the scrollable range. | <code>number<code> ∈ (min, 1]                       | `0`        |
