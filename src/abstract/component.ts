@@ -65,7 +65,7 @@ abstract class Component<T extends ComponentCfg = ComponentCfg> extends Base imp
    * @param {object} cfg 更新属性
    */
   public update(cfg: Partial<T>) {
-    const defaultCfg = this.get('defaultCfg');
+    const defaultCfg = this.get('defaultCfg') || {};
     each(cfg, (value, name) => {
       const originCfg = this.get(name);
       let newCfg = value;
