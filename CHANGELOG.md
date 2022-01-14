@@ -1,3 +1,14 @@
+#### 0.8.22 (2022-01-14)
+
+##### Chores
+
+- update g-base version ([#258](https://github.com/antvis/component/pull/258)) ([7d27acfe](https://github.com/antvis/component/commit/7d27acfe0e3a0d4fd0b19f9b018fd86c600bc6d2))
+
+##### Bug Fixes
+
+- **component:** set default value for defaultCfg ([#253](https://github.com/antvis/component/pull/253)) ([5372709d](https://github.com/antvis/component/commit/5372709daf740b17d711654a027e5d0dceeaf1c0))
+- **legend:** 修复图例分页数量超过 100 后文字被遮挡 ([#254](https://github.com/antvis/component/pull/254)) ([bbaae5c0](https://github.com/antvis/component/commit/bbaae5c0f050171ceab358025da3453a546de93e))
+
 #### 0.8.21 (2021-12-29)
 
 ##### New Features
