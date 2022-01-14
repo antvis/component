@@ -61,7 +61,7 @@
   "dependencies": {
     "@antv/color-util": "^2.0.3",
     "@antv/dom-util": "~2.0.1",
-    "@antv/g-base": "0.5.6",
+    "@antv/g-base": "^0.5.9",
     "@antv/matrix-util": "^3.1.0-beta.1",
     "@antv/path-util": "~2.0.7",
     "@antv/scale": "~0.3.1",
