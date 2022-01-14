@@ -27,7 +27,10 @@ describe('test category legend', () => {
     { id: '5', name: '555', value: '5', marker },
     { id: '6', name: '666', value: '6', marker },
     { id: '7', name: '777555224', value: '7', marker },
-  ]
+  ];
+  for (let i = 8; i < 20000; i++) {
+    moreItems.push({ id: `${i}`, name: `legend-${i}`, value: `${i}`, marker });
+  }
 
   describe('test horizontal legend', () => {
     const container = canvas.addGroup();

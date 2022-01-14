@@ -1,4 +1,4 @@
-import { IGroup } from '@antv/g-base';
+import { IGroup, IShape } from '@antv/g-base';
 import { clamp, deepMix, each, filter, get, mix, isNumber, isFunction } from '@antv/util';
 import { IList } from '../interfaces';
 import {
@@ -47,6 +47,15 @@ const textStyle = {
   lineHeight: 12,
 };
 
+const RIGHT_ARROW_NAME = 'navigation-arrow-right';
+const LEFT_ARROW_NAME = 'navigation-arrow-left';
+
+const ROTATE_MAP = {
+  right: (90 * Math.PI) / 180,
+  left: ((360 - 90) * Math.PI) / 180,
+  up: 0,
+  down: (180 * Math.PI) / 180,
+};
 class Category extends LegendBase<CategoryLegendCfg> implements IList {
   private currentPageIndex = 1;
   private totalPagesCnt = 1;
@@ -678,7 +687,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     const leftArrow = this.drawArrow(
       subGroup,
       currentPoint,
-      'navigation-arrow-left',
+      LEFT_ARROW_NAME,
       layout === 'horizontal' ? 'up' : 'left',
       size,
       arrowStyle
@@ -705,7 +714,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     const rightArrow = this.drawArrow(
       subGroup,
       currentPoint,
-      'navigation-arrow-right',
+      RIGHT_ARROW_NAME,
       layout === 'horizontal' ? 'down' : 'right',
       size,
       arrowStyle
@@ -722,15 +731,12 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     const text = `${this.currentPageIndex}/${this.totalPagesCnt}`;
     const textShape = navigation ? navigation.getChildren()[1] : this.getElementByLocalId('navigation-text');
     const leftArrow = navigation
-      ? navigation.findById(this.getElementId('navigation-arrow-left'))
-      : this.getElementByLocalId('navigation-arrow-left');
+      ? navigation.findById(this.getElementId(LEFT_ARROW_NAME))
+      : this.getElementByLocalId(LEFT_ARROW_NAME);
     const rightArrow = navigation
-      ? navigation.findById(this.getElementId('navigation-arrow-right'))
-      : this.getElementByLocalId('navigation-arrow-right');
-    const origBBox = textShape.getBBox();
+      ? navigation.findById(this.getElementId(RIGHT_ARROW_NAME))
+      : this.getElementByLocalId(RIGHT_ARROW_NAME);
     textShape.attr('text', text);
-    const newBBox = textShape.getBBox();
-    textShape.attr('x', textShape.attr('x') - (newBBox.width - origBBox.width) / 2);
     // 更新 left-arrow marker
     leftArrow.attr('opacity', this.currentPageIndex === 1 ? inactiveOpacity : opacity);
     leftArrow.attr('fill', this.currentPageIndex === 1 ? inactiveFill : fill);
@@ -739,6 +745,12 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     rightArrow.attr('opacity', this.currentPageIndex === this.totalPagesCnt ? inactiveOpacity : opacity);
     rightArrow.attr('fill', this.currentPageIndex === this.totalPagesCnt ? inactiveFill : fill);
     rightArrow.attr('cursor', this.currentPageIndex === this.totalPagesCnt ? 'not-allowed' : 'pointer');
+    // 更新位置
+    let cursorX = leftArrow.getBBox().maxX + 2;
+    textShape.attr('x', cursorX);
+    cursorX += textShape.getBBox().width + 2;
+    this.updateArrowPath(rightArrow, { x: cursorX, y: 0 });
+
   }
 
   private drawArrow(
@@ -750,25 +762,32 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     style?: LegendPageNavigatorCfg['marker']['style']
   ) {
     const { x, y } = currentPoint;
-    const rotateMap = {
-      right: (90 * Math.PI) / 180,
-      left: ((360 - 90) * Math.PI) / 180,
-      up: 0,
-      down: (180 * Math.PI) / 180,
-    };
     const shape = this.addShape(group, {
       type: 'path',
       id: this.getElementId(name),
       name,
       attrs: {
+        size,
+        direction,
         path: [['M', x + size / 2, y], ['L', x, y + size], ['L', x + size, y + size], ['Z']],
         cursor: 'pointer',
         ...style,
       },
     });
-    shape.attr('matrix', getMatrixByAngle({ x: x + size / 2, y: y + size / 2 }, rotateMap[direction]));
+    shape.attr('matrix', getMatrixByAngle({ x: x + size / 2, y: y + size / 2 }, ROTATE_MAP[direction]));
 
     return shape;
+  }
+
+  /**
+   * 更新分页器 arrow 组件
+   */
+  private updateArrowPath(arrow: IShape, point: { x: number; y: number }): void {
+    const { x, y } = point;
+    const { size, direction } = arrow.attr();
+    let matrix = getMatrixByAngle({ x: x + size / 2, y: y + size / 2 }, ROTATE_MAP[direction]);
+    arrow.attr('path', [['M', x + size / 2, y], ['L', x, y + size], ['L', x + size, y + size], ['Z']]);
+    arrow.attr('matrix', matrix);
   }
 
   private getCurrentNavigationMatrix() {
