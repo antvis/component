@@ -1,3 +1,15 @@
+#### 0.8.24 (2022-01-18)
+
+##### New Features
+
+- legend radio 支持 tip 配置 & tooltip 支持 dom id 配置 ([0f46d32d](https://github.com/antvis/component/commit/0f46d32dc7f6264bdf0266f7e6ab4141a99c5bdf))
+
+#### 0.8.23 (2022-01-18)
+
+##### Bug Fixes
+
+- **legend:** 修复 legend radio 设置错误 ([#262](https://github.com/antvis/component/pull/262)) ([971a8bec](https://github.com/antvis/component/commit/971a8becbc699a33472725508b74abb2324b4874))
+
 #### 0.8.22 (2022-01-14)
 
 ##### Chores
