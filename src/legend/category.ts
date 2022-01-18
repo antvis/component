@@ -417,8 +417,10 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     });
   }
 
-  private drawRadio(container: IGroup, style: LegendRadio, item: ListItem, itemHeight: number, x: number) {
-    const r = itemHeight / 2;
+  private drawRadio(container: IGroup, radioCfg: LegendRadio, item: ListItem, itemHeight: number, x: number) {
+    const style = radioCfg.style || {};
+    // 以用户设置的 r 为主
+    const r = style.r ?? itemHeight / 2;
     const lineWidth = (r * 3.6) / 8;
     const [x0, y0] = [x + r, itemHeight / 2 - r];
     const [x1, y1] = [x0 + r, y0 + r];

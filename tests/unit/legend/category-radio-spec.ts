@@ -1,5 +1,6 @@
 import { Canvas } from '@antv/g-canvas';
 import CategoryLegend from '../../../src/legend/category';
+import { LegendRadio } from '../../../src/types';
 
 function createMountedDiv() {
   const div = document.createElement('div');
@@ -65,23 +66,45 @@ describe('分类图例的正反选功能', () => {
   });
 
   test('radio = {} 覆盖除了 opacity 之外的样式', () => {
+    const radioCfg: LegendRadio = {
+      style: {
+        opacity: 1,
+        fill: 'red',
+        stroke: 'blue',
+      }
+    }
     const legend = renderLegend({
+      itemHeight: 16,
       items: [
         { name: 'a', value: 123, marker: { symbol: 'square', style: { r: 4, fill: '#5B8FF9' } } },
         { name: 'b', value: 223, marker: { symbol: 'square', style: { r: 4, fill: '#5AD8A6' } }, showRadio: true },
         { name: 'c', value: 323, marker: { symbol: 'square', style: { r: 4, fill: '#5D7092' } } },
       ],
-      radio: {
-        opacity: 1,
-        fill: 'red',
-        stroke: 'blue',
-      },
+      radio: radioCfg,
     });
 
     const [radio] = legend.getElementsByName('legend-item-radio');
     expect(radio.attr('stroke')).toBe('blue');
     expect(radio.attr('fill')).toBe('red');
     expect(radio.attr('opacity')).toBe(0);
+    expect(radio.attr('path')[1][1]).toBe(8);
+
+    // 覆盖 itemHeight，设置 radio.r
+    const legend1 = renderLegend({
+      itemHeight: 16,
+      items: [
+        { name: 'a', value: 123, marker: { symbol: 'square', style: { r: 4, fill: '#5B8FF9' } } },
+        { name: 'b', value: 223, marker: { symbol: 'square', style: { r: 4, fill: '#5AD8A6' } }, showRadio: true },
+        { name: 'c', value: 323, marker: { symbol: 'square', style: { r: 4, fill: '#5D7092' } } },
+      ],
+      radio: {
+        style: {
+          r: 6,
+        }
+      },
+    });
+    const [radio1] = legend1.getElementsByName('legend-item-radio');
+    expect(radio1.attr('path')[1][1]).toBe(6);
   });
 
   test('radio 和 itemValue 的默认间距是 6', () => {
