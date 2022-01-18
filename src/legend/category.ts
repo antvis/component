@@ -448,12 +448,14 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
       opacity: showRadio ? 0.45 : 0,
     };
 
-    return this.addShape(container, {
+    const radioShape = this.addShape(container, {
       type: 'path',
       id: this.getElementId(`item-${item.id}-radio`),
       name: 'legend-item-radio',
       attrs,
     });
+    radioShape.set('tip', radioCfg.tip);
+    return radioShape;
   }
 
   // 绘制图例项

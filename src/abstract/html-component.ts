@@ -1,7 +1,7 @@
 import { createDom, modifyCSS } from '@antv/dom-util';
 import { isNil, isString, deepMix, each, hasKey } from '@antv/util';
 import { BBox, ComponentCfg, HtmlComponentCfg } from '../types';
-import { clearDom, createBBox, hasClass} from '../util/util';
+import { clearDom, createBBox, hasClass } from '../util/util';
 import Component from './component';
 
 abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends Component<T> {
@@ -106,6 +106,9 @@ abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends 
         this.set('parent', parent);
       }
       parent.appendChild(container);
+      if (this.get('containerId')) {
+        container.setAttribute('id', this.get('containerId'));
+      }
       this.set('container', container);
     } else if (isString(container)) {
       // 用户传入的 id, 作为 container
@@ -169,7 +172,7 @@ abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends 
    * @protected
    * 初始化事件
    */
-  protected initEvent() {}
+  protected initEvent() { }
 
   /**
    * @protected
@@ -185,7 +188,7 @@ abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends 
    * @protected
    * 清理事件
    */
-  protected removeEvent() {}
+  protected removeEvent() { }
 
   protected updateInner(cfg) {
     // 更新样式
@@ -196,7 +199,7 @@ abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends 
     // 只要属性发生变化，都调整一些位置
     this.resetPosition();
   }
-  protected resetPosition() {};
+  protected resetPosition() { };
 }
 
 export default HtmlComponent;
