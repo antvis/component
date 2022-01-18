@@ -820,12 +820,19 @@ export interface LegendItemValueCfg {
   spacing?: number;
 }
 
+/**
+ * radio 的配置项
+ */
 export interface LegendRadio {
   /**
-   * radio 的配置项
+   * radio 样式
    * @type {ShapeAttrs}
    */
   style?: ShapeAttrs;
+  /**
+   * radio 的提示信息
+   */
+  tip?: string;
 }
 
 export interface LegendMarkerCfg {
@@ -875,6 +882,11 @@ export interface LegendPageNavigatorCfg {
 
 export type TooltipPosition = 'top' | 'left' | 'right' | 'bottom' | 'auto';
 export interface TooltipCfg extends HtmlComponentCfg {
+  /**
+   * DOM 节点的 id
+   * @type {string}
+   */
+  containerId?: string;
   /**
    * 位置 x
    * @type {number}
