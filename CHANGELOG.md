@@ -1,3 +1,9 @@
+#### 0.8.23 (2022-01-18)
+
+##### Bug Fixes
+
+- **legend:** 修复 legend radio 设置错误 ([c81af91f](https://github.com/antvis/component/commit/c81af91f779e36ad3b69dc3682d34ec0613a8418))
+
 #### 0.8.22 (2022-01-14)
 
 ##### Chores
