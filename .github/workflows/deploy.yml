@@ -1,6 +1,7 @@
 name: Site Deploy
 
 on:
+  workflow_dispatch:
   push:
     branches: [master]
 
@@ -8,10 +9,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 12
+      - uses: actions/checkout@v2
       - run: yarn install
       - run: npm run lint
 
@@ -19,11 +17,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 12
-      - run: npm install
+      - uses: actions/checkout@v2
+      - run: yarn install
       - run: npm run site:build
       - run: |
           cd public
