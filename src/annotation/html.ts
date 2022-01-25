@@ -1,5 +1,5 @@
 import { createDom, getOuterHeight, getOuterWidth, modifyCSS } from '@antv/dom-util';
-import { isElement, isFunction, isString } from '@antv/util';
+import { isElement, isFunction, isNumber, isString } from '@antv/util';
 import HtmlComponent from '../abstract/html-component';
 import { ILocation } from '../interfaces';
 import { HtmlAnnotationCfg, PointLocationCfg } from '../types';
@@ -33,8 +33,15 @@ export default class HtmlAnnotation extends HtmlComponent<HtmlAnnotationCfg> imp
 
     if (isElement(rst)) {
       container.appendChild(rst as HTMLElement);
-    } else if (isString(rst)) {
-      container.appendChild(createDom(rst as string));
+    } else if (isString(rst) || isNumber(rst)) {
+      let dom;
+      try {
+        dom = createDom(`${rst}` as string);
+      } catch (error) {
+        dom = createDom(`<div>${rst}</div>`);
+      }
+
+      container.appendChild(dom);
     }
 
     this.resetPosition();

@@ -1042,7 +1042,7 @@ export interface HtmlAnnotationCfg extends HtmlComponentCfg {
   /** Y 方向对齐，默认 top */
   alignY?: 'top' | 'middle' | 'bottom';
   /** 自定义 html */
-  html: string | HTMLElement | ((container: HTMLElement) => void | string | HTMLElement);
+  html: string | number | HTMLElement | ((container: HTMLElement) => void | string | number | HTMLElement);
   /** zIndex 设置 */
   zIndex?: number;
 }

@@ -117,6 +117,37 @@ describe('html annotation /w callback', () => {
     expect(container.innerHTML).toEqual(htmlStr);
   });
 
+  it('createDom', () => {
+    html.update({
+      x: 400,
+      y: 300,
+      html: '\\n',
+    });
+    html.render();
+    let container = parent.children[0] as HTMLElement;
+    expect(container.innerHTML).toBe('\\n');
+    expect(container.innerText).toBe('\\n');
+
+    html.update({
+      x: 400,
+      y: 300,
+      html: '\n',
+    });
+    html.render();
+    container = parent.children[0] as HTMLElement;
+    expect(container.innerHTML).toBe(`<div>\n</div>`);
+    expect(container.innerText).toBe('');
+
+    html.update({
+      x: 400,
+      y: 300,
+      html: 123,
+    });
+    html.render();
+    container = parent.children[0] as HTMLElement;
+    expect(container.innerHTML).toBe('123');
+  });
+
   it('destroy', () => {
     html.destroy();
     expect(html.destroyed).toBe(true);
