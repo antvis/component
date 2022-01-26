@@ -34,14 +34,10 @@ export default class HtmlAnnotation extends HtmlComponent<HtmlAnnotationCfg> imp
     if (isElement(rst)) {
       container.appendChild(rst as HTMLElement);
     } else if (isString(rst) || isNumber(rst)) {
-      let dom;
-      try {
-        dom = createDom(`${rst}` as string);
-      } catch (error) {
-        dom = createDom(`<div>${rst}</div>`);
+      const dom = createDom(`${rst}` as string);
+      if (dom) {
+        container.appendChild(dom);
       }
-
-      container.appendChild(dom);
     }
 
     this.resetPosition();

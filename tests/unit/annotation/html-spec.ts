@@ -135,7 +135,17 @@ describe('html annotation /w callback', () => {
     });
     html.render();
     container = parent.children[0] as HTMLElement;
-    expect(container.innerHTML).toBe(`<div>\n</div>`);
+    expect(container.innerHTML).toBe('');
+    expect(container.innerText).toBe('');
+
+    html.update({
+      x: 400,
+      y: 300,
+      html: '',
+    });
+    html.render();
+    container = parent.children[0] as HTMLElement;
+    expect(container.innerHTML).toBe('');
     expect(container.innerText).toBe('');
 
     html.update({
