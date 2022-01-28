@@ -88,8 +88,8 @@ export function getAreaLineY(data: number[], height: number): number {
   const y = new Linear({
     values: data,
   });
-
-  const lineY = Math.max(0, y.min);
+  // 当曲线全部为负数时，取最大值，当曲线全部为正数时，取最小值，当曲线有正有负，则取零点
+  const lineY = y.max < 0 ? y.max : Math.max(0, y.min);
   return height - y.scale(lineY) * height;
 }
 
