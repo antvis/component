@@ -1,3 +1,10 @@
+#### 0.8.25 (2022-01-28)
+
+##### Bug Fixes
+
+- **annotation:** 修复 html 组件 html 参数为 数字、空字符串 以及 特殊字符时出现的报错问题 ([#265](https://github.com/antvis/component/pull/265)) ([34db4609](https://github.com/antvis/component/commit/34db46094c1b3211e6e27e9600cf416acf734444))
+- **trend:** trend height 过大 ([#266](https://github.com/antvis/component/pull/266)) ([9a60c279](https://github.com/antvis/component/commit/9a60c279c5d8cb61ef1f230121003de598e38011))
+
 #### 0.8.24 (2022-01-18)
 
 ##### New Features
