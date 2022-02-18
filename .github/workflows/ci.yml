@@ -1,10 +1,9 @@
-name: build
+name: CI
 
-on: [ push, pull_request ]
+on: [push]
 
 jobs:
   build:
-
     runs-on: macos-latest
 
     steps:
@@ -19,7 +18,7 @@ jobs:
         run: |
           npm install
           npm run ci
-      - name: coverall
+      - name: Coveralls
         if: success()
         uses: coverallsapp/github-action@master
         with:
