@@ -1,15 +1,3 @@
-const BABEL_OPTIONS = {
-  presets: [
-    [
-      '@babel/preset-env',
-      {
-        targets: '> 0.25%, not dead',
-      },
-    ],
-  ],
-  plugins: [['@babel/plugin-proposal-decorators', { legacy: true }]],
-};
-
 module.exports = {
   mode: 'production',
   entry: './src/index.ts',
@@ -28,7 +16,6 @@ module.exports = {
         use: [
           {
             loader: 'babel-loader',
-            options: BABEL_OPTIONS,
           },
           {
             loader: 'ts-loader',
@@ -38,15 +25,6 @@ module.exports = {
             },
           },
         ],
-      },
-      {
-        test: /\.js$/,
-        /** bable 只需要处理 node_modules 中的 es6 模块，src 中的交给 ts-loader 即可 */
-        include: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: BABEL_OPTIONS,
-        },
       },
     ],
   },

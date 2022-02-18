@@ -60,7 +60,6 @@
   "devDependencies": {
     "@antv/gatsby-theme-antv": "^1.1.8",
     "@babel/plugin-proposal-decorators": "^7.15.4",
-    "@babel/preset-env": "^7.16.11",
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^12.0.1",
     "@types/jest": "^26.0.20",
@@ -136,7 +135,7 @@
     },
     {
       "path": "dist/gui.min.js",
-      "limit": "350 Kb"
+      "limit": "300 Kb"
     }
   ],
   "author": {
