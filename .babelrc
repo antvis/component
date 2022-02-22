@@ -1,12 +1,19 @@
 {
-  "plugins": [["@babel/plugin-proposal-decorators", { "legacy": true }]],
+  "plugins": [
+    [
+      "@babel/transform-runtime",
+      {
+        "helpers": false,
+        "regenerator": true
+      }
+    ],
+    ["@babel/plugin-proposal-decorators", { "legacy": true }]
+  ],
   "presets": [
     [
-      "babel-preset-gatsby",
+      "@babel/preset-env",
       {
-        "targets": {
-          "browsers": [">0.25%", "not dead"]
-        }
+        "targets": "> 0.25%, not dead"
       }
     ]
   ]
