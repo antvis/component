@@ -1,3 +1,24 @@
+const BABEL_OPTIONS = {
+  plugins: [
+    [
+      '@babel/transform-runtime',
+      {
+        helpers: false,
+        regenerator: true,
+      },
+    ],
+    ['@babel/plugin-proposal-decorators', { legacy: true }],
+  ],
+  presets: [
+    [
+      '@babel/preset-env',
+      {
+        targets: '> 0.25%, not dead',
+      },
+    ],
+  ],
+};
+
 module.exports = {
   mode: 'production',
   entry: './src/index.ts',
@@ -16,6 +37,7 @@ module.exports = {
         use: [
           {
             loader: 'babel-loader',
+            options: BABEL_OPTIONS,
           },
           {
             loader: 'ts-loader',
@@ -25,6 +47,14 @@ module.exports = {
             },
           },
         ],
+      },
+      {
+        test: /\.js?$/,
+        include: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: BABEL_OPTIONS,
+        },
       },
     ],
   },

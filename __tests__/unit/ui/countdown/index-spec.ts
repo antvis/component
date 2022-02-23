@@ -44,9 +44,6 @@ describe('countdown', () => {
     expect(value.format).toBe('YYYY-MM-DD HH:mm:ss');
     expect(value.timestamp).toBe(nowDate);
     expect(value.timestamp).toBe(nowDate);
-    setTimeout(() => {
-      expect(get(countdown, 'valueShape.attributes.text')).toMatch(/^(\d{2}-){2}\d{2}\s(\d{2}:){2}\d{2}$/);
-    }, 1000);
   });
 
   test('onFinish countdown', async () => {
