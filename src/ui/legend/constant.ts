@@ -202,7 +202,6 @@ export const CONTINUOUS_DEFAULT_OPTIONS = deepMix({}, LEGEND_BASE_DEFAULT_OPTION
           color: 'white',
           'font-size': '12px',
         },
-        formatter: (value: number) => String(value),
       },
     },
   },
