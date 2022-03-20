@@ -76,6 +76,7 @@ export const POPTIP_STYLE = {
     transform: 'rotate(45deg)',
     'background-color': 'rgba(0, 0, 0)',
     position: 'absolute',
+    'z-index': -1,
   },
   [`.${CLASS_NAME.CONTAINER}[data-position='top']`]: {
     transform: `translate(-50%, calc(-100% - 5px))`,
