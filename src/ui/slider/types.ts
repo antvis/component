@@ -7,7 +7,7 @@ import type {
   ImageProps,
   PathProps,
 } from '../../types';
-import type { MarkerCfg } from '../marker';
+import type { MarkerStyleProps } from '../marker';
 import type { SparklineCfg } from '../sparkline/types';
 
 export type Pair<T> = [T, T];
@@ -36,11 +36,11 @@ export type HandleCfg = {
   /**
    * 手柄图标
    */
-  handleIcon?: MarkerCfg['symbol'] | string;
+  handleIcon?: MarkerStyleProps['symbol'] | string;
   /**
    * 手柄图标样式
    */
-  handleStyle?: MixAttrs<ImageProps | PathProps>;
+  handleStyle?: ShapeAttrs & { radius?: number };
 };
 
 export type SliderCfg = {

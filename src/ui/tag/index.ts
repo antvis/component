@@ -2,15 +2,17 @@ import { Rect, RectStyleProps, Text, TextStyleProps } from '@antv/g';
 import { deepMix } from '@antv/util';
 import { GUI } from '../../core/gui';
 import { getStateStyle as getStyle, normalPadding, getShapeSpace } from '../../util';
-import { Marker, MarkerCfg } from '../marker';
-import type { TagCfg, TagOptions } from './types';
+import { Marker, MarkerStyleProps } from '../marker';
+import type { TagStyleProps, TagOptions } from './types';
 
-export type { TagCfg, TagOptions };
+export type { TagStyleProps, TagOptions };
 
 /**
- * 带文本的 图标组件，支持 iconfont 组件
+ * 带文本、图标的 Tag 组件，支持 iconfont 组件
+ *
+ * 组成元素：Marker + Text + BackgroundRect
  */
-export class Tag extends GUI<Required<TagCfg>> {
+export class Tag extends GUI<Required<TagStyleProps>> {
   /**
    * 标签类型
    */
@@ -24,7 +26,7 @@ export class Tag extends GUI<Required<TagCfg>> {
     };
   }
 
-  private get markerShapeCfg(): MarkerCfg {
+  private get markerShapeCfg(): MarkerStyleProps {
     const { marker } = this.attributes;
     return marker;
   }
@@ -97,12 +99,12 @@ export class Tag extends GUI<Required<TagCfg>> {
   /**
    * 组件的更新
    */
-  public update(cfg?: Partial<TagCfg>) {
+  public update(cfg?: Partial<TagStyleProps>) {
     this.attr(deepMix({}, this.attributes, cfg));
     this.updateBackground();
     this.updateMarker();
     this.updateText();
-    this.autoFit();
+    this.layout();
   }
 
   /**
@@ -152,7 +154,7 @@ export class Tag extends GUI<Required<TagCfg>> {
     this.textShape.attr(this.textShapeCfg);
   }
 
-  private autoFit() {
+  private layout() {
     const { padding, spacing, marker, text, align, verticalAlign } = this.attributes;
     const [top, right, bottom, left] = normalPadding(padding);
     const { size = 0 } = marker;
@@ -202,13 +204,13 @@ export class Tag extends GUI<Required<TagCfg>> {
       const { backgroundStyle, textStyle } = this.attributes;
       this.textShape.attr(getStyle(textStyle, 'active', true));
       this.backgroundShape.attr(backgroundStyle ? getStyle(backgroundStyle, 'active', true) : {});
-      this.autoFit();
+      this.layout();
     });
 
     this.addEventListener('mouseleave', () => {
       this.textShape.attr(this.textShapeCfg);
       this.backgroundShape.attr(this.backgroundShapeCfg);
-      this.autoFit();
+      this.layout();
     });
   }
 }

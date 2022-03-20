@@ -1,4 +1,5 @@
 import { Path, DisplayObject, Group } from '@antv/g';
+import { deepMix } from '@antv/util';
 import type { PathStyleProps, BaseStyleProps } from '@antv/g';
 
 export interface ILinesCfg extends BaseStyleProps {
@@ -12,7 +13,7 @@ export class Lines extends DisplayObject<ILinesCfg> {
   private areasGroup: Group;
 
   constructor({ style, ...rest }: Partial<DisplayObject<ILinesCfg>>) {
-    super({ type: 'lines', style, ...rest });
+    super(deepMix({}, { type: 'lines', style: { width: 0, height: 0 } }, { style, ...rest }));
     this.linesGroup = new Group({
       name: 'lines',
     });

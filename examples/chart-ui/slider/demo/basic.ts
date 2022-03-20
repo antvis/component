@@ -1,7 +1,6 @@
-import { Canvas } from '@antv/g';
+import { Canvas, Rect } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Slider } from '@antv/gui';
-import * as dat from 'dat.gui';
 
 const renderer = new CanvasRenderer({
   enableDirtyRectangleRenderingDebug: false,
@@ -15,6 +14,9 @@ const canvas = new Canvas({
   height: 500,
   renderer,
 });
+// 创建一个包围盒
+const rect = new Rect({ style: { x: 20, y: 20, width: 460, height: 500, stroke: '#dfdfdf', lineWidth: 1 } });
+canvas.appendChild(rect);
 
 const horizontalSlider = new Slider({
   style: {
@@ -24,9 +26,6 @@ const horizontalSlider = new Slider({
     height: 20,
     values: [0.3, 0.7],
     names: ['2020-08-25', '2020-09-12'],
-    handle: {
-      size: 13,
-    },
   },
 });
 
@@ -39,11 +38,8 @@ const verticalSlider = new Slider({
     orient: 'vertical',
     values: [0.3, 0.7],
     names: ['2020-08-25', '2020-09-12'],
-    handle: {
-      size: 13,
-    },
   },
 });
 
-canvas.appendChild(horizontalSlider);
-canvas.appendChild(verticalSlider);
+rect.appendChild(horizontalSlider);
+rect.appendChild(verticalSlider);

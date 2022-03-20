@@ -5,7 +5,8 @@ export const CROSSHAIR_BASE_DEFAULT_STYLE = {
     text: '',
   },
   lineStyle: {
-    stroke: 'gray',
+    stroke: '#416180',
+    strokeOpacity: 0.45,
     lineWidth: 1,
     lineDash: [5, 5],
   },

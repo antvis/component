@@ -29,19 +29,15 @@ describe('statistic', () => {
       title: {
         text: initTitleText,
         textStyle: {
-          default: {
-            fontSize: 40,
-            fill: 'red',
-          },
+          fontSize: 40,
+          fill: 'red',
         },
       },
       value: {
         text: initValueText,
         textStyle: {
-          default: {
-            fontSize: 50,
-            fill: 'pink',
-          },
+          fontSize: 50,
+          fill: 'pink',
         },
       },
       spacing: 30,
@@ -59,16 +55,12 @@ describe('statistic', () => {
     expect(titleText).toBe(initTitleText);
     expect(valueText).toBe(initValueText);
     expect(titleStyle).toEqual({
-      default: {
-        fontSize: 40,
-        fill: 'red',
-      },
+      fontSize: 40,
+      fill: 'red',
     });
     expect(valueStyle).toEqual({
-      default: {
-        fontSize: 50,
-        fill: 'pink',
-      },
+      fontSize: 50,
+      fill: 'pink',
     });
     expect(x).toBe(40);
     expect(y).toBe(50);

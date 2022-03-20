@@ -13,6 +13,14 @@
       "screenshot": ""
     },
     {
+      "filename": "children-switch.ts",
+      "title": {
+        "zh": "带有文字和图标 开关",
+        "en": "With text and icon switch"
+      },
+      "screenshot": ""
+    },
+    {
       "filename": "size-switch.ts",
       "title": {
         "zh": "控制大小 开关",
@@ -25,14 +33,6 @@
       "title": {
         "zh": "按钮控制 开关",
         "en": "Push button control switch"
-      },
-      "screenshot": ""
-    },
-    {
-      "filename": "children-switch.ts",
-      "title": {
-        "zh": "带有文字和图标 开关",
-        "en": "With text and icon switch"
       },
       "screenshot": ""
     }

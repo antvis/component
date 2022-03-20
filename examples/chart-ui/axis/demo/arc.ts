@@ -37,14 +37,24 @@ const arc = new Arc({
       };
     }),
     label: {
-      offset: [0, 20],
+      offset: [0, 14],
       autoHideTickLine: false,
+    },
+    tickLine: {
+      len: 6,
+      style: {
+        default: {
+          lineWidth: 1,
+        },
+      },
     },
     subTickLine: {
       count: 1,
+      len: 4,
       style: {
         default: {
           stroke: 'red',
+          lineWidth: 1,
         },
       },
     },

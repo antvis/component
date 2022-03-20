@@ -1,6 +1,6 @@
 import type { DisplayObject } from '@antv/g';
 import { CustomEvent, Group } from '@antv/g';
-import { clone, deepMix, get, isFunction, isNumber, min, pick } from '@antv/util';
+import { clone, deepMix, get, isFunction, isNumber, min } from '@antv/util';
 import { LegendBase } from './base';
 import { CategoryItem } from './category-item';
 import { getShapeSpace } from '../../util';

@@ -1,5 +1,5 @@
 import type { TextProps, DisplayObjectConfig } from '../../types';
-import type { TagCfg } from '../tag/types';
+import type { TagStyleProps } from '../tag/types';
 
 export type BreadcrumbItem = {
   /** id, 必选 */
@@ -7,7 +7,7 @@ export type BreadcrumbItem = {
   /** 展示的文案 */
   text: string;
   /** 图标 */
-  marker?: TagCfg['marker'];
+  marker?: TagStyleProps['marker'];
 };
 
 export type BreadcrumbCfg = {

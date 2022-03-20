@@ -3,7 +3,7 @@ import { clone, deepMix, minBy, maxBy, get, sortBy, isString, isNumber, isUndefi
 import { vec2 } from '@antv/matrix-util';
 import type { vec2 as Vector } from '@antv/matrix-util';
 import type { PathCommand } from '@antv/g';
-import type { MarkerCfg } from '../marker';
+import type { MarkerStyleProps } from '../marker';
 import type {
   Point,
   TickDatum,
@@ -42,10 +42,10 @@ import { isLabelsOverlap } from './overlap/is-overlap';
 interface IAxisLineCfg {
   style: ShapeAttrs;
   arrow: {
-    start: MarkerCfg & {
+    start: MarkerStyleProps & {
       rotate: number;
     };
-    end: MarkerCfg & {
+    end: MarkerStyleProps & {
       rotate: number;
     };
   };
@@ -227,9 +227,9 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
     // tickLine is undefined | false
     if (isUndefined(tickLine) || !tickLine) {
       return {
-        ...AXIS_BASE_DEFAULT_OPTIONS.style.tickLine,
+        ...AXIS_BASE_DEFAULT_OPTIONS.style!.tickLine,
         len: 0,
-      };
+      } as Required<AxisTickLineCfg>;
     }
     return tickLine as Required<AxisTickLineCfg>;
   }
@@ -360,12 +360,7 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
 
   public init() {
     this.initShape();
-    // 绘制title
-    this.updateTitleShape();
-    // 绘制轴线
-    this.updateAxisLineShape();
-    // 绘制刻度与子刻度以及label
-    this.updateTicksShape();
+    this.update({});
   }
 
   public update(cfg: Partial<T>) {
@@ -452,10 +447,11 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
   private initShape() {
     // 初始化group
     // 标题
+    const dftAxisTitle = AxisBase.defaultOptions.style!.title;
     this.titleShape = new Text({
       name: 'title',
       style: {
-        text: AxisBase.defaultOptions.style.title.content,
+        text: dftAxisTitle ? dftAxisTitle.content ?? '' : '',
       },
     });
     this.appendChild(this.titleShape);
@@ -528,6 +524,11 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
       ...lineStyle,
       fillOpacity: 0,
     });
+    // fixme-later 后续修复
+    const { lineWidth } = this.axisLine.style;
+    if (lineWidth && lineWidth <= 0.5) {
+      this.axisLine.style.lineWidth = 0.51;
+    }
 
     Object.entries(arrow).forEach(([key, { rotate: angle, ...style }]) => {
       const arw = key === 'start' ? this.axisStartArrow : this.axisEndArrow;
@@ -754,6 +755,7 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
   }
 
   /**
+   * todo 需要考虑国际化问题，具体省略规则策略见：https://yuque.antfin.com/antv/cfksca/406601
    * 宽度为 width 时采取何种数字缩写缩略
    */
   private getNumberSimplifyStrategy(width: number) {

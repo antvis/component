@@ -75,6 +75,7 @@ const tooltip = new Tooltip({
       '.tooltip': {
         'border-radius': '5px',
         'background-color': '#232c31',
+        padding: '4px 8px',
         color: '#fff',
       },
     },

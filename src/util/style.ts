@@ -56,9 +56,11 @@ export function getStateStyle<T>(style?: MixAttrs<T>, state?: StyleState, isMerg
  */
 export function applyStyleSheet(element: HTMLElement, style: { [key: string]: Object }): void {
   Object.entries(style).forEach(([selector, styleString]) => {
+    // apply styles to element and children
     [element, ...element.querySelectorAll(selector)]
       .filter((el) => el.matches(selector))
       .forEach((target) => {
+        if (!target) return;
         const temp = target as HTMLElement;
         temp.style.cssText += Object.entries(styleString).reduce((total, currVal) => {
           return `${total}${currVal.join(':')};`;

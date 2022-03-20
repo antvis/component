@@ -1,4 +1,4 @@
 ---
 title: Slider
-order: 6
+order: 4
 ---

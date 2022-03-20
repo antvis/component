@@ -70,7 +70,7 @@ describe('linear', () => {
     // @ts-ignore
     expect(linear.subTickLinesGroup.children.length).toBe(4 * 5);
     // @ts-ignore
-    expect(linear.tickLinesGroup.children[0]!.attr('stroke')).toBe('black');
+    expect(linear.tickLinesGroup.children[0]!.attr('stroke')).toBe('#416180');
     linear.update({
       tickLine: {
         appendTick: true,

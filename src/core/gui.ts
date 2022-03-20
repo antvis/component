@@ -1,6 +1,6 @@
 import { CustomElement } from '@antv/g';
 
-export abstract class GUI<CustomAttr> extends CustomElement<CustomAttr> {
+export abstract class GUI<CustomElementStyleProps> extends CustomElement<CustomElementStyleProps> {
   public static tag: string = 'gui';
 
   connectedCallback(): void {}
@@ -13,9 +13,20 @@ export abstract class GUI<CustomAttr> extends CustomElement<CustomAttr> {
   public abstract init(): void;
 
   /**
+   * 属性发生修改时触发
+   */
+  attributeChangedCallback?<Key extends keyof CustomElementStyleProps>(
+    name: Key,
+    oldValue: CustomElementStyleProps[Key],
+    newValue: CustomElementStyleProps[Key]
+  ): void;
+
+  // 下面的部分是 GUI 自定义的
+
+  /**
    * 组件的更新
    */
-  public abstract update(cfg: Partial<CustomAttr>): void;
+  public abstract update(cfg: Partial<CustomElementStyleProps>): void;
 
   /**
    * 组件的清除

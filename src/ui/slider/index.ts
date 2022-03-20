@@ -5,7 +5,7 @@ import { GUI } from '../../core/gui';
 import { Handle } from './handle';
 import { Sparkline } from '../sparkline';
 import { toPrecision, getShapeSpace, getEventPos, getStateStyle, normalPadding } from '../../util';
-import type { MarkerCfg } from '../marker';
+import type { MarkerStyleProps } from '../marker';
 import type { SparklineCfg } from '../sparkline';
 import type { IHandleCfg } from './handle';
 import type { ShapeAttrs, RectProps } from '../../types';
@@ -27,7 +27,7 @@ export class Slider extends GUI<SliderCfg> {
     style: {
       orient: 'horizontal',
       values: [0, 1],
-      names: ['', ''],
+      names: ['', ''] as Pair<string>,
       min: 0,
       max: 1,
       width: 200,
@@ -38,17 +38,14 @@ export class Slider extends GUI<SliderCfg> {
       padding: [0, 0, 0, 0],
       backgroundStyle: {
         default: {
-          fill: '#fff',
-          stroke: '#e4eaf5',
-          lineWidth: 1,
+          fill: '#416180',
+          fillOpacity: 0.05,
         },
       },
       selectionStyle: {
         default: {
-          fill: '#afc9fb',
-          opacity: 0.5,
-          stroke: '#afc9fb',
-          lineWidth: 1,
+          fill: '#5B8FF9',
+          opacity: 0.15,
         },
         active: {
           fill: '#ccdaf5',
@@ -56,20 +53,23 @@ export class Slider extends GUI<SliderCfg> {
       },
       handle: {
         show: true,
-        formatter: (val: string) => val,
+        formatter: (val: string, value: number) => val,
         spacing: 10,
         textStyle: {
-          fill: '#63656e',
+          fill: '#000',
+          fillOpacity: 0.45,
+          fontSize: 12,
           textAlign: 'center',
           textBaseline: 'middle',
         },
         handleStyle: {
-          stroke: '#c5c5c5',
+          stroke: '#bfbfbf',
           fill: '#fff',
           lineWidth: 1,
+          radius: 2,
         },
       },
-    },
+    } as SliderCfg,
   };
 
   /**
@@ -158,7 +158,7 @@ export class Slider extends GUI<SliderCfg> {
     const { padding, ...args } = sparkline!;
     const [top, right, bottom, left] = normalPadding(padding!);
     const { width, height } = this.availableSpace;
-    const { lineWidth: bkgLW } = this.getStyle('backgroundStyle') as IBackgroundStyleCfg;
+    const { lineWidth: bkgLW = 0 } = this.getStyle('backgroundStyle') as IBackgroundStyleCfg;
     return {
       x: bkgLW / 2 + left,
       y: bkgLW / 2 + top,
@@ -431,13 +431,13 @@ export class Slider extends GUI<SliderCfg> {
     };
   }
 
-  private getHandleIconShapeCfg(handleType: HandleType) {
+  private getHandleIconShapeCfg(handleType: HandleType): IHandleCfg['iconCfg'] {
     const { height: H, orient } = this.attributes as Required<Pick<SliderCfg, 'height' | 'orient'>>;
     const handleCfg = this.getHandleCfg(handleType);
     const { show, handleIcon, handleStyle: style } = handleCfg;
     const cursor = this.getOrientVal(['ew-resize', 'ns-resize']) as Cursor;
     const size = this.getHandleSize(handleType);
-    let tempStyle!: RectProps | MarkerCfg | ShapeAttrs;
+    let tempStyle!: Omit<IHandleCfg['iconCfg'], 'type' | 'orient'>;
     let type!: 'hide' | 'default' | 'symbol';
     if (!show) {
       type = 'hide';
@@ -457,7 +457,7 @@ export class Slider extends GUI<SliderCfg> {
         ...style,
         cursor,
         size,
-      } as ShapeAttrs;
+      };
     } else {
       type = 'symbol';
       tempStyle = {
@@ -465,7 +465,7 @@ export class Slider extends GUI<SliderCfg> {
         cursor,
         size,
         symbol: handleIcon,
-      } as MarkerCfg;
+      } as MarkerStyleProps;
     }
 
     return {
@@ -509,9 +509,9 @@ export class Slider extends GUI<SliderCfg> {
   private getHandleSize(handleType: HandleType) {
     const { size } = this.getHandleCfg(handleType);
     if (size) return size;
-    // 没设置size的话，高度就取height的80%高度，手柄宽度是高度的1/2.4
+    // 没设置 size 的话，高度就取 height + 4 高度，手柄宽度是高度的 1/ 2.4
     const { width, height } = this.attributes;
-    return (this.getOrientVal([height!, width!]) * 0.8) / 2.4;
+    return Math.floor((this.getOrientVal([height!, width!]) + 4) / 2.4);
   }
 
   private getOrientVal<T>([x, y]: Pair<T>): T {

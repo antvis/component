@@ -15,7 +15,9 @@ export abstract class LegendBase<T extends LegendBaseCfg> extends GUI<Required<T
    */
   protected abstract get backgroundShapeCfg(): RectProps;
 
-  // 获取容器内可用空间, 排除掉title的空间
+  /**
+   * 获取容器内可用空间, 排除掉 title 的空间
+   */
   protected get availableSpace() {
     // 连续图例不固定外部大小
     // 容器大小 - padding - title
@@ -34,7 +36,8 @@ export abstract class LegendBase<T extends LegendBaseCfg> extends GUI<Required<T
    * 创建图例标题配置
    */
   protected get titleShapeCfg() {
-    const { title } = this.attributes;
+    let { title } = this.attributes;
+    if (!title) title = { content: '', formatter: () => '' };
     const { content, style, formatter } = title!;
 
     return {
@@ -64,6 +67,11 @@ export abstract class LegendBase<T extends LegendBaseCfg> extends GUI<Required<T
   public update(cfg?: Partial<LegendBaseCfg>) {
     this.titleShape.attr(this.titleShapeCfg);
     this.adjustTitle();
+  }
+
+  public destroy() {
+    this.removeChildren(true);
+    super.destroy();
   }
 
   // 获取对应状态的样式

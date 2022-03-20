@@ -21,9 +21,9 @@ export const TOOLTIP_STYLE = {
       'left 0.4s cubic-bezier(0.23, 1, 0.32, 1), ' +
       'top 0.4s cubic-bezier(0.23, 1, 0.32, 1)',
     'background-color': 'rgba(255, 255, 255, 0.9)',
-    'box-shadow': '0px 0px 10px #aeaeae',
-    'border-radius': '3px',
-    color: 'rgb(87, 87, 87)',
+    'box-shadow': '0 1px 4px 0 rgba(0, 0, 0, 0.2)',
+    'border-radius': '2px',
+    color: 'rgba(0, 0, 0, 0.65)',
     'font-size': '12px',
     // 'font-family': ,
     'line-height': '20px',
@@ -48,10 +48,14 @@ export const TOOLTIP_STYLE = {
     display: 'inline-block',
     'margin-right': '8px',
   },
+  [`.${CLASS_NAME.NAME}`]: {
+    color: 'rgba(0, 0, 0, 0.45)',
+  },
   [`.${CLASS_NAME.VALUE}`]: {
     display: 'inline-block',
     float: 'right',
     'margin-left': '30px',
+    color: 'rgba(0, 0, 0, 0.65)',
   },
   [`.${CLASS_NAME.CROSSHAIR_X}`]: {
     position: 'absolute',

@@ -2,6 +2,7 @@ import { Canvas } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { get } from '@antv/util';
 import { Switch } from '../../../../src';
+import { SIZE_STYLE } from '../../../../src/ui/switch/constant';
 import { createDiv } from '../../../utils';
 
 const renderer = new CanvasRenderer({
@@ -31,13 +32,12 @@ describe('switch', () => {
   canvas.appendChild(switchShape);
 
   test('basic switch', () => {
-    const { x, y, defaultChecked, spacing, textSpacing } = switchShape.attributes;
+    const { x, y, defaultChecked, spacing } = switchShape.attributes;
 
     expect(x).toBe(40);
     expect(y).toBe(50);
     expect(defaultChecked).toBe(false);
     expect(spacing).toBe(2);
-    expect(textSpacing).toBe(8);
     expect(switchShape.getChecked()).toBe(false);
     expect(get(switchShape, 'backgroundShape.attributes.fill')).toBe('#00000040');
     expect(get(switchShape, 'rectStrokeShape.attributes.stroke')).toBe('#00000040');
@@ -55,42 +55,37 @@ describe('switch', () => {
 
   test('size switch', () => {
     expect(get(switchShape, 'backgroundShape.attributes')).toMatchObject({
-      width: 44,
-      height: 22,
+      ...SIZE_STYLE.default.sizeStyle,
       radius: 11,
     });
     expect(get(switchShape, 'handleShape.attributes.width')).toBe(18);
 
     switchShape.update({
       defaultChecked: false,
-      size: 16,
+      size: 'small',
     });
 
     expect(get(switchShape, 'backgroundShape.attributes')).toMatchObject({
-      width: 32,
-      height: 16,
+      ...SIZE_STYLE.small.sizeStyle,
       radius: 8,
     });
     expect(get(switchShape, 'sizeStyle')).toEqual({
-      width: 32,
-      height: 16,
+      ...SIZE_STYLE.small.sizeStyle,
       radius: 8,
     });
 
     switchShape.update({
       defaultChecked: false,
-      size: 0,
+      size: 'mini',
     });
 
     expect(get(switchShape, 'backgroundShape.attributes')).toMatchObject({
-      width: 44,
-      height: 22,
-      radius: 11,
+      ...SIZE_STYLE.mini.sizeStyle,
+      radius: 7,
     });
     expect(get(switchShape, 'sizeStyle')).toEqual({
-      width: 44,
-      height: 22,
-      radius: 11,
+      ...SIZE_STYLE.mini.sizeStyle,
+      radius: 7,
     });
   });
 
@@ -208,21 +203,21 @@ describe('switch', () => {
       height: 18,
       radius: 9,
     });
-    expect(get(childrenSwitchShape, ['childrenShape', '0', 'attributes', 'x'])).toBe(8);
+    expect(get(childrenSwitchShape, ['childrenShape', '0', 'attributes', 'x'])).toBe(7);
 
+    const spacing = 4;
     childrenSwitchShape.update({
       checked: true,
-      spacing: 4,
-      textSpacing: 20,
+      spacing,
     });
     expect(get(childrenSwitchShape, 'handleShape.attributes')).toMatchObject({
       x: 4,
       y: 4,
-      width: 14,
-      height: 14,
-      radius: 7,
+      width: 22 - spacing * 2,
+      height: 22 - spacing * 2,
+      radius: (22 - spacing * 2) / 2,
     });
-    expect(get(childrenSwitchShape, ['childrenShape', '0', 'attributes', 'x'])).toBe(20);
+    expect(get(childrenSwitchShape, ['childrenShape', '0', 'attributes', 'x'])).toBe(Math.floor(22 / 3));
 
     expect(get(childrenSwitchShape, ['backgroundShape', 'children', '1', 'config', 'name'])).toBe('checkedChildren');
 

@@ -1,6 +1,8 @@
-import { Canvas } from '@antv/g';
+import { Canvas, Rect } from '@antv/g';
+import { deepMix } from '@antv/util';
+import { Band as BandScale } from '@antv/scale';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
-import { Linear } from '@antv/gui';
+import { Linear as LinearAxis, wrapper } from '@antv/gui';
 
 const renderer = new CanvasRenderer({
   enableDirtyRectangleRenderingDebug: false,
@@ -15,60 +17,74 @@ const canvas = new Canvas({
   renderer,
 });
 
-function createTickData(data, p1 = 0, p2 = 0) {
-  return data.map((d, idx) => {
-    const step = 1 / (data.length - p1);
-    return {
-      value: step * (idx + p2),
-      text: d,
-      state: 'default',
-      id: String(idx),
-    };
-  });
-}
+// 创建一个包围盒
+const $rect = wrapper(Rect, { x: 20, y: 20, width: 460, height: 500 });
+$rect.style('stroke', '#dfdfdf').style('lineWidth', 1);
+const rect = $rect.node();
+canvas.appendChild(rect);
 
-function createAxis(startPos, endPos, tickData, label = {}, tickLine = {}, furtherOption = {}, param = []) {
-  canvas.appendChild(
-    new Linear({
-      style: {
+function createAxis(startPos = [0, 0], endPos = [0, 0], options = {}) {
+  const axis = new LinearAxis({
+    style: deepMix(
+      {
+        // @ts-ignore
         startPos,
+        // @ts-ignore
         endPos,
-        ticks: createTickData(tickData, ...param),
-        axisLine: {
-          style: {
-            stroke: '#cdcdcd',
-          },
-        },
         label: {
           rotate: 0,
           autoHide: false,
           autoEllipsis: true,
+          // 向下偏移
           offset: [0, 15],
-          alignTick: true,
-          style: {
-            default: {
-              fill: '#818181',
-            },
-          },
-          ...label,
         },
-        tickLine: {
-          len: 5,
-          style: { default: { stroke: '#cdcdcd' } },
-          ...tickLine,
-        },
-        ...furtherOption,
       },
-    })
-  );
+      options
+    ),
+  });
+  rect.appendChild(axis);
+
+  return axis;
 }
 
-const data1 = ['2013', '2014', '2015', '2016', '2017'];
-const data2 = ['2015-01-04', '2015-08-02', '2016-02-28', '2016-09-25', '2017-04-23', '2017-11-19', '2018-06-17'];
-const data3 = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-const data4 = ['1991', '1992', '1993', '1994', '1995', '1996', '1997', '1998', '1999'];
+// 创建一个分类轴
+const paddingOuter = 16;
+const bandScale = new BandScale({
+  domain: new Array(6),
+  range: [0, 350 - paddingOuter * 2],
+  paddingOuter: 0,
+});
+let value = paddingOuter;
+const ticks = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'];
+const data = ticks.map((d, idx) => {
+  const v = {
+    value: value / 350,
+    text: d,
+    state: 'default',
+    id: String(idx),
+  };
+  value += bandScale.getStep();
+  return v;
+});
 
-createAxis([50, 50], [400, 50], data1, { alignTick: false }, { len: 0 }, {});
-createAxis([50, 100], [600, 100], data2, {}, {}, {}, [1]);
-createAxis([50, 150], [400, 150], data3, { alignTick: false }, { appendTick: true }, {}, [0]);
-createAxis([50, 200], [400, 200], data4, {}, {}, {}, [-1, 1]);
+// 创建横坐标，从左到右
+createAxis([50, 50], [400, 50], { ticks: data });
+createAxis([50, 100], [400, 100], { ticks: data, title: { content: '日期', offset: [0, 36] } });
+
+// 设置 label.alignTick
+const bandScale2 = new BandScale({ domain: ticks, range: [0, 1], paddingOuter: 0 });
+const data2 = bandScale2.getDomain().map((d, idx) => {
+  const v = {
+    value: bandScale2.map(d),
+    text: d,
+    state: 'default',
+    id: String(idx),
+  };
+  return v;
+});
+createAxis([50, 180], [400, 180], {
+  ticks: data2,
+  tickLine: { appendTick: true },
+  label: { alignTick: false },
+  title: { content: '日期', offset: [0, 36] },
+});

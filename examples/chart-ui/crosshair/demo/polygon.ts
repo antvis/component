@@ -23,7 +23,7 @@ const polygon = new PolygonCrosshair({
     center: [cx, cy],
     sides: 8,
     lineStyle: {
-      lineWidth: 2,
+      lineWidth: 1,
     },
   },
 });

@@ -69,14 +69,6 @@ module.exports = {
         },
       },
       {
-        slug: 'basic-ui',
-        icon: 'gallery',
-        title: {
-          zh: '基础 UI',
-          en: 'Basic UI',
-        },
-      },
-      {
         slug: 'chart-ui',
         icon: 'gallery',
         title: {
@@ -85,11 +77,27 @@ module.exports = {
         },
       },
       {
+        slug: 'basic-ui',
+        icon: 'gallery',
+        title: {
+          zh: '基础 UI',
+          en: 'Basic UI',
+        },
+      },
+      {
         slug: 'others',
         icon: 'other',
         title: {
           zh: '其它 UI',
           en: 'Other UI',
+        },
+      },
+      {
+        slug: 'wip',
+        icon: 'other',
+        title: {
+          zh: '建设中',
+          en: 'Working in progress',
         },
       },
     ],

@@ -1,4 +1,4 @@
-import { deepMix } from '@antv/util';
+import { deepMix, get } from '@antv/util';
 import { vec2 } from '@antv/matrix-util';
 import type { PathCommand } from '@antv/g';
 import type { LinearCfg, LinearOptions, Point, Position } from './types';
@@ -60,7 +60,8 @@ export class Linear extends AxisBase<LinearCfg> {
   }
 
   protected getLabelLayout(labelVal: number, tickAngle: number, angle: number) {
-    const { verticalFactor } = this.attributes;
+    const { verticalFactor, label } = this.attributes;
+    // 如果 label.style.default 定义了 textAlign，则使用用户定义的
     const precision = 1;
     const sign = verticalFactor === 1 ? 0 : 1;
     let rotate = angle;
@@ -72,7 +73,7 @@ export class Linear extends AxisBase<LinearCfg> {
     else if (rotate > precision) textAlign = ['start', 'end'][sign] as Position;
     return {
       rotate,
-      textAlign,
+      textAlign: get(label, ['style', 'default', 'textAlign']) ?? textAlign,
     };
   }
 }

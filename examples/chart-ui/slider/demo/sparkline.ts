@@ -21,20 +21,43 @@ const slider = new Slider({
     x: 50,
     y: 50,
     width: 400,
-    height: 40,
+    height: 20,
     values: [0.3, 0.7],
     names: ['leftVal', 'rightVal'],
     sparkline: {
-      color: ['#898989'],
       data: [
         [1, 3, 2, -4, 1, 3, 2, -4],
         [5, 1, 5, -8, 5, 1, 5, -8],
       ],
+      // lineStyle: {
+      //   stroke: 'rgba(197,197,197,0.85)'
+      // },
+    },
+  },
+});
+
+const slider2 = new Slider({
+  style: {
+    x: 50,
+    y: 150,
+    width: 400,
+    height: 20,
+    values: [0.3, 0.7],
+    names: ['leftVal', 'rightVal'],
+    sparkline: {
+      data: new Array(30).fill(0).map(() => 0.5 + Math.random()),
+      lineStyle: {
+        lineWidth: 0,
+      },
+      areaStyle: {
+        fill: 'rgba(197,197,197,0.85)',
+      },
     },
   },
 });
 
 canvas.appendChild(slider);
+canvas.appendChild(slider2);
 
 /** -------------------------配置区域--------------------------------------- */
 const $wrapper = document.getElementById('container');

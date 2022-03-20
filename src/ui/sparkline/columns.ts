@@ -15,7 +15,7 @@ export class Columns extends DisplayObject<IColumnsCfg> {
   columnsGroup: Group;
 
   constructor({ style, ...rest }: Partial<DisplayObject<IColumnsCfg>>) {
-    super({ type: 'column', style, ...rest });
+    super(deepMix({}, { type: 'column', style: { width: 0, height: 0 } }, { style, ...rest }));
     this.columnsGroup = new Group({
       name: 'columns',
     });

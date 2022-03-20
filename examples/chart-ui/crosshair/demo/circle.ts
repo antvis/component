@@ -20,7 +20,7 @@ const circle = new CircleCrosshair({
     center: [250, 250],
     defaultRadius: 50,
     lineStyle: {
-      lineWidth: 2,
+      lineWidth: 1,
     },
   },
 });

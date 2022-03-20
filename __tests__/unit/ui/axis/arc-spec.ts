@@ -89,7 +89,7 @@ describe('arc', () => {
     // @ts-ignore
     const [[, x1, y1], [, x2, y2]] = arc.tickLinesGroup.children[0]!.attr('path');
     expect(x2 - x1).toBeCloseTo(0);
-    expect(Math.abs(y2 - y1)).toBe(10);
+    expect(Math.abs(y2 - y1)).toBe(6);
   });
 
   test('autoRotate', async () => {

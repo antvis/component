@@ -68,6 +68,7 @@ export class Rail extends DisplayObject<Required<IRailCfg>> {
       this.backgroundPathGroup.appendChild(
         new Path({
           name: 'background',
+          className: 'rail-path',
           style: { path, fill: backgroundColor },
         })
       );
@@ -78,6 +79,7 @@ export class Rail extends DisplayObject<Required<IRailCfg>> {
       this.railPathGroup.appendChild(
         new Path({
           name: 'railPath',
+          className: 'rail-path',
           style: { path, fill: chunked ? color![idx] : this.gradientColor },
         })
       );

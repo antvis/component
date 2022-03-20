@@ -20,7 +20,7 @@ const line = new LineCrosshair({
     startPos: [100, 50],
     endPos: [100, 400],
     lineStyle: {
-      lineWidth: 2,
+      lineWidth: 1,
     },
     text: {
       text: '123',

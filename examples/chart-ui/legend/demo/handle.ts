@@ -38,7 +38,6 @@ const createContinuous = (x, y, handleCfg, title, rest = {}) => {
           '#d3e2c4',
           '#dbe5c6',
         ],
-        label: false,
         rail: {
           width: 300,
           height: 30,
@@ -67,7 +66,8 @@ createContinuous(
       },
     },
   },
-  'Style'
+  'Style',
+  { label: null }
 );
 createContinuous(0, 300, {}, 'Range', { start: 10, end: 80 });
 createContinuous(0, 400, {}, 'Cannot Slidable', { slidable: false });

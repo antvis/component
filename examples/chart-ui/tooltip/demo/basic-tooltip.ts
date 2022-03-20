@@ -80,7 +80,7 @@ canvas.addEventListener('mousemove', (e) => {
     tooltip.update({
       x: e.offsetX,
       y: e.offsetY,
-      items: colorList.map((color, idx) => ({ color, name: `${idx + 1}: ${color}`, fill: color })),
+      items: colorList.map((color, idx) => ({ color, name: `${idx + 1}`, value: `${color}`, fill: color })),
     });
   } else {
     tooltip.hide();

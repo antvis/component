@@ -98,7 +98,7 @@ export class Button extends GUI<ButtonCfg> {
     const { marker, padding, ellipsis, width: bWidth, markerSpacing: spacing } = this.attributes;
     if (!ellipsis) return Infinity;
     /* 按钮总宽度 */
-    const width = isUndefined(bWidth) ? (this.getStyle('buttonStyle') as RectProps).width : bWidth;
+    const width = (isUndefined(bWidth) ? (this.getStyle('buttonStyle') as RectProps).width : bWidth) as number;
     if (marker) return width - padding! * 2 - spacing! - this.markerWidth;
     return width - padding! * 2;
   }
@@ -106,10 +106,10 @@ export class Button extends GUI<ButtonCfg> {
   /**
    * 根据文本和marker来计算按钮宽度
    */
-  private get buttonWidth() {
+  private get buttonWidth(): number {
     const { marker, padding, width: bWidth, ellipsis, markerSpacing: spacing } = this.attributes;
     if (!isUndefined(bWidth)) return bWidth;
-    if (ellipsis) return (this.getStyle('buttonStyle') as RectProps).width;
+    if (ellipsis) return (this.getStyle('buttonStyle') as RectProps).width as number;
     const text = this.textShape.attr('text');
     const { markerWidth } = this;
     const { textWidth } = this;
@@ -122,10 +122,10 @@ export class Button extends GUI<ButtonCfg> {
     return width;
   }
 
-  private get buttonHeight() {
+  private get buttonHeight(): number {
     const { height } = this.attributes;
     if (height) return height;
-    return (this.getStyle('buttonStyle') as RectProps).height;
+    return (this.getStyle('buttonStyle') as RectProps).height as number;
   }
 
   constructor(options: ButtonOptions) {

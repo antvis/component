@@ -1,4 +1,4 @@
-import { clone, isEqual } from '@antv/util';
+import { clone, isEqual, clamp } from '@antv/util';
 import { catmullRom2Bezier } from '@antv/path-util';
 import type { PathCommand } from '@antv/g';
 import type { Data, Line, Point, Scales } from './types';
@@ -8,9 +8,13 @@ import type { Data, Line, Point, Scales } from './types';
  */
 export function dataToLines(data: Data, scales: Scales): Line[] {
   const { x, y } = scales;
+
+  let [max, min] = (y.getOptions().range || [0, 0]) as [number, number];
+  if (min > max) [min, max] = [max, min];
+
   return data.map((points) => {
     const lines = points.map((val: number, idx: number) => {
-      return [x.map(idx), y.map(val)] as Point;
+      return [x.map(idx), clamp(y.map(val), min, max)] as Point;
     });
     return lines;
   });

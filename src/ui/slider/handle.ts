@@ -1,6 +1,6 @@
 import { DisplayObject, Rect, Line, Text } from '@antv/g';
 import { deepMix, get } from '@antv/util';
-import { Marker } from '../marker';
+import { Marker, MarkerStyleProps } from '../marker';
 import type { TextProps, ShapeAttrs } from '../../types';
 
 export interface IHandleCfg {
@@ -8,8 +8,9 @@ export interface IHandleCfg {
   y: number;
   zIndex: number;
   handleType: 'start' | 'end';
-  iconCfg: ShapeAttrs & {
+  iconCfg: (ShapeAttrs | MarkerStyleProps) & {
     size?: number;
+    radius?: number;
     type: 'hide' | 'symbol' | 'default';
     orient: 'horizontal' | 'vertical';
   };
@@ -69,7 +70,7 @@ export class Handle extends DisplayObject<IHandleCfg> {
    */
   private createDefaultIcon() {
     const {
-      iconCfg: { size, ...rest },
+      iconCfg: { size, radius, ...rest },
     } = this.attributes;
     // 默认手柄
     const width = size!;
@@ -83,7 +84,7 @@ export class Handle extends DisplayObject<IHandleCfg> {
         height,
         x: -width / 2,
         y: -height / 2,
-        radius: width / 4,
+        radius: radius ?? width / 4,
         ...rest,
       },
     });

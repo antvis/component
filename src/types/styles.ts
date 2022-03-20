@@ -8,7 +8,7 @@ import type {
   PathProps,
   PolylineProps,
   TextProps,
-} from './index';
+} from './dependency';
 import { STATE_LIST } from '../constant';
 
 type UnionShapeProps =

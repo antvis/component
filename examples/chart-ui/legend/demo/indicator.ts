@@ -38,15 +38,19 @@ const createContinuous = (x, y, indicatorCfg = {}) => {
 };
 
 createContinuous(0, 50, false);
-createContinuous(0, 150).setIndicator(10);
-createContinuous(0, 250, {
-  backgroundStyle: { fill: '#748de3', stroke: '#748de3' },
-  text: { style: { fill: '#fff' } },
-}).setIndicator(20);
-createContinuous(0, 350, {
+createContinuous(0, 150, {
   text: {
     formatter: (val) => {
       return `${val}%`;
     },
   },
-}).setIndicator(30);
+});
+createContinuous(0, 250, {
+  id: 'legend-indicator1',
+  backgroundStyle: { background: '#748de3' },
+  text: { style: { color: 'red' } },
+});
+createContinuous(0, 350, {
+  id: 'legend-indicator2',
+  backgroundStyle: { 'font-size': '14px', padding: '2px 4px' },
+});

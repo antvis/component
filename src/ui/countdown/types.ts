@@ -1,8 +1,7 @@
 import type { DisplayObjectConfig } from '../../types';
-import type { TagCfg } from '../tag/types';
 import type { StatisticCfg } from '../statistic/types';
 
-export type ValueCfg = TagCfg & {
+export type ValueCfg = StatisticCfg & {
   /** 数值文本内容 fixme 倒计时不需要输入 text */
   text?: string;
   /** 倒计时时间戳 */

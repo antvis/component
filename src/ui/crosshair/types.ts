@@ -1,10 +1,10 @@
-import type { TagCfg } from '../tag';
+import type { TagStyleProps } from '../tag';
 import type { DisplayObjectConfig, LineProps, Point, ShapeAttrs } from '../../types';
 
 export interface CrosshairBaseCfg extends ShapeAttrs {
   type?: 'line' | 'circle' | 'polygon';
   lineStyle?: Partial<LineProps>;
-  text?: TagCfg & {
+  text?: TagStyleProps & {
     position?: 'start' | 'end';
   };
 }

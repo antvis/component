@@ -1,24 +1,28 @@
 import { deepMix } from '@antv/util';
-import type { TickDatum } from './types';
+import type { AxisBaseOptions, TickDatum } from './types';
 
-export const AXIS_BASE_DEFAULT_OPTIONS = {
+export const AXIS_BASE_DEFAULT_OPTIONS: AxisBaseOptions = {
   style: {
     title: {
       content: '',
       style: {
-        fill: 'black',
-        fontSize: 20,
-        fontWeight: 'bold',
+        fontSize: 12,
+        fill: '#2C3542',
+        fillOpacity: 0.45,
       },
-      position: 'start',
+      position: 'center',
       offset: [0, 0],
       rotate: undefined,
     },
+    ticks: [],
+    ticksThreshold: 400,
+    // 轴线
     axisLine: {
       style: {
-        fill: 'black',
-        stroke: 'black',
-        lineWidth: 2,
+        fill: '#416180',
+        stroke: '#416180',
+        lineWidth: 0.5,
+        strokeOpacity: 0.45,
       },
       arrow: {
         start: {
@@ -31,30 +35,43 @@ export const AXIS_BASE_DEFAULT_OPTIONS = {
         },
       },
     },
-    ticks: [],
-    ticksThreshold: 400,
+    // 刻度线 (分类轴和 y 轴建议隐藏)
     tickLine: {
-      len: 10,
+      len: 6,
       style: {
         default: {
-          stroke: 'black',
-          lineWidth: 2,
+          stroke: '#416180',
+          strokeOpacity: 0.45,
+          lineWidth: 0.5,
         },
       },
       offset: 0,
       appendTick: false,
     },
+    subTickLine: {
+      len: 4,
+      count: 0,
+      style: {
+        default: {
+          stroke: '#416180',
+          strokeOpacity: 0.25,
+          lineWidth: 0.5,
+        },
+      },
+      offset: 0,
+    },
     label: {
       type: 'text',
       style: {
         default: {
-          fill: 'black',
-          textAlign: 'center',
+          fill: '#2C3542',
+          fillOpacity: 0.65,
+          fontSize: 12,
           textBaseline: 'middle',
         },
       },
       alignTick: true,
-      formatter: (tick: Required<TickDatum>) => tick?.text || String(tick?.value || ''),
+      formatter: (tick: TickDatum) => tick?.text || String(tick?.value || ''),
       offset: [0, 0],
       overlapOrder: ['autoRotate', 'autoEllipsis', 'autoHide'],
       margin: [0, 0, 0, 0],
@@ -67,17 +84,6 @@ export const AXIS_BASE_DEFAULT_OPTIONS = {
       ellipsisStep: ' ',
       minLength: 10,
       maxLength: Infinity,
-    },
-    subTickLine: {
-      len: 6,
-      count: 0,
-      style: {
-        default: {
-          stroke: 'black',
-          lineWidth: 2,
-        },
-      },
-      offset: 0,
     },
     verticalFactor: 1,
   },

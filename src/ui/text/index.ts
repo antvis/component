@@ -1,8 +1,6 @@
-import type { PathCommand } from '@antv/g';
 import { Text as GText, Rect, Group } from '@antv/g';
 import { pick, max, isNumber } from '@antv/util';
 import { Decoration } from './decoration';
-import { Marker } from '../marker';
 import { deepAssign, transform, getEllipsisText, getShapeSpace, measureTextWidth } from '../../util';
 import { GUI } from '../../core/gui';
 import type { TextCfg, TextOptions, DecorationCfg } from './types';

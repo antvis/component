@@ -1,12 +1,12 @@
 import type { Line, Polyline, BaseStyleProps, DisplayObjectConfig, Point } from '@antv/g';
 import { Path } from '@antv/g';
-import { Marker, MarkerCfg } from 'ui/marker';
+import { Marker, MarkerStyleProps } from 'ui/marker';
 import { GUI } from '../../core/gui';
 
 type ArrowBody = Line | Path | Polyline;
 export interface LinkStyleProps extends BaseStyleProps {
-  sourceMarker?: MarkerCfg;
-  targetMarker?: MarkerCfg;
+  sourceMarker?: MarkerStyleProps;
+  targetMarker?: MarkerStyleProps;
   body: ArrowBody;
 }
 
@@ -88,7 +88,7 @@ export class Link extends GUI<LinkStyleProps> {
   // }
   // }
 
-  private appendMarker(style: MarkerCfg, type: 'source' | 'target') {
+  private appendMarker(style: MarkerStyleProps, type: 'source' | 'target') {
     const marker = new Marker({ style });
 
     // set position & rotation

@@ -34,9 +34,7 @@ const statistic = new Statistic({
       text: '1,128',
       spacing: 4,
       textStlye: {
-        default: {
-          fontSize: 24,
-        },
+        fontSize: 24,
       },
       marker: {
         symbol: 'triangle',

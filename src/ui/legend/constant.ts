@@ -1,5 +1,4 @@
 import { deepMix } from '@antv/util';
-import { leftArrow, rightArrow, upArrow, downArrow } from './utils';
 
 export const LEGEND_BASE_DEFAULT_OPTIONS = {
   style: {
@@ -15,15 +14,22 @@ export const LEGEND_BASE_DEFAULT_OPTIONS = {
     },
     title: {
       content: '',
-      spacing: 10,
+      spacing: 4,
       align: 'left',
       style: {
-        fill: 'gray',
-        fontWeight: 'bold',
-        fontSize: 16,
+        fill: '#2C3542',
+        fillOpacity: 0.45,
+        fontSize: 12,
         textBaseline: 'top',
       },
       formatter: (text: string) => text,
+    },
+    label: {
+      style: {
+        fill: '#2C3542',
+        fillOpacity: 0.65,
+        fontSize: 12,
+      },
     },
   },
 };
@@ -134,20 +140,21 @@ export const CONTINUOUS_DEFAULT_OPTIONS = deepMix({}, LEGEND_BASE_DEFAULT_OPTION
       '#e23455',
       '#e7655b',
     ],
-    padding: 10,
     label: {
       style: {
-        fill: 'black',
         textAlign: 'center',
         textBaseline: 'middle',
       },
-      spacing: 10,
+      spacing: 8,
       formatter: (value: number) => String(value),
       align: 'rail',
+      flush: true,
+      /** 文本最大宽度 */
+      maxWidth: 30,
     },
     rail: {
       width: 100,
-      height: 50,
+      height: 20,
       type: 'color',
       chunked: false,
       ticks: [],
@@ -158,7 +165,6 @@ export const CONTINUOUS_DEFAULT_OPTIONS = deepMix({}, LEGEND_BASE_DEFAULT_OPTION
     slidable: true,
     handle: {
       size: 25,
-      spacing: 10,
       icon: {
         marker: 'default',
         style: {
@@ -168,9 +174,14 @@ export const CONTINUOUS_DEFAULT_OPTIONS = deepMix({}, LEGEND_BASE_DEFAULT_OPTION
         },
       },
       text: {
-        align: 'outside',
+        align: 'end',
+        /** handle 手柄标签文本和轨道的间距 */
+        spacing: 4,
+        /** 文本最大宽度 */
+        maxWidth: 30,
         style: {
-          fill: '#63656e',
+          fill: '#2C3542',
+          fillOpacity: 0.65,
           fontSize: 12,
           textAlign: 'center',
           textBaseline: 'middle',
@@ -183,14 +194,13 @@ export const CONTINUOUS_DEFAULT_OPTIONS = deepMix({}, LEGEND_BASE_DEFAULT_OPTION
       spacing: 10,
       padding: 5,
       backgroundStyle: {
-        fill: '#262626',
-        stroke: '#262626',
-        radius: 5,
+        'background-color': '#262626',
+        'border-radius': '5px',
       },
       text: {
         style: {
-          fill: 'white',
-          fontSize: 12,
+          color: 'white',
+          'font-size': '12px',
         },
         formatter: (value: number) => String(value),
       },

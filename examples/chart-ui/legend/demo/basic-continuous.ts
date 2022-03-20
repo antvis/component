@@ -20,14 +20,11 @@ const continuous = new Continuous({
   style: {
     title: {
       content: '连续图例',
-    },
-    label: {
-      align: 'outside',
+      spacing: 4,
     },
     rail: {
-      width: 300,
-      height: 30,
-      ticks: [10, 20, 30, 40, 50, 60, 70, 80, 90],
+      width: 100,
+      height: 16,
     },
     handle: false,
     min: 0,
@@ -56,8 +53,8 @@ $wrapper.appendChild(cfg.domElement);
 const continuousCfg = {
   x: 0,
   y: 0,
-  图例宽度: 300,
-  图例高度: 30,
+  图例宽度: 100,
+  图例高度: 16,
 };
 cfg.add(continuousCfg, 'x', 0, 300).onChange((x) => {
   continuous.attr({ x });
@@ -68,6 +65,6 @@ cfg.add(continuousCfg, 'y', 0, 300).onChange((y) => {
 cfg.add(continuousCfg, '图例宽度', 30, 300).onChange((width) => {
   continuous.update({ rail: { width } });
 });
-cfg.add(continuousCfg, '图例高度', 30, 300).onChange((height) => {
+cfg.add(continuousCfg, '图例高度', 12, 40).onChange((height) => {
   continuous.update({ rail: { height } });
 });

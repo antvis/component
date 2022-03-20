@@ -4,7 +4,7 @@ import { DisplayObject } from 'types';
  * 获得图形的x、y、width、height
  */
 export function getShapeSpace(shape: DisplayObject) {
-  const bounds = shape.getBounds();
+  const bounds = shape && shape.getRenderBounds();
   if (!bounds)
     return {
       x: 0,

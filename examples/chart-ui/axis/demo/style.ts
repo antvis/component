@@ -93,6 +93,7 @@ const styleCfg = {
   子刻度数量: 4,
   轴线正方向: 'right',
   标题颜色: '#000',
+  标题颜色透明度: 0.45,
   标题字号: 12,
   轴线颜色: '#000',
   轴线粗细: 2,
@@ -102,6 +103,7 @@ const styleCfg = {
   子刻度线粗细: 2,
   子刻度线长度: 5,
   标签颜色: '#000',
+  标签颜色透明度: 0.65,
   标签字号: 12,
 };
 styleFolder.add(styleCfg, '末尾追加刻度').onChange((flag) => {
@@ -120,6 +122,10 @@ styleFolder.add(styleCfg, '轴线正方向', ['left', 'right']).onChange((dir) =
 styleFolder.addColor(styleCfg, '标题颜色').onChange((fill) => {
   linear.update({ title: { style: { fill } } });
 });
+styleFolder.addColor(styleCfg, '标题颜色透明度').onChange((fillOpacity) => {
+  linear.update({ title: { style: { fillOpacity } } });
+});
+
 styleFolder.add(styleCfg, '标题字号', 5, 20).onChange((fontSize) => {
   linear.update({ title: { style: { fontSize } } });
 });
@@ -150,6 +156,10 @@ styleFolder
 styleFolder.addColor(styleCfg, '标签颜色').onChange((fill) => {
   linear.update({ label: { style: { default: { fill } } } });
 });
+styleFolder.addColor(styleCfg, '标签颜色透明度').onChange((fillOpacity) => {
+  linear.update({ label: { style: { default: { fillOpacity } } } });
+});
+
 styleFolder
   .add(styleCfg, '标签字号', 5, 20)
   .step(1)

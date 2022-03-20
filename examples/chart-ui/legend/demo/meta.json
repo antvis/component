@@ -13,6 +13,14 @@
       "screenshot": ""
     },
     {
+      "filename": "various-continuous.ts",
+      "title": {
+        "zh": "各系列连续图例",
+        "en": "Various Continuous Legend"
+      },
+      "screenshot": ""
+    },
+    {
       "filename": "rail-shape.ts",
       "title": {
         "zh": "轨道类型",

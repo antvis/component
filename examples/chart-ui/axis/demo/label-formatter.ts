@@ -34,11 +34,6 @@ function createAxis(startPos, endPos, tickData, type, formatter = (item) => item
         startPos,
         endPos,
         ticks: createTickData(tickData),
-        axisLine: {
-          style: {
-            stroke: '#cdcdcd',
-          },
-        },
         label: {
           type,
           formatter,
@@ -49,16 +44,9 @@ function createAxis(startPos, endPos, tickData, type, formatter = (item) => item
           autoEllipsis: true,
           offset: [0, 15],
           alignTick: true,
-          style: {
-            default: {
-              fill: '#818181',
-            },
-          },
         },
         tickLine: {
-          len: 5,
           appendTick: true,
-          style: { default: { stroke: '#cdcdcd' } },
         },
       },
     })
@@ -77,17 +65,9 @@ createAxis([50, 100], [400, 100], data2, 'number');
 createAxis([50, 150], [400, 150], data3, 'number');
 createAxis([50, 200], [400, 200], data4, 'number');
 
-const data5 = ['2020-12-28', '2020-12-29', '2020-12-30', '2020-12-31', '2021-01-01', '2021-01-02'];
-const data6 = ['2020-12-27', ...data5];
-const data7 = ['2020-12-26', ...data6];
-
-createAxis([50, 250], [400, 250], data5, 'time');
-createAxis([50, 300], [400, 300], data6, 'time');
-createAxis([50, 350], [400, 350], data7, 'time');
-
 const data8 = ['A', 'BC', 'DEF', 'GHIJ', 'KMLNO', 'PQRSTV', 'VWXYZA'];
 const data9 = ['ABC', 'BCED', 'DEFGH', 'GHIJKM', 'KMLNOPQ', 'PQRSTVVW', 'VWXYZABC'];
 const data10 = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
-createAxis([50, 400], [400, 400], data8, 'text');
-createAxis([50, 450], [400, 450], data9, 'text');
-createAxis([50, 500], [400, 500], data10, 'text', (item) => new Array(10).fill(item.text).join(''));
+createAxis([50, 300], [400, 300], data8, 'text');
+createAxis([50, 350], [400, 350], data9, 'text');
+createAxis([50, 400], [400, 400], data10, 'text', (item) => new Array(10).fill(item.text).join(''));

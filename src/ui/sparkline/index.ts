@@ -54,13 +54,36 @@ export class Sparkline extends GUI<SparklineCfg> {
    * 将data统一格式化为数组形式
    * 如果堆叠，则生成堆叠数据
    */
-  private get data(): Data {
+  private get rawData(): Data {
     const { data: _ } = this.attributes;
     if (!_ || _?.length === 0) return [[]];
     let data = clone(_);
     // number[] -> number[][]
     if (isNumber(data[0])) data = [data];
     return data;
+  }
+
+  private get data(): Data {
+    if (this.attributes.isStack) return getStackedData(this.rawData);
+
+    return this.rawData;
+  }
+
+  private get scales(): { x: Linear | Band; y: Linear } {
+    return this.createScales(this.data);
+  }
+
+  /**
+   * 基准线，默认为 0
+   */
+  private get baseline(): number {
+    const { y } = this.scales;
+    const [y1, y2] = y.getOptions().domain || [0, 0];
+    if (y2 < 0) {
+      return y.map(y2);
+    }
+
+    return y.map(y1 < 0 ? 0 : y1);
   }
 
   private get containerCfg() {
@@ -71,18 +94,16 @@ export class Sparkline extends GUI<SparklineCfg> {
   private get linesCfg(): ILinesCfg {
     const { areaStyle, isStack, lineStyle, smooth } = this.attributes;
     const { width } = this.containerCfg;
-    let { data } = this;
+    const { data } = this;
     if (data[0].length === 0) return { lines: [], areas: [] };
-    if (isStack) data = getStackedData(data);
-    const { x, y } = this.createScales(data) as { x: Linear; y: Linear };
+    const { x, y } = this.scales as { x: Linear; y: Linear };
     // 线条Path
     const lines = dataToLines(data, { type: 'line', x, y });
 
     // 生成区域path
     let areas: PathCommand[][] = [];
     if (areaStyle) {
-      const range = getRange(data);
-      const baseline = y.map(range[0] < 0 ? 0 : range[0]);
+      const { baseline } = this;
       if (isStack) {
         areas = smooth
           ? linesToStackCurveAreaPaths(lines, width, baseline)
@@ -112,7 +133,7 @@ export class Sparkline extends GUI<SparklineCfg> {
   private get columnsCfg(): IColumnsCfg {
     const { isStack, columnStyle } = this.attributes;
     const { height } = this.containerCfg;
-    let { data } = this;
+    let { rawData: data } = this;
     if (!data) return { columns: [] };
     if (isStack) data = getStackedData(data);
     const { x, y } = this.createScales(data) as { x: Band; y: Linear };
@@ -123,7 +144,7 @@ export class Sparkline extends GUI<SparklineCfg> {
     });
 
     const bandWidth = x.getBandWidth();
-    const rawData = this.data;
+    const { rawData } = this;
     return {
       columns: data.map((column, i) => {
         return column.map((val, j) => {
@@ -225,7 +246,7 @@ export class Sparkline extends GUI<SparklineCfg> {
    * 根据数据生成scale
    */
   private createScales(data: number[][]) {
-    const { type, isGroup, barPadding } = this.attributes;
+    const { type, isGroup, barPadding, nice = true, minValue, maxValue } = this.attributes;
     const { width, height } = this.containerCfg;
     const [minVal, maxVal] = getRange(data);
     return {
@@ -242,8 +263,10 @@ export class Sparkline extends GUI<SparklineCfg> {
               paddingInner: isGroup ? barPadding : 0,
             }),
       y: new Linear({
-        domain: [minVal >= 0 ? 0 : minVal, maxVal],
+        domain: [minValue ?? minVal, maxValue ?? maxVal],
+        // 画布反转
         range: [height, 0],
+        nice,
       }),
     };
   }
