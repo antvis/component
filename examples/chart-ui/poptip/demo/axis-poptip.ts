@@ -73,22 +73,18 @@ canvas.appendChild(linear);
 
 const poptip = new Poptip();
 
-poptip.bind(linear, {
-  position: 'top',
-  follow: true,
-  offset: [0, -10],
-  html: (e) => {
-    // 获取原始文本
-    return e.target?.getConfig().style.text;
-  },
-  condition: (e) => {
-    const { target } = e;
+poptip.bind(linear, (e) => {
+  let target = e.target;
 
-    if (target?.name === 'label') {
-      if (!target?.style?.text.endsWith('...')) return;
-      // 判断展示的文本是否缺省
-      return e.target;
-    }
-    return false;
-  },
+  if (target?.name !== 'label') target = false;
+  // 判断展示的文本是否缺省
+  if (!target?.style?.text.endsWith('...')) target = false;
+  return {
+    //  获取原始文本
+    html: e.target?.getConfig().style.text,
+    target,
+    position: 'top',
+    follow: true,
+    offset: [0, -10],
+  };
 });

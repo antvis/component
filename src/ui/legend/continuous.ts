@@ -515,7 +515,7 @@ export class Continuous extends LegendBase<ContinuousCfg> {
   }
 
   private updateIndicator() {
-    const { indicator, orient } = this.attributes;
+    const { indicator, orient, rail, min, max } = this.attributes;
 
     if (!indicator) return;
     if (!this.poptip) {
@@ -531,7 +531,7 @@ export class Continuous extends LegendBase<ContinuousCfg> {
           {
             id: 'continuous-legend-poptip',
             containerClassName: cls,
-            domStyles: { '.gui-poptip': { padding: '2px', radius: '4px', 'box-shadow': 'none' } },
+            domStyles: { '.gui-poptip': { padding: '2px', radius: '4px', 'box-shadow': 'none', 'min-width': '20px' } },
           },
           {
             ...indicator,
@@ -543,19 +543,26 @@ export class Continuous extends LegendBase<ContinuousCfg> {
           }
         )
       );
-      this.poptip.node().bind(this.railShape, {
-        position: orient === 'vertical' ? 'left' : 'top',
-        html: (e) => {
-          const value = this.getEventPosValue(e);
-          const [v1, v2] = this.getIndicatorValue(value) || [];
-          value && this.dispatchIndicated(value, v2);
+      const { width: railWidth, height: railHeight } = rail as Required<Pick<IRailCfg, 'width' | 'height'>>;
 
-          return v1 || '';
-        },
-        condition: (e) => {
-          if (e.target.className !== 'rail-path') return false;
-          return e.target;
-        },
+      this.poptip.node().bind(this.railShape, (e) => {
+        const value = this.getEventPosValue(e);
+        const [v1, v2] = this.getIndicatorValue(value) || [];
+        value && this.dispatchIndicated(value, v2);
+
+        // type = size 时，指示器需要贴合轨道上边缘
+        // handle 会影响 rail 高度
+        const offsetY =
+          rail?.type === 'size' && !rail?.chunked
+            ? (1 - (clamp(value, min, max) - min) / (max - min)) * this.getOrientVal([railHeight, railWidth])
+            : 0;
+
+        return {
+          position: orient === 'vertical' ? 'left' : 'top',
+          html: v1 || '',
+          target: e.target.className === 'rail-path' ? e.target : false,
+          offset: [0, offsetY],
+        };
       });
       return;
     }

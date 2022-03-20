@@ -1,6 +1,6 @@
 {
   "name": "@antv/gui",
-  "version": "0.3.4-beta.0",
+  "version": "0.3.4-beta.1",
   "description": "UI components for AntV G.",
   "license": "MIT",
   "main": "lib/index.js",

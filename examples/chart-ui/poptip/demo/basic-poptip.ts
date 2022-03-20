@@ -78,13 +78,16 @@ const poptip = new Poptip({
 poptip.bind(rect);
 
 // G.Circle
-poptip.bind(circle, { follow: true });
+poptip.bind(circle, () => ({ follow: true }));
 
 // G.Text
-poptip.bind(text, {
-  html: () => '超长省略信息，超长省略信息',
-  arrowPointAtCenter: true,
+poptip.bind(text, () => {
+  return {
+    //  获取原始文本
+    html: '超长省略信息，超长省略信息',
+    arrowPointAtCenter: true,
+  };
 });
 
 // dom 目标
-poptip.bind(createDom('top-left'), { position: 'top-left' });
+poptip.bind(createDom('top-left'), () => ({ position: 'top-left' }));

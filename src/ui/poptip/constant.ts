@@ -71,8 +71,8 @@ export const POPTIP_STYLE = {
     transform: `translate(-100%, 0)`,
   },
   [`.${CLASS_NAME.ARROW}`]: {
-    width: '6px',
-    height: '6px',
+    width: '4px',
+    height: '4px',
     transform: 'rotate(45deg)',
     'background-color': 'rgba(0, 0, 0)',
     position: 'absolute',
@@ -82,80 +82,80 @@ export const POPTIP_STYLE = {
     transform: `translate(-50%, calc(-100% - 5px))`,
   },
   [`[data-position='top'] .${CLASS_NAME.ARROW}`]: {
-    bottom: '-3px',
+    bottom: '-2px',
   },
   [`.${CLASS_NAME.CONTAINER}[data-position='left']`]: {
     transform: `translate(calc(-100% - 5px), -50%)`,
   },
   [`[data-position='left'] .${CLASS_NAME.ARROW}`]: {
-    right: '-3px',
+    right: '-2px',
   },
   [`.${CLASS_NAME.CONTAINER}[data-position='right']`]: {
     transform: `translate(5px, -50%)`,
   },
   [`[data-position='right'] .${CLASS_NAME.ARROW}`]: {
-    left: '-3px',
+    left: '-2px',
   },
   [`.${CLASS_NAME.CONTAINER}[data-position='bottom']`]: {
     transform: `translate(-50%, 5px)`,
   },
   [`[data-position='bottom'] .${CLASS_NAME.ARROW}`]: {
-    top: '-3px',
+    top: '-2px',
   },
   [`.${CLASS_NAME.CONTAINER}[data-position='top-left']`]: {
     transform: `translate(0, calc(-100% - 5px))`,
   },
   [`[data-position='top-left'] .${CLASS_NAME.ARROW}`]: {
     left: '10px',
-    bottom: '-3px',
+    bottom: '-2px',
   },
   [`.${CLASS_NAME.CONTAINER}[data-position='top-right']`]: {
     transform: `translate(-100%, calc(-100% - 5px))`,
   },
   [`[data-position='top-right'] .${CLASS_NAME.ARROW}`]: {
     right: '10px',
-    bottom: '-3px',
+    bottom: '-2px',
   },
   [`.${CLASS_NAME.CONTAINER}[data-position='left-top']`]: {
     transform: `translate(calc(-100% - 5px), 0)`,
   },
   [`[data-position='left-top'] .${CLASS_NAME.ARROW}`]: {
-    right: '-3px',
+    right: '-2px',
     top: '8px',
   },
   [`.${CLASS_NAME.CONTAINER}[data-position='left-bottom']`]: {
     transform: `translate(calc(-100% - 5px), -100%)`,
   },
   [`[data-position='left-bottom'] .${CLASS_NAME.ARROW}`]: {
-    right: '-3px',
+    right: '-2px',
     bottom: '8px',
   },
   [`.${CLASS_NAME.CONTAINER}[data-position='right-top']`]: {
     transform: `translate(5px, 0)`,
   },
   [`[data-position='right-top'] .${CLASS_NAME.ARROW}`]: {
-    left: '-3px',
+    left: '-2px',
     top: '8px',
   },
   [`.${CLASS_NAME.CONTAINER}[data-position='right-bottom']`]: {
     transform: `translate(5px, -100%)`,
   },
   [`[data-position='right-bottom'] .${CLASS_NAME.ARROW}`]: {
-    left: '-3px',
+    left: '-2px',
     bottom: '8px',
   },
   [`.${CLASS_NAME.CONTAINER}[data-position='bottom-left']`]: {
     transform: `translate(0, 5px)`,
   },
   [`[data-position='bottom-left'] .${CLASS_NAME.ARROW}`]: {
-    top: '-3px',
+    top: '-2px',
     left: '8px',
   },
   [`.${CLASS_NAME.CONTAINER}[data-position='bottom-right']`]: {
     transform: `translate(-100%, 5px)`,
   },
   [`[data-position='bottom-right'] .${CLASS_NAME.ARROW}`]: {
-    top: '-3px',
+    top: '-2px',
     right: '8px',
   },
 };

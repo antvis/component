@@ -54,19 +54,14 @@ const poptip = new Poptip({
   },
 });
 
-poptip.bind(category, {
-  // 内容改变
-  html: (e) => {
-    return e.target.attributes.text;
-  },
-  // 筛选需要的部分
-  condition: (e) => {
-    if (e.target.nodeName === 'text') {
-      return e.target;
-    }
-    return false;
-  },
-  arrowPointAtCenter: true,
+poptip.bind(category, (e) => {
+  return {
+    // 内容改变
+    html: e.target.attributes.text,
+    // 筛选需要的部分
+    target: e.target.nodeName === 'text' ? e.target : false,
+    arrowPointAtCenter: true,
+  };
 });
 
 const continuous = new Continuous({
@@ -97,14 +92,9 @@ const continuous = new Continuous({
 
 canvas.appendChild(continuous);
 
-poptip.bind(continuous, {
-  html: (e) => {
-    return `${Math.round(continuous.getEventPosValue(e))}`;
-  },
-  condition: (e) => {
-    if (e.target?.name === 'railPath') {
-      return e.target;
-    }
-    return false;
-  },
+poptip.bind(continuous, (e) => {
+  return {
+    html: `${Math.round(continuous.getEventPosValue(e))}`,
+    target: e.target?.name === 'railPath' ? e.target : false,
+  };
 });

@@ -12,6 +12,11 @@ export type { PoptipCfg, PoptipOptions };
 // 到处方法，可以外部使用
 export { getPositionXY } from './utils';
 
+type PoptipCallbackOptions = {
+  html?: string;
+  target?: HTMLElement | DisplayObject | false;
+} & Pick<PoptipCfg, 'position' | 'arrowPointAtCenter' | 'follow' | 'offset'>;
+
 export class Poptip extends GUI<Required<PoptipCfg>> {
   public static tag = 'poptip';
 
@@ -76,23 +81,32 @@ export class Poptip extends GUI<Required<PoptipCfg>> {
    */
   public bind(
     element: HTMLElement | DisplayObject,
-    options?: {
-      html: (e: any) => string;
-      condition?: (e: any) => HTMLElement | DisplayObject | false;
-    } & Pick<PoptipCfg, 'position' | 'arrowPointAtCenter' | 'follow' | 'offset'>
+    callback?: PoptipCallbackOptions | ((e: any) => PoptipCallbackOptions)
   ): void {
     if (!element) return;
 
     const { text: defaultText } = this.style;
-    const { html, condition = () => element, ...restOptions } = options || {};
-    const { position, arrowPointAtCenter, follow, offset } = assign({} as any, this.style, restOptions);
 
     const onmousemove = (e: any) => {
-      const target = condition.call(null, e);
+      let target: PoptipCallbackOptions['target'] = element;
+      let options = this.style;
+      let text = defaultText;
+      if (callback) {
+        const {
+          html,
+          target: ele,
+          ...restOptions
+        } = typeof callback === 'function' ? callback.call(null, e) : callback;
+        options = assign({} as any, this.style, restOptions);
+        if (ele || ele === false) target = ele;
+        if (typeof html === 'string') text = html;
+      }
+
+      const { position, arrowPointAtCenter, follow, offset } = options;
+
       if (target) {
         const { clientX, clientY } = e as MouseEvent;
         const [x, y] = getPositionXY(clientX, clientY, target, position, arrowPointAtCenter, follow);
-        const text = html ? html.call(null, e) : defaultText;
         this.showTip(x, y, { text, position, offset });
       } else {
         // 没有移动到指定的目标 关闭弹框
