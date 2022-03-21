@@ -27,7 +27,7 @@ const continuous = new Continuous({
       content: '连续图例',
     },
     label: {
-      align: 'inside',
+      align: 'start',
     },
     rail: {
       type: 'size',

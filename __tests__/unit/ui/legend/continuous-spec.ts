@@ -26,7 +26,7 @@ const continuous = new Continuous({
       content: '连续图例',
     },
     label: {
-      align: 'outside',
+      align: 'end',
     },
     rail: {
       type: 'size',
@@ -58,7 +58,7 @@ describe('continuous', () => {
         },
         padding: 10,
         label: {
-          align: 'outside',
+          align: 'end',
           spacing: 10,
         },
         backgroundStyle: {
