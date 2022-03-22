@@ -414,7 +414,7 @@ export class Switch extends GUI<Required<SwitchStyleProps>> {
 
   // 点击 switch 交互
   private addSwitchClick() {
-    this.addEventListener('click', (e) => {
+    this.addEventListener('click', (e: any) => {
       const { onClick, onChange, checked } = this.attributes;
       this.banEvent(() => {
         this.checked = checked || !this.checked;

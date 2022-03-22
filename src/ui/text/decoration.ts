@@ -56,7 +56,7 @@ export class Decoration extends DisplayObject<Required<DecorationCfg>> {
     const {
       style: { lineWidth },
     } = this.attributes;
-    return { lineDash: [lineWidth! * 2, lineWidth] } as { lineDash: [number, number] };
+    return { lineDash: [(lineWidth as number)! * 2, lineWidth] } as { lineDash: [number, number] };
   }
 
   private get dottedCfg() {

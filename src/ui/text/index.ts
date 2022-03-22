@@ -198,7 +198,7 @@ export class Text extends GUI<Required<TextCfg>> {
 
   private get decorationLineWidth() {
     const { fontSize } = this.attributes;
-    return Math.floor(Math.log10(fontSize) * 2);
+    return Math.floor(Math.log10(fontSize as number) * 2);
   }
 
   private get decorationCfg(): DecorationCfg[] {

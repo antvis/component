@@ -491,7 +491,7 @@ export class Slider extends GUI<SliderCfg> {
   private createHandle(handleType: HandleType) {
     return new Handle({
       name: `handle`,
-      style: this.getHandleShapeCfg(handleType),
+      style: this.getHandleShapeCfg(handleType) as any,
     });
   }
 
@@ -546,11 +546,11 @@ export class Slider extends GUI<SliderCfg> {
 
     [this.startHandle, this.endHandle].forEach((handle) => {
       const handleType = handle.getType();
-      handle.addEventListener('mousedown', (e) => {
+      handle.addEventListener('mousedown', (e: any) => {
         const { target } = e;
         exceptHandleText(target) && this.onDragStart(handleType)(e);
       });
-      handle.addEventListener('touchstart', (e) => {
+      handle.addEventListener('touchstart', (e: any) => {
         const { target } = e;
         exceptHandleText(target) && this.onDragStart(handleType)(e);
       });

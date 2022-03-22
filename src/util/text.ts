@@ -112,7 +112,7 @@ export const getEllipsisText = (text: any, maxWidth: number, font?: Font, str: s
 
 export function getFont(textShape: Text) {
   const { fontSize, fontFamily, fontWeight, fontStyle, fontVariant } = textShape.attr();
-  return { fontSize, fontFamily, fontWeight, fontStyle, fontVariant };
+  return { fontSize: fontSize as number, fontFamily, fontWeight, fontStyle, fontVariant };
 }
 
 /**

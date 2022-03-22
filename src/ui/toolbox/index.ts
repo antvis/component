@@ -130,7 +130,7 @@ class Toolbox extends GUI<ToolboxCfg> {
     });
 
     if (typeof onClick !== 'function') return;
-    item.addEventListener('click', (e) => {
+    item.addEventListener('click', (e: any) => {
       // 设置样式
       const { activeFeatures } = this;
       const defaultStyles = markerStyle?.default || {};

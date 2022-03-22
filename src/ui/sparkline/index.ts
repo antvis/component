@@ -219,12 +219,12 @@ export class Sparkline extends GUI<SparklineCfg> {
     if (type === 'line')
       return new Lines({
         ...baseCfg,
-        style: this.linesCfg,
+        style: this.linesCfg as any,
       });
     // if (type === 'column')
     return new Columns({
       ...baseCfg,
-      style: this.columnsCfg,
+      style: this.columnsCfg as any,
     });
   }
 

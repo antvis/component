@@ -438,7 +438,7 @@ export class Continuous extends LegendBase<ContinuousCfg> {
     this.labelsGroup = new Labels({
       name: 'labels',
       id: 'labels',
-      style: this.labelsShapeCfg,
+      style: this.labelsShapeCfg as any,
     });
     this.middleGroup.appendChild(this.labelsGroup);
   }
@@ -449,7 +449,7 @@ export class Continuous extends LegendBase<ContinuousCfg> {
     this.railShape = new Rail({
       name: RAIL_NAME,
       id: 'rail',
-      style: this.railShapeCfg,
+      style: this.railShapeCfg as any,
     });
     this.middleGroup.appendChild(this.railShape);
   }
