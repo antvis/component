@@ -119,7 +119,7 @@ describe('arc', () => {
       },
     });
     // @ts-ignore
-    expect(arc.labelsGroup.children[0]!.attr('text')).toBe('这是一...');
+    expect(arc.labelsGroup.children[0]!.attr('text').endsWith('...')).toBe(true);
   });
 
   test('autoHide', async () => {
