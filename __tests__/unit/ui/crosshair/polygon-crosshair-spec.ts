@@ -43,7 +43,7 @@ describe('polygon-crosshair', () => {
     // @ts-ignore
     polygon.points.forEach(([x, y], index) => {
       expect(x ** 2 + y ** 2).toBeCloseTo(1);
-      const [px, py] = path[index].slice(1) as [number, number];
+      const [px, py] = path![index].slice(1) as [number, number];
       expect(cx + x * defaultRadius).toBeCloseTo(px);
       expect(cx + y * defaultRadius).toBeCloseTo(py);
     });
@@ -68,7 +68,7 @@ describe('polygon-crosshair', () => {
     const path = polygon.crosshairShape.attr('path');
     // @ts-ignore
     polygon.points.forEach(([x, y], index) => {
-      const [px, py] = path[index].slice(1) as [number, number];
+      const [px, py] = path![index].slice(1) as [number, number];
       expect(cx + x * 100).toBeCloseTo(px);
       expect(cx + y * 100).toBeCloseTo(py);
     });
