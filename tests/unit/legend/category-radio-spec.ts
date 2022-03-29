@@ -144,4 +144,29 @@ describe('分类图例的正反选功能', () => {
     const minRadioX = radio.getBBox().x;
     expect(minRadioX - maxValueX).toBe(8.792893218813447);
   });
+
+  test('radio style', () => {
+    const legend = renderLegend({
+      items: [
+        { name: 'a', value: 123, marker: { symbol: 'square', style: { r: 4, fill: '#5B8FF9' } } },
+        { name: 'b', value: 223, marker: { symbol: 'square', style: { r: 4, fill: '#5AD8A6' } }, showRadio: true },
+        { name: 'c', value: 323, marker: { symbol: 'square', style: { r: 4, fill: '#5D7092' } } },
+      ],
+      radio: {
+        style: {
+          fill: 'red',
+          stroke: 'green',
+          opacity: 1
+        }
+      },
+    });
+
+    const radios = legend.getElementsByName('legend-item-radio');
+    const [hideRadio, showRadio] = radios;
+    expect(radios.length).toBe(3);
+    expect(hideRadio.attr('stroke')).toBe('green');
+    expect(hideRadio.attr('fill')).toBe('red');
+    expect(hideRadio.attr('opacity')).toBe(0);
+    expect(showRadio.attr('opacity')).toBe(1);
+  });
 });

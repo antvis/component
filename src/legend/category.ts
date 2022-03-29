@@ -445,7 +445,7 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
       stroke: '#000000',
       fill: '#ffffff',
       ...style,
-      opacity: showRadio ? 0.45 : 0,
+      opacity: showRadio ? (style?.opacity ?? 0.45) : 0,
     };
 
     const radioShape = this.addShape(container, {
