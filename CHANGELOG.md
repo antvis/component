@@ -1,3 +1,9 @@
+#### 0.8.26 (2022-03-29)
+
+##### New Features
+
+- **legend:** 允许外部自定义 legend radio 透明度 ([#268](https://github.com/antvis/component/pull/268)) ([f83fdb58](https://github.com/antvis/component/commit/f83fdb5875757642ba613cf40f32c2c464d2633e))
+
 #### 0.8.25 (2022-01-28)
 
 ##### Bug Fixes
