@@ -270,6 +270,10 @@ export interface AxisTitleCfg {
    * @type {string} start, center, end
    */
   position?: string;
+  /**
+   * 坐标轴标题详细信息
+   */
+  description?: string
 }
 
 export interface BaseCfg {
