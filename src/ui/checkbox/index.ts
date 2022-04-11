@@ -143,7 +143,7 @@ export class Checkbox extends GUI<Required<CheckboxCfg>> {
   }
 
   private createCheckedShape(): Path {
-    const { disabled } = this.attributes;
+    const { disabled, checked } = this.attributes;
     const CHECKED_SHAPE_PATH = [
       ['M', 3, 6],
       ['L', '5', '8.5'],
@@ -156,7 +156,7 @@ export class Checkbox extends GUI<Required<CheckboxCfg>> {
     } as PathStyleProps;
 
     const checkedShape = new Path({ style: CHECKED_SHAPE_STYLE });
-    checkedShape.setAttribute('visibility', 'hidden');
+    !checked && checkedShape.setAttribute('visibility', 'hidden');
     return checkedShape;
   }
 
