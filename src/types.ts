@@ -273,7 +273,19 @@ export interface AxisTitleCfg {
   /**
    * 坐标轴标题详细信息
    */
-  description?: string
+  description?: string;
+  /**
+   * 坐标轴标题详情icon
+   */
+  iconStyle?: AxisIconStyle;
+}
+
+export interface AxisIconStyle {
+  stroke?: string;
+  strokeOpacity?: number;
+  fill?: string;
+  fillOpacity?: number;
+  opacity?: number;
 }
 
 export interface BaseCfg {
