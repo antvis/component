@@ -1,4 +1,4 @@
-import { IGroup } from '@antv/g-base';
+import { IGroup, IShape } from '@antv/g-base';
 import { ext } from '@antv/matrix-util';
 import { each, filter, get, isFunction, isNil, isNumberEqual, mix, size, isArray } from '@antv/util';
 import GroupComponent from '../abstract/group-component';
@@ -84,6 +84,11 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
             fontFamily: Theme.fontFamily,
             textAlign: 'center',
           },
+          iconStyle: {
+            fill: Theme.descriptionIconFill,
+            stroke: Theme.descriptionIconStroke,
+          },
+          description: ''
         },
         tickStates: {
           active: {
@@ -573,12 +578,82 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
 
   // 绘制标题
   private drawTitle(group: IGroup) {
-    this.addShape(group, {
+    const titleAttrs = this.getTitleAttrs();
+    const titleShape = this.addShape(group, {
       type: 'text',
       id: this.getElementId('title'),
       name: 'axis-title',
-      attrs: this.getTitleAttrs(),
+      attrs: titleAttrs
     });
+    // description字段存在时，显示icon
+    if(this.get('title')?.description) {
+      this.drawDescriptionIcon(group, titleShape, titleAttrs.matrix)
+    }
+  }
+
+  private drawDescriptionIcon(group: IGroup, titleShape: IShape, matrix: number[]) {
+    const descriptionShape = this.addGroup(group, {
+      name: 'axis-description',
+      id: this.getElementById('description')
+    })
+
+    const { maxX, maxY, height } = titleShape.getBBox();
+    const { iconStyle } = this.get('title')
+    const spacing = 4; // 设置icon与文本之间距离
+    const r = height / 2;
+    const lineWidth =  r / 6;
+    const startX = maxX + spacing;
+    const startY = maxY - height / 2;
+    // 绘制 information icon 路径
+    // 外圆环path
+    const [x0, y0] = [startX + r, startY - r];
+    const [x1, y1] = [x0 + r, y0 + r];
+    const [x2, y2] = [x0, y1 + r];
+    const [x3, y3] = [startX, y0 + r];
+    // i path
+    const [x4, y4] = [startX + r, startY - height / 4];
+    const [x5, y5] = [x4, y4 + lineWidth];
+    const [x6, y6] = [x5, y5 + lineWidth];
+    const [x7, y7] = [x6, y6 + r * 3 / 4];
+    this.addShape(descriptionShape, {
+      type: 'path',
+      id: this.getElementId('title-description-icon'),
+      name: 'axis-title-description-icon',
+      attrs: {
+        path: [
+          ['M', x0, y0],
+          ['A', r, r, 0, 0, 1, x1, y1],
+          ['A', r, r, 0, 0, 1, x2, y2],
+          ['A', r, r, 0, 0, 1, x3, y3],
+          ['A', r, r, 0, 0, 1, x0, y0],
+          ['M', x4, y4],
+          ['L', x5, y5],
+          ['M', x6, y6],
+          ['L', x7, y7]
+        ],
+        lineWidth,
+        matrix,
+        ...iconStyle
+      },
+    });
+    // 点击热区，设置透明矩形
+    this.addShape(descriptionShape, {
+      type: 'rect',
+      id: this.getElementId('title-description-rect'),
+      name: 'axis-title-description-rect',
+      attrs: {
+        x: startX,
+        y: startY - height / 2,
+        width: height,
+        height,
+        stroke: '#000',
+        fill: '#000',
+        opacity: 0,
+        matrix,
+        cursor: 'pointer'
+      }
+    })
+
   }
 
   private applyTickStates(tick, group) {

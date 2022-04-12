@@ -10,4 +10,8 @@ export default {
   regionColor: '#CCD7EB',
   verticalAxisRotate: -Math.PI / 4,
   horizontalAxisRotate: Math.PI / 4,
+
+  // descriptionIcon theme
+  descriptionIconStroke: '#fff',
+  descriptionIconFill: 'rgba(58, 73, 101, .25)',
 };
