@@ -1,3 +1,9 @@
+#### 0.8.27 (2022-04-12)
+
+##### New Features
+
+- **axis:** 添加坐标轴标题详细说明 icon ([#270](https://github.com/antvis/component/pull/270)) ([2b6e336f](https://github.com/antvis/component/commit/2b6e336f98b246360d683f035b849fbfdf08365e))
+
 #### 0.8.26 (2022-03-29)
 
 ##### New Features
