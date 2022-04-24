@@ -1,5 +1,5 @@
 import { deepMix } from '@antv/util';
-import type { AxisBaseOptions, TickDatum } from './types';
+import type { AxisBaseOptions } from './types';
 
 export const AXIS_BASE_DEFAULT_OPTIONS: AxisBaseOptions = {
   style: {
@@ -7,22 +7,20 @@ export const AXIS_BASE_DEFAULT_OPTIONS: AxisBaseOptions = {
       content: '',
       style: {
         fontSize: 12,
-        fill: '#2C3542',
-        fillOpacity: 0.45,
+        fill: 'black',
       },
-      position: 'center',
-      offset: [0, 0],
-      rotate: undefined,
+      titleAnchor: 'center',
+      titlePadding: 4,
+      rotation: undefined,
     },
     ticks: [],
     ticksThreshold: 400,
     // 轴线
     axisLine: {
       style: {
-        fill: '#416180',
         stroke: '#416180',
         lineWidth: 0.5,
-        strokeOpacity: 0.45,
+        strokeOpacity: 0.85,
       },
       arrow: {
         start: {
@@ -39,51 +37,40 @@ export const AXIS_BASE_DEFAULT_OPTIONS: AxisBaseOptions = {
     tickLine: {
       len: 6,
       style: {
-        default: {
-          stroke: '#416180',
-          strokeOpacity: 0.45,
-          lineWidth: 0.5,
-        },
+        stroke: '#416180',
+        strokeOpacity: 0.65,
+        lineWidth: 0.5,
       },
-      offset: 0,
-      appendTick: false,
     },
     subTickLine: {
       len: 4,
       count: 0,
       style: {
-        default: {
-          stroke: '#416180',
-          strokeOpacity: 0.25,
-          lineWidth: 0.5,
-        },
+        stroke: '#416180',
+        strokeOpacity: 0.45,
+        lineWidth: 0.5,
       },
-      offset: 0,
     },
     label: {
       type: 'text',
       style: {
-        default: {
-          fill: '#2C3542',
-          fillOpacity: 0.65,
-          fontSize: 12,
-          textBaseline: 'middle',
-        },
+        fill: 'black',
+        fillOpacity: 0.65,
+        fontSize: 12,
       },
       alignTick: true,
-      formatter: (tick: TickDatum) => tick?.text || String(tick?.value || ''),
-      offset: [0, 0],
-      overlapOrder: ['autoRotate', 'autoEllipsis', 'autoHide'],
+      tickPadding: 4,
       margin: [0, 0, 0, 0],
-      autoRotate: true,
-      optionalAngles: [0, 30, 45, 60, 90],
-      autoHide: true,
+      overlapOrder: ['autoRotate', 'autoEllipsis', 'autoHide'],
+      autoRotate: false,
+      autoEllipsis: false,
+      autoHide: false,
       autoHideTickLine: true,
+      optionalAngles: [0, 30, 45, 60, 90],
       minLabel: 0,
-      autoEllipsis: true,
-      ellipsisStep: ' ',
       minLength: 10,
       maxLength: Infinity,
+      ellipsisStep: ' ',
     },
     verticalFactor: 1,
   },
@@ -92,17 +79,21 @@ export const AXIS_BASE_DEFAULT_OPTIONS: AxisBaseOptions = {
 export const LINEAR_DEFAULT_OPTIONS = deepMix({}, AXIS_BASE_DEFAULT_OPTIONS, {
   style: {
     type: 'linear',
+    startPos: [0, 0],
+    endPos: [0, 0],
   },
 });
 
 export const ARC_DEFAULT_OPTIONS = deepMix({}, AXIS_BASE_DEFAULT_OPTIONS, {
   style: {
     type: 'arc',
-    startAngle: 0,
-    endAngle: 360,
+    startAngle: -90,
+    endAngle: 270,
     center: [0, 0],
     label: {
       ...LINEAR_DEFAULT_OPTIONS.style.label,
+      tickPadding: 4,
+      style: {},
       align: 'normal',
     },
   },
@@ -118,6 +109,8 @@ export const HELIX_DEFAULT_OPTIONS = deepMix({}, AXIS_BASE_DEFAULT_OPTIONS, {
 export const NULL_ARROW = {
   symbol: 'circle',
   size: 0,
+  fill: '#000',
+  fillOpacity: 0.45,
 };
 
 /**
@@ -159,3 +152,5 @@ export const COMMON_TIME_MAP = {
   ],
   second: [['second', 'second']],
 } as const;
+
+export const ORIGIN = '_origin_';

@@ -44,7 +44,6 @@ const tickData = data.map((d, idx) => {
   return {
     value: step * idx,
     text: d,
-    state: 'default',
     id: String(idx),
   };
 });
@@ -55,13 +54,22 @@ const linear = new Linear({
     endPos: [800, 50],
     ticks: tickData,
     label: {
-      offset: [0, 15],
-      minLength: 20,
+      offset: 4,
+      rotation: 28,
+      autoHide: false,
+
+      // 文本发生 overlap 时，自动省略的最大、最小文本长度限制（minLength 适用于避免出现 '...' 的情形）
+      minLength: 15,
       maxLength: 80,
-      autoEllipsis: false,
+      autoEllipsis: true,
+      // 垂直轴方向的限制, 适用于存在自动旋转或者指定旋转的情况
+      verticalLimitLength: 50,
+
       optionalAngles: [20, 30, 45],
       padding: [0, 0, 0, 0],
-      autoHide: false,
+    },
+    title: {
+      content: '坐标轴',
     },
     tickLine: {
       appendTick: false,
@@ -97,11 +105,12 @@ const styleCfg = {
   标题字号: 12,
   轴线颜色: '#000',
   轴线粗细: 2,
-  刻度线颜色: '#000',
-  刻度线粗细: 2,
-  子刻度线颜色: '#000',
-  子刻度线粗细: 2,
-  子刻度线长度: 5,
+  刻度线颜色: '#416180',
+  刻度线粗细: 0.5,
+  刻度线长度: 6,
+  子刻度线颜色: '#416180',
+  子刻度线粗细: 0.5,
+  子刻度线长度: 4,
   标签颜色: '#000',
   标签颜色透明度: 0.65,
   标签字号: 12,
@@ -138,6 +147,21 @@ styleFolder
   .onChange((lineWidth) => {
     linear.update({ axisLine: { style: { lineWidth } } });
   });
+styleFolder.addColor(styleCfg, '刻度线颜色').onChange((stroke) => {
+  linear.update({ tickLine: { style: { stroke } } });
+});
+styleFolder
+  .add(styleCfg, '刻度线粗细', 1, 5)
+  .step(1)
+  .onChange((lineWidth) => {
+    linear.update({ tickLine: { style: { lineWidth } } });
+  });
+styleFolder
+  .add(styleCfg, '刻度线长度', 0, 10)
+  .step(1)
+  .onChange((len) => {
+    linear.update({ tickLine: { len } });
+  });
 styleFolder.addColor(styleCfg, '子刻度线颜色').onChange((stroke) => {
   linear.update({ subTickLine: { style: { stroke } } });
 });
@@ -154,15 +178,15 @@ styleFolder
     linear.update({ subTickLine: { len } });
   });
 styleFolder.addColor(styleCfg, '标签颜色').onChange((fill) => {
-  linear.update({ label: { style: { default: { fill } } } });
+  linear.update({ label: { style: { fill } } });
 });
 styleFolder.addColor(styleCfg, '标签颜色透明度').onChange((fillOpacity) => {
-  linear.update({ label: { style: { default: { fillOpacity } } } });
+  linear.update({ label: { style: { fillOpacity } } });
 });
 
 styleFolder
   .add(styleCfg, '标签字号', 5, 20)
   .step(1)
   .onChange((fontSize) => {
-    linear.update({ label: { style: { default: { fontSize } } } });
+    linear.update({ label: { style: { fontSize } } });
   });

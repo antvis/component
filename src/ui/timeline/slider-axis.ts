@@ -23,24 +23,23 @@ export class SliderAxis extends GUI<Required<SliderAxisCfg>> {
       single: false,
       tickCfg: {
         verticalFactor: -1,
-        axisLine: false,
+        axisLine: undefined,
         label: {
           autoRotate: false,
-          rotate: 0,
+          rotation: 0,
           autoEllipsis: true,
-          offset: [0, 15],
+          tickPadding: 15,
           alignTick: true,
           style: {
-            default: {
-              fontSize: 10,
-              fill: 'rgba(0,0,0,0.45)',
-            },
+            fontSize: 10,
+            fill: 'rgba(0,0,0,0.45)',
           },
         },
         tickLine: {
           len: 4,
           style: {
-            default: { stroke: 'rgba(0,0,0,0.25)', lineWidth: 1 },
+            stroke: 'rgba(0,0,0,0.25)',
+            lineWidth: 1,
           },
         },
       },

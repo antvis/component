@@ -1,16 +1,25 @@
 import type {
-  AxisBaseCfg,
+  AxisBaseStyleProps,
   AxisBaseOptions,
-  LinearCfg,
+  LinearAxisStyleProps,
   LinearOptions,
-  ArcCfg,
+  ArcAxisStyleProps,
   ArcOptions,
   HelixCfg,
   HelixOptions,
 } from './types';
 
-export type { AxisBaseCfg, AxisBaseOptions, LinearCfg, LinearOptions, ArcCfg, ArcOptions, HelixCfg, HelixOptions };
+export type {
+  AxisBaseStyleProps,
+  AxisBaseOptions,
+  LinearAxisStyleProps,
+  LinearOptions,
+  ArcAxisStyleProps,
+  ArcOptions,
+  HelixCfg,
+  HelixOptions,
+};
 
-export { Linear } from './linear';
+export { Cartesian as Linear } from './linear';
 export { Arc } from './arc';
 export { Helix } from './helix';

@@ -19,7 +19,7 @@ const toolbox = new Toolbox({
   style: {
     features: ['reset', 'reload', 'download'],
     onClick: (name) => {
-      console.info('name:', name);
+      // do something
     },
   },
 });

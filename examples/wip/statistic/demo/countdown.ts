@@ -28,7 +28,7 @@ const countdown = new Countdown({
       format: 'HH:mm:ss',
     },
     onFinish: () => {
-      console.log('计时结束');
+      // 计时结束
     },
   },
 });
