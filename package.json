@@ -1,6 +1,6 @@
 {
   "name": "@antv/gui",
-  "version": "0.4.0",
+  "version": "0.3.4-beta.1",
   "description": "UI components for AntV G.",
   "license": "MIT",
   "main": "lib/index.js",
@@ -26,7 +26,7 @@
     "fix": "eslint ./src/**/*.ts ./__tests__/**/*.ts --fix && prettier ./src ./__tests__ --write ",
     "coverage": "jest -w 16 --coverage",
     "test": "jest",
-    "test-live": "cross-env DEBUG_MODE=1 jest --watch",
+    "test-live": "cross-env DEBUG_MODE=1 jest --watch ./__tests__",
     "build": "run-s clean build:* size",
     "build:umd": "webpack",
     "build:cjs": "tsc -p tsconfig.json --target ES5 --module commonjs --outDir lib",
@@ -109,7 +109,7 @@
     "testTimeout": 30000,
     "preset": "ts-jest",
     "collectCoverage": false,
-    "testRegex": "/__tests__/.*(-|\\.)spec\\.ts?$",
+    "testRegex": "/__tests__/.*-spec\\.ts?$",
     "setupFilesAfterEnv": [
       "./jest.setup.js"
     ],
@@ -139,7 +139,7 @@
     },
     {
       "path": "dist/gui.min.js",
-      "limit": "450 Kb"
+      "limit": "390 Kb"
     }
   ],
   "author": {

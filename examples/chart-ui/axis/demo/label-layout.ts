@@ -44,6 +44,7 @@ const tickData = data.map((d, idx) => {
   return {
     value: step * idx,
     text: d,
+    state: 'default',
     id: String(idx),
   };
 });
@@ -53,16 +54,17 @@ const linear = new Linear({
     startPos: [0, 50],
     endPos: [800, 50],
     ticks: tickData,
-    title: {},
+    title: {
+      offset: [0, -20],
+    },
     label: {
+      offset: [0, 15],
       minLength: 20,
       maxLength: 80,
-      autoRotate: true,
-      autoHide: false,
       autoEllipsis: false,
       optionalAngles: [20, 30, 45],
       padding: [0, 0, 0, 0],
-      offset: 4,
+      autoHide: false,
     },
     tickLine: {
       appendTick: false,
@@ -95,26 +97,29 @@ const getDefaultLabelCfg = ({
   maxLength = labelMaxLength.getValue(),
   autoRotate = labelAutoRotate.getValue(),
   maniRotate = labelManiRotate.getValue(),
-  rotation = labelRotate.getValue(),
+  rotate = labelRotate.getValue(),
   alignTick = labelAlignTick.getValue(),
 }) => {
   return {
     type: 'text',
     style: {
-      fill: '#000',
-      fontSize,
-      textAlign: 'center',
-      textBaseline: 'middle',
+      default: {
+        fill: '#000',
+        fontSize,
+        textAlign: 'center',
+        textBaseline: 'middle',
+      },
     },
     alignTick,
     formatter: (tick) => tick.text || String(tick.value || ''),
     overlapOrder: ['autoRotate', 'autoEllipsis', 'autoHide'],
     margin: [0, 0, 0, 0],
-    rotation: maniRotate ? rotation : undefined,
+    rotate: maniRotate ? rotate : undefined,
     autoRotate,
     autoHideTickLine: true,
     minLabel,
     ellipsisStep: ' ',
+    offset: [0, 15],
     minLength,
     maxLength,
     autoEllipsis,
@@ -174,8 +179,8 @@ const labelAutoRotate = labelFolder.add(labelCfg, '自动旋转').onChange((auto
 const labelManiRotate = labelFolder.add(labelCfg, '指定角度').onChange((maniRotate) => {
   linear.update({ label: getDefaultLabelCfg({ maniRotate }) });
 });
-const labelRotate = labelFolder.add(labelCfg, '旋转角度', -90, 90).onChange((rotation) => {
-  linear.update({ label: getDefaultLabelCfg({ rotation }) });
+const labelRotate = labelFolder.add(labelCfg, '旋转角度', -90, 90).onChange((rotate) => {
+  linear.update({ label: getDefaultLabelCfg({ rotate }) });
 });
 const labelAlignTick = labelFolder.add(labelCfg, '对齐刻度').onChange((alignTick) => {
   linear.update({ label: getDefaultLabelCfg({ alignTick }) });

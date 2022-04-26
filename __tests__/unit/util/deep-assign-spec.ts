@@ -296,27 +296,4 @@ describe('deepAssign', () => {
       },
     });
   });
-
-  it('deepAssign(dist, src1, src2) mutable dist', () => {
-    const dist = { a: 1 };
-    const src1 = { a: 10, b: 24 };
-    const src2 = { a: 3, c: 24 };
-
-    expect(deepAssign(dist, src1, src2)).toBe(dist);
-    expect(dist).toEqual({ a: 3, b: 24, c: 24 });
-
-    const style1 = { len: 4, count: 0, style: { stroke: '#416180', strokeOpacity: 0.45, lineWidth: 0.5 } };
-    const style2 = { count: 2 };
-    expect(deepAssign({}, style1, style2)).toEqual({
-      len: 4,
-      count: 2,
-      style: { stroke: '#416180', strokeOpacity: 0.45, lineWidth: 0.5 },
-    });
-  });
-
-  it('deepAssign({}, { a: 1 }, { a: null|false|undefined })', () => {
-    expect(deepAssign({}, { a: 1 }, { a: null })).toEqual({ a: null });
-    expect(deepAssign({}, { a: 1 }, { a: false })).toEqual({ a: false });
-    expect(deepAssign({}, { a: 1 }, { a: undefined })).toEqual({ a: undefined });
-  });
 });

@@ -24,7 +24,7 @@ import { Linear, Arc, Helix } from '@antv/gui';
 | tickLine       | <code>false \| AxisTickCfg</code>    | 刻度线配置                                            | ``         |
 | label          | <code>false \| AxisLabelCfg</code>   | 标签文本配置                                          | ``         |
 | subTickLine    | <code>false \| AxisSubTickCfg</code> | 子刻度线配置                                          | ``         |
-| verticalFactor | <code>-1 \| 1</code>                 | 刻度与标签相对于轴线向量的位置。轴线为纵向时，-1 代表在向量左侧, 1 代表在向量右侧; 当轴线为横向时，-1 代表在轴线的上方，1 代表在轴线的下方; 当轴线为弧形时，-1 代表在轴线的内部，1 代表在轴线的外部 | ``         |
+| verticalFactor | <code>-1 \| 1</code>                 | 刻度与标签在轴线向量的位置，-1: 向量右侧, 1: 向量左侧 | ``         |
 
 ### 直线坐标轴
 

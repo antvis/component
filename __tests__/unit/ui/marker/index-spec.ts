@@ -1,8 +1,23 @@
 import type { PathCommand } from '@antv/g';
+import { Canvas } from '@antv/g';
+import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Marker, svg2marker } from '../../../../src';
-import { createCanvas } from '../../../utils/render';
+import { createDiv } from '../../../utils';
 
-const canvas = createCanvas();
+const renderer = new CanvasRenderer({
+  enableDirtyRectangleRenderingDebug: false,
+  enableAutoRendering: true,
+  enableDirtyRectangleRendering: true,
+});
+
+const div = createDiv();
+
+const canvas = new Canvas({
+  container: div,
+  width: 300,
+  height: 300,
+  renderer,
+});
 
 const marker = new Marker({
   style: {
@@ -17,28 +32,20 @@ const marker = new Marker({
 canvas.appendChild(marker);
 
 describe('marker', () => {
-  test('built-in symbols', () => {
-    expect(Marker.getSymbol('circle')).toBeDefined();
-    expect(Marker.getSymbol('square')).toBeDefined();
-    expect(Marker.getSymbol('diamond')).toBeDefined();
-    expect(Marker.getSymbol('triangle')).toBeDefined();
-    expect(Marker.getSymbol('triangle-down')).toBeDefined();
-  });
-
-  test('attributes of marker', () => {
+  test('basic', () => {
     expect(marker.attr('x')).toBe(50);
     expect(marker.attr('y')).toBe(50);
     expect(marker.attr('size')).toBe(16);
     expect(marker.attr('fill')).toBe('green');
     expect(marker.attr('symbol')).toBe('triangle-down');
     // @ts-ignore
-    const path = marker.markerShape.style.path as PathCommand[];
+    const path = marker.markerShape.attr('path') as PathCommand[];
     expect(path[0][1]).toBe(-8);
     expect(path[1][1]).toBe(8);
     expect(path[2][1]).toBe(0);
   });
 
-  test('Marker.registerSymbol(type, symbol) and `update({ ... })`', async () => {
+  test('customize marker', async () => {
     Marker.registerSymbol(
       'star',
       svg2marker(
@@ -63,7 +70,7 @@ describe('marker', () => {
   });
 
   afterAll(() => {
-    // marker.destroy();
-    // canvas.destroy();
+    marker.destroy();
+    canvas.destroy();
   });
 });

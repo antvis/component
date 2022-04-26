@@ -47,14 +47,10 @@ describe('play axis', () => {
     expect(sliderSelection.style.fill).toBe('#ff00ee');
     expect(sliderBackground.style.fill).toBe('#eeeeee');
     expect(sliderSelection.style.x).toBeCloseTo(
-      (((endPos![0] || 0) - (startPos![0] || 0)) * (1 - 0)) / (date.length - 1) +
-        (sliderBackground!.style!.radius as number),
+      ((endPos[0] - startPos[0]) * (1 - 0)) / (date.length - 1) + (sliderBackground!.style!.radius as number),
       4
     );
-    expect(sliderSelection.style.width).toBeCloseTo(
-      (((endPos![0] || 0) - (startPos![0] || 0)) * (6 - 1)) / (date.length - 1),
-      4
-    );
+    expect(sliderSelection.style.width).toBeCloseTo(((endPos[0] - startPos[0]) * (6 - 1)) / (date.length - 1), 4);
   });
   test.only('slider single', () => {
     const slideraxis = new SliderAxis({
@@ -82,10 +78,7 @@ describe('play axis', () => {
     const { startPos, endPos } = sliderTicks.attributes;
     expect(sliderSelection.style.stroke).toBe('#ff00ee');
     expect(sliderBackground.style.stroke).toBe('#eeeeee');
-    expect(sliderSelection.style.x).toBeCloseTo(
-      (((endPos![0] || 0) - (startPos![0] || 0)) * (3 - 0)) / (date2.length - 1),
-      4
-    );
+    expect(sliderSelection.style.x).toBeCloseTo(((endPos[0] - startPos[0]) * (3 - 0)) / (date2.length - 1), 4);
   });
   test('cell', () => {
     const cellaxis = new CellAxis({

@@ -15,10 +15,6 @@ module.exports = {
   rules: {
     semi: 'error',
     'no-unused-vars': 'off',
-    'no-return-assign': 'off',
-    'no-sequences': 'off',
-    'no-plusplus': 'off',
-    'no-param-reassign': 'warn',
     '@typescript-eslint/no-unused-vars': ['warn'],
     'import/extensions': 'off',
     'import/prefer-default-export': 'off',
@@ -29,10 +25,8 @@ module.exports = {
     'arrow-body-style': 'off',
     'no-useless-constructor': 'off',
     'no-unused-expressions': 'off',
-    'no-dupe-class-members': 'off',
-    'prefer-destructuring': 'off',
-    'no-underscore-dangle': 'off',
-    '@typescript-eslint/no-dupe-class-members': ['error'],
+    "no-dupe-class-members": "off",
+    "@typescript-eslint/no-dupe-class-members": ["error"]
   },
   settings: {
     'import/parsers': {
