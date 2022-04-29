@@ -1,7 +1,7 @@
 import { DisplayObject, Group, Text } from '@antv/g';
 import { deepMix, isNil, pick } from '@antv/util';
 import { GUI } from '../../core/gui';
-import { normalPadding } from '../../util';
+import { normalPadding, TEXT_INHERITABLE_PROPS } from '../../util';
 import { Tag } from '../tag';
 import type { BreadcrumbCfg, BreadcrumbOptions, BreadcrumbItem } from './type';
 
@@ -29,6 +29,7 @@ export class Breadcrumb extends GUI<Required<BreadcrumbCfg>> {
       },
       textStyle: {
         default: {
+          ...TEXT_INHERITABLE_PROPS,
           fontSize: 14,
           fill: 'rgba(0, 0, 0, 0.45)',
         },
@@ -139,6 +140,7 @@ export class Breadcrumb extends GUI<Required<BreadcrumbCfg>> {
       name: `${Breadcrumb.tag}-separator`,
       id: `${Breadcrumb.tag}-separator-${idx}`,
       style: {
+        ...TEXT_INHERITABLE_PROPS,
         x: this.cursorX + spacing!,
         y: this.cursorY,
         ...style,

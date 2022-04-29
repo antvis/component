@@ -3,7 +3,7 @@ import { deepMix, get, max } from '@antv/util';
 import { GUI } from '../../core/gui';
 import { Marker } from '../marker';
 import { NAME_VALUE_RATIO } from './constant';
-import { getStateStyle, getEllipsisText, getFont, getShapeSpace } from '../../util';
+import { getStateStyle, getEllipsisText, getFont, getShapeSpace, TEXT_INHERITABLE_PROPS } from '../../util';
 import type { DisplayObjectConfig, StyleState, ShapeAttrs } from '../../types';
 import type { CategoryItemCfg as ItemCfg, State } from './types';
 
@@ -35,13 +35,14 @@ export class CategoryItem extends GUI<ICategoryItemCfg> {
   private get nameShapeCfg() {
     const { itemName } = this.attributes;
     const { content: nameContent } = itemName;
-    return { text: nameContent, ...this.getStyle(['itemName', 'style']) };
+    return { fontSize: 12, text: nameContent, ...this.getStyle(['itemName', 'style']) };
   }
 
   private get valueShapeCfg() {
     const { itemValue } = this.attributes;
     const { content: valueContent } = itemValue;
     return {
+      fontSize: 12,
       text: valueContent,
       ...this.getStyle(['itemValue', 'style']),
     };
@@ -80,13 +81,19 @@ export class CategoryItem extends GUI<ICategoryItemCfg> {
     // render nameShape
     this.nameShape = new Text({
       name: 'name',
-      style: this.nameShapeCfg,
+      style: {
+        ...TEXT_INHERITABLE_PROPS,
+        ...this.nameShapeCfg,
+      },
     });
     this.backgroundShape.appendChild(this.nameShape);
     // render valueShape
     this.valueShape = new Text({
       name: 'value',
-      style: this.valueShapeCfg,
+      style: {
+        ...TEXT_INHERITABLE_PROPS,
+        ...this.valueShapeCfg,
+      },
     });
     this.backgroundShape.appendChild(this.valueShape);
     this.backgroundShape.toBack();

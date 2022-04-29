@@ -13,11 +13,7 @@ const clamp = (value: number, min: number, max: number) => {
   return value;
 };
 
-const renderer = new CanvasRenderer({
-  enableDirtyRectangleRenderingDebug: false,
-  enableAutoRendering: true,
-  enableDirtyRectangleRendering: true,
-});
+const renderer = new CanvasRenderer();
 
 const div = createDiv();
 

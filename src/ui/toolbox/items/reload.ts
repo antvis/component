@@ -9,6 +9,7 @@ export const reload = ({ size = 24, stroke = '#363636' }): DisplayObject => {
       y: 0,
       lineWidth: 1,
       stroke,
+      transformOrigin: 'center',
       path: [
         ['M', 3, 10.5],
         ['A', r, r - 1, 0, 0, 1, 21, 9.5],
@@ -24,7 +25,6 @@ export const reload = ({ size = 24, stroke = '#363636' }): DisplayObject => {
     },
   });
   // path 按照 24px 的进行绘制，然后进行缩放
-  path.setAttribute('origin', [0.5, 0.5]);
   path.scale(size / 24);
 
   rect.appendChild(path);

@@ -4,11 +4,7 @@ import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Countdown } from '../../../../src';
 import { createDiv } from '../../../utils';
 
-const renderer = new CanvasRenderer({
-  enableDirtyRectangleRenderingDebug: false,
-  enableAutoRendering: true,
-  enableDirtyRectangleRendering: true,
-});
+const renderer = new CanvasRenderer();
 
 const nowDate = Date.now();
 

@@ -6,7 +6,7 @@ import { Marker } from '../marker';
 import { LegendBase } from './base';
 import { getValueOffset, getStepValueByValue } from './utils';
 import { CONTINUOUS_DEFAULT_OPTIONS, STEP_RATIO } from './constant';
-import { toPrecision, getShapeSpace, getEventPos, deepAssign, throttle } from '../../util';
+import { toPrecision, getShapeSpace, getEventPos, deepAssign, throttle, TEXT_INHERITABLE_PROPS } from '../../util';
 import { wrapper, WrapperNode } from '../../util/wrapper';
 import { Poptip, PoptipCfg } from '../poptip';
 import type { Pair } from '../slider/types';
@@ -142,6 +142,7 @@ export class Continuous extends LegendBase<ContinuousCfg> {
         ...markerStyle,
       },
       textCfg: {
+        ...TEXT_INHERITABLE_PROPS,
         text: '',
         opacity: label ? 1 : 0,
         ...(label?.style || {}),
@@ -469,7 +470,10 @@ export class Continuous extends LegendBase<ContinuousCfg> {
 
     const text = new Text({
       name: 'text',
-      style: textCfg,
+      style: {
+        ...TEXT_INHERITABLE_PROPS,
+        ...textCfg,
+      },
     });
     el.appendChild(text);
 

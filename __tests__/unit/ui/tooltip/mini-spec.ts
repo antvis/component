@@ -7,11 +7,7 @@ Array.from(document.getElementsByClassName('tooltip')).forEach((tooltip) => {
   tooltip.remove();
 });
 
-const renderer = new CanvasRenderer({
-  enableDirtyRectangleRenderingDebug: false,
-  enableAutoRendering: true,
-  enableDirtyRectangleRendering: true,
-});
+const renderer = new CanvasRenderer();
 const div = createDiv();
 const canvas = new Canvas({
   container: div,

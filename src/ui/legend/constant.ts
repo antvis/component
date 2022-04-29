@@ -1,4 +1,5 @@
 import { deepMix } from '@antv/util';
+import { TEXT_INHERITABLE_PROPS } from '../../util';
 
 export const LEGEND_BASE_DEFAULT_OPTIONS = {
   style: {
@@ -17,6 +18,7 @@ export const LEGEND_BASE_DEFAULT_OPTIONS = {
       spacing: 4,
       align: 'left',
       style: {
+        ...TEXT_INHERITABLE_PROPS,
         fill: '#2C3542',
         fillOpacity: 0.45,
         fontSize: 12,

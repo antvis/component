@@ -4,11 +4,7 @@ import { head, last } from '@antv/util';
 import { Tag } from '../../../../src';
 import { createDiv } from '../../../utils';
 
-const renderer = new CanvasRenderer({
-  enableDirtyRectangleRenderingDebug: false,
-  enableAutoRendering: true,
-  enableDirtyRectangleRendering: true,
-});
+const renderer = new CanvasRenderer();
 
 describe('tag', () => {
   const div = createDiv();

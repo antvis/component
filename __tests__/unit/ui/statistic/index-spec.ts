@@ -3,11 +3,7 @@ import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Statistic, Tag } from '../../../../src';
 import { createDiv } from '../../../utils';
 
-const renderer = new CanvasRenderer({
-  enableDirtyRectangleRenderingDebug: false,
-  enableAutoRendering: true,
-  enableDirtyRectangleRendering: true,
-});
+const renderer = new CanvasRenderer();
 
 const initTitleText = 'basic statistic title';
 const initValueText = 'basic statistic value';

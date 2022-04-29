@@ -5,11 +5,7 @@ import { Switch } from '../../../../src';
 import { SIZE_STYLE } from '../../../../src/ui/switch/constant';
 import { createDiv } from '../../../utils';
 
-const renderer = new CanvasRenderer({
-  enableDirtyRectangleRenderingDebug: false,
-  enableAutoRendering: true,
-  enableDirtyRectangleRendering: true,
-});
+const renderer = new CanvasRenderer();
 
 describe('switch', () => {
   const div = createDiv();

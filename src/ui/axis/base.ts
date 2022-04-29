@@ -17,10 +17,9 @@ import type {
   AxisSubTickLineCfg,
 } from './types';
 import type { ShapeAttrs, StyleState as State, TextProps, PathProps } from '../../types';
-import type { TimeScale } from '../../util';
-import { GUI } from '../../core/gui';
-import { Marker } from '../marker';
 import {
+  TEXT_INHERITABLE_PROPS,
+  TimeScale,
   getFont,
   getMask,
   formatTime,
@@ -35,6 +34,8 @@ import {
   toScientificNotation,
   scale as timeScale,
 } from '../../util';
+import { GUI } from '../../core/gui';
+import { Marker } from '../marker';
 import { getVectorsAngle, centerRotate, formatAngle } from './utils';
 import { AXIS_BASE_DEFAULT_OPTIONS, NULL_ARROW, NULL_TEXT, COMMON_TIME_MAP } from './constant';
 import { isLabelsOverlap } from './overlap/is-overlap';
@@ -160,6 +161,7 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
     // 获取title
     const [x, y] = this.getValuePoint(titleVal);
     return {
+      ...TEXT_INHERITABLE_PROPS,
       x: x + ox,
       y: y + oy,
       text: content,
@@ -451,6 +453,7 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
     this.titleShape = new Text({
       name: 'title',
       style: {
+        ...TEXT_INHERITABLE_PROPS,
         text: dftAxisTitle ? dftAxisTitle.content ?? '' : '',
       },
     });
@@ -594,7 +597,10 @@ export abstract class AxisBase<T extends AxisBaseCfg> extends GUI<Required<T>> {
       this.labelsGroup.appendChild(
         new Text({
           name: 'label',
-          style,
+          style: {
+            ...TEXT_INHERITABLE_PROPS,
+            ...style,
+          },
         })
       );
     });

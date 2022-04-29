@@ -4,11 +4,7 @@ import { SliderAxis } from '../../../../src/ui/timeline/slider-axis';
 import { CellAxis } from '../../../../src/ui/timeline/cell-axis';
 import { createDiv } from '../../../utils';
 
-const renderer = new CanvasRenderer({
-  enableDirtyRectangleRenderingDebug: false,
-  enableAutoRendering: true,
-  enableDirtyRectangleRendering: true,
-});
+const renderer = new CanvasRenderer();
 const div = createDiv();
 
 const canvas = new Canvas({

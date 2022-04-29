@@ -212,11 +212,11 @@ export class SliderAxis extends GUI<Required<SliderAxisCfg>> {
     );
     if (this.animation) {
       this.animation.onframe = () => {
-        this.endHandleShape?.attr({ x: this.selectionShape.parsedStyle.width.value as number });
+        this.endHandleShape?.attr({ x: this.selectionShape.parsedStyle?.width?.value });
       };
       this.animation.onfinish = () => {
         const newSelection = this.calculateSelection() as [string, string];
-        this.endHandleShape?.attr({ x: this.selectionShape.parsedStyle.width.value as number });
+        this.endHandleShape?.attr({ x: this.selectionShape.parsedStyle?.width?.value });
         this.attr({ selection: newSelection });
         isFunction(onSelectionChange) && onSelectionChange([selection[0], timeData[newEndIdx].date]);
       };

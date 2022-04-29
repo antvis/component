@@ -1,8 +1,10 @@
 import { RectStyleProps } from '@antv/g';
+import { TEXT_INHERITABLE_PROPS } from '../../util';
 import { LabelProps } from '../../types';
 
 // 默认文本样式
 export const LABEL_TEXT_STYLE = {
+  ...TEXT_INHERITABLE_PROPS,
   stroke: 'rgba(0,0,0,0.45)',
   fontSize: 10,
   lineHeight: 16,

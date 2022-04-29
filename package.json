@@ -43,9 +43,9 @@
   ],
   "dependencies": {
     "@antv/dom-util": "^2.0.3",
-    "@antv/g": "^5.0.1",
-    "@antv/g-canvas": "^1.0.1",
-    "@antv/g-svg": "^1.0.1",
+    "@antv/g": "^5.0.21",
+    "@antv/g-canvas": "^1.0.20",
+    "@antv/g-svg": "^1.0.18",
     "@antv/matrix-util": "^3.0.4",
     "@antv/path-util": "^2.0.15",
     "@antv/scale": "^0.4.3",
@@ -139,7 +139,7 @@
     },
     {
       "path": "dist/gui.min.js",
-      "limit": "390 Kb"
+      "limit": "400 Kb"
     }
   ],
   "author": {

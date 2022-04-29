@@ -2,7 +2,14 @@ import { Rect, Text } from '@antv/g';
 import { deepMix, get, isUndefined } from '@antv/util';
 import { GUI } from '../../core/gui';
 import { SIZE_STYLE, TYPE_STYLE, DISABLED_STYLE } from './constant';
-import { deepAssign, getEllipsisText, measureTextWidth, getFont, getStateStyle } from '../../util';
+import {
+  deepAssign,
+  getEllipsisText,
+  measureTextWidth,
+  getFont,
+  getStateStyle,
+  TEXT_INHERITABLE_PROPS,
+} from '../../util';
 import { Marker } from '../marker';
 import type { ButtonCfg, ButtonOptions, IMarkerCfg } from './types';
 import type { TextProps, RectProps } from '../../types';
@@ -31,6 +38,7 @@ export class Button extends GUI<ButtonCfg> {
       markerSpacing: 5,
       textStyle: {
         default: {
+          ...TEXT_INHERITABLE_PROPS,
           textAlign: 'center',
           textBaseline: 'middle',
         },

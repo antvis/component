@@ -4,11 +4,7 @@ import { LineCrosshair } from '../../../../src';
 import { createDiv } from '../../../utils';
 import { delay } from '../../../utils/delay';
 
-const renderer = new CanvasRenderer({
-  enableDirtyRectangleRenderingDebug: false,
-  enableAutoRendering: true,
-  enableDirtyRectangleRendering: true,
-});
+const renderer = new CanvasRenderer();
 
 const div = createDiv();
 

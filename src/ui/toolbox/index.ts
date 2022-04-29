@@ -1,6 +1,6 @@
 import { DisplayObject, Group, Rect, Text } from '@antv/g';
 import { GUIOption } from 'types';
-import { deepAssign } from '../../util';
+import { deepAssign, TEXT_INHERITABLE_PROPS } from '../../util';
 import { GUI } from '../../core/gui';
 import { FeatureCtor, ToolboxCfg, ToolboxOptions } from './types';
 import { download, reset, reload } from './items';
@@ -21,6 +21,7 @@ class Toolbox extends GUI<ToolboxCfg> {
       spacing: 8,
       features: [],
       textStyle: {
+        ...TEXT_INHERITABLE_PROPS,
         fill: 'rgba(0,0,0,0.65)',
         textBaseline: 'top',
         textAlign: 'center',

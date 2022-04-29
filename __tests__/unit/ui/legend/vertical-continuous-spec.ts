@@ -3,11 +3,7 @@ import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Continuous } from '../../../../src/ui/legend';
 import { createDiv } from '../../../utils';
 
-const renderer = new CanvasRenderer({
-  enableDirtyRectangleRenderingDebug: false,
-  enableAutoRendering: true,
-  enableDirtyRectangleRendering: true,
-});
+const renderer = new CanvasRenderer();
 
 const div = createDiv();
 

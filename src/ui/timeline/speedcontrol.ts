@@ -1,6 +1,7 @@
 import { Group, Path, PathCommand, Rect } from '@antv/g';
 import { deepMix, isFunction } from '@antv/util';
 import { GUIOption } from 'types';
+import { TEXT_INHERITABLE_PROPS } from '../../util';
 import { Text } from '../text';
 import { GUI } from '../../core/gui';
 import { SpeedControlCfg, SpeedControlOptions } from './types';
@@ -136,6 +137,7 @@ export class SpeedControl extends GUI<Required<SpeedControlCfg>> {
     restSpacing = restSpacing > 0 ? restSpacing : 0;
     this.labelShape = new Text({
       style: {
+        ...TEXT_INHERITABLE_PROPS,
         ...(label as any),
         x: 10 + spacing,
         width: restSpacing,

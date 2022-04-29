@@ -4,7 +4,14 @@ import { deepMix, get } from '@antv/util';
 import { GUI } from '../../core/gui';
 import { Handle } from './handle';
 import { Sparkline } from '../sparkline';
-import { toPrecision, getShapeSpace, getEventPos, getStateStyle, normalPadding } from '../../util';
+import {
+  toPrecision,
+  getShapeSpace,
+  getEventPos,
+  getStateStyle,
+  normalPadding,
+  TEXT_INHERITABLE_PROPS,
+} from '../../util';
 import type { MarkerStyleProps } from '../marker';
 import type { SparklineCfg } from '../sparkline';
 import type { IHandleCfg } from './handle';
@@ -56,6 +63,7 @@ export class Slider extends GUI<SliderCfg> {
         formatter: (val: string, value: number) => val,
         spacing: 10,
         textStyle: {
+          ...TEXT_INHERITABLE_PROPS,
           fill: '#000',
           fillOpacity: 0.45,
           fontSize: 12,

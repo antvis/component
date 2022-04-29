@@ -1,6 +1,7 @@
 import { Text, Rect } from '@antv/g';
 import { getBoundsCenter } from '../../../../../src/ui/axis/utils';
 import { getCollisionText, isTextOverlap } from '../../../../../src/ui/axis/overlap/is-overlap';
+import { TEXT_INHERITABLE_PROPS } from '../../../../../src';
 
 type Margin = [number, number, number, number];
 
@@ -157,6 +158,7 @@ describe('isOverlap', () => {
   test('collision', () => {
     const text1 = new Text({
       attrs: {
+        ...TEXT_INHERITABLE_PROPS,
         x: 0,
         y: 0,
         text: 'text1',
@@ -167,6 +169,7 @@ describe('isOverlap', () => {
     });
     const text2 = new Text({
       attrs: {
+        ...TEXT_INHERITABLE_PROPS,
         x: 0,
         y: 0,
         text: 'text2',
@@ -195,6 +198,7 @@ describe('isOverlap', () => {
     // 测试旋转情况下的碰撞
     const text1 = new Text({
       attrs: {
+        ...TEXT_INHERITABLE_PROPS,
         x: 0,
         y: 0,
         text: 'text',
@@ -205,6 +209,7 @@ describe('isOverlap', () => {
     });
     const text2 = new Text({
       attrs: {
+        ...TEXT_INHERITABLE_PROPS,
         x: 0,
         y: 0,
         text: 'text',

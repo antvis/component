@@ -1,7 +1,14 @@
 import { Text as GText, Rect, Group } from '@antv/g';
 import { pick, max, isNumber } from '@antv/util';
 import { Decoration } from './decoration';
-import { deepAssign, transform, getEllipsisText, getShapeSpace, measureTextWidth } from '../../util';
+import {
+  deepAssign,
+  transform,
+  getEllipsisText,
+  getShapeSpace,
+  measureTextWidth,
+  TEXT_INHERITABLE_PROPS,
+} from '../../util';
 import { GUI } from '../../core/gui';
 import type { TextCfg, TextOptions, DecorationCfg } from './types';
 import type { TextProps } from '../../types';
@@ -173,6 +180,7 @@ export class Text extends GUI<Required<TextCfg>> {
   private get textCfg(): TextProps {
     const { renderText, lineHeight, wordWrap, wordWrapWidth, fontColor: fill } = this;
     return {
+      ...TEXT_INHERITABLE_PROPS,
       ...this.font,
       fill,
       wordWrap,

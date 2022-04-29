@@ -292,7 +292,8 @@ export class Scrollbar extends GUI<Required<ScrollbarCfg>> {
    * 点击轨道事件
    */
   private onTrackClick = (e: any) => {
-    const { x, y, thumbLen } = this.attributes;
+    const { thumbLen } = this.attributes;
+    const [x, y] = this.getLocalPosition();
     const [top, , , left] = this.padding;
     const basePos = this.getOrientVal([x + left, y + top]);
     const clickPos = this.getOrientVal(getEventPos(e)) - thumbLen / 2;

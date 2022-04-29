@@ -43,11 +43,7 @@ const items = [
   { name: 'Others', value: '0.59%' },
 ];
 
-const renderer = new CanvasRenderer({
-  enableDirtyRectangleRenderingDebug: false,
-  enableAutoRendering: true,
-  enableDirtyRectangleRendering: true,
-});
+const renderer = new CanvasRenderer();
 
 const div = createDiv();
 const canvas = new Canvas({

@@ -6,11 +6,11 @@ export interface MarkerStyleProps extends ShapeAttrs {
   /**
    * 标记的位置 x，默认为 0
    */
-  x?: number;
+  x?: number | string;
   /**
    * 标记的位置 x，默认为 0
    */
-  y?: number;
+  y?: number | string;
   /**
    * 标记的大小，默认为 16
    */

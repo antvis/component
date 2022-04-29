@@ -2,11 +2,7 @@ import { Canvas } from '@antv/g';
 import { Countdown } from '@antv/gui';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 
-const renderer = new CanvasRenderer({
-  enableDirtyRectangleRenderingDebug: false,
-  enableAutoRendering: true,
-  enableDirtyRectangleRendering: true,
-});
+const renderer = new CanvasRenderer();
 
 // @ts-ignore
 const canvas = new Canvas({

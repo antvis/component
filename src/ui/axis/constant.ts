@@ -1,4 +1,5 @@
 import { deepMix } from '@antv/util';
+import { TEXT_INHERITABLE_PROPS } from '../../util/style';
 import type { AxisBaseOptions, TickDatum } from './types';
 
 export const AXIS_BASE_DEFAULT_OPTIONS: AxisBaseOptions = {
@@ -6,6 +7,7 @@ export const AXIS_BASE_DEFAULT_OPTIONS: AxisBaseOptions = {
     title: {
       content: '',
       style: {
+        ...TEXT_INHERITABLE_PROPS,
         fontSize: 12,
         fill: '#2C3542',
         fillOpacity: 0.45,

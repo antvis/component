@@ -1,7 +1,7 @@
 import { deepMix, get } from '@antv/util';
 import { Rect, Text } from '@antv/g';
 import { GUI } from '../../core/gui';
-import { getStateStyle, normalPadding, getShapeSpace } from '../../util';
+import { getStateStyle, normalPadding, getShapeSpace, TEXT_INHERITABLE_PROPS } from '../../util';
 import { LEGEND_BASE_DEFAULT_OPTIONS } from './constant';
 import type { Pair } from '../slider/types';
 import type { StyleState, RectProps } from '../../types';
@@ -41,6 +41,7 @@ export abstract class LegendBase<T extends LegendBaseCfg> extends GUI<Required<T
     const { content, style, formatter } = title!;
 
     return {
+      ...TEXT_INHERITABLE_PROPS,
       ...style,
       text: formatter!(content!),
     };

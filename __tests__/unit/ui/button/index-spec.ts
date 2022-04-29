@@ -4,11 +4,7 @@ import { Button } from '../../../../src';
 import type { RectProps, TextProps } from '../../../../src/types';
 import { createDiv } from '../../../utils';
 
-const renderer = new CanvasRenderer({
-  enableDirtyRectangleRenderingDebug: false,
-  enableAutoRendering: true,
-  enableDirtyRectangleRendering: true,
-});
+const renderer = new CanvasRenderer();
 
 describe('button', () => {
   test('basic', async () => {

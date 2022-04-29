@@ -5,11 +5,7 @@ import { createDiv } from '../../../utils';
 
 // const webglRenderer = new WebGLRenderer();
 
-const renderer = new CanvasRenderer({
-  enableDirtyRectangleRenderingDebug: false,
-  enableAutoRendering: true,
-  enableDirtyRectangleRendering: true,
-});
+const renderer = new CanvasRenderer();
 
 const div = createDiv();
 

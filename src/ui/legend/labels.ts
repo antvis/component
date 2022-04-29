@@ -1,6 +1,7 @@
 import { deepMix } from '@antv/util';
 import { DisplayObject, Text, Group } from '@antv/g';
 import { ShapeAttrs, TextProps } from '../../types';
+import { TEXT_INHERITABLE_PROPS } from '../../util';
 
 export interface ILabelsCfg extends ShapeAttrs {
   labels: TextProps[];
@@ -22,7 +23,10 @@ export class Labels extends DisplayObject<ILabelsCfg> {
     labels.forEach((cfg) => {
       const text = new Text({
         name: 'label',
-        style: cfg,
+        style: {
+          ...TEXT_INHERITABLE_PROPS,
+          ...cfg,
+        },
       });
       this.labelsGroup.appendChild(text);
     });

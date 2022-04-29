@@ -25,11 +25,7 @@ Marker.registerSymbol('stop', (x, y, r) => {
   ];
 });
 
-const renderer = new CanvasRenderer({
-  enableDirtyRectangleRenderingDebug: false,
-  enableAutoRendering: true,
-  enableDirtyRectangleRendering: true,
-});
+const renderer = new CanvasRenderer();
 
 const canvas = new Canvas({
   container: 'container',

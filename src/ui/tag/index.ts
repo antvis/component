@@ -1,7 +1,7 @@
 import { Rect, RectStyleProps, Text, TextStyleProps } from '@antv/g';
 import { deepMix } from '@antv/util';
 import { GUI } from '../../core/gui';
-import { getStateStyle as getStyle, normalPadding, getShapeSpace } from '../../util';
+import { getStateStyle as getStyle, normalPadding, getShapeSpace, TEXT_INHERITABLE_PROPS } from '../../util';
 import { Marker, MarkerStyleProps } from '../marker';
 import type { TagStyleProps, TagOptions } from './types';
 
@@ -59,6 +59,7 @@ export class Tag extends GUI<Required<TagStyleProps>> {
       verticalAlign: 'top',
       textStyle: {
         default: {
+          ...TEXT_INHERITABLE_PROPS,
           fontSize: 12,
           textAlign: 'start',
           textBaseline: 'middle',

@@ -2,13 +2,9 @@ import { Canvas, Text, Group, Rect } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { PageNavigator } from '../../../../src';
 import { createDiv } from '../../../utils';
-import { getShapeSpace } from '../../../../src/util';
+import { getShapeSpace, TEXT_INHERITABLE_PROPS } from '../../../../src/util';
 
-const renderer = new CanvasRenderer({
-  enableDirtyRectangleRenderingDebug: false,
-  enableAutoRendering: true,
-  enableDirtyRectangleRendering: true,
-});
+const renderer = new CanvasRenderer();
 
 const div = createDiv();
 
@@ -37,6 +33,7 @@ function createPages(count: number, width: number, height: number) {
     });
     const text = new Text({
       style: {
+        ...TEXT_INHERITABLE_PROPS,
         x: width / 2,
         y: height / 2,
         text: `第${i}页`,
