@@ -1,48 +1,75 @@
+import type { Group, BaseStyleProps, TextStyleProps } from '@antv/g';
 import type { MarkerStyleProps } from '../marker';
-import type { MixAttrs, DisplayObjectConfig, LineProps, ShapeAttrs, StyleState as State, TextProps } from '../../types';
+import type { DisplayObjectConfig, LineProps, ShapeAttrs, TextProps } from '../../types';
+import type { OverlapCallback } from './overlap';
 
 export type LabelType = 'text' | 'number' | 'time';
 export type Position = 'start' | 'center' | 'end';
 export type AxisType = 'linear' | 'arc' | 'helix';
 export type OverlapType = 'autoRotate' | 'autoEllipsis' | 'autoHide';
-
+export type AxisOrient = 'left' | 'right' | 'top' | 'bottom' | 'outside' | 'inside';
+// `tip` is the origin text of label.
+export type AxisTextStyleProps = TextStyleProps & { id?: string; tip?: string; rotation?: number };
 /**
  * @description tick 元数据类型: value, text?, state?, id?
  */
 export type TickDatum = {
   value: number;
   text?: string;
-  state?: State;
   id?: string;
 };
 
 export type AxisTitleCfg = {
   content?: string;
-  style?: Omit<TextProps, 'text'>;
-  // 标题位置
-  position?: Position;
-  // 标题偏移量，分别为平行与轴线方向和垂直于轴线方向的偏移量
-  offset?: [number, number];
-  // 旋转角度，值为0时，标题平行于轴线方向
+  /**
+   * The anchor position for placing the axis title.
+   * If axis is in left or right orientation, `titleAnchor="start"` means placing axis title in the top edge of axis.
+   * If axis is in top or bottom orientation, `titleAnchor="start"` means placing axis title in the left edge of axis.
+   */
+  titleAnchor?: Position;
+  /**
+   * The padding in pixels between the axis labels and axis title.
+   */
+  titlePadding?: number;
+  /**
+   * Rotation angle of axis title.
+   */
   rotate?: number;
+  /**
+   * Custom X position of the axis title relative to the axis line, overriding the standard layout.
+   */
+  positionX?: number;
+  /**
+   * Custom Y position of the axis title relative to the axis line, overriding the standard layout.
+   */
+  positionY?: number;
+  /**
+   * The maximum allowed length in pixels of axis title.
+   */
+  maxLength?: number;
+  /**
+   * Adjust AxisTitle not out-of bounds, which is relate to the position of AxisGroup. Do not support y-direction yet.
+   */
+  bounds?: { x1?: number; x2?: number };
+  style?: Omit<TextProps, 'text'>;
+  animate?: boolean;
 };
 
 export type AxisLineCfg = {
   style?: ShapeAttrs;
   arrow?: {
-    start?: false | MarkerStyleProps;
-    end?: false | MarkerStyleProps;
+    start?: Partial<MarkerStyleProps> | null;
+    end?: Partial<MarkerStyleProps> | null;
   };
+  animate?: boolean;
 };
 
 export type AxisTickLineCfg = {
   // 刻度线长度
   len?: number;
-  style?: MixAttrs<Partial<LineProps>>;
-  // 刻度线在其方向上的偏移量
-  offset?: number;
+  style?: Partial<LineProps>;
   // 末尾追加tick，一般用于label alignTick 为 false 的情况
-  appendTick?: boolean;
+  // appendTick?: boolean;
 };
 
 export type AxisSubTickLineCfg = {
@@ -50,90 +77,138 @@ export type AxisSubTickLineCfg = {
   len?: number;
   // 两个刻度之间的子刻度数
   count?: number;
-  style?: MixAttrs<Partial<LineProps>>;
-  // 偏移量
-  offset?: number;
+  style?: Partial<LineProps>;
 };
 
 export type AxisLabelCfg = {
   type?: LabelType;
-  style?: MixAttrs<Partial<TextProps>>;
+  style?: Partial<TextProps> | ((tick: TickDatum, index: number) => Partial<TextProps>);
+  formatter?: (tick: TickDatum, index?: number) => string;
   // label是否与Tick对齐
   alignTick?: boolean;
   // 标签文本与轴线的对齐方式，normal-水平，tangential-切向 radial-径向
   align?: 'normal' | 'tangential' | 'radial';
-  formatter?: (tick: TickDatum, index?: number) => string;
-  offset?: [number, number];
+  /**
+   * @description determine additional offset (pixel) to the position of `tickLine`
+   * @description 4
+   */
+  tickPadding?: number;
+  /**
+   * The offset in pixels of the labels along the axis line.
+   */
+  offset?: number;
   // 处理label重叠的优先级
   overlapOrder?: OverlapType[];
   // 标签外边距，在进行自动避免重叠时的额外间隔
-  margin?: [number, number, number, number];
-  // 自动旋转
-  autoRotate?: boolean;
+  margin?: number[];
+
   // 自动旋转范围
   // 自动旋转时，将会尝试从 min 旋转到 max
   // rotateRange?: [number, number];
   // 旋转更新步长
   // rotateStep?: number;
-  // 自动选择的可选角度
+  /**
+   * @title Auto Rotate
+   * @description The strategy to use for resolving overlap of axis labels by rotating labels. Auto Rotate will adjust label align.
+   */
+  autoRotate?: boolean | string | { type: string; cfg?: any } | OverlapCallback;
+  /**
+   * @description Optional angels to rotate when the autoRotate strategy is applied.
+   */
   optionalAngles?: number[];
-  // 手动指定旋转角度
+  /**
+   * Rotation degree of axis label. If specified, `autoRotate` will be ignore.
+   */
   rotate?: number;
-  // 自动隐藏
-  autoHide?: boolean;
+  /**
+   * @title Auto Hide
+   * @description The strategy to use for resolving overlap of axis labels by hiding overlapped labels.
+   *
+   * If set to true or { type: "parity" }, a strategy of removing every other label is used (this works well for standard linear axes).
+   * If set to "greedy", a linear scan of the labels is performed, removing any label that overlaps with the last visible label
+   */
+  autoHide?: boolean | string | { type: string; cfg?: any } | OverlapCallback;
   // 隐藏 label 时，同时隐藏掉其对应的 tickLine
+  /**
+   * @title Auto Hide TickLine
+   * @description whether to hide tickLine when axis label is hidden by the strategy of `autoHide`
+   */
   autoHideTickLine?: boolean;
-  // 最小显示 label 数量
+  /**
+   * @title Auto Ellipsis
+   * @description The strategy to use for limit the length of axis tick labels (in pixel).
+   */
+  autoEllipsis?: boolean | string | { type: string; cfg?: any } | OverlapCallback;
+  /**
+   * @description The minimum text length in pixels of axis tick labels. If string, the length of given string will be calculated.
+   */
+  minLength?: string | number;
+  /**
+   * @description The maximum text length in pixels of axis tick labels. If string, the length of given string will be calculated.
+   */
+  maxLength?: string | number;
+
+  // 最小显示 label 数量 [todo] 是否需要保留
   minLabel?: number;
-  // 自动缩略
-  autoEllipsis?: boolean;
   // 缩略步长，字符串长度或数值长度
   ellipsisStep?: string | number;
-  // 最小缩略长度
-  minLength?: string | number;
-  // 单个 label 的最大长度，如果是字符串，则计算其长度
-  maxLength?: string | number;
+
+  /**
+   * @title Show the first tick label.
+   * @description Whether to show the label of the first tick. It is auto determined by default, it means if labels are overlapped, the first label maybe hidden.
+   */
+  showFirst?: boolean;
+  /**
+   * @title Show the last tick label.
+   * @description Whether to show the label of the last tick. It is auto determined by default, it means if labels are overlapped, the last label maybe hidden.
+   */
+  showLast?: boolean;
 };
 
-export type AxisBaseCfg = {
+export type AxisBaseStyleProps = BaseStyleProps & {
+  /**
+   * 组件的容器. TODO make it required.
+   */
+  container: Group;
+
   type?: AxisType;
   // 标题
-  title?: false | AxisTitleCfg;
+  title?: AxisTitleCfg;
   // 轴线
-  axisLine?: false | AxisLineCfg;
+  axisLine?: AxisLineCfg;
   // 刻度数据
   ticks?: TickDatum[];
   // 刻度数量阈值，超过则进行重新采样
   ticksThreshold?: false | number;
   // 刻度线
-  tickLine?: false | AxisTickLineCfg;
+  tickLine?: AxisTickLineCfg;
   // 刻度文本
-  label?: false | AxisLabelCfg;
+  label?: AxisLabelCfg;
   // 子刻度线
-  subTickLine?: false | AxisSubTickLineCfg;
+  subTickLine?: AxisSubTickLineCfg;
   // label 和 tick 在轴线向量的位置，-1: 向量右侧， 1: 向量左侧
   verticalFactor?: -1 | 1;
 };
 
-export type AxisBaseOptions = DisplayObjectConfig<AxisBaseCfg>;
+export type AxisBaseOptions = DisplayObjectConfig<AxisBaseStyleProps>;
 
 export type Point = [number, number];
 
-export type LinearCfg = AxisBaseCfg & {
-  startPos: Point;
-  endPos: Point;
+export type LinearAxisStyleProps = AxisBaseStyleProps & {
+  startPos?: Point;
+  endPos?: Point;
 };
-export type LinearOptions = DisplayObjectConfig<LinearCfg>;
+export type LinearOptions = DisplayObjectConfig<LinearAxisStyleProps>;
 
-export type ArcCfg = AxisBaseCfg & {
+export type ArcAxisStyleProps = AxisBaseStyleProps & {
   startAngle?: number;
   endAngle?: number;
   radius: number;
   center: Point;
 };
-export type ArcOptions = DisplayObjectConfig<ArcCfg>;
+export type ArcOptions = DisplayObjectConfig<ArcAxisStyleProps>;
 
-export type HelixCfg = AxisBaseCfg & {
+export type HelixCfg = AxisBaseStyleProps & {
   a?: number;
   b?: number;
   startAngle?: number;

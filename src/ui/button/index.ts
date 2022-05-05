@@ -76,7 +76,7 @@ export class Button extends GUI<ButtonCfg> {
   private get markerWidth(): number {
     if (this.markerShape.isVisible()) {
       const { size } = this.getStyle('markerStyle') as IMarkerCfg;
-      return size!;
+      return size! as number;
     }
     return 0;
   }

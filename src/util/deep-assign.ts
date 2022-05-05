@@ -34,7 +34,7 @@ const deep = (
   });
 };
 
-export const deepAssign = (rst: any, ...args: any[]) => {
+export const deepAssign = (rst: any, ...args: object[]) => {
   for (let i = 0; i < args.length; i += 1) {
     deep(rst, args[i]);
   }

@@ -25,7 +25,7 @@ describe('text', () => {
 
     expect(getEllipsisText(testText, 20, FONT_STYLE)).toBe('tes...');
     expect(getEllipsisText(testText, 40, FONT_STYLE)).toBe('test text...');
-    expect(getEllipsisText(testText, 60, FONT_STYLE)).toBe('test text test t...');
+    expect(getEllipsisText(testText, 60, FONT_STYLE)).toBe('test text test ...');
     expect(getEllipsisText(testText, 120, FONT_STYLE)).toBe('test text test text');
 
     expect(getEllipsisText(han, 20, FONT_STYLE)).toBe('汉...');
@@ -46,7 +46,7 @@ describe('text', () => {
     expect(getEllipsisText(testText, 20, NEW_FONT_STYLE)).toBe('...');
     expect(getEllipsisText(testText, 40, NEW_FONT_STYLE)).toBe('tes...');
     expect(getEllipsisText(testText, 60, NEW_FONT_STYLE)).toBe('test t...');
-    expect(getEllipsisText(testText, 120, NEW_FONT_STYLE)).toBe('test text test t...');
+    expect(getEllipsisText(testText, 120, NEW_FONT_STYLE)).toBe('test text test ...');
 
     expect(getEllipsisText(han, 20, NEW_FONT_STYLE)).toBe('...');
     expect(getEllipsisText(han, 40, NEW_FONT_STYLE)).toBe('汉...');

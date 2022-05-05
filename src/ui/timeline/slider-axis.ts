@@ -1,4 +1,4 @@
-import { Circle, Rect, RectStyleProps, CustomEvent, Animation } from '@antv/g';
+import { Circle, Rect, RectStyleProps, CustomEvent, Animation, Group } from '@antv/g';
 import { clamp, deepMix, isFunction } from '@antv/util';
 import { GUIOption } from 'types';
 import { GUI } from '../../core/gui';
@@ -23,24 +23,23 @@ export class SliderAxis extends GUI<Required<SliderAxisCfg>> {
       single: false,
       tickCfg: {
         verticalFactor: -1,
-        axisLine: false,
+        axisLine: undefined,
         label: {
           autoRotate: false,
           rotate: 0,
           autoEllipsis: true,
-          offset: [0, 15],
+          tickPadding: 15,
           alignTick: true,
           style: {
-            default: {
-              fontSize: 10,
-              fill: 'rgba(0,0,0,0.45)',
-            },
+            fontSize: 10,
+            fill: 'rgba(0,0,0,0.45)',
           },
         },
         tickLine: {
           len: 4,
           style: {
-            default: { stroke: 'rgba(0,0,0,0.25)', lineWidth: 1 },
+            stroke: 'rgba(0,0,0,0.25)',
+            lineWidth: 1,
           },
         },
       },
@@ -212,11 +211,11 @@ export class SliderAxis extends GUI<Required<SliderAxisCfg>> {
     );
     if (this.animation) {
       this.animation.onframe = () => {
-        this.endHandleShape?.attr({ x: this.selectionShape.parsedStyle?.width?.value });
+        this.endHandleShape?.attr({ x: this.selectionShape.parsedStyle.width?.value as number });
       };
       this.animation.onfinish = () => {
         const newSelection = this.calculateSelection() as [string, string];
-        this.endHandleShape?.attr({ x: this.selectionShape.parsedStyle?.width?.value });
+        this.endHandleShape?.attr({ x: this.selectionShape.parsedStyle.width?.value as number });
         this.attr({ selection: newSelection });
         isFunction(onSelectionChange) && onSelectionChange([selection[0], timeData[newEndIdx].date]);
       };
@@ -226,7 +225,7 @@ export class SliderAxis extends GUI<Required<SliderAxisCfg>> {
   private calculateSelection() {
     const { timeData, backgroundStyle } = this.attributes;
     const radius = backgroundStyle.radius as number;
-    const newSelection = new Array(2).fill(undefined);
+    const newSelection = Array(2).fill(undefined);
     const startHandleX = (this.selectionShape.getAttribute('x') as number) - radius; // 相对背景的x坐标
     const endHandleX = startHandleX + (this.selectionShape.getAttribute('width') as number);
 
@@ -600,6 +599,7 @@ export class SliderAxis extends GUI<Required<SliderAxisCfg>> {
     if (actualLength > 0) {
       this.ticks = new Ticks({
         style: {
+          container: this.appendChild(new Group()),
           ...tickStyle,
           startPos: [radius, 0],
           endPos: [radius + actualLength, 0],

@@ -30,11 +30,11 @@ export type { ScrollbarOptions, ScrollbarCfg } from './scrollbar';
 // author by [Aarebecca](https://github.com/Aarebecca)
 export { Arc, Linear, Helix } from './axis';
 export type {
-  AxisBaseCfg,
+  AxisBaseStyleProps,
   AxisBaseOptions,
-  LinearCfg,
+  LinearAxisStyleProps,
   LinearOptions,
-  ArcCfg,
+  ArcAxisStyleProps,
   ArcOptions,
   HelixCfg,
   HelixOptions,

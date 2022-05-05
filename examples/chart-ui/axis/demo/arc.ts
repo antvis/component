@@ -1,96 +1,104 @@
-import { Canvas } from '@antv/g';
+import { Canvas, Group } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Arc } from '@antv/gui';
-import * as dat from 'dat.gui';
 
 const renderer = new CanvasRenderer();
 
 const canvas = new Canvas({
   container: 'container',
   width: 600,
-  height: 600,
+  height: 800,
   renderer,
 });
 
 const arc = new Arc({
   style: {
+    container: canvas.appendChild(new Group()),
     startAngle: -90,
     endAngle: 270,
-    radius: 150,
-    center: [200, 200],
-    verticalFactor: -1,
+    radius: 100,
+    center: [150, 150],
+    verticalFactor: 1,
     title: {
       content: '圆弧坐标轴',
-      rotate: 0,
-      position: 'center',
-      offset: [0, -140],
     },
-    ticks: new Array(60).fill(0).map((tick, idx) => {
-      const step = 1 / 60;
-      return {
-        value: idx * step,
-        text: String(idx),
-      };
-    }),
+    ticks: Array(60)
+      .fill(0)
+      .map((tick, idx) => {
+        const step = 1 / 60;
+        return { value: idx * step, text: String(idx) };
+      }),
     label: {
-      offset: [0, 14],
+      align: 'radial',
+      autoHide: true,
       autoHideTickLine: false,
     },
-    tickLine: {
-      len: 6,
-      style: {
-        default: {
-          lineWidth: 1,
-        },
-      },
-    },
-    subTickLine: {
-      count: 1,
-      len: 4,
-      style: {
-        default: {
-          stroke: 'red',
-          lineWidth: 1,
-        },
-      },
-    },
+    subTickLine: { count: 1 },
   },
 });
 
 canvas.appendChild(arc);
 
-const $wrapper = document.getElementById('container');
-const cfg = new dat.GUI({ autoPlace: false });
-$wrapper.appendChild(cfg.domElement);
-const arcFolder = cfg.addFolder('配置项');
-arcFolder.open();
-const arcCfg = {
-  x: 200,
-  y: 200,
-  起始角: -90,
-  终止角: 270,
-  半径: 150,
-  标签对齐: 'normal',
-  轴线正方向: 'inner',
-};
-const x = arcFolder.add(arcCfg, 'x', 0, 300).onChange((x) => {
-  arc.update({ center: [x, y.getValue()] });
+const data = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+
+const step = 1 / data.length;
+const tickData = data.map((d, idx) => {
+  return { value: step * idx + step / 2, text: d, id: String(idx) };
 });
-const y = arcFolder.add(arcCfg, 'y', 0, 300).onChange((y) => {
-  arc.update({ center: [x.getValue(), y] });
+const arc2 = new Arc({
+  style: {
+    container: canvas.appendChild(new Group()),
+    startAngle: -90,
+    endAngle: 270,
+    radius: 100,
+    center: [300, 420],
+    verticalFactor: 1,
+    title: {
+      content: '圆弧坐标轴',
+    },
+    ticks: tickData,
+    label: {
+      align: 'tangential',
+      autoEllipsis: true,
+      // autoHide: true,
+      autoHideTickLine: false,
+    },
+    subTickLine: { count: 1 },
+  },
 });
-arcFolder.add(arcCfg, '起始角', -90, 180).onChange((startAngle) => {
-  arc.update({ startAngle });
-});
-arcFolder.add(arcCfg, '终止角', -0, 270).onChange((endAngle) => {
-  arc.update({ endAngle });
-});
-arcFolder.add(arcCfg, '半径', 50, 200).onChange((radius) => {
-  arc.update({ radius });
-});
-arcFolder.add(arcCfg, '标签对齐', ['normal', 'tangential', 'radial']).onChange((align) => {
-  arc.update({ label: { align } });
-});
-arcFolder.add(arcCfg, '轴线正方向', ['inner', 'outer']).onChange((dir) => {
-  arc.update({ verticalFactor: dir === 'inner' ? -1 : 1 });
+
+canvas.appendChild(arc);
+canvas.appendChild(arc2);
+
+window.ConfigPanel([arc, arc2], '样式', {
+  'subTickLine.style.lineWidth': { label: '子刻度线粗细', value: 0.5, type: 'number', step: 0.5, range: [0, 5] },
+  startAngle: { label: '起始角', value: -90, type: 'number', step: 1, range: [-90, 180] },
+  endAngle: { label: '终止角', value: 270, type: 'number', step: 1, range: [-0, 270] },
+  radius: { label: '半径', value: 150, type: 'number', step: 1, range: [50, 200] },
+  verticalFactor: {
+    label: '轴线正方向',
+    value: 'outer',
+    options: [
+      { name: 'outer', value: 1 },
+      { name: 'inner', value: -1 },
+    ],
+  },
+  'label.align': {
+    label: '标签与轴线对齐方式',
+    value: 'radial',
+    options: ['normal', { name: '径向', value: 'radial' }, { name: '切线方向', value: 'tangential' }],
+  },
 });

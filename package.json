@@ -1,6 +1,6 @@
 {
   "name": "@antv/gui",
-  "version": "0.4.2",
+  "version": "0.4.3-alpha.5",
   "description": "UI components for AntV G.",
   "license": "MIT",
   "main": "lib/index.js",
@@ -26,7 +26,7 @@
     "fix": "eslint ./src/**/*.ts ./__tests__/**/*.ts --fix && prettier ./src ./__tests__ --write ",
     "coverage": "jest -w 16 --coverage",
     "test": "jest",
-    "test-live": "cross-env DEBUG_MODE=1 jest --watch ./__tests__",
+    "test-live": "cross-env DEBUG_MODE=1 jest --watch",
     "build": "run-s clean build:* size",
     "build:umd": "webpack",
     "build:cjs": "tsc -p tsconfig.json --target ES5 --module commonjs --outDir lib",
@@ -50,6 +50,7 @@
     "@antv/util": "^2.0.13",
     "csstype": "^3.0.8",
     "fecha": "^4.2.1",
+    "kiwi.js": "^1.1.3",
     "svg-path-parser": "^1.1.0"
   },
   "peerDependencies": {
@@ -109,12 +110,16 @@
     "testTimeout": 30000,
     "preset": "ts-jest",
     "collectCoverage": false,
-    "testRegex": "/__tests__/.*-spec\\.ts?$",
+    "testRegex": "/__tests__/.*(-|\\.)spec\\.ts?$",
     "setupFilesAfterEnv": [
       "./jest.setup.js"
     ],
     "collectCoverageFrom": [
-      "src/**/*.ts"
+      "src/**/*.ts",
+      "!**/checkbox/**",
+      "!**/button/**",
+      "!**/breadcrumb/**",
+      "!**/(countdown|statistic|link|toolbox)/**"
     ],
     "globals": {
       "ts-jest": {
@@ -139,7 +144,7 @@
     },
     {
       "path": "dist/gui.min.js",
-      "limit": "400 Kb"
+      "limit": "450 Kb"
     }
   ],
   "author": {

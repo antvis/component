@@ -32,3 +32,14 @@ export function toKNotation(num: number, precision: number = 0) {
   if (Math.abs(num) < 1000) return String(num);
   return `${toPrecision(num / 1000, precision).toLocaleString()}K`;
 }
+
+// Condition if x is smaller than zero.
+export const ifNegative = <T extends keyof any>(x: any, a: T, b?: T) => (x < 0 && Number.isFinite(x) ? a : b);
+// Condition if x is greater than zero.
+export const ifPositive = <T extends keyof any>(x: any, a: T, b?: T) => (x > 0 && Number.isFinite(x) ? a : b);
+// Calculate the result of  a * b.
+export const multi = (a: number, b: number) => a * b;
+// Calculate the result of  (a + b) / 2.
+export const mid = (a: number, b?: number) => a / 2 + (b || 0) / 2;
+// Transform angle to radian.
+export const DegToRad = Math.PI / 180;

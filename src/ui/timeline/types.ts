@@ -1,6 +1,6 @@
 import { DisplayObject, DisplayObjectConfig } from '@antv/g';
 import { CircleProps, MixAttrs, RectProps } from 'types';
-import { LinearOptions, LinearCfg } from '../axis';
+import { LinearOptions, LinearAxisStyleProps } from '../axis';
 import { TextCfg } from '../text';
 import { ButtonCfg } from '../button';
 import { CheckboxOptions } from '../checkbox';
@@ -47,7 +47,7 @@ export type PlayAxisBaseCfg = {
    * @title 刻度配置
    * @description 调整刻度配置,实际上刻度是一条width为0的linear型axis组件
    */
-  tickCfg?: Partial<LinearCfg>;
+  tickCfg?: Partial<LinearAxisStyleProps>;
   /**
    * @title 刻度配置
    * @description 调整刻度配置,实际上刻度是一条width为0的linear型axis组件

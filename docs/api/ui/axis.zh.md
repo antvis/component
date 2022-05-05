@@ -24,7 +24,7 @@ import { Linear, Arc, Helix } from '@antv/gui';
 | tickLine       | <code>false \| AxisTickCfg</code>    | 刻度线配置                                            | ``         |
 | label          | <code>false \| AxisLabelCfg</code>   | 标签文本配置                                          | ``         |
 | subTickLine    | <code>false \| AxisSubTickCfg</code> | 子刻度线配置                                          | ``         |
-| verticalFactor | <code>-1 \| 1</code>                 | 刻度与标签在轴线向量的位置，-1: 向量右侧, 1: 向量左侧 | ``         |
+| verticalFactor | <code>-1 \| 1</code>                 | 刻度与标签相对于轴线向量的位置。轴线为纵向时，-1 代表在向量左侧, 1 代表在向量右侧; 当轴线为横向时，-1 代表在轴线的上方，1 代表在轴线的下方; 当轴线为弧形时，-1 代表在轴线的内部，1 代表在轴线的外部 | ``         |
 
 ### 直线坐标轴
 
@@ -95,7 +95,6 @@ import { Linear, Arc, Helix } from '@antv/gui';
 | rotate           | <code>number</code>                                         | 范围[-90, 90] 手动指定旋转角度，配置后自动旋转失效                 | ``             |
 | autoHide         | <code>boolean</code>                                        | label 过多时隐藏部分                                               | `true`         |
 | autoHideTickLine | <code>boolean</code>                                        | 隐藏 label 时，同时隐藏掉其对应的 tickLine                         | `true`         |
-| minLabel         | <code>number</code>                                         | 最小 label 数量                                                    | ``             |
 | autoEllipsis     | <code>boolean</code>                                        | label 过长时缩略                                                   | `true`         |
 | ellipsisStep     | <code>number \| string</code>                               | 缩略步长，传入 string 时将计算其长度（下同）                       | ``             |
 | minLength        | <code>number \| string</code>                               | label 的最小长度                                                   | ``             |

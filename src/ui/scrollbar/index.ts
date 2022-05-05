@@ -295,7 +295,7 @@ export class Scrollbar extends GUI<Required<ScrollbarCfg>> {
     const { thumbLen } = this.attributes;
     const [x, y] = this.getLocalPosition();
     const [top, , , left] = this.padding;
-    const basePos = this.getOrientVal([x + left, y + top]);
+    const basePos = this.getOrientVal([(x as number) + left, (y as number) + top]);
     const clickPos = this.getOrientVal(getEventPos(e)) - thumbLen / 2;
     const value = this.valueOffset(clickPos - basePos, true);
     this.setValue(value);

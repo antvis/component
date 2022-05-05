@@ -1,4 +1,4 @@
-import { CustomEvent, Rect, RectStyleProps } from '@antv/g';
+import { CustomEvent, Rect, RectStyleProps, Group } from '@antv/g';
 import { deepMix, isFunction } from '@antv/util';
 import { GUI } from '../../core/gui';
 import { Linear as Ticks } from '../axis/linear';
@@ -31,23 +31,22 @@ export class CellAxis extends GUI<Required<CellAxisCfg>> {
         label: {
           autoRotate: false,
           autoEllipsis: true,
-          offset: [0, 15],
+          offset: 15,
           alignTick: true,
           style: {
-            default: {
-              fontSize: 10,
-              fill: 'rgba(0,0,0,0.45)',
-            },
+            fontSize: 10,
+            fill: 'rgba(0,0,0,0.45)',
           },
         },
         tickLine: {
           len: 4,
           style: {
-            default: { stroke: 'rgba(0,0,0,0.25)', lineWidth: 1 },
+            stroke: 'rgba(0,0,0,0.25)',
+            lineWidth: 1,
           },
         },
       },
-    },
+    } as Partial<CellAxisCfg>,
   };
 
   private cellShapes: Rect[] = [];
@@ -518,7 +517,13 @@ export class CellAxis extends GUI<Required<CellAxisCfg>> {
     const startX = (firstCell.getAttribute('x') as number) + 0.5 * (firstCell.getAttribute('width') as number);
     const endX = (lastCell.getAttribute('x') as number) + 0.5 * (lastCell.getAttribute('width') as number);
     this.ticks = new Ticks({
-      style: { ...tickStyle, startPos: [startX, labelY], endPos: [endX, labelY], ticks: createTickData(timeData) },
+      style: {
+        container: this.appendChild(new Group()),
+        ...tickStyle,
+        startPos: [startX, labelY],
+        endPos: [endX, labelY],
+        ticks: createTickData(timeData),
+      },
     });
     this.appendChild(this.ticks);
   }

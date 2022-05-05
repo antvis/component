@@ -1,7 +1,6 @@
-import { Canvas } from '@antv/g';
+import { Canvas, Group } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Linear } from '@antv/gui';
-import * as dat from 'dat.gui';
 
 const renderer = new CanvasRenderer();
 
@@ -38,32 +37,31 @@ const data = [
 const tickData = data.map((d, idx) => {
   const step = 1 / data.length;
   return {
-    value: step * idx,
+    value: step * idx + step / 2,
     text: d,
-    state: 'default',
     id: String(idx),
   };
 });
 
-const linear = new Linear({
+const axis = new Linear({
   style: {
-    startPos: [0, 50],
-    endPos: [800, 50],
+    container: canvas.appendChild(new Group()),
+    startPos: [0, 300],
+    endPos: [600, 300],
     ticks: tickData,
     title: {
-      offset: [0, -20],
+      content: 'Axis title',
     },
     label: {
-      offset: [0, 15],
       minLength: 20,
       maxLength: 80,
+      autoRotate: true,
+      autoHide: false,
+      autoHideTickLine: true,
       autoEllipsis: false,
       optionalAngles: [20, 30, 45],
-      padding: [0, 0, 0, 0],
-      autoHide: false,
-    },
-    tickLine: {
-      appendTick: false,
+      margin: [0, 0, 0, 0],
+      overlapOrder: ['autoRotate', 'autoEllipsis', 'autoHide'],
     },
     axisLine: {
       arrow: {
@@ -77,107 +75,30 @@ const linear = new Linear({
   },
 });
 
-canvas.appendChild(linear);
+canvas.appendChild(axis);
 
 /** -------------------------配置区域--------------------------------------- */
-const $wrapper = document.getElementById('container');
-const cfg = new dat.GUI({ autoPlace: false });
-$wrapper.appendChild(cfg.domElement);
-
-const getDefaultLabelCfg = ({
-  fontSize = labelFontSize.getValue(),
-  autoHide = labelAutoHide.getValue(),
-  minLabel = labelMin.getValue(),
-  autoEllipsis = labelAutoEllipsis.getValue(),
-  minLength = labelMinLength.getValue(),
-  maxLength = labelMaxLength.getValue(),
-  autoRotate = labelAutoRotate.getValue(),
-  maniRotate = labelManiRotate.getValue(),
-  rotate = labelRotate.getValue(),
-  alignTick = labelAlignTick.getValue(),
-}) => {
-  return {
-    type: 'text',
-    style: {
-      default: {
-        fill: '#000',
-        fontSize,
-        textAlign: 'center',
-        textBaseline: 'middle',
-      },
-    },
-    alignTick,
-    formatter: (tick) => tick.text || String(tick.value || ''),
-    overlapOrder: ['autoRotate', 'autoEllipsis', 'autoHide'],
-    margin: [0, 0, 0, 0],
-    rotate: maniRotate ? rotate : undefined,
-    autoRotate,
-    autoHideTickLine: true,
-    minLabel,
-    ellipsisStep: ' ',
-    offset: [0, 15],
-    minLength,
-    maxLength,
-    autoEllipsis,
-    optionalAngles: [20, 30, 45],
-    padding: [0, 0, 0, 0],
-    autoHide,
-  };
-};
-
-const labelFolder = cfg.addFolder('标签布局');
-labelFolder.open();
-const labelCfg = {
-  标签字号: 12,
-  自动隐藏: true,
-  最少标签数量: 1,
-  自动省略: true,
-  最小缩略长度: 20,
-  标签最大长度: 80,
-  自动旋转: true,
-  指定角度: false,
-  旋转角度: 0,
-  对齐刻度: true,
-};
-const labelFontSize = labelFolder
-  .add(labelCfg, '标签字号', 5, 20)
-  .step(1)
-  .onChange((fontSize) => {
-    linear.update({ label: getDefaultLabelCfg({ fontSize }) });
-  });
-const labelAutoHide = labelFolder.add(labelCfg, '自动隐藏').onChange((autoHide) => {
-  linear.update({ label: getDefaultLabelCfg({ autoHide }) });
+window.ConfigPanel(axis, '样式', {
+  'label.style.fontSize': { label: '标签字号', value: 10, type: 'number', step: 1, range: [5, 30] },
+  'label.margin': {
+    label: '标签左右间距',
+    value: '[0,0]',
+    options: [
+      { name: '[0,0]', value: [0, 0] },
+      { name: '[0,2,0,2]', value: [0, 2, 0, 2] },
+      { name: '[0,4,0,4]', value: [0, 4, 0, 4] },
+    ],
+  },
+  'label.autoRotate': { label: '自动旋转', value: true },
+  'label.autoEllipsis': { label: '自动省略', value: false },
+  'label.minLength': { label: '最小缩略长度', value: 20, type: 'number', step: 1, range: [20, 40] },
+  'label.maxLength': { label: '标签最大长度', value: 80, type: 'number', step: 1, range: [20, 120] },
+  'label.autoHide': { label: '自动隐藏', value: false },
+  'label.autoHideTickLine': { label: '自动隐藏刻度线', value: true },
 });
-const labelMin = labelFolder
-  .add(labelCfg, '最少标签数量', 1, 5)
-  .step(1)
-  .onChange((minLabel) => {
-    linear.update({ label: getDefaultLabelCfg({ minLabel }) });
-  });
-const labelAutoEllipsis = labelFolder.add(labelCfg, '自动省略').onChange((autoEllipsis) => {
-  linear.update({ label: getDefaultLabelCfg({ autoEllipsis }) });
-});
-const labelMinLength = labelFolder
-  .add(labelCfg, '最小缩略长度', 20, 100)
-  .step(5)
-  .onChange((minLength) => {
-    linear.update({ label: getDefaultLabelCfg({ minLength }) });
-  });
-const labelMaxLength = labelFolder
-  .add(labelCfg, '标签最大长度', 20, 200)
-  .step(5)
-  .onChange((maxLength) => {
-    linear.update({ label: getDefaultLabelCfg({ maxLength }) });
-  });
-const labelAutoRotate = labelFolder.add(labelCfg, '自动旋转').onChange((autoRotate) => {
-  linear.update({ label: getDefaultLabelCfg({ autoRotate }) });
-});
-const labelManiRotate = labelFolder.add(labelCfg, '指定角度').onChange((maniRotate) => {
-  linear.update({ label: getDefaultLabelCfg({ maniRotate }) });
-});
-const labelRotate = labelFolder.add(labelCfg, '旋转角度', -90, 90).onChange((rotate) => {
-  linear.update({ label: getDefaultLabelCfg({ rotate }) });
-});
-const labelAlignTick = labelFolder.add(labelCfg, '对齐刻度').onChange((alignTick) => {
-  linear.update({ label: getDefaultLabelCfg({ alignTick }) });
-});
+// const labelMin = labelFolder
+//   .add(labelCfg, '最少标签数量', 1, 5)
+//   .step(1)
+//   .onChange((minLabel) => {
+//     axis.update({ label: getDefaultLabelCfg({ minLabel }) });
+//   });

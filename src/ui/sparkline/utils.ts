@@ -17,7 +17,7 @@ export function getStackedData(_: Data): Data {
   // 生成堆叠数据
   const datumLen = data[0].length;
   // 上一个堆叠的数据值，分别记录正负
-  const [positivePrev, negativePrev] = [new Array(datumLen).fill(0), new Array(datumLen).fill(0)];
+  const [positivePrev, negativePrev] = [Array(datumLen).fill(0), Array(datumLen).fill(0)];
   for (let i = 0; i < data.length; i += 1) {
     const datum = data[i];
     for (let j = 0; j < datumLen; j += 1) {

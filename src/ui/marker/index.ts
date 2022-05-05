@@ -1,4 +1,4 @@
-import { Path, Image, PathCommand, ImageStyleProps, PathStyleProps, DisplayObject } from '@antv/g';
+import { Path, Image, PathCommand, ImageStyleProps, PathStyleProps } from '@antv/g';
 import { deepMix, isFunction } from '@antv/util';
 import { GUI } from '../../core/gui';
 import { parseMarker } from './utils';
@@ -27,6 +27,13 @@ export class Marker extends GUI<Required<MarkerStyleProps>> {
    */
   public static registerSymbol = (type: string, symbol: FunctionalSymbol) => {
     Marker.MARKER_SYMBOL_MAP.set(type, symbol);
+  };
+
+  /**
+   * 获取已经注册的 icon 的 path
+   */
+  public static getSymbol = (type: string): FunctionalSymbol | undefined => {
+    return Marker.MARKER_SYMBOL_MAP.get(type);
   };
 
   /**
@@ -94,19 +101,21 @@ export class Marker extends GUI<Required<MarkerStyleProps>> {
   // symbol marker
   private getMarkerSymbolShapeCfg(): PathStyleProps {
     const { x = 0, y = 0, size = 0, symbol, ...args } = this.attributes;
-    const r = size / 2;
+    const r = (size as number) / 2;
     const symbolFn = isFunction(symbol) ? symbol : Marker.MARKER_SYMBOL_MAP.get(symbol);
     const path = symbolFn?.(0, 0, r) as PathCommand[];
     return {
       path,
       ...args,
+      // do not inherit className
+      class: 'marker-symbol',
     };
   }
 
   // image marker
   private getMarkerImageShapeCfg(): ImageStyleProps {
     const { size = 0, symbol } = this.attributes;
-    const r2 = size * 2;
+    const r2 = (size as number) * 2;
     return {
       x: -size,
       y: -size,

@@ -1,16 +1,18 @@
-import { deepMix } from '@antv/util';
 import { vec2 } from '@antv/matrix-util';
-import type { PathCommand } from '@antv/g';
-import type { ArcCfg, ArcOptions, AxisLabelCfg, Point, Position } from './types';
-import { AxisBase } from './base';
-import { getVerticalVector, getVectorsAngle } from './utils';
+import type { TextStyleProps } from '@antv/g';
+import type { ArcAxisStyleProps, ArcOptions, Point } from './types';
 import { ARC_DEFAULT_OPTIONS } from './constant';
-import { toPrecision } from '../../util';
+import { deepAssign, getEllipsisText } from '../../util';
+import { AxisBase } from './base';
+import { getAxisTicks } from './axisTick';
+import { getAxisSubTicks } from './axisSubTick';
+import { getAxisLabels } from './arcAxisLabel';
+import { DegToRad, createTempText, getFont, defined } from '../../util';
 
 const { PI, abs, cos, sin } = Math;
 const [PI2] = [PI * 2];
 
-export class Arc extends AxisBase<ArcCfg> {
+export class Arc extends AxisBase<ArcAxisStyleProps> {
   public static tag = 'arc';
 
   protected static defaultOptions = {
@@ -18,128 +20,187 @@ export class Arc extends AxisBase<ArcCfg> {
     ...ARC_DEFAULT_OPTIONS,
   };
 
-  constructor(options: ArcOptions) {
-    super(deepMix({}, Arc.defaultOptions, options));
-    super.init();
+  protected get axisPosition() {
+    return this.style.verticalFactor === -1 ? 'inside' : 'outside';
   }
 
-  protected getAxisLinePath() {
-    const {
-      radius: rx,
-      center: [cx, cy],
-    } = this.attributes;
-    const { startPos, endPos } = this.getTerminals();
-    const { startAngle, endAngle } = this.getAngles();
+  constructor(options: ArcOptions) {
+    // should not use this.style, because `style` is a Proxy object, not a Plain Object.
+    // should not use `deepMix`, because `undefined` should be assign, not to be ignore.
+    super(deepAssign({}, Arc.defaultOptions, options));
+    this.init();
+  }
+
+  public update(cfg: Partial<ArcAxisStyleProps> = {}) {
+    super.update(deepAssign({}, Arc.defaultOptions, this.attributes, cfg));
+  }
+
+  protected getLinePath() {
+    const { radius, center = [0, 0], axisLine: axisLineCfg } = this.style;
+    const { startAngle, endAngle } = this.getRadians();
+    const endPoints = this.getEndPoints();
+    const style = axisLineCfg ? axisLineCfg.style : { visibility: 'hidden' };
+    const [[x1, y1], [x2, y2]] = endPoints;
+    const [cx, cy] = center;
     const diffAngle = abs(endAngle - startAngle);
-    const ry = rx;
+    const [rx, ry] = [radius ?? 0, radius ?? 0];
+    let path: any[] = [];
     if (diffAngle === PI2) {
       // 绘制两个半圆
-      return [
+      path = [
         ['M', cx, cy - ry],
         ['A', rx, ry, 0, 1, 1, cx, cy + ry],
         ['A', rx, ry, 0, 1, 1, cx, cy - ry],
-        ['Z'],
-      ] as PathCommand[];
+      ];
+    } else {
+      // 大小弧
+      const large = diffAngle > PI ? 1 : 0;
+      // 1-顺时针 0-逆时针
+      const sweep = startAngle > endAngle ? 0 : 1;
+      path = [
+        ['M', cx, cy],
+        ['L', x1, y1],
+        ['A', rx, ry, 0, large, sweep, x2, y2],
+        ['L', cx, cy],
+      ];
     }
 
-    // 大小弧
-    const large = diffAngle > PI ? 1 : 0;
-    // 1-顺时针 0-逆时针
-    const sweep = startAngle > endAngle ? 0 : 1;
-    return [['M', cx, cy], ['L', ...startPos], ['A', rx, ry, 0, large, sweep, ...endPos], ['Z']] as PathCommand[];
+    return {
+      ...style,
+      visibility: 'visible' as any,
+      path,
+    };
   }
 
-  protected getTangentVector(value: number) {
-    const { verticalFactor } = this.attributes;
-    const verVec = this.getVerticalVector(value);
-    return vec2.normalize([0, 0], getVerticalVector(verVec, verticalFactor));
+  protected getLineArrow() {
+    return [];
+  }
+
+  protected getTickLineItems() {
+    const { tickLine: tickCfg, center, radius, startAngle, endAngle } = this.style;
+    return tickCfg
+      ? getAxisTicks({
+          ...tickCfg,
+          ticks: this.optimizedTicks,
+          orient: this.axisPosition as any,
+          endPoints: this.getEndPoints(),
+          center,
+          radius,
+          startAngle,
+          endAngle,
+          axisType: 'arc',
+        })
+      : [];
+  }
+
+  protected getSubTickLineItems() {
+    const { subTickLine: subTickCfg, center, radius, startAngle, endAngle } = this.style;
+    return subTickCfg
+      ? getAxisSubTicks({
+          ...subTickCfg,
+          ticks: this.optimizedTicks,
+          orient: this.axisPosition as any,
+          endPoints: this.getEndPoints(),
+          center,
+          radius,
+          startAngle,
+          endAngle,
+          axisType: 'arc',
+        })
+      : [];
+  }
+
+  protected getLabelAttrs() {
+    const {
+      radius,
+      center = [0, 0],
+      label: labelCfg,
+      tickLine: tickLineCfg,
+      startAngle = 0,
+      endAngle = 0,
+    } = this.style;
+
+    return labelCfg
+      ? getAxisLabels(this.selection, {
+          ...labelCfg,
+          startAngle,
+          endAngle,
+          radius: radius ?? 0,
+          center,
+          tickLength: tickLineCfg?.len,
+          ticks: this.optimizedTicks,
+          orient: this.axisPosition as any,
+        })
+      : [];
+  }
+
+  protected getAxisTitle() {
+    const { title: titleCfg } = this.style;
+
+    if (!titleCfg) return null;
+
+    // Now only support arc axis title display in the center.
+    const [x, y] = this.style.center;
+    const titleStyle = titleCfg.style || {};
+    const content = titleCfg.content || '';
+    const attrs: TextStyleProps = {
+      x,
+      y,
+      text: content,
+      ...titleStyle,
+      textAlign: titleStyle.textAlign || ('center' as any),
+      textBaseline: titleStyle.textBaseline || ('middle' as any),
+    };
+    const textNode = createTempText(this.selection.node(), attrs);
+    const text = defined(titleCfg.maxLength)
+      ? getEllipsisText(content, titleCfg.maxLength!, getFont(textNode as any))
+      : content;
+    textNode?.remove();
+    return { id: 'axis-title', ...attrs, tip: content, text };
   }
 
   protected getVerticalVector(value: number) {
-    const {
-      center: [cx, cy],
-    } = this.attributes;
+    const { verticalFactor = 1, center } = this.style;
+    const [cx, cy] = center;
     const [x, y] = this.getValuePoint(value);
     const [v1, v2] = vec2.normalize([0, 0], [x - cx, y - cy]);
-    const { verticalFactor } = this.attributes;
     return vec2.scale([0, 0], [v1, v2], verticalFactor);
   }
 
   protected getValuePoint(value: number) {
-    const {
-      center: [cx, cy],
-      radius,
-    } = this.attributes;
-    const { startAngle, endAngle } = this.getAngles();
+    const { center, radius } = this.attributes;
+    const [cx, cy] = center;
+    const { startAngle, endAngle } = this.getRadians();
     const angle = (endAngle - startAngle) * value + startAngle;
     const rx = radius * cos(angle);
     const ry = radius * sin(angle);
     return [cx + rx, cy + ry] as Point;
   }
 
-  protected getTerminals() {
-    const {
-      center: [cx, cy],
-      radius,
-    } = this.attributes;
-    const { startAngle, endAngle } = this.getAngles();
+  protected getEndPoints() {
+    const { center, radius } = this.style;
+    const [cx, cy] = center;
+    const { startAngle, endAngle } = this.getRadians();
     const startPos = [cx + radius * cos(startAngle), cy + radius * sin(startAngle)] as Point;
     const endPos = [cx + radius * cos(endAngle), cy + radius * sin(endAngle)] as Point;
-    return { startPos, endPos };
-  }
-
-  protected getLabelLayout(labelVal: number, tickAngle: number, angle: number) {
-    // 精度
-    const approxTickAngle = toPrecision(tickAngle, 0);
-    const { label } = this.attributes;
-    const { align } = label as AxisLabelCfg;
-    let rotate = angle;
-    let textAlign = 'center' as Position;
-    if (align === 'tangential') {
-      rotate = getVectorsAngle([1, 0], this.getTangentVector(labelVal)) % 180;
-    } else {
-      // 非径向垂直于刻度的情况下（水平、径向），调整锚点
-
-      const absAngle = Math.abs(approxTickAngle);
-      if (absAngle < 90) textAlign = 'start';
-      else if (absAngle > 90) textAlign = 'end';
-
-      if (angle !== 0 || [90].includes(approxTickAngle)) {
-        const sign = angle > 0 ? 0 : 1;
-        if (absAngle < 90) {
-          textAlign = ['end', 'start'][sign] as Position;
-        } else if (absAngle > 90) {
-          textAlign = ['start', 'end'][sign] as Position;
-        }
-      }
-
-      // 超过旋转超过 90 度时，文本会倒置，这里将其正置
-      if (align === 'radial') {
-        rotate = approxTickAngle;
-        if (Math.abs(rotate) > 90) rotate -= 180;
-      }
-    }
-    return {
-      rotate,
-      textAlign,
-    };
+    return [startPos, endPos];
   }
 
   /**
    * 获得弧度数值
    */
-  private getAngles() {
-    const { startAngle, endAngle } = this.attributes;
+  private getRadians() {
+    const { startAngle = 0, endAngle = 0 } = this.style;
     // 判断角度还是弧度
     if (abs(startAngle) < PI2 && abs(endAngle) < PI2) {
       // 弧度
       return { startAngle, endAngle };
     }
-    // 角度
+    // 角度 [todo]
 
     return {
-      startAngle: (startAngle * PI) / 180,
-      endAngle: (endAngle * PI) / 180,
+      startAngle: startAngle * DegToRad,
+      endAngle: endAngle * DegToRad,
     };
   }
 }

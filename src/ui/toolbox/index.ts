@@ -1,5 +1,5 @@
 import { DisplayObject, Group, Rect, Text } from '@antv/g';
-import { GUIOption } from 'types';
+import { GUIOption } from '../../types';
 import { deepAssign, TEXT_INHERITABLE_PROPS } from '../../util';
 import { GUI } from '../../core/gui';
 import { FeatureCtor, ToolboxCfg, ToolboxOptions } from './types';

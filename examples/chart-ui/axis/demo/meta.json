@@ -5,26 +5,42 @@
   },
   "demos": [
     {
-      "filename": "linear.ts",
+      "filename": "axis-title.ts",
       "title": {
-        "zh": "笛卡尔坐标轴",
-        "en": "Cartesian Axis"
+        "zh": "坐标轴标题设置",
+        "en": "Axis title"
       },
       "screenshot": ""
     },
     {
-      "filename": "vertical-axis.ts",
+      "filename": "axis-line.ts",
       "title": {
-        "zh": "纵向笛卡尔坐标轴",
-        "en": "Vertical Cartesian Axis"
+        "zh": "坐标轴轴线设置",
+        "en": "Axis line"
       },
       "screenshot": ""
     },
     {
-      "filename": "style.ts",
+      "filename": "tick-line.ts",
       "title": {
-        "zh": "样式设置",
-        "en": "Style Setting"
+        "zh": "坐标刻度线设置",
+        "en": "Axis tickLine"
+      },
+      "screenshot": ""
+    },
+    {
+      "filename": "axis-label.ts",
+      "title": {
+        "zh": "坐标轴标签设置",
+        "en": "Axis label"
+      },
+      "screenshot": ""
+    },
+    {
+      "filename": "numeric-axis.ts",
+      "title": {
+        "zh": "数字坐标轴",
+        "en": "Numeric axis"
       },
       "screenshot": ""
     },
@@ -37,10 +53,10 @@
       "screenshot": ""
     },
     {
-      "filename": "label-formatter.ts",
+      "filename": "style-callback.ts",
       "title": {
-        "zh": "标签格式化",
-        "en": "Label Formatter"
+        "zh": "标签样式支持回调",
+        "en": "Callback for label style"
       },
       "screenshot": ""
     },
@@ -57,6 +73,14 @@
       "title": {
         "zh": "圆弧坐标轴",
         "en": "Arc Axis"
+      },
+      "screenshot": ""
+    },
+    {
+      "filename": "perf.ts",
+      "title": {
+        "zh": "大数据量性能",
+        "en": "Axis performance"
       },
       "screenshot": ""
     },

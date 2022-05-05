@@ -134,6 +134,7 @@ export class Continuous extends LegendBase<ContinuousCfg> {
     const symbol =
       marker === 'default' ? this.getOrientVal(['horizontalHandle', 'verticalHandle']) : (marker as SymbolCfg);
     return {
+      // @ts-ignore
       markerCfg: {
         symbol,
         size,

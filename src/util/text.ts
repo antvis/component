@@ -31,11 +31,11 @@ export const measureTextWidth = memoize(
  * @param text 需要计算的文本, 由于历史原因 除了支持string，还支持空值,number和数组等
  * @param maxWidth 最大宽度
  * @param font 字体
- * @param str 要替换的文本
+ * @param dot 要替换的文本
  */
-export const getEllipsisText = (text: any, maxWidth: number, font?: Font, str: string = '...') => {
+export const getEllipsisText = (text: any, maxWidth: number, font?: Font, dot: string = '...') => {
   const STEP = 16; // 每次 16，调参工程师
-  const DOT_WIDTH = measureTextWidth(str, font);
+  const DOT_WIDTH = measureTextWidth(dot, font);
 
   let leftText;
 
@@ -66,9 +66,7 @@ export const getEllipsisText = (text: any, maxWidth: number, font?: Font, str: s
 
     // 超出剩余宽度，则停止
     if (currentWidth + DOT_WIDTH > leftWidth) {
-      if (currentWidth > leftWidth) {
-        break;
-      }
+      break;
     }
 
     r.push(currentText);
@@ -107,11 +105,20 @@ export const getEllipsisText = (text: any, maxWidth: number, font?: Font, str: s
     }
   }
 
-  return `${r.join('')}${str}`;
+  return `${r.join('')}${dot}`;
 };
 
-export function getFont(textShape: Text) {
-  const { fontSize, fontFamily, fontWeight, fontStyle, fontVariant } = textShape.attr();
+export function parseLength(length: string | number, font: any) {
+  return typeof length === 'string' ? measureTextWidth(length, font) : length;
+}
+
+export function getFont<T extends Text = Text>(textShape: T) {
+  const fontFamily = textShape.style.fontFamily || 'sans-serif';
+  const fontWeight = textShape.style.fontWeight || 'normal';
+  const fontStyle = textShape.style.fontStyle || 'normal';
+  const fontVariant = textShape.style.fontVariant;
+  let fontSize = textShape.style.fontSize as any;
+  fontSize = typeof fontSize === 'object' ? fontSize.value : fontSize;
   return { fontSize: fontSize as number, fontFamily, fontWeight, fontStyle, fontVariant };
 }
 
