@@ -2,12 +2,11 @@ import { vec2 } from '@antv/matrix-util';
 import type { TextStyleProps } from '@antv/g';
 import type { ArcAxisStyleProps, ArcOptions, Point } from './types';
 import { ARC_DEFAULT_OPTIONS } from './constant';
-import { deepAssign, getEllipsisText } from '../../util';
+import { deepAssign, getEllipsisText, getMemoFont, DegToRad, defined } from '../../util';
 import { AxisBase } from './base';
 import { getAxisTicks } from './axisTick';
 import { getAxisSubTicks } from './axisSubTick';
 import { getAxisLabels } from './arcAxisLabel';
-import { DegToRad, createTempText, getFont, defined } from '../../util';
 
 const { PI, abs, cos, sin } = Math;
 const [PI2] = [PI * 2];
@@ -151,11 +150,8 @@ export class Arc extends AxisBase<ArcAxisStyleProps> {
       textAlign: titleStyle.textAlign || ('center' as any),
       textBaseline: titleStyle.textBaseline || ('middle' as any),
     };
-    const textNode = createTempText(this.selection.node(), attrs);
-    const text = defined(titleCfg.maxLength)
-      ? getEllipsisText(content, titleCfg.maxLength!, getFont(textNode as any))
-      : content;
-    textNode?.remove();
+    const font = getMemoFont(this.selection.node(), attrs);
+    const text = defined(titleCfg.maxLength) ? getEllipsisText(content, titleCfg.maxLength!, font) : content;
     return { id: 'axis-title', ...attrs, tip: content, text };
   }
 

@@ -1,5 +1,5 @@
 import { isNumberEqual } from '@antv/util';
-import { createTempText, defined, getFont, multi, parseLength, Selection, getEllipsisText } from '../../util';
+import { defined, multi, parseLength, Selection, getEllipsisText, getMemoFont } from '../../util';
 import { getArcTickPoints } from './axisTick';
 import { getSign, ifOutside } from './utils';
 import type { AxisLabelCfg, Point, TickDatum } from './types';
@@ -52,7 +52,7 @@ export function getAxisLabels(selection: Selection, options: AxisLabelOptions) {
     const formatAngle = (a: number) => (a >= 270 ? (a - 360) % 360 : a);
     let angle = formatAngle(tickAngle);
 
-    let [, [x, y]] = getArcTickPoints(center, radius, tickAngle, orient, tickLength + tickPadding);
+    const [, [x, y]] = getArcTickPoints(center, radius, tickAngle, orient, tickLength + tickPadding);
     const text = formatter ? formatter(datum, idx) : datum.text;
 
     const labelStyle = typeof style === 'function' ? style.call(null, datum, idx) : style;
@@ -64,7 +64,7 @@ export function getAxisLabels(selection: Selection, options: AxisLabelOptions) {
     if (align === 'radial') {
       textBaseline = 'middle';
       if (angle >= 90 || angle < -90) {
-        angle = angle + 180;
+        angle += 180;
       }
       textAlign = getTextAnchor(sideVector);
       if (isNumberEqual(angle, -90)) {
@@ -84,10 +84,8 @@ export function getAxisLabels(selection: Selection, options: AxisLabelOptions) {
       textBaseline = getTextBaseline(sideVector);
     }
 
-    const textNode = createTempText(selection.node(), { ...labelStyle, text: text || '' });
-    const font = getFont(textNode as any);
+    const font = getMemoFont(selection.node(), { ...labelStyle, text: text || '' });
     const limitLength = parseLength(maxLength!, font);
-    textNode.remove();
 
     return {
       id: `label-${datum.id}`,

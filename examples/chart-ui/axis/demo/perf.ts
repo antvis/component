@@ -30,7 +30,6 @@ const tickData = Array(count)
       id: String(idx),
     };
   });
-
 const axis = new Linear({
   style: {
     container: canvas.appendChild(new Group()),
@@ -40,13 +39,13 @@ const axis = new Linear({
     title: {
       content: 'Axis Title',
     },
-    ticksThreshold: 100,
+    ticksThreshold: 50000,
     label: {
       minLength: 20,
       maxLength: 80,
       autoRotate: false,
-      autoHide: true,
-      // autoHide: 'greedy',
+      // autoHide: true,
+      autoHide: 'greedy',
       autoEllipsis: false,
       optionalAngles: [20, 30, 45],
       style: {

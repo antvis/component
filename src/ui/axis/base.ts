@@ -1,7 +1,7 @@
 import { Group, Line, LineStyleProps, Path, PathStyleProps, Text } from '@antv/g';
 import { isNil, noop } from '@antv/util';
 import { GUI } from '../../core/gui';
-import { getFont, Selection, select, applyStyle, defined } from '../../util';
+import { Selection, select, applyStyle, defined } from '../../util';
 import { Marker, MarkerStyleProps } from '../marker';
 import { AxisBaseStyleProps, AxisTextStyleProps, OverlapType, Point, TickDatum } from './types';
 import { OverlapCallback, OverlapUtils } from './overlap';
@@ -28,17 +28,9 @@ export abstract class AxisBase<T extends AxisBaseStyleProps = AxisBaseStyleProps
 
   protected optimizedTicks: TickDatum[] = [];
 
-  protected get labels(): Text[] {
-    return (this.selection.select('.axis-label-group').node() as Group).childNodes as Text[];
-  }
+  private labels: Text[] = [];
 
-  protected get tickLines() {
-    return this.selection.selectAll('.axis-tick').nodes();
-  }
-
-  protected get labelFont() {
-    return this.labels[0] && getFont(this.labels[0]);
-  }
+  private tickLines: Line[] = [];
 
   public init() {
     if (!this.style.container) {
@@ -169,12 +161,14 @@ export abstract class AxisBase<T extends AxisBaseStyleProps = AxisBaseStyleProps
     const { ticksThreshold } = this.style;
     // Apply default id to ticks data.
     const ticks = Array.from(this.style.ticks || []).map((d, idx) => ({ id: `${idx}`, ...d }));
+    const tickCount = ticks.length;
     let optimizedTicks = ticks;
     if (typeof ticksThreshold === 'number') {
       const len = ticks.length;
       if (len > ticksThreshold) {
         const page = Math.ceil(len / ticksThreshold);
-        optimizedTicks = ticks.filter((tick, idx) => idx % page === 0);
+        // 保留最后一条
+        optimizedTicks = ticks.filter((tick, idx) => idx % page === 0 || idx === tickCount - 1);
       }
     }
     this.optimizedTicks = optimizedTicks;
@@ -185,19 +179,16 @@ export abstract class AxisBase<T extends AxisBaseStyleProps = AxisBaseStyleProps
   /** Includes axis tickLine and axis subTickLine  */
   private drawTickLines() {
     const tickLineItems = this.getTickLineItems();
-    this.selection
+    this.tickLines = this.selection
       .select('.axis-tick-group')
       .selectAll('.axis-tick')
       .data(tickLineItems, (d) => d.id)
       .join(
-        (enter) =>
-          enter
-            .append('line')
-            .attr('className', 'axis-tick')
-            .each((shape, datum) => ((shape.id = datum.id), applyStyle(shape, datum))),
+        (enter) => enter.append((datum) => new Line({ id: datum.id, style: datum })).attr('className', 'axis-tick'),
         (update) => update.each((shape, datum) => applyStyle(shape, datum)),
         (exit) => exit.remove()
-      );
+      )
+      .nodes() as Line[];
 
     const subTickLineItems = this.getSubTickLineItems();
     this.selection
@@ -205,11 +196,7 @@ export abstract class AxisBase<T extends AxisBaseStyleProps = AxisBaseStyleProps
       .selectAll('.axis-subtick')
       .data(subTickLineItems, (d) => d.id)
       .join(
-        (enter) =>
-          enter
-            .append('line')
-            .attr('className', 'axis-subtick')
-            .each((shape, datum) => ((shape.id = datum.id), applyStyle(shape, datum))),
+        (enter) => enter.append((datum) => new Line({ id: datum.id, style: datum })).attr('className', 'axis-subtick'),
         (update) => update.each((shape, datum) => applyStyle(shape, datum)),
         (exit) => exit.remove()
       );
@@ -217,18 +204,16 @@ export abstract class AxisBase<T extends AxisBaseStyleProps = AxisBaseStyleProps
 
   private drawLabels() {
     const labels = this.getLabelAttrs();
-    this.selection
+    this.labels = this.selection
       .select('.axis-label-group')
       .selectAll('.axis-label')
       .data(labels, (d) => d.id)
       .join(
         (enter) =>
           enter
-            .append('text')
+            .append((datum) => new Text({ id: datum.id, style: datum }))
             .attr('className', 'axis-label')
             .each((shape, datum) => {
-              shape.id = datum.id;
-              applyStyle(shape, datum);
               defined(datum.rotation) && shape.setEulerAngles(datum.rotation);
               const { fillOpacity, strokeOpacity = 0, opacity = fillOpacity } = shape.style;
               const keyframes = [
@@ -243,7 +228,8 @@ export abstract class AxisBase<T extends AxisBaseStyleProps = AxisBaseStyleProps
             defined(datum.rotation) && shape.setEulerAngles(datum.rotation);
           }),
         (exit) => exit.remove()
-      );
+      )
+      .nodes() as Text[];
   }
 
   // 是否可以执行某一 overlap
@@ -286,7 +272,7 @@ export abstract class AxisBase<T extends AxisBaseStyleProps = AxisBaseStyleProps
       margin,
     };
 
-    const labels = this.selection.selectAll('.axis-label').nodes();
+    const labels = this.labels;
     overlapOrder.forEach((type) => {
       const util = OverlapUtils.get(type);
       const overlapCfg = labelCfg[type];
@@ -309,7 +295,6 @@ export abstract class AxisBase<T extends AxisBaseStyleProps = AxisBaseStyleProps
 
   protected autoHideTickLine() {
     if (!this.style.label?.autoHideTickLine) return;
-
     this.labels.forEach((label, idx) => {
       const tickLine = this.tickLines[idx];
       if (!tickLine) return;

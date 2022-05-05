@@ -1,6 +1,7 @@
-import { Text } from '@antv/g';
+import { DisplayObject, Text, TextStyleProps } from '@antv/g';
 import { isString, memoize, values, toString } from '@antv/util';
 import type { Properties } from 'csstype';
+import { select } from './selection';
 
 type Font = Pick<Properties, 'fontFamily' | 'fontWeight' | 'fontStyle' | 'fontVariant'> & {
   fontSize?: number;
@@ -112,7 +113,21 @@ export function parseLength(length: string | number, font: any) {
   return typeof length === 'string' ? measureTextWidth(length, font) : length;
 }
 
-export function getFont<T extends Text = Text>(textShape: T) {
+function memoTextFontAttrs(cb: (shape: Text) => any) {
+  const cache = new Map<string, Text>();
+  return (group: DisplayObject, attrs: TextStyleProps) => {
+    const { fontSize, fontFamily, fontStyle, fontWeight, textAlign, textBaseline, textTransform } = attrs;
+    const key = JSON.stringify({ fontSize, fontFamily, fontStyle, fontWeight, textAlign, textBaseline, textTransform });
+    if (!cache.has(key)) {
+      const textNode = select(group).append('text').node() as Text;
+      textNode.attr({ ...attrs, visibility: 'hidden' });
+      cache.set(key, textNode);
+    }
+    return cb(cache.get(key)!);
+  };
+}
+
+export const getFont = (textShape: Text) => {
   const fontFamily = textShape.style.fontFamily || 'sans-serif';
   const fontWeight = textShape.style.fontWeight || 'normal';
   const fontStyle = textShape.style.fontStyle || 'normal';
@@ -120,7 +135,9 @@ export function getFont<T extends Text = Text>(textShape: T) {
   let fontSize = textShape.style.fontSize as any;
   fontSize = typeof fontSize === 'object' ? fontSize.value : fontSize;
   return { fontSize: fontSize as number, fontFamily, fontWeight, fontStyle, fontVariant };
-}
+};
+
+export const getMemoFont = memoTextFontAttrs(getFont);
 
 /**
  * 对文本进行转换

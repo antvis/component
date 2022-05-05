@@ -8,8 +8,7 @@ import {
   mid,
   multi,
   parseLength,
-  getFont,
-  createTempText,
+  getMemoFont,
 } from '../../util';
 import { Marker } from '../marker';
 import { AxisBase } from './base';
@@ -205,9 +204,7 @@ export class Linear extends AxisBase<CartesianStyleProps> {
         );
       }
 
-      const textNode = createTempText(this.selection.node(), { ...labelStyle, text: text || '' });
-      const font = getFont(textNode as any);
-      textNode.remove();
+      const font = getMemoFont(this.selection.node(), { ...labelStyle, text: text || '' });
       const limitLength = parseLength(maxLength!, font);
 
       return {

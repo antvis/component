@@ -20,7 +20,7 @@ type AxisTitleOptions = AxisTitleCfg & {
   orient: 'top' | 'bottom' | 'left' | 'right';
 };
 
-const { cos, sin, abs } = Math;
+const { cos, abs } = Math;
 
 export function getAxisTitleStyle(selection: Selection, options: AxisTitleOptions) {
   const {
