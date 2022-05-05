@@ -6,6 +6,7 @@ import { Marker, MarkerStyleProps } from '../marker';
 import { AxisBaseStyleProps, AxisTextStyleProps, OverlapType, Point, TickDatum } from './types';
 import { OverlapCallback, OverlapUtils } from './overlap';
 import { assignNonempty } from './utils';
+import { timer } from '../../util/timer';
 
 // 注册轴箭头
 // ->
@@ -47,6 +48,7 @@ export abstract class AxisBase<T extends AxisBaseStyleProps = AxisBaseStyleProps
     this.update();
   }
 
+  @timer('Total cost')
   public update(cfg: Partial<AxisBaseStyleProps> = {}) {
     // @ts-ignore
     this.attr(cfg);
@@ -177,6 +179,7 @@ export abstract class AxisBase<T extends AxisBaseStyleProps = AxisBaseStyleProps
   }
 
   /** Includes axis tickLine and axis subTickLine  */
+  @timer('cost')
   private drawTickLines() {
     const tickLineItems = this.getTickLineItems();
     this.tickLines = this.selection
@@ -202,6 +205,7 @@ export abstract class AxisBase<T extends AxisBaseStyleProps = AxisBaseStyleProps
       );
   }
 
+  @timer('cost')
   private drawLabels() {
     const labels = this.getLabelAttrs();
     this.labels = this.selection
