@@ -48,7 +48,6 @@ export class PageNavigator extends GUI<PageNavigatorCfg> {
           disabled: {},
         },
         spacing: 5,
-        position: 'bottom',
       },
       pagination: {
         type: 'currTotal',
@@ -58,7 +57,6 @@ export class PageNavigator extends GUI<PageNavigatorCfg> {
         },
         separator: '/',
         spacing: 5,
-        position: 'bottom',
       },
     },
   };
@@ -164,12 +162,17 @@ export class PageNavigator extends GUI<PageNavigatorCfg> {
     this.viewHeight = height;
   }
 
+  /** Infer by orient */
+  private get btnPosition() {
+    if (this.style.button?.position) return this.style.button.position;
+    return this.style.orient === 'horizontal' ? 'right' : 'bottom';
+  }
+
   /**
    * 获得按钮的默认箭头形状
    */
   private get defaultShape() {
-    const position = get(this.attributes, ['button', 'position']);
-    if (['top', 'bottom', 'left-right'].includes(position)) {
+    if (['left', 'right', 'left-right'].includes(this.btnPosition)) {
       return ['left', 'right'];
     }
     return ['up', 'down'];
@@ -227,6 +230,7 @@ export class PageNavigator extends GUI<PageNavigatorCfg> {
       this.view = view;
       this.view.style.clipPath = this.clipView;
       this.appendChild(this.view);
+      this.view.toBack(); // 避免遮挡分页器按钮
     }
     this.attr(deepMix({}, this.attributes, cfg));
     // this.updateClipView();
@@ -323,6 +327,7 @@ export class PageNavigator extends GUI<PageNavigatorCfg> {
     this.view.style.clipPath = this.clipView;
     // 将全景图挂载到翻页器
     this.appendChild(this.view);
+    this.view.toBack(); // 避免遮挡分页器按钮
 
     const [startMarker, endMarker] = this.defaultShape;
     // 初始化按钮
@@ -378,19 +383,11 @@ export class PageNavigator extends GUI<PageNavigatorCfg> {
   private updateButtonState() {
     const { loop } = this.attributes;
     if (!loop) {
-      if (this.currPage === this.maxPages) {
-        this.nextButton.update({ disabled: true });
-      } else {
-        this.nextButton.update({ disabled: false });
-      }
-      if (this.currPage === 1) {
-        this.prevButton.update({ disabled: true });
-      } else {
-        this.prevButton.update({ disabled: false });
-      }
+      this.nextButton.setState(this.currPage === this.maxPages ? 'disabled' : 'enabled');
+      this.prevButton.setState(this.currPage === 1 ? 'disabled' : 'enabled');
     } else {
-      this.nextButton.update({ disabled: false });
-      this.prevButton.update({ disabled: false });
+      this.nextButton.setState('enabled');
+      this.prevButton.setState('enabled');
     }
   }
 
@@ -463,7 +460,8 @@ export class PageNavigator extends GUI<PageNavigatorCfg> {
    */
   private adjustButton() {
     const { button, pageWidth, pageHeight } = this.attributes;
-    const { position, spacing } = button as { position: ButtonPosition; spacing: number };
+    const position = this.btnPosition;
+    const spacing = button?.spacing || 0;
     const { width: prevWidth, height: prevHeight } = getShapeSpace(this.prevButton);
     const { width: nextWidth, height: nextHeight } = getShapeSpace(this.nextButton);
 

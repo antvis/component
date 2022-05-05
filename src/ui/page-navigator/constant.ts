@@ -1,8 +1,8 @@
 export const DEFAULT_BUTTON_STYLE = {
   text: '',
   type: 'primary',
-  height: 40,
-  width: 40,
+  height: 20,
+  width: 20,
   buttonStyle: {
     default: {
       lineWidth: 0,

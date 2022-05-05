@@ -210,6 +210,11 @@ export class Button extends GUI<ButtonCfg> {
     super.destroy();
   }
 
+  public setState(state: 'disabled' | 'enabled') {
+    this.style.disabled = state === 'disabled';
+    this.attr('cursor', this.style.disabled ? 'not-allowed' : 'pointer');
+  }
+
   private initShape() {
     this.markerShape = new Marker({
       name: 'marker',

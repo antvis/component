@@ -317,11 +317,13 @@ export class Category extends LegendBase<CategoryCfg> {
    */
   private adjustHorizontal() {
     const {
+      orient,
       maxWidth,
       spacing: [rowSpacing, colSpacing],
       autoWrap,
       maxRows,
-    } = this.attributes;
+      pageNavigator,
+    } = this.style;
     const height = this.itemHeight;
 
     /** 不分页 */
@@ -337,6 +339,12 @@ export class Category extends LegendBase<CategoryCfg> {
     if (multiRowWrapFlag) {
       this.pageWidth = maxWidth;
       this.pageHeight = (height + colSpacing) * maxRows;
+    }
+    let paginationBtnPosition = pageNavigator && pageNavigator.button?.position;
+    if (!paginationBtnPosition) paginationBtnPosition = orient === 'horizontal' ? 'right' : 'bottom';
+    if (['left', 'right', 'left-right'].includes(paginationBtnPosition as any)) {
+      // [todo] 暂时预留 40px 给分页器按钮
+      this.pageWidth! -= 40;
     }
     const pageWidth = this.pageWidth!;
     /** 当前图例项的将放置于currY, currY 坐标，当前行数 */
