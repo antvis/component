@@ -32,7 +32,6 @@ function createAxis(startPos = [0, 0], endPos = [0, 0], options = {}) {
   const axis = new Linear({
     style: deepMix(
       {
-        container: canvas.appendChild(new Group()),
         startPos,
         endPos,
         title: { content: 'Quantitative Axis' },

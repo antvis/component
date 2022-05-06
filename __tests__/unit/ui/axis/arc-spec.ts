@@ -21,10 +21,8 @@ const domain = [
 const scale = new BandScale({ domain });
 const ticks = domain.map((d) => ({ value: scale.map(d), text: d }));
 
-const createAxis = (options: Omit<ArcAxisStyleProps, 'container'> = { radius: 10, center: [50, 50] }) => {
-  const axis = new Arc({
-    style: { container: canvas.appendChild(new Group()), ...options },
-  });
+const createAxis = (style: ArcAxisStyleProps = { radius: 10, center: [50, 50] }) => {
+  const axis = new Arc({ style });
   return axis;
 };
 

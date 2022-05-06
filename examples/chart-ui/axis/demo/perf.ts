@@ -32,7 +32,6 @@ const tickData = Array(count)
   });
 const axis = new Linear({
   style: {
-    container: canvas.appendChild(new Group()),
     startPos: [0, 300],
     endPos: [600, 300],
     ticks: tickData,

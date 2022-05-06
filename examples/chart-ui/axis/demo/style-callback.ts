@@ -22,7 +22,6 @@ canvas.appendChild(rect);
 rect.appendChild(
   new LinearAxis({
     style: {
-      container: canvas.appendChild(new Group()),
       startPos: [10, 40],
       endPos: [410, 40],
       ticks: [

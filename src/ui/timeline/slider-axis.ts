@@ -599,7 +599,6 @@ export class SliderAxis extends GUI<Required<SliderAxisCfg>> {
     if (actualLength > 0) {
       this.ticks = new Ticks({
         style: {
-          container: this.appendChild(new Group()),
           ...tickStyle,
           startPos: [radius, 0],
           endPos: [radius + actualLength, 0],

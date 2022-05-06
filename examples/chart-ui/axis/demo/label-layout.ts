@@ -45,7 +45,6 @@ const tickData = data.map((d, idx) => {
 
 const axis = new Linear({
   style: {
-    container: canvas.appendChild(new Group()),
     startPos: [0, 300],
     endPos: [600, 300],
     ticks: tickData,

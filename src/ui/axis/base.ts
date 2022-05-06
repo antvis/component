@@ -1,12 +1,11 @@
-import { Group, Line, LineStyleProps, Path, PathStyleProps, Text } from '@antv/g';
+import { Group, Line, LineStyleProps, Path, PathStyleProps, Text, ElementEvent } from '@antv/g';
 import { isNil, noop } from '@antv/util';
 import { GUI } from '../../core/gui';
-import { Selection, select, applyStyle, defined } from '../../util';
+import { Selection, select, applyStyle, defined, timer } from '../../util';
 import { Marker, MarkerStyleProps } from '../marker';
 import { AxisBaseStyleProps, AxisTextStyleProps, OverlapType, Point, TickDatum } from './types';
 import { OverlapCallback, OverlapUtils } from './overlap';
-import { assignNonempty } from './utils';
-import { timer } from '../../util/timer';
+import { assignNonempty, applyAnimation } from './utils';
 
 // 注册轴箭头
 // ->
@@ -34,11 +33,6 @@ export abstract class AxisBase<T extends AxisBaseStyleProps = AxisBaseStyleProps
   private tickLines: Line[] = [];
 
   public init() {
-    if (!this.style.container) {
-      throw new Error(`Group container is required`);
-    }
-    this.axisGroup = this.style.container;
-    this.axisGroup.appendChild(this);
     this.selection = select(this);
 
     this.appendChild(new Group({ className: 'axis-line-group' }));
@@ -124,12 +118,7 @@ export abstract class AxisBase<T extends AxisBaseStyleProps = AxisBaseStyleProps
             .attr('className', 'axis-line')
             .each<Path>((shape, datum) => {
               applyStyle(shape, datum);
-              if (animate) {
-                // [todo] Enable customize Enter animation later.
-                const length = shape.getTotalLength();
-                const keyframes = [{ lineDash: [0, length] }, { lineDash: [length, 0] }] as any[];
-                shape.animate(keyframes, { duration: 250, fill: 'both' });
-              }
+              animate && applyAnimation(shape, 'enter', 'pathIn');
             }),
         (update) =>
           update.each((shape, datum) => {
@@ -219,12 +208,7 @@ export abstract class AxisBase<T extends AxisBaseStyleProps = AxisBaseStyleProps
             .attr('className', 'axis-label')
             .each((shape, datum) => {
               defined(datum.rotation) && shape.setEulerAngles(datum.rotation);
-              const { fillOpacity, strokeOpacity = 0, opacity = fillOpacity } = shape.style;
-              const keyframes = [
-                { fillOpacity: 0, strokeOpacity: 0, opacity: 0 },
-                assignNonempty({}, { fillOpacity, strokeOpacity, opacity }),
-              ];
-              shape.animate(keyframes, { easing: 'easeQuadInOut', duration: 250, fill: 'both' });
+              applyAnimation(shape, 'enter', 'fadeIn');
             }),
         (update) =>
           update.each((shape, datum) => {

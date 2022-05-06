@@ -166,11 +166,6 @@ export type AxisLabelCfg = {
 };
 
 export type AxisBaseStyleProps = BaseStyleProps & {
-  /**
-   * 组件的容器. TODO make it required.
-   */
-  container: Group;
-
   type?: AxisType;
   // 标题
   title?: AxisTitleCfg;

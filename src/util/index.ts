@@ -12,3 +12,4 @@ export * from './geometry';
 export * from './throttle';
 export * from './selection';
 export * from './defined';
+export * from './timer';

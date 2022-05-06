@@ -1,6 +1,6 @@
 {
   "name": "@antv/gui",
-  "version": "0.4.3-alpha.8",
+  "version": "0.4.3-alpha.9",
   "description": "UI components for AntV G.",
   "license": "MIT",
   "main": "lib/index.js",
@@ -103,31 +103,6 @@
     "typescript": "^4.3.4",
     "webpack": "^4.44.2",
     "webpack-cli": "^4.9.1"
-  },
-  "jest": {
-    "runner": "jest-electron/runner",
-    "testEnvironment": "jest-electron/environment",
-    "testTimeout": 30000,
-    "preset": "ts-jest",
-    "collectCoverage": false,
-    "testRegex": "/__tests__/.*(-|\\.)spec\\.ts?$",
-    "setupFilesAfterEnv": [
-      "./jest.setup.js"
-    ],
-    "collectCoverageFrom": [
-      "src/**/*.ts",
-      "!**/checkbox/**",
-      "!**/button/**",
-      "!**/breadcrumb/**",
-      "!**/(countdown|statistic|link|toolbox)/**"
-    ],
-    "globals": {
-      "ts-jest": {
-        "tsConfig": {
-          "target": "ES2019"
-        }
-      }
-    }
   },
   "lint-staged": {
     "*.{ts,tsx}": [

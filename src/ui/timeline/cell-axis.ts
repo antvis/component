@@ -518,7 +518,6 @@ export class CellAxis extends GUI<Required<CellAxisCfg>> {
     const endX = (lastCell.getAttribute('x') as number) + 0.5 * (lastCell.getAttribute('width') as number);
     this.ticks = new Ticks({
       style: {
-        container: this.appendChild(new Group()),
         ...tickStyle,
         startPos: [startX, labelY],
         endPos: [endX, labelY],

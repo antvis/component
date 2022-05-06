@@ -13,7 +13,6 @@ const canvas = new Canvas({
 
 const arc = new Arc({
   style: {
-    container: canvas.appendChild(new Group()),
     startAngle: -90,
     endAngle: 270,
     radius: 100,
@@ -60,7 +59,6 @@ const tickData = data.map((d, idx) => {
 });
 const arc2 = new Arc({
   style: {
-    container: canvas.appendChild(new Group()),
     startAngle: -90,
     endAngle: 270,
     radius: 100,

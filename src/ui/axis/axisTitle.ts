@@ -11,8 +11,9 @@ import {
   Selection,
   DegToRad,
   getLocalBBox,
+  TEXT_INHERITABLE_PROPS,
 } from '../../util';
-import { getSign, ifLeft, ifBottom, ifX, ifTop, ifY } from './utils';
+import { getSign, ifLeft, ifBottom, ifX, ifTop } from './utils';
 import { AxisTitleCfg } from './types';
 
 type AxisTitleOptions = AxisTitleCfg & {
@@ -134,6 +135,7 @@ export function getAxisTitleStyle(selection: Selection, options: AxisTitleOption
 
   const limitLength = defined(vars.width) ? Math.floor(vars.width!) : undefined;
   return {
+    ...TEXT_INHERITABLE_PROPS,
     id: 'axis-title',
     orient,
     // [NOTE]: 不可以传入 G 内置使用的变量 anchor

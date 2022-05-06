@@ -34,7 +34,6 @@ function createAxis(startPos, endPos, tickData, type, formatter = (item) => item
   rect.appendChild(
     new Linear({
       style: {
-        container: canvas.appendChild(new Group()),
         startPos,
         endPos,
         ticks: createTickData(tickData),

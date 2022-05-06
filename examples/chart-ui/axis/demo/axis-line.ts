@@ -24,7 +24,6 @@ const tickData = data.map((d, idx) => {
 
 const linear = new Linear({
   style: {
-    container: canvas.appendChild(new Group()),
     startPos: [20, 280],
     endPos: [260, 280],
     ticks: tickData,
@@ -58,7 +57,6 @@ canvas.appendChild(linear);
 
 const arc = new Arc({
   style: {
-    container: canvas.appendChild(new Group()),
     center: [200, 480],
     radius: 100,
     ticks: tickData.map((d, idx) => ({ ...d, value: idx * step })),

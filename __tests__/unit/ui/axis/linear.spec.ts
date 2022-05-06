@@ -4,18 +4,10 @@ import { Linear } from '../../../../src/ui/axis/linear';
 import { createCanvas } from '../../../utils/render';
 import { delay } from '../../../utils/delay';
 import { AxisTextStyleProps, LinearAxisStyleProps } from '../../../../src/ui/axis/types';
-import { deepAssign } from '../../../../src/util';
 
 const canvas = createCanvas(500, 'svg');
-const createAxis = (options: Omit<LinearAxisStyleProps, 'container'> = {}) => {
-  const axis = new Linear({
-    style: deepAssign(
-      {
-        container: canvas.appendChild(new Group()),
-      },
-      options
-    ),
-  });
+const createAxis = (style: LinearAxisStyleProps = {}) => {
+  const axis = new Linear({ style });
   return axis;
 };
 

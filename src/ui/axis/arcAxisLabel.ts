@@ -1,5 +1,13 @@
 import { isNumberEqual } from '@antv/util';
-import { defined, multi, parseLength, Selection, getEllipsisText, getMemoFont } from '../../util';
+import {
+  defined,
+  multi,
+  parseLength,
+  Selection,
+  getEllipsisText,
+  getMemoFont,
+  TEXT_INHERITABLE_PROPS,
+} from '../../util';
 import { getArcTickPoints } from './axisTick';
 import { getSign, ifOutside } from './utils';
 import type { AxisLabelCfg, Point, TickDatum } from './types';
@@ -88,6 +96,7 @@ export function getAxisLabels(selection: Selection, options: AxisLabelOptions) {
     const limitLength = parseLength(maxLength!, font);
 
     return {
+      ...TEXT_INHERITABLE_PROPS,
       id: `label-${datum.id}`,
       orient,
       limitLength,

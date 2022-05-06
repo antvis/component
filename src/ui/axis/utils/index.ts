@@ -5,6 +5,7 @@ const { abs } = Math;
 
 export * from './boundTest';
 export * from './helper';
+export * from './applyAnimation';
 
 /**
  * 获得给定向量的垂直单位向量

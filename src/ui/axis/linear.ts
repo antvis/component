@@ -9,6 +9,7 @@ import {
   multi,
   parseLength,
   getMemoFont,
+  TEXT_INHERITABLE_PROPS,
 } from '../../util';
 import { Marker } from '../marker';
 import { AxisBase } from './base';
@@ -208,10 +209,9 @@ export class Linear extends AxisBase<CartesianStyleProps> {
       const limitLength = parseLength(maxLength!, font);
 
       return {
+        ...TEXT_INHERITABLE_PROPS,
         id: `label-${datum.id}`,
         orient,
-        // Limit length of title shape. [todo] 考虑旋转情况
-        limitLength,
         // TextStyleProps
         visibility: 'visible',
         x: x + ifX(orient, offset, 0)!,
