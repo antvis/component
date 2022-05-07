@@ -1,6 +1,7 @@
-import { Path, Image, PathCommand, ImageStyleProps, PathStyleProps } from '@antv/g';
+import { Path, Image, PathCommand, ImageStyleProps, PathStyleProps, DisplayObject } from '@antv/g';
 import { deepMix, isFunction } from '@antv/util';
 import { GUI } from '../../core/gui';
+import { applyStyle } from '../../util';
 import { parseMarker } from './utils';
 import { circle, square, diamond, triangleDown, triangle, line, dot, dash, smooth, hv, vh, hvh, vhv } from './symbol';
 import type { MarkerStyleProps, MarkerOptions, FunctionalSymbol } from './types';
@@ -16,7 +17,7 @@ export class Marker extends GUI<Required<MarkerStyleProps>> {
    */
   public static tag = 'marker';
 
-  private markerShape?: Path | Image;
+  private markerShape: DisplayObject | undefined;
 
   private static MARKER_SYMBOL_MAP = new Map<string, FunctionalSymbol>();
 
@@ -63,10 +64,18 @@ export class Marker extends GUI<Required<MarkerStyleProps>> {
   /**
    * 组件的更新
    */
-  public update(cfg?: Partial<MarkerStyleProps>): void {
+  public update(cfg: Partial<MarkerStyleProps> = {}): void {
     this.attr(deepMix({}, this.attributes, cfg));
-    this.clear();
-    this.createMarker();
+    const { Ctor, name, ...style } = this.getStyleProps() || {};
+    if (this.markerShape && this.markerShape.name === name) {
+      applyStyle(this.markerShape, style);
+      return;
+    }
+    if (this.markerShape) this.clear();
+    if (Ctor) {
+      this.markerShape = new Ctor({ name, style });
+      this.appendChild(this.markerShape);
+    }
   }
 
   /**
@@ -74,28 +83,30 @@ export class Marker extends GUI<Required<MarkerStyleProps>> {
    */
   public clear() {
     this.markerShape?.destroy();
+    this.markerShape = undefined;
     this.removeChildren();
   }
 
-  private createMarker() {
+  private getStyleProps() {
     const { symbol } = this.attributes;
     const markerType = parseMarker(symbol);
 
     if (['base64', 'url', 'image'].includes(markerType)) {
-      this.markerShape = new Image({
+      return {
+        Ctor: Image,
         name: 'markerImage',
-        style: this.getMarkerImageShapeCfg(),
-      });
-    } else if (markerType === 'symbol') {
-      this.markerShape = new Path({
+        ...this.getMarkerImageShapeCfg(),
+      };
+    }
+    if (markerType === 'symbol') {
+      return {
+        Ctor: Path,
         name: 'markerSymbol',
-        style: this.getMarkerSymbolShapeCfg(),
-      });
+        ...this.getMarkerSymbolShapeCfg(),
+      };
     }
 
-    if (this.markerShape) {
-      this.appendChild(this.markerShape);
-    }
+    return null;
   }
 
   // symbol marker

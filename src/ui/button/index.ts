@@ -70,7 +70,7 @@ export class Button extends GUI<ButtonCfg> {
   private backgroundShape!: Rect;
 
   private get disabled() {
-    return this.attributes.disabled;
+    return this.style.disabled;
   }
 
   private get markerWidth(): number {
@@ -200,6 +200,17 @@ export class Button extends GUI<ButtonCfg> {
     this.adjustLayout();
   }
 
+  /** 更新状态 (不需要走 update) */
+  public setState(state: 'disabled' | 'enabled') {
+    if (state === 'disabled') {
+      this.style.disabled = true;
+    } else {
+      this.style.disabled = false;
+    }
+    this.attr('cursor', this.style.disabled ? 'not-allowed' : 'pointer');
+    this.markerShape.attr('cursor', this.style.disabled ? 'not-allowed' : 'pointer');
+  }
+
   /**
    * 组件的清除
    */
@@ -210,9 +221,16 @@ export class Button extends GUI<ButtonCfg> {
     super.destroy();
   }
 
-  public setState(state: 'disabled' | 'enabled') {
-    this.style.disabled = state === 'disabled';
-    this.attr('cursor', this.style.disabled ? 'not-allowed' : 'pointer');
+  public hide() {
+    this.markerShape.update({ visibility: 'hidden' });
+    this.textShape.style.visibility = 'hidden';
+    this.backgroundShape.style.visibility = 'hidden';
+  }
+
+  public show() {
+    this.markerShape.update({ visibility: 'visible' });
+    this.textShape.style.visibility = 'visible';
+    this.backgroundShape.style.visibility = 'visible';
   }
 
   private initShape() {

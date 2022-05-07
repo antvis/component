@@ -1,5 +1,5 @@
-import { Canvas } from '@antv/g';
-import { Renderer as CanvasRenderer } from '@antv/g-canvas';
+import { Canvas, Group } from '@antv/g';
+import { Renderer as CanvasRenderer } from '@antv/g-svg';
 import { Category } from '@antv/gui';
 
 const renderer = new CanvasRenderer();
@@ -51,6 +51,7 @@ function createCategory(x, y, items, marker = 'circle', furtherOptions = {}) {
       style: {
         x,
         y,
+        title: { content: 'Legend title' },
         items,
         itemMarker: ({ color }) => {
           return {
@@ -71,7 +72,7 @@ function createCategory(x, y, items, marker = 'circle', furtherOptions = {}) {
   );
 }
 
-createCategory(10, 10, items1);
+createCategory(10, 10, items1, undefined, { maxWidth: 200 });
 createCategory(10, 50, items2, 'square');
 createCategory(10, 90, items3, undefined, {
   itemMarker: ({ color }) => {

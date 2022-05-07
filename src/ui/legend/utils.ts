@@ -173,3 +173,5 @@ Marker.registerSymbol('downArrow', downArrow);
 Marker.registerSymbol('hiddenHandle', hiddenHandle);
 Marker.registerSymbol('verticalHandle', verticalHandle);
 Marker.registerSymbol('horizontalHandle', horizontalHandle);
+
+export const ifH = (orient = 'horizontal', a: any, b: any) => (orient === 'horizontal' ? a : b);

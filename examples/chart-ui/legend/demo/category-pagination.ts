@@ -34,6 +34,7 @@ const category = new Category({
     }),
     spacing: [10, 10],
     maxItemWidth: 160,
+    orient: 'vertical',
   },
 });
 

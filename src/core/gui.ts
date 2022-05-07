@@ -31,5 +31,10 @@ export abstract class GUI<CustomElementStyleProps> extends CustomElement<CustomE
   /**
    * 组件的清除
    */
-  public abstract clear(): void;
+  public clear(): void {}
+
+  public destroy(): void {
+    this.removeChildren(true);
+    super.destroy();
+  }
 }

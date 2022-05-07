@@ -1,4 +1,5 @@
 import type {
+  Group,
   DisplayObjectConfig,
   ShapeAttrs,
   StyleState,
@@ -7,9 +8,8 @@ import type {
   ImageProps,
   PathProps,
 } from '../../types';
-import type { PoptipCfg } from '../poptip/types';
 import type { MarkerStyleProps } from '../marker/types';
-import type { PageNavigatorCfg } from '../page-navigator';
+import type { PaginationStyleProps } from './pagination';
 
 export type State = StyleState | 'default-active' | 'selected-active';
 export type SymbolCfg = MarkerStyleProps['symbol'];
@@ -128,7 +128,7 @@ export type ItemValueCfg = {
 
 // 单个图例的配置
 export type CategoryItemCfg = {
-  identify?: string;
+  id: string;
   itemWidth?: number;
   maxItemWidth?: number;
   state?: State;
@@ -147,6 +147,7 @@ export type CategoryItemCfg = {
 };
 
 export type LegendBaseCfg = ShapeAttrs & {
+  container?: Group;
   /**
    * @title 内边距
    * @description 图例内边距
@@ -166,6 +167,7 @@ export type LegendBaseCfg = ShapeAttrs & {
   title?: {
     content?: string;
     spacing?: number;
+    // 目前仅对 连续图例 生效
     align?: 'left' | 'center' | 'right';
     style?: Partial<TextProps>;
     formatter?: (text: string) => string;
@@ -243,7 +245,7 @@ export type CategoryCfg = LegendBaseCfg & {
   maxWidth?: number;
   maxHeight?: number;
   // 最大行（横）/列（纵）数
-  maxCols?: number;
+  // maxCols?: number; // [todo] 暂时不提供
   maxRows?: number;
   // 图例项宽度（等分形式）
   itemWidth?: number;
@@ -264,7 +266,7 @@ export type CategoryCfg = LegendBaseCfg & {
   // 图例项倒序
   reverse?: boolean;
   // 分页
-  pageNavigator?: false | PageNavigatorCfg;
+  pageNavigator?: false | PaginationStyleProps;
 };
 
 export type CategoryOptions = DisplayObjectConfig<CategoryCfg>;
