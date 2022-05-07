@@ -8,19 +8,7 @@ import type { CategoryCfg, CategoryOptions } from './types';
 import { CATEGORY_DEFAULT_OPTIONS } from './constant';
 import { Pagination, PaginationStyleProps } from './pagination';
 
-// 找到node节点所在的CategoryItem节点
-function getParentItem(node: DisplayObject) {
-  let item = node;
-  try {
-    while (item.config.type !== 'categoryItem') {
-      item = item.parentNode as DisplayObject;
-    }
-    if (item.config.type === 'categoryItem') return item as CategoryItem;
-  } catch (e) {
-    return null;
-  }
-  return null;
-}
+export type { CategoryOptions };
 
 export class Category extends GUI<CategoryCfg> {
   public static defaultOptions = {
