@@ -54,7 +54,7 @@ import { Category, Continuous } from '@antv/gui';
 | itemMarker          | <code>ItemMarkerCfg \| (item, index, items)=>ItemMarkerCfg</code> | 图例项图标           | `[]`       |
 | itemName            | <code>ItemNameCfg \| (item, index, items)=>ItemNameCfg</code>     | 图例项名             | `[]`       |
 | itemValue           | <code>ItemValueCfg \| (item, index, items)=>ItemValueCfg</code>   | 图例项值             | `[]`       |
-| itemBackgroundStyle | <code>MixAttrs \| (item, index, items)=>MixAttrs</code>           | 图例项背景           | `[]`       |
+| itemBackground.style | <code>MixAttrs \| (item, index, items)=>MixAttrs</code>           | 图例项背景           | `[]`       |
 | autoWrap            | <code>boolean</code>                                              | 自动换行、列         | `[]`       |
 | reverse             | <code>boolean</code>                                              | 图例项倒序           | `[]`       |
 | pageNavigator       | <code>false \| PageNavigatorCfg</code>                            | 分页器               | `[]`       |

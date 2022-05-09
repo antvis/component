@@ -18,13 +18,12 @@ const categoryItem = new CategoryItem({
     x: 0,
     y: 0,
     state: 'default',
-    identify: '1',
+    id: '1',
     itemWidth: 100,
     maxItemWidth: 200,
     itemMarker: {
       size: 8,
-      marker: 'circle',
-      spacing: 0,
+      symbol: 'circle',
       style: {
         default: {
           fill: 'red',
@@ -34,6 +33,7 @@ const categoryItem = new CategoryItem({
         },
         active: {
           opacity: 0.9,
+          fill: 'green',
         },
       },
     },
@@ -53,6 +53,7 @@ const categoryItem = new CategoryItem({
         active: {
           fontSize: 12,
           opacity: 0.9,
+          fill: 'green',
         },
       },
       spacing: 5,
@@ -74,20 +75,23 @@ const categoryItem = new CategoryItem({
         active: {
           fontSize: 12,
           opacity: 0.9,
+          fill: 'green',
         },
       },
       spacing: 5,
       content: 'value',
     },
-    backgroundStyle: {
-      default: {
-        fill: 'rgba(245, 0, 31, 0.1)',
-      },
-      selected: {
-        fill: 'rgba(255, 192, 50, 0.1)',
-      },
-      active: {
-        fill: 'rgba(67, 195, 119, 0.1)',
+    background: {
+      style: {
+        default: {
+          fill: 'rgba(245, 0, 31, 0.1)',
+        },
+        selected: {
+          fill: 'rgba(255, 192, 50, 0.1)',
+        },
+        active: {
+          fill: 'rgba(67, 195, 119, 0.1)',
+        },
       },
     },
   },

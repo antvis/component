@@ -101,6 +101,14 @@
       "screenshot": ""
     },
     {
+      "filename": "pager-style.ts",
+      "title": {
+        "zh": "分页器样式",
+        "en": " Pager style"
+      },
+      "screenshot": ""
+    },
+    {
       "filename": "category-event.ts",
       "title": {
         "zh": "事件监听",

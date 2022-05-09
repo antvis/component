@@ -35,6 +35,6 @@ export abstract class GUI<CustomElementStyleProps> extends CustomElement<CustomE
 
   public destroy(): void {
     this.removeChildren(true);
-    super.destroy();
+    this.parentNode && this.parentNode.removeChild(this);
   }
 }

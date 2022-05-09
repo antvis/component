@@ -1,43 +1,49 @@
-import { DisplayObject, Group, Text, TextStyleProps, CustomEvent } from '@antv/g';
-import { get, min, isFunction, deepMix } from '@antv/util';
-import { applyStyle, deepAssign, defined, getShapeSpace, select, Selection, TEXT_INHERITABLE_PROPS } from '../../util';
-import { GUI } from '../../core/gui';
+import { CustomEvent } from '@antv/g';
+import { min, isFunction, deepMix } from '@antv/util';
+import { deepAssign, defined, getShapeSpace, normalPadding, select } from '../../util';
 import type { StyleState as State } from '../../types';
-import { CategoryItem, ICategoryItemCfg } from './category-item';
+import { CategoryItem } from './category-item';
 import type { CategoryCfg, CategoryOptions } from './types';
-import { CATEGORY_DEFAULT_OPTIONS } from './constant';
-import { Pagination, PaginationStyleProps } from './pagination';
+import { CATEGORY_DEFAULT_OPTIONS, DEFAULT_ITEM_MARKER, DEFAULT_ITEM_NAME, DEFAULT_ITEM_VALUE } from './constant';
+import { PageNavigator } from './pageNavigator';
+import { LegendBase } from './legendBase';
 
 export type { CategoryOptions };
 
-export class Category extends GUI<CategoryCfg> {
+export class Category extends LegendBase<CategoryCfg> {
   public static defaultOptions = {
     type: Category.tag,
     ...CATEGORY_DEFAULT_OPTIONS,
   };
 
-  constructor(options: CategoryOptions) {
-    super(deepAssign({}, Category.defaultOptions, options));
-    this.init();
+  protected get itemsGroup() {
+    return select(this.container).select('.legend-items-group').node();
   }
 
-  protected selection!: Selection;
+  protected get idItem(): Map<string, CategoryItem> {
+    return new Map((this.itemsGroup.childNodes as CategoryItem[]).map((item) => [item.getID(), item]));
+  }
 
-  protected itemsGroup!: Group;
+  constructor(options: CategoryOptions) {
+    super(deepAssign({}, Category.defaultOptions, options));
+  }
 
   public init() {
-    this.selection = select(this);
-    this.itemsGroup = this.appendChild(new Group({ className: 'legend-items-group' }));
-    this.update();
-    this.bindEvents();
+    select(this.container).append('g').attr('className', 'legend-items-group');
+    super.init();
   }
 
   public update(cfg: Partial<CategoryCfg> = {}) {
     this.attr(deepAssign({}, Category.defaultOptions.style, this.attributes, cfg));
-    // 还原
-    this.itemsGroup.setLocalPosition(0, 0);
+    const [top, , , left] = this.padding;
+    this.container.setLocalPosition(left, top);
 
     this.drawTitle();
+    this.drawInner();
+    this.drawBackground();
+  }
+
+  protected drawInner() {
     this.drawItems();
     this.drawPageNavigator();
     this.adjustLayout();
@@ -47,71 +53,37 @@ export class Category extends GUI<CategoryCfg> {
     this.itemsGroup.addEventListener('stateChange', () => this.dispatchItemsChange());
   }
 
-  private titleShape!: Text;
-
-  protected drawTitle() {
-    const style = this.getTitleAttrs();
-    if (!style && this.titleShape) this.titleShape.remove();
-    else if (!this.titleShape) {
-      this.titleShape = this.appendChild(new Text({ className: 'legend-title', style }));
-    } else {
-      applyStyle(this.titleShape, style);
-    }
-  }
-
-  protected idItem: Map<string, CategoryItem> = new Map();
-
   protected drawItems() {
-    const data = this.getItemsAttrs();
-    const items = select(this.itemsGroup)
+    const data = this.itemsShapeCfg;
+    select(this.itemsGroup)
       .selectAll('.legend-item')
-      .data(data)
+      .data(data, (d) => d.id)
       .join(
         (enter) => enter.append((datum) => new CategoryItem({ className: 'legend-item', style: datum })),
         (update) => update.each((shape, datum) => shape.update(datum)),
         (exit) => exit.remove()
-      )
-      .nodes() as CategoryItem[];
-
-    this.idItem = new Map(items.map((item) => [item.getID(), item]));
+      );
   }
 
-  protected paginator!: Pagination;
+  protected pager!: PageNavigator;
 
   protected drawPageNavigator() {
-    const style = this.getPaginationAttrs();
-    if (!style && this.paginator) this.paginator.remove();
-    else if (!this.paginator) {
-      this.paginator = this.appendChild(new Pagination({ className: 'legend-page-navigator', style }));
+    const style = this.getPageNavigatorStyleProps();
+    let pageNavigator = this.container.querySelector('.legend-navigation') as PageNavigator;
+    if (!pageNavigator) {
+      pageNavigator = this.container.appendChild(new PageNavigator({ className: 'legend-navigation', style }));
     } else {
-      this.paginator.update(style);
+      pageNavigator.update(style);
     }
+
+    this.pager = pageNavigator;
   }
 
-  protected getTitleAttrs(): TextStyleProps {
-    let { title } = this.attributes;
-    if (!title) title = { content: '', formatter: () => '' };
-    const { content, style = {}, formatter } = title!;
-
-    return {
-      ...TEXT_INHERITABLE_PROPS,
-      textBaseline: 'top',
-      ...style,
-      x: 0,
-      y: 0,
-      text: formatter!(content!),
-    };
-  }
-
-  protected getItemsAttrs(): ICategoryItemCfg[] {
-    return this.itemsShapeCfg;
-  }
-
-  protected getPaginationAttrs(): PaginationStyleProps {
+  protected getPageNavigatorStyleProps() {
     const { orient, pageNavigator } = this.style;
-    const { pageWidth = Number.MAX_VALUE, pageHeight = Number.MAX_VALUE, pageNum = 1 } = this;
+    const { pageWidth, pageHeight, pageNum = 1 } = this;
 
-    let position = pageNavigator && pageNavigator.button?.position;
+    let position = pageNavigator && pageNavigator?.position;
     if (!position) position = orient === 'horizontal' ? 'right' : 'bottom';
 
     return deepMix(
@@ -120,81 +92,61 @@ export class Category extends GUI<CategoryCfg> {
         x: 0,
         y: 0,
         orient: orient as any,
-        pageNum,
-        pageWidth,
-        pageHeight,
         view: this.itemsGroup,
-        button: {
-          position,
-        },
+        position,
+        pageNum,
+        pageWidth: pageWidth ?? Number.MAX_VALUE,
+        pageHeight: pageHeight ?? Number.MAX_VALUE,
+        visibility: !pageWidth || !pageHeight,
       },
       pageNavigator
     );
   }
 
   // ======== 之前的代码
-  private get itemsShapeCfg(): ICategoryItemCfg[] {
+  private get itemsShapeCfg() {
     const {
       items: _items,
       itemWidth,
-      maxWidth = Number.MAX_VALUE,
-      maxItemWidth = Number.MAX_VALUE,
+      maxWidth,
+      maxItemWidth,
       itemMarker,
       itemName,
       itemValue,
-      itemBackgroundStyle,
+      itemBackground,
       reverse,
     } = this.style;
-    const {
-      itemMarker: defaultMarker,
-      itemName: defaultName,
-      itemValue: defaultValue,
-      backgroundStyle: defaultBackgroundStyle,
-    } = get(CATEGORY_DEFAULT_OPTIONS, ['style']);
-    const cfg: ICategoryItemCfg[] = [];
     const items = _items.slice();
     if (reverse) items.reverse();
 
-    items.forEach((item, idx) => {
-      const { state = 'default', name: nameContent = '', value: valueContent = '', id = `legend-item-${idx}` } = item;
-      cfg.push({
+    return items.map((item, idx) => {
+      return {
         x: 0,
         y: 0,
-        id,
-        state,
+        id: item.id || `legend-item-${idx}`,
+        state: item.state || 'default',
         itemWidth,
-        maxItemWidth: min([maxItemWidth, maxWidth])!,
-        itemMarker: isFunction(itemMarker) ? deepMix({}, defaultMarker, itemMarker(item, idx, items)) : itemMarker,
-        itemName: (() => {
-          const { formatter, style, spacing } = deepMix(
+        maxItemWidth: min([maxItemWidth ?? Number.MAX_VALUE, maxWidth ?? Number.MAX_VALUE]),
+        itemMarker: (() => {
+          const markerCfg = isFunction(itemMarker) ? itemMarker(item, idx, items) : itemMarker;
+          return deepMix(
             {},
-            defaultName,
-            isFunction(itemName) ? itemName(item, idx, items) : itemName
+            DEFAULT_ITEM_MARKER,
+            { symbol: item.symbol, style: { default: { fill: item.color, stroke: item.color } } },
+            markerCfg
           );
-          return {
-            style,
-            spacing,
-            content: formatter!(nameContent),
-          };
+        })(),
+        itemName: (() => {
+          const { formatter, ...itemNameCfg } = deepMix({}, { formatter: () => item.name }, itemName);
+          return deepMix({}, DEFAULT_ITEM_NAME, { content: formatter(item, idx, items) }, itemNameCfg);
         })(),
         itemValue: (() => {
-          const { formatter, style, spacing } = deepMix(
-            {},
-            defaultValue,
-            isFunction(itemValue) ? itemValue(item, idx, items) : itemValue
-          );
-          return {
-            style,
-            spacing,
-            content: formatter!(valueContent),
-          } as ICategoryItemCfg['itemValue'];
+          const { formatter, ...itemValueCfg } = deepMix({}, { formatter: () => item.value }, itemValue);
+          return deepMix({}, DEFAULT_ITEM_VALUE, { content: formatter(item, idx, items) }, itemValueCfg);
         })(),
-        backgroundStyle: isFunction(itemBackgroundStyle)
-          ? deepMix({}, defaultBackgroundStyle, itemBackgroundStyle(item, idx, items))
-          : itemBackgroundStyle,
-      });
+        background: itemBackground as any,
+      };
     });
-    return cfg;
   }
 
   public getItem(id: string): CategoryItem | undefined {
@@ -244,20 +196,20 @@ export class Category extends GUI<CategoryCfg> {
 
     const { padding } = this.style;
     const p = (Array.isArray(padding) ? padding : [padding]) as number[];
-    let top = p[0];
-    const left = p[1] ?? top;
-    if (this.titleShape) {
-      top += this.titleShape.getBBox().height + (this.style.title?.spacing || 0);
-    }
+    const top = this.titleShapeBBox.bottom;
+    const left = p[1] ?? p[0] ?? 0;
     this.itemsGroup.setLocalPosition(left, top);
-    if (this.paginator) {
-      this.paginator.update({
+
+    if (this.pager) {
+      const { pageWidth: w, pageHeight: h, pageNum = 1 } = this;
+      this.pager.update({
         orient,
         x: left,
         y: top,
-        pageHeight: this.pageHeight ?? Number.MAX_VALUE,
-        pageWidth: this.pageWidth ?? Number.MAX_VALUE,
-        pageNum: this.pageNum || 1,
+        pageNum,
+        pageHeight: pageNum > 1 ? h ?? Number.MAX_VALUE : Number.MAX_VALUE,
+        pageWidth: pageNum > 1 ? w ?? Number.MAX_VALUE : Number.MAX_VALUE,
+        visibility: pageNum > 1 && h && w ? 'visible' : 'hidden',
       });
     }
   }
@@ -271,7 +223,9 @@ export class Category extends GUI<CategoryCfg> {
     if (this.idItem.size <= 1) return;
 
     const items = Array.from(this.idItem.values());
-    const { maxWidth, spacing: [offsetX] = [0, 0], autoWrap } = this.style;
+    const { spacing: [offsetX] = [0, 0], autoWrap } = this.style;
+    const padding = normalPadding(this.style.padding);
+    const maxWidth = this.style.maxWidth && this.style.maxWidth - (padding[1] + padding[3]);
 
     // Do not need paginate.
     if (!defined(maxWidth) || maxWidth === Infinity) {
@@ -285,10 +239,10 @@ export class Category extends GUI<CategoryCfg> {
 
     this.pageNum = 1;
     this.pageWidth = maxWidth;
-    const position = this.getPaginationAttrs().button?.position || 'right';
+    const position = this.getPageNavigatorStyleProps()?.position || 'right';
     if (['left', 'right', 'left-right'].includes(position as any)) {
-      const paginationWidth = this.paginator?.getBBox().width;
-      this.pageWidth! -= paginationWidth;
+      const pagerWidth = this.pager?.getBBox().width;
+      this.pageWidth! -= pagerWidth;
     }
 
     if (!autoWrap) {
@@ -299,8 +253,9 @@ export class Category extends GUI<CategoryCfg> {
           x = this.pageWidth! * this.pageNum;
           this.pageNum += 1;
         }
+        item.pageIndex = this.pageNum;
         item.setLocalPosition(x, 0);
-        return x + width;
+        return x + width + offsetX;
       }, 0);
 
       return;
@@ -325,8 +280,9 @@ export class Category extends GUI<CategoryCfg> {
         y = (row - 1) * this.itemHeight!;
         this.pageHeight = Math.max(this.pageHeight!, y + height);
       }
+      item.pageIndex = this.pageNum;
       item.setLocalPosition(x, y);
-      x += width;
+      x += width + offsetX;
     });
   }
 
@@ -335,7 +291,10 @@ export class Category extends GUI<CategoryCfg> {
 
     const items = Array.from(this.idItem.values());
 
-    const { maxHeight, spacing: [offsetX, offsetY] = [0, 0], autoWrap } = this.style;
+    const { spacing: [, offsetY] = [0, 0], autoWrap } = this.style;
+    const padding = normalPadding(this.style.padding);
+    const maxHeight = this.style.maxHeight && this.style.maxHeight - (padding[0] + padding[2]);
+
     // Do not need paginate.
     if (!defined(maxHeight) || maxHeight === Infinity) {
       items.reduce((y, item) => {
@@ -348,10 +307,10 @@ export class Category extends GUI<CategoryCfg> {
 
     this.pageNum = 1;
     this.pageHeight = maxHeight;
-    const position = this.getPaginationAttrs().button?.position || 'right';
+    const position = this.getPageNavigatorStyleProps()?.position || 'right';
     if (['top', 'bottom', 'top-bottom'].includes(position as any)) {
-      const paginationH = this.paginator?.getBBox().height;
-      this.pageHeight! -= paginationH;
+      const pagerH = this.pager?.getBBox().height;
+      this.pageHeight! -= pagerH;
     }
 
     this.pageHeight = Math.max(this.pageHeight!, this.itemHeight!);
@@ -365,7 +324,7 @@ export class Category extends GUI<CategoryCfg> {
       }
       item.setLocalPosition(0, y);
       itemWidth = Math.max(itemWidth, width);
-      return y + height;
+      return y + height + offsetY;
     }, 0);
     this.pageWidth = Math.min(
       this.style.maxWidth ?? Number.MAX_VALUE,
@@ -376,9 +335,7 @@ export class Category extends GUI<CategoryCfg> {
 
   private dispatchItemsChange() {
     const evt = new CustomEvent('valueChanged', {
-      detail: {
-        value: this.getItemsStates(),
-      },
+      detail: { value: this.getItemsStates() },
     });
     this.dispatchEvent(evt as any);
   }

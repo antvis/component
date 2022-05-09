@@ -1,17 +1,60 @@
-import { Text, Rect, CustomEvent } from '@antv/g';
+import { Text, Rect, CustomEvent, RectStyleProps, Group } from '@antv/g';
 import { deepMix, get, max } from '@antv/util';
 import { GUI } from '../../core/gui';
+import {
+  getStateStyle,
+  getEllipsisText,
+  getFont,
+  getShapeSpace,
+  TEXT_INHERITABLE_PROPS,
+  normalPadding,
+  measureTextWidth,
+} from '../../util';
+import type { DisplayObjectConfig, StyleState, ShapeAttrs, MixAttrs, TextProps } from '../../types';
 import { Marker } from '../marker';
 import { NAME_VALUE_RATIO } from './constant';
-import { getStateStyle, getEllipsisText, getFont, getShapeSpace, TEXT_INHERITABLE_PROPS, defined } from '../../util';
-import type { DisplayObjectConfig, StyleState, ShapeAttrs } from '../../types';
-import type { CategoryItemCfg as ItemCfg, State } from './types';
+import type { State, SymbolCfg } from './types';
 
-export interface ICategoryItemCfg extends ShapeAttrs, ItemCfg {}
+export type ItemMarkerCfg = {
+  symbol?: SymbolCfg;
+  size?: number;
+  style?: MixAttrs<ShapeAttrs>;
+};
 
-type CategoryItemOptions = DisplayObjectConfig<ICategoryItemCfg>;
+export type ItemNameCfg = {
+  content?: string;
+  spacing?: number;
+  style?: MixAttrs<Partial<TextProps>>;
+};
 
-export class CategoryItem extends GUI<ICategoryItemCfg> {
+export type ItemValueCfg = {
+  content?: string;
+  spacing?: number;
+  align?: 'left' | 'right';
+  style?: MixAttrs<Partial<TextProps>>;
+};
+
+type CategoryItemStyleProps = {
+  id: string;
+  x?: number;
+  y?: number;
+  itemWidth?: number;
+  maxItemWidth?: number;
+  state?: State;
+  itemMarker: ItemMarkerCfg;
+  itemName: ItemNameCfg;
+  itemValue?: ItemValueCfg;
+  background: {
+    padding?: number | number[];
+    style?: MixAttrs<ShapeAttrs>;
+  };
+};
+
+type CategoryItemOptions = DisplayObjectConfig<CategoryItemStyleProps>;
+
+export class CategoryItem extends GUI<CategoryItemStyleProps> {
+  public pageIndex = 0;
+
   // marker
   private markerShape!: Marker;
 
@@ -24,23 +67,24 @@ export class CategoryItem extends GUI<ICategoryItemCfg> {
   // background
   private backgroundShape!: Rect;
 
+  private container!: Group;
+
   private prevState!: State;
 
   private get markerShapeCfg() {
-    const { itemMarker } = this.attributes;
-    const { marker, spacing, size: markerSize } = itemMarker;
-    return { x: spacing, symbol: marker, size: markerSize, ...this.getStyle(['itemMarker', 'style']) };
+    const { itemMarker } = this.style;
+    const { symbol, size: markerSize } = itemMarker;
+    return { symbol, size: markerSize, ...this.getStyle(['itemMarker', 'style']) };
   }
 
   private get nameShapeCfg() {
-    const { itemName } = this.attributes;
-    const { content: nameContent } = itemName;
-    return { fontSize: 12, text: nameContent, ...this.getStyle(['itemName', 'style']) };
+    const { itemName } = this.style;
+    return { fontSize: 12, text: itemName?.content || '', ...this.getStyle(['itemName', 'style']) };
   }
 
   private get valueShapeCfg() {
     const { itemValue } = this.attributes;
-    const { content: valueContent } = itemValue;
+    const { content: valueContent } = itemValue!;
     return {
       fontSize: 12,
       text: valueContent,
@@ -48,61 +92,55 @@ export class CategoryItem extends GUI<ICategoryItemCfg> {
     };
   }
 
-  private get backgroundShapeCfg() {
-    return { ...this.getStyle('backgroundStyle') };
-  }
-
-  private get actualWidth() {
-    const { itemName, itemValue } = this.attributes;
-    const { width: markerWidth } = getShapeSpace(this.markerShape);
-    const { width: nameWidth } = getShapeSpace(this.nameShape);
-    const { width: valueWidth } = getShapeSpace(this.valueShape);
-    return markerWidth * 2 + nameWidth + valueWidth + itemName.spacing! + itemValue.spacing!;
+  private get backgroundShapeCfg(): RectStyleProps {
+    return this.getStyle('background.style');
   }
 
   constructor({ style, ...rest }: CategoryItemOptions) {
-    super({ type: 'categoryItem', style, ...rest });
+    super({ style, ...rest });
     this.init();
   }
 
   public init() {
     // render backgroundShape
-    this.backgroundShape = new Rect({
-      name: 'background',
-      style: this.backgroundShapeCfg,
-    });
-    this.appendChild(this.backgroundShape);
+    this.backgroundShape = this.appendChild(
+      new Rect({
+        className: 'legend-item-background',
+        zIndex: -1,
+        style: this.backgroundShapeCfg,
+      })
+    );
+    this.container = this.appendChild(new Group());
     // render markerShape
     this.markerShape = new Marker({
-      name: 'marker',
+      className: 'legend-item-marker',
       style: this.markerShapeCfg,
     });
-    this.backgroundShape.appendChild(this.markerShape);
+    this.container.appendChild(this.markerShape);
     // render nameShape
     this.nameShape = new Text({
-      name: 'name',
+      className: 'legend-item-name',
       style: {
         ...TEXT_INHERITABLE_PROPS,
         ...this.nameShapeCfg,
       },
     });
-    this.backgroundShape.appendChild(this.nameShape);
+    this.container.appendChild(this.nameShape);
     // render valueShape
     this.valueShape = new Text({
-      name: 'value',
+      className: 'legend-item-value',
       style: {
         ...TEXT_INHERITABLE_PROPS,
         ...this.valueShapeCfg,
       },
     });
-    this.backgroundShape.appendChild(this.valueShape);
-    this.backgroundShape.toBack();
+    this.container.appendChild(this.valueShape);
     this.adjustLayout();
     this.bindEvents();
   }
 
   public getState(): StyleState {
-    return get(this.attributes, ['state']).split('-')[0];
+    return get(this.style, ['state']).split('-')[0];
   }
 
   /**
@@ -130,7 +168,7 @@ export class CategoryItem extends GUI<ICategoryItemCfg> {
     this.setState(currState.split('-')[0] as StyleState);
   }
 
-  public update(cfg: Partial<ICategoryItemCfg>) {
+  public update(cfg: Partial<CategoryItemStyleProps>) {
     const currState = this.getState();
     const { state: newState } = cfg;
     if ('state' in cfg && currState !== newState) {
@@ -164,73 +202,85 @@ export class CategoryItem extends GUI<ICategoryItemCfg> {
     this.addEventListener('click', this.onClick.bind(this));
   }
 
-  protected getStyle(name: string | string[], state = this.attributes.state) {
-    const style = get(this.attributes, name);
+  protected getStyle(name: string | string[], state = this.style.state) {
+    const style = get(this.style, name);
     const stateList = state ? (state.split('-') as StyleState[]) : [];
-    return deepMix({}, ...stateList.map((s) => getStateStyle(style, s)));
+    return deepMix({}, getStateStyle(style, 'default'), ...stateList.map((s) => getStateStyle(style, s)));
   }
 
   protected adjustLayout() {
     // icon <-spacing-> name <-spacing-> value
-    const { itemWidth, maxItemWidth, itemMarker, itemName: name, itemValue: value } = this.attributes;
-    const { content: nameContent, spacing: markerNameSpacing } = name as { content: string; spacing: number };
-    const { content: valueContent, spacing: nVSpacing } = value as { content: string; spacing: number };
+    const { itemWidth, maxItemWidth, itemMarker, itemName, itemValue } = this.style;
 
-    /**
-     * 是否显示 name 和 value
-     */
-    const noNameFlag = nameContent === '' || nameContent === undefined;
-    const noValueFlag = valueContent === '' || valueContent === undefined;
-    const nameValueSpacing = noNameFlag ? 0 : nVSpacing;
-
-    const width = itemWidth || maxItemWidth || Infinity;
-    // 计算每个元素的长度
-
-    const { size: markerSize } = itemMarker as { size: number };
-    // 计算图例项高度（不用getShapeSpace获得的原因是文字需要垂直居中，需要使用middle对齐）
+    const _ = (v?: number): number => v || 0;
+    const markerSize = _(itemMarker?.size);
+    const maxWidth = Math.min(itemWidth ?? Number.MAX_VALUE, maxItemWidth ?? Number.MAX_VALUE);
     const height = max([markerSize, getShapeSpace(this.nameShape).height, getShapeSpace(this.valueShape).height])!;
 
-    // 计算name和value可用宽度
-    const availableWidth = width - markerNameSpacing - nameValueSpacing - markerSize * 2;
+    const y = height / 2;
+    let x = markerSize / 2;
+    this.markerShape.attr({ x, y });
+
+    // 是否显示 name 和 value
+    const noNameFlag = !itemName?.content;
+    const noValueFlag = !itemValue?.content;
+    const nameValueSpacing = noNameFlag ? 0 : _(itemValue?.spacing);
+
+    const availableWidth = maxWidth - markerSize - _(itemName?.spacing) - _(itemValue?.spacing);
 
     // name和value分得的空间
-    const availableValueWidth = noValueFlag ? 0 : availableWidth * NAME_VALUE_RATIO;
-    const availableNameWidth = noNameFlag ? 0 : availableWidth * (1 - NAME_VALUE_RATIO);
+    const font1 = getFont(this.nameShape);
+    const font2 = getFont(this.valueShape);
 
-    // 得到缩略文本
-    const nameText = noNameFlag ? '' : getEllipsisText(nameContent, availableNameWidth, getFont(this.nameShape));
-    const valueText = noValueFlag ? '' : getEllipsisText(valueContent, availableValueWidth, getFont(this.valueShape));
+    const nameWidth = noNameFlag ? 0 : measureTextWidth(itemName.content, font1);
+    const valueWidth = noValueFlag ? 0 : measureTextWidth(itemValue.content, font2);
+    let nameText;
+    let valueText;
+    let [width1, width2] = [nameWidth, valueWidth];
+    if (nameWidth + valueWidth > availableWidth) {
+      [width1, width2] = [availableWidth * NAME_VALUE_RATIO, availableWidth * (1 - NAME_VALUE_RATIO)];
+      if (nameWidth > valueWidth) {
+        width2 = Math.min(valueWidth, width2);
+        width1 = availableWidth - width2;
+      } else {
+        width1 = Math.min(nameWidth, width1);
+        width2 = availableWidth - width1;
+      }
+      nameText = noNameFlag ? '' : getEllipsisText(itemName.content, width1, font1);
+      valueText = noValueFlag ? '' : getEllipsisText(itemValue.content, width2, font2);
+    }
 
-    const temp = markerSize * 2 + markerNameSpacing;
-
+    x += markerSize / 2 + (itemName?.spacing || 0);
     this.nameShape.attr({
       text: nameText,
-      x: temp,
-      y: height / 2,
+      x,
+      y,
       // 不可修改
       textBaseline: 'middle',
       visibility: noNameFlag ? 'hidden' : 'visible',
     });
 
     const nameTextWidth = noNameFlag ? 0 : getShapeSpace(this.nameShape).width;
+    x += (itemWidth ? width1 : nameTextWidth) + nameValueSpacing;
+    const align = itemValue?.align || 'left';
     this.valueShape.attr({
       text: valueText,
-      x: temp + (itemWidth ? availableNameWidth : nameTextWidth) + nameValueSpacing,
-      y: height / 2,
+      x: itemWidth && align === 'right' ? itemWidth : x,
+      y,
       // 不可修改
       textBaseline: 'middle',
+      textAlign: itemWidth && align === 'right' ? 'end' : 'start',
       visibility: noValueFlag ? 'hidden' : 'visible',
     });
 
-    this.markerShape.attr({
-      x: markerSize,
-      y: height / 2,
-    });
-
     // 设置背景
+    const [top = 0, right = 0, bottom = top, left = right] = normalPadding(this.style.background?.padding);
+    this.container.setLocalPosition(left, top);
     this.backgroundShape.attr({
-      width: defined(itemWidth) ? itemWidth : this.actualWidth,
-      height,
+      x: 0,
+      y: 0,
+      width: (itemWidth ?? this.container.getBBox().width) + left + right,
+      height: this.container.getBBox().height + top + bottom,
     });
   }
 }

@@ -1,5 +1,4 @@
 import type {
-  Group,
   DisplayObjectConfig,
   ShapeAttrs,
   StyleState,
@@ -9,7 +8,8 @@ import type {
   PathProps,
 } from '../../types';
 import type { MarkerStyleProps } from '../marker/types';
-import type { PaginationStyleProps } from './pagination';
+import type { ItemMarkerCfg, ItemNameCfg, ItemValueCfg } from './category-item';
+import type { PageNavigatorCfg } from './pageNavigator';
 
 export type State = StyleState | 'default-active' | 'selected-active';
 export type SymbolCfg = MarkerStyleProps['symbol'];
@@ -89,74 +89,34 @@ export type HandleCfg = {
  * 分类图例，图例项
  */
 type CategoryItem = {
-  state?: State;
+  marker?: string;
   name?: string;
   value?: string;
+  color?: string;
   id?: string;
-  [key: string]: any;
+  // [todo] 为什么需要这么多状态
+  state?: State;
+  [key: keyof any]: any;
 };
 
 /**
  * 分类图例，图例项图标
  */
-export type ItemMarkerStyleProps = {
-  marker?: SymbolCfg;
-  size?: number;
-  spacing?: number;
-  style?: MixAttrs<ShapeAttrs & { size?: number }>;
-};
-
-/**
- * 分类图例，图例项名称 name
- */
-export type ItemNameCfg = {
-  // name与marker的距离
-  spacing?: number;
-  style?: MixAttrs<Partial<TextProps>>;
-  formatter?: (text: string) => string;
-};
-
-/**
- * 分类图例，图例项值 value
- */
-export type ItemValueCfg = {
-  spacing?: number;
-  align?: 'left' | 'right';
-  style?: MixAttrs<Partial<TextProps>>;
-  formatter?: (text: string) => string;
-};
-
-// 单个图例的配置
-export type CategoryItemCfg = {
-  id: string;
-  itemWidth?: number;
-  maxItemWidth?: number;
-  state?: State;
-  itemMarker: ItemMarkerStyleProps;
-  itemName: {
-    content?: string;
-    spacing?: number;
-    style?: MixAttrs<Partial<TextProps>>;
-  };
-  itemValue: {
-    content?: string;
-    spacing?: number;
-    style: MixAttrs<Partial<TextProps>>;
-  };
-  backgroundStyle: MixAttrs<ShapeAttrs>;
-};
+type LegendItemMarkerCfg = ItemMarkerCfg;
 
 export type LegendBaseCfg = ShapeAttrs & {
-  container?: Group;
   /**
    * @title 内边距
    * @description 图例内边距
    */
   padding?: number | number[];
+  // 图例最大宽(横)/高（纵）
+  maxWidth?: number;
+  maxHeight?: number;
   /**
    * @title 背景样式
    */
-  backgroundStyle?: MixAttrs<ShapeAttrs>;
+  backgroundStyle?: ShapeAttrs;
   /**
    * @title 图例方向
    */
@@ -167,10 +127,13 @@ export type LegendBaseCfg = ShapeAttrs & {
   title?: {
     content?: string;
     spacing?: number;
+    style?: Partial<TextProps>;
     // 目前仅对 连续图例 生效
     align?: 'left' | 'center' | 'right';
-    style?: Partial<TextProps>;
-    formatter?: (text: string) => string;
+    useHTML?: boolean;
+    // Width and height must be specified when `useHTML` is true, otherwise, width and height will be specified 80*20
+    width?: number;
+    height?: number;
   };
   /**
    * @title 图例类型
@@ -241,9 +204,7 @@ export type ContinuousOptions = DisplayObjectConfig<ContinuousCfg>;
 // 分类图例配置
 export type CategoryCfg = LegendBaseCfg & {
   items: CategoryItem[];
-  // 图例最大宽(横)/高（纵）
-  maxWidth?: number;
-  maxHeight?: number;
+  padding?: number | number[];
   // 最大行（横）/列（纵）数
   // maxCols?: number; // [todo] 暂时不提供
   maxRows?: number;
@@ -254,19 +215,23 @@ export type CategoryCfg = LegendBaseCfg & {
   // 图例项间的间隔
   spacing?: [number, number];
   itemMarker?:
-    | Partial<ItemMarkerStyleProps>
-    | ((item: CategoryItem, index: number, items: CategoryItem[]) => ItemMarkerStyleProps);
-  itemName?: ItemNameCfg | ((item: CategoryItem, index: number, items: CategoryItem[]) => ItemNameCfg);
-  itemValue?: ItemValueCfg | ((item: CategoryItem, index: number, items: CategoryItem[]) => ItemValueCfg);
-  itemBackgroundStyle?:
-    | MixAttrs<ShapeAttrs>
-    | ((item: CategoryItem, index: number, items: CategoryItem[]) => MixAttrs<ShapeAttrs>);
+    | Partial<LegendItemMarkerCfg>
+    | ((item: CategoryItem, index: number, items: CategoryItem[]) => LegendItemMarkerCfg);
+  itemName?: Omit<ItemNameCfg, 'content'> & {
+    formatter?: (item: CategoryItem, index: number, items: CategoryItem[]) => string;
+  };
+  itemValue?: Omit<ItemValueCfg, 'content'> & {
+    formatter?: (item: CategoryItem, index: number, items: CategoryItem[]) => string;
+  };
+  itemBackground?: {
+    padding?: number | number[];
+    style?: MixAttrs<ShapeAttrs>;
+  };
   // 自动换行、列
   autoWrap?: boolean;
   // 图例项倒序
   reverse?: boolean;
-  // 分页
-  pageNavigator?: false | PaginationStyleProps;
+  pageNavigator?: PageNavigatorCfg;
 };
 
 export type CategoryOptions = DisplayObjectConfig<CategoryCfg>;

@@ -5,7 +5,7 @@ type NormalPaddingType = [number, number, number, number];
 /**
  * 规范化padding
  */
-export function normalPadding(padding: number | number[]): NormalPaddingType {
+export function normalPadding(padding: number | number[] | unknown): NormalPaddingType {
   if (isNumber(padding)) {
     return [padding, padding, padding, padding];
   }

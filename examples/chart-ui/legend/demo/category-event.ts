@@ -13,11 +13,11 @@ const canvas = new Canvas({
 });
 
 const items = [
-  { name: 'Chrome', value: '7.08%' },
-  { name: 'IE', value: '5.41%' },
-  { name: 'QQ', value: '5.35%' },
-  { name: 'Firefox', value: '1.23%' },
-  { name: 'Microsoft Edge', value: '3.51%' },
+  { name: 'Chrome', value: '7.08%', state: 'selected', color: '#5B8FF9' },
+  { name: 'IE', value: '5.41%', state: 'selected', color: '#61DDAA' },
+  { name: 'QQ', value: '5.35%', state: 'selected', color: '#65789B' },
+  { name: 'Firefox', value: '1.23%', color: '#F6BD16' },
+  { name: 'Microsoft Edge', value: '3.51%', color: '#7262fd' },
   { name: '360', value: '2.59%' },
   { name: 'Opera', value: '0.87%' },
   { name: 'Sogou', value: '1.06%' },

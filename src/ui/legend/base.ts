@@ -37,13 +37,13 @@ export abstract class LegendBase<T extends LegendBaseCfg> extends GUI<Required<T
    */
   protected get titleShapeCfg() {
     let { title } = this.attributes;
-    if (!title) title = { content: '', formatter: () => '' };
-    const { content, style, formatter } = title!;
+    if (!title) title = { content: '' };
+    const { content, style } = title!;
 
     return {
       ...TEXT_INHERITABLE_PROPS,
       ...style,
-      text: formatter!(content!),
+      text: content!,
     };
   }
 

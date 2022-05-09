@@ -31,8 +31,7 @@ const category = new Category({
     }),
     spacing: [10, 10],
     maxHeight: 40,
-    maxWidth: 210,
-    orient: 'vertical',
+    maxWidth: 250,
   },
 });
 const rect = canvas.appendChild(
@@ -42,32 +41,31 @@ rect.appendChild(category);
 
 /** -------------------------配置区域--------------------------------------- */
 window.ConfigPanel([category], '分页配置', {
-  orient: {
-    label: '布局方式',
-    value: 'horizontal',
-    options: ['horizontal', 'vertical'],
-  },
-  autoWrap: {
-    label: '自动换行',
-    value: false,
-  },
-  maxRows: {
-    label: '最大行数(横向布局且开启 autoWrap 生效)',
-    value: 2,
-    type: 'number',
-    step: 1,
-    range: [1, 5],
-  },
-  maxCols: {
-    label: '最大行数(纵向布局且开启 autoWrap 生效)',
-    value: 2,
-    type: 'number',
-    step: 1,
-    range: [1, 5],
-  },
-  'pageNavigator.button.position': {
+  'pager.position': {
     label: '分页器位置',
     value: 'right',
-    options: ['top', 'bottom', 'left', 'right', 'top-bottom', 'left-right'],
+    // options: ['top', 'bottom', 'left', 'right', 'top-bottom', 'left-right'],
+    options: ['bottom', 'right'],
+  },
+  'pager.button.size': {
+    label: '分页器按钮大小',
+    value: 16,
+    type: 'number',
+    range: [10, 30],
+  },
+  'pager.button.style.default.fill': {
+    label: '分页器按钮填充色',
+    value: '#000',
+    type: 'color',
+  },
+  'pager.button.style.disabled.fill': {
+    label: '分页器按钮禁止态填充色',
+    value: '#d9d9d9',
+    type: 'color',
+  },
+  'pager.text.style.fill': {
+    label: '分页器文本颜色',
+    value: '#000',
+    type: 'color',
   },
 });
