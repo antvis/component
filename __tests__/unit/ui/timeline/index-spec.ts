@@ -1,5 +1,5 @@
 import { Canvas, DisplayObject } from '@antv/g';
-import { Renderer as CanvasRenderer } from '@antv/g-svg';
+import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Timeline } from '../../../../src/ui/timeline';
 import { createDiv } from '../../../utils';
 

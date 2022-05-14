@@ -1,6 +1,5 @@
 import { Group } from '@antv/g';
 import { noop } from '@antv/util';
-import { Constraint } from '../../layout/constraint';
 import { Bounds } from '../../layout/bounds';
 import {
   createTempText,
@@ -97,12 +96,7 @@ export function getAxisTitleStyle(selection: Selection, options: AxisTitleOption
   textNode.remove();
 
   // Add layout constraints
-  let vars = {
-    x,
-    y,
-    width: maxLength === Infinity || !defined(maxLength) ? 260 : maxLength,
-  };
-  const constraint = new Constraint(vars);
+  let width = maxLength === Infinity || !defined(maxLength) ? 260 : maxLength;
 
   const ifHorizontalText = (orient: string, angle: number, a: Function, b: Function) =>
     ifX(orient, a, abs(cos(angle)) === 1 ? a() : b());
@@ -116,24 +110,31 @@ export function getAxisTitleStyle(selection: Selection, options: AxisTitleOption
     const right = bounds.defined('right') ? bounds.right : undefined;
 
     if (left !== undefined && bbox.left < left) {
-      // If out of left hand side, change `align` to left, and `x` to the `bounds.left`. Make sure it not out-of right hand side.
-      constraint.addConstraint(['x'], '>=', left);
+      x = left;
       ifHorizontalText(orient, angle, () => (attrs.textAlign = 'start'), noop);
-    }
-    if (right !== undefined && bbox.right >= right) {
+      if (right !== undefined && x + bbox.width > right) {
+        width = right - left;
+      }
+    } else if (right !== undefined && bbox.right >= right) {
       // If out of left hand side, change `align` to left, and `x` to the `bounds.left`. Make sure it not out-of right hand side.
-      constraint.addConstraint(['x'], '<=', right);
+      x = right;
       ifHorizontalText(orient, angle, () => (attrs.textAlign = 'end'), noop);
+      if (left !== undefined && x < left) {
+        x = left;
+        ifHorizontalText(orient, angle, () => (attrs.textAlign = 'start'), noop);
+        width = right - left;
+      }
     }
 
     if (left !== undefined && right !== undefined) {
       const ratio = abs(cos(angle * DegToRad));
-      ratio > 10e-16 && constraint.addConstraint([ratio, 'width'], '<=', right - left > 0 ? right - left : 0);
+      if (ratio > 10e-16) {
+        width = (right - left > 0 ? right - left : 0) / ratio;
+      }
     }
   }
-  vars = constraint.collect();
 
-  const limitLength = defined(vars.width) ? Math.floor(vars.width!) : undefined;
+  const limitLength = defined(width) ? Math.floor(width!) : undefined;
   return {
     ...TEXT_INHERITABLE_PROPS,
     id: 'axis-title',
@@ -144,8 +145,8 @@ export function getAxisTitleStyle(selection: Selection, options: AxisTitleOption
     tip: text,
     // TextStyleProps
     ...attrs,
-    x: vars.x,
-    y: vars.y,
+    x,
+    y,
     angle,
     transform: `rotate(${angle}deg)`,
     text: defined(limitLength) ? getEllipsisText(text, limitLength!, font, '...') : text,

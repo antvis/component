@@ -2,7 +2,7 @@ import { Checkbox } from '../../../../src/ui/checkbox';
 import { Text } from '../../../../src/ui/text';
 import { createCanvas } from '../../../utils/render';
 
-const canvas = createCanvas(400, 'svg');
+const canvas = createCanvas(400);
 
 describe('checkbox', () => {
   test('basic', async () => {

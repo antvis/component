@@ -48,7 +48,7 @@ describe('Axis title', () => {
   }
 
   describe('x-direction', () => {
-    const selection = select(createCanvas(200, 'svg').appendChild(new Group()));
+    const selection = select(createCanvas(200).appendChild(new Group()));
     const drawXTitle = (attrs: any, bounds?: any) => drawTitle(attrs, bounds, selection);
     // Init.
     const group = selection.append('g').attr('className', 'container').node();
@@ -170,11 +170,11 @@ describe('Axis title', () => {
           style: { ...options.style, textAlign: 'end' },
         });
         const text = drawXTitle(titleAttrs);
-        expect(text.getBBox().left).toBeCloseTo(
-          Math.max(bounds({}).x1, labelGroup.getBBox().right - text.getBBox().width)
+        expect(text.getBBox().left).not.toBeLessThan(
+          Math.min(bounds({}).x1, labelGroup.getBBox().right - text.getBBox().width)
         );
         expect(text.getBBox().right).not.toBeGreaterThan(bounds({}).x2);
-        expect(titleAttrs.textAlign).toBe('end');
+        expect(titleAttrs.textAlign).toBe('start');
       });
 
       it('specify { dx: 10 } as the offset of textShape.', () => {
@@ -225,7 +225,7 @@ describe('Axis title', () => {
   });
 
   describe('y-direction', () => {
-    const selection = select(createCanvas(400, 'svg').appendChild(new Group()));
+    const selection = select(createCanvas(400).appendChild(new Group()));
     const drawYTitle = (attrs: any, bounds?: any) => drawTitle(attrs, bounds, selection);
     // Init.
     const group = selection.append('g').attr('className', 'container').node();

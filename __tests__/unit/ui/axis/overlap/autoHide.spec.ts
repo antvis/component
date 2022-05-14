@@ -5,7 +5,7 @@ import { select } from '../../../../../src/util';
 import { createCanvas } from '../../../../utils/render';
 
 describe('Overlap autoHide', () => {
-  const group = createCanvas(600, 'svg').appendChild(new Group());
+  const group = createCanvas(600).appendChild(new Group());
 
   it('HideUtil.getDefault', () => {
     expect(typeof HideUtil.getDefault() === 'function').toBeTruthy();

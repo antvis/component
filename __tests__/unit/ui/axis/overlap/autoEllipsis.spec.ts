@@ -4,7 +4,7 @@ import { select } from '../../../../../src/util';
 import { createCanvas } from '../../../../utils/render';
 
 describe('Overlap autoEllipsis', () => {
-  const group = createCanvas(600, 'svg').appendChild(new Group());
+  const group = createCanvas(600).appendChild(new Group());
 
   it('EllipsisUtil.getDefault', () => {
     expect(typeof EllipsisUtil.getDefault() === 'function').toBeTruthy();

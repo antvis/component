@@ -3,7 +3,7 @@ import { Category } from '../../../../src/ui/legend';
 import { CategoryItem } from '../../../../src/ui/legend/category-item';
 import { createCanvas } from '../../../utils/render';
 
-const canvas = createCanvas(800, 'svg');
+const canvas = createCanvas(800);
 
 describe('Category legend', () => {
   const items = [

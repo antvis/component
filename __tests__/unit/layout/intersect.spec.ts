@@ -5,7 +5,7 @@ import { createCanvas } from '../../utils/render';
 
 type Box = { x1: number; y1: number; x2: number; y2: number; rotation?: number };
 
-const canvas = createCanvas(900, 'svg');
+const canvas = createCanvas(900);
 function drawRect(box: Box, fill = '#1890FF') {
   const rect = canvas.appendChild(
     new Rect({

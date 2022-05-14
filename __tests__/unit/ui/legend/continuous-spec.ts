@@ -58,9 +58,7 @@ describe('continuous', () => {
           spacing: 10,
         },
         backgroundStyle: {
-          default: {
-            fill: '#f3f3f3',
-          },
+          fill: '#f3f3f3',
         },
         handle: false,
         rail: {
@@ -227,9 +225,7 @@ describe('continuous', () => {
         },
         orient: 'vertical',
         backgroundStyle: {
-          default: {
-            fill: 'gray',
-          },
+          fill: 'gray',
         },
         handle: false,
         rail: {

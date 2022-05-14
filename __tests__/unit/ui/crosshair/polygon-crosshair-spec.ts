@@ -1,14 +1,14 @@
 import { Canvas } from '@antv/g';
-import { Renderer as SVGRenderer } from '@antv/g-svg';
+import { Renderer } from '@antv/g-canvas';
 import { PolygonCrosshair } from '../../../../src';
 import { createDiv } from '../../../utils';
 import { delay } from '../../../utils/delay';
 
-const renderer = new SVGRenderer({
+const renderer = new Renderer({
   enableDirtyRectangleRenderingDebug: false,
   enableAutoRendering: true,
   enableDirtyRectangleRendering: true,
-  enableTAA: false,
+  // enableTAA: false,
 });
 
 const div = createDiv();

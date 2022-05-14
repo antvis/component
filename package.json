@@ -1,6 +1,6 @@
 {
   "name": "@antv/gui",
-  "version": "0.4.3-alpha.14",
+  "version": "0.4.3-alpha.15",
   "description": "UI components for AntV G.",
   "license": "MIT",
   "main": "lib/index.js",
@@ -51,7 +51,6 @@
     "@antv/util": "^2.0.13",
     "csstype": "^3.0.8",
     "fecha": "^4.2.1",
-    "kiwi.js": "^1.1.3",
     "svg-path-parser": "^1.1.0"
   },
   "peerDependencies": {

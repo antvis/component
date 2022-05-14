@@ -5,7 +5,7 @@ import { createCanvas } from '../../../utils/render';
 import { delay } from '../../../utils/delay';
 import { AxisTextStyleProps, LinearAxisStyleProps } from '../../../../src/ui/axis/types';
 
-const canvas = createCanvas(500, 'svg');
+const canvas = createCanvas(500);
 const createAxis = (style: LinearAxisStyleProps = {}) => {
   const axis = new Linear({ style });
   return axis;

@@ -3,7 +3,7 @@ import { Band as BandScale } from '@antv/scale';
 import { Arc, ArcAxisStyleProps } from '../../../../src';
 import { createCanvas } from '../../../utils/render';
 
-const canvas = createCanvas(600, 'svg');
+const canvas = createCanvas(600);
 const domain = [
   'January',
   'February',
