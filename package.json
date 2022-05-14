@@ -7,6 +7,7 @@
   "module": "esm/index.js",
   "unpkg": "dist/gui.min.js",
   "types": "lib/index.d.ts",
+  "sideEffect": false,
   "files": [
     "src",
     "lib",
