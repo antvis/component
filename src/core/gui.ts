@@ -10,7 +10,7 @@ export abstract class GUI<CustomElementStyleProps> extends CustomElement<CustomE
   /**
    * 组件初始化
    */
-  public abstract init(): void;
+  public init(): void {}
 
   /**
    * 属性发生修改时触发

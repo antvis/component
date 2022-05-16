@@ -1,888 +1,245 @@
-import { CustomEvent, Group, Text } from '@antv/g';
-import { clamp, deepMix, get, isUndefined, minBy, uniqueId, omit } from '@antv/util';
-import { Rail } from './rail';
-import { Labels } from './labels';
-import { Marker } from '../marker';
+import { TextStyleProps, DisplayObject, clamp, Text, CustomEvent } from '@antv/g';
+import { get, isUndefined, memoize } from '@antv/util';
+import { deepAssign, Selection, select, getEventPos, toPrecision, throttle } from '../../util';
+import {
+  CONTINUOUS_DEFAULT_OPTIONS,
+  DEFAULT_HANDLE_CFG,
+  DEFAULT_LABEL_CFG,
+  DEFAULT_RAIL_CFG,
+  STEP_RATIO,
+} from './constant';
 import { LegendBase } from './base';
-import { getValueOffset, getStepValueByValue } from './utils';
-import { CONTINUOUS_DEFAULT_OPTIONS, STEP_RATIO } from './constant';
-import { toPrecision, getShapeSpace, getEventPos, deepAssign, throttle, TEXT_INHERITABLE_PROPS } from '../../util';
-import { wrapper, WrapperNode } from '../../util/wrapper';
-import { Poptip, PoptipCfg } from '../poptip';
-import type { Pair } from '../slider/types';
-import type { IRailCfg } from './rail';
-import type { ILabelsCfg } from './labels';
-import type { MarkerStyleProps } from '../marker';
-import type { DisplayObject, TextProps } from '../../types';
-import type { ContinuousCfg, ContinuousOptions, RailCfg, HandleCfg, SymbolCfg } from './types';
+import { ContinuousCfg, ContinuousOptions } from './types';
+import { getSafetySelections, getStepValueByValue, ifHorizontal } from './utils';
+import { Rail } from './continuousRail';
+import { Handle } from './continuousHandle';
+import { Indicator } from './continuousIndicator';
+import { getChunkedColor, getNextTickValue } from './chunkContinuous';
 
 export type { ContinuousOptions };
 
-type HandleType = 'start' | 'end';
-interface IHandleCfg {
-  markerCfg: MarkerStyleProps;
-  textCfg: TextProps;
+function applyStyle(selection: Selection, style: Record<string, keyof any>) {
+  for (const [key, value] of Object.entries(style)) {
+    selection.style(key, value);
+  }
 }
 
-const RAIL_NAME = 'rail';
-export class Continuous extends LegendBase<ContinuousCfg> {
-  public static tag = 'continuous';
+function getRailLabels(orient: string, rail: { size: number; length: number }, spacing: number) {
+  const [dx, dy] = ifHorizontal(orient, ['dx', 'dy'], ['dy', 'dx']);
+  const [align1, align2] = ifHorizontal(orient, ['right', 'left'], ['center', 'center']);
+  const [baseline1, baseline2] = ifHorizontal(orient, ['middle', 'middle'], ['bottom', 'top']);
+  return [
+    {
+      [dx]: -spacing,
+      [dy]: rail.size / 2,
+      textAlign: align1,
+      textBaseline: baseline1,
+    },
+    {
+      [dx]: rail.length + spacing,
+      [dy]: rail.size / 2,
+      textAlign: align2,
+      textBaseline: baseline2,
+    },
+  ];
+}
+
+function getTickStyle(orient: string, offset: number, align: string, railSize: number, spacing: number) {
+  const [dx, dy] = ifHorizontal(orient, ['dx', 'dy'], ['dy', 'dx']);
+
+  return {
+    [dx]: offset,
+    [dy]: align === 'start' ? -spacing : railSize + spacing,
+    textAlign: ifHorizontal(orient, 'center', align === 'start' ? 'right' : 'left'),
+    textBaseline: ifHorizontal(orient, align === 'start' ? 'bottom' : 'top', 'middle'),
+  };
+}
+
+const sortTicks = memoize(
+  (ticks: number[]) => ticks.sort((a, b) => a - b),
+  (...args: any[]) => JSON.stringify(args)
+);
+
+export class Continuous<T extends ContinuousCfg> extends LegendBase<T> {
+  public static tag: string = 'continuous-legend';
 
   protected static defaultOptions = {
     type: Continuous.tag,
     ...CONTINUOUS_DEFAULT_OPTIONS,
   };
 
-  /**
-   * 结构：
-   * this
-   * |- titleShape
-   * |- middleGroup
-   *   |- labelsShape
-   *   |- railShape
-   *      |- pathGroup (.rail-path)
-   *      |- backgroundGroup (.rail-path)
-   *      |- startHandle
-   *      |- endHandle
-   *      |- indicator
-   * |-backgroundShape
-   */
+  protected rail!: Rail;
+
+  protected startHandle!: Handle;
+
+  protected endHandle!: Handle;
+
+  protected indicator!: Indicator;
+
+  constructor(options: ContinuousOptions) {
+    super(deepAssign({}, Continuous.defaultOptions, options));
+  }
+
+  attributeChangedCallback(name: any, oldValue: any, newValue: any) {
+    super.attributeChangedCallback?.(name, oldValue, newValue);
+    if (name === 'orient') this.indicator.style.position = this.ifHorizontal('top', 'right');
+  }
+
+  public drawInner() {
+    this.drawLabels();
+    this.drawRail();
+    this.drawHandles();
+    this.createIndicator();
+  }
 
   public get selection() {
-    const { min, max, start, end } = this.attributes;
+    const { min, max, start, end } = this.style;
     return [start || min, end || max] as [number, number];
   }
 
-  /* 背景配置项 */
-  protected get backgroundShapeCfg() {
-    const { handle } = this.attributes;
-    const { width, height } = getShapeSpace(this);
-    const [, right, bottom, left] = this.getPadding();
-    // 问就是调试工程
-    const offsetX = handle ? -20 : 0;
-    const offsetY = handle ? -10 : 0;
-    return {
-      width: width + left + right + offsetX,
-      height: height + bottom + offsetY,
-      ...this.getStyle('backgroundStyle'),
-    };
+  private get labelsCfg() {
+    const { label } = this.style;
+    return deepAssign({}, DEFAULT_LABEL_CFG, label || {});
   }
 
-  /**
-   * 获得滑动步长
-   * 未指定时默认为range的1%;
-   */
-  private get step(): number {
-    const { step, min, max } = this.attributes;
-    if (isUndefined(step)) {
-      return toPrecision((max - min) * STEP_RATIO, 0);
-    }
-    return step;
+  private get railCfg(): Record<string, any> & { size: number; length: number } {
+    const { rail } = this.style;
+    return deepAssign({ size: 24, length: 200 }, DEFAULT_RAIL_CFG, rail || {});
   }
 
-  /**
-   * 获取颜色
-   */
-  protected get color() {
-    const { color, rail } = this.attributes;
-    const { ticks, chunked } = rail;
-    return chunked ? color.slice(0, ticks!.length + 1) : color;
+  private get handleCfg() {
+    const { handle } = this.style;
+    return deepAssign({}, DEFAULT_HANDLE_CFG, handle || {}, {
+      textStyle: this.labelsCfg.style,
+      spacing: this.labelsCfg.spacing,
+      visibility: !handle ? 'hidden' : 'visible',
+    });
   }
 
-  // 获取色板属性
-  private get railShapeCfg(): IRailCfg {
-    // 直接绘制色板，布局在adjustLayout方法中进行
-    const { min, max, rail, orient } = this.attributes;
-    const [start, end] = this.selection;
-    const { color } = this;
-    return {
-      x: 0,
-      y: 0,
-      min,
-      max,
-      start,
-      end,
-      orient,
-      color,
-      // todo 鼠标样式有闪动问题
-      cursor: 'pointer',
-      ...(rail as Required<RailCfg>),
-    };
+  // Condition if orient is equal to 'horizontal'.
+  protected ifHorizontal<T>(a: T, b: T) {
+    const { orient = 'horizontal' } = this.style;
+    return ifHorizontal(orient, typeof a === 'function' ? a() : a, typeof b === 'function' ? b() : b);
   }
 
-  /**
-   * 获取手柄属性
-   */
-  private get handleShapeCfg(): IHandleCfg {
-    const { handle, label, slidable } = this.attributes;
-    if (!handle)
-      return {
-        markerCfg: {
-          size: 8,
-          symbol: 'hiddenHandle',
-          opacity: 0,
-        },
-        textCfg: {
-          text: '',
-          opacity: 0,
-        },
-      };
+  protected get color(): string {
+    const { color = [], orient = 'horizontal' } = this.style;
+    const colors = Array.from(color);
+    const count = colors.length;
 
-    const { size, icon } = handle as Required<Pick<HandleCfg, 'size' | 'icon'>>;
-    const { marker, style: markerStyle } = icon;
-    // 替换默认手柄
-    const symbol =
-      marker === 'default' ? this.getOrientVal(['horizontalHandle', 'verticalHandle']) : (marker as SymbolCfg);
-    return {
-      // @ts-ignore
-      markerCfg: {
-        symbol,
-        size,
-        opacity: 1,
-        cursor: slidable ? this.getOrientVal(['ew-resize', 'ns-resize']) : 'not-allowed',
-        ...markerStyle,
-      },
-      textCfg: {
-        ...TEXT_INHERITABLE_PROPS,
-        text: '',
-        opacity: label ? 1 : 0,
-        ...(label?.style || {}),
-      },
-    };
+    if (!count) return '';
+    if (this.railCfg.chunked) return getChunkedColor(this.ticks, colors, orient);
+    return colors.reduce((r, c, idx) => (r += ` ${idx / (count - 1)}:${c}`), `l(${this.ifHorizontal('0', '270')})`);
   }
 
-  // 获取 Label 属性
-  private get labelsShapeCfg(): ILabelsCfg {
-    const { label } = this.attributes;
-    // 不绘制label
-    if (!label) {
-      return {
-        labels: [],
-      };
-    }
-    const { min, max, rail } = this.attributes;
-    const { style, formatter, align } = label;
-    const cfg: TextProps[] = [];
-    // align 为rail 时仅显示 min、max 的 label
-    if (align === 'rail') {
-      [min, max].forEach((value, idx) => {
-        cfg.push({
-          x: 0,
-          y: 0,
-          text: formatter!(value, idx),
-          ...style,
+  private get slidable() {
+    return !!this.style.handle;
+  }
+
+  protected get ticks() {
+    const { min, max } = this.style;
+    return sortTicks([min, ...(this.railCfg.ticks || []), max]);
+  }
+
+  private drawRail() {
+    const { orient, min, max } = this.style;
+    const [s1, s2] = this.selection;
+    this.rail = select(this.rail || this.innerGroup.appendChild(new Rail()))
+      .attr('className', 'legend-rail')
+      .call(applyStyle, { ...this.railCfg, fill: this.color, orient })
+      .style('selection', this.slidable ? [(s1 - min) / (max - min), (s2 - min) / (max - min)] : undefined)
+      .node() as Rail;
+  }
+
+  private drawLabels() {
+    let labels: (TextStyleProps & { id: string })[] = [];
+    const { min, max, orient = 'horizontal' } = this.style;
+    if (!this.style.handle) {
+      const { align, spacing, style } = this.labelsCfg;
+      const { size } = this.railCfg;
+      const id = (idx: number) => `legend-label-${idx}`;
+      if (align === 'rail') {
+        const styles = getRailLabels(orient, this.railCfg, spacing);
+        labels = [
+          { id: id(0), text: `${min}`, ...style, ...styles[0] },
+          { id: id(1), text: `${max}`, ...style, ...styles[1] },
+        ];
+      } else {
+        labels = this.ticks.map((tick: any, idx: number) => {
+          const tickStyle = getTickStyle(orient, this.getOffset(tick), align, size, spacing);
+          return { id: id(idx), text: `${tick}`, ...tickStyle, ...style };
         });
-      });
-    } else {
-      const ticks = [min, ...rail.ticks!, max];
-      ticks.forEach((value, idx) => {
-        cfg.push({
-          x: 0,
-          y: 0,
-          text: formatter!(value, idx),
-          ...style,
-        });
-      });
+      }
     }
-    return {
-      labels: cfg,
-    };
+
+    select(this.labelsGroup)
+      .selectAll('.legend-label')
+      .data(labels, (d) => d.id)
+      .join(
+        (enter) => enter.append((style) => new Text({ className: 'legend-label', style })),
+        (update) => update.each((shape, style) => shape.attr(style)),
+        (exit) => exit.remove()
+      );
   }
 
-  private labelsGroup!: Labels;
+  private drawHandles() {
+    const [min, max] = this.selection;
+    this.startHandle = this.drawHandle('start', min);
+    this.endHandle = this.drawHandle('end', max);
+  }
 
-  private middleGroup!: Group;
+  private drawHandle(type: string, value: number) {
+    const { orient = 'horizontal' } = this.style;
+    const { align, spacing } = this.labelsCfg;
+    const { size } = this.railCfg;
+    const { size: handleSize } = this.handleCfg;
 
-  // 色板
-  private railShape!: Rail;
+    const offset = this.getOffset(value);
+    const { dx: x, dy: y } = getTickStyle(orient, offset, align, size, -handleSize / 3);
+    const textStyle = getTickStyle(orient, offset, align, size, align === 'start' ? spacing : handleSize / 3 + spacing);
 
-  // 开始滑块
-  private startHandle!: Group;
+    const handle = type === 'start' ? this.startHandle : this.endHandle;
+    return select(handle || this.innerGroup.appendChild(new Handle({})))
+      .attr('className', `legend-handle-${type}`)
+      .call(applyStyle, {
+        ...this.handleCfg,
+        x,
+        y,
+        symbol: this.ifHorizontal('horizontalHandle', 'verticalHandle'),
+        textStyle: {
+          text: `${value ?? ''}`,
+          x: +textStyle.dx - +x,
+          y: +textStyle.dy - +y,
+          textAlign: textStyle.textAlign,
+          textBaseline: textStyle.textBaseline,
+          ...this.handleCfg.textStyle,
+        },
+      })
+      .node() as Handle;
+  }
 
-  // 结束滑块
-  private endHandle!: Group;
+  private createIndicator() {
+    this.indicator = this.appendChild(
+      new Indicator({
+        zIndex: 2,
+        className: 'legend-indicator',
+        style: { position: this.ifHorizontal('top', 'right') },
+      })
+    );
+  }
 
-  /**
-   * 悬浮提示
-   */
-  private poptip!: WrapperNode<PoptipCfg, Poptip>;
-
-  /**
-   * 当前交互的对象
-   */
+  /** 当前交互的对象 */
   private target!: string | undefined;
 
-  /**
-   * 上次鼠标事件的位置
-   */
+  /** 上次鼠标事件的位置 */
   private prevValue!: number;
 
-  constructor(options: ContinuousOptions) {
-    super(deepMix({}, Continuous.defaultOptions, options));
-    this.init();
-  }
-
-  public init() {
-    super.init();
-    this.appendChild((this.middleGroup = new Group()));
-    // 创建labels
-    this.createLabels();
-    // 创建色板及其背景
-    this.createRail();
-    // // 创建滑动手柄
-    this.createHandles();
-    // 设置手柄文本
-    this.setHandleText();
-    // 调整布局
-    this.adjustLayout();
-    // 调整title
-    this.adjustTitle();
-    // 最后再绘制背景
-    this.createBackground();
-    // 指示器
-    this.updateIndicator();
-    // // 监听事件
-    this.bindEvents();
-  }
-
-  public update(cfg: Partial<ContinuousCfg>) {
-    this.attr(deepAssign({}, this.attributes, cfg));
-    // 更新label内容
-    this.labelsGroup.update(this.labelsShapeCfg);
-    // 更新rail
-    this.railShape.update(this.railShapeCfg);
-    // 更新选区
-    this.updateSelection(...this.selection);
-    // 更新title内容
-    this.titleShape.attr(this.titleShapeCfg);
-    // 更新handle
-    this.updateHandles();
-    // 更新手柄文本
-    this.setHandleText();
-    // 更新指示器
-    this.updateIndicator();
-    // 更新布局
-    this.adjustLayout();
-    // 更新背景
-    this.backgroundShape.attr(this.backgroundShapeCfg);
-  }
-
-  public clear() {
-    this.poptip.node().destroy();
-  }
-
-  public destroy() {
-    super.destroy();
-    this.poptip.node().destroy();
-  }
-
-  // /**
-  //  * 设置指示器 (暂时不提供)
-  //  * @param value 设置的值，用于确定位置
-  //  * @param text 可选；显示的文本，若无则通过value取值
-  //  * @param useFormatter 是否使用formatter
-  //  * @returns
-  //  */
-  // public setIndicator(value: false | number) {
-  //   const { indicator } = this.attributes;
-
-  //   const poptip = this.poptip.node();
-  //   if (!indicator || value === false) {
-  //     poptip.hideTip();
-  //     return;
-  //   }
-
-  //   const railPath = this.railShape.getElementsByClassName('rail-path')[0] as Path;
-  //   const { x, y } = railPath.getBoundingClientRect();
-  //   const { min, max } = this.attributes;
-  //   const safeValue = clamp(value, min, max);
-  //   const offsetX = this.getValueOffset(safeValue);
-  //   const [v1] = this.getIndicatorValue(value) || [];
-
-  //   poptip.showTip(x + offsetX, y, { text: v1 });
-  // }
-
-  public setSelection(stVal: number, endVal: number) {
-    // 值校验
-    this.updateSelectionLayout(...this.getSafetySelections(stVal, endVal));
-  }
-
-  /**
-   * 设置Handle的文本
-   */
-  public setHandleText(text1?: string, text2?: string, useFormatter: boolean = true) {
-    const [start, end] = this.selection;
-    let [startText, endText] = [text1 || String(start), text2 || String(end)];
-    if (useFormatter) {
-      const formatter =
-        get(this.attributes, ['handle', 'text', 'formatter']) ||
-        get(Continuous.defaultOptions, ['style', 'handle', 'text', 'formatter']);
-      [startText, endText] = [formatter(startText), formatter(endText)];
-    }
-    this.getHandle('start', 'text').attr({ text: startText });
-    this.getHandle('end', 'text').attr({ text: endText });
-  }
-
-  protected initShape() {
-    super.initShape();
-  }
-
-  /**
-   * 设置选区
-   * @param stVal 开始值
-   * @param endVal 结束值
-   * @param isOffset stVal和endVal是否为偏移量
-   */
-  private updateSelection(stVal: number, endVal: number, isOffset: boolean = false) {
-    const [currSt, currEnd] = this.selection;
-    let [start, end] = [stVal, endVal];
-    if (isOffset) {
-      // 获取当前值
-      start += currSt;
-      end += currEnd;
-    }
-    // 值校验
-    [start, end] = this.getSafetySelections(start, end);
-    this.updateSelectionLayout(start, end);
-    this.dispatchSelection();
-  }
-
-  private updateSelectionLayout(start: number, end: number) {
-    this.setAttribute('start', start);
-    this.setAttribute('end', end);
-    this.railShape.update({ start, end });
-    this.adjustLayout();
-    this.setHandleText();
-  }
-
-  /**
-   * 取值附近的步长刻度上的值
-   */
-  private getTickValue(value: number): number {
-    const {
-      min,
-      max,
-      rail: { chunked, ticks },
-    } = this.attributes;
-    if (chunked) {
-      const range = [min, ...ticks!, max];
-      for (let i = 0; i < range.length - 1; i += 1) {
-        if (value >= range[i] && value <= range[i + 1]) {
-          return minBy([range[i], range[i + 1]], (val) => Math.abs(value - val));
-        }
-      }
-    }
-    return getStepValueByValue(value, this.step, min);
-  }
-
-  /**
-   * 取值所在的刻度范围
-   */
-  private getTickIntervalByValue(value: number) {
-    const { min, max } = this.attributes;
-    const ticks = get(this.attributes, ['rail', 'ticks']);
-    const temp = [min, ...ticks, max];
-    for (let i = 1; i < temp.length; i += 1) {
-      const st = temp[i - 1];
-      const end = temp[i];
-      if (value >= st && value <= end) {
-        return [st, end];
-      }
-    }
-    return false;
-  }
-
-  /**
-   * 获取某个值在orient方向上的偏移量
-   * reverse: 屏幕偏移量 -> 值
-   */
-  private getValueOffset(value: number, reverse = false): number {
-    const { min, max, rail } = this.attributes;
-    const { width: railWidth, height: railHeight } = rail;
-    const innerLen = this.getOrientVal([railWidth!, railHeight!]);
-    return getValueOffset(value, min, max, innerLen, reverse);
-  }
-
-  private getSafetySelections(start: number, end: number, precision: number = 4): [number, number] {
-    const { min, max } = this.attributes;
-    const [prevStart, prevEnd] = this.selection;
-    let [startVal, endVal] = [start, end];
-    const range = endVal - startVal;
-    // 交换startVal endVal
-    if (startVal > endVal) {
-      [startVal, endVal] = [endVal, startVal];
-    }
-    // 超出范围就全选
-    if (range > max - min) {
-      return [min, max];
-    }
-
-    if (startVal < min) {
-      if (prevStart === min && prevEnd === endVal) {
-        return [min, endVal];
-      }
-      return [min, range + min];
-    }
-    if (endVal > max) {
-      if (prevEnd === max && prevStart === startVal) {
-        return [startVal, max];
-      }
-      return [max - range, max];
-    }
-
-    // 保留小数
-    return [toPrecision(startVal, precision), toPrecision(endVal, precision)];
-  }
-
-  // 创建 Label
-  private createLabels() {
-    // 创建 label 容器
-    this.labelsGroup = new Labels({
-      name: 'labels',
-      id: 'labels',
-      style: this.labelsShapeCfg as any,
-    });
-    this.middleGroup.appendChild(this.labelsGroup);
-  }
-
-  // 创建色板
-  private createRail() {
-    // 确定绘制类型
-    this.railShape = new Rail({
-      name: RAIL_NAME,
-      id: 'rail',
-      style: this.railShapeCfg as any,
-    });
-    this.middleGroup.appendChild(this.railShape);
-  }
-
-  /**
-   *  创建手柄
-   */
-  private createHandle(handleType: HandleType) {
-    const { markerCfg, textCfg } = this.handleShapeCfg;
-    const groupName = `${handleType}Handle`;
-    const el = new Group({
-      name: groupName,
-      id: groupName,
-    });
-    // 将tag挂载到rail
-    this.railShape.appendChild(el);
-
-    const text = new Text({
-      name: 'text',
-      style: {
-        ...TEXT_INHERITABLE_PROPS,
-        ...textCfg,
-      },
-    });
-    el.appendChild(text);
-
-    const icon = new Marker({
-      name: 'icon',
-      style: markerCfg as MarkerStyleProps,
-    });
-    el.appendChild(icon);
-
-    if (handleType === 'start') this.startHandle = el;
-    else this.endHandle = el;
-  }
-
-  // 创建手柄
-  private createHandles() {
-    this.createHandle('start');
-    this.createHandle('end');
-  }
-
-  /**
-   * 更新handle
-   */
-  public updateHandles() {
-    const { markerCfg, textCfg } = this.handleShapeCfg;
-    (['start', 'end'] as HandleType[]).forEach((handleType) => {
-      (this.getHandle(handleType, 'icon') as Marker).update(markerCfg);
-      (this.getHandle(handleType, 'text') as Text).attr(textCfg);
-    });
-  }
-
-  /**
-   * 获得手柄、手柄内icon和text的对象
-   */
-  private getHandle(handleType: HandleType, subNode?: 'text' | 'icon') {
-    let handle: Group;
-    if (handleType === 'start') handle = this.startHandle;
-    else handle = this.endHandle;
-    if (!subNode) return handle;
-    if (subNode === 'text') {
-      return handle.getElementsByName('text')[0] as Text;
-    }
-    return handle.getElementsByName('icon')[0] as Marker;
-  }
-
-  private updateIndicator() {
-    const { indicator, orient, rail, min, max } = this.attributes;
-
-    if (!indicator) return;
-    if (!this.poptip) {
-      const bgStyle = indicator.backgroundStyle || {};
-      const textStyle = get(indicator, ['text', 'style']) || {};
-      // indicator hover事件
-      const cls = `${uniqueId('gui-poptip-')}`;
-
-      this.poptip = wrapper<PoptipCfg, Poptip>(
-        Poptip,
-        deepMix(
-          {},
-          {
-            id: 'continuous-legend-poptip',
-            containerClassName: cls,
-            domStyles: { '.gui-poptip': { padding: '2px', radius: '4px', 'box-shadow': 'none', 'min-width': '20px' } },
-          },
-          {
-            ...indicator,
-            domStyles: {
-              [`.gui-poptip.${cls}`]: bgStyle,
-              [`.${cls} .gui-poptip-arrow`]: omit(bgStyle, ['border-radius']),
-              [`.${cls} .gui-poptip-text`]: textStyle,
-            },
-          }
-        )
-      );
-      const { width: railWidth, height: railHeight } = rail as Required<Pick<IRailCfg, 'width' | 'height'>>;
-
-      this.poptip.node().bind(this.railShape, (e) => {
-        const value = this.getEventPosValue(e);
-        const [v1, v2] = this.getIndicatorValue(value) || [];
-        value && this.dispatchIndicated(value, v2);
-
-        // type = size 时，指示器需要贴合轨道上边缘
-        // handle 会影响 rail 高度
-        const offsetY =
-          rail?.type === 'size' && !rail?.chunked
-            ? (1 - (clamp(value, min, max) - min) / (max - min)) * this.getOrientVal([railHeight, railWidth])
-            : 0;
-
-        return {
-          position: orient === 'vertical' ? 'left' : 'top',
-          html: v1 || '',
-          target: e.target.className === 'rail-path' ? e.target : false,
-          offset: [0, offsetY],
-        };
-      });
-      return;
-    }
-
-    this.poptip.node().hide();
-  }
-
-  /**
-   * 调整handle结构
-   */
-  private adjustHandle() {
-    const { rail, label } = this.attributes;
-    const [start, end] = this.selection;
-    const { width: railWidth, height: railHeight } = rail as Required<Pick<IRailCfg, 'width' | 'height'>>;
-
-    // 设置Handle位置
-    const { startHandle } = this;
-    const { endHandle } = this;
-    startHandle.attr(
-      this.getOrientVal([
-        {
-          x: this.getValueOffset(start),
-          y: railHeight / 2,
-        },
-        {
-          x: railWidth / 2,
-          y: this.getValueOffset(start),
-        },
-      ])
-    );
-    endHandle.attr(
-      this.getOrientVal([
-        {
-          x: this.getValueOffset(end),
-          y: railHeight / 2,
-        },
-        {
-          x: railWidth / 2,
-          y: this.getValueOffset(end),
-        },
-      ])
-    );
-
-    // handle为false时，取默认布局方式进行布局，但不会显示出来
-    if (!label) return;
-    const { spacing = 0 } = label;
-    const align = label.align === 'rail' ? 'end' : label.align;
-
-    // 调整文本位置
-    let handleTextStyle = {};
-    // rail 不做处理
-    if (align === 'start') {
-      handleTextStyle = this.getOrientVal([
-        {
-          x: 0,
-          y: -railHeight / 2 - spacing,
-          textAlign: 'center',
-          textBaseline: 'bottom',
-        },
-        {
-          x: -railWidth / 2 - spacing,
-          y: 0,
-          textAlign: 'end',
-          textBaseline: 'middle',
-        },
-      ]);
-    } else if (align === 'end') {
-      handleTextStyle = this.getOrientVal([
-        {
-          x: 0,
-          y: railHeight / 2 + spacing,
-          textAlign: 'center',
-          textBaseline: 'top',
-        },
-        {
-          x: railWidth + spacing,
-          y: 0,
-          textAlign: 'start',
-          textBaseline: 'middle',
-        },
-      ]);
-    }
-
-    this.getHandle('start', 'text').attr(handleTextStyle);
-    this.getHandle('end', 'text').attr(handleTextStyle);
-  }
-
-  /**
-   * 调整 labels 布局位置
-   *
-   * if labelAlign == 'inside' | 'outside'
-   *    orient: horizontal
-   *      ||||||||||||||||||||||
-   *      0  20  40  60  80  100
-   *    orient: vertical
-   *      —— 0
-   *      —— 20
-   *      —— 40
-   *      —— 60
-   */
-  private adjustLabels() {
-    const { min, max, label, rail, orient } = this.attributes;
-
-    if (!label) return;
-
-    // 容器内可用空间起点
-    const { x: innerX, y: innerY } = this.availableSpace;
-    const {
-      width: railWidth,
-      height: railHeight,
-      ticks: _t,
-    } = rail as Required<Pick<IRailCfg, 'width' | 'height' | 'ticks'>>;
-
-    const { align = 'rail', spacing: labelSpacing = 0, flush: labelFlush, offset = [] } = label!;
-    const [offsetX = 0, offsetY = 0] = offset;
-
-    if (align === 'rail') {
-      // 此时 labelsShape 中只包含 min、max label。1. 设置 minLabel 位置
-      if (orient === 'horizontal') {
-        /**
-         * 0  ||||||||||||||||||||||  100
-         */
-        this.labelsGroup.attr({
-          x: innerX,
-          y: innerY + railHeight / 2,
-        });
-        const [firstChild] = this.labelsGroup.getLabels();
-        // 设置左侧文本
-        if (firstChild) {
-          firstChild.attr({ textAlign: 'start', x: offsetX, y: offsetY });
-        }
-
-        const [lastChild] = this.labelsGroup.getLabels().slice(-1);
-        if (lastChild) {
-          firstChild;
-          // 设置右侧文本位置
-          lastChild.attr({
-            x: getShapeSpace(firstChild).width + railWidth + labelSpacing * 2 + offsetX,
-            y: offsetY,
-            textAlign: 'start',
-          });
-        }
-      } else {
-        this.labelsGroup.attr({
-          x: innerX + railWidth / 2,
-          y: innerY,
-        });
-        // 顶部文本高度
-        const firstLabelText = this.labelsGroup.getLabels()[0];
-        const { height: topTextHeight } = getShapeSpace(firstLabelText);
-        firstLabelText.attr({
-          x: offsetX,
-          y: topTextHeight / 2 + offsetY,
-          textBaseline: 'middle',
-        });
-        // 底部文本位置
-        const lastLabelText = this.labelsGroup.getLabels().slice(-1)[0];
-        lastLabelText.attr({
-          x: offsetX,
-          y: railHeight + topTextHeight * 1.5 + labelSpacing * 2 + offsetY,
-          textBaseline: 'middle',
-        });
-      }
-
-      return;
-    }
-
-    if (orient === 'horizontal') {
-      // labelsShape 高度
-      const { height: labelsHeight } = getShapeSpace(this.labelsGroup);
-
-      this.labelsGroup.attr({
-        x: innerX,
-        y: innerY + (align === 'start' ? labelsHeight / 2 : labelSpacing + railHeight + labelsHeight / 2),
-      });
-      // 补上 min，max
-      const ticks = [min, ..._t, max];
-      // 设置labelsShape中每个文本的位置
-      this.labelsGroup.getLabels().forEach((child, idx) => {
-        const val = ticks[idx];
-        // 通过val拿到偏移量
-        child.attr({
-          x: this.getValueOffset(val),
-          y: 0,
-          textBaseline: 'middle',
-          textAlign: (() => {
-            if (!labelFlush) return 'center';
-
-            // use LabelFlush to control whether change the textAlign of labels on the edge of the axis os that they could stay inside the span of axis.
-            if (idx === 0) return 'start';
-            return idx < ticks.length - 1 ? 'center' : 'end';
-          })(),
-        });
-      });
-      return;
-    }
-
-    // vertical orient
-    this.labelsGroup.attr({
-      x: innerX + (align === 'end' ? labelSpacing + railWidth : 0),
-      y: innerY,
-    });
-
-    // 补上 min，max
-    const ticks = [min, ..._t, max];
-    this.labelsGroup.getLabels().forEach((child, idx) => {
-      const val = ticks[idx];
-      // 通过 val 拿到偏移量
-      child.attr({
-        x: 0,
-        y: this.getValueOffset(val),
-        textBaseline: (() => {
-          if (!labelFlush) return 'middle';
-
-          // use LabelFlush to control whether change the textAlign of labels on the edge of the axis os that they could stay inside the span of axis.
-          if (idx === 0) return 'top';
-          return idx < ticks.length - 1 ? 'middle' : 'bottom';
-        })(),
-        textAlign: align === 'end' ? 'start' : 'end',
-      });
-    });
-  }
-
-  /**
-   * 对图例进行布局
-   *
-   * 1. 存在 handle 的情况，不展示标签 labelsGroup
-   * 2. label.align === 'rail' 时，需要调整 rail 位置
-   */
-  private adjustLayout() {
-    const { handle, label, orient } = this.attributes;
-
-    const { x: innerX, y: innerY } = this.availableSpace;
-    const { width: handleW } = getShapeSpace(this.startHandle);
-
-    let railX = innerX;
-    let railY = innerY;
-
-    let labelW = 0;
-    let labelH = 0;
-    if (handle) {
-      this.labelsGroup?.hide();
-
-      if (orient === 'horizontal') railX = innerX + handleW / 2;
-    } else if (this.labelsGroup && label) {
-      this.labelsGroup.show();
-      this.adjustLabels();
-
-      const { align: labelAlign, spacing: labelSpacing = 0 } = label;
-      const [firstChild] = this.labelsGroup.getLabels();
-
-      labelW = getShapeSpace(firstChild).width;
-      labelH = getShapeSpace(firstChild).height;
-
-      if (labelAlign === 'rail') {
-        railX = innerX + labelW + labelSpacing;
-
-        if (orient === 'vertical') {
-          railX = innerX;
-          railY = innerY + labelH + labelSpacing;
-        }
-      } else if (labelAlign === 'start' && orient === 'horizontal') {
-        railY = innerY + getShapeSpace(firstChild).height + labelSpacing;
-      } else if (labelAlign === 'start' && orient === 'vertical') {
-        railX = innerX + labelSpacing;
-      }
-    }
-
-    // 调整 rail位置
-    this.railShape.attr({
-      x: railX,
-      y: railY,
-    });
-
-    // 调整 handle 位置
-    this.adjustHandle();
-
-    // 整体调整位置
-    if (!label?.flush) {
-      if (orient === 'horizontal') this.middleGroup.setLocalPosition(labelW / 2, 0);
-      if (orient === 'vertical') this.middleGroup.setLocalPosition(0, labelH / 2);
-    }
-    if (orient === 'vertical') {
-      let offsetX = 0;
-      let offsetY = 0;
-
-      if (handle && this.startHandle) offsetY = getShapeSpace(this.startHandle).height / 2;
-      if (label?.align === 'start') offsetX = getShapeSpace(this.labelsGroup).width + (label?.spacing || 0);
-
-      this.middleGroup.setLocalPosition(offsetX, offsetY);
-    }
-  }
-
-  /**
-   * 事件触发的位置对应的value值
-   * @param limit {boolean} 我也忘了要干啥了
-   */
-  private getEventPosValue(e: any, limit: boolean = false) {
-    const { min, max } = this.attributes;
-    const startPos = this.getOrientVal(this.railShape.getPosition().slice(0, 2) as Pair<number>);
-    const currValue = this.getOrientVal(getEventPos(e));
-    const offset = currValue - startPos;
-    const value = clamp(this.getValueOffset(offset, true) + min, min, max);
-    return value;
-  }
-
-  /**
-   * 绑定事件
-   */
-  private bindEvents() {
-    const { orient } = this.attributes;
+  public bindEvents() {
+    super.bindEvents();
     // 如果！slidable，则不绑定事件或者事件响应不生效
-    // 放置需要绑定drag事件的对象
+    // // 放置需要绑定drag事件的对象
     const dragObject = new Map<string, DisplayObject>();
-    dragObject.set('rail', this.railShape);
+    dragObject.set('rail', this.rail);
     dragObject.set('start', this.startHandle);
     dragObject.set('end', this.endHandle);
     // 绑定 drag 开始事件
@@ -890,33 +247,72 @@ export class Continuous extends LegendBase<ContinuousCfg> {
       obj.addEventListener('mousedown', this.onDragStart(key));
       obj.addEventListener('touchstart', this.onDragStart(key));
     });
+    this.startHandle.addEventListener('mouseover', () => this.updateMouse());
+    this.endHandle.addEventListener('mouseover', () => this.updateMouse());
+
+    this.rail.addEventListener('mousemove', this.onHovering);
+    this.addEventListener('mouseout', this.hideIndicator);
   }
 
-  /**
-   * 开始拖拽
-   */
+  private onHovering = (e: any) => {
+    e.stopPropagation();
+    const value = this.getValueByCanvasPoint(e);
+    if (get(this.attributes, ['rail', 'chunked'])) {
+      const { range } = getNextTickValue(this.ticks, value);
+      this.showIndicator((range[0] + range[1]) / 2, `${range[0]}-${range[1]}`);
+      this.dispatchIndicated(value, range);
+    } else {
+      const safetyValue = this.getTickValue(value);
+      this.showIndicator(safetyValue);
+      this.dispatchIndicated(safetyValue);
+    }
+  };
+
+  public showIndicator(value: number, text = `${value}`) {
+    if (typeof value !== 'number') {
+      this.hideIndicator();
+      return;
+    }
+
+    this.indicator.show();
+    const { min, max } = this.style;
+    const safeValue = clamp(value, min, max);
+    const offsetX = this.ifHorizontal(this.getOffset(safeValue), this.railCfg.size + 12);
+    // todo consider size-rail.
+    const offsetY = this.ifHorizontal(-14, this.getOffset(safeValue));
+    const { x, y } = this.rail.getBBox();
+    const { x: x0, y: y0 } = this.container.getBBox();
+    const [dx, dy] = this.container.getLocalPosition();
+    this.indicator.style.x = x - x0 + dx + offsetX;
+    this.indicator.style.y = y - y0 + dy + offsetY;
+    this.indicator.style.textStyle = { text };
+  }
+
+  private hideIndicator() {
+    this.indicator?.hide();
+  }
+
   private onDragStart = (target: string) => (e: any) => {
     e.stopPropagation();
-    const { slidable } = this.attributes;
     // 关闭滑动
-    if (!slidable) return;
+    if (!this.slidable) return;
     this.target = target;
-    this.prevValue = this.getTickValue(this.getEventPosValue(e));
+    this.prevValue = this.getTickValue(this.getValueByCanvasPoint(e));
     this.addEventListener('mousemove', this.onDragging);
     this.addEventListener('touchmove', this.onDragging);
+    this.addEventListener('mouseleave', this.onDragEnd);
+    this.addEventListener('mouseup', this.onDragEnd);
     document.addEventListener('mouseup', this.onDragEnd);
     document.addEventListener('touchend', this.onDragEnd);
   };
 
-  /**
-   * 拖拽
-   */
   private onDragging = (e: any) => {
-    e.stopPropagation();
-    const [start, end] = this.selection;
-    const currValue = this.getTickValue(this.getEventPosValue(e));
-    const diffValue = currValue - this.prevValue;
     const { target } = this;
+    this.updateMouse();
+    const [start, end] = this.selection;
+    const currValue = this.getTickValue(this.getValueByCanvasPoint(e));
+    const diffValue = currValue - this.prevValue;
+
     if (target === 'start') start !== currValue && this.updateSelection(currValue, end);
     else if (target === 'end') end !== currValue && this.updateSelection(start, currValue);
     else if (target === 'rail') {
@@ -927,57 +323,72 @@ export class Continuous extends LegendBase<ContinuousCfg> {
     }
   };
 
-  /**
-   * 结束拖拽
-   */
-  private onDragEnd = () => {
+  private onDragEnd() {
+    this.style.cursor = 'default';
     this.removeEventListener('mousemove', this.onDragging);
     this.removeEventListener('touchmove', this.onDragging);
     document.removeEventListener('mouseup', this.onDragEnd);
     document.removeEventListener('touchend', this.onDragEnd);
-
-    // 抬起时修正位置
-    this.target = undefined;
-  };
-
-  /**
-   * 获取指示器内容
-   */
-  private getIndicatorValue(value: number): [string, unknown] {
-    const { min, max, rail } = this.attributes;
-
-    let val;
-    let actualValue;
-
-    // chunked 为 true 时
-    const chunked = get(rail, ['chunked']);
-    if (chunked) {
-      const interval = this.getTickIntervalByValue(value);
-      if (!interval) return ['', null];
-
-      const [st, end] = interval;
-      val = toPrecision((st + end) / 2, 0);
-      actualValue = interval;
-    } else {
-      val = clamp(this.getTickValue(value), min, max);
-      actualValue = val;
-    }
-
-    const formatter =
-      get(this.attributes, ['indicator', 'text', 'formatter']) ??
-      (chunked ? ([v1, v2]: [number, number]) => `${v1}-${v2}` : (v: number) => `${v ?? ''}`);
-    const poptipValue = formatter(actualValue);
-
-    return [poptipValue, actualValue];
   }
 
-  @throttle(20)
-  private dispatchIndicated(value: number, range?: unknown) {
-    const evt = new CustomEvent('onIndicated', {
-      detail: { value, range },
-    });
+  private updateMouse() {
+    if (this.style.slidable) this.style.cursor = 'grabbing';
+  }
 
-    this.dispatchEvent(evt);
+  public setSelection(start: number, end: number) {
+    this.updateSelection(start, end);
+  }
+
+  private updateSelection(stVal: number, endVal: number, isOffset: boolean = false) {
+    const [currSt, currEnd] = this.selection;
+    let [start, end] = [stVal, endVal];
+    if (isOffset) {
+      // 获取当前值
+      start += currSt;
+      end += currEnd;
+    }
+    // 值校验
+    const { min, max } = this.style;
+    [start, end] = getSafetySelections([min, max], [start, end], this.selection);
+    this.update({ start, end } as any);
+    this.dispatchSelection();
+  }
+
+  private get step(): number {
+    const { step, min, max } = this.attributes;
+    if (isUndefined(step)) {
+      return toPrecision((max - min) * STEP_RATIO, 0);
+    }
+    return step;
+  }
+
+  private getTickValue(value: number): number {
+    if (this.railCfg.chunked) return getNextTickValue(this.ticks, value).tick;
+    return getStepValueByValue(value, this.step, this.style.min);
+  }
+
+  /**
+   * 事件触发的位置对应的value值
+   * @param limit {boolean} 我也忘了要干啥了
+   */
+  private getValueByCanvasPoint(e: any, limit: boolean = false) {
+    const { min, max, orient = 'horizontal' } = this.style;
+    const [x, y] = this.rail.getPosition();
+    const startPos = this.ifHorizontal(x, y);
+    const currValue = this.ifHorizontal(...getEventPos(e));
+    const offset = currValue - startPos;
+    const value = clamp(this.getOffset(offset, true) + min, min, max);
+
+    return value;
+  }
+
+  /** reverse: 屏幕偏移量 -> 值 */
+  private getOffset(v: number, reverse = false) {
+    const { min, max } = this.style;
+    if (reverse) return (v * (max - min)) / this.railCfg.length;
+
+    const ratio = max > min ? this.railCfg.length / (max - min) : 0;
+    return toPrecision((v - min) * ratio, 2);
   }
 
   @throttle(20)
@@ -987,6 +398,15 @@ export class Continuous extends LegendBase<ContinuousCfg> {
         value: this.selection,
       },
     });
-    this.dispatchEvent(evt);
+    this.dispatchEvent(evt as any);
+  }
+
+  @throttle(20)
+  private dispatchIndicated(value: number, range?: unknown) {
+    const evt = new CustomEvent('onIndicated', {
+      detail: { value, range },
+    });
+
+    this.dispatchEvent(evt as any);
   }
 }

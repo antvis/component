@@ -1,7 +1,6 @@
 import { Canvas } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Continuous } from '@antv/gui';
-import * as dat from 'dat.gui';
 
 const renderer = new CanvasRenderer();
 
@@ -14,15 +13,15 @@ const canvas = new Canvas({
 
 const continuous = new Continuous({
   style: {
+    padding: [0, 0, 0, 12],
     title: {
       content: '连续图例',
-      spacing: 4,
     },
     rail: {
-      width: 100,
-      height: 16,
+      size: 24,
+      length: 120,
     },
-    handle: false,
+    handle: null,
     min: 0,
     max: 100,
     color: [
@@ -43,24 +42,16 @@ const continuous = new Continuous({
 canvas.appendChild(continuous);
 
 /** -------------------------配置区域--------------------------------------- */
-const $wrapper = document.getElementById('container');
-const cfg = new dat.GUI({ autoPlace: false });
-$wrapper.appendChild(cfg.domElement);
-const continuousCfg = {
-  x: 0,
-  y: 0,
-  图例宽度: 100,
-  图例高度: 16,
-};
-cfg.add(continuousCfg, 'x', 0, 300).onChange((x) => {
-  continuous.attr({ x });
-});
-cfg.add(continuousCfg, 'y', 0, 300).onChange((y) => {
-  continuous.attr({ y });
-});
-cfg.add(continuousCfg, '图例宽度', 30, 300).onChange((width) => {
-  continuous.update({ rail: { width } });
-});
-cfg.add(continuousCfg, '图例高度', 12, 40).onChange((height) => {
-  continuous.update({ rail: { height } });
+window.ConfigPanel([continuous], '样式', {
+  'rail.size': { label: '滑轨大小', value: 24, type: 'number', step: 2, range: [12, 32] },
+  'rail.length': { label: '滑轨长度', value: 120, type: 'number', step: 10, range: [100, 200] },
+  padding: { label: '图例内边距', value: 12, type: 'number', step: 1, range: [10, 20] },
+  orient: {
+    label: '图例方向',
+    value: 'horizontal',
+    options: [
+      { name: '横向', value: 'horizontal' },
+      { name: '纵向', value: 'vertical' },
+    ],
+  },
 });

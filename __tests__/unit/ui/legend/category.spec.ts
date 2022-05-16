@@ -14,7 +14,7 @@ describe('Category legend', () => {
     { name: 'iOS', value: '12.56%', color: '#7262fd' },
   ];
   it('new Category({}) returns a displayObject contains background and innerContent', () => {
-    const category = new Category({ style: { items: [] } });
+    const category = canvas.appendChild(new Category({ style: { items: [] } }));
 
     expect(category.childNodes.length).toBe(2);
     category.destroy();
@@ -22,6 +22,7 @@ describe('Category legend', () => {
 
   it('Category background', () => {
     const category = new Category({ style: { items, padding: [2, 4], backgroundStyle: { fill: 'pink' } } });
+    canvas.appendChild(category);
 
     const background = category.querySelector('.legend-background')!;
     const container = category.querySelector('.legend-container') as Group;
@@ -30,17 +31,20 @@ describe('Category legend', () => {
     expect(container.style.y).toBe(background.style.y + 2);
     expect(container.getBBox().width).toBe(background.style.width - 8);
 
-    canvas.appendChild(category);
     category.destroy();
   });
 
   it('Category Title, support html', () => {
-    const category = new Category({ style: { items, title: { content: 'Legend title', spacing: 4 } } });
+    const category = new Category({ style: { items, title: { content: 'Legend title' } } });
     canvas.appendChild(category);
 
     let title = category.querySelector('.legend-title') as DisplayObject;
-    const itemsGroup = category.querySelector('.legend-items-group') as DisplayObject;
-    expect(title.getBBox().bottom + 4).toBe(itemsGroup.getBBox().top);
+    const innerGroup = category.querySelector('.legend-inner-group') as DisplayObject;
+    const min = Math.min.apply(
+      null,
+      innerGroup!.childNodes.map((child: any) => child.getLocalBounds().min[1])
+    );
+    expect(title.getBBox().bottom).toBe(innerGroup.getBBox().top - min);
     expect(title.style.text).toBe('Legend title');
 
     category.update({ title: { style: { fill: 'red' } } });
@@ -51,11 +55,10 @@ describe('Category legend', () => {
       title: {
         useHTML: true,
         height: 50,
-        spacing: 0,
         content: '<div style="width:200px;">Legend Item <span>ICON</span></div>',
       },
     });
-    expect(itemsGroup.getBBox().top).toBe(50);
+    expect(innerGroup.getBBox().top).toBe(50 + min);
 
     category.update({ title: { useHTML: false } });
     title = category.querySelector('.legend-title') as DisplayObject;

@@ -1,8 +1,8 @@
-import { DisplayObject, DisplayObjectConfig, ElementEvent, Path, Rect, Text } from '@antv/g';
+import { DisplayObject, DisplayObjectConfig, Path, Text } from '@antv/g';
 import { deepMix } from '@antv/util';
 import { GUI } from '../../core/gui';
 import { MixAttrs, ShapeAttrs } from '../../types';
-import { select, TEXT_INHERITABLE_PROPS, Selection, measureTextWidth, defined } from '../../util';
+import { select, TEXT_INHERITABLE_PROPS, measureTextWidth, defined } from '../../util';
 import { PagerButton } from './pagerButton';
 
 export type PageNavigatorCfg = {
@@ -90,18 +90,7 @@ export class PageNavigator extends GUI<PageNavigatorStyleProps> {
 
   public init() {
     this.clipView = new Path({ className: 'clip-path', style: { x: 0, y: 0, path: [] } });
-    // this.maskRect = new Rect({
-    //   style: {
-    //     width: 0,
-    //     height: 0,
-    //     fill: '#fff',
-    //   }
-    // });
     this.update();
-
-    // this.view.addEventListener(ElementEvent.MOUNTED, () => {
-    //   this.view.parentNode?.appendChild(this.maskRect);
-    // });
   }
 
   protected currPage: number = 0;

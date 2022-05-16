@@ -52,13 +52,11 @@ export type RailCfg = {
  * @title 连续图例指示器
  */
 export type IndicatorCfg = {
+  size?: number;
   /**
    * @title 背景样式. CSS 样式
    */
-  backgroundStyle?: {
-    backgroundColor: string;
-    padding: string;
-  };
+  backgroundStyle?: object;
   /**
    * @title 文本内容
    */
@@ -105,14 +103,15 @@ type CategoryItem = {
 type LegendItemMarkerCfg = ItemMarkerCfg;
 
 export type LegendBaseCfg = ShapeAttrs & {
+  // 图例最大宽(横)/高（纵）
+  maxWidth?: number;
+  maxHeight?: number;
   /**
    * @title 内边距
    * @description 图例内边距
    */
   padding?: number | number[];
-  // 图例最大宽(横)/高（纵）
-  maxWidth?: number;
-  maxHeight?: number;
+  inset?: number | number[];
   /**
    * @title 背景样式
    */
@@ -126,7 +125,6 @@ export type LegendBaseCfg = ShapeAttrs & {
    */
   title?: {
     content?: string;
-    spacing?: number;
     style?: Partial<TextProps>;
     // 目前仅对 连续图例 生效
     align?: 'left' | 'center' | 'right';
@@ -155,6 +153,7 @@ export type ContinuousCfg = LegendBaseCfg & {
   start?: number;
   // 结束区间
   end?: number;
+
   // 色板颜色
   color?: string | string[];
   // 标签
@@ -188,23 +187,62 @@ export type ContinuousCfg = LegendBaseCfg & {
     formatter?: (value: number, idx?: number) => string;
   };
   // 色板配置
-  rail?: RailCfg;
+  rail?: {
+    /**
+     * @title 色板类型
+     */
+    type?: 'color' | 'size';
+    /**
+     * @title 是否分块
+     */
+    chunked?: boolean;
+    /**
+     * @title 分块连续图例分割点
+     */
+    ticks?: number[];
+    /**
+     * @title 是否使用渐变色
+     */
+    isGradient?: boolean | 'auto';
+    /**
+     * @title 色板背景色
+     */
+    backgroundColor?: string;
+  };
   // 是否可滑动
   slidable?: boolean;
   // 滑动步长
   step?: number;
   // 手柄配置
-  handle?: false | HandleCfg;
+  handle?: HandleCfg;
   // 指示器
-  indicator?: IndicatorCfg;
+  indicator?: {
+    padding?: number | number[];
+    background?: {
+      fill?: string;
+    };
+    /**
+     * @title 文本内容
+     */
+    text?: {
+      /**
+       * @title 文本格式化方式
+       */
+      formatter?: (value: number) => string;
+      /**
+       * @title 文本样式. CSS 样式
+       */
+      style?: object;
+    };
+  };
 };
 
 export type ContinuousOptions = DisplayObjectConfig<ContinuousCfg>;
 
 // 分类图例配置
 export type CategoryCfg = LegendBaseCfg & {
-  items: CategoryItem[];
   padding?: number | number[];
+  items: CategoryItem[];
   // 最大行（横）/列（纵）数
   // maxCols?: number; // [todo] 暂时不提供
   maxRows?: number;

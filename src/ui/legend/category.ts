@@ -6,7 +6,7 @@ import { CategoryItem } from './category-item';
 import type { CategoryCfg, CategoryOptions } from './types';
 import { CATEGORY_DEFAULT_OPTIONS, DEFAULT_ITEM_MARKER, DEFAULT_ITEM_NAME, DEFAULT_ITEM_VALUE } from './constant';
 import { PageNavigator } from './pageNavigator';
-import { LegendBase } from './legendBase';
+import { LegendBase } from './base';
 
 export type { CategoryOptions };
 
@@ -16,31 +16,16 @@ export class Category extends LegendBase<CategoryCfg> {
     ...CATEGORY_DEFAULT_OPTIONS,
   };
 
-  protected get itemsGroup() {
-    return select(this.container).select('.legend-items-group').node();
-  }
-
   protected get idItem(): Map<string, CategoryItem> {
-    return new Map((this.itemsGroup.childNodes as CategoryItem[]).map((item) => [item.getID(), item]));
+    return new Map((this.labelsGroup.childNodes as CategoryItem[]).map((item) => [item.getID(), item]));
   }
 
   constructor(options: CategoryOptions) {
     super(deepAssign({}, Category.defaultOptions, options));
   }
 
-  public init() {
-    select(this.container).append('g').attr('className', 'legend-items-group');
-    super.init();
-  }
-
   public update(cfg: Partial<CategoryCfg> = {}) {
-    this.attr(deepAssign({}, Category.defaultOptions.style, this.attributes, cfg));
-    const [top, , , left] = this.padding;
-    this.container.setLocalPosition(left, top);
-
-    this.drawTitle();
-    this.drawInner();
-    this.drawBackground();
+    super.update(deepAssign({}, Category.defaultOptions.style, this.attributes, cfg));
   }
 
   protected drawInner() {
@@ -50,12 +35,13 @@ export class Category extends LegendBase<CategoryCfg> {
   }
 
   protected bindEvents() {
-    this.itemsGroup.addEventListener('stateChange', () => this.dispatchItemsChange());
+    super.bindEvents();
+    this.labelsGroup.addEventListener('stateChange', () => this.dispatchItemsChange());
   }
 
   protected drawItems() {
     const data = this.itemsShapeCfg;
-    select(this.itemsGroup)
+    select(this.labelsGroup)
       .selectAll('.legend-item')
       .data(data, (d) => d.id)
       .join(
@@ -69,9 +55,9 @@ export class Category extends LegendBase<CategoryCfg> {
 
   protected drawPageNavigator() {
     const style = this.getPageNavigatorStyleProps();
-    let pageNavigator = this.container.querySelector('.legend-navigation') as PageNavigator;
+    let pageNavigator = this.innerGroup.querySelector('.legend-navigation') as PageNavigator;
     if (!pageNavigator) {
-      pageNavigator = this.container.appendChild(new PageNavigator({ className: 'legend-navigation', style }));
+      pageNavigator = this.innerGroup.appendChild(new PageNavigator({ className: 'legend-navigation', style }));
     } else {
       pageNavigator.update(style);
     }
@@ -92,7 +78,7 @@ export class Category extends LegendBase<CategoryCfg> {
         x: 0,
         y: 0,
         orient: orient as any,
-        view: this.itemsGroup,
+        view: this.labelsGroup,
         position,
         pageNum,
         pageWidth: pageWidth ?? Number.MAX_VALUE,
@@ -194,18 +180,12 @@ export class Category extends LegendBase<CategoryCfg> {
     if (orient === 'horizontal') this.adjustHorizontal();
     else this.adjustVertical();
 
-    const { padding } = this.style;
-    const p = (Array.isArray(padding) ? padding : [padding]) as number[];
-    const top = this.titleShapeBBox.bottom;
-    const left = p[1] ?? p[0] ?? 0;
-    this.itemsGroup.setLocalPosition(left, top);
-
     if (this.pager) {
       const { pageWidth: w, pageHeight: h, pageNum = 1 } = this;
       this.pager.update({
         orient,
-        x: left,
-        y: top,
+        x: 0,
+        y: 0,
         pageNum,
         pageHeight: pageNum > 1 ? h ?? Number.MAX_VALUE : Number.MAX_VALUE,
         pageWidth: pageNum > 1 ? w ?? Number.MAX_VALUE : Number.MAX_VALUE,

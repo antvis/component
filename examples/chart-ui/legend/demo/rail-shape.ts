@@ -38,7 +38,7 @@ const createContinuous = (x, y, railType, orient, chunked, title) => {
           ticks: [10, 20, 30, 40, 50, 60, 70, 80, 90],
           ...shape,
         },
-        handle: false,
+        handle: null,
         min: 0,
         max: 100,
         color: [

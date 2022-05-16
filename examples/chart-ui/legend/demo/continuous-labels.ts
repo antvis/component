@@ -49,7 +49,7 @@ const createContinuous = (x, y, show, align, title, spacing, style = {}) => {
           height: 30,
           ticks: [10, 20, 30, 40, 50, 60, 70, 80, 90],
         },
-        handle: false,
+        handle: null,
         min: 0,
         max: 100,
       },
