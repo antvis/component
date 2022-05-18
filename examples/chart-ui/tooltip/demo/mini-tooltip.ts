@@ -34,8 +34,8 @@ Array.from({ length: 300 }, () => {
   const dot = new Circle({
     name: 'scatter',
     style: {
-      x,
-      y,
+      cx: x,
+      cy: y,
       r,
       fill: '#f9bc2e',
     },

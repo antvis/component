@@ -17,8 +17,8 @@ new Array(10 ** 2).fill(Math.random() * 100).forEach((val, idx) => {
     new Circle({
       name: 'dot',
       style: {
-        x: ((idx % 10) + 1.5) * 50,
-        y: (Math.floor(idx / 10) + 1.5) * 50,
+        cx: ((idx % 10) + 1.5) * 50,
+        cy: (Math.floor(idx / 10) + 1.5) * 50,
         r: 10,
         fill: `rgb(${Array.from({ length: 3 }, () => {
           return Math.round((0.4 + Math.random() * 0.6) * 255);

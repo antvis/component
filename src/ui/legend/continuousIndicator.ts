@@ -5,13 +5,13 @@ import {
   PathCommand,
   CustomElement,
   DisplayObjectConfig,
-  BaseStyleProps,
+  BaseCustomElementStyleProps,
   TextStyleProps,
 } from '@antv/g';
 import { clamp } from '@antv/util';
 import { deepAssign } from '../../util';
 
-type IndicatorStyleProps = BaseStyleProps & {
+type IndicatorStyleProps = BaseCustomElementStyleProps & {
   position: 'top' | 'right';
   textStyle?: TextStyleProps;
 };

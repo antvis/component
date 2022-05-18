@@ -34,9 +34,9 @@ canvas.appendChild(line);
 describe('line-crosshair', () => {
   test('basic', () => {
     // @ts-ignore
-    expect(line.shapesGroup.attr('x')).toBe(100);
-    // @ts-ignore
-    expect(line.shapesGroup.attr('y')).toBe(50);
+    const [x, y] = line.shapesGroup.getLocalPosition();
+    expect(x).toBe(100);
+    expect(y).toBe(50);
     // @ts-ignore
     expect(line.tagShape.attr('text')).toBe('123');
     // @ts-ignore
@@ -54,9 +54,9 @@ describe('line-crosshair', () => {
     await delay(20);
     // 水平移动只改变 x 坐标
     // @ts-ignore
-    expect(line.shapesGroup.attr('x')).toBe(200);
-    // @ts-ignore
-    expect(line.shapesGroup.attr('y')).toBe(50);
+    const [x, y] = line.shapesGroup.getLocalPosition();
+    expect(x).toBe(200);
+    expect(y).toBe(50);
   });
 
   test('horizontal', async () => {
@@ -66,10 +66,10 @@ describe('line-crosshair', () => {
     });
 
     // @ts-ignore
-    expect(line.shapesGroup.attr('x')).toBe(50);
+    let [x, y] = line.shapesGroup.getLocalPosition();
+    expect(x).toBe(50);
     // pointer y is 200
-    // @ts-ignore
-    expect(line.shapesGroup.attr('y')).toBe(200);
+    expect(y).toBe(200);
     // @ts-ignore
     expect(line.crosshairShape.attr('path')).toStrictEqual([['M', 0, 0], ['L', 350, 0], ['Z']]);
 
@@ -77,9 +77,9 @@ describe('line-crosshair', () => {
     await delay(20);
     // 水平移动只改变 y 坐标
     // @ts-ignore
-    expect(line.shapesGroup.attr('x')).toBe(50);
-    // @ts-ignore
-    expect(line.shapesGroup.attr('y')).toBe(250);
+    [x, y] = line.shapesGroup.getLocalPosition();
+    expect(x).toBe(50);
+    expect(y).toBe(250);
   });
 
   afterAll(() => {

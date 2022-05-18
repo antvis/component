@@ -13,8 +13,8 @@ const canvas = new Canvas({
 
 const circle = new Circle({
   style: {
-    x: 180,
-    y: 50,
+    cx: 180,
+    cy: 50,
     r: 25,
     fill: 'red',
   },

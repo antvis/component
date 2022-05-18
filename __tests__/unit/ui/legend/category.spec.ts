@@ -24,11 +24,11 @@ describe('Category legend', () => {
     const category = new Category({ style: { items, padding: [2, 4], backgroundStyle: { fill: 'pink' } } });
     canvas.appendChild(category);
 
-    const background = category.querySelector('.legend-background')!;
+    const background = category.querySelector('.legend-background') as DisplayObject;
     const container = category.querySelector('.legend-container') as Group;
     expect(background.style.fill).toBe('pink');
-    expect(container.style.x).toBe(background.style.x + 4);
-    expect(container.style.y).toBe(background.style.y + 2);
+    expect(container.getLocalPosition()[0]).toBe(background.getLocalPosition()[0] + 4);
+    expect(container.getLocalPosition()[1]).toBe(background.getLocalPosition()[1] + 2);
     expect(container.getBBox().width).toBe(background.style.width - 8);
 
     category.destroy();

@@ -5,8 +5,6 @@ export const reset = ({ size = 24, stroke = '#363636' }): DisplayObject => {
   const c = Math.sqrt(9);
   const path = new Path({
     style: {
-      x: 0,
-      y: 0,
       lineWidth: 1,
       stroke,
       transformOrigin: 'center',

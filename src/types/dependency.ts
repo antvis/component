@@ -1,5 +1,5 @@
 export type {
-  BaseStyleProps as ShapeAttrs,
+  BaseCustomElementStyleProps as ShapeAttrs,
   DisplayObject,
   DisplayObjectConfig,
   CircleStyleProps as CircleProps,

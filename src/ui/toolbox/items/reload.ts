@@ -5,8 +5,6 @@ export const reload = ({ size = 24, stroke = '#363636' }): DisplayObject => {
   const r = 8;
   const path = new Path({
     style: {
-      x: 0,
-      y: 0,
       lineWidth: 1,
       stroke,
       transformOrigin: 'center',

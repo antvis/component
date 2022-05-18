@@ -137,21 +137,21 @@ describe('vertical page navigator', () => {
     expect(height).toBeCloseTo(pageHeight);
 
     // 第1页
-    expect(pages.attr('y')).toBeCloseTo(0);
+    expect(pages.getLocalPosition()[1]).toBeCloseTo(0);
     // 第二页
     await pageNavigator.next().then((e) => {
       //
     });
-    expect(pages.attr('y')).toBeCloseTo(-pageHeight);
+    expect(pages.getLocalPosition()[1]).toBeCloseTo(-pageHeight);
     // 第三页
     await pageNavigator.goTo(3).then((e) => {
       //
     });
-    expect(pages.attr('y')).toBeCloseTo(-pageHeight * 2);
+    expect(pages.getLocalPosition()[1]).toBeCloseTo(-pageHeight * 2);
     // 第四页
     await pageNavigator.next().then((e) => {
       //
     });
-    expect(pages.attr('y')).toBeCloseTo(-pageHeight * 3);
+    expect(pages.getLocalPosition()[1]).toBeCloseTo(-pageHeight * 3);
   });
 });

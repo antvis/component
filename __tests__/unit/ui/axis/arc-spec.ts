@@ -1,4 +1,4 @@
-import { Path, Group } from '@antv/g';
+import { Path, Group, PathCommand } from '@antv/g';
 import { Band as BandScale } from '@antv/scale';
 import { Arc, ArcAxisStyleProps } from '../../../../src';
 import { createCanvas } from '../../../utils/render';
@@ -52,8 +52,12 @@ describe('Arc axis', () => {
 
     it('Arc axis, ({ startAngle, endAngle })', () => {
       arc.update({ center: [400, 400], radius: 50 });
-      expect(axisLine.style.path![0]).toEqual(['M', arc.style.center[0], arc.style.center[1]]);
-      expect(axisLine.style.path![1]).toEqual(['L', arc.style.center[0] + arc.style.radius, arc.style.center[1]]);
+      expect((axisLine.style.path as PathCommand[])![0]).toEqual(['M', arc.style.center[0], arc.style.center[1]]);
+      expect((axisLine.style.path as PathCommand[])![1]).toEqual([
+        'L',
+        arc.style.center[0] + arc.style.radius,
+        arc.style.center[1],
+      ]);
     });
 
     it('Arc axis line, ({ axisLine: {} })', () => {

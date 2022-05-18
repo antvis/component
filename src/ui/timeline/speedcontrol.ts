@@ -82,8 +82,7 @@ export class SpeedControl extends GUI<Required<SpeedControlCfg>> {
     for (let i = 0; i < this.lineShapes.length; i += 1) {
       const onClick = (event: any) => {
         const line = event.target as Path;
-        const { y } = line.attributes;
-        this.triangleShape?.setAttribute('y', (y as number) - 2);
+        this.triangleShape?.setLocalPosition(this.triangleShape?.getLocalPosition()[0], line.getLocalPosition()[1] - 2);
         this.labelShape?.update({ text: formatter(speeds[i]) });
         this.setAttribute('currentSpeedIdx', i);
         isFunction(onSpeedChange) && onSpeedChange(i);
@@ -96,14 +95,13 @@ export class SpeedControl extends GUI<Required<SpeedControlCfg>> {
     if (!this.lineShapes) return;
     const { currentSpeedIdx } = this.attributes;
     const line = this.lineShapes[currentSpeedIdx];
-    const { y } = line.attributes;
     this.triangleShape = new Path({
       style: {
         fill: '#8c8c8c',
         path: this.trianglePath(0, 0) as PathCommand[],
       },
     });
-    this.triangleShape.setAttribute('y', (y as number) - 2);
+    this.triangleShape.setLocalPosition(this.triangleShape?.getLocalPosition()[0], line.getLocalPosition()[1] - 2);
     this.triangleShape.translateLocal(0);
     this.appendChild(this.triangleShape);
   }
@@ -132,7 +130,7 @@ export class SpeedControl extends GUI<Required<SpeedControlCfg>> {
   private createLabel() {
     const { width, speeds, label, spacing, currentSpeedIdx } = this.attributes;
     const lastLine = this.lineShapes && this.lineShapes[(this.lineShapes?.length as number) - 1];
-    const lastLineY = lastLine?.attributes.y as number;
+    const lastLineY = lastLine?.getLocalPosition()[1]!;
     let restSpacing = width - 10 - spacing;
     restSpacing = restSpacing > 0 ? restSpacing : 0;
     this.labelShape = new Text({

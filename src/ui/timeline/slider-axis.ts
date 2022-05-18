@@ -195,7 +195,7 @@ export class SliderAxis extends GUI<Required<SliderAxisCfg>> {
     }
     if (newEndIdx <= currStartIdx) return;
     let stepLength = (dataPerStep / (timeData.length - 1)) * this.actualLength;
-    const endHandleX = (this.endHandleShape?.attributes.x as number) + (this.selectionShape.attributes.x as number);
+    const endHandleX = (this.endHandleShape?.attributes.cx as number) + (this.selectionShape.attributes.x as number);
     if (endHandleX + stepLength > length - (backgroundStyle.radius as number)) {
       stepLength = -endHandleX + length - (backgroundStyle.radius as number);
     }
@@ -211,11 +211,11 @@ export class SliderAxis extends GUI<Required<SliderAxisCfg>> {
     );
     if (this.animation) {
       this.animation.onframe = () => {
-        this.endHandleShape?.attr({ x: this.selectionShape.parsedStyle.width?.value as number });
+        this.endHandleShape?.attr({ cx: this.selectionShape.parsedStyle.width?.value as number });
       };
       this.animation.onfinish = () => {
         const newSelection = this.calculateSelection() as [string, string];
-        this.endHandleShape?.attr({ x: this.selectionShape.parsedStyle.width?.value as number });
+        this.endHandleShape?.attr({ cx: this.selectionShape.parsedStyle.width?.value as number });
         this.attr({ selection: newSelection });
         isFunction(onSelectionChange) && onSelectionChange([selection[0], timeData[newEndIdx].date]);
       };
@@ -347,7 +347,7 @@ export class SliderAxis extends GUI<Required<SliderAxisCfg>> {
       const newStartIdx = startIdx + dataPerStep;
       if (newStartIdx < 0) return;
       let stepLength = (dataPerStep / (timeData.length - 1)) * this.actualLength;
-      const endHandleX = (this.endHandleShape?.attributes.x as number) + (this.selectionShape.attributes.x as number);
+      const endHandleX = (this.endHandleShape?.attributes.cx as number) + (this.selectionShape.attributes.x as number);
       if (endHandleX + stepLength > length - (backgroundStyle.radius as number)) {
         stepLength = -endHandleX + length - (backgroundStyle.radius as number);
       }
@@ -512,7 +512,7 @@ export class SliderAxis extends GUI<Required<SliderAxisCfg>> {
               width: newLength,
             });
             this.endHandleShape!.attr({
-              x: newLength,
+              cx: newLength,
             });
             const startHandleX = (this.selectionShape.getAttribute('x') as number) - radius; // 相对背景的x坐标
             let nearestTimeDataId = Math.round((startHandleX / this.actualLength) * (timeData.length - 1));
@@ -528,7 +528,7 @@ export class SliderAxis extends GUI<Required<SliderAxisCfg>> {
               width: newLength,
             });
             this.endHandleShape!.attr({
-              x: newLength,
+              cx: newLength,
             });
             const endHandleX = (this.selectionShape.getAttribute('x') as number) + newLength - radius;
             let nearestTimeDataId = Math.round((endHandleX / this.actualLength) * (timeData.length - 1));
@@ -639,14 +639,14 @@ export class SliderAxis extends GUI<Required<SliderAxisCfg>> {
         this.startHandleShape = new Circle({
           style: {
             ...handleStyle,
-            y: (this.selectionShape.getAttribute('height') as number) / 2,
+            cy: (this.selectionShape.getAttribute('height') as number) / 2,
           },
         });
         this.endHandleShape = new Circle({
           style: {
             ...handleStyle,
-            x: selectionLength,
-            y: (this.selectionShape.getAttribute('height') as number) / 2,
+            cx: selectionLength,
+            cy: (this.selectionShape.getAttribute('height') as number) / 2,
           },
         });
         this.selectionShape.appendChild(this.startHandleShape);

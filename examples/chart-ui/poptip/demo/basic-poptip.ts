@@ -23,8 +23,8 @@ const rect = new Rect({
 
 const circle = new Circle({
   style: {
-    x: 60,
-    y: 120,
+    cx: 60,
+    cy: 120,
     r: 25,
     fill: 'red',
   },

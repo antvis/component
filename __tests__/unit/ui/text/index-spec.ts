@@ -48,7 +48,7 @@ describe('text', () => {
       verticalAlign: 'top',
     });
     // @ts-ignore
-    const { x, y } = text.textShape.attributes;
+    const [x, y] = text.textShape.getLocalPosition();
     expect(x).toBe(0);
     expect(y).toBe(text.textHeight / 2);
   });

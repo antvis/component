@@ -176,8 +176,9 @@ describe('scrollbar', () => {
 
     // @ts-ignore
     const track = scrollbar.trackShape;
-    expect(track.attr('x')).toBe(0);
-    expect(track.attr('y')).toBe(0);
+    const [x, y] = track.getLocalPosition();
+    expect(x).toBe(0);
+    expect(y).toBe(0);
   });
 });
 
