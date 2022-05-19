@@ -186,10 +186,9 @@ export class CategoryItems extends CustomElement<CategoryItemsStyleProps> {
 
       itemHeight = Math.max(itemHeight, hh * 2);
       itemWidth = Math.max(itemWidth, hw * 2);
-      const size = this.ifHorizontal(d + hw * 2, d + hh * 2);
-      totalSize += size;
+      totalSize = this.ifHorizontal(d + hw * 2, d + hh * 2);
 
-      return size + offset;
+      return totalSize + offset;
     }, 0);
 
     const limitSize = this.ifHorizontal(this.style.maxWidth, this.style.maxHeight)!;
