@@ -173,7 +173,6 @@ describe('Utils for detect intersect', () => {
     points.every((point, idx) => expect(point).toBeCloseTo(box2Points[idx]));
   });
 
-  // [todo] calculate text bound when rotation.
   it('bound Text', () => {
     const text = canvas.appendChild(new Text({ style: { x: 50, y: 200, text: 'GUI', fontSize: 30, fill: 'red' } }));
     const points = IntersectUtils.bound(new Bounds(), text);

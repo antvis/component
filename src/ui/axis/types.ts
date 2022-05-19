@@ -1,4 +1,4 @@
-import type { Group, BaseStyleProps, TextStyleProps } from '@antv/g';
+import type { TextStyleProps } from '@antv/g';
 import type { MarkerStyleProps } from '../marker';
 import type { DisplayObjectConfig, LineProps, ShapeAttrs, TextProps } from '../../types';
 import type { OverlapCallback } from './overlap';
@@ -10,11 +10,9 @@ export type OverlapType = 'autoRotate' | 'autoEllipsis' | 'autoHide';
 export type AxisOrient = 'left' | 'right' | 'top' | 'bottom' | 'outside' | 'inside';
 // `tip` is the origin text of label.
 export type AxisTextStyleProps = TextStyleProps & { id?: string; tip?: string; rotation?: number };
-/**
- * @description tick 元数据类型: value, text?, state?, id?
- */
+
 export type TickDatum = {
-  value: number;
+  value: number; // range: [0, 1]
   text?: string;
   id?: string;
 };
@@ -47,10 +45,6 @@ export type AxisTitleCfg = {
    * The maximum allowed length in pixels of axis title.
    */
   maxLength?: number;
-  /**
-   * Adjust AxisTitle not out-of bounds, which is relate to the position of AxisGroup. Do not support y-direction yet.
-   */
-  bounds?: { x1?: number; x2?: number };
   style?: Omit<TextProps, 'text'>;
   animate?: boolean;
 };
@@ -165,23 +159,15 @@ export type AxisLabelCfg = {
   showLast?: boolean;
 };
 
-export type AxisBaseStyleProps = BaseStyleProps & {
+export type AxisBaseStyleProps = {
   type?: AxisType;
-  // 标题
   title?: AxisTitleCfg;
-  // 轴线
   axisLine?: AxisLineCfg;
-  // 刻度数据
   ticks?: TickDatum[];
-  // 刻度数量阈值，超过则进行重新采样
   ticksThreshold?: false | number;
-  // 刻度线
   tickLine?: AxisTickLineCfg;
-  // 刻度文本
   label?: AxisLabelCfg;
-  // 子刻度线
   subTickLine?: AxisSubTickLineCfg;
-  // label 和 tick 在轴线向量的位置，-1: 向量右侧， 1: 向量左侧
   verticalFactor?: -1 | 1;
 };
 
@@ -193,7 +179,6 @@ export type LinearAxisStyleProps = AxisBaseStyleProps & {
   startPos?: Point;
   endPos?: Point;
 };
-export type LinearOptions = DisplayObjectConfig<LinearAxisStyleProps>;
 
 export type ArcAxisStyleProps = AxisBaseStyleProps & {
   startAngle?: number;
@@ -201,7 +186,6 @@ export type ArcAxisStyleProps = AxisBaseStyleProps & {
   radius: number;
   center: Point;
 };
-export type ArcOptions = DisplayObjectConfig<ArcAxisStyleProps>;
 
 export type HelixCfg = AxisBaseStyleProps & {
   a?: number;

@@ -1,10 +1,9 @@
 import { Text } from '@antv/g';
 import { minBy, maxBy, measureTextWidth } from '@antv/util';
-import { Font } from '@antv/util/lib/measure-text-width';
 import { getTimeScale, TimeScale, formatTime, getMask, getTimeStart, scale as timeScale, getFont } from '../../../util';
 import { COMMON_TIME_MAP } from '../constant';
 
-function getTimeMask(commonTimeMask: TimeScale[], date: Date, width: number, font?: Font) {
+function getTimeMask(commonTimeMask: TimeScale[], date: Date, width: number, font?: any) {
   let mask: TimeScale[] = [];
   // 选择关键节点mask
   const [, minUnit] = commonTimeMask;

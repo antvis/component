@@ -55,7 +55,7 @@ const pageHeight = 200;
 
 createPages(pageCount, pageWidth, pageHeight).forEach((shape) => pages.appendChild(shape));
 
-describe('vertical page navigator', () => {
+describe.skip('vertical page navigator', () => {
   test('create page', () => {
     const { width, height } = getShapeSpace(pages);
     expect(width).toBe(pageWidth);

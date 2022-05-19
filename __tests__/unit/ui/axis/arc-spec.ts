@@ -132,15 +132,14 @@ describe('Arc axis', () => {
   describe('Axis label layout', () => {
     const filter = (labels: any[]) => labels.filter((d) => d.style.visibility === 'visible');
 
-    const arc1 = createAxis({
-      ticks,
-      radius: 60,
-      label: { formatter: (d: any) => `hello_${d.text}` },
-      center: [200, 140],
-    });
-    canvas.appendChild(arc1);
-
     it('autoHide in `normal` align label', () => {
+      const arc1 = createAxis({
+        ticks,
+        radius: 60,
+        label: { formatter: (d: any) => `hello_${d.text}` },
+        center: [200, 140],
+      });
+      canvas.appendChild(arc1);
       const arc = createAxis({
         ticks,
         radius: 60,
@@ -148,9 +147,12 @@ describe('Arc axis', () => {
         label: {
           formatter: (d: any) => `hello_${d.text}`,
           autoHideTickLine: true,
-          autoHide: true,
+          autoHide: 'greedy',
           autoEllipsis: false,
           autoRotate: false,
+          style: {
+            // fontSize: 10,
+          },
         },
       });
       canvas.appendChild(arc);
@@ -173,7 +175,9 @@ describe('Arc axis', () => {
       expect(visibleTickLines.length).toBeGreaterThan(visibleLabels.length);
 
       arc.remove();
+      arc1.remove();
       canvas.removeChild(arc);
+      canvas.removeChild(arc1);
     });
 
     it('autoHide in radial align', () => {
@@ -194,12 +198,21 @@ describe('Arc axis', () => {
     });
 
     it('autoEllipsis in tangential align', () => {
-      const arc = createAxis({
-        ticks,
-        radius: 96,
-        center: [300, 300],
-        label: { align: 'tangential', autoEllipsis: true },
-      });
+      const arc = canvas.appendChild(
+        new Arc({
+          style: {
+            ticks,
+            radius: 96,
+            center: [300, 300],
+            label: {
+              align: 'tangential',
+              autoEllipsis: true,
+            },
+          },
+        })
+      );
+      arc.update({ label: { align: 'tangential' } });
+
       const labels = arc.querySelectorAll('.axis-label');
       expect(filter(labels).length).toBe(ticks.length);
       expect(labels.some((d) => d.style.text.endsWith('...'))).toBe(false);

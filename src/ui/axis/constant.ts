@@ -2,19 +2,21 @@ import { deepMix } from '@antv/util';
 import type { DisplayObjectConfig } from '@antv/g';
 import type { AxisBaseStyleProps } from './types';
 
+export const AXIS_TITLE_OPTIONS = {
+  content: '',
+  style: {
+    fontSize: 12,
+    fill: 'black',
+  },
+  titleAnchor: 'center' as const,
+  titlePadding: 4,
+  rotate: undefined,
+  maxLength: 260,
+};
+
 export const AXIS_BASE_DEFAULT_OPTIONS: DisplayObjectConfig<Omit<AxisBaseStyleProps, 'container'>> = {
   style: {
-    title: {
-      content: '',
-      style: {
-        fontSize: 12,
-        fill: 'black',
-      },
-      titleAnchor: 'center',
-      titlePadding: 4,
-      rotate: undefined,
-      maxLength: 260,
-    },
+    title: AXIS_TITLE_OPTIONS,
     ticks: [],
     ticksThreshold: 100,
     // 轴线
@@ -68,26 +70,9 @@ export const AXIS_BASE_DEFAULT_OPTIONS: DisplayObjectConfig<Omit<AxisBaseStylePr
   },
 };
 
-export const LINEAR_DEFAULT_OPTIONS = deepMix({}, AXIS_BASE_DEFAULT_OPTIONS, {
-  style: {
-    type: 'linear',
-    startPos: [0, 0],
-    endPos: [0, 0],
-  },
-});
-
 export const ARC_DEFAULT_OPTIONS = deepMix({}, AXIS_BASE_DEFAULT_OPTIONS, {
   style: {
     type: 'arc',
-    startAngle: -90,
-    endAngle: 270,
-    center: [0, 0],
-    label: {
-      ...LINEAR_DEFAULT_OPTIONS.style.label,
-      tickPadding: 2,
-      style: {},
-      align: 'normal',
-    },
   },
 });
 

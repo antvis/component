@@ -54,7 +54,7 @@ function getTextBaseline(vector: number[]): string {
 export function getAxisLabels(selection: Selection, options: AxisLabelOptions) {
   const { orient, ticks = [], center, radius, startAngle, endAngle, tickLength = 0, maxLength, style } = options;
   const sign = getSign(orient, -1, 1);
-  const { tickPadding = 0, formatter, align, rotate: rotation } = options;
+  const { tickPadding = 0, formatter, align, rotate } = options;
   return Array.from(ticks).map((datum, idx) => {
     const tickAngle = (endAngle - startAngle) * datum.value + startAngle;
     const formatAngle = (a: number) => (a >= 270 ? (a - 360) % 360 : a);
@@ -87,7 +87,7 @@ export function getAxisLabels(selection: Selection, options: AxisLabelOptions) {
       textBaseline = ifOutside(orient, 'bottom', 'top');
     } else {
       // normal align.
-      angle = rotation ?? 0;
+      angle = rotate ?? 0;
       textAlign = getTextAnchor(sideVector);
       textBaseline = getTextBaseline(sideVector);
     }
@@ -108,9 +108,7 @@ export function getAxisLabels(selection: Selection, options: AxisLabelOptions) {
       text: text && defined(limitLength) ? getEllipsisText(text, limitLength!, font, '...') : text || '',
       textAlign,
       textBaseline,
-      rotation: angle,
-      // [fix] Transform has some error when update config.
-      // transform: `rotate(${angle || 0}deg)`,
+      transform: `rotate(${(angle || 0).toFixed(0)}deg)`,
       ...labelStyle,
     };
   });

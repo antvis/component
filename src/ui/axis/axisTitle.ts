@@ -1,5 +1,4 @@
 import { Group } from '@antv/g';
-import { noop } from '@antv/util';
 import { Bounds } from '../../layout/bounds';
 import {
   createTempText,
@@ -8,7 +7,6 @@ import {
   multi,
   defined,
   Selection,
-  DegToRad,
   getLocalBBox,
   TEXT_INHERITABLE_PROPS,
 } from '../../util';
@@ -19,8 +17,6 @@ type AxisTitleOptions = AxisTitleCfg & {
   /** Orient of axis */
   orient: 'top' | 'bottom' | 'left' | 'right';
 };
-
-const { cos, abs } = Math;
 
 export function getAxisTitleStyle(selection: Selection, options: AxisTitleOptions) {
   const {
@@ -84,6 +80,7 @@ export function getAxisTitleStyle(selection: Selection, options: AxisTitleOption
         titleAnchor === 'start' ? 'end' : titleAnchor === 'end' ? 'start' : 'center',
         titleAnchor
       ) as any),
+    animate: options.animate,
   };
 
   // Rotation angle of title shape.
@@ -91,48 +88,11 @@ export function getAxisTitleStyle(selection: Selection, options: AxisTitleOption
 
   const textNode = createTempText(selection.node(), { ...attrs, text });
   textNode.setLocalEulerAngles(angle!);
-  const bbox = getLocalBBox(textNode);
   const font = getFont(textNode as any);
   textNode.remove();
 
   // Add layout constraints
-  let width = maxLength === Infinity || !defined(maxLength) ? 260 : maxLength;
-
-  const ifHorizontalText = (orient: string, angle: number, a: Function, b: Function) =>
-    ifX(orient, a, abs(cos(angle)) === 1 ? a() : b());
-  // Do not out of bounds. 需要相对坐标.
-  // Bounds only support to limit the title width now.
-  let bounds: Bounds | undefined;
-  if (options.bounds) {
-    const { x1, x2 } = options.bounds;
-    bounds = new Bounds({ left: x1, right: x2 });
-    const left = bounds.defined('left') ? bounds.left : undefined;
-    const right = bounds.defined('right') ? bounds.right : undefined;
-
-    if (left !== undefined && bbox.left < left) {
-      x = left;
-      ifHorizontalText(orient, angle, () => (attrs.textAlign = 'start'), noop);
-      if (right !== undefined && x + bbox.width > right) {
-        width = right - left;
-      }
-    } else if (right !== undefined && bbox.right >= right) {
-      // If out of left hand side, change `align` to left, and `x` to the `bounds.left`. Make sure it not out-of right hand side.
-      x = right;
-      ifHorizontalText(orient, angle, () => (attrs.textAlign = 'end'), noop);
-      if (left !== undefined && x < left) {
-        x = left;
-        ifHorizontalText(orient, angle, () => (attrs.textAlign = 'start'), noop);
-        width = right - left;
-      }
-    }
-
-    if (left !== undefined && right !== undefined) {
-      const ratio = abs(cos(angle * DegToRad));
-      if (ratio > 10e-16) {
-        width = (right - left > 0 ? right - left : 0) / ratio;
-      }
-    }
-  }
+  const width = maxLength === Infinity || !defined(maxLength) ? 260 : maxLength;
 
   const limitLength = defined(width) ? Math.floor(width!) : undefined;
   return {

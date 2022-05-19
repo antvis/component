@@ -1,6 +1,6 @@
 import { DisplayObject, Group } from '@antv/g';
 import { Category } from '../../../../src/ui/legend';
-import { CategoryItem } from '../../../../src/ui/legend/category-item';
+import { CategoryItem } from '../../../../src/ui/legend/categoryItem';
 import { createCanvas } from '../../../utils/render';
 
 const canvas = createCanvas(800);
@@ -70,11 +70,11 @@ describe('Category legend', () => {
     const category = new Category({ style: { items } });
     canvas.appendChild(category);
 
-    const legendItems = category.querySelectorAll('.legend-item');
+    const legendItems = category.querySelectorAll('.legend-item') as Group[];
     expect(legendItems.length).toBe(items.length);
     expect(legendItems[0].childNodes.length).toBe(2);
     expect((legendItems[0].childNodes[0] as any).className).toBe('legend-item-background');
-    let [marker, name, value] = legendItems[0].childNodes[1].childNodes as DisplayObject[];
+    const [marker, name, value] = legendItems[0].childNodes[1].childNodes as DisplayObject[];
     expect(marker.className).toBe('legend-item-marker');
     expect(name.className).toBe('legend-item-name');
     expect(value.className).toBe('legend-item-value');
@@ -83,16 +83,27 @@ describe('Category legend', () => {
     expect(name.style.text).toBe(items[0].name);
     expect(value.style.text).toBe(items[0].value);
 
-    category.update({ itemMarker: { size: 8 }, itemName: { spacing: 4 }, itemBackground: { padding: [2, 4] } });
-    [marker, name, value] = category.querySelectorAll('.legend-item')[0].childNodes[1].childNodes as DisplayObject[];
-    expect(marker.getBBox().x).toBe(4);
-    expect(name.getBBox().x).toBe(4 + 8 + 4);
+    category.update({
+      itemMarker: { size: 8 },
+      itemName: { spacing: 4 },
+      itemPadding: [2, 4],
+      itemBackgroundStyle: { default: { fill: 'pink' } },
+    });
+    expect(legendItems.every((item) => item.getLocalPosition()[1] === 0)).toBe(true);
+
+    legendItems[0].emit('mousemove', {});
+    expect(legendItems[0]!.getLocalPosition()[1] === 0).toBe(true);
+    expect(marker.getLocalPosition()[0]).toBe(4);
+    expect(name.getLocalPosition()[0]).toBe(8 + 4);
     category.destroy();
   });
 
-  it('Category spacing means: [offsetX, offsetY]', () => {
+  it('new Category({style:{...}}) support itemSpacing config.', () => {
     const category = canvas.appendChild(new Category({ style: { items, spacing: [4, 4] } }));
-    let [item0, item1] = category.querySelectorAll('.legend-item') as any[];
+    const legendItems = category.querySelectorAll('.legend-item') as any[];
+    expect(legendItems.every((item) => item.getLocalPosition()[1] === 0)).toBe(true);
+
+    let [item0, item1] = legendItems;
     expect(item0.getBBox().right + 4).toBe(item1.getBBox().left);
 
     category.update({ orient: 'vertical' });
@@ -101,10 +112,10 @@ describe('Category legend', () => {
     category.destroy();
   });
 
-  it('item support maxItemWidth and itemWidth', () => {
+  it('item support maxItemWidth, itemWidth and itemHeight', () => {
     const category = canvas.appendChild(
       new Category({
-        style: { items, maxItemWidth: 150 },
+        style: { items, maxItemWidth: 150, itemBackgroundStyle: { default: { fill: 'pink' } } },
       })
     );
     const legendItem = category.querySelectorAll('.legend-item')[3] as any;
@@ -112,10 +123,13 @@ describe('Category legend', () => {
     expect(legendItem.getBBox().width).toBeGreaterThan(148);
     expect(legendItem.querySelector('.legend-item-name').style.text.endsWith('...')).toBeTruthy();
 
-    category.update({ items, itemWidth: 100, spacing: [6, 0] });
+    category.update({ items, itemWidth: 100, spacing: [6, 0], itemPadding: [2, 4] });
     const [, item1, item2] = category.querySelectorAll('.legend-item') as any[];
-    expect(item1.getBBox().x).toBe(100 + 6);
-    expect(item2.getBBox().x).toBe(200 + 12);
+    expect(item1.getBBox().x).toBeCloseTo(108 + 6, -1);
+    expect(item2.getBBox().x).toBeCloseTo(108 * 2 + 12 + 4, 0);
+
+    category.update({ itemHeight: 40 });
+    expect(item1.getBBox().height).toBeCloseTo(44);
     category.destroy();
   });
 
@@ -124,13 +138,13 @@ describe('Category legend', () => {
     canvas.appendChild(category);
 
     category.update({
-      itemBackground: { padding: [2, 4], style: { default: { fill: 'pink' }, active: { fill: 'rgba(0,0,0,0.03)' } } },
+      itemPadding: [2, 4],
+      itemBackgroundStyle: { default: { fill: 'pink' }, active: { fill: 'rgba(0,0,0,0.03)' } },
     });
     const [bg1, bg2] = category.querySelectorAll('.legend-item-background');
     bg1.emit('mousemove', {});
     expect(bg1.style.fill).toBe('rgba(0,0,0,0.03)');
     expect(bg2.style.fill).toBe('pink');
-
     category.destroy();
   });
 
@@ -225,32 +239,27 @@ describe('Category legend', () => {
           items,
           maxWidth: 280,
           spacing: [8, 4],
-          itemBackground: {
-            style: {
-              active: {
-                fill: 'rgba(0,0,0,0.03)',
-              },
+          itemBackgroundStyle: {
+            active: {
+              fill: 'rgba(0,0,0,0.03)',
             },
           },
         },
       })
     );
     let [item0, item1, item2] = category.querySelectorAll('.legend-item') as any[];
-    const pagerWidth = (category.querySelector('.legend-navigation') as any).getBBox().width;
     expect(item0.getBBox().right + 8).toBe(item1.getBBox().left);
-    expect(item2.getBBox().x).toBe(280 - pagerWidth);
 
     category.update({ autoWrap: true, maxRows: 3 });
     [item0, item1, item2] = category.querySelectorAll('.legend-item') as any[];
     expect(item2.getBBox().x).toBe(0);
-    expect(category.querySelectorAll('.legend-navigation').length).toBe(1);
 
     category.update({ orient: 'vertical' });
-    expect(category.querySelector('.legend-navigation')!.style.visibility).toBe('hidden');
+    expect(category.querySelector('.page-button')!.style.visibility).toBe('hidden');
 
     category.update({ orient: 'vertical', maxHeight: 78 });
-    expect(category.querySelector('.legend-navigation')!.style.visibility).toBe('visible');
+    expect(category.querySelector('.page-button')!.style.visibility).toBe('visible');
 
-    category.destroy();
+    // category.destroy();
   });
 });

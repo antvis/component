@@ -143,14 +143,6 @@ describe('Axis title', () => {
         expect(text.getBBox().right).toBeGreaterThan(bounds({}).x2);
       });
 
-      it('specify bounds, do not out of bounds.', () => {
-        titleAttrs = getAxisTitleStyle(selection, { ...options, bounds: bounds({}) });
-        const text = drawXTitle(titleAttrs);
-        expect(text.getBBox().right).not.toBeGreaterThan(bounds({}).x2);
-        expect(text.getBBox().left).not.toBeLessThan(bounds({}).x1);
-        expect(titleAttrs.textAlign).toBe('end');
-      });
-
       it('specify { textAlign: "end" }, kept align while left-hand side not out of bounds', () => {
         titleAttrs = getAxisTitleStyle(selection, {
           ...options,
@@ -162,64 +154,13 @@ describe('Axis title', () => {
         expect(titleAttrs.textAlign).toBe('end');
       });
 
-      it('specify { textAlign: "end" }, align is changed to "start" while left-hand side is out of bounds', () => {
-        titleAttrs = getAxisTitleStyle(selection, {
-          ...options,
-          content: 'options.content + options.contentcontentcontent',
-          bounds: bounds({}),
-          style: { ...options.style, textAlign: 'end' },
-        });
-        const text = drawXTitle(titleAttrs);
-        expect(text.getBBox().left).not.toBeLessThan(
-          Math.min(bounds({}).x1, labelGroup.getBBox().right - text.getBBox().width)
-        );
-        expect(text.getBBox().right).not.toBeGreaterThan(bounds({}).x2);
-        expect(titleAttrs.textAlign).toBe('start');
-      });
-
       it('specify { dx: 10 } as the offset of textShape.', () => {
         titleAttrs = getAxisTitleStyle(selection, {
           ...options,
           style: { ...options.style, textAlign: 'end', dx: 10 },
         });
-        let text = drawXTitle(titleAttrs);
+        const text = drawXTitle(titleAttrs);
         expect(text.getBBox().right).toBe(right + 10);
-
-        titleAttrs = getAxisTitleStyle(selection, {
-          ...options,
-          bounds: bounds({ x2: right + 20 }),
-          style: { ...options.style, textAlign: 'end', dx: '10px' },
-        });
-        text = drawXTitle(titleAttrs, bounds({ x2: right + 20 }));
-        expect(text.getBBox().right).toBe(right + 10);
-      });
-
-      it('specify { titleAnchor: "start" } will be adjust while left-hand side is out of bounds', () => {
-        titleAttrs = getAxisTitleStyle(selection, {
-          ...options,
-          titleAnchor: 'start',
-          style: { ...options.style, textAlign: 'start', dx: -10 },
-        });
-        let text = drawXTitle(titleAttrs);
-        expect(text.getBBox().left).toBe(left - 10);
-
-        titleAttrs = getAxisTitleStyle(selection, {
-          ...options,
-          bounds: bounds({}),
-          titleAnchor: 'start',
-          style: { ...options.style, textAlign: 'start', dx: 0 },
-        });
-        text = drawXTitle(titleAttrs);
-        expect(text.getBBox().left).toBe(left);
-
-        titleAttrs = getAxisTitleStyle(selection, {
-          ...options,
-          bounds: bounds({}),
-          titleAnchor: 'start',
-          style: { ...options.style, textAlign: 'start', dx: 10 },
-        });
-        text = drawXTitle(titleAttrs);
-        expect(text.getBBox().left).toBe(left + 10);
       });
     });
   });

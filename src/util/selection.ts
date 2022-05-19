@@ -248,3 +248,20 @@ export class Selection<T = any> {
 export function select<T = any>(node: Group) {
   return new Selection<T>([node], null, node, node.ownerDocument);
 }
+
+export function select2update(
+  parent: DisplayObject,
+  className: string,
+  Ctor: new (...args: any[]) => DisplayObject,
+  styles: any[]
+) {
+  return select(parent)
+    .selectAll(`.${className}`)
+    .data(styles || [], (d, idx) => d.id || idx)
+    .join(
+      (enter) => enter.append(({ id, ...style }) => new Ctor({ id, className, style })),
+      (update) => update.each((shape, datum) => shape.attr(datum)),
+      (exit) => exit.remove()
+    )
+    .nodes();
+}

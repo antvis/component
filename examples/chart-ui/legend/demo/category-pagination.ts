@@ -32,8 +32,9 @@ const category = new Category({
     ].map(({ name, value }) => {
       return { name, value, id: name, state: 'selected' };
     }),
-    spacing: [10, 10],
+    spacing: [10, 4],
     maxItemWidth: 160,
+    maxHeight: 100,
     orient: 'vertical',
   },
 });

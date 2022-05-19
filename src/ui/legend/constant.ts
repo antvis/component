@@ -59,8 +59,11 @@ export const DEFAULT_ITEM_NAME = {
       opacity: 1,
       fontWeight: 'normal',
     },
-    selected: {},
+    selected: {
+      fontSize: 12,
+    },
     active: {
+      fontSize: 12,
       cursor: 'pointer',
     },
     inactive: {
@@ -79,8 +82,11 @@ export const DEFAULT_ITEM_VALUE = {
       opacity: 1,
       fontWeight: 'normal',
     },
-    selected: {},
+    selected: {
+      fontSize: 12,
+    },
     active: {
+      fontSize: 12,
       cursor: 'pointer',
     },
     inactive: {

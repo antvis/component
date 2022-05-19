@@ -9,30 +9,6 @@ export function getStepValueByValue(value: number, step: number, min: number) {
   return min + count * step;
 }
 
-// // 左箭头
-// export function leftArrow(x: number, y: number, r: number) {
-//   const diffY = r * Math.sin((1 / 3) * Math.PI);
-//   return [['M', x - r, y], ['L', x + r, y - diffY], ['L', x + r, y + diffY], ['Z']];
-// }
-
-// // 右箭头
-// export function rightArrow(x: number, y: number, r: number) {
-//   const diffY = r * Math.sin((1 / 3) * Math.PI);
-//   return [['M', x + r, y], ['L', x - r, y - diffY], ['L', x - r, y + diffY], ['Z']];
-// }
-
-// // 上三角
-// export function upArrow(x: number, y: number, r: number) {
-//   const diffY = r * Math.cos((1 / 3) * Math.PI);
-//   return [['M', x - r, y + diffY], ['L', x, y - diffY], ['L', x + r, y + diffY], ['Z']];
-// }
-
-// // 下三角
-// export function downArrow(x: number, y: number, r: number) {
-//   const diffY = r * Math.cos((1 / 3) * Math.PI);
-//   return [['M', x - r, y - diffY], ['L', x + r, y - diffY], ['L', x, y + diffY], ['Z']];
-// }
-
 export function hiddenHandle(x: number, y: number, r: number) {
   // 长宽比
   const ratio = 1.4;
@@ -88,10 +64,6 @@ export function horizontalHandle(x: number, y: number, r: number) {
   ];
 }
 
-// Marker.registerSymbol('leftArrow', leftArrow);
-// Marker.registerSymbol('rightArrow', rightArrow);
-// Marker.registerSymbol('upArrow', upArrow);
-// Marker.registerSymbol('downArrow', downArrow);
 Marker.registerSymbol('hiddenHandle', hiddenHandle);
 Marker.registerSymbol('verticalHandle', verticalHandle);
 Marker.registerSymbol('horizontalHandle', horizontalHandle);

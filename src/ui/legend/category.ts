@@ -1,12 +1,12 @@
 import { CustomEvent } from '@antv/g';
 import { min, isFunction, deepMix } from '@antv/util';
-import { deepAssign, defined, getShapeSpace, normalPadding, select } from '../../util';
+import { deepAssign } from '../../util';
 import type { StyleState as State } from '../../types';
-import { CategoryItem } from './category-item';
+import { CategoryItem } from './categoryItem';
 import type { CategoryCfg, CategoryOptions } from './types';
 import { CATEGORY_DEFAULT_OPTIONS, DEFAULT_ITEM_MARKER, DEFAULT_ITEM_NAME, DEFAULT_ITEM_VALUE } from './constant';
-import { PageNavigator } from './pageNavigator';
 import { LegendBase } from './base';
+import { CategoryItems } from './categoryItems';
 
 export type { CategoryOptions };
 
@@ -16,10 +16,6 @@ export class Category extends LegendBase<CategoryCfg> {
     ...CATEGORY_DEFAULT_OPTIONS,
   };
 
-  protected get idItem(): Map<string, CategoryItem> {
-    return new Map((this.labelsGroup.childNodes as CategoryItem[]).map((item) => [item.getID(), item]));
-  }
-
   constructor(options: CategoryOptions) {
     super(deepAssign({}, Category.defaultOptions, options));
   }
@@ -28,111 +24,36 @@ export class Category extends LegendBase<CategoryCfg> {
     super.update(deepAssign({}, Category.defaultOptions.style, this.attributes, cfg));
   }
 
+  protected labelsGroup!: CategoryItems;
+
   protected drawInner() {
     this.drawItems();
-    this.drawPageNavigator();
-    this.adjustLayout();
   }
 
   protected bindEvents() {
     super.bindEvents();
-    this.labelsGroup.addEventListener('stateChange', () => this.dispatchItemsChange());
+    this.innerGroup.addEventListener('stateChange', () => this.dispatchItemsChange());
   }
 
-  protected drawItems() {
-    const data = this.itemsShapeCfg;
-    select(this.labelsGroup)
-      .selectAll('.legend-item')
-      .data(data, (d) => d.id)
-      .join(
-        (enter) => enter.append((datum) => new CategoryItem({ className: 'legend-item', style: datum })),
-        (update) => update.each((shape, datum) => shape.update(datum)),
-        (exit) => exit.remove()
-      );
-  }
-
-  protected pager!: PageNavigator;
-
-  protected drawPageNavigator() {
-    const style = this.getPageNavigatorStyleProps();
-    let pageNavigator = this.innerGroup.querySelector('.legend-navigation') as PageNavigator;
-    if (!pageNavigator) {
-      pageNavigator = this.innerGroup.appendChild(new PageNavigator({ className: 'legend-navigation', style }));
-    } else {
-      pageNavigator.update(style);
+  private drawItems() {
+    if (!this.labelsGroup) {
+      this.labelsGroup = this.innerGroup.appendChild(new CategoryItems({}));
     }
-
-    this.pager = pageNavigator;
-  }
-
-  protected getPageNavigatorStyleProps() {
-    const { orient, pageNavigator } = this.style;
-    const { pageWidth, pageHeight, pageNum = 1 } = this;
-
-    let position = pageNavigator && pageNavigator?.position;
-    if (!position) position = orient === 'horizontal' ? 'right' : 'bottom';
-
-    return deepMix(
-      {},
-      {
-        x: 0,
-        y: 0,
-        orient: orient as any,
-        view: this.labelsGroup,
-        position,
-        pageNum,
-        pageWidth: pageWidth ?? Number.MAX_VALUE,
-        pageHeight: pageHeight ?? Number.MAX_VALUE,
-        visibility: !pageWidth || !pageHeight,
-      },
-      pageNavigator
-    );
-  }
-
-  // ======== 之前的代码
-  private get itemsShapeCfg() {
-    const {
-      items: _items,
-      itemWidth,
-      maxWidth,
-      maxItemWidth,
-      itemMarker,
-      itemName,
-      itemValue,
-      itemBackground,
-      reverse,
-    } = this.style;
-    const items = _items.slice();
-    if (reverse) items.reverse();
-
-    return items.map((item, idx) => {
-      return {
-        x: 0,
-        y: 0,
-        id: item.id || `legend-item-${idx}`,
-        state: item.state || 'default',
-        itemWidth,
-        maxItemWidth: min([maxItemWidth ?? Number.MAX_VALUE, maxWidth ?? Number.MAX_VALUE]),
-        itemMarker: (() => {
-          const markerCfg = isFunction(itemMarker) ? itemMarker(item, idx, items) : itemMarker;
-          return deepMix(
-            {},
-            DEFAULT_ITEM_MARKER,
-            { symbol: item.symbol, style: { default: { fill: item.color, stroke: item.color } } },
-            markerCfg
-          );
-        })(),
-        itemName: (() => {
-          const { formatter, ...itemNameCfg } = deepMix({}, { formatter: () => item.name }, itemName);
-          return deepMix({}, DEFAULT_ITEM_NAME, { content: formatter(item, idx, items) }, itemNameCfg);
-        })(),
-        itemValue: (() => {
-          const { formatter, ...itemValueCfg } = deepMix({}, { formatter: () => item.value }, itemValue);
-          return deepMix({}, DEFAULT_ITEM_VALUE, { content: formatter(item, idx, items) }, itemValueCfg);
-        })(),
-        background: itemBackground as any,
-      };
+    this.labelsGroup.attr({
+      orient: this.orient,
+      items: this.itemsShapeCfg,
+      spacing: this.style.spacing,
+      autoWrap: this.style.autoWrap,
+      maxRows: this.style.maxRows,
+      maxWidth: this.style.maxWidth,
+      maxHeight: this.style.maxHeight,
+      ...(this.style.pageNavigator || {}),
     });
+  }
+
+  private get idItem(): Map<string, CategoryItem> {
+    const legendItems = this.labelsGroup?.querySelectorAll('.legend-item') as CategoryItem[];
+    return new Map((legendItems || []).map((item) => [item.getID(), item]));
   }
 
   public getItem(id: string): CategoryItem | undefined {
@@ -154,163 +75,40 @@ export class Category extends LegendBase<CategoryCfg> {
     return Array.from(this.idItem.entries()).map(([id, item]) => ({ id, state: item.getState() }));
   }
 
-  /** 分页相关配置 */
-  private pageWidth: number | undefined;
+  // ======== 之前的代码
+  private get itemsShapeCfg() {
+    const { items: _items, maxWidth, maxItemWidth, itemMarker, itemName, itemValue, reverse } = this.style;
+    const items = _items.slice();
+    if (reverse) items.reverse();
 
-  private pageHeight: number | undefined;
-
-  private pageNum: number = 1;
-
-  /**
-   * 重置分页配置
-   */
-  private resetPageCfg() {
-    this.pageWidth = undefined;
-    this.pageHeight = undefined;
-    this.pageNum = 1;
-  }
-
-  /**
-   * 计算图例布局
-   * https://www.yuque.com/antv/zb50wl/gzc4sg
-   */
-  private adjustLayout() {
-    const { orient } = this.style;
-    this.resetPageCfg();
-    if (orient === 'horizontal') this.adjustHorizontal();
-    else this.adjustVertical();
-
-    if (this.pager) {
-      const { pageWidth: w, pageHeight: h, pageNum = 1 } = this;
-      this.pager.update({
-        orient,
-        x: 0,
-        y: 0,
-        pageNum,
-        pageHeight: pageNum > 1 ? h ?? Number.MAX_VALUE : Number.MAX_VALUE,
-        pageWidth: pageNum > 1 ? w ?? Number.MAX_VALUE : Number.MAX_VALUE,
-        visibility: pageNum > 1 && h && w ? 'visible' : 'hidden',
-      });
-    }
-  }
-
-  private get itemHeight(): number {
-    const item = Array.from(this.idItem.values())[0];
-    return item ? getShapeSpace(item).height : 0;
-  }
-
-  private adjustHorizontal() {
-    if (this.idItem.size <= 1) return;
-
-    const items = Array.from(this.idItem.values());
-    const { spacing: [offsetX] = [0, 0], autoWrap } = this.style;
-    const padding = normalPadding(this.style.padding);
-    const maxWidth = this.style.maxWidth && this.style.maxWidth - (padding[1] + padding[3]);
-
-    // Do not need paginate.
-    if (!defined(maxWidth) || maxWidth === Infinity) {
-      items.reduce((x, item) => {
-        const { width } = getShapeSpace(item);
-        item.setLocalPosition(x, 0);
-        return x + width + offsetX;
-      }, 0);
-      return;
-    }
-
-    this.pageNum = 1;
-    this.pageWidth = maxWidth;
-    const position = this.getPageNavigatorStyleProps()?.position || 'right';
-    if (['left', 'right', 'left-right'].includes(position as any)) {
-      const pagerWidth = this.pager?.getBBox().width;
-      this.pageWidth! -= pagerWidth;
-    }
-
-    if (!autoWrap) {
-      this.pageHeight = this.itemHeight;
-      items.reduce((x, item) => {
-        const { width } = getShapeSpace(item);
-        if (x + width > this.pageWidth! * this.pageNum) {
-          x = this.pageWidth! * this.pageNum;
-          this.pageNum += 1;
-        }
-        item.pageIndex = this.pageNum;
-        item.setLocalPosition(x, 0);
-        return x + width + offsetX;
-      }, 0);
-
-      return;
-    }
-
-    const maxRows = this.style.maxRows || Number.MAX_VALUE;
-    let row = 1;
-    let x = 0;
-    let y = 0;
-    this.pageHeight = this.itemHeight!;
-    items.forEach((item) => {
-      const { width, height } = getShapeSpace(item);
-      if (x + width > this.pageWidth! * this.pageNum) {
-        if (row === maxRows) {
-          x = this.pageWidth! * this.pageNum;
-          this.pageNum += 1;
-          row = 1;
-        } else {
-          row += 1;
-          x = this.pageWidth! * (this.pageNum - 1);
-        }
-        y = (row - 1) * this.itemHeight!;
-        this.pageHeight = Math.max(this.pageHeight!, y + height);
-      }
-      item.pageIndex = this.pageNum;
-      item.setLocalPosition(x, y);
-      x += width + offsetX;
+    return items.map((item, idx) => {
+      return {
+        id: item.id || `legend-item-${idx}`,
+        state: item.state || 'default',
+        maxItemWidth: min([maxItemWidth ?? Number.MAX_VALUE, maxWidth ?? Number.MAX_VALUE]),
+        itemMarker: (() => {
+          const markerCfg = isFunction(itemMarker) ? itemMarker(item, idx, items) : itemMarker;
+          return deepMix(
+            {},
+            DEFAULT_ITEM_MARKER,
+            { symbol: item.symbol, style: { default: { fill: item.color, stroke: item.color } } },
+            markerCfg
+          );
+        })(),
+        itemName: (() => {
+          const { formatter, ...itemNameCfg } = deepMix({}, { formatter: () => item.name }, itemName);
+          return deepMix({}, DEFAULT_ITEM_NAME, { content: formatter(item, idx, items) }, itemNameCfg);
+        })(),
+        itemValue: (() => {
+          const { formatter, ...itemValueCfg } = deepMix({}, { formatter: () => item.value }, itemValue);
+          return deepMix({}, DEFAULT_ITEM_VALUE, { content: formatter(item, idx, items) }, itemValueCfg);
+        })(),
+        itemWidth: this.style.itemWidth,
+        itemHeight: this.style.itemHeight,
+        padding: this.style.itemPadding,
+        backgroundStyle: this.style.itemBackgroundStyle as any,
+      };
     });
-  }
-
-  private adjustVertical() {
-    if (this.idItem.size <= 1) return;
-
-    const items = Array.from(this.idItem.values());
-
-    const { spacing: [, offsetY] = [0, 0], autoWrap } = this.style;
-    const padding = normalPadding(this.style.padding);
-    const maxHeight = this.style.maxHeight && this.style.maxHeight - (padding[0] + padding[2]);
-
-    // Do not need paginate.
-    if (!defined(maxHeight) || maxHeight === Infinity) {
-      items.reduce((y, item) => {
-        const { height } = getShapeSpace(item);
-        item.setLocalPosition(0, y);
-        return y + height + offsetY;
-      }, 0);
-      return;
-    }
-
-    this.pageNum = 1;
-    this.pageHeight = maxHeight;
-    const position = this.getPageNavigatorStyleProps()?.position || 'right';
-    if (['top', 'bottom', 'top-bottom'].includes(position as any)) {
-      const pagerH = this.pager?.getBBox().height;
-      this.pageHeight! -= pagerH;
-    }
-
-    this.pageHeight = Math.max(this.pageHeight!, this.itemHeight!);
-    // [todo] autoWrap in vertical direction.
-    let itemWidth = 0;
-    items.reduce((y, item) => {
-      const { width, height } = getShapeSpace(item);
-      if (y + height > this.pageHeight! * this.pageNum) {
-        y = this.pageHeight! * this.pageNum;
-        this.pageNum += 1;
-      }
-      item.setLocalPosition(0, y);
-      itemWidth = Math.max(itemWidth, width);
-      return y + height + offsetY;
-    }, 0);
-    this.pageWidth = Math.min(
-      this.style.maxWidth ?? Number.MAX_VALUE,
-      this.style.maxItemWidth ?? Number.MAX_VALUE,
-      itemWidth
-    );
   }
 
   private dispatchItemsChange() {

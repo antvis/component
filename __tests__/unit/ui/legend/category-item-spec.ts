@@ -1,6 +1,6 @@
 import { Canvas } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
-import { CategoryItem } from '../../../../src/ui/legend/category-item';
+import { CategoryItem } from '../../../../src/ui/legend/categoryItem';
 import { createDiv } from '../../../utils';
 
 const renderer = new CanvasRenderer();
@@ -81,17 +81,15 @@ const categoryItem = new CategoryItem({
       spacing: 5,
       content: 'value',
     },
-    background: {
-      style: {
-        default: {
-          fill: 'rgba(245, 0, 31, 0.1)',
-        },
-        selected: {
-          fill: 'rgba(255, 192, 50, 0.1)',
-        },
-        active: {
-          fill: 'rgba(67, 195, 119, 0.1)',
-        },
+    backgroundStyle: {
+      default: {
+        fill: 'rgba(245, 0, 31, 0.1)',
+      },
+      selected: {
+        fill: 'rgba(255, 192, 50, 0.1)',
+      },
+      active: {
+        fill: 'rgba(67, 195, 119, 0.1)',
       },
     },
   },
@@ -110,7 +108,7 @@ describe('category-item', () => {
     // @ts-ignore
     expect(categoryItem.valueShape.attr('fill')).toBe('red');
     // @ts-ignore
-    expect(categoryItem.backgroundShape.attr('fill')).toBe('rgba(245, 0, 31, 0.1)');
+    expect(categoryItem.background.attr('fill')).toBe('rgba(245, 0, 31, 0.1)');
   });
   test('selected', () => {
     categoryItem.setState('selected');
@@ -121,7 +119,7 @@ describe('category-item', () => {
     // @ts-ignore
     expect(categoryItem.valueShape.attr('fill')).toBe('green');
     // @ts-ignore
-    expect(categoryItem.backgroundShape.attr('fill')).toBe('rgba(255, 192, 50, 0.1)');
+    expect(categoryItem.background.attr('fill')).toBe('rgba(255, 192, 50, 0.1)');
   });
   test('active', () => {
     categoryItem.setState('active');
@@ -138,6 +136,6 @@ describe('category-item', () => {
     // @ts-ignore
     expect(categoryItem.nameShape.attr('opacity')).toBe(0.9);
     // @ts-ignore
-    expect(categoryItem.backgroundShape.attr('fill')).toBe('rgba(67, 195, 119, 0.1)');
+    expect(categoryItem.background.attr('fill')).toBe('rgba(67, 195, 119, 0.1)');
   });
 });

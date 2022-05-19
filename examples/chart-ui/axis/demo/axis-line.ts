@@ -1,5 +1,5 @@
 import { Canvas, Group } from '@antv/g';
-import { Renderer as CanvasRenderer } from '@antv/g-svg';
+import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Linear, Arc } from '@antv/gui';
 
 const renderer = new CanvasRenderer({

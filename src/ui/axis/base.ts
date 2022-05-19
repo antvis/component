@@ -1,26 +1,21 @@
-import { Group, Line, LineStyleProps, Path, PathStyleProps, Text, ElementEvent } from '@antv/g';
-import { isNil, noop } from '@antv/util';
+import { Group, Line, LineStyleProps, Path, PathStyleProps, Text, DisplayObjectConfig } from '@antv/g';
+import { isNil, noop, pick } from '@antv/util';
 import { GUI } from '../../core/gui';
-import { Selection, select, applyStyle, defined, timer } from '../../util';
+import { Selection, select, timer, select2update } from '../../util';
 import { Marker, MarkerStyleProps } from '../marker';
 import { AxisBaseStyleProps, AxisTextStyleProps, OverlapType, Point, TickDatum } from './types';
 import { OverlapCallback, OverlapUtils } from './overlap';
-import { assignNonempty, applyAnimation } from './utils';
-
-// 注册轴箭头
-// ->
-Marker.registerSymbol('axis-arrow', (x: number, y: number, r: number) => {
-  return [
-    ['M', x, y],
-    ['L', x - r, y - r],
-    ['L', x + r, y],
-    ['L', x - r, y + r],
-    ['L', x, y],
-  ];
-});
 
 export abstract class AxisBase<T extends AxisBaseStyleProps = AxisBaseStyleProps> extends GUI<T> {
   public static tag = 'axisBase';
+
+  protected axisLineGroup!: Group;
+
+  protected axisLabelGroup!: Group;
+
+  protected axisTickGroup!: Group;
+
+  protected axisSubTickGroup!: Group;
 
   protected axisGroup!: Group;
 
@@ -30,15 +25,21 @@ export abstract class AxisBase<T extends AxisBaseStyleProps = AxisBaseStyleProps
 
   private labels: Text[] = [];
 
-  private tickLines: Line[] = [];
+  constructor(options: DisplayObjectConfig<T>) {
+    super(options);
+    this.init();
+  }
 
   public init() {
     this.selection = select(this);
 
-    this.appendChild(new Group({ className: 'axis-line-group' }));
-    this.appendChild(new Group({ className: 'axis-tick-group' }));
-    this.appendChild(new Group({ className: 'axis-subtick-group' }));
-    this.appendChild(new Group({ className: 'axis-label-group' }));
+    this.axisLineGroup = this.appendChild(new Group({ className: 'axis-line-group' }));
+    this.axisTickGroup = this.appendChild(new Group({ className: 'axis-tick-group' }));
+    this.axisSubTickGroup = this.appendChild(new Group({ className: 'axis-subtick-group' }));
+    this.axisLabelGroup = this.appendChild(new Group({ className: 'axis-label-group' }));
+  }
+
+  connectedCallback() {
     this.update();
   }
 
@@ -46,11 +47,14 @@ export abstract class AxisBase<T extends AxisBaseStyleProps = AxisBaseStyleProps
   public update(cfg: Partial<AxisBaseStyleProps> = {}) {
     // @ts-ignore
     this.attr(cfg);
-    this.drawAxisLine();
-    // Trigger update data binding
-    this.drawTicks();
+    select2update(this.axisLineGroup, 'axis-line', Path, [this.getLinePath()]);
+    select2update(this.axisLineGroup, 'axis-arrow$$', Marker, this.getLineArrow());
+    this.optimizedTicks = this.calcOptimizedTicks();
+    this.drawTickLines();
+    this.drawLabels();
     this.processOverlap();
-    this.drawAxisTitle();
+    const axisTitleStyle = this.getAxisTitle();
+    select2update(this, 'axis-title', Text, axisTitleStyle ? [axisTitleStyle] : []);
   }
 
   public clear() {}
@@ -60,7 +64,7 @@ export abstract class AxisBase<T extends AxisBaseStyleProps = AxisBaseStyleProps
   protected abstract getAxisTitle(): AxisTextStyleProps | null;
 
   // Required.
-  protected abstract getLinePath(): PathStyleProps;
+  protected abstract getLinePath(): PathStyleProps & { animate?: boolean };
 
   protected abstract getLineArrow(): (MarkerStyleProps & { id: string })[];
 
@@ -72,83 +76,7 @@ export abstract class AxisBase<T extends AxisBaseStyleProps = AxisBaseStyleProps
 
   protected abstract getEndPoints(): Point[];
 
-  private drawAxisTitle() {
-    const axisTitleStyle = this.getAxisTitle();
-
-    const animate = this.style.title?.animate;
-    this.selection
-      .selectAll('.axis-title')
-      .data(axisTitleStyle ? [axisTitleStyle] : [], (d) => d.id)
-      .join(
-        (enter) =>
-          enter
-            .append('text')
-            .attr('className', 'axis-title')
-            .each((shape, datum) => applyStyle(shape, datum)),
-        (update) =>
-          update.each((shape, datum) => {
-            if (animate) {
-              const origin = Object.keys(datum).reduce(
-                (r, key) => ((r[key] = shape.style[key as any] as any), r),
-                {} as any
-              );
-              const keyframes = [assignNonempty({}, origin), datum];
-              shape.animate(keyframes, { easing: 'easeQuadInOut', duration: 150, fill: 'both' });
-            } else {
-              applyStyle(shape, datum);
-            }
-          }),
-        (exit) => exit.remove()
-      );
-  }
-
-  /** Include axis-arrow */
-  private drawAxisLine() {
-    const group = this.selection.select('.axis-line-group');
-
-    const axisLineStyle = this.getLinePath();
-    const animate = this.style.axisLine?.animate;
-    group
-      .selectAll('.axis-line')
-      .data([axisLineStyle], () => 1)
-      .join(
-        (enter) =>
-          enter
-            .append('path')
-            .attr('className', 'axis-line')
-            .each<Path>((shape, datum) => {
-              applyStyle(shape, datum);
-              animate && applyAnimation(shape, 'enter', 'pathIn');
-            }),
-        (update) =>
-          update.each((shape, datum) => {
-            if (animate) {
-              const origin = Object.keys(datum).reduce(
-                (r, key) => ((r[key] = shape.style[key as any] as any), r),
-                {} as any
-              );
-              const keyframes = [assignNonempty({}, origin), datum];
-              shape.animate(keyframes, { easing: 'easeQuadInOut', duration: 250, fill: 'both' });
-            } else {
-              applyStyle(shape, datum);
-            }
-          }),
-        (exit) => exit.remove()
-      );
-
-    const axisArrowStyle = this.getLineArrow();
-    group
-      .selectAll('.axis-arrow$$')
-      .data(axisArrowStyle, (d) => d?.id)
-      .join(
-        (enter) => enter.append(({ id, ...style }) => new Marker({ id, className: 'axis-arrow$$', style })),
-        (update) => update.each((shape, datum) => shape.update(datum)),
-        (exit) => exit.remove()
-      );
-  }
-
-  /** Includes axis label, axis tickLine and axis subTickLine. */
-  private drawTicks() {
+  private calcOptimizedTicks() {
     const { ticksThreshold } = this.style;
     // Apply default id to ticks data.
     const ticks = Array.from(this.style.ticks || []).map((d, idx) => ({ id: `${idx}`, ...d }));
@@ -162,62 +90,23 @@ export abstract class AxisBase<T extends AxisBaseStyleProps = AxisBaseStyleProps
         optimizedTicks = ticks.filter((tick, idx) => idx % page === 0 || idx === tickCount - 1);
       }
     }
-    this.optimizedTicks = optimizedTicks;
-    this.drawTickLines();
-    this.drawLabels();
+    return optimizedTicks;
   }
 
   /** Includes axis tickLine and axis subTickLine  */
   @timer('cost')
   private drawTickLines() {
     const tickLineItems = this.getTickLineItems();
-    this.tickLines = this.selection
-      .select('.axis-tick-group')
-      .selectAll('.axis-tick')
-      .data(tickLineItems, (d) => d.id)
-      .join(
-        (enter) => enter.append((datum) => new Line({ id: datum.id, style: datum })).attr('className', 'axis-tick'),
-        (update) => update.each((shape, datum) => applyStyle(shape, datum)),
-        (exit) => exit.remove()
-      )
-      .nodes() as Line[];
+    select2update(this.axisTickGroup, 'axis-tick', Line, tickLineItems) as Line[];
 
     const subTickLineItems = this.getSubTickLineItems();
-    this.selection
-      .select('.axis-subtick-group')
-      .selectAll('.axis-subtick')
-      .data(subTickLineItems, (d) => d.id)
-      .join(
-        (enter) => enter.append((datum) => new Line({ id: datum.id, style: datum })).attr('className', 'axis-subtick'),
-        (update) => update.each((shape, datum) => applyStyle(shape, datum)),
-        (exit) => exit.remove()
-      );
+    select2update(this.axisSubTickGroup, 'axis-subtick', Line, subTickLineItems) as Line[];
   }
 
   @timer('cost')
   private drawLabels() {
     const labels = this.getLabelAttrs();
-    this.labels = this.selection
-      .select('.axis-label-group')
-      .selectAll('.axis-label')
-      .data(labels, (d) => d.id)
-      .join(
-        (enter) =>
-          enter
-            .append((datum) => new Text({ id: datum.id, style: datum }))
-            .attr('className', 'axis-label')
-            .each((shape, datum) => {
-              defined(datum.rotation) && shape.setEulerAngles(datum.rotation);
-              applyAnimation(shape, 'enter', 'fadeIn');
-            }),
-        (update) =>
-          update.each((shape, datum) => {
-            applyStyle(shape, datum);
-            defined(datum.rotation) && shape.setEulerAngles(datum.rotation);
-          }),
-        (exit) => exit.remove()
-      )
-      .nodes() as Text[];
+    this.labels = select2update(this.axisLabelGroup, 'axis-label', Text, labels) as Text[];
   }
 
   // 是否可以执行某一 overlap
@@ -239,25 +128,18 @@ export abstract class AxisBase<T extends AxisBaseStyleProps = AxisBaseStyleProps
     if (!labelCfg) return;
 
     // Do labels layout.
-    const {
-      overlapOrder = [],
-      optionalAngles,
-      minLength,
-      maxLength,
-      ellipsisStep,
-      showFirst,
-      showLast,
-      margin,
-    } = labelCfg;
+    const { overlapOrder = [] } = labelCfg;
     let cfg = {
       labelType: labelCfg.type,
-      optionalAngles,
-      minLength,
-      maxLength,
-      ellipsisStep,
-      showFirst,
-      showLast,
-      margin,
+      ...pick(labelCfg, [
+        'optionalAngles',
+        'minLength',
+        'maxLength',
+        'ellipsisStep',
+        'showFirst',
+        'showLast',
+        'margin',
+      ]),
     };
 
     const labels = this.labels;
@@ -283,11 +165,25 @@ export abstract class AxisBase<T extends AxisBaseStyleProps = AxisBaseStyleProps
 
   protected autoHideTickLine() {
     if (!this.style.label?.autoHideTickLine) return;
+
+    const tickLines = this.axisTickGroup.querySelectorAll('.axis-tick');
     this.labels.forEach((label, idx) => {
-      const tickLine = this.tickLines[idx];
+      const tickLine = tickLines[idx];
       if (!tickLine) return;
       if (label.style.visibility === 'hidden' && tickLine) tickLine.style.visibility = 'hidden';
       else tickLine.style.visibility = 'visible';
     });
   }
 }
+
+// 注册轴箭头
+// ->
+Marker.registerSymbol('axis-arrow', (x: number, y: number, r: number) => {
+  return [
+    ['M', x, y],
+    ['L', x - r, y - r],
+    ['L', x + r, y],
+    ['L', x - r, y + r],
+    ['L', x, y],
+  ];
+});

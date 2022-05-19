@@ -46,10 +46,15 @@ function bound(bounds: Bounds, item: DisplayObject<any>, margin = [0, 0, 0, 0]) 
   const angle = item.getEulerAngles() || 0;
   item.setEulerAngles(0);
   // get dimensions
-  const { left, top, width: w, height: h, right, bottom } = item.getBBox();
+  const { min, max, halfExtents } = item.getLocalBounds();
 
+  const left = min[0];
+  const w = halfExtents[0] * 2;
+  const h = halfExtents[1] * 2;
   const x = left;
-  const y = top;
+  const y = min[1];
+  const right = max[0];
+  const bottom = max[1];
   let height = h;
   let dx = 0;
   let dy = 0;
@@ -60,8 +65,8 @@ function bound(bounds: Bounds, item: DisplayObject<any>, margin = [0, 0, 0, 0]) 
     height -= 1.5;
     const a = item.style.textAlign;
     const b = item.style.textBaseline;
-    dx = item.style.dx;
-    dy = item.style.dy;
+    dx = +item.style.dx;
+    dy = +item.style.dy;
 
     // horizontal alignment
     if (a === 'center') {

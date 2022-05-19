@@ -1,7 +1,7 @@
 import { vec2 } from '@antv/matrix-util';
-import type { TextStyleProps } from '@antv/g';
-import type { ArcAxisStyleProps, ArcOptions, Point } from './types';
-import { ARC_DEFAULT_OPTIONS } from './constant';
+import type { DisplayObjectConfig, TextStyleProps } from '@antv/g';
+import type { ArcAxisStyleProps, Point } from './types';
+import { AXIS_BASE_DEFAULT_OPTIONS } from './constant';
 import { deepAssign, getEllipsisText, getMemoFont, DegToRad, defined } from '../../util';
 import { AxisBase } from './base';
 import { getAxisTicks } from './axisTick';
@@ -11,12 +11,25 @@ import { getAxisLabels } from './arcAxisLabel';
 const { PI, abs, cos, sin } = Math;
 const [PI2] = [PI * 2];
 
+type ArcOptions = DisplayObjectConfig<ArcAxisStyleProps>;
+export { ArcOptions };
+
 export class Arc extends AxisBase<ArcAxisStyleProps> {
   public static tag = 'arc';
 
   protected static defaultOptions = {
     type: Arc.tag,
-    ...ARC_DEFAULT_OPTIONS,
+    style: {
+      startAngle: -90,
+      endAngle: 270,
+      center: [0, 0],
+      label: {
+        tickPadding: 2,
+        style: {},
+        align: 'normal',
+      },
+      ...AXIS_BASE_DEFAULT_OPTIONS.style,
+    },
   };
 
   protected get axisPosition() {
@@ -24,21 +37,19 @@ export class Arc extends AxisBase<ArcAxisStyleProps> {
   }
 
   constructor(options: ArcOptions) {
-    // should not use this.style, because `style` is a Proxy object, not a Plain Object.
-    // should not use `deepMix`, because `undefined` should be assign, not to be ignore.
     super(deepAssign({}, Arc.defaultOptions, options));
-    this.init();
   }
 
   public update(cfg: Partial<ArcAxisStyleProps> = {}) {
-    super.update(deepAssign({}, Arc.defaultOptions, this.attributes, cfg));
+    super.update(deepAssign({}, Arc.defaultOptions.style, this.attributes, cfg));
   }
 
   protected getLinePath() {
     const { radius, center = [0, 0], axisLine: axisLineCfg } = this.style;
+
     const { startAngle, endAngle } = this.getRadians();
     const endPoints = this.getEndPoints();
-    const style = axisLineCfg ? axisLineCfg.style : { visibility: 'hidden' };
+    const style = axisLineCfg?.style || {};
     const [[x1, y1], [x2, y2]] = endPoints;
     const [cx, cy] = center;
     const diffAngle = abs(endAngle - startAngle);
@@ -66,7 +77,8 @@ export class Arc extends AxisBase<ArcAxisStyleProps> {
 
     return {
       ...style,
-      visibility: 'visible' as any,
+      visibility: (axisLineCfg ? 'visible' : 'hidden') as any,
+      animate: axisLineCfg?.animate,
       path,
     };
   }
@@ -152,7 +164,7 @@ export class Arc extends AxisBase<ArcAxisStyleProps> {
     };
     const font = getMemoFont(this.selection.node(), attrs);
     const text = defined(titleCfg.maxLength) ? getEllipsisText(content, titleCfg.maxLength!, font) : content;
-    return { id: 'axis-title', ...attrs, tip: content, text };
+    return { id: 'axis-title', ...attrs, tip: content, text, animate: titleCfg.animate };
   }
 
   protected getVerticalVector(value: number) {

@@ -1,5 +1,5 @@
-import { Text, Rect, CustomEvent, RectStyleProps, Group } from '@antv/g';
-import { deepMix, get, max } from '@antv/util';
+import { Text, Rect, CustomEvent, Group, ElementEvent } from '@antv/g';
+import { deepMix, get } from '@antv/util';
 import { GUI } from '../../core/gui';
 import {
   getStateStyle,
@@ -34,20 +34,19 @@ export type ItemValueCfg = {
   style?: MixAttrs<Partial<TextProps>>;
 };
 
-type CategoryItemStyleProps = {
+export type CategoryItemStyleProps = {
   id: string;
   x?: number;
   y?: number;
+  padding?: number | number[];
   itemWidth?: number;
+  itemHeight?: number;
   maxItemWidth?: number;
   state?: State;
-  itemMarker: ItemMarkerCfg;
-  itemName: ItemNameCfg;
+  itemMarker?: ItemMarkerCfg;
+  itemName?: ItemNameCfg;
   itemValue?: ItemValueCfg;
-  background: {
-    padding?: number | number[];
-    style?: MixAttrs<ShapeAttrs>;
-  };
+  backgroundStyle?: MixAttrs<ShapeAttrs>;
 };
 
 type CategoryItemOptions = DisplayObjectConfig<CategoryItemStyleProps>;
@@ -55,92 +54,49 @@ type CategoryItemOptions = DisplayObjectConfig<CategoryItemStyleProps>;
 export class CategoryItem extends GUI<CategoryItemStyleProps> {
   public pageIndex = 0;
 
-  // marker
   private markerShape!: Marker;
 
-  // name
   private nameShape!: Text;
 
-  // value
   private valueShape!: Text;
 
-  // background
-  private backgroundShape!: Rect;
+  private background!: Rect;
 
   private container!: Group;
 
   private prevState!: State;
 
-  private get markerShapeCfg() {
-    const { itemMarker } = this.style;
-    const { symbol, size: markerSize } = itemMarker;
-    return { symbol, size: markerSize, ...this.getStyle(['itemMarker', 'style']) };
-  }
+  public static defaultOptions = {
+    style: {
+      itemName: {
+        style: {
+          default: {
+            fontSize: 12,
+          },
+        },
+      },
+      itemValue: {
+        style: {
+          default: {
+            fontSize: 12,
+          },
+        },
+      },
+    },
+  };
 
-  private get nameShapeCfg() {
-    const { itemName } = this.style;
-    return { fontSize: 12, text: itemName?.content || '', ...this.getStyle(['itemName', 'style']) };
-  }
-
-  private get valueShapeCfg() {
-    const { itemValue } = this.attributes;
-    const { content: valueContent } = itemValue!;
-    return {
-      fontSize: 12,
-      text: valueContent,
-      ...this.getStyle(['itemValue', 'style']),
-    };
-  }
-
-  private get backgroundShapeCfg(): RectStyleProps {
-    return this.getStyle('background.style');
-  }
-
-  constructor({ style, ...rest }: CategoryItemOptions) {
-    super({ style, ...rest });
-    this.init();
-  }
-
-  public init() {
-    // render backgroundShape
-    this.backgroundShape = this.appendChild(
-      new Rect({
-        className: 'legend-item-background',
-        zIndex: -1,
-        style: this.backgroundShapeCfg,
-      })
-    );
+  constructor(options: CategoryItemOptions) {
+    super(deepMix({}, CategoryItem.defaultOptions, options));
+    // init.
+    this.background = this.appendChild(new Rect({ className: 'legend-item-background', zIndex: -1 }));
     this.container = this.appendChild(new Group());
-    // render markerShape
-    this.markerShape = new Marker({
-      className: 'legend-item-marker',
-      style: this.markerShapeCfg,
-    });
-    this.container.appendChild(this.markerShape);
-    // render nameShape
-    this.nameShape = new Text({
-      className: 'legend-item-name',
-      style: {
-        ...TEXT_INHERITABLE_PROPS,
-        ...this.nameShapeCfg,
-      },
-    });
-    this.container.appendChild(this.nameShape);
-    // render valueShape
-    this.valueShape = new Text({
-      className: 'legend-item-value',
-      style: {
-        ...TEXT_INHERITABLE_PROPS,
-        ...this.valueShapeCfg,
-      },
-    });
-    this.container.appendChild(this.valueShape);
-    this.adjustLayout();
-    this.bindEvents();
+    this.markerShape = this.container.appendChild(new Marker({ className: 'legend-item-marker' }));
+    this.nameShape = this.container.appendChild(new Text({ className: 'legend-item-name' }));
+    this.valueShape = this.container.appendChild(new Text({ className: 'legend-item-value' }));
   }
 
   public getState(): StyleState {
-    return get(this.style, ['state']).split('-')[0];
+    return (get(this.style, ['state']) || '').split('-')[0] || 'default';
   }
 
   /**
@@ -151,7 +107,7 @@ export class CategoryItem extends GUI<CategoryItemStyleProps> {
   }
 
   public getID(): string {
-    return this.style.id;
+    return this.id;
   }
 
   /**
@@ -168,21 +124,42 @@ export class CategoryItem extends GUI<CategoryItemStyleProps> {
     this.setState(currState.split('-')[0] as StyleState);
   }
 
-  public update(cfg: Partial<CategoryItemStyleProps>) {
+  connectedCallback() {
+    this.update({});
+    this.bindEvents();
+  }
+
+  attributeChangedCallback(name: keyof CategoryItemStyleProps, oldValue: any, newValue: any) {
+    if (name === 'state') this.update();
+    if (name === 'backgroundStyle') this.applyBackground();
+    if (name === 'itemValue') this.applyItemValue();
+    if (name === 'itemName') this.applyItemName();
+    if (name === 'itemMarker') this.applyMarker();
+
+    if (name === 'padding' || name === 'itemHeight') this.adjust();
+    if (name === 'itemWidth') {
+      this.adjust();
+      this.adjustLayout();
+    }
+    if (name === 'maxItemWidth') this.adjustLayout();
+  }
+
+  /**
+   * @deprecated
+   */
+  public update(cfg: Partial<CategoryItemStyleProps> = {}) {
     const currState = this.getState();
     const { state: newState } = cfg;
     if ('state' in cfg && currState !== newState) {
       // 保存上次状态
       this.prevState = currState;
     }
-
     this.attr(deepMix({}, this.attributes, cfg));
     // update style
-    this.markerShape.update(this.markerShapeCfg);
-    this.nameShape.attr(this.nameShapeCfg);
-    this.valueShape.attr(this.valueShapeCfg);
-    this.backgroundShape.attr(this.backgroundShapeCfg);
-    // adjustLayout
+    this.applyMarker();
+    this.applyItemName();
+    this.applyItemValue();
+    this.applyBackground();
     this.adjustLayout();
   }
 
@@ -196,36 +173,46 @@ export class CategoryItem extends GUI<CategoryItemStyleProps> {
     this.dispatchEvent(evt as any);
   }
 
-  protected bindEvents() {
+  private bindEvents() {
     this.addEventListener('mouseleave', this.offHover.bind(this));
     this.addEventListener('mousemove', this.onHover.bind(this));
     this.addEventListener('click', this.onClick.bind(this));
+
+    this.container.addEventListener(ElementEvent.BOUNDS_CHANGED, () => this.adjust());
+    this.nameShape.addEventListener(ElementEvent.BOUNDS_CHANGED, () => this.adjustLayout());
+    this.valueShape.addEventListener(ElementEvent.BOUNDS_CHANGED, () => this.adjustLayout());
   }
 
-  protected getStyle(name: string | string[], state = this.style.state) {
+  private adjust() {
+    const { padding, itemWidth, itemHeight = 0 } = this.style;
+    const [hw, hh] = this.container.getLocalBounds().halfExtents;
+    const [top = 0, right = 0, bottom = top, left = right] = normalPadding(padding);
+    const height = Math.max(itemHeight, hh * 2);
+    this.container.setLocalPosition(left, top + height / 2);
+    this.background.style.width = (itemWidth ?? hw * 2) + left + right;
+    this.background.style.height = height + top + bottom;
+  }
+
+  private getStyle(name: string | string[], state = this.style.state) {
     const style = get(this.style, name);
     const stateList = state ? (state.split('-') as StyleState[]) : [];
     return deepMix({}, getStateStyle(style, 'default'), ...stateList.map((s) => getStateStyle(style, s)));
   }
 
-  protected adjustLayout() {
+  // [todo] refactor code later.
+  private adjustLayout() {
     // icon <-spacing-> name <-spacing-> value
     const { itemWidth, maxItemWidth, itemMarker, itemName, itemValue } = this.style;
 
     const _ = (v?: number): number => v || 0;
     const markerSize = _(itemMarker?.size);
-    const maxWidth = Math.min(itemWidth ?? Number.MAX_VALUE, maxItemWidth ?? Number.MAX_VALUE);
-    const height = max([markerSize, getShapeSpace(this.nameShape).height, getShapeSpace(this.valueShape).height])!;
-
-    const y = height / 2;
+    const maxWidth = itemWidth ?? maxItemWidth ?? Number.MAX_VALUE;
     let x = markerSize / 2;
-    this.markerShape.attr({ x, y });
 
     // 是否显示 name 和 value
     const noNameFlag = !itemName?.content;
     const noValueFlag = !itemValue?.content;
     const nameValueSpacing = noNameFlag ? 0 : _(itemValue?.spacing);
-
     const availableWidth = maxWidth - markerSize - _(itemName?.spacing) - _(itemValue?.spacing);
 
     // name和value分得的空间
@@ -254,9 +241,6 @@ export class CategoryItem extends GUI<CategoryItemStyleProps> {
     this.nameShape.attr({
       text: nameText,
       x,
-      y,
-      // 不可修改
-      textBaseline: 'middle',
       visibility: noNameFlag ? 'hidden' : 'visible',
     });
 
@@ -266,21 +250,47 @@ export class CategoryItem extends GUI<CategoryItemStyleProps> {
     this.valueShape.attr({
       text: valueText,
       x: itemWidth && align === 'right' ? itemWidth : x,
-      y,
-      // 不可修改
-      textBaseline: 'middle',
       textAlign: itemWidth && align === 'right' ? 'end' : 'start',
       visibility: noValueFlag ? 'hidden' : 'visible',
     });
+  }
 
-    // 设置背景
-    const [top = 0, right = 0, bottom = top, left = right] = normalPadding(this.style.background?.padding);
-    this.container.setLocalPosition(left, top);
-    this.backgroundShape.attr({
-      x: 0,
-      y: 0,
-      width: (itemWidth ?? this.container.getBBox().width) + left + right,
-      height: this.container.getBBox().height + top + bottom,
+  private applyMarker() {
+    const { itemMarker } = this.style;
+    if (!itemMarker) {
+      this.markerShape.style.size = 0;
+      return;
+    }
+    const { symbol, size: markerSize = 0 } = itemMarker;
+    this.markerShape.attr({ x: markerSize / 2, symbol, size: markerSize, ...this.getStyle(['itemMarker', 'style']) });
+  }
+
+  private applyItemName() {
+    const { itemName } = this.style;
+    if (!itemName) {
+      this.nameShape.style.fontSize = 0;
+      return;
+    }
+    const style = this.getStyle(['itemName', 'style']);
+    this.nameShape.attr({ ...TEXT_INHERITABLE_PROPS, text: itemName.content || '', ...style, textBaseline: 'middle' });
+  }
+
+  private applyItemValue() {
+    const { itemValue } = this.style;
+    if (!itemValue) {
+      this.valueShape.style.fontSize = 0;
+      return;
+    }
+    const style = this.getStyle(['itemValue', 'style']);
+    this.valueShape.attr({
+      ...TEXT_INHERITABLE_PROPS,
+      text: itemValue.content || '',
+      ...style,
+      textBaseline: 'middle',
     });
+  }
+
+  private applyBackground() {
+    this.background.attr(this.getStyle('backgroundStyle'));
   }
 }

@@ -8,9 +8,10 @@ type HandleStyleProps = MarkerStyleProps & {
 export class Handle extends CustomElement<HandleStyleProps> {
   constructor(options: DisplayObjectConfig<HandleStyleProps> = {}) {
     super(options);
+    this.marker = this.appendChild(new Marker({}));
   }
 
-  private textShape!: Text;
+  private textShape: Text | null = null;
 
   private marker!: Marker;
 
@@ -24,8 +25,7 @@ export class Handle extends CustomElement<HandleStyleProps> {
 
   private draw() {
     const { symbol, fill, lineWidth, stroke, size = 8, textStyle, visibility } = this.style;
-    this.marker = this.marker || this.appendChild(new Marker({}));
-    this.marker.update({
+    this.marker.attr({
       symbol,
       size: visibility === 'hidden' ? 0 : size,
       fill,
@@ -37,6 +37,7 @@ export class Handle extends CustomElement<HandleStyleProps> {
       this.textShape.attr(textStyle || {});
     } else {
       this.textShape?.remove();
+      this.textShape = null;
     }
   }
 }

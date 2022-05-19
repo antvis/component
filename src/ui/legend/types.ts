@@ -8,8 +8,7 @@ import type {
   PathProps,
 } from '../../types';
 import type { MarkerStyleProps } from '../marker/types';
-import type { ItemMarkerCfg, ItemNameCfg, ItemValueCfg } from './category-item';
-import type { PageNavigatorCfg } from './pageNavigator';
+import type { ItemMarkerCfg, ItemNameCfg, ItemValueCfg } from './categoryItem';
 
 export type State = StyleState | 'default-active' | 'selected-active';
 export type SymbolCfg = MarkerStyleProps['symbol'];
@@ -102,7 +101,9 @@ type CategoryItem = {
  */
 type LegendItemMarkerCfg = ItemMarkerCfg;
 
-export type LegendBaseCfg = ShapeAttrs & {
+export type LegendBaseCfg = {
+  x?: number;
+  y?: number;
   // 图例最大宽(横)/高（纵）
   maxWidth?: number;
   maxHeight?: number;
@@ -243,13 +244,9 @@ export type ContinuousOptions = DisplayObjectConfig<ContinuousCfg>;
 export type CategoryCfg = LegendBaseCfg & {
   padding?: number | number[];
   items: CategoryItem[];
-  // 最大行（横）/列（纵）数
-  // maxCols?: number; // [todo] 暂时不提供
-  maxRows?: number;
   // 图例项宽度（等分形式）
   itemWidth?: number;
-  // 图例项最大宽度（跟随形式）
-  maxItemWidth?: number;
+  itemHeight?: number;
   // 图例项间的间隔
   spacing?: [number, number];
   itemMarker?:
@@ -261,15 +258,26 @@ export type CategoryCfg = LegendBaseCfg & {
   itemValue?: Omit<ItemValueCfg, 'content'> & {
     formatter?: (item: CategoryItem, index: number, items: CategoryItem[]) => string;
   };
-  itemBackground?: {
-    padding?: number | number[];
-    style?: MixAttrs<ShapeAttrs>;
-  };
+  itemPadding?: number | number[];
+  itemBackgroundStyle?: MixAttrs<ShapeAttrs>;
+  // 图例项最大宽度（跟随形式）
+  maxItemWidth?: number;
   // 自动换行、列
   autoWrap?: boolean;
+  // 最大行（横）/列（纵）数
+  // maxCols?: number; // [todo] 暂时不提供
+  maxRows?: number;
   // 图例项倒序
   reverse?: boolean;
-  pageNavigator?: PageNavigatorCfg;
+  pageNavigator?: {
+    pageSpacing?: number;
+    pageButtonSize?: number;
+    pageButtonStyle?: { default?: ShapeAttrs; disabled?: ShapeAttrs };
+    pageInfoWidth?: number;
+    pageInfoHeight?: number;
+    pageFormatter?: (current: number, total: number) => string;
+    pageTextStyle?: ShapeAttrs;
+  };
 };
 
 export type CategoryOptions = DisplayObjectConfig<CategoryCfg>;

@@ -1,6 +1,6 @@
 import { TextStyleProps, DisplayObject, clamp, Text, CustomEvent } from '@antv/g';
 import { get, isUndefined, memoize } from '@antv/util';
-import { deepAssign, Selection, select, getEventPos, toPrecision, throttle } from '../../util';
+import { deepAssign, Selection, select, getEventPos, toPrecision, throttle, select2update } from '../../util';
 import {
   CONTINUOUS_DEFAULT_OPTIONS,
   DEFAULT_HANDLE_CFG,
@@ -118,17 +118,16 @@ export class Continuous<T extends ContinuousCfg> extends LegendBase<T> {
 
   // Condition if orient is equal to 'horizontal'.
   protected ifHorizontal<T>(a: T, b: T) {
-    const { orient = 'horizontal' } = this.style;
-    return ifHorizontal(orient, typeof a === 'function' ? a() : a, typeof b === 'function' ? b() : b);
+    return ifHorizontal(this.orient, typeof a === 'function' ? a() : a, typeof b === 'function' ? b() : b);
   }
 
   protected get color(): string {
-    const { color = [], orient = 'horizontal' } = this.style;
+    const { color = [] } = this.style;
     const colors = Array.from(color);
     const count = colors.length;
 
     if (!count) return '';
-    if (this.railCfg.chunked) return getChunkedColor(this.ticks, colors, orient);
+    if (this.railCfg.chunked) return getChunkedColor(this.ticks, colors, this.orient);
     return colors.reduce((r, c, idx) => (r += ` ${idx / (count - 1)}:${c}`), `l(${this.ifHorizontal('0', '270')})`);
   }
 
@@ -153,33 +152,26 @@ export class Continuous<T extends ContinuousCfg> extends LegendBase<T> {
 
   private drawLabels() {
     let labels: (TextStyleProps & { id: string })[] = [];
-    const { min, max, orient = 'horizontal' } = this.style;
+    const { min, max } = this.style;
     if (!this.style.handle) {
       const { align, spacing, style } = this.labelsCfg;
       const { size } = this.railCfg;
       const id = (idx: number) => `legend-label-${idx}`;
       if (align === 'rail') {
-        const styles = getRailLabels(orient, this.railCfg, spacing);
+        const styles = getRailLabels(this.orient, this.railCfg, spacing);
         labels = [
           { id: id(0), text: `${min}`, ...style, ...styles[0] },
           { id: id(1), text: `${max}`, ...style, ...styles[1] },
         ];
       } else {
         labels = this.ticks.map((tick: any, idx: number) => {
-          const tickStyle = getTickStyle(orient, this.getOffset(tick), align, size, spacing);
+          const tickStyle = getTickStyle(this.orient, this.getOffset(tick), align, size, spacing);
           return { id: id(idx), text: `${tick}`, ...tickStyle, ...style };
         });
       }
     }
 
-    select(this.labelsGroup)
-      .selectAll('.legend-label')
-      .data(labels, (d) => d.id)
-      .join(
-        (enter) => enter.append((style) => new Text({ className: 'legend-label', style })),
-        (update) => update.each((shape, style) => shape.attr(style)),
-        (exit) => exit.remove()
-      );
+    select2update(this.innerGroup, 'legend-label', Text, labels);
   }
 
   private drawHandles() {
@@ -189,14 +181,19 @@ export class Continuous<T extends ContinuousCfg> extends LegendBase<T> {
   }
 
   private drawHandle(type: string, value: number) {
-    const { orient = 'horizontal' } = this.style;
     const { align, spacing } = this.labelsCfg;
     const { size } = this.railCfg;
     const { size: handleSize } = this.handleCfg;
 
     const offset = this.getOffset(value);
-    const { dx: x, dy: y } = getTickStyle(orient, offset, align, size, -handleSize / 3);
-    const textStyle = getTickStyle(orient, offset, align, size, align === 'start' ? spacing : handleSize / 3 + spacing);
+    const { dx: x, dy: y } = getTickStyle(this.orient, offset, align, size, -handleSize / 3);
+    const textStyle = getTickStyle(
+      this.orient,
+      offset,
+      align,
+      size,
+      align === 'start' ? spacing : handleSize / 3 + spacing
+    );
 
     const handle = type === 'start' ? this.startHandle : this.endHandle;
     return select(handle || this.innerGroup.appendChild(new Handle({})))
@@ -324,6 +321,7 @@ export class Continuous<T extends ContinuousCfg> extends LegendBase<T> {
   };
 
   private onDragEnd() {
+    // @ts-ignore
     this.style.cursor = 'default';
     this.removeEventListener('mousemove', this.onDragging);
     this.removeEventListener('touchmove', this.onDragging);
@@ -332,6 +330,7 @@ export class Continuous<T extends ContinuousCfg> extends LegendBase<T> {
   }
 
   private updateMouse() {
+    // @ts-ignore
     if (this.style.slidable) this.style.cursor = 'grabbing';
   }
 
@@ -372,7 +371,7 @@ export class Continuous<T extends ContinuousCfg> extends LegendBase<T> {
    * @param limit {boolean} 我也忘了要干啥了
    */
   private getValueByCanvasPoint(e: any, limit: boolean = false) {
-    const { min, max, orient = 'horizontal' } = this.style;
+    const { min, max } = this.style;
     const [x, y] = this.rail.getPosition();
     const startPos = this.ifHorizontal(x, y);
     const currValue = this.ifHorizontal(...getEventPos(e));

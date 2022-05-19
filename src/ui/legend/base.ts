@@ -1,11 +1,11 @@
-import { Group, Text, HTML, TextStyleProps, Rect, HTMLStyleProps, ElementEvent } from '@antv/g';
+import { Group, Text, HTML, TextStyleProps, Rect, HTMLStyleProps, ElementEvent, DisplayObjectConfig } from '@antv/g';
 import { deepMix } from '@antv/util';
 import { GUI } from '../../core/gui';
 import { applyStyle, normalPadding, select, TEXT_INHERITABLE_PROPS } from '../../util';
 import { LEGEND_BASE_DEFAULT_OPTIONS } from './constant';
-import { LegendBaseCfg, LegendBaseOptions } from './types';
+import { LegendBaseCfg } from './types';
 
-export abstract class LegendBase<T extends LegendBaseCfg> extends GUI<T> {
+export abstract class LegendBase<T extends LegendBaseCfg = LegendBaseCfg> extends GUI<T> {
   public static tag = 'legend-base';
 
   protected static defaultOptions = {
@@ -17,13 +17,11 @@ export abstract class LegendBase<T extends LegendBaseCfg> extends GUI<T> {
 
   protected innerGroup!: Group;
 
-  protected labelsGroup!: Group;
-
   protected backgroundShape!: Rect;
 
   protected titleShape!: HTML | Text;
 
-  constructor(options: LegendBaseOptions) {
+  constructor(options: DisplayObjectConfig<T>) {
     super(deepMix({}, LegendBase.defaultOptions, options));
     this.init();
   }
@@ -35,18 +33,6 @@ export abstract class LegendBase<T extends LegendBaseCfg> extends GUI<T> {
     this.container = this.appendChild(new Group({ className: 'legend-container' }));
     this.titleShape = this.container.appendChild(new Text({ className: 'legend-title' }));
     this.innerGroup = this.container.appendChild(new Group({ className: 'legend-inner-group' }));
-    this.labelsGroup = this.innerGroup.appendChild(new Group({ className: 'legend-labels-group', zIndex: 2 }));
-  }
-
-  public update(cfg: Partial<T> = {}) {
-    this.attr(cfg);
-    this.drawTitle();
-    this.drawInner();
-    this.drawBackground();
-
-    // Adjust layout.
-    const [top, , , left] = this.padding;
-    this.container.setLocalPosition(left, top);
   }
 
   connectedCallback() {
@@ -54,14 +40,29 @@ export abstract class LegendBase<T extends LegendBaseCfg> extends GUI<T> {
     this.bindEvents();
   }
 
+  public update(cfg: Partial<T> = {}) {
+    this.attr(cfg);
+    this.drawTitle();
+    this.drawInner();
+    this.applyBackgroundStyle();
+
+    // Adjust layout.
+    const [top, , , left] = this.padding;
+    this.container.setLocalPosition(left, top);
+  }
+
   attributeChangedCallback(name: any, ...args: any[]) {
-    if (name === 'inset') this.adjustInner();
+    if (name === 'inset') this.adjustInnerGroup();
+    if (name === 'maxWidth' || name === 'maxHeight' || name === 'padding') this.adjustBackground();
   }
 
   public destroy() {
     this.removeChildren(true);
     this.remove();
-    super.destroy();
+  }
+
+  protected get orient() {
+    return this.style.orient || 'horizontal';
   }
 
   protected get padding() {
@@ -106,9 +107,8 @@ export abstract class LegendBase<T extends LegendBaseCfg> extends GUI<T> {
   }
 
   protected bindEvents() {
-    this.titleShape.addEventListener(ElementEvent.BOUNDS_CHANGED, () => {
-      this.adjustInner();
-    });
+    this.titleShape.addEventListener(ElementEvent.BOUNDS_CHANGED, () => this.adjustInnerGroup());
+    this.container.addEventListener(ElementEvent.BOUNDS_CHANGED, () => this.adjustBackground());
   }
 
   private drawTitle() {
@@ -131,23 +131,24 @@ export abstract class LegendBase<T extends LegendBaseCfg> extends GUI<T> {
     }
   }
 
-  private drawBackground() {
-    const background = this.backgroundShape;
-    const { maxWidth, maxHeight, backgroundStyle } = this.style;
-    applyStyle(background, backgroundStyle || {});
-
-    this.container.addEventListener(ElementEvent.BOUNDS_CHANGED, () => {
-      const [top, right, bottom, left] = this.padding;
-      const { min, max } = this.container.getLocalBounds();
-      const w = max[0] - min[0];
-      const h = max[1] - min[1];
-
-      background.style.width = Math.min(w + right + left, maxWidth || Number.MAX_VALUE);
-      background.style.height = Math.min(h + top + bottom, maxHeight || Number.MAX_VALUE);
-    });
+  private applyBackgroundStyle() {
+    const { backgroundStyle = {} } = this.style;
+    this.backgroundShape.attr(backgroundStyle);
   }
 
-  private adjustInner() {
+  private adjustBackground() {
+    const background = this.backgroundShape;
+    const [top, right, bottom, left] = this.padding;
+    const { maxWidth, maxHeight } = this.style;
+    const { min, max } = this.container.getLocalBounds();
+    const w = max[0] - min[0];
+    const h = max[1] - min[1];
+
+    background.style.width = Math.min(w + right + left, maxWidth || Number.MAX_VALUE);
+    background.style.height = Math.min(h + top + bottom, maxHeight || Number.MAX_VALUE);
+  }
+
+  private adjustInnerGroup() {
     const inset = normalPadding(this.style.inset);
     const [top, , , left] = inset;
     // Adjust layout.

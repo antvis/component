@@ -1,4 +1,5 @@
 import { vec2 } from '@antv/matrix-util';
+import { DisplayObjectConfig } from '@antv/g';
 import {
   deepAssign,
   defined,
@@ -16,9 +17,12 @@ import { AxisBase } from './base';
 import { getAxisTitleStyle } from './axisTitle';
 import { getAxisTicks, getTickPoints } from './axisTick';
 import { getAxisSubTicks } from './axisSubTick';
-import { LINEAR_DEFAULT_OPTIONS } from './constant';
 import { getSign, getVerticalVector, ifLeft, ifRight, ifTop, ifX, ifY } from './utils';
-import type { LinearOptions, LinearAxisStyleProps as CartesianStyleProps, Point } from './types';
+import type { LinearAxisStyleProps, Point } from './types';
+import { AXIS_BASE_DEFAULT_OPTIONS } from './constant';
+
+type LinearOptions = DisplayObjectConfig<LinearAxisStyleProps>;
+export { LinearOptions };
 
 // 注册轴箭头
 // ->
@@ -51,12 +55,16 @@ function inferAxisPosition(axesVector: any = [0, 0], verticalFactor = 1) {
 
   return position;
 }
-export class Linear extends AxisBase<CartesianStyleProps> {
+export class Linear extends AxisBase<LinearAxisStyleProps> {
   public static tag = 'cartesian';
 
   protected static defaultOptions = {
     type: Linear.tag,
-    ...LINEAR_DEFAULT_OPTIONS,
+    style: {
+      startPos: [0, 0],
+      endPos: [0, 0],
+      ...AXIS_BASE_DEFAULT_OPTIONS.style,
+    },
   };
 
   protected get axisPosition() {
@@ -66,11 +74,10 @@ export class Linear extends AxisBase<CartesianStyleProps> {
 
   constructor(options: LinearOptions) {
     super(deepAssign({}, Linear.defaultOptions, options));
-    this.init();
   }
 
-  public update(cfg: Partial<CartesianStyleProps> = {}) {
-    super.update(deepAssign({}, Linear.defaultOptions, this.attributes, cfg));
+  public update(cfg: Partial<LinearAxisStyleProps> = {}) {
+    super.update(deepAssign({}, Linear.defaultOptions.style, this.attributes, cfg));
   }
 
   protected getEndPoints() {
@@ -86,13 +93,13 @@ export class Linear extends AxisBase<CartesianStyleProps> {
 
   protected getLinePath() {
     const { axisLine: axisLineCfg } = this.style;
-    const endPoints = this.getEndPoints();
-    const style = axisLineCfg ? axisLineCfg.style : { visibility: 'hidden' };
-    const [[x1, y1], [x2, y2]] = endPoints;
 
+    const [[x1, y1], [x2, y2]] = this.getEndPoints();
+    const style = axisLineCfg?.style;
     return {
       ...style,
-      visibility: 'visible' as const,
+      visibility: (axisLineCfg ? 'visible' : 'hidden') as any,
+      animate: axisLineCfg?.animate,
       path: [
         ['M', x1, y1],
         ['L', x2, y2],
@@ -173,15 +180,7 @@ export class Linear extends AxisBase<CartesianStyleProps> {
     const tickLength = tickLineCfg?.len || 0;
     const ticks = this.optimizedTicks || [];
     const orient: any = this.axisPosition;
-    const {
-      formatter,
-      tickPadding = 0,
-      offset = 0,
-      alignTick = true,
-      rotate: rotation = 0,
-      maxLength,
-      style = {},
-    } = labelCfg;
+    const { formatter, tickPadding = 0, offset = 0, alignTick = true, rotate = 0, maxLength, style = {} } = labelCfg;
 
     const sign = getSign(orient, -1, 1);
     const data = Array.from(ticks).map((datum, idx) => {
@@ -193,15 +192,11 @@ export class Linear extends AxisBase<CartesianStyleProps> {
       const text = formatter ? formatter(datum, idx) : datum.text;
       const labelStyle = typeof style === 'function' ? style.call(null, datum, idx) : style;
       let textAlign: any = ifX(orient, 'center', ifLeft(orient, 'end', 'start'));
-      if (rotation) {
+      if (rotate) {
         textAlign = ifLeft(
           orient,
           'end',
-          ifRight(
-            orient,
-            'start',
-            ifPositive(multi(sign, rotation), 'left', ifNegative(multi(sign, rotation), 'right'))
-          )
+          ifRight(orient, 'start', ifPositive(multi(sign, rotate), 'left', ifNegative(multi(sign, rotate), 'right')))
         );
       }
 
@@ -218,9 +213,9 @@ export class Linear extends AxisBase<CartesianStyleProps> {
         y: y + ifY(orient, offset, 0)!,
         tip: text,
         text: defined(limitLength) ? getEllipsisText(text, limitLength!, font, '...') : text,
-        rotation,
         textAlign,
         textBaseline: ifY(orient, 'middle', ifTop(orient, 'bottom', 'top')),
+        transform: `rotate(${rotate || 0}deg)`,
         ...labelStyle,
       };
     });

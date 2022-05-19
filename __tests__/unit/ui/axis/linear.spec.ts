@@ -11,38 +11,47 @@ const createAxis = (style: LinearAxisStyleProps = {}) => {
   return axis;
 };
 
-describe('new Cartesian({}) should create a linear axis', () => {
-  const axis = createAxis();
-
-  it('Cartesian axis line, ({ axisLine: {} })', () => {
+describe('Linear axis.', () => {
+  it('new Linear({}) should render a linear axis', () => {
+    const axis = canvas.appendChild(new Linear({ style: { axisLine: {} } }));
     expect(axis).toBeDefined();
     const axisLines = axis.getElementsByClassName('axis-line');
     expect(axisLines.length).toBe(1);
 
-    axis.update({ startPos: [50, 450], endPos: [50, 50] });
+    axis.update({ startPos: [50, 50], endPos: [250, 50] });
     const [c1, c2] = axisLines[0].getAttribute('path');
-    expect(c2[1] - c1[1]).toBe(0);
-    expect(c2[2] - c1[2]).toBe(-400);
-    expect(c1).toEqual(['M', 50, 450]);
-    expect(c2).toEqual(['L', 50, 50]);
+    expect(c1).toEqual(['M', 50, 50]);
+    expect(c2).toEqual(['L', 250, 50]);
+    axis.destroy();
   });
 
-  it('Cartesian axis line arrow, ({ axisLine: { arrow: { start, end } } })', () => {
-    axis.update({
-      axisLine: { arrow: { start: { symbol: 'axis-arrow', size: 8 }, end: { symbol: 'axis-arrow', size: 8 } } },
-    });
+  it('new Linear({ style:{...}}) should render a axis with custom style.', () => {
+    const arrow = { symbol: 'axis-arrow', size: 8, fill: 'red', stroke: 'red', lineWidth: 1 };
+    const axis = canvas.appendChild(
+      new Linear({
+        style: {
+          startPos: [50, 50],
+          endPos: [250, 50],
+          axisLine: { arrow: { start: arrow, end: arrow } },
+          title: { content: '轴标题' },
+        },
+      })
+    );
     expect(axis).toBeDefined();
+    expect(axis.querySelector('.axis-title')!.style.text).toBe('轴标题');
 
     let axisArrows = axis.querySelectorAll('.axis-arrow$$') as DisplayObject[];
     expect(axisArrows.length).toBe(2);
-    expect(axisArrows[0].getEulerAngles()).toBeCloseTo(-45);
+    expect(axisArrows[0].getEulerAngles()).toBeCloseTo(-90);
 
     axis.update({ axisLine: { arrow: { end: null } } });
     axisArrows = axis.querySelectorAll('.axis-arrow$$') as DisplayObject[];
+    expect(axisArrows[0]).toBeDefined();
     expect(axisArrows[1]).toBeUndefined();
+    axis.destroy();
   });
 
-  it('Cartesian axis ticks', () => {
+  it('new Linear({ style:{...}}) should render a axis with ticks.', () => {
     const domain = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'];
     const scale = new BandScale({ domain });
     const bandWidth = scale.getBandWidth();
@@ -50,20 +59,28 @@ describe('new Cartesian({}) should create a linear axis', () => {
       value: scale.map(d) + bandWidth / 2,
       text: d,
     }));
-
+    const axis = canvas.appendChild(
+      new Linear({
+        style: {
+          startPos: [50, 50],
+          endPos: [320, 50],
+          axisLine: {},
+          title: { content: '轴标题', style: { fontSize: 10, fontWeight: 'bold' } },
+          ticks,
+          label: { rotate: 10, style: { fontSize: 10 } },
+        },
+      })
+    );
+    axis.update({ label: { rotate: 0 } });
     // todo Should update normal in `svg` renderer
     axis.update({ ticks, axisLine: { style: { lineWidth: 0.5 } }, tickLine: { len: 6 } });
     const tickLines = axis.getElementsByClassName('axis-tick');
-    const { x1, x2 } = tickLines[0].style;
+    const { y1, y2 } = tickLines[0].style;
 
     expect(axis.getElementsByClassName('axis-line')[0].style.lineWidth).toBe(0.5);
     expect(tickLines.length).toBe(ticks.length);
-    expect(x2 - x1).toBe(6);
-  });
-
-  afterAll(() => {
-    // axis.destroy();
-    // axis.remove();
+    expect(y2 - y1).toBe(6);
+    axis.destroy();
   });
 });
 
@@ -247,15 +264,7 @@ describe('Cartesian axis label layout', () => {
       label: { autoRotate: false, autoEllipsis: false, autoHide: true },
     });
     canvas.appendChild(axis);
-    axis.addEventListener(
-      'axis-label-layout-end',
-      () => {
-        expect(
-          axis.getElementsByClassName('axis-label').filter((d) => d.style.visibility === 'visible').length
-        ).toBeLessThan(ticks.length);
-      },
-      { once: true }
-    );
+
     const maxLength = (400 - 50) / ticks.length;
     axis.update({ label: { autoHideTickLine: false, autoHide: true, autoEllipsis: true, maxLength, minLength: 40 } });
     // const labels = axis.getElementsByClassName('axis-label');
@@ -314,24 +323,10 @@ describe('Cartesian axis label layout', () => {
         },
       },
     });
-    axis.addEventListener('axis-label-layout-end', () => {
-      expect(axis.getElementsByClassName('axis-label').filter((d) => d.style.visibility === 'visible').length).toBe(
-        ticks.length
-      );
-    });
+
     canvas.appendChild(axis);
 
     axis.update({ label: { autoHide: true } });
-    axis.addEventListener(
-      'axis-label-layout-end',
-      () => {
-        expect(
-          axis.getElementsByClassName('axis-label').filter((d) => d.style.visibility === 'visible').length
-        ).toBeLessThan(ticks.length);
-      },
-      { once: true }
-    );
-
     axis.destroy();
     axis.remove();
   });

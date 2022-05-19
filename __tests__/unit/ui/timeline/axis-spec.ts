@@ -56,7 +56,7 @@ describe('play axis', () => {
       4
     );
   });
-  test.only('slider single', () => {
+  test('slider single', () => {
     const slideraxis = new SliderAxis({
       style: {
         single: true,
