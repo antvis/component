@@ -1,3 +1,4 @@
+// @ts-ignore no-implicit-this
 import { Group } from '@antv/g';
 import HideUtil from '../../../../../src/ui/axis/overlap/autoHide';
 import { boundTest } from '../../../../../src/ui/axis/utils';
@@ -24,8 +25,13 @@ describe('Overlap autoHide', () => {
           enter
             .append('text')
             .attr('className', className)
-            .each((shape, datum) => shape.attr(datum)),
-        (update) => update.each((shape, datum) => shape.attr(datum)),
+            .each(function (datum) {
+              this.attr(datum);
+            }),
+        (update) =>
+          update.each(function (datum) {
+            this.attr(datum);
+          }),
         (exit) => exit.remove()
       )
       .nodes() as any[];
@@ -109,7 +115,9 @@ describe('Overlap autoHide', () => {
         enter
           .append('text')
           .attr('className', 'text')
-          .each((shape: any, datum) => shape.attr(datum))
+          .each(function (datum) {
+            this.attr(datum);
+          })
       )
       .nodes();
     HideUtil.greedy('bottom', labels);

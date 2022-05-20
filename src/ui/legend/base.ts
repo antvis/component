@@ -1,7 +1,7 @@
 import { Group, Text, HTML, TextStyleProps, Rect, HTMLStyleProps, ElementEvent, DisplayObjectConfig } from '@antv/g';
 import { deepMix } from '@antv/util';
 import { GUI } from '../../core/gui';
-import { applyStyle, normalPadding, select, TEXT_INHERITABLE_PROPS } from '../../util';
+import { normalPadding, select, TEXT_INHERITABLE_PROPS } from '../../util';
 import { LEGEND_BASE_DEFAULT_OPTIONS } from './constant';
 import { LegendBaseCfg } from './types';
 
@@ -127,7 +127,7 @@ export abstract class LegendBase<T extends LegendBaseCfg = LegendBaseCfg> extend
       }
       this.titleShape.className = 'legend-title';
     } else {
-      applyStyle(this.titleShape as any, style);
+      this.titleShape.attr(style);
     }
   }
 

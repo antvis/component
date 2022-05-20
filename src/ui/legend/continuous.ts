@@ -1,6 +1,6 @@
 import { TextStyleProps, DisplayObject, clamp, Text, CustomEvent } from '@antv/g';
 import { get, isUndefined, memoize } from '@antv/util';
-import { deepAssign, Selection, select, getEventPos, toPrecision, throttle, select2update } from '../../util';
+import { deepAssign, applyStyle, select, getEventPos, toPrecision, throttle, select2update } from '../../util';
 import {
   CONTINUOUS_DEFAULT_OPTIONS,
   DEFAULT_HANDLE_CFG,
@@ -17,12 +17,6 @@ import { Indicator } from './continuousIndicator';
 import { getChunkedColor, getNextTickValue } from './chunkContinuous';
 
 export type { ContinuousOptions };
-
-function applyStyle(selection: Selection, style: Record<string, keyof any>) {
-  for (const [key, value] of Object.entries(style)) {
-    selection.style(key, value);
-  }
-}
 
 function getRailLabels(orient: string, rail: { size: number; length: number }, spacing: number) {
   const [dx, dy] = ifHorizontal(orient, ['dx', 'dy'], ['dy', 'dx']);

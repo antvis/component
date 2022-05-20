@@ -1,7 +1,5 @@
 import { vec2 } from '@antv/matrix-util';
 import type { vec2 as Vector } from '@antv/matrix-util';
-import { DisplayObject } from '@antv/g';
-import { select, applyStyle } from '../../../util';
 
 const { abs } = Math;
 

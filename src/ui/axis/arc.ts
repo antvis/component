@@ -2,7 +2,7 @@ import { vec2 } from '@antv/matrix-util';
 import type { DisplayObjectConfig, TextStyleProps } from '@antv/g';
 import type { ArcAxisStyleProps, Point } from './types';
 import { AXIS_BASE_DEFAULT_OPTIONS } from './constant';
-import { deepAssign, getEllipsisText, getMemoFont, DegToRad, defined } from '../../util';
+import { deepAssign, getEllipsisText, getMemoFont, DegToRad, defined, maybeAppend, applyStyle } from '../../util';
 import { AxisBase } from './base';
 import { getAxisTicks } from './axisTick';
 import { getAxisSubTicks } from './axisSubTick';
@@ -87,6 +87,31 @@ export class Arc extends AxisBase<ArcAxisStyleProps> {
     return [];
   }
 
+  protected drawTitle() {
+    const { title: titleCfg } = this.style;
+
+    const titleShape = maybeAppend(this, 'axis-title', 'text').attr('className', 'axis-title');
+    if (!titleCfg) {
+      titleShape.style('fontSize', 0);
+      return;
+    }
+    // Now only support arc axis title display in the center.
+    const [x, y] = this.style.center;
+    const titleStyle = titleCfg.style || {};
+    const content = titleCfg.content || '';
+    const attrs: TextStyleProps = {
+      x,
+      y,
+      text: content,
+      ...titleStyle,
+      textAlign: titleStyle.textAlign || ('center' as any),
+      textBaseline: titleStyle.textBaseline || ('middle' as any),
+    };
+    const font = getMemoFont(this.selection.node(), attrs);
+    const text = defined(titleCfg.maxLength) ? getEllipsisText(content, titleCfg.maxLength!, font) : content;
+    titleShape.call(applyStyle, { id: 'axis-title', ...attrs, tip: content, text });
+  }
+
   protected getTickLineItems() {
     const { tickLine: tickCfg, center, radius, startAngle, endAngle } = this.style;
     return tickCfg
@@ -143,28 +168,6 @@ export class Arc extends AxisBase<ArcAxisStyleProps> {
           orient: this.axisPosition as any,
         })
       : [];
-  }
-
-  protected getAxisTitle() {
-    const { title: titleCfg } = this.style;
-
-    if (!titleCfg) return null;
-
-    // Now only support arc axis title display in the center.
-    const [x, y] = this.style.center;
-    const titleStyle = titleCfg.style || {};
-    const content = titleCfg.content || '';
-    const attrs: TextStyleProps = {
-      x,
-      y,
-      text: content,
-      ...titleStyle,
-      textAlign: titleStyle.textAlign || ('center' as any),
-      textBaseline: titleStyle.textBaseline || ('middle' as any),
-    };
-    const font = getMemoFont(this.selection.node(), attrs);
-    const text = defined(titleCfg.maxLength) ? getEllipsisText(content, titleCfg.maxLength!, font) : content;
-    return { id: 'axis-title', ...attrs, tip: content, text, animate: titleCfg.animate };
   }
 
   protected getVerticalVector(value: number) {

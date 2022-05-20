@@ -56,11 +56,8 @@ const axis1 = createAxis([60, 174], [60, 24], {
     titlePadding: 2,
     style: {
       fontSize: 12,
-      textAlign: 'center',
       textBaseline: 'bottom',
     },
-    // limit x1 >= 14
-    bounds: { x1: 14 },
   },
   label: {
     // maxLength: 36,
@@ -83,8 +80,6 @@ const axis2 = createAxis([60, 390], [60, 220], {
     style: {
       textAlign: 'right',
     },
-    // limit bounds
-    bounds: { x1: 4, x2: 60 },
   },
   label: {
     maxLength: 54,

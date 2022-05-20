@@ -32,10 +32,3 @@ export function createTempText(group: DisplayObject, attrs: TextStyleProps): Tex
 
   return textNode;
 }
-
-export function applyStyle<S>(shape: DisplayObject<S>, style: Partial<S>) {
-  for (const [key, value] of Object.entries(style)) {
-    // @ts-ignore
-    if (defined(value)) shape.style[key] = value;
-  }
-}

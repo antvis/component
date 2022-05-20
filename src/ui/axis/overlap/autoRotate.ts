@@ -1,5 +1,5 @@
 import { Text } from '@antv/g';
-import { applyStyle, ifNegative, ifPositive, multi } from '../../../util';
+import { ifNegative, ifPositive, multi } from '../../../util';
 import { ifLeft, ifRight, getSign, boundTest } from '../utils';
 
 function rotateLabel(orient: string, label: Text, angle: number) {
@@ -12,7 +12,7 @@ function rotateLabel(orient: string, label: Text, angle: number) {
       'end',
       ifRight(orient, 'start', ifPositive(multi(sign, angle), 'left', ifNegative(multi(sign, angle), 'right')))
     )!;
-    applyStyle(label, { textAlign });
+    label.style.textAlign = textAlign;
   }
 }
 

@@ -198,6 +198,8 @@ describe('Cartesian axis label layout', () => {
         autoEllipsis: false,
         alignTick: true,
         autoHideTickLine: false,
+        showLast: false,
+        showFirst: false,
       },
     });
     canvas.appendChild(axis);
@@ -408,7 +410,7 @@ describe('Cartesian axis title', () => {
 
   const quantitativeAxisOptions = {
     label: { alignTick: true },
-    title: { content: 'Quantitative axis', titlePadding: 4 },
+    title: { content: 'Quantitative axis', titlePadding: 4, titleAnchor: 'center' as any },
     ticks: data,
   };
   describe('Cartesian axis orientation is left', () => {
@@ -481,12 +483,6 @@ describe('Cartesian axis title', () => {
         min: [axisLineX3],
       } = axisLine.getBounds();
       expect(x23).toBe(axisLineX3);
-
-      axis.update({ title: { titlePadding: 2000, style: { textBaseline: 'top' } } });
-      const {
-        min: [x14],
-      } = axisTitle.getBounds();
-      expect(x14).toBe(axisLineX3);
 
       // it(`${LABEL} Custom y-position of axis-title by 'positionY', relative to axis-line. Offset still can work`, () => {
       axis.update({ title: { positionY: 0, style: { textAlign: 'end', dx: 0 } } });
@@ -609,12 +605,6 @@ describe('Cartesian axis title', () => {
     } = axisLine.getBounds();
     expect(x2).toBe(axisLineX);
 
-    axis.update({ title: { titlePadding: 2000 } });
-    const {
-      min: [x3],
-    } = axisTitle.getBounds();
-    expect(x3).toBe(axisLineX);
-
     // title.positionY
     axis.update({ title: { positionY: 0, style: { textAlign: 'end', dx: 0 } } });
     const { max } = axisTitle.getBounds();
@@ -683,7 +673,7 @@ const ticks = domain.map((d) => ({ value: scale.map(d), text: d }));
 ticks.push({ value: ticks[domain.length - 1].value + bandWidth, text: '' });
 
 const common = {
-  title: { content: 'Ordinal axis', titlePadding: 4, style: { fill: 'red' } },
+  title: { content: 'Ordinal axis', titlePadding: 4, titleAnchor: 'center' as any, style: { fill: 'red' } },
   ticks,
   label: { alignTick: false },
 };
@@ -726,7 +716,7 @@ describe('Cartesian axis orientation is bottom', () => {
 
   it(`Offset acts on the direction of axis-line`, () => {
     axis.update({ title: { titleAnchor: 'start', style: { textAlign: 'start', dx: 10 } } });
-    expect(axisTitle.getBounds().min[0]).toBe(axisLine.getBounds().min[0] + 10);
+    expect(axisTitle.getBounds().min[0]).toBe(axisLabelsGroup.getBounds().min[0] + 10);
   });
 
   it('Custom x-position', () => {
@@ -735,8 +725,8 @@ describe('Cartesian axis orientation is bottom', () => {
   });
 
   afterAll(() => {
-    axis.destroy();
-    axis.remove();
+    // axis.destroy();
+    // axis.remove();
   });
 });
 

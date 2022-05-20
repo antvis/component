@@ -1,5 +1,5 @@
 import { vec2 } from '@antv/matrix-util';
-import { DisplayObjectConfig } from '@antv/g';
+import { DisplayObjectConfig, ElementEvent, Text } from '@antv/g';
 import {
   deepAssign,
   defined,
@@ -11,6 +11,9 @@ import {
   parseLength,
   getMemoFont,
   TEXT_INHERITABLE_PROPS,
+  getFont,
+  maybeAppend,
+  applyStyle,
 } from '../../util';
 import { Marker } from '../marker';
 import { AxisBase } from './base';
@@ -76,6 +79,11 @@ export class Linear extends AxisBase<LinearAxisStyleProps> {
     super(deepAssign({}, Linear.defaultOptions, options));
   }
 
+  connectedCallback() {
+    super.connectedCallback();
+    this.bindEvents();
+  }
+
   public update(cfg: Partial<LinearAxisStyleProps> = {}) {
     super.update(deepAssign({}, Linear.defaultOptions.style, this.attributes, cfg));
   }
@@ -85,10 +93,42 @@ export class Linear extends AxisBase<LinearAxisStyleProps> {
     return [startPos || [0, 0], endPos || [0, 0]];
   }
 
-  protected getAxisTitle() {
+  private getTitleBounds() {
+    let [[x0, y0], [x1, y1]] = this.getEndPoints();
+    if (x0 > x1) [x1, x0] = [x0, x1];
+    if (y0 > y1) [y1, y0] = [y0, y1];
+    const min = [x0, y0];
+    const max = [x1, y1];
+    let bounds = { min, max };
+    if (this.axisLabelGroup) {
+      bounds = this.axisLabelGroup.getLocalBounds() as any;
+    }
+    const { positionX, positionY } = this.style.title || {};
+    if (typeof positionX === 'number') {
+      bounds.min[0] = positionX + min[0];
+      bounds.max[0] = positionX + min[0];
+    }
+    if (typeof positionY === 'number') {
+      bounds.min[1] = positionY + min[1];
+      bounds.max[1] = positionY + min[1];
+    }
+
+    return bounds as any;
+  }
+
+  protected drawTitle() {
     const { title: titleCfg } = this.style;
-    const orient = this.axisPosition as any;
-    return titleCfg ? getAxisTitleStyle(this.selection, { ...titleCfg, orient }) : null;
+
+    const bounds = this.getTitleBounds();
+    const titleStyle = titleCfg ? getAxisTitleStyle(titleCfg, bounds, this.axisPosition) : { fontSize: 0 };
+    const titleShape = maybeAppend(this, 'axis-title', 'text')
+      .attr('className', 'axis-title')
+      .call(applyStyle, titleStyle)
+      .node() as Text;
+    if (titleShape && titleCfg?.maxLength) {
+      const text = getEllipsisText(titleShape.style.text, titleCfg.maxLength, getFont(titleShape));
+      titleShape.style.text = text;
+    }
   }
 
   protected getLinePath() {
@@ -236,5 +276,11 @@ export class Linear extends AxisBase<LinearAxisStyleProps> {
     const { verticalFactor = 1 } = this.attributes;
     const axesVector = this.getAxesVector();
     return vec2.scale([0, 0], getVerticalVector(axesVector), verticalFactor);
+  }
+
+  private bindEvents() {
+    this.addEventListener(ElementEvent.BOUNDS_CHANGED, (evt: any) => {
+      if (evt.target.className === 'axis-label-group') this.drawTitle();
+    });
   }
 }

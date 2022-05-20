@@ -18,7 +18,7 @@
     "strict": true,
     "importHelpers": true,
     "downlevelIteration": true,
-    "noImplicitThis": true
+    "noImplicitThis": false
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "examples"]

@@ -22,8 +22,13 @@ describe('Overlap autoEllipsis', () => {
           enter
             .append('text')
             .attr('className', className)
-            .each((shape, datum) => shape.attr(datum)),
-        (update) => update.each((shape, datum) => shape.attr(datum)),
+            .each(function (datum) {
+              this.attr(datum);
+            }),
+        (update) =>
+          update.each(function (datum) {
+            this.attr(datum);
+          }),
         (exit) => exit.remove()
       )
       .nodes() as any[];

@@ -1,114 +1,65 @@
-import { Group } from '@antv/g';
-import { Bounds } from '../../layout/bounds';
-import {
-  createTempText,
-  getEllipsisText,
-  getFont,
-  multi,
-  defined,
-  Selection,
-  getLocalBBox,
-  TEXT_INHERITABLE_PROPS,
-} from '../../util';
-import { getSign, ifLeft, ifBottom, ifX, ifTop } from './utils';
+import { multi, TEXT_INHERITABLE_PROPS } from '../../util';
+import { getSign, ifX } from './utils';
 import { AxisTitleCfg } from './types';
 
-type AxisTitleOptions = AxisTitleCfg & {
-  /** Orient of axis */
-  orient: 'top' | 'bottom' | 'left' | 'right';
-};
+type Bounds = { min: [number, number]; max: [number, number] };
 
-export function getAxisTitleStyle(selection: Selection, options: AxisTitleOptions) {
-  const {
-    orient = 'bottom',
-    titleAnchor = 'end',
-    titlePadding = 0,
-    maxLength,
-    content: text = '',
-    rotate: rotation,
-    style = {},
-  } = options;
-
-  const sign = getSign(orient, -1, 1);
-  // eslint-disable-next-line no-nested-ternary
-  const anchorExpr = (anchor: string) => (anchor === 'start' ? 0 : anchor === 'end' ? 1 : 0.5);
-  // Axis-line and axis-label-group are under the same parent node.
-  const axisLineBounds = (() => {
-    // [Attention!!!] should use local position. AxisTitle is relative to axisLine and axisLabel in Local Coord System.
-    const axisLine = selection.select('.axis-line').node() as Group;
-    return new Bounds(getLocalBBox(axisLine));
-  })();
-  const axisLabelBounds = (() => {
-    const box = getLocalBBox(selection.select('.axis-label-group').node());
-    if (!box.width || !box.height) return axisLineBounds;
-    return new Bounds(box);
-  })();
-
-  let x = (options.positionX || 0) + axisLineBounds.left;
-  let y = (options.positionY || 0) + axisLineBounds.top;
-  if (!defined(options.positionX)) {
-    // If x-direction, positionX is determined by `axisLine` and `titleAnchor`,
-    // otherwise, positionX is determined by `orient`, `axisLabel` and `titlePadding`(distance between title and label).
-    x = ifX(
-      orient,
-      axisLineBounds.left + anchorExpr(titleAnchor) * axisLineBounds.width!,
-      ifLeft(orient, axisLabelBounds.left, axisLabelBounds.right)! + multi(sign, titlePadding)
-    )!;
+function inferTitleStyle(bounds: Bounds, position: string, titleAnchor: string, titlePadding = 0) {
+  const halfExtents = [(bounds.max[0] - bounds.min[0]) / 2, (bounds.max[1] - bounds.min[1]) / 2];
+  const yPos: any = { start: bounds.min[1], end: bounds.max[1], center: bounds.min[1] + halfExtents[1] };
+  const xPos: any = { start: bounds.min[0], end: bounds.max[0], center: bounds.min[0] + halfExtents[0] };
+  if (position === 'left') {
+    const align: any = { start: 'end', end: 'start', center: 'center' };
+    return {
+      x: bounds.min[0] - +titlePadding,
+      y: yPos[titleAnchor],
+      textAlign: align[titleAnchor],
+      textBaseline: 'bottom',
+    };
   }
-
-  if (!defined(options.positionY)) {
-    // If x-direction, positionY is determined by `orient`, `axisLabel` and `titlePadding`(distance between title and label),
-    // otherwise, positionY is determined by `axisLine` and `titleAnchor`.
-    y = ifX(
-      orient,
-      ifBottom(orient, axisLabelBounds.bottom, axisLabelBounds.top)!! + multi(sign, titlePadding),
-      axisLineBounds.top + anchorExpr(titleAnchor) * axisLineBounds.height!
-    )!;
+  if (position === 'right') {
+    const align: any = { start: 'start', end: 'end', center: 'center' };
+    return {
+      x: bounds.max[0] + +titlePadding,
+      y: yPos[titleAnchor],
+      textAlign: align[titleAnchor],
+      textBaseline: 'bottom',
+    };
   }
-
-  const attrs = {
-    // TextStyleProps
-    x,
-    y,
-    ...style,
-    textBaseline: style.textBaseline || (ifX(orient, ifTop(orient, 'bottom', 'top')!, 'bottom') as any),
-    textAlign:
-      style.textAlign ||
-      (ifLeft(
-        orient,
-        // eslint-disable-next-line no-nested-ternary
-        titleAnchor === 'start' ? 'end' : titleAnchor === 'end' ? 'start' : 'center',
-        titleAnchor
-      ) as any),
-    animate: options.animate,
+  if (position === 'top') {
+    return {
+      x: xPos[titleAnchor],
+      y: bounds.min[1] - +titlePadding,
+      textAlign: titleAnchor,
+      textBaseline: 'bottom',
+    };
+  }
+  return {
+    x: xPos[titleAnchor],
+    y: bounds.max[1] + +titlePadding,
+    textAlign: titleAnchor,
+    textBaseline: 'top',
   };
+}
 
-  // Rotation angle of title shape.
-  const angle = rotation ?? ifX(orient, 0, multi(sign, 90))!;
+export function getAxisTitleStyle(options: AxisTitleCfg, bounds: Bounds, position: string) {
+  const { content = '', rotate, titleAnchor = 'start', titlePadding, style = {} } = options;
 
-  const textNode = createTempText(selection.node(), { ...attrs, text });
-  textNode.setLocalEulerAngles(angle!);
-  const font = getFont(textNode as any);
-  textNode.remove();
+  const text = content || '';
 
-  // Add layout constraints
-  const width = maxLength === Infinity || !defined(maxLength) ? 260 : maxLength;
+  const sign = getSign(position, -1, 1);
+  const angle = rotate ?? ifX(position, 0, multi(sign, 90))!;
+  const { x, y, textAlign, textBaseline } = inferTitleStyle(bounds, position, titleAnchor, titlePadding);
 
-  const limitLength = defined(width) ? Math.floor(width!) : undefined;
   return {
     ...TEXT_INHERITABLE_PROPS,
-    id: 'axis-title',
-    orient,
-    // [NOTE]: 不可以传入 G 内置使用的变量 anchor
-    titleAnchor,
-    limitLength,
-    tip: text,
-    // TextStyleProps
-    ...attrs,
     x,
     y,
-    angle,
+    tip: content,
+    text,
     transform: `rotate(${angle}deg)`,
-    text: defined(limitLength) ? getEllipsisText(text, limitLength!, font, '...') : text,
+    textAlign: textAlign as any,
+    textBaseline: textBaseline as any,
+    ...style,
   };
 }

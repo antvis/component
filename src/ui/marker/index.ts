@@ -1,7 +1,6 @@
 import { Path, Image, PathCommand, ImageStyleProps, PathStyleProps, DisplayObject } from '@antv/g';
 import { deepMix, isFunction } from '@antv/util';
 import { GUI } from '../../core/gui';
-import { applyStyle } from '../../util';
 import { parseMarker } from './utils';
 import { circle, square, diamond, triangleDown, triangle, line, dot, dash, smooth, hv, vh, hvh, vhv } from './symbol';
 import type { MarkerStyleProps, MarkerOptions, FunctionalSymbol } from './types';
@@ -72,7 +71,7 @@ export class Marker extends GUI<Required<MarkerStyleProps>> {
     this.attr(deepMix({}, this.attributes, cfg));
     const { Ctor, name, ...style } = this.getStyleProps() || {};
     if (this.markerShape && this.markerShape.name === name) {
-      applyStyle(this.markerShape, style);
+      this.markerShape.attr(style);
       return;
     }
     if (this.markerShape) this.clear();

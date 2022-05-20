@@ -201,33 +201,35 @@ export class Selection<T = any> {
     return new Selection<T>(elements, null, this._parent, this._document);
   }
 
-  each<E = any>(callback: (context: E & G2Element, datum: T, index: number) => any): Selection<T> {
+  each(callback: (datum: T, index: number) => any): Selection<T> {
     for (let i = 0; i < this._elements.length; i++) {
       const element = this._elements[i];
       const datum = element.__data__;
-      callback(element, datum, i);
+      callback.call(element, datum, i);
     }
     return this;
   }
 
   attr(key: string, value: any): Selection<T> {
     const callback = typeof value !== 'function' ? () => value : value;
-    this.each((context, d, i) => {
-      if (value !== undefined) context[key] = callback.call(context, d, i);
+    this.each(function (d, i) {
+      if (value !== undefined) this[key] = callback.call(this, d, i);
     });
     return this;
   }
 
   style(key: string, value: any): Selection<T> {
     const callback = typeof value !== 'function' ? () => value : value;
-    this.each((context, d, i) => {
-      if (value !== undefined) context.style[key] = callback.call(context, d, i);
+    this.each(function (d, i) {
+      if (value !== undefined) this.style[key] = callback.call(this, d, i);
     });
     return this;
   }
 
   on(event: string, handler: any) {
-    this.each((context) => context.addEventListener(event, handler));
+    this.each(function () {
+      this.addEventListener(event, handler);
+    });
     return this;
   }
 
@@ -260,8 +262,24 @@ export function select2update(
     .data(styles || [], (d, idx) => d.id || idx)
     .join(
       (enter) => enter.append(({ id, ...style }) => new Ctor({ id, className, style })),
-      (update) => update.each((shape, datum) => shape.attr(datum)),
+      (update) =>
+        update.each(function (datum) {
+          this.attr(datum);
+        }),
       (exit) => exit.remove()
     )
     .nodes();
+}
+
+export function applyStyle(selection: Selection, style: Record<string, keyof any>) {
+  for (const [key, value] of Object.entries(style)) {
+    selection.style(key, value);
+  }
+}
+
+export function maybeAppend(parent: Group, id: string, node: string): Selection {
+  if (!parent.querySelector(`#${id}`)) {
+    return select(parent).append(node).attr('id', id);
+  }
+  return select(parent).select(`#${id}`);
 }

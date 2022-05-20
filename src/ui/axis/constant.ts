@@ -8,8 +8,6 @@ export const AXIS_TITLE_OPTIONS = {
     fontSize: 12,
     fill: 'black',
   },
-  titleAnchor: 'center' as const,
-  titlePadding: 4,
   rotate: undefined,
   maxLength: 260,
 };
@@ -49,7 +47,6 @@ export const AXIS_BASE_DEFAULT_OPTIONS: DisplayObjectConfig<Omit<AxisBaseStylePr
       type: 'text',
       style: {
         fill: 'black',
-        fillOpacity: 0.65,
         fontSize: 12,
       },
       alignTick: true,
@@ -60,6 +57,8 @@ export const AXIS_BASE_DEFAULT_OPTIONS: DisplayObjectConfig<Omit<AxisBaseStylePr
       autoEllipsis: false,
       autoHide: false,
       autoHideTickLine: true,
+      showLast: true,
+      showFirst: true,
       optionalAngles: [0, 45, 90],
       minLabel: 0,
       minLength: 14,

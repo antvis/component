@@ -53,17 +53,16 @@ export abstract class AxisBase<T extends AxisBaseStyleProps = AxisBaseStyleProps
     this.drawTickLines();
     this.drawLabels();
     this.processOverlap();
-    const axisTitleStyle = this.getAxisTitle();
-    select2update(this, 'axis-title', Text, axisTitleStyle ? [axisTitleStyle] : []);
+    this.drawTitle();
   }
 
   public clear() {}
 
   protected abstract get axisPosition(): string;
 
-  protected abstract getAxisTitle(): AxisTextStyleProps | null;
-
   // Required.
+  protected abstract drawTitle(): void;
+
   protected abstract getLinePath(): PathStyleProps & { animate?: boolean };
 
   protected abstract getLineArrow(): (MarkerStyleProps & { id: string })[];

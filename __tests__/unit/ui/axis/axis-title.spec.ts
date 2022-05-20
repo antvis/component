@@ -26,8 +26,13 @@ describe('Axis title', () => {
           enter
             .append('rect')
             .attr('className', 'axis-title-rect')
-            .each((shape: any, d: any) => shape.attr(d)),
-        (update: any) => update.each((shape: any, d: any) => shape.attr(d)),
+            .each(function (d: any) {
+              this.attr(d);
+            }),
+        (update: any) =>
+          update.each(function (d: any) {
+            this.attr(d);
+          }),
         (exit: any) => exit.remove()
       );
     const text = selection
@@ -38,8 +43,13 @@ describe('Axis title', () => {
           enter
             .append('text')
             .attr('className', 'axis-title')
-            .each((shape: any, d: any) => shape.attr(d)),
-        (update: any) => update.each((shape: any, d: any) => shape.attr(d)),
+            .each(function (d: any) {
+              this.attr(d);
+            }),
+        (update: any) =>
+          update.each(function (d: any) {
+            this.attr(d);
+          }),
         (exit: any) => exit.remove()
       )
       .select('.axis-title')
@@ -49,7 +59,6 @@ describe('Axis title', () => {
 
   describe('x-direction', () => {
     const selection = select(createCanvas(200).appendChild(new Group()));
-    const drawXTitle = (attrs: any, bounds?: any) => drawTitle(attrs, bounds, selection);
     // Init.
     const group = selection.append('g').attr('className', 'container').node();
     const startX = 20;
@@ -78,90 +87,40 @@ describe('Axis title', () => {
 
     it('If x-direction, positionX is determined by `axisLine` and `titleAnchor`', () => {
       const axisLine = selection.select('.axis-line').node() as Path;
-      let titleAttrs = getAxisTitleStyle(selection, { orient: 'bottom', titleAnchor: 'start' });
+      const { min, max } = axisLine.getLocalBounds() as any;
+      let titleAttrs = getAxisTitleStyle({ titleAnchor: 'start' }, { min, max }, 'bottom');
 
-      expect(titleAttrs.x).toBe(axisLine.getBBox().left);
+      expect(titleAttrs.x).toBe(min[0]);
       expect(titleAttrs.textAlign).toBe('start');
       expect(titleAttrs.textBaseline).toBe('top');
 
-      titleAttrs = getAxisTitleStyle(selection, { orient: 'bottom', titleAnchor: 'center' });
+      titleAttrs = getAxisTitleStyle({ titleAnchor: 'center' }, { min, max }, 'bottom');
       expect(titleAttrs.textAlign).toBe('center');
       expect(titleAttrs.x).toBe(axisLine.getBBox().left + axisLine.getBBox().width / 2);
 
-      titleAttrs = getAxisTitleStyle(selection, { orient: 'bottom', titleAnchor: 'end' });
+      titleAttrs = getAxisTitleStyle({ titleAnchor: 'end' }, { min, max }, 'bottom');
       expect(titleAttrs.textAlign).toBe('end');
-      expect(titleAttrs.x).toBe(axisLine.getBBox().right);
-      titleAttrs = getAxisTitleStyle(selection, { orient: 'top', titleAnchor: 'end' });
-      expect(titleAttrs.x).toBe(axisLine.getBBox().right);
+      expect(titleAttrs.x).toBe(max[0]);
+      titleAttrs = getAxisTitleStyle({ titleAnchor: 'end' }, { min, max }, 'top');
+      expect(titleAttrs.x).toBe(max[0]);
     });
 
-    it('If x-direction, positionY is determined by `axisLabel`, `orient` and `titlePadding`', () => {
+    it('If x-direction, positionY is determined by `axisLabel`, `orient`', () => {
       const labelGroup = selection.select('.axis-label-group').node() as Group;
-      let titleAttrs = getAxisTitleStyle(selection, { orient: 'bottom', titleAnchor: 'start' });
-
+      const { min, max } = labelGroup.getLocalBounds() as any;
+      let titleAttrs = getAxisTitleStyle({ titleAnchor: 'start' }, { min, max }, 'bottom');
+      ``;
       expect(titleAttrs.y).toBe(labelGroup.getBBox().bottom);
       expect(titleAttrs.textBaseline).toBe('top');
 
       // Override textBaseline
-      titleAttrs = getAxisTitleStyle(selection, { orient: 'bottom', style: { textBaseline: 'bottom' } });
+      titleAttrs = getAxisTitleStyle({ style: { textBaseline: 'bottom' } }, { min, max }, 'bottom');
       // Keep same `y`.
       expect(titleAttrs.y).toBe(labelGroup.getBBox().bottom);
       expect(titleAttrs.textBaseline).toBe('bottom');
 
-      titleAttrs = getAxisTitleStyle(selection, { orient: 'bottom', style: { textBaseline: 'middle' } });
+      titleAttrs = getAxisTitleStyle({ style: { textBaseline: 'middle' } }, { min, max }, 'bottom');
       expect(titleAttrs.textBaseline).toBe('middle');
-
-      // Specify titlePadding
-      titleAttrs = getAxisTitleStyle(selection, { orient: 'bottom', titlePadding: -10 });
-      expect(titleAttrs.y).toBe(labelGroup.getBBox().bottom - 10);
-      titleAttrs = getAxisTitleStyle(selection, { orient: 'bottom', titlePadding: 10 });
-      expect(titleAttrs.y).toBe(labelGroup.getBBox().bottom + 10);
-
-      // Orient: top and customize titlePadding.
-      titleAttrs = getAxisTitleStyle(selection, { orient: 'top', titlePadding: 10 });
-      expect(titleAttrs.y).toBe(labelGroup.getBBox().top - 10);
-      titleAttrs = getAxisTitleStyle(selection, { orient: 'top', titlePadding: -10 });
-      expect(titleAttrs.y).toBe(labelGroup.getBBox().top + 10);
-    });
-
-    describe('In x-direction, specified bounds, do not out-of bounds', () => {
-      const axisLine = selection.select('.axis-line').node() as Path;
-      const labelGroup = selection.select('.axis-label-group').node() as Group;
-
-      const { left, right } = axisLine.getBBox();
-      const { bottom } = labelGroup.getBBox();
-      const bounds = ({ x1 = left, x2 = right, y1 = bottom, y2 = bottom + 40 }) => ({ x1, y1, x2, y2 });
-      const options: any = {
-        orient: 'bottom',
-        content: 'Axis title..... very long very long',
-        style: { textAlign: 'center', fontSize: 12 },
-      };
-      let titleAttrs = getAxisTitleStyle(selection, options);
-
-      it('out of bounds', () => {
-        const text = drawXTitle(titleAttrs);
-        expect(text.getBBox().right).toBeGreaterThan(bounds({}).x2);
-      });
-
-      it('specify { textAlign: "end" }, kept align while left-hand side not out of bounds', () => {
-        titleAttrs = getAxisTitleStyle(selection, {
-          ...options,
-          bounds: bounds({}),
-          style: { ...options.style, textAlign: 'end' },
-        });
-        const text = drawXTitle(titleAttrs);
-        expect(text.getBBox().right).not.toBeGreaterThan(bounds({}).x2);
-        expect(titleAttrs.textAlign).toBe('end');
-      });
-
-      it('specify { dx: 10 } as the offset of textShape.', () => {
-        titleAttrs = getAxisTitleStyle(selection, {
-          ...options,
-          style: { ...options.style, textAlign: 'end', dx: 10 },
-        });
-        const text = drawXTitle(titleAttrs);
-        expect(text.getBBox().right).toBe(right + 10);
-      });
     });
   });
 
@@ -196,59 +155,51 @@ describe('Axis title', () => {
 
     const labelGroup = selection.select('.axis-label-group').node() as Group;
     const axisLine = selection.select('.axis-line').node() as Group;
-    const { top, bottom } = axisLine.getBBox();
+    const { min, max } = labelGroup.getLocalBounds() as any;
     const { right } = labelGroup.getBBox();
 
     it('If y-direction, positionX is determined by `axisLabel`, `orient` and `titlePadding`', () => {
-      let titleAttrs = getAxisTitleStyle(selection, { orient: 'right', titleAnchor: 'start' });
+      let titleAttrs = getAxisTitleStyle({ titleAnchor: 'start' }, { min, max }, 'right');
 
       expect(titleAttrs.x).toBe(labelGroup.getBBox().right);
       expect(titleAttrs.textBaseline).toBe('bottom');
       expect(titleAttrs.textAlign).toBe('start');
 
       // Override textAlign
-      titleAttrs = getAxisTitleStyle(selection, { orient: 'right', style: { textAlign: 'end' } });
+      titleAttrs = getAxisTitleStyle({ style: { textAlign: 'end' } }, { min, max }, 'right');
       // // Keep same `x`.
       expect(titleAttrs.x).toBe(labelGroup.getBBox().right);
       expect(titleAttrs.textAlign).toBe('end');
 
-      titleAttrs = getAxisTitleStyle(selection, { orient: 'right', style: { textBaseline: 'middle' } });
+      titleAttrs = getAxisTitleStyle({ style: { textBaseline: 'middle' } }, { min, max }, 'right');
       expect(titleAttrs.textBaseline).toBe('middle');
-
-      // Specify titlePadding
-      titleAttrs = getAxisTitleStyle(selection, { orient: 'right', titlePadding: -10 });
-      expect(titleAttrs.x).toBe(labelGroup.getBBox().right - 10);
-      titleAttrs = getAxisTitleStyle(selection, { orient: 'right', titlePadding: 10 });
-      expect(titleAttrs.x).toBe(labelGroup.getBBox().right + 10);
-      // // Orient: top and customize titlePadding.
-      titleAttrs = getAxisTitleStyle(selection, { orient: 'left', titlePadding: 10 });
-      expect(titleAttrs.x).toBe(labelGroup.getBBox().left - 10);
-      titleAttrs = getAxisTitleStyle(selection, { orient: 'left', titlePadding: -10 });
-      expect(titleAttrs.x).toBe(labelGroup.getBBox().left + 10);
     });
 
     it('If y-direction, positionY is determined by `axisLine` and `titleAnchor`', () => {
-      let titleAttrs = getAxisTitleStyle(selection, { orient: 'right', titleAnchor: 'start' });
+      let titleAttrs = getAxisTitleStyle({ titleAnchor: 'start' }, { min, max }, 'right');
 
       expect(titleAttrs.y).toBe(axisLine.getBBox().top);
       expect(titleAttrs.textAlign).toBe('start');
       expect(titleAttrs.textBaseline).toBe('bottom');
 
-      titleAttrs = getAxisTitleStyle(selection, { orient: 'right', titleAnchor: 'center' });
+      titleAttrs = getAxisTitleStyle({ titleAnchor: 'center' }, { min, max }, 'right');
       expect(titleAttrs.textAlign).toBe('center');
       expect(titleAttrs.y).toBe(axisLine.getBBox().top + axisLine.getBBox().height / 2);
 
-      titleAttrs = getAxisTitleStyle(selection, { orient: 'right', titleAnchor: 'end' });
+      titleAttrs = getAxisTitleStyle({ titleAnchor: 'end' }, { min, max }, 'right');
       expect(titleAttrs.textAlign).toBe('end');
       expect(titleAttrs.y).toBe(axisLine.getBBox().bottom);
-      titleAttrs = getAxisTitleStyle(selection, { orient: 'left', titleAnchor: 'end' });
+      titleAttrs = getAxisTitleStyle({ titleAnchor: 'end' }, { min, max }, 'left');
       expect(titleAttrs.y).toBe(axisLine.getBBox().bottom);
 
-      titleAttrs = getAxisTitleStyle(selection, {
-        orient: 'left',
-        titleAnchor: 'center',
-        style: { textAlign: 'center' },
-      });
+      titleAttrs = getAxisTitleStyle(
+        {
+          titleAnchor: 'center',
+          style: { textAlign: 'center' },
+        },
+        { min, max },
+        'left'
+      );
       const text = drawYTitle({ ...titleAttrs, text: 'hello' });
       // 居中
       expect(text.getBBox().y + text.getBBox().height / 2).toBe(axisLine.getBBox().y + axisLine.getBBox().height / 2);
