@@ -23,7 +23,6 @@ export abstract class LegendBase<T extends LegendBaseCfg = LegendBaseCfg> extend
 
   constructor(options: DisplayObjectConfig<T>) {
     super(deepMix({}, LegendBase.defaultOptions, options));
-    this.init();
   }
 
   protected abstract drawInner(): void;
@@ -36,6 +35,10 @@ export abstract class LegendBase<T extends LegendBaseCfg = LegendBaseCfg> extend
   }
 
   connectedCallback() {
+    this.init();
+    this.titleShape.addEventListener(ElementEvent.BOUNDS_CHANGED, () => this.adjustInnerGroup());
+    this.container.addEventListener(ElementEvent.BOUNDS_CHANGED, () => this.adjustBackground());
+
     this.update();
     this.bindEvents();
   }
@@ -93,7 +96,7 @@ export abstract class LegendBase<T extends LegendBaseCfg = LegendBaseCfg> extend
     let box = { left: 0, top: 0, width: 0, height: 0 };
     if (this.titleStyleProps.type === 'html') {
       const { width, height } = this.titleStyleProps as HTMLStyleProps;
-      box = { left: 0, top: 0, width, height };
+      box = { left: 0, top: 0, width: width as number, height: height as number };
     } else {
       const { min, halfExtents } = this.titleShape.getLocalBounds();
       box = {
@@ -106,10 +109,7 @@ export abstract class LegendBase<T extends LegendBaseCfg = LegendBaseCfg> extend
     return { left: 0, top: 0, right: box.width, bottom: box.height };
   }
 
-  protected bindEvents() {
-    this.titleShape.addEventListener(ElementEvent.BOUNDS_CHANGED, () => this.adjustInnerGroup());
-    this.container.addEventListener(ElementEvent.BOUNDS_CHANGED, () => this.adjustBackground());
-  }
+  protected bindEvents() {}
 
   private drawTitle() {
     const { type, ...style } = this.titleStyleProps;

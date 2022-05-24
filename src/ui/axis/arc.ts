@@ -90,7 +90,7 @@ export class Arc extends AxisBase<ArcAxisStyleProps> {
   protected drawTitle() {
     const { title: titleCfg } = this.style;
 
-    const titleShape = maybeAppend(this, 'axis-title', 'text').attr('className', 'axis-title');
+    const titleShape = maybeAppend(this, '.axis-title', 'text').attr('className', 'axis-title');
     if (!titleCfg) {
       titleShape.style('fontSize', 0);
       return;

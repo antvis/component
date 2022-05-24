@@ -277,9 +277,13 @@ export function applyStyle(selection: Selection, style: Record<string, keyof any
   }
 }
 
-export function maybeAppend(parent: Group, id: string, node: string): Selection {
-  if (!parent.querySelector(`#${id}`)) {
-    return select(parent).append(node).attr('id', id);
+export function maybeAppend<T>(
+  parent: Group,
+  selector: string,
+  node: string | ((data: T, i: number) => G2Element)
+): Selection<T> {
+  if (!parent.querySelector(selector)) {
+    return select(parent).append(node);
   }
-  return select(parent).select(`#${id}`);
+  return select(parent).select(selector);
 }

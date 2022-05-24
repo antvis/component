@@ -121,7 +121,7 @@ export class Linear extends AxisBase<LinearAxisStyleProps> {
 
     const bounds = this.getTitleBounds();
     const titleStyle = titleCfg ? getAxisTitleStyle(titleCfg, bounds, this.axisPosition) : { fontSize: 0 };
-    const titleShape = maybeAppend(this, 'axis-title', 'text')
+    const titleShape = maybeAppend(this, '.axis-title', 'text')
       .attr('className', 'axis-title')
       .call(applyStyle, titleStyle)
       .node() as Text;
