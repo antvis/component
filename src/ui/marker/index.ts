@@ -2,7 +2,28 @@ import { Path, Image, PathCommand, ImageStyleProps, PathStyleProps, DisplayObjec
 import { deepMix, isFunction } from '@antv/util';
 import { GUI } from '../../core/gui';
 import { parseMarker } from './utils';
-import { circle, square, diamond, triangleDown, triangle, line, dot, dash, smooth, hv, vh, hvh, vhv } from './symbol';
+import {
+  circle,
+  square,
+  diamond,
+  triangleDown,
+  triangle,
+  cross,
+  point,
+  hexagon,
+  bowtie,
+  hyphen,
+  tick,
+  plus,
+  line,
+  dot,
+  dash,
+  smooth,
+  hv,
+  vh,
+  hvh,
+  vhv,
+} from './symbol';
 import type { MarkerStyleProps, MarkerOptions, FunctionalSymbol } from './types';
 
 export type { MarkerStyleProps, MarkerOptions, FunctionalSymbol };
@@ -140,8 +161,17 @@ export class Marker extends GUI<Required<MarkerStyleProps>> {
   }
 }
 
-// 内置的组件
+/** Shapes for Point Geometry */
+Marker.registerSymbol('cross', cross);
+Marker.registerSymbol('hyphen', hyphen);
+Marker.registerSymbol('line', line);
+Marker.registerSymbol('plus', plus);
+Marker.registerSymbol('tick', tick);
+
 Marker.registerSymbol('circle', circle);
+Marker.registerSymbol('point', point);
+Marker.registerSymbol('bowtie', bowtie);
+Marker.registerSymbol('hexagon', hexagon);
 Marker.registerSymbol('square', square);
 Marker.registerSymbol('diamond', diamond);
 Marker.registerSymbol('triangle', triangle);
