@@ -73,8 +73,8 @@ export function bowtie(x: number, y: number, r: number) {
  */
 export function line(x: number, y: number, r: number) {
   return [
-    ['M', x - r, y],
-    ['L', x + r, y],
+    ['M', x, y + r],
+    ['L', x, y - r],
   ];
 }
 
