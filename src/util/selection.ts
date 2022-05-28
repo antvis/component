@@ -1,5 +1,4 @@
 // @ts-nocheck
-// @ts-ignore prefer-destructuring
 import {
   Group,
   Rect,
@@ -196,6 +195,7 @@ export class Selection<T = any> {
         element.parentNode.removeChild(element);
         const index = elements.indexOf(element);
         elements.splice(index, 1);
+        element.remove();
       }
     });
     return new Selection<T>(elements, null, this._parent, this._document);
@@ -204,8 +204,10 @@ export class Selection<T = any> {
   each(callback: (datum: T, index: number) => any): Selection<T> {
     for (let i = 0; i < this._elements.length; i++) {
       const element = this._elements[i];
-      const datum = element.__data__;
-      callback.call(element, datum, i);
+      if (element) {
+        const datum = element.__data__;
+        callback.call(element, datum, i);
+      }
     }
     return this;
   }
@@ -272,6 +274,7 @@ export function select2update(
 }
 
 export function applyStyle(selection: Selection, style: Record<string, keyof any>) {
+  if (!style) return;
   for (const [key, value] of Object.entries(style)) {
     selection.style(key, value);
   }

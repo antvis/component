@@ -1,645 +1,386 @@
-import { deepMix, isFunction, isNumber } from '@antv/util';
-import { GUIOption } from 'types';
-import { AABB, DisplayObject, Rect } from '@antv/g';
-import { GUI } from '../../core/gui';
-import { Checkbox, CheckboxOptions } from '../checkbox';
-import type { CellAxisCfg, LayoutRowData, SliderAxisCfg, SpeedControlCfg, TimelineCfg, TimelineOptions } from './types';
-import { CellAxis } from './cell-axis';
-import { SliderAxis } from './slider-axis';
-import { SpeedControl } from './speedcontrol';
-import { Button, ButtonCfg } from '../button';
-import { FunctionalSymbol, Marker } from '../marker';
+import { CustomElement, DisplayObjectConfig, Group } from '@antv/g';
+import { deepMix, isNull } from '@antv/util';
+import { maybeAppend, normalPadding, select } from '../../util';
+import { Button } from './button';
+import { SliderAxis } from './sliderAxis';
+import { CellAxis } from './cellAxis';
+import { SpeedControl } from './speedControl';
+import { Checkbox } from './checkbox';
+import { DEFAULT_TIMELINE_STYLE } from './constants';
+import type { TimelineStyleProps, PlayAxisStyleProps } from './types';
+import { normalSelection } from './playAxis';
 
-export type { TimelineOptions };
+export type TimelineOptions = DisplayObjectConfig<TimelineStyleProps>;
 
-const SPACING = 8;
+type PlayAxis = SliderAxis | CellAxis;
+type BBox = { x: number; y: number; length?: number; size?: number };
+type Layout = {
+  axis: BBox;
+  playBtn: BBox;
+  prevBtn: BBox;
+  nextBtn: BBox;
+  speedControl: BBox;
+  singleModeControl: BBox;
+};
 
-export class Timeline extends GUI<Required<TimelineCfg>> {
-  /**
-   * 组件 timeline
-   */
-  public static tag = 'timeline';
+function getAxisLabelHeight(options: PlayAxisStyleProps | null | undefined): number {
+  const cfg: Required<PlayAxisStyleProps['label']> = deepMix({}, DEFAULT_TIMELINE_STYLE.playAxis, options).label;
+  if (!cfg) return 0;
 
-  private singleTimeCheckbox: Checkbox | undefined;
+  return (cfg.tickLine?.len || 0) + (cfg.tickPadding || 0) + (Number(cfg.style.fontSize) || 0) + 2;
+}
 
-  private cellAxis: CellAxis | undefined;
+function layoutControl(position: string, length: number, props: TimelineStyleProps): Layout {
+  const cfg: Required<TimelineStyleProps> = deepMix({}, DEFAULT_TIMELINE_STYLE, props);
+  const { type, playAxis, controlButton, speedControl, singleModeControl } = cfg;
+  const axisLabelPosition = playAxis?.label?.position || -1;
+  const axisCellSpacing = playAxis?.spacing ?? (CellAxis.defaultOptions?.style?.spacing || 0);
+  let axisSize =
+    playAxis?.size ||
+    (type === 'cell' ? CellAxis.defaultOptions?.style?.size : SliderAxis.defaultOptions?.style?.size) ||
+    4;
+  axisSize += type === 'cell' ? axisCellSpacing : 0;
+  const [axisPt, axisPr, axisPb, axisPl] = normalPadding(playAxis?.appendPadding);
 
-  private sliderAxis: SliderAxis | undefined;
+  const buttonGap = controlButton?.spacing || 0;
+  const playButtonSize = isNull(controlButton) || isNull(controlButton?.playBtn) ? 0 : controlButton?.playBtn?.size!;
+  const prevButtonSize = isNull(controlButton) || isNull(controlButton?.prevBtn) ? 0 : controlButton?.prevBtn?.size!;
+  const nextButtonSize = isNull(controlButton) || isNull(controlButton?.nextBtn) ? 0 : controlButton?.nextBtn?.size!;
+  const prevButtonOffset = playButtonSize / 2 + prevButtonSize / 2 + buttonGap;
+  const nextButtonOffset = playButtonSize / 2 + nextButtonSize / 2 + buttonGap;
+  const speedControlMarkerSize = speedControl === null ? 0 : speedControl?.markerSize!;
+  const speedControlSize = speedControlMarkerSize * 2;
+  const speedControlWidth = speedControl === null ? 0 : speedControl?.width!;
+  const speedControlHeight = speedControlSize * 2 + speedControlMarkerSize / 2;
+  const singleControlWidth = singleModeControl === null ? 0 : singleModeControl?.width!;
+  const singleControlSize = singleModeControl === null ? 0 : singleModeControl?.size! + 2; /** lineWidth of stroke. */
 
-  private playBtn: Button | undefined;
+  if (cfg.orient === 'vertical') {
+    // Remain 30px for placing axis label.
+    const centerX = axisPl + (axisLabelPosition === -1 ? 30 : 0);
+    const axisX = centerX + (type === 'cell' ? 0 : axisSize / 2);
+    const buttonX = centerX + axisSize / 2;
 
-  private prevBtn: Button | undefined;
+    const singleModeControlY = length - singleControlSize;
+    const speedControlY = singleModeControlY - 4 - speedControlHeight;
+    const nextButtonY = speedControlY - buttonGap - nextButtonSize / 2;
+    const playBtnY = prevButtonSize + buttonGap + playButtonSize / 2;
+    const axisY = playBtnY + playButtonSize / 2 + buttonGap + axisPt;
+    const axisEndY = nextButtonY - buttonGap - nextButtonSize / 2 - axisPb;
+    const axisLength = axisEndY - axisY;
 
-  private nextBtn: Button | undefined;
-
-  private speedControl: SpeedControl | undefined;
-
-  /**
-   * 默认配置项
-   */
-  public static defaultOptions: GUIOption<TimelineCfg> = {
-    type: Timeline.tag,
-    style: {
-      x: 0,
-      y: 0,
-      width: 500,
-      height: 40,
-      dataPerStep: 1,
-      data: [],
-      orient: { layout: 'row', controlButtonAlign: 'left' },
-      playMode: 'fixed',
-      loop: true,
-      type: 'cell',
-      speed: 1,
-      single: false,
-      controls: {
-        singleModeControl: {
-          style: {
-            label: {
-              text: '单一时间',
-            },
-          },
-        },
-        controlButton: {
-          playBtn: {
-            buttonStyle: {
-              default: {
-                fill: '#F7F7F7',
-                stroke: '#bfbfbf',
-                radius: 10,
-              },
-              active: {
-                fill: 'rgba(52, 113, 249, 0.1)',
-                stroke: '#3471F9',
-                radius: 10,
-              },
-            },
-            markerStyle: {
-              default: {
-                stroke: '#bfbfbf',
-              },
-              active: {
-                stroke: '#3471F9',
-              },
-            },
-          },
-          prevBtn: {
-            markerStyle: {
-              default: {
-                stroke: '#bfbfbf',
-              },
-              active: {
-                stroke: '#3471F9',
-              },
-            },
-            buttonStyle: {
-              default: {
-                stroke: 'none',
-              },
-              selected: {
-                stroke: 'none',
-              },
-              active: {
-                stroke: 'none',
-              },
-            },
-          },
-          nextBtn: {
-            markerStyle: {
-              default: {
-                stroke: '#bfbfbf',
-              },
-              active: {
-                stroke: '#3471F9',
-              },
-            },
-            buttonStyle: {
-              default: {
-                stroke: 'none',
-              },
-              selected: {
-                stroke: 'none',
-              },
-              active: {
-                stroke: 'none',
-              },
-            },
-          },
-        },
-      },
-    },
-  };
-
-  public delay = 800;
-
-  public duration = 200;
-
-  private played: boolean = false;
-
-  private playListener: () => void = () => {};
-
-  private cachedSelection: [string] | [string, string] | undefined;
-
-  public get isPlayed() {
-    return this.played;
-  }
-
-  public get components() {
     return {
-      sliderAxis: this.sliderAxis,
-      cellAxis: this.cellAxis,
-      speedControl: this.speedControl,
-      playBtn: this.playBtn,
-      prevBtn: this.prevBtn,
-      nextBtn: this.nextBtn,
-      singleTimeCheckbox: this.singleTimeCheckbox,
+      axis: { x: axisX, y: axisY, length: axisLength },
+      prevBtn: { x: buttonX, y: prevButtonSize / 2, size: prevButtonSize },
+      playBtn: { x: buttonX, y: playBtnY, size: playButtonSize },
+      nextBtn: { x: buttonX, y: nextButtonY, size: nextButtonSize },
+      speedControl: { x: centerX - speedControlWidth / 2, y: speedControlY, size: speedControlWidth },
+      singleModeControl: { x: 0, y: singleModeControlY },
     };
   }
 
-  constructor(options: TimelineOptions) {
-    super(deepMix({}, Timeline.defaultOptions, options));
-    this.init();
+  const singleControlX = length - singleControlWidth;
+  const speedControlX = singleControlX - 8 - speedControlWidth;
+  const axisLabelHeight = getAxisLabelHeight(playAxis);
+  const axisY = (axisLabelPosition === -1 ? axisLabelHeight : 0) + (type === 'cell' ? 0 : axisSize / 2) + axisPt;
+
+  if (position === 'bottom') {
+    const playBtnX = length / 2;
+    const playBtnY = axisY + (axisLabelPosition === 1 ? axisLabelHeight : 0) + axisSize + playButtonSize / 2 + axisPb;
+    const speedControlY = axisY + (axisLabelPosition === 1 ? axisLabelHeight : 0) + axisSize + axisPb;
+    return {
+      axis: { x: axisPl, y: axisY, length: length - (axisPl + axisPr) },
+      playBtn: { x: playBtnX, y: playBtnY, size: playButtonSize },
+      prevBtn: { x: playBtnX - prevButtonOffset, y: playBtnY, size: prevButtonSize },
+      nextBtn: { x: playBtnX + nextButtonOffset, y: playBtnY, size: nextButtonSize },
+      // SpeedControl align playAxis.
+      speedControl: { x: speedControlX, y: speedControlY, size: speedControlWidth },
+      singleModeControl: { x: singleControlX, y: speedControlY + speedControlSize - singleControlSize / 2 },
+    };
   }
 
-  public init() {
-    this.createControl();
-    this.createAxis();
-    this.layout();
-    this.bindCustomEvents();
-    // this.drawBB(this.playBtn);
-    // this.cellAxis && this.drawBB(this.cellAxis.cellBackground);
+  const playBtnY = type === 'cell' ? axisY + axisSize / 2 : axisY;
+  // PlayButton and speedControl is middle align.
+  let speedControlY = axisLabelPosition === 1 ? axisY + speedControlMarkerSize / 2 : axisY - speedControlHeight;
+  if (type === 'cell' && axisLabelPosition === -1) {
+    speedControlY = axisLabelHeight + axisSize - speedControlHeight;
+  }
+  if (position === 'left') {
+    const prevBtnX = prevButtonSize / 2;
+    const playBtnX = prevBtnX + prevButtonOffset;
+    const nextBtnX = playBtnX + nextButtonOffset;
+    const axisX = nextBtnX + nextButtonSize / 2 + axisPl;
+    const axisLength = speedControlX - axisPr - axisX;
+    return {
+      axis: { x: axisX, y: axisY, length: axisLength },
+      prevBtn: { x: prevBtnX, y: playBtnY, size: prevButtonSize },
+      playBtn: { x: playBtnX, y: playBtnY, size: playButtonSize },
+      nextBtn: { x: nextBtnX, y: playBtnY, size: nextButtonSize },
+      speedControl: { x: speedControlX, y: speedControlY, size: speedControlWidth },
+      singleModeControl: { x: singleControlX, y: speedControlY + speedControlSize - singleControlSize / 2 },
+    };
   }
 
-  public update(cfg: Partial<Required<TimelineCfg>>): void {
+  const nextBtnX = speedControlX - (nextButtonSize / 2 + buttonGap);
+  const playBtnX = nextBtnX - nextButtonOffset;
+  const prevBtnX = playBtnX - prevButtonOffset;
+  const axisX = axisPl;
+  return {
+    axis: { x: axisX, y: axisY, length: prevBtnX - prevButtonSize / 2 - axisPr - axisX },
+    playBtn: { x: playBtnX, y: playBtnY, size: playButtonSize },
+    prevBtn: { x: prevBtnX, y: playBtnY, size: prevButtonSize },
+    nextBtn: { x: nextBtnX, y: playBtnY, size: nextButtonSize },
+    speedControl: { x: speedControlX, y: speedControlY, size: speedControlWidth },
+    singleModeControl: { x: singleControlX, y: speedControlY + speedControlSize - singleControlSize / 2 },
+  };
+}
+
+export class Timeline extends CustomElement<TimelineStyleProps> {
+  private speed = 1;
+
+  private singleMode = false;
+
+  private playing = false;
+
+  private selection: [number, number] = [0, 0];
+
+  constructor(options: DisplayObjectConfig<TimelineStyleProps>) {
+    super(deepMix({}, { style: DEFAULT_TIMELINE_STYLE }, options));
+    this.singleMode = this.style.singleMode || false;
+    this.selection = normalSelection(this.style.selection, this.singleMode);
+  }
+
+  connectedCallback() {
+    this.render();
+    this.bindEvents();
+  }
+
+  public update(cfg: Partial<TimelineStyleProps> = {}) {
     this.attr(deepMix({}, this.attributes, cfg));
-    this.clear();
-    this.init();
-    this.played = false;
-  }
-
-  public clear() {
-    this.removeChildren();
-  }
-
-  public drawBB(shape: DisplayObject | undefined) {
-    if (!shape) return;
-    const bounding = shape.getBounds() as AABB;
-    const { center, halfExtents } = bounding;
-    const bounds = new Rect({
-      style: {
-        stroke: 'blue',
-        lineWidth: 2,
-        width: halfExtents[0] * 2,
-        height: halfExtents[1] * 2,
-      },
-    });
-    this.appendChild(bounds);
-    bounds.setPosition(center[0] - halfExtents[0], center[1] - halfExtents[1]);
-  }
-
-  private bindCustomEvents() {
-    this.addEventListener('replay', () => {
-      if (!this.attributes.loop) return;
-      if (this.sliderAxis) {
-        // this.sliderAxis.update({ selection: this.cachedSelection });
-      }
-    });
-  }
-
-  private play() {
-    const { dataPerStep, playMode, loop, speed } = this.attributes;
-    const axis = this.cellAxis ? this.cellAxis : this.sliderAxis;
-    if (!axis) return;
-    if (this.cellAxis) {
-      this.cellAxis.attr({ dataPerStep, loop, playMode, interval: 1000 / speed });
-      this.cellAxis.play();
+    if (cfg.singleMode !== undefined) {
+      this.singleMode = cfg.singleMode;
     }
-    if (this.sliderAxis) {
-      this.sliderAxis.attr({ duration: this.duration / speed, delay: this.delay / speed, dataPerStep, loop, playMode });
-      this.sliderAxis.play();
+    if (cfg.selection) {
+      this.selection = normalSelection(cfg.selection, this.singleMode);
     }
+
+    this.render();
   }
 
-  public setSelection(selection: [string, string] | [string]) {
-    const { onSelectionChange } = this.attributes;
-    const axis = this.cellAxis ? this.cellAxis : this.sliderAxis;
-    if (axis) {
-      const { single } = axis.attributes;
-      // 若正在播放，关闭播放，避免动画出错。
-      if (this.played) {
-        this.playListener();
-      }
-      if ((single && selection.length === 1) || (!single && selection.length === 2))
-        axis.update({
-          selection,
-        });
-    }
-    isFunction(onSelectionChange) && onSelectionChange(selection);
+  private get styles(): Required<TimelineStyleProps> {
+    return deepMix({}, DEFAULT_TIMELINE_STYLE, this.attributes);
   }
 
-  public togglePlay() {
-    if (this.playBtn) {
-      this.playListener();
-    }
-  }
+  private render() {
+    const { width, height, controlPosition, speedControl, singleModeControl } = this.styles;
+    const [pt = 0, pr = 0, pb, pl = pr] = normalPadding(this.styles.padding);
 
-  private createAxis() {
-    const { type, cellAxisCfg, sliderAxisCfg, data, onSelectionChange, width, single } = this.attributes;
-    if (type === 'cell') {
-      this.cellAxis = new CellAxis({
-        style: { ...(cellAxisCfg as CellAxisCfg), length: width, timeData: data, onSelectionChange, single },
-      });
-    } else {
-      this.sliderAxis = new SliderAxis({
-        style: {
-          ...(sliderAxisCfg as SliderAxisCfg),
-          timeData: data,
-          onSelectionChange,
-          single,
-        },
-      });
-    }
-    this.cellAxis && this.appendChild(this.cellAxis);
-    this.sliderAxis && this.appendChild(this.sliderAxis);
-  }
+    const container = maybeAppend(this, '.container', 'g')
+      .attr('className', 'container')
+      .style('x', pl)
+      .style('y', pt)
+      .node();
 
-  private createControl() {
-    const { controls } = this.attributes;
-    if (controls === false) return;
+    const length = this.style.orient! === 'vertical' ? height - (pt + pb) : width - (pl + pr);
+    const layout = layoutControl(controlPosition, length, this.styles);
 
-    const { singleModeControl, controlButton, speedControl } = controls;
-    if (singleModeControl !== false) {
-      this.createSingleModeControl(singleModeControl);
-    }
-    if (controlButton !== false) {
-      controlButton?.playBtn !== false && this.createPlayBtn(controlButton?.playBtn);
-      controlButton?.prevBtn !== false && this.createPrevBtn(controlButton?.prevBtn);
-      controlButton?.nextBtn !== false && this.createNextBtn(controlButton?.nextBtn);
-    }
-    if (speedControl !== false) {
-      this.createSpeedControl(speedControl || undefined);
-    }
-  }
+    this.renderAxis(container, layout);
+    this.renderControlButton(container, layout);
 
-  private createNextBtn(nextBtnCfg: Omit<ButtonCfg, 'onClick'> | undefined) {
-    const { onForward } = this.attributes;
-    const nextMarker: FunctionalSymbol = (x: number, y: number) => {
-      return [
-        ['M', x, y + 6],
-        ['L', x + 6, y],
-        ['L', x, y - 6],
-        ['M', x - 6, y + 6],
-        ['L', x, y],
-        ['L', x - 6, y - 6],
-      ];
-    };
-    const forwardListener = () => {
-      if (this.attributes.playMode === 'fixed') {
-        this.cellAxis?.moveDistance(1);
-        this.sliderAxis?.moveDistance(1);
-      } else {
-        this.cellAxis?.increase(1);
-        this.sliderAxis?.increase(1);
-      }
-      isFunction(onForward) && onForward();
-    };
-    this.nextBtn = new Button({
-      style: {
-        ...nextBtnCfg,
-        width: 12,
-        marker: nextMarker,
-        onClick: forwardListener,
-      },
-    });
-    this.appendChild(this.nextBtn);
-  }
-
-  private createPrevBtn(prevBtnCfg: Omit<ButtonCfg, 'onClick'> | undefined) {
-    const { onBackward } = this.attributes;
-    const prevMarker: FunctionalSymbol = (x: number, y: number) => {
-      return [
-        ['M', x + 6, y + 6],
-        ['L', x, y],
-        ['L', x + 6, y - 6],
-        ['M', x, y + 6],
-        ['L', x - 6, y],
-        ['L', x, y - 6],
-      ];
-    };
-    const backwardListener = () => {
-      if (this.attributes.playMode === 'fixed') {
-        this.cellAxis?.moveDistance(-1);
-        this.sliderAxis?.moveDistance(-1);
-      } else {
-        this.cellAxis?.increase(-1);
-        this.sliderAxis?.increase(-1);
-      }
-      isFunction(onBackward) && onBackward();
-    };
-    this.prevBtn = new Button({
-      style: {
-        ...prevBtnCfg,
-        width: 12,
-        marker: prevMarker,
-        onClick: backwardListener,
-      },
-    });
-    this.appendChild(this.prevBtn);
-  }
-
-  public get timeSelection() {
-    if (this.cellAxis) {
-      return this.cellAxis.attributes.selection;
-    }
-    if (this.sliderAxis) {
-      return this.sliderAxis.attributes.selection;
-    }
-    return undefined;
-  }
-
-  private createPlayBtn(playBtnCfg: Omit<ButtonCfg, 'onClick'> | undefined) {
-    const { onPlay } = this.attributes;
-    const playMarker: FunctionalSymbol = (x: number, y: number) => {
-      return [['M', x + 3, y], ['L', x - 1.5, y - 1.5 * Math.sqrt(3)], ['L', x - 1.5, y + 1.5 * Math.sqrt(3)], ['Z']];
-    };
-    const stopMarker: FunctionalSymbol = (x: number, y: number) => {
-      return [
-        ['M', x + 2, y + 3],
-        ['L', x + 2, y - 3],
-        ['M', x - 2, y + 3],
-        ['L', x - 2, y - 3],
-      ];
-    };
-    this.playBtn = new Button({
-      style: {
-        ...playBtnCfg,
-        onClick: onPlay,
-        width: 20,
-        height: 20,
-        marker: playMarker,
-      },
-    });
-    // this.playBtn.scale(2 / 3, 2 / 3);
-
-    this.playListener = () => {
-      this.played = !this.played;
-      if (this.played) {
-        this.cachedSelection = this.timeSelection as [string] | [string, string];
-        this.play();
-        isFunction(this.attributes.onPlay) && this.attributes?.onPlay();
-      } else {
-        this.stop();
-        isFunction(this.attributes.onStop) && this.attributes?.onStop();
-      }
-      this.playBtn?.update({
-        marker: this.played ? stopMarker : playMarker,
-      });
-    };
-    this.playBtn.addEventListener('click', this.playListener);
-    this.appendChild(this.playBtn);
-  }
-
-  private stop() {
-    this.played = false;
-    this.cellAxis?.stop();
-    this.sliderAxis?.stop();
-    if (this.cellAxis) this.cellAxis.played = false;
-    if (this.sliderAxis) this.sliderAxis.played = false;
-  }
-
-  private createSingleModeControl(options: CheckboxOptions | undefined) {
-    const { onSingleTimeChange, data, single } = this.attributes;
-    const singleListener = (single: boolean) => {
-      if (single) {
-        this.sliderAxis?.update({
-          single,
-          selection: [data[0].date],
-        });
-
-        this.cellAxis?.update({
-          single,
-          selection: [data[0].date],
-        });
-      } else {
-        this.sliderAxis?.update({
-          single,
-          selection: [data[0].date, data[data.length - 1].date],
-        });
-
-        this.cellAxis?.update({
-          single,
-          selection: [data[0].date, data[data.length - 1].date],
-        });
-      }
-      if (this.played) this.playListener();
-      isFunction(onSingleTimeChange) && onSingleTimeChange(single);
-    };
-    this.singleTimeCheckbox = new Checkbox({
-      ...options,
-      ...{
-        style: {
-          checked: single,
-          label: {
-            text: '单一时间',
-          },
-          onChange: singleListener,
-        },
-      },
-    });
-    this.appendChild(this.singleTimeCheckbox);
-  }
-
-  private createSpeedControl(cfg: Omit<SpeedControlCfg, 'onSpeedChange'> | undefined) {
-    const { onSpeedChange, speed } = this.attributes;
-    const speedListener = (idx: number) => {
-      if (this.speedControl) {
-        const { speeds } = this.speedControl.attributes;
-        this.attr({ speed: speeds[idx] });
-        isFunction(onSpeedChange) && onSpeedChange(idx);
-        if (this.played) {
-          this.playListener();
+    maybeAppend(container, '.timeline-speed-control', () => new SpeedControl({}))
+      .attr('className', 'timeline-speed-control')
+      .call((selection) => {
+        if (speedControl === null) {
+          selection.remove();
+          return;
         }
-      }
-    };
-    this.speedControl = new SpeedControl({
-      style: { ...cfg, width: 35, onSpeedChange: speedListener },
+        (selection.node() as SpeedControl).update({
+          x: layout.speedControl.x,
+          y: layout.speedControl.y,
+          ...speedControl,
+          initialSpeed: this.speed,
+        });
+      });
+
+    maybeAppend(container, '.timeline-single-control', () => new Checkbox({}))
+      .attr('className', 'timeline-single-control')
+      .call((selection) => {
+        if (singleModeControl === null) {
+          selection.remove();
+          return;
+        }
+        (selection.node() as Checkbox).update({
+          x: layout.singleModeControl.x,
+          y: layout.singleModeControl.y,
+          ...singleModeControl,
+          active: this.singleMode,
+        });
+      });
+  }
+
+  private renderAxis(container: Group, layout: Layout) {
+    const { data: timeData } = this.styles;
+    const type = this.styles.type || 'slider';
+
+    let axis = select(container).select('.timeline-axis').node() as PlayAxis | undefined;
+    const Ctor = type === 'cell' ? CellAxis : SliderAxis;
+    if (axis && axis.style.tag !== `${type}-axis`) {
+      axis.remove();
+      this.removeChild(axis);
+    }
+    axis = maybeAppend(container, '.timeline-axis', () => new Ctor({}))
+      .attr('className', 'timeline-axis')
+      .call((selection) => {
+        (selection.node() as PlayAxis).update({
+          x: layout.axis.x,
+          y: layout.axis.y,
+          length: layout.axis.length,
+          data: timeData,
+          selection: this.selection,
+          orient: this.style.orient!,
+          playInterval: this.style.playInterval! / this.speed,
+          singleMode: this.singleMode,
+          ...(this.style.playAxis || {}),
+        });
+        (selection.node() as PlayAxis).update({
+          handleStyle: {
+            cursor: this.style.orient === 'vertical' ? 'ns-resize' : 'ew-resize',
+          },
+        });
+      })
+      .node() as PlayAxis;
+  }
+
+  private renderControlButton(container: Group, layout: Layout) {
+    const playButtonSize = layout.playBtn.size || 0;
+    const prevButtonSize = layout.prevBtn.size || 0;
+    const nextButtonSize = layout.nextBtn?.size || 0;
+    maybeAppend(container, '.timeline-prev-btn', () => new Button({}))
+      .attr('className', 'timeline-prev-btn')
+      .call((selection) => {
+        if (!prevButtonSize) {
+          selection.remove();
+
+          return;
+        }
+        (selection.node() as Button).update({
+          ...(this.style.controlButton?.prevBtn || {}),
+          x: layout.prevBtn.x,
+          y: layout.prevBtn.y,
+          size: prevButtonSize,
+          symbol: 'timeline-prev-button',
+        });
+        (selection.node() as Button).update({
+          markerStyle: {
+            transformOrigin: 'center',
+            transform: this.style.orient === 'vertical' ? 'rotate(90deg)' : '',
+          },
+        });
+      });
+
+    maybeAppend(container, '.timeline-play-btn', () => new Button({}))
+      .attr('className', 'timeline-play-btn')
+      .call((selection) => {
+        if (!playButtonSize) {
+          selection.remove();
+          return;
+        }
+        (selection.node() as Button).update({
+          backgroundStyle: { radius: (layout.playBtn.size || 0) / 2 },
+        });
+        (selection.node() as Button).update({
+          ...(this.style.controlButton?.playBtn || {}),
+          x: layout.playBtn.x,
+          y: layout.playBtn.y,
+          size: playButtonSize,
+          symbol: !this.playing ? 'timeline-stop-button' : 'timeline-play-button',
+        });
+      });
+
+    maybeAppend(container, '.timeline-next-btn', () => new Button({}))
+      .attr('className', 'timeline-next-btn')
+      .call((selection) => {
+        if (!nextButtonSize) {
+          selection.remove();
+          return;
+        }
+        (selection.node() as Button).update({
+          ...(this.style.controlButton?.nextBtn || {}),
+          x: layout.nextBtn.x,
+          y: layout.nextBtn.y,
+          size: nextButtonSize,
+          symbol: 'timeline-next-button',
+        });
+        (selection.node() as Button).update({
+          markerStyle: {
+            transformOrigin: 'center',
+            transform: this.style.orient === 'vertical' ? 'rotate(90deg)' : '',
+          },
+        });
+      });
+
+    if (this.style.autoPlay && !this.playing) {
+      this.playing = true;
+      select(this)
+        .select('.timeline-axis')
+        .call((selection) => (selection.node() as PlayAxis)?.play());
+      select(this)
+        .select('.timeline-play-btn')
+        .call((selection) => (selection.node() as Button)?.update({ symbol: 'timeline-play-button' }));
+    }
+    if (!this.style.autoPlay && this.playing) {
+      this.playing = false;
+      select(this)
+        .select('.timeline-axis')
+        .call((selection) => (selection.node() as PlayAxis)?.stop());
+      select(this)
+        .select('.timeline-play-btn')
+        .call((selection) => (selection.node() as Button)?.update({ symbol: 'timeline-stop-button' }));
+    }
+  }
+
+  private bindEvents() {
+    const axis = select(this).select('.timeline-axis').node() as SliderAxis;
+    const playStopBtn = select(this).select('.timeline-play-btn').node() as Button;
+    if (playStopBtn) {
+      select(playStopBtn).on('pointerdown', (evt: any) => {
+        if (this.playing) {
+          this.playing = false;
+          axis.stop();
+          playStopBtn.update({ symbol: 'timeline-stop-button' });
+        } else {
+          this.playing = true;
+          axis.play();
+          playStopBtn.update({ symbol: 'timeline-play-button' });
+        }
+      });
+    }
+
+    select(this).on('timelineStopped', () => {
+      this.playing = false;
+      playStopBtn?.update({ symbol: 'timeline-stop-button' });
     });
-    const { speeds } = this.speedControl.attributes;
-    const currIdx = speeds.findIndex((val) => val === speed);
-    currIdx !== -1 && this.speedControl.update({ currentSpeedIdx: currIdx });
-    this.appendChild(this.speedControl);
-  }
 
-  private layout() {
-    if (this.attributes.orient.layout === 'row') {
-      this.layoutRow(); // 横向排版
-    } else {
-      this.layoutCol(); // 竖向
-    }
-    // 最后要根据ticks调整整体位置，使得一开始的y在左上角
-    if (this.cellAxis) {
-      const offsetY =
-        (this.cellAxis.cellBackground?.getBounds()?.min[1] as number) -
-        (this.cellAxis.cellTicks?.getBounds()?.min[1] as number);
-      this.children.forEach((child: any) => {
-        child.translate(0, offsetY);
-      });
-    } else if (this.sliderAxis) {
-      const offsetY =
-        (this.sliderAxis.sliderBackground?.getBounds()?.min[1] as number) -
-        (this.sliderAxis.sliderTicks?.getBounds()?.min[1] as number);
-      this.children.forEach((child: any) => {
-        child.translate(0, offsetY);
-      });
-    }
-  }
-
-  private layoutCol() {
-    const { orient, width, x } = this.attributes;
-    let y = 0;
-    if (this.sliderAxis) {
-      this.sliderAxis.update({
-        length: width,
-      });
-      y = this.getHeight(this.sliderAxis.sliderBackground) + SPACING;
-    }
-    if (this.cellAxis) {
-      this.cellAxis.update({
-        length: width,
-      });
-      y = this.getHeight(this.cellAxis.cellBackground) + SPACING;
-    }
-
-    // if (orient.controlButtonAlign === 'normal') {
-    // 先水平从右到左排版
-    const rightElements: DisplayObject[] = [];
-
-    this.speedControl && rightElements.push(this.speedControl);
-    this.singleTimeCheckbox && rightElements.push(this.singleTimeCheckbox);
-
-    let totalWidth = 0;
-    for (let i = 0; i < rightElements.length; i += 1) {
-      if (i !== rightElements.length - 1) totalWidth += this.getWidth(rightElements[i]) + SPACING;
-      else totalWidth += this.getWidth(rightElements[i]);
-      this.verticalCenter(rightElements[i]);
-    }
-    if (rightElements.length === 1) {
-      rightElements[0].translate(width - totalWidth, y);
-    } else if (rightElements.length === 2) {
-      rightElements[0].translate(width - totalWidth, y);
-      rightElements[1].translate(width - this.getWidth(rightElements[1]), y);
-    }
-
-    const group: DisplayObject[] = [];
-    this.prevBtn && group.push(this.prevBtn);
-    this.playBtn && group.push(this.playBtn);
-    this.nextBtn && group.push(this.nextBtn);
-    let startX = 0;
-    for (let i = 0; i < group.length; i += 1) {
-      this.verticalCenter(group[i]);
-      (group[i] as DisplayObject).translate(startX);
-      startX += this.getWidth(group[i] as DisplayObject) + SPACING;
-    }
-
-    // 移到水平位置的中心处，并且竖直方向与axis的中心对齐 再移动到axis正下方
-    const offsetX = 0.5 * (width - startX + SPACING);
-    // const offsetX = (width - startX - this.getWidth(group[group.length - 1])) / 2;
-    for (let i = 0; i < group.length; i += 1) {
-      (group[i] as DisplayObject).translate(offsetX, y);
-    }
-    // }
-  }
-
-  private getWidth(shape: DisplayObject) {
-    return (shape.getBounds()?.halfExtents[0] as number) * 2;
-  }
-
-  private getHeight(shape: DisplayObject) {
-    return (shape.getBounds()?.halfExtents[1] as number) * 2;
-  }
-
-  private getVerticalCenter(shape: DisplayObject) {
-    return shape.getBounds()?.center[1] as number;
-  }
-
-  private verticalCenter(shape: DisplayObject) {
-    const centerY = this.cellAxis
-      ? this.cellAxis.backgroundVerticalCenter
-      : (this.sliderAxis?.backgroundVerticalCenter as number);
-    const shapeCenterY = this.getVerticalCenter(shape);
-    const offset = centerY - shapeCenterY;
-    shape.translate(0, offset);
-  }
-
-  private layoutVertical() {
-    this.prevBtn && this.verticalCenter(this.prevBtn);
-    this.playBtn && this.verticalCenter(this.playBtn);
-    this.nextBtn && this.verticalCenter(this.nextBtn);
-    this.speedControl && this.verticalCenter(this.speedControl);
-    this.singleTimeCheckbox && this.verticalCenter(this.singleTimeCheckbox);
-  }
-
-  private layoutRow() {
-    const {
-      orient: { controlButtonAlign },
-      width,
-    } = this.attributes;
-
-    // 存放所有存在的shape
-    const existShapes: LayoutRowData[] = [];
-
-    if (controlButtonAlign === 'left') {
-      this.prevBtn && existShapes.push({ shape: this.prevBtn, width: this.getWidth(this.prevBtn) });
-      this.playBtn && existShapes.push({ shape: this.playBtn, width: this.getWidth(this.playBtn) });
-      this.nextBtn && existShapes.push({ shape: this.nextBtn, width: this.getWidth(this.nextBtn) });
-      this.cellAxis && existShapes.push({ shape: this.cellAxis, width: 'auto' });
-      this.sliderAxis && existShapes.push({ shape: this.sliderAxis, width: 'auto' });
-      this.speedControl && existShapes.push({ shape: this.speedControl, width: this.getWidth(this.speedControl) });
-      this.singleTimeCheckbox &&
-        existShapes.push({ shape: this.singleTimeCheckbox, width: this.getWidth(this.singleTimeCheckbox) });
-    } else if (controlButtonAlign === 'right') {
-      this.cellAxis && existShapes.push({ shape: this.cellAxis, width: 'auto' });
-      this.sliderAxis && existShapes.push({ shape: this.sliderAxis, width: 'auto' });
-      this.prevBtn && existShapes.push({ shape: this.prevBtn, width: this.getWidth(this.prevBtn) });
-      this.playBtn && existShapes.push({ shape: this.playBtn, width: this.getWidth(this.playBtn) });
-      this.nextBtn && existShapes.push({ shape: this.nextBtn, width: this.getWidth(this.nextBtn) });
-      this.speedControl && existShapes.push({ shape: this.speedControl, width: this.getWidth(this.speedControl) });
-      this.singleTimeCheckbox &&
-        existShapes.push({ shape: this.singleTimeCheckbox, width: this.getWidth(this.singleTimeCheckbox) });
-    } else {
-      this.playBtn && existShapes.push({ shape: this.playBtn, width: this.getWidth(this.playBtn) });
-      this.prevBtn && existShapes.push({ shape: this.prevBtn, width: this.getWidth(this.prevBtn) });
-      this.cellAxis && existShapes.push({ shape: this.cellAxis, width: 'auto' });
-      this.sliderAxis && existShapes.push({ shape: this.sliderAxis, width: 'auto' });
-      this.nextBtn && existShapes.push({ shape: this.nextBtn, width: this.getWidth(this.nextBtn) });
-      this.speedControl && existShapes.push({ shape: this.speedControl, width: this.getWidth(this.speedControl) });
-      this.singleTimeCheckbox &&
-        existShapes.push({ shape: this.singleTimeCheckbox, width: this.getWidth(this.singleTimeCheckbox) });
-    }
-
-    let accumulatedWidth = 0;
-
-    existShapes.forEach((data) => {
-      data.shape.setAttribute('x', accumulatedWidth);
-      accumulatedWidth += isNumber(data.width) ? data.width : 0;
-      accumulatedWidth += SPACING;
+    select(this).on('speedChanged', (evt: any) => {
+      this.speed = evt.detail.speed;
+      axis.update({ playInterval: this.style.playInterval! / this.speed });
     });
 
-    const restWidth = width - accumulatedWidth;
+    select(this)
+      .select('.timeline-prev-btn')
+      .on('pointerdown', () => axis.prev());
+    select(this)
+      .select('.timeline-next-btn')
+      .on('pointerdown', () => axis.next());
 
-    if ((this.cellAxis || this.sliderAxis) && restWidth > 0) {
-      this.cellAxis?.update({
-        length: restWidth,
-      });
-      this.sliderAxis?.update({
-        length: restWidth,
-      });
-      let axisIdx = existShapes.findIndex((val) => val.shape === this.cellAxis || val.shape === this.sliderAxis);
-      axisIdx += 1;
-      for (; axisIdx < existShapes.length; axisIdx += 1) {
-        existShapes[axisIdx].shape.translate(restWidth);
-      }
-    }
-    this.layoutVertical();
+    select(this).on('singleModeChanged', (evt: any) => {
+      this.singleMode = evt.detail.active;
+      this.selection = normalSelection(this.selection, this.singleMode);
+      this.render();
+    });
+
+    select(this).on('selectionChanged', (evt: any) => {
+      this.selection = evt.detail.selection;
+    });
   }
 }

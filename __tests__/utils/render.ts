@@ -1,5 +1,6 @@
 import { Canvas, Path } from '@antv/g';
-import { Renderer as CanvasRenderer, Renderer as SvgRenderer } from '@antv/g-canvas';
+import { Renderer as CanvasRenderer } from '@antv/g-canvas';
+import { Renderer as SvgRenderer } from '@antv/g-svg';
 import { createDiv } from './dom';
 
 const canvasRenderer = new CanvasRenderer({

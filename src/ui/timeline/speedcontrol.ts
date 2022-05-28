@@ -1,152 +1,136 @@
-import { Group, Path, PathCommand, Rect } from '@antv/g';
-import { deepMix, isFunction } from '@antv/util';
-import { GUIOption } from '../../types';
-import { TEXT_INHERITABLE_PROPS } from '../../util';
-import { Text } from '../text';
-import { GUI } from '../../core/gui';
-import { SpeedControlCfg, SpeedControlOptions } from './types';
-import { formatter } from './util';
+import { CustomElement, CustomEvent, DisplayObjectConfig, PathCommand } from '@antv/g';
+import { deepMix } from '@antv/util';
+import { applyStyle, maybeAppend, select } from '../../util';
+import { DEFAULT_TIMELINE_STYLE } from './constants';
+import { SpeedControlStyleProps } from './types';
 
-export class SpeedControl extends GUI<Required<SpeedControlCfg>> {
-  public static tag = 'speedcontrol';
+type StyleProps = SpeedControlStyleProps & {
+  x?: number;
+  y?: number;
+};
 
-  private trianglePath = (x: number, y: number) => {
-    return [['M', x, y], ['L', x, y + 4], ['L', x + 5, y + 2], ['Z']];
-  };
+function getOffsetByIndex(index: number, height: number): number {
+  const OFFSET = [1.43, 2.79, 4.89, 7.57, 11.66];
+  return (OFFSET[index] / 11.66) * height;
+}
 
-  private linePath = (x: number, y: number) => {
-    return [
-      ['M', x - 3.5, y],
-      ['L', x + 3.5, y],
-    ];
-  };
+const DEFAULT_STYLE = deepMix({}, DEFAULT_TIMELINE_STYLE.speedControl, {
+  markerFill: '#8c8c8c',
+  spacing: 1,
+  lineStyle: {
+    stroke: '#bfbfbf',
+    lineWidth: 1,
+  },
+});
 
-  private triangleShape: Path | undefined;
+export class SpeedControl extends CustomElement<StyleProps> {
+  public static tag = 'speed-control';
 
-  private lineShapes: Path[] | undefined;
-
-  private labelShape: Text | undefined;
-
-  private lines: Group | undefined;
-
-  private static defaultOptions: GUIOption<SpeedControlCfg> = {
+  public static defaultOptions: DisplayObjectConfig<StyleProps> = {
     type: SpeedControl.tag,
-    style: {
-      x: 0,
-      y: 0,
-      width: 35,
-      height: 18,
-      speeds: [1.0, 2.0, 3.0, 4.0, 5.0],
-      currentSpeedIdx: 0,
-      spacing: 2,
-      label: {
-        fontColor: 'rgba(0,0,0,0.45)',
-        height: 14,
-        fontStyle: 'normal',
-        fontWeight: 500,
-        fontSize: 10,
-        verticalAlign: 'bottom',
-        overflow: 'clip',
-      },
-    },
+    style: DEFAULT_STYLE,
   };
 
-  constructor(options: SpeedControlOptions) {
+  constructor(options: DisplayObjectConfig<StyleProps>) {
     super(deepMix({}, SpeedControl.defaultOptions, options));
-    this.init();
   }
 
-  public init(): void {
-    this.createLines();
-    this.createTriangle();
-    this.createLabel();
+  connectedCallback(): void {
+    this.render();
     this.bindEvents();
   }
 
-  public update(cfg: Partial<Required<SpeedControlCfg>>): void {
+  public update(cfg: Partial<StyleProps> = {}): void {
     this.attr(deepMix({}, this.attributes, cfg));
-    this.clear();
-    this.createLines();
-    this.createTriangle();
-    this.createLabel();
-    this.bindEvents();
+    this.render();
   }
 
-  public clear(): void {
-    this.removeChildren();
+  private get styles(): Required<SpeedControlStyleProps> {
+    return deepMix({}, SpeedControl.defaultOptions.style, this.attributes);
+  }
+
+  private render() {
+    const {
+      initialSpeed,
+      markerSize,
+      markerFill,
+      lineStyle,
+      speeds,
+      labelStyle: label,
+      spacing,
+      formatter = (v) => `${v}`,
+    } = this.styles;
+    let initialSpeedIdx = speeds.indexOf(initialSpeed);
+    if (initialSpeedIdx === -1) initialSpeedIdx = 0;
+    const size = markerSize * 2;
+    const y = getOffsetByIndex(initialSpeedIdx, size * 2);
+    const r = markerSize * Math.tan(Math.PI / 6) * 2;
+
+    maybeAppend(this, '.speed-marker', 'path')
+      .attr('className', 'speed-marker')
+      .style('fill', markerFill)
+      .style('path', [['M', 0, y - r / 2], ['L', markerSize, y], ['L', 0, y + r / 2], ['Z']]);
+
+    const x = markerSize - 0.5;
+    const group = maybeAppend(this, '.line-group', 'rect')
+      .attr('className', 'line-group')
+      .style('x', x)
+      .style('y', 0)
+      .style('width', size)
+      .style('height', size * 2)
+      .style('cursor', 'pointer')
+      .style('fill', 'transparent')
+      .node();
+
+    const path = speeds.reduce((arr: PathCommand[], _: any, idx: number) => {
+      const offset = getOffsetByIndex(idx, size * 2);
+      arr.push(['M', 0, offset], ['L', size, offset]);
+      return arr;
+    }, [] as PathCommand[]);
+
+    maybeAppend(group, '.speed-path', 'path')
+      .attr('className', 'speed-path')
+      .style('path', path)
+      .call(applyStyle, lineStyle);
+
+    maybeAppend(this, '.speed-label', 'text')
+      .attr('className', 'speed-label')
+      .style('x', x + size + spacing)
+      .style('y', 2)
+      .style('text', formatter(speeds[initialSpeedIdx]))
+      .call(applyStyle, label);
   }
 
   private bindEvents() {
-    if (!this.lineShapes) return;
-    const { onSpeedChange, speeds } = this.attributes;
-    for (let i = 0; i < this.lineShapes.length; i += 1) {
-      const onClick = (event: any) => {
-        const line = event.target as Path;
-        this.triangleShape?.setLocalPosition(this.triangleShape?.getLocalPosition()[0], line.getLocalPosition()[1] - 2);
-        this.labelShape?.update({ text: formatter(speeds[i]) });
-        this.setAttribute('currentSpeedIdx', i);
-        isFunction(onSpeedChange) && onSpeedChange(i);
-      };
-      this.lineShapes[i].addEventListener('click', onClick);
-    }
+    const lineGroup = this.querySelector('.line-group')! as any;
+    lineGroup.addEventListener('pointerdown', (evt: any) => this.onClick(evt));
+    // Only for mobile.
+    lineGroup.addEventListener('touchmove', (evt: any) => this.onClick(evt));
   }
 
-  private createTriangle() {
-    if (!this.lineShapes) return;
-    const { currentSpeedIdx } = this.attributes;
-    const line = this.lineShapes[currentSpeedIdx];
-    this.triangleShape = new Path({
-      style: {
-        fill: '#8c8c8c',
-        path: this.trianglePath(0, 0) as PathCommand[],
-      },
-    });
-    this.triangleShape.setLocalPosition(this.triangleShape?.getLocalPosition()[0], line.getLocalPosition()[1] - 2);
-    this.triangleShape.translateLocal(0);
-    this.appendChild(this.triangleShape);
-  }
+  private onClick(evt: any) {
+    const { speeds, markerSize, formatter = (v) => `${v}` } = this.styles;
+    const height = markerSize * 2 * 2;
+    const lineGroup = this.querySelector('.line-group')! as any;
+    const speedText = select(this).select('.speed-label').node();
+    const speedMarker = select(this).select('.speed-marker').node();
+    if (evt.currentTarget === lineGroup) {
+      const diff = evt.y - lineGroup.getBBox().y;
+      const idx = speeds.findIndex((_: any, idx: number) => {
+        const offset = getOffsetByIndex(idx, height);
+        const offset0 = getOffsetByIndex(idx - 1, height);
+        const offset1 = getOffsetByIndex(idx + 1, height);
 
-  private createLines() {
-    const mapLines = () =>
-      new Path({
-        style: {
-          stroke: '#bfbfbf',
-          path: this.linePath(3.5, 0) as PathCommand[],
-        },
+        if (idx === 0) return diff < offset + (getOffsetByIndex(1, height) - offset) / 2;
+        if (idx === speeds.length - 1) return diff > offset - (offset - offset0) / 2;
+
+        const range = [offset - (offset - offset0) / 2, offset + (offset1 - offset) / 2];
+        return diff >= range[0] && diff < range[1];
       });
-    this.lineShapes = Array(5).fill(undefined).map(mapLines);
-    this.lineShapes[0].translateLocal(0, 2);
-    this.lineShapes[1].translateLocal(0, 4);
-    this.lineShapes[2].translateLocal(0, 7);
-    this.lineShapes[3].translateLocal(0, 11);
-    this.lineShapes[4].translateLocal(0, 16);
-    this.lines = new Rect({ style: { width: 7, height: 16, x: 3, y: 0, cursor: 'pointer' } });
-    this.lineShapes.forEach((line) => {
-      this.lines!.appendChild(line);
-    });
-    this.appendChild(this.lines);
-  }
-
-  private createLabel() {
-    const { width, speeds, label, spacing, currentSpeedIdx } = this.attributes;
-    const lastLine = this.lineShapes && this.lineShapes[(this.lineShapes?.length as number) - 1];
-    const lastLineY = lastLine?.getLocalPosition()[1]!;
-    let restSpacing = width - 10 - spacing;
-    restSpacing = restSpacing > 0 ? restSpacing : 0;
-    this.labelShape = new Text({
-      style: {
-        ...TEXT_INHERITABLE_PROPS,
-        ...(label as any),
-        x: 10 + spacing,
-        width: restSpacing,
-        y: lastLineY - (label.height as number) + 3,
-        text: formatter(speeds[currentSpeedIdx]),
-      },
-    });
-    this.appendChild(this.labelShape);
-  }
-
-  public getActualHeight() {
-    return this.getBounds()!.max[1] - this.getBounds()!.min[1];
+      if (idx === -1) return;
+      speedText.setAttribute('text', formatter(speeds[idx]));
+      speedMarker.setLocalPosition(0, getOffsetByIndex(idx, height) - height / 8);
+      this.dispatchEvent(new CustomEvent('speedChanged', { detail: { speed: speeds[idx] } }));
+    }
   }
 }

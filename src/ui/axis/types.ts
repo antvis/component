@@ -1,6 +1,6 @@
 import type { TextStyleProps } from '@antv/g';
 import type { MarkerStyleProps } from '../marker';
-import type { DisplayObjectConfig, LineProps, ShapeAttrs, TextProps } from '../../types';
+import type { DisplayObjectConfig, LineProps, ShapeAttrs } from '../../types';
 import type { OverlapCallback } from './overlap';
 
 export type LabelType = 'text' | 'number' | 'time';
@@ -45,7 +45,7 @@ export type AxisTitleCfg = {
    * The maximum allowed length in pixels of axis title.
    */
   maxLength?: number;
-  style?: Omit<TextProps, 'text'>;
+  style?: Omit<TextStyleProps, 'text'>;
   animate?: boolean;
 };
 
@@ -76,7 +76,7 @@ export type AxisSubTickLineCfg = {
 
 export type AxisLabelCfg = {
   type?: LabelType;
-  style?: Partial<TextProps> | ((tick: TickDatum, index: number) => Partial<TextProps>);
+  style?: Partial<TextStyleProps> | ((tick: TickDatum, index: number) => Partial<TextStyleProps>);
   formatter?: (tick: TickDatum, index?: number) => string;
   // label是否与Tick对齐
   alignTick?: boolean;
@@ -162,11 +162,11 @@ export type AxisLabelCfg = {
 export type AxisBaseStyleProps = {
   type?: AxisType;
   title?: AxisTitleCfg;
-  axisLine?: AxisLineCfg;
+  axisLine?: AxisLineCfg | null;
   ticks?: TickDatum[];
   ticksThreshold?: false | number;
-  tickLine?: AxisTickLineCfg;
-  label?: AxisLabelCfg;
+  tickLine?: AxisTickLineCfg | null;
+  label?: AxisLabelCfg | null;
   subTickLine?: AxisSubTickLineCfg;
   verticalFactor?: -1 | 1;
 };

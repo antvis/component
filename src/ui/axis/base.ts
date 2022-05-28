@@ -43,7 +43,6 @@ export abstract class AxisBase<T extends AxisBaseStyleProps = AxisBaseStyleProps
     this.update();
   }
 
-  @timer('Total cost')
   public update(cfg: Partial<AxisBaseStyleProps> = {}) {
     // @ts-ignore
     this.attr(cfg);
@@ -93,7 +92,6 @@ export abstract class AxisBase<T extends AxisBaseStyleProps = AxisBaseStyleProps
   }
 
   /** Includes axis tickLine and axis subTickLine  */
-  @timer('cost')
   private drawTickLines() {
     const tickLineItems = this.getTickLineItems();
     select2update(this.axisTickGroup, 'axis-tick', Line, tickLineItems) as Line[];
@@ -102,7 +100,6 @@ export abstract class AxisBase<T extends AxisBaseStyleProps = AxisBaseStyleProps
     select2update(this.axisSubTickGroup, 'axis-subtick', Line, subTickLineItems) as Line[];
   }
 
-  @timer('cost')
   private drawLabels() {
     const labels = this.getLabelAttrs();
     this.labels = select2update(this.axisLabelGroup, 'axis-label', Text, labels) as Text[];

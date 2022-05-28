@@ -142,7 +142,7 @@ describe('Category legend', () => {
       itemBackgroundStyle: { default: { fill: 'pink' }, active: { fill: 'rgba(0,0,0,0.03)' } },
     });
     const [bg1, bg2] = category.querySelectorAll('.legend-item-background');
-    bg1.emit('mousemove', {});
+    (bg1 as any).emit('mousemove', {});
     expect(bg1.style.fill).toBe('rgba(0,0,0,0.03)');
     expect(bg2.style.fill).toBe('pink');
     category.destroy();
@@ -165,7 +165,7 @@ describe('Category legend', () => {
       })
     );
     const [name1, name2, name3] = category.querySelectorAll('.legend-item-name');
-    name2.emit('mousemove', {});
+    (name2 as any).emit('mousemove', {});
     category.setItemState('legend-item-2', 'selected');
     expect(name1.style.fill).toBe('grey');
     expect(name2.style.fill).toBe('black');

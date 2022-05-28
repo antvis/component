@@ -105,9 +105,9 @@ describe('Overlap autoHide', () => {
   });
 
   it('large labels, exceed time not to processOverlap', () => {
-    const attrs = Array(1000)
+    const attrs = Array(10000)
       .fill(null)
-      .map((d: any, idx: number) => ({ text: `hello${idx}`, x: 10 + idx, y: 10, fontSize: 10, fill: 'red' }));
+      .map((d: any, idx: number) => ({ text: `hello${idx}`, x: 10 + idx, y: 10, fontSize: 10, fill: 'orange' }));
     const labels: any[] = select(group)
       .selectAll('.text')
       .data(attrs)
