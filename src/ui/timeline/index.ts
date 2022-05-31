@@ -4,7 +4,7 @@ import { maybeAppend, normalPadding, select } from '../../util';
 import { Button } from './button';
 import { SliderAxis } from './sliderAxis';
 import { CellAxis } from './cellAxis';
-import { SpeedControl } from './speedControl';
+import { SpeedControl } from './speedcontrol';
 import { Checkbox } from './checkbox';
 import { DEFAULT_TIMELINE_STYLE } from './constants';
 import type { TimelineStyleProps, PlayAxisStyleProps } from './types';

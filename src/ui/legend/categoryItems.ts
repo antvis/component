@@ -1,15 +1,7 @@
-import {
-  BaseCustomElementStyleProps,
-  CustomElement,
-  ElementEvent,
-  DisplayObjectConfig,
-  Group,
-  Path,
-  Text,
-} from '@antv/g';
+import { BaseCustomElementStyleProps, CustomElement, DisplayObjectConfig, Group, Path, Text } from '@antv/g';
 import { deepMix, isNil, last } from '@antv/util';
 import { ShapeAttrs } from '../../types';
-import { applyStyle, getFont, maybeAppend, measureTextWidth, normalPadding, select } from '../../util';
+import { applyStyle, maybeAppend, normalPadding, select } from '../../util';
 import { CategoryItem, CategoryItemStyleProps } from './categoryItem';
 import { PageButton, ButtonStyleProps } from './pageButton';
 
@@ -42,6 +34,25 @@ type CategoryItemsStyleProps = BaseCustomElementStyleProps &
   };
 
 export type { CategoryItemsStyleProps };
+
+function initPosition(items: CategoryItem[], orient: 'horizontal' | 'vertical', offset: number = 0) {
+  let totalSize = 0;
+  let maxItemHeight = 0;
+  let maxItemWidth = 0;
+  items.reduce((d, item) => {
+    const [hw, hh] = item.getLocalBounds().halfExtents;
+    const position = orient === 'horizontal' ? [d, 0] : [0, d];
+    item.setLocalPosition(position[0], position[1]);
+
+    maxItemHeight = Math.max(maxItemHeight, hh * 2);
+    maxItemWidth = Math.max(maxItemWidth, hw * 2);
+    totalSize = orient === 'horizontal' ? d + hw * 2 : d + hh * 2;
+
+    return totalSize + offset;
+  }, 0);
+
+  return { totalSize, maxItemWidth, maxItemHeight };
+}
 
 export class CategoryItems extends CustomElement<CategoryItemsStyleProps> {
   private container!: Group;
@@ -235,40 +246,28 @@ export class CategoryItems extends CustomElement<CategoryItemsStyleProps> {
     this.resetPageCfg();
     if (this.items.length <= 1) return;
 
-    const items = this.items;
     const [offsetX, offsetY] = normalPadding(this.style.spacing);
-
-    let totalSize = 0;
-    let itemHeight = 0;
-    let itemWidth = 0;
     const offset = this.ifHorizontal(offsetX, offsetY);
 
-    items.reduce((d, item) => {
-      const [hw, hh] = item.getLocalBounds().halfExtents;
-      const position = this.ifHorizontal([d, 0], [0, d]);
-      item.setLocalPosition(position[0], position[1]);
-
-      itemHeight = Math.max(itemHeight, hh * 2);
-      itemWidth = Math.max(itemWidth, hw * 2);
-      totalSize = this.ifHorizontal(d + hw * 2, d + hh * 2);
-
-      return totalSize + offset;
-    }, 0);
-
+    const { totalSize, maxItemWidth, maxItemHeight } = initPosition(
+      this.items,
+      this.style.orient || 'horizontal',
+      offset
+    );
     const limitSize = this.ifHorizontal(this.style.maxWidth, this.style.maxHeight)!;
 
     if (!(isNil(limitSize) || limitSize === Infinity) && limitSize < totalSize) {
       if (this.style.autoWrap && this.style.orient !== 'vertical') {
         this.layoutButton('vertical');
-        this.adjustHorizontalWrap(itemWidth, itemHeight, limitSize);
+        this.adjustHorizontalWrap(maxItemWidth, maxItemHeight, limitSize);
       } else {
         this.layoutButton('horizontal');
-        this.adjustFlip(itemWidth, itemHeight, limitSize);
+        this.adjustFlip(maxItemWidth, maxItemHeight, limitSize);
       }
     }
   }
 
-  private adjustFlip(itemWidth: number, itemHeight: number, limitSize: number) {
+  private adjustFlip(maxItemWidth: number, maxItemHeight: number, limitSize: number) {
     this.showButtonGroup();
     const buttonGroup = this.querySelector('.page-button-group') as Group;
 
@@ -279,8 +278,8 @@ export class CategoryItems extends CustomElement<CategoryItemsStyleProps> {
     const buttonGroupWidth = buttonGroupBounds.halfExtents[0] * 2;
     const buttonGroupHeight = buttonGroupBounds.halfExtents[1] * 2;
     const [pageWidth, pageHeight] = this.ifHorizontal(
-      [limitSize - (buttonGroupWidth + pageSpacing), itemHeight],
-      [itemWidth, limitSize - (buttonGroupHeight + pageSpacing)]
+      [limitSize - (buttonGroupWidth + pageSpacing), maxItemHeight],
+      [maxItemWidth, limitSize - (buttonGroupHeight + pageSpacing)]
     );
     this.clipView.style.path = `M0,0 L${pageWidth},0 L${pageWidth},${pageHeight} L0,${pageHeight} Z`;
     this.container.style.clipPath = this.clipView;
@@ -324,22 +323,34 @@ export class CategoryItems extends CustomElement<CategoryItemsStyleProps> {
     this.container.style.clipPath = this.clipView;
 
     // Get page info.
-    const pageSize = pageWidth;
-    let row = 1;
-    let offset = 0;
-    const pageOffsets: number[] = [0];
-    for (let i = 0; i < this.items.length; i++) {
-      const item = this.items[i];
-      const { min, max } = item.getLocalBounds();
-      if (max[0] - offset > pageSize) {
-        row += 1;
-        offset = min[0];
-        if (row % maxRows === 1) {
-          pageOffsets.push((row - 1) * itemHeight);
+    function doLayout(pageSize: number, items: CategoryItem[]) {
+      let row = 1;
+      let offset = 0;
+      const pageOffsets: number[] = [0];
+      for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+        const { min, max } = item.getLocalBounds();
+        if (max[0] - offset > pageSize) {
+          row += 1;
+          offset = min[0];
+          if (row % maxRows === 1) {
+            pageOffsets.push((row - 1) * itemHeight);
+          }
         }
+        item.setLocalPosition(min[0] - offset, (row - 1) * itemHeight);
       }
+      return pageOffsets;
+    }
+    const pageOffsets = doLayout(pageWidth, this.items);
 
-      item.setLocalPosition(min[0] - offset, (row - 1) * itemHeight);
+    // 不展示分页器.
+    if (pageOffsets.length === 1) {
+      const [offsetX, offsetY] = normalPadding(this.style.spacing);
+      const offset = this.ifHorizontal(offsetX, offsetY);
+      initPosition(this.items, this.style.orient || 'horizontal', offset);
+      doLayout(limitSize, this.items);
+      this.resetPageCfg();
+      return;
     }
     this.maxPages = pageOffsets.length;
     this.currPage = 1;

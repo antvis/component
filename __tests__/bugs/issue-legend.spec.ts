@@ -37,5 +37,29 @@ describe('Legend', () => {
     const pageInfo = legend.querySelector('.page-info')! as any;
     expect(pageInfo).toBeDefined();
     expect(pageInfo.style.text).not.toBe('1 / 1');
+
+    legend.destroy();
+  });
+
+  it('legend do not show pageNavigator when maxPages is 1.', () => {
+    const legend = canvas.appendChild(
+      new Category({
+        style: {
+          x: 0,
+          y: 5,
+          items: [
+            { name: '事例一', color: '#4982f8' },
+            { name: '事例二', color: '#41d59c' },
+            { name: '事例三', color: '#516587' },
+            { name: '事例四', color: '#f9b41b' },
+            { name: '事例五', color: '#624ef7' },
+          ],
+          maxWidth: 220,
+          autoWrap: true,
+        },
+      })
+    );
+
+    expect((legend.querySelector('.page-button-group') as any)!.style.visibility).toBe('hidden');
   });
 });
