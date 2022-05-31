@@ -32,7 +32,7 @@ function adjustText(nameShape?: Text | null, valueShape?: Text | null, maxWidth?
     return;
   }
 
-  if (!(nameShape && valueShape)) {
+  if (!nameShape || !valueShape) {
     const shape = (nameShape || valueShape)!;
     const w = shape.getLocalBounds().halfExtents[0] * 2;
     if (w > maxWidth) {
@@ -43,10 +43,10 @@ function adjustText(nameShape?: Text | null, valueShape?: Text | null, maxWidth?
 
   const nameBounds = nameShape.getLocalBounds();
   const valueBounds = valueShape.getLocalBounds();
-  if (valueBounds.max[0] - nameBounds.min[0] > maxWidth) {
-    const width1 = nameBounds.halfExtents[0] * 2;
-    const width2 = valueBounds.halfExtents[0] * 2;
-    const spacing = valueBounds.min[0] - nameBounds.max[0];
+  const width1 = nameBounds.halfExtents[0] * 2;
+  const width2 = valueBounds.halfExtents[0] * 2;
+  const spacing = width1 && width2 ? valueBounds.min[0] - nameBounds.max[0] : 0;
+  if (width1 + width2 + spacing > maxWidth) {
     // todo 后续开放占比配置。
     let [w1, w2] = [maxWidth * NAME_VALUE_RATIO, maxWidth * (1 - NAME_VALUE_RATIO)];
     let nameFlag = true;

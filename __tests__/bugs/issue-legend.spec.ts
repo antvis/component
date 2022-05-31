@@ -1,7 +1,7 @@
 import { Category } from '../../src/ui/legend/category';
 import { createCanvas } from '../utils/render';
 
-const canvas = createCanvas(800, undefined, true);
+const canvas = createCanvas(800, 'svg', true);
 describe('Legend', () => {
   it('legend `autoWrap` without specify `maxRows`', () => {
     const legend = canvas.appendChild(
@@ -26,7 +26,6 @@ describe('Legend', () => {
           ],
           maxWidth: 165,
           maxHeight: 64,
-          // autoWrap: true,
           pageNavigator: {
             pageFormatter: (c, t) => `${c} / ${t}`,
           },
@@ -37,6 +36,10 @@ describe('Legend', () => {
     const pageInfo = legend.querySelector('.page-info')! as any;
     expect(pageInfo).toBeDefined();
     expect(pageInfo.style.text).not.toBe('1 / 1');
+
+    legend.update({ maxWidth: 565, maxItemWidth: 120, itemWidth: 120, autoWrap: true, maxRows: 3 });
+    const items = legend.querySelectorAll('.legend-item') as any[];
+    expect(items[1].getLocalBounds().min[0]).toBe(items[5].getLocalBounds().min[0]);
 
     legend.destroy();
   });
