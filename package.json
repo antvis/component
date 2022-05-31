@@ -1,13 +1,12 @@
 {
   "name": "@antv/gui",
-  "version": "0.4.3-alpha.21",
+  "version": "0.4.3-alpha.22",
   "description": "UI components for AntV G.",
   "license": "MIT",
   "main": "lib/index.js",
   "module": "esm/index.js",
   "unpkg": "dist/gui.min.js",
   "types": "lib/index.d.ts",
-  "sideEffect": false,
   "files": [
     "src",
     "lib",

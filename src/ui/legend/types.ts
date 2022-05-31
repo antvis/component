@@ -1,18 +1,39 @@
-import type {
-  DisplayObjectConfig,
-  ShapeAttrs,
-  StyleState,
-  MixAttrs,
-  TextProps,
-  ImageProps,
-  PathProps,
-} from '../../types';
+import type { TextStyleProps } from '@antv/g';
+import type { DisplayObjectConfig, ShapeAttrs, ImageProps, PathProps } from '../../types';
 import type { MarkerStyleProps } from '../marker/types';
-import type { ItemMarkerCfg, ItemNameCfg, ItemValueCfg } from './categoryItem';
+import type { PageNavigatorCfg } from './categoryItems';
 
-export type State = StyleState | 'default-active' | 'selected-active';
+type TextProps = Omit<TextStyleProps, 'text'>;
+
+export type State = 'selected' | 'unselected' | 'disabled';
 export type SymbolCfg = MarkerStyleProps['symbol'];
-
+export type MixShapeStyleProps = ShapeAttrs & {
+  disabled?: ShapeAttrs;
+  unselected?: TextProps;
+  active?: ShapeAttrs;
+};
+export type ItemMarkerCfg = {
+  size?: number;
+  symbol?: MarkerStyleProps['symbol'];
+  style?: MixShapeStyleProps;
+};
+type MixTextStyleProps = TextProps & {
+  disabled?: TextProps;
+  unselected?: TextProps;
+  active?: TextProps;
+};
+export type ItemNameCfg = {
+  content?: string;
+  spacing?: number;
+  style?: MixTextStyleProps;
+};
+export type ItemValueCfg = {
+  content?: string;
+  spacing?: number;
+  // todo 待定
+  align?: 'left' | 'right';
+  style?: MixTextStyleProps;
+};
 /**
  * 连续图例色轨
  */
@@ -126,6 +147,7 @@ export type LegendBaseCfg = {
    */
   title?: {
     content?: string;
+    spacing?: number;
     style?: Partial<TextProps>;
     // 目前仅对 连续图例 生效
     align?: 'left' | 'center' | 'right';
@@ -259,7 +281,7 @@ export type CategoryCfg = LegendBaseCfg & {
     formatter?: (item: CategoryItem, index: number, items: CategoryItem[]) => string;
   };
   itemPadding?: number | number[];
-  itemBackgroundStyle?: MixAttrs<ShapeAttrs>;
+  itemBackgroundStyle?: MixShapeStyleProps;
   // 图例项最大宽度（跟随形式）
   maxItemWidth?: number;
   // 自动换行、列
@@ -269,15 +291,8 @@ export type CategoryCfg = LegendBaseCfg & {
   maxRows?: number;
   // 图例项倒序
   reverse?: boolean;
-  pageNavigator?: {
-    pageSpacing?: number;
-    pageButtonSize?: number;
-    pageButtonStyle?: { default?: ShapeAttrs; disabled?: ShapeAttrs };
-    pageInfoWidth?: number;
-    pageInfoHeight?: number;
-    pageFormatter?: (current: number, total: number) => string;
-    pageTextStyle?: ShapeAttrs;
-  };
+  // todo 优化类型定义
+  pageNavigator?: PageNavigatorCfg;
 };
 
 export type CategoryOptions = DisplayObjectConfig<CategoryCfg>;

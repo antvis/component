@@ -9,36 +9,39 @@ import {
 } from '@antv/g';
 import { deepMix, isNil, last } from '@antv/util';
 import { ShapeAttrs } from '../../types';
-import { normalPadding, select2update } from '../../util';
+import { applyStyle, getFont, maybeAppend, measureTextWidth, normalPadding, select } from '../../util';
 import { CategoryItem, CategoryItemStyleProps } from './categoryItem';
-import { PageButton } from './pageButton';
+import { PageButton, ButtonStyleProps } from './pageButton';
 
-type CategoryItemsStyleProps = BaseCustomElementStyleProps & {
-  orient: 'horizontal' | 'vertical';
-  items: CategoryItemStyleProps[];
-  spacing?: number[];
-  maxWidth?: number;
-  maxHeight?: number;
-  autoWrap?: boolean;
-  maxRows?: number;
+export type PageNavigatorCfg = {
   // todo
   // pagePosition?: string;
   /** Spacing between page buttons and legend items. */
   pageSpacing?: number;
   pageButtonSize?: number;
-  pageButtonStyle?: {
-    default?: ShapeAttrs;
-    disabled?: ShapeAttrs;
-  };
-  pageInfoWidth?: number;
-  pageInfoHeight?: number;
+  pageButtonStyle?: ButtonStyleProps;
+  pageInfoSpacing?: number;
   pageFormatter?: (current: number, total: number) => string;
   pageTextStyle?: ShapeAttrs;
-  // todo:
-  loop?: boolean;
-  effect?: any;
-  duration?: number;
 };
+
+type CategoryItemsStyleProps = BaseCustomElementStyleProps &
+  PageNavigatorCfg & {
+    orient: 'horizontal' | 'vertical';
+    items: CategoryItemStyleProps[];
+    spacing?: number[];
+    maxWidth?: number;
+    maxHeight?: number;
+    autoWrap?: boolean;
+    maxRows?: number;
+
+    // todo:
+    loop?: boolean;
+    effect?: any;
+    duration?: number;
+  };
+
+export type { CategoryItemsStyleProps };
 
 export class CategoryItems extends CustomElement<CategoryItemsStyleProps> {
   private container!: Group;
@@ -49,15 +52,7 @@ export class CategoryItems extends CustomElement<CategoryItemsStyleProps> {
 
   private nextButton!: PageButton;
 
-  private pageInfo!: Text;
-
   private clipView!: Path;
-
-  private maxPages?: number = undefined;
-
-  private currPage?: number = undefined;
-
-  private pageOffsets: number[] = [];
 
   public static defaultOptions = {
     style: {
@@ -66,60 +61,72 @@ export class CategoryItems extends CustomElement<CategoryItemsStyleProps> {
       duration: 320,
       maxRows: 2,
       maxCols: 2,
-      pageInfoWidth: 32,
-      pageInfoHeight: 14,
       pageButtonSize: 10,
-      pageFormatter: (current: number, total: number) => `${current} / ${total}`,
-      pageButtonStyle: { default: { fill: 'black' }, disabled: { fill: 'rgb(131,131,131)' } },
+      pageInfoSpacing: 2,
+      pageFormatter: (current: number, total: number) => `${current}/${total}`,
+      pageButtonStyle: {
+        size: 10,
+        // 不建议设置 margin 和 padding (需要根据方向调整，比较麻烦)
+        margin: 0,
+        padding: 0,
+        markerStyle: {
+          fill: 'black',
+          cursor: 'pointer',
+          disabled: { fill: '#d9d9d9', cursor: 'not-allowed' },
+        },
+        backgroundStyle: {
+          cursor: 'pointer',
+          fill: 'transparent',
+          disabled: { cursor: 'not-allowed' },
+        },
+      },
       pageTextStyle: { fontSize: 12, textBaseline: 'middle', textAlign: 'center' },
     },
   };
 
   constructor(options: DisplayObjectConfig<CategoryItemsStyleProps>) {
     super(deepMix({}, CategoryItems.defaultOptions, options));
-    this.container = this.appendChild(new Group());
-    this.clipView = new Path({ style: { path: [] } });
   }
 
   connectedCallback() {
-    this.initPageNavigator();
-    this.drawItems();
+    this.container = this.appendChild(new Group());
+    this.clipView = new Path({ style: { path: [] } });
+    this.render();
     this.bindEvents();
   }
 
-  attributeChangedCallback(name: keyof CategoryItemsStyleProps, oldValue: any, newValue: any) {
-    if (name === 'items') {
-      this.drawItems();
-      this.adjustLayout();
-    }
-    if (name === 'pageButtonSize') {
-      this.prevButton!.style.size = newValue;
-      this.nextButton!.style.size = newValue;
-      this.adjustLayout();
-    }
-    if (name === 'pageInfoWidth' || name === 'pageSpacing') this.adjustLayout();
-    if (name === 'orient' || name === 'autoWrap' || name === 'maxWidth' || name === 'maxHeight') {
-      this.updatePageButtonSymbol();
-      this.adjustLayout();
-    }
-    if (name === 'maxRows' && this.style.autoWrap) {
-      this.adjustLayout();
-    }
-    if (name === 'pageFormatter') this.updatePageInfo();
-    if (name === 'pageTextStyle') this.applyPageInfoStyle();
-    if (name === 'pageButtonStyle') this.applyPageButtonStyle();
+  public update(cfg: Partial<CategoryItemsStyleProps> = {}) {
+    this.attr(deepMix({}, this.attributes, cfg));
+    this.render();
+  }
+
+  private get styles(): Required<CategoryItemsStyleProps> {
+    return deepMix({}, CategoryItems.defaultOptions.style, this.attributes);
+  }
+
+  private render() {
+    this.renderButtonGroup();
+
+    const { items = [] } = this.style;
+    this.items = select(this.container)
+      .selectAll(`.legend-item`)
+      .data(items || [], (d, idx) => d.id || idx)
+      .join(
+        (enter) => enter.append((datum) => new CategoryItem({ id: datum.id, className: 'legend-item', style: datum })),
+        (update) =>
+          update.each(function (datum) {
+            this.update(datum);
+          }),
+        (exit) => exit.remove()
+      )
+      .nodes() as CategoryItem[];
+
+    this.adjustLayout();
   }
 
   private bindEvents() {
-    this.container.addEventListener(ElementEvent.MOUNTED, () => this.adjustLayout(), { capture: true });
-
-    this.prevButton.addEventListener('click', this.prev.bind(this));
-    this.nextButton.addEventListener('click', this.next.bind(this));
-  }
-
-  private drawItems() {
-    const { items = [] } = this.style;
-    this.items = select2update(this.container, 'legend-item', CategoryItem, items) as CategoryItem[];
+    this.prevButton.addEventListener('pointerdown', this.prev.bind(this));
+    this.nextButton.addEventListener('pointerdown', this.next.bind(this));
   }
 
   private ifHorizontal<T>(a: T, b: T) {
@@ -129,44 +136,101 @@ export class CategoryItems extends CustomElement<CategoryItemsStyleProps> {
     return typeof a === 'function' ? a() : a;
   }
 
-  private initPageNavigator() {
-    const buttonCfg = { className: 'page-button', zIndex: 2 };
-    this.prevButton = this.appendChild(new PageButton(buttonCfg));
-    this.nextButton = this.appendChild(new PageButton(buttonCfg));
-    this.pageInfo = this.appendChild(new Text({ className: 'page-info' }));
+  private renderButtonGroup() {
+    const { pageButtonStyle: buttonStyle = {}, pageTextStyle } = this.styles;
 
+    const group = maybeAppend(this, '.page-button-group', () => new Group({ className: 'page-button-group' })).node();
+    const prevBtnId = 'page-prev-button';
+    const nextBtnId = 'page-next-button';
+    this.prevButton = maybeAppend(group, `#${prevBtnId}`, () => new PageButton({}))
+      .attr('id', prevBtnId)
+      .attr('className', 'page-button')
+      .attr('zIndex', 2)
+      .call((selection) => {
+        (selection.node() as PageButton).update(buttonStyle);
+      })
+      .node() as PageButton;
+    maybeAppend(group, '.page-info', 'text').attr('className', 'page-info').call(applyStyle, pageTextStyle);
+    this.nextButton = maybeAppend(group, `#${nextBtnId}`, () => new PageButton({}))
+      .attr('id', nextBtnId)
+      .attr('className', 'page-button')
+      .attr('zIndex', 2)
+      .call((selection) => {
+        (selection.node() as PageButton).update(buttonStyle);
+      })
+      .node() as PageButton;
     this.updatePageButtonSymbol();
-    this.applyPageButtonStyle();
-    this.applyPageInfoStyle();
   }
 
-  private applyPageButtonStyle() {
-    const markerStyle = deepMix({}, CategoryItems.defaultOptions.style.pageButtonStyle, this.style.pageButtonStyle);
-    this.prevButton.attr({ markerStyle });
-    this.nextButton.attr({ markerStyle });
+  private get pageInfoBounds() {
+    const pageInfo = this.querySelector('.page-info') as Text;
+    if (!pageInfo) {
+      return { width: 0, height: 0 };
+    }
+    const { pageFormatter, pageInfoSpacing: spacing } = this.styles;
+    const visibility = pageInfo.style.visibility;
+
+    pageInfo.style.visibility = 'hidden';
+    pageInfo.style.text = pageFormatter(1, this.styles.items.length);
+    const [hw, hh] = pageInfo.getLocalBounds().halfExtents;
+    pageInfo.style.visibility = visibility;
+
+    return { width: (hw + spacing) * 2, height: (hh + spacing) * 2 };
   }
 
-  private applyPageInfoStyle() {
-    const pageTextStyle = deepMix({}, CategoryItems.defaultOptions.style.pageTextStyle, this.style.pageTextStyle);
-    this.pageInfo.attr(pageTextStyle);
+  private layoutButton(orient: 'horizontal' | 'vertical') {
+    const { pageInfoSpacing = 0 } = this.style;
+    const pageInfoHeight = this.pageInfoBounds.height;
+    const pageInfoWidth = this.pageInfoBounds.width + pageInfoSpacing * 2;
+    const buttonGroup = this.querySelector('.page-button-group') as Group;
+    const [prevBtn, pageInfo, nextBtn] = buttonGroup.childNodes as [PageButton, Text, PageButton];
+
+    if (orient === 'horizontal') {
+      const prevBtnWidth = prevBtn.getLocalBounds().halfExtents[0] * 2;
+      const nextBtnWidth = nextBtn.getLocalBounds().halfExtents[0] * 2;
+      prevBtn.style.x = prevBtnWidth / 2;
+      nextBtn.style.x = prevBtnWidth + pageInfoWidth + nextBtnWidth / 2;
+      pageInfo.style.x = (Number(prevBtn.style.x) + Number(nextBtn.style.x)) / 2;
+
+      prevBtn.style.y = 0;
+      nextBtn.style.y = 0;
+      pageInfo.style.y = 0;
+    } else {
+      const prevBtnHeight = prevBtn.getLocalBounds().halfExtents[1] * 2;
+      const nextBtnHeight = nextBtn.getLocalBounds().halfExtents[1] * 2;
+      prevBtn.style.y = -(pageInfoHeight + prevBtnHeight) / 2;
+      nextBtn.style.y = (pageInfoHeight + nextBtnHeight) / 2;
+      pageInfo.style.y = 0;
+
+      const centerX = this.pageInfoBounds.width / 2;
+      prevBtn.style.x = centerX;
+      nextBtn.style.x = centerX;
+      pageInfo.style.x = centerX;
+    }
   }
 
-  private showPageNavigator() {
-    this.prevButton.style.visibility = 'visible';
-    this.nextButton.style.visibility = 'visible';
-    this.pageInfo.style.visibility = 'visible';
+  private showButtonGroup() {
+    (this.querySelector('.page-button-group') as any).style.visibility = 'visible';
   }
+
+  // ==== 设置分页布局  ====
+  private maxPages?: number = undefined;
+
+  private currPage?: number = undefined;
+
+  private pageOffsets: number[] = [];
 
   private resetPageCfg() {
-    this.prevButton.style.visibility = 'hidden';
-    this.nextButton.style.visibility = 'hidden';
-    this.pageInfo.style.visibility = 'hidden';
+    (this.querySelector('.page-button-group') as any).style.visibility = 'hidden';
     this.container.style.clipPath = null;
     this.currPage = undefined;
     this.maxPages = undefined;
     this.pageOffsets = [];
+    this.container.style.transform = 'translate(0,0)';
+    this.clipView && (this.clipView.style.transform = 'translate(0,0)');
   }
 
+  // [todo] refactor later.
   private adjustLayout() {
     this.resetPageCfg();
     if (this.items.length <= 1) return;
@@ -192,35 +256,38 @@ export class CategoryItems extends CustomElement<CategoryItemsStyleProps> {
     }, 0);
 
     const limitSize = this.ifHorizontal(this.style.maxWidth, this.style.maxHeight)!;
+
     if (!(isNil(limitSize) || limitSize === Infinity) && limitSize < totalSize) {
       if (this.style.autoWrap && this.style.orient !== 'vertical') {
+        this.layoutButton('vertical');
         this.adjustHorizontalWrap(itemWidth, itemHeight, limitSize);
       } else {
+        this.layoutButton('horizontal');
         this.adjustFlip(itemWidth, itemHeight, limitSize);
       }
     }
   }
 
   private adjustFlip(itemWidth: number, itemHeight: number, limitSize: number) {
-    this.showPageNavigator();
+    this.showButtonGroup();
+    const buttonGroup = this.querySelector('.page-button-group') as Group;
+
     const pageSpacing = this.style.pageSpacing!;
     const pageButtonSize = this.prevButton.style.size || CategoryItems.defaultOptions.style.pageButtonSize;
-    const pageInfoWidth = this.style.pageInfoWidth || CategoryItems.defaultOptions.style.pageInfoWidth;
 
+    const buttonGroupBounds = buttonGroup.getLocalBounds();
+    const buttonGroupWidth = buttonGroupBounds.halfExtents[0] * 2;
+    const buttonGroupHeight = buttonGroupBounds.halfExtents[1] * 2;
     const [pageWidth, pageHeight] = this.ifHorizontal(
-      [limitSize - (pageButtonSize * 2 + pageInfoWidth + pageSpacing), itemHeight],
-      [itemWidth, limitSize - (pageButtonSize + pageSpacing)]
+      [limitSize - (buttonGroupWidth + pageSpacing), itemHeight],
+      [itemWidth, limitSize - (buttonGroupHeight + pageSpacing)]
     );
     this.clipView.style.path = `M0,0 L${pageWidth},0 L${pageWidth},${pageHeight} L0,${pageHeight} Z`;
     this.container.style.clipPath = this.clipView;
-
-    const x0 = this.ifHorizontal(pageWidth + pageSpacing, 0);
-    const x1 = x0 + pageButtonSize / 2;
-    const x2 = x0 + (pageButtonSize / 2) * 3 + pageInfoWidth;
-    const y = this.ifHorizontal(itemHeight / 2, pageHeight + pageButtonSize / 2 + pageSpacing);
-    this.prevButton?.setLocalPosition(x1, y);
-    this.nextButton?.setLocalPosition(x2, y);
-    this.pageInfo.setLocalPosition((x1 + x2) / 2, y);
+    // 更新 ButtonGroup 位置.
+    buttonGroup.style.x = this.ifHorizontal(limitSize - buttonGroupWidth, 0);
+    // todo 存在像素误差
+    buttonGroup.style.y = this.ifHorizontal(pageHeight / 2 - 1, pageHeight + pageButtonSize + pageSpacing);
 
     // Get page info.
     const direction = this.ifHorizontal('x', 'y');
@@ -242,20 +309,22 @@ export class CategoryItems extends CustomElement<CategoryItemsStyleProps> {
   }
 
   private adjustHorizontalWrap(itemWidth: number, itemHeight: number, limitSize: number) {
-    this.showPageNavigator();
-    const pageSpacing = this.style.pageSpacing!;
-    const pageButtonSize = this.prevButton.style.size || CategoryItems.defaultOptions.style.pageButtonSize;
-    const pageInfoWidth = this.style.pageInfoWidth || CategoryItems.defaultOptions.style.pageInfoWidth;
-    const pageInfoHeight = this.style.pageInfoHeight || CategoryItems.defaultOptions.style.pageInfoHeight;
+    this.showButtonGroup();
+    const buttonGroup = this.querySelector('.page-button-group') as Group;
 
-    const maxRows = this.style.maxRows || 1;
-    const [pageWidth, pageHeight] = [limitSize - (pageInfoWidth + pageSpacing), itemHeight * maxRows];
+    const { pageSpacing = 0 } = this.style;
+    const pageInfoWidth = this.pageInfoBounds.width;
+
+    const maxRows = this.style.maxRows || 2;
+    const buttonGroupBounds = buttonGroup.getLocalBounds();
+    const buttonGroupWidth = Math.max(buttonGroupBounds.halfExtents[0] * 2, pageInfoWidth);
+
+    const [pageWidth, pageHeight] = [limitSize - (buttonGroupWidth + pageSpacing), itemHeight * maxRows];
     this.clipView.style.path = `M0,0 L${pageWidth},0 L${pageWidth},${pageHeight} L0,${pageHeight} Z`;
     this.container.style.clipPath = this.clipView;
 
     // Get page info.
     const pageSize = pageWidth;
-
     let row = 1;
     let offset = 0;
     const pageOffsets: number[] = [0];
@@ -276,12 +345,10 @@ export class CategoryItems extends CustomElement<CategoryItemsStyleProps> {
     this.currPage = 1;
     this.pageOffsets = pageOffsets;
 
-    const x = pageWidth + pageSpacing + pageButtonSize / 2;
-    const y0 = pageHeight / 2;
-    const buttonOffset = (pageInfoHeight + pageButtonSize) / 2;
-    this.prevButton?.setLocalPosition(x, y0 - buttonOffset);
-    this.nextButton?.setLocalPosition(x, y0 + buttonOffset);
-    this.pageInfo?.setLocalPosition(x, y0);
+    // 更新 ButtonGroup 位置. (todo 可以优化下，靠近 items 而不是贴边)
+    buttonGroup.style.x = limitSize - buttonGroupWidth;
+    // todo 后续修复 存在几像素误差
+    buttonGroup.style.y = pageHeight / 2 - 2;
     this.updatePageNavigatorState();
   }
 
@@ -296,27 +363,29 @@ export class CategoryItems extends CustomElement<CategoryItemsStyleProps> {
   private updatePageNavigatorState() {
     this.updatePageInfo();
     if (this.currPage === this.maxPages) {
-      this.nextButton.style.disabled = true;
+      this.nextButton.setState('disabled');
     } else {
-      this.nextButton.style.disabled = false;
+      this.nextButton.setState('default');
     }
     if (this.currPage === 1) {
-      this.prevButton.style.disabled = true;
+      this.prevButton.setState('disabled');
     } else {
-      this.prevButton.style.disabled = false;
+      this.prevButton.setState('default');
     }
   }
 
   private updatePageButtonSymbol() {
     const { autoWrap } = this.style;
     const sign = this.ifHorizontal(autoWrap ? 1 : 0, 1);
-    this.prevButton.attr({ symbol: ['left', 'up'][sign] });
-    this.nextButton.attr({ symbol: ['right', 'down'][sign] });
+    this.prevButton.update({ symbol: ['left', 'up'][sign] });
+    this.nextButton.update({ symbol: ['right', 'down'][sign] });
   }
 
   private updatePageInfo() {
-    const pageFormatter = this.style.pageFormatter || CategoryItems.defaultOptions.style.pageFormatter;
-    this.pageInfo.style.text = !(this.currPage && this.maxPages) ? '' : pageFormatter(this.currPage, this.maxPages);
+    const pageFormatter = this.styles.pageFormatter;
+    select(this)
+      .select('.page-info')
+      .style('text', !(this.currPage && this.maxPages) ? '' : pageFormatter(this.currPage, this.maxPages));
   }
 
   private finished() {
@@ -355,7 +424,7 @@ export class CategoryItems extends CustomElement<CategoryItemsStyleProps> {
     this.goTo(to);
   }
 
-  public goTo(to: number) {
+  private goTo(to: number) {
     if (to === this.currPage) return;
     if (this.playState === 'idle') {
       const { effect, duration, autoWrap } = this.style;

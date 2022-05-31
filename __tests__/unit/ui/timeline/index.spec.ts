@@ -159,7 +159,7 @@ describe('Timeline', () => {
     canvas.appendChild(timeline);
     const axis = timeline.querySelector('.timeline-axis')! as AxisBase;
 
-    const playButton = timeline.querySelector('.timeline-play-btn')!;
+    const playButton = timeline.querySelector('.timeline-play-btn')! as any;
     playButton.emit('pointerdown', {});
     // @ts-ignore
     expect(timeline.playing).toBe(false);

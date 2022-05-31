@@ -1,5 +1,6 @@
 import { PathStyleProps, RectStyleProps, TextStyleProps } from '@antv/g';
 import { AxisTickLineCfg } from '../axis/types';
+import { ControlButtonStyleProps } from './button';
 
 export type TimeData = {
   date: string;
@@ -68,22 +69,6 @@ export type SpeedControlStyleProps = {
 };
 
 type ButtonBackgroundStyle = Omit<RectStyleProps, 'x' | 'y' | 'width' | 'height'>;
-type ButtonMarkerStyle = Omit<PathStyleProps, 'path'>;
-
-export type ControlButtonStyleProps = {
-  // The size of marker is equal to [size - padding[1] - padding[3], size - padding[0] - padding[2]]
-  size: number;
-  symbol?: string;
-  // Used to enlarge the hot area of button.
-  margin?: number | number[];
-  padding?: number | number[];
-  backgroundStyle?: ButtonBackgroundStyle & {
-    active?: Omit<RectStyleProps, 'x' | 'y' | 'width' | 'height'>;
-  };
-  markerStyle?: ButtonMarkerStyle & {
-    active?: Omit<PathStyleProps, 'path'>;
-  };
-};
 
 export type CheckboxStyleProps = {
   size?: number;

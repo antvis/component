@@ -1,9 +1,8 @@
 import { CustomEvent } from '@antv/g';
 import { min, isFunction, deepMix } from '@antv/util';
-import { applyStyle, deepAssign, maybeAppend } from '../../util';
-import type { StyleState as State } from '../../types';
+import { deepAssign, maybeAppend } from '../../util';
 import { CategoryItem } from './categoryItem';
-import type { CategoryCfg, CategoryOptions } from './types';
+import type { CategoryCfg, CategoryOptions, State } from './types';
 import { CATEGORY_DEFAULT_OPTIONS, DEFAULT_ITEM_MARKER, DEFAULT_ITEM_NAME, DEFAULT_ITEM_VALUE } from './constant';
 import { LegendBase } from './base';
 import { CategoryItems } from './categoryItems';
@@ -38,22 +37,24 @@ export class Category extends LegendBase<CategoryCfg> {
   private drawItems() {
     this.labelsGroup = maybeAppend(this.innerGroup, '.category-items', () => new CategoryItems({}))
       .attr('className', 'category-items')
-      .call(applyStyle, {
-        orient: this.orient,
-        items: this.itemsShapeCfg,
-        spacing: this.style.spacing,
-        autoWrap: this.style.autoWrap,
-        maxRows: this.style.maxRows,
-        maxWidth: this.style.maxWidth,
-        maxHeight: this.style.maxHeight,
-        ...(this.style.pageNavigator || {}),
+      .call((selection) => {
+        (selection.node() as CategoryItems).update({
+          orient: this.orient,
+          items: this.itemsShapeCfg,
+          spacing: this.style.spacing,
+          autoWrap: this.style.autoWrap,
+          maxRows: this.style.maxRows,
+          maxWidth: this.style.maxWidth,
+          maxHeight: this.style.maxHeight,
+          ...(this.style.pageNavigator || {}),
+        });
       })
       .node() as CategoryItems;
   }
 
   private get idItem(): Map<string, CategoryItem> {
     const legendItems = this.labelsGroup?.querySelectorAll('.legend-item') as CategoryItem[];
-    return new Map((legendItems || []).map((item) => [item.getID(), item]));
+    return new Map((legendItems || []).map((item) => [item.style.id, item]));
   }
 
   public getItem(id: string): CategoryItem | undefined {
@@ -84,14 +85,14 @@ export class Category extends LegendBase<CategoryCfg> {
     return items.map((item, idx) => {
       return {
         id: item.id || `legend-item-${idx}`,
-        state: item.state || 'default',
+        state: item.state || 'selected',
         maxItemWidth: min([maxItemWidth ?? Number.MAX_VALUE, maxWidth ?? Number.MAX_VALUE]),
         itemMarker: (() => {
           const markerCfg = isFunction(itemMarker) ? itemMarker(item, idx, items) : itemMarker;
           return deepMix(
             {},
             DEFAULT_ITEM_MARKER,
-            { symbol: item.symbol, style: { default: { fill: item.color, stroke: item.color } } },
+            { symbol: item.symbol, style: { fill: item.color, stroke: item.color } },
             markerCfg
           );
         })(),

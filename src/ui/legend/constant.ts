@@ -37,35 +37,10 @@ export const LEGEND_BASE_DEFAULT_OPTIONS = {
 export const DEFAULT_ITEM_MARKER = {
   symbol: 'circle',
   size: 8,
-  style: {
-    default: {
-      fill: '#d3d2d3',
-      fillOpacity: 1,
-      lineWidth: 0,
-    },
-    selected: {},
-    active: {
-      cursor: 'pointer',
-    },
-  },
 };
 
 export const DEFAULT_ITEM_NAME = {
-  spacing: 4,
   style: {
-    default: {
-      fill: '#646464',
-      fontSize: 12,
-      opacity: 1,
-      fontWeight: 'normal',
-    },
-    selected: {
-      fontSize: 12,
-    },
-    active: {
-      fontSize: 12,
-      cursor: 'pointer',
-    },
     inactive: {
       fill: '#d3d2d3',
       opacity: 0.5,
@@ -74,21 +49,7 @@ export const DEFAULT_ITEM_NAME = {
 };
 
 export const DEFAULT_ITEM_VALUE = {
-  spacing: 4,
   style: {
-    default: {
-      fill: '#646464',
-      fontSize: 12,
-      opacity: 1,
-      fontWeight: 'normal',
-    },
-    selected: {
-      fontSize: 12,
-    },
-    active: {
-      fontSize: 12,
-      cursor: 'pointer',
-    },
     inactive: {
       fill: '#d3d2d3',
       opacity: 0.5,
@@ -121,9 +82,7 @@ export const CATEGORY_DEFAULT_OPTIONS = deepMix({}, LEGEND_BASE_DEFAULT_OPTIONS,
     itemBackground: {
       padding: 0,
       style: {
-        default: {
-          fill: 'transparent',
-        },
+        fill: 'transparent',
         active: {
           cursor: 'pointer',
         },

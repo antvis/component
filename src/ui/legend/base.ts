@@ -149,10 +149,11 @@ export abstract class LegendBase<T extends LegendBaseCfg = LegendBaseCfg> extend
   }
 
   private adjustInnerGroup() {
+    const titleSpacing = this.style.title?.spacing || 0;
     const inset = normalPadding(this.style.inset);
     const [top, , , left] = inset;
     // Adjust layout.
     const { left: tl, bottom: tb } = this.titleShapeBBox;
-    this.innerGroup.setLocalPosition(tl + left, tb + top);
+    this.innerGroup.setLocalPosition(tl + left, tb + top + titleSpacing);
   }
 }

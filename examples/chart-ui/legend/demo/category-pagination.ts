@@ -62,10 +62,10 @@ layoutFolder
       itemWidth: undefined,
       maxItemWidth: 160,
       autoWrap: false,
-      maxWidth: Infinity,
+      maxWidth: null,
       maxHeight: undefined,
       maxCols: undefined,
-      maxRows: Infinity,
+      maxRows: null,
     };
     const rows = {
       ...row,
@@ -87,26 +87,26 @@ layoutFolder
       autoWrap: false,
       maxItemWidth: 160,
       maxWidth: undefined,
-      maxHeight: Infinity,
+      maxHeight: null,
       maxCols: undefined,
-      maxRows: Infinity,
+      maxRows: null,
     };
-    const cols = {
-      ...col,
-      autoWrap: true,
-      maxHeight: 200,
-      maxRows: undefined,
-      maxCols: Infinity,
-    };
+    // const cols = {
+    //   ...col,
+    //   autoWrap: true,
+    //   maxHeight: 200,
+    //   maxRows: undefined,
+    //   maxCols: null,
+    // };
     const colPaging = {
       ...col,
       maxHeight: 200,
     };
-    const colsPaging = {
-      ...cols,
-      maxHeight: 60,
-      maxCols: 3,
-    };
+    // const colsPaging = {
+    //   ...cols,
+    //   maxHeight: 60,
+    //   maxCols: 3,
+    // };
 
     const layoutStrategy = {
       单行: row,
@@ -114,24 +114,13 @@ layoutFolder
       单行分页: rowPaging,
       单列分页: colPaging,
       多行: rows,
-      多列: cols,
+      // 多列: cols,
       多行分页: rowsPaging,
-      多列分页: colsPaging,
+      // 多列分页: colsPaging,
     };
     category.update({ ...layoutStrategy[layout] });
   });
 
-layoutFolder.add(layoutCfg, '按钮位置', ['底部', '顶部', '左侧', '右侧', '上下', '两侧']).onChange((position) => {
-  const buttonMap = {
-    底部: 'bottom',
-    顶部: 'top',
-    左侧: 'left',
-    右侧: 'right',
-    上下: 'top-bottom',
-    两侧: 'left-right',
-  };
-  category.update({ pager: { button: { position: buttonMap[position] } } });
-});
 layoutFolder.add(layoutCfg, '项宽', 0, 300).onChange((itemWidth) => {
   category.update({ itemWidth });
 });

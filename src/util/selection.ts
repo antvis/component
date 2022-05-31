@@ -195,6 +195,7 @@ export class Selection<T = any> {
         element.parentNode.removeChild(element);
         const index = elements.indexOf(element);
         elements.splice(index, 1);
+        element.parentNode?.removeChild(element);
         element.remove();
       }
     });

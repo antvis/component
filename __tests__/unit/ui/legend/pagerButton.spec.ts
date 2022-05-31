@@ -12,19 +12,21 @@ describe('PageButton', () => {
         size: 10,
         symbol: 'left',
         padding: [2, 4],
-        backgroundStyle: { default: { fill: 'pink' } },
+        backgroundStyle: { fill: 'pink' },
       },
     });
 
     canvas.appendChild(button);
 
-    button.style.padding = [4, 2];
-    expect(button.getBBox().x).toBe(0);
-    expect(button.getBBox().y).toBe(0);
-    const [a, b] = button.childNodes as any[];
+    button.update({ padding: [4, 2] });
+    expect(button.getBBox().x).toBe(-5);
+    expect(button.getBBox().y).toBe(-5);
+    const [container, a, b] = button.childNodes as any[];
     expect(a.style.fill).toBe('pink');
-    expect(b.style.size).toBe(10);
-    expect(a!.getLocalBounds().halfExtents[0]).toBe(b!.getLocalBounds().halfExtents[0] + 2);
+
+    button.update({ padding: 0 });
+    expect(b.getLocalBounds().halfExtents[1] * 2).toBe(10);
+    button.update({ padding: [4, 2] });
     expect(a!.getLocalBounds().halfExtents[1]).toBe(b!.getLocalBounds().halfExtents[1] + 4);
     button.destroy();
   });
@@ -37,12 +39,16 @@ describe('PageButton', () => {
         size: 10,
         symbol: 'left',
         disabled: true,
-        markerStyle: { disabled: { fill: 'red' } },
+        markerStyle: { fill: 'green', disabled: { fill: 'red' } },
       },
     });
 
     canvas.appendChild(button);
-    expect((button.childNodes[1] as any)!.style.fill).toBe('red');
+    expect((button.childNodes[2] as any)!.style.fill).toBe('red');
+    button.setState('default');
+    expect((button.childNodes[2] as any)!.style.fill).toBe('green');
+    button.setState('disabled');
+    expect((button.childNodes[2] as any)!.style.fill).toBe('red');
     button.destroy();
   });
 });

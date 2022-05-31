@@ -52,6 +52,9 @@ function createCategory(x, y, items, symbol = 'circle', furtherOptions = {}) {
         padding: [12, 0],
         spacing: [8, 0],
         maxItemWidth: 160,
+        pageNavigator: {
+          pageSpacing: 4,
+        },
         ...furtherOptions,
       },
     })
@@ -65,7 +68,8 @@ createCategory(50, 110, items3, undefined, {
     size: 12,
     symbol: 'smooth',
     style: {
-      default: { lineWidth: 1, fill: 'transparent' },
+      lineWidth: 1,
+      fill: 'transparent',
     },
   },
 });
@@ -74,7 +78,8 @@ createCategory(50, 160, items4, undefined, {
     size: 10,
     symbol: 'hvh',
     style: {
-      default: { lineWidth: 1, fill: 'transparent' },
+      lineWidth: 1,
+      fill: 'transparent',
     },
   },
 });

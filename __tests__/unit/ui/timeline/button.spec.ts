@@ -1,4 +1,4 @@
-import { Button, SymbolPool } from '../../../../src/ui/timeline/button';
+import { Button } from '../../../../src/ui/timeline/button';
 import { createCanvas } from '../../../utils/render';
 
 const canvas = createCanvas(750, undefined, true);
@@ -29,11 +29,11 @@ describe('Timeline button', () => {
     expect(playButton.querySelector('.marker')!.style.stroke).toBe('red');
 
     playButton.update({ symbol: 'timeline-prev-button', size: 10, x: 0, y: 0 });
-    let symbol = SymbolPool.get('timeline-prev-button');
+    let symbol = Button.getSymbol('timeline-prev-button')!;
     expect(playButton.querySelector('.marker')!.style.path).toEqual(symbol(0, 0, 5));
 
     playButton.update({ symbol: 'timeline-next-button', size: 10, x: 0, y: 0 });
-    symbol = SymbolPool.get('timeline-next-button');
+    symbol = Button.getSymbol('timeline-next-button')!;
     expect(playButton.querySelector('.marker')!.style.path).toEqual(symbol(0, 0, 5));
 
     const container = playButton.querySelector('.container')!;

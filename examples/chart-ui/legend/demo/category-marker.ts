@@ -19,12 +19,12 @@ const category = new Category({
       { name: 'Chrome', value: '7.08%', id: 'chrome', state: 'selected', color: '#5B8FF9' },
       { name: 'IE', value: '5.41%', id: 'IE', state: 'selected', color: '#61DDAA' },
       { name: 'QQ', value: '5.35%', id: 'QQ', state: 'selected', color: '#65789B' },
-      { name: 'Firefox', value: '1.23%', id: 'Firefox', color: '#F6BD16' },
-      { name: 'Microsoft Edge', value: '3.51%', color: '#7262fd' },
-      { name: '360', value: '2.59%' },
-      { name: 'Opera', value: '0.87%' },
-      { name: 'Sogou', value: '1.06%' },
-      { name: 'Others', value: '0.59%' },
+      { name: 'Firefox', value: '1.23%', id: 'Firefox', color: '#F6BD16', state: 'unselected' },
+      { name: 'Microsoft Edge', value: '3.51%', color: '#7262fd', state: 'unselected' },
+      { name: '360', value: '2.59%', state: 'unselected' },
+      { name: 'Opera', value: '0.87%', state: 'unselected' },
+      { name: 'Sogou', value: '1.06%', state: 'unselected' },
+      { name: 'Others', value: '0.59%', state: 'unselected' },
     ],
     title: {
       content: '基本分类图例',
@@ -41,8 +41,9 @@ const category = new Category({
         ][idx % 3],
         size: idx % 3 ? 6 : 12,
         style: {
-          selected: {
-            fill: ['#ecbf41', '#d94948', '#3871e0'][idx % 3],
+          fill: ['#ecbf41', '#d94948', '#3871e0'][idx % 3],
+          unselected: {
+            fill: '#d8d8d8',
           },
         },
       };
