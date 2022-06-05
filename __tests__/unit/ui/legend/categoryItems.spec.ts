@@ -31,7 +31,7 @@ describe('CategoryItems', () => {
 
     // @ts-ignore
     expect(group.clipView.getLocalBounds().halfExtents[0] * 2).toBe(
-      220 - 8 - buttonGroup.getLocalBounds().halfExtents[0] * 2 - 1
+      220 - 8 - buttonGroup.getLocalBounds().halfExtents[0] * 2 + 1
     );
     group.destroy();
   });
