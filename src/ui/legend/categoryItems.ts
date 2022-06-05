@@ -350,19 +350,18 @@ export class CategoryItems extends CustomElement<CategoryItemsStyleProps> {
     let pageOffsets: number[] = [];
     if (cols && itemLimitWidth) {
       const [offsetX] = normalPadding(this.style.spacing);
-      let row = 1;
+      let row = 0;
       let offset = 0;
-      const pageOffsets: number[] = [0];
       for (let i = 0; i < this.items.length; i += cols) {
         offset = 0;
+        row += 1;
+        if (row % maxRows === 1) pageOffsets.push(Math.floor(row / maxRows) * pageHeight);
         for (let j = 0; j < cols && i + j < this.items.length; j++) {
           const item = this.items[i + j];
           // todo 或许不应该在这里处理 spacing
           item.update({ x: offset, y: (row - 1) * itemHeight, maxItemWidth: itemLimitWidth - offsetX });
           offset += itemLimitWidth;
         }
-        row += 1;
-        if (row % maxRows === 1) pageOffsets.push((row - 1) * itemHeight);
       }
     } else {
       pageOffsets = doLayout(pageWidth, this.items);
