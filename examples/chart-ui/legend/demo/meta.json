@@ -109,6 +109,14 @@
       "screenshot": ""
     },
     {
+      "filename": "category-auto-wrap.ts",
+      "title": {
+        "zh": "分类图例多行分页",
+        "en": " 分类图例多行分页"
+      },
+      "screenshot": ""
+    },
+    {
       "filename": "category-event.ts",
       "title": {
         "zh": "事件监听",

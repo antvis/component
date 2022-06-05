@@ -116,9 +116,8 @@ describe('CategoryItem', () => {
     expect(background.attr('fill')).toBe('rgba(245, 0, 31, 0.1)');
   });
 
-  it('new CategoryItem({}) returns a categoryItem trigger active style when mousemove.', () => {
-    categoryItem.setState('selected');
-    categoryItem.emit('mousemove', {});
+  it('new CategoryItem({}) returns a categoryItem with active style.', () => {
+    categoryItem.setState('active');
     const marker = categoryItem.querySelector('.legend-item-marker')! as any;
     const nameShape = categoryItem.querySelector('.legend-item-name')! as any;
     const background = categoryItem.querySelector('.legend-item-background')! as any;

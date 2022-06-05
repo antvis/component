@@ -1,9 +1,7 @@
 ---
-title: Scroll
+title: Scroll · 滚动条
 order: 4
 ---
-
-# 滚动条
 
 > 滚动条用来控制滚动区域的可见区域。
 

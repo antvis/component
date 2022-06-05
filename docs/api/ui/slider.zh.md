@@ -1,9 +1,8 @@
 ---
-title: Slider
+title: Slider · 缩略轴
 order: 5
 ---
 
-# 缩略轴
 
 > 缩略轴
 

@@ -1,4 +1,4 @@
-import { BaseCustomElementStyleProps, CustomElement, DisplayObjectConfig, Group, Path, Text } from '@antv/g';
+import { CustomElement, DisplayObjectConfig, Group, Path, Text } from '@antv/g';
 import { deepMix, isNil, last } from '@antv/util';
 import { ShapeAttrs } from '../../types';
 import { applyStyle, maybeAppend, normalPadding, select } from '../../util';
@@ -17,21 +17,23 @@ export type PageNavigatorCfg = {
   pageTextStyle?: ShapeAttrs;
 };
 
-type CategoryItemsStyleProps = BaseCustomElementStyleProps &
-  PageNavigatorCfg & {
-    orient: 'horizontal' | 'vertical';
-    items: CategoryItemStyleProps[];
-    spacing?: number[];
-    maxWidth?: number;
-    maxHeight?: number;
-    autoWrap?: boolean;
-    maxRows?: number;
+type CategoryItemsStyleProps = PageNavigatorCfg & {
+  x?: number;
+  y?: number;
+  orient: 'horizontal' | 'vertical';
+  items: CategoryItemStyleProps[];
+  spacing?: number[];
+  cols?: number;
+  maxWidth?: number;
+  maxHeight?: number;
+  autoWrap?: boolean;
+  maxRows?: number;
 
-    // todo:
-    loop?: boolean;
-    effect?: any;
-    duration?: number;
-  };
+  // todo:
+  loop?: boolean;
+  effect?: any;
+  duration?: number;
+};
 
 export type { CategoryItemsStyleProps };
 
@@ -281,7 +283,7 @@ export class CategoryItems extends CustomElement<CategoryItemsStyleProps> {
       [limitSize - (buttonGroupWidth + pageSpacing), maxItemHeight],
       [maxItemWidth, limitSize - (buttonGroupHeight + pageSpacing)]
     );
-    this.clipView.style.path = `M0,0 L${pageWidth},0 L${pageWidth},${pageHeight} L0,${pageHeight} Z`;
+    this.clipView.style.path = `M-1,0 L${pageWidth},0 L${pageWidth},${pageHeight} L-1,${pageHeight} Z`;
     this.container.style.clipPath = this.clipView;
     // 更新 ButtonGroup 位置.
     buttonGroup.style.x = this.ifHorizontal(limitSize - buttonGroupWidth, 0);
@@ -311,17 +313,23 @@ export class CategoryItems extends CustomElement<CategoryItemsStyleProps> {
     this.showButtonGroup();
     const buttonGroup = this.querySelector('.page-button-group') as Group;
 
-    const { pageSpacing = 0 } = this.style;
+    const { pageSpacing = 0, cols } = this.style;
     const pageInfoWidth = this.pageInfoBounds.width;
 
     const maxRows = this.style.maxRows || 2;
     const buttonGroupBounds = buttonGroup.getLocalBounds();
     const buttonGroupWidth = Math.max(buttonGroupBounds.halfExtents[0] * 2, pageInfoWidth);
 
-    const [pageWidth, pageHeight] = [limitSize - (buttonGroupWidth + pageSpacing), itemHeight * maxRows];
-    this.clipView.style.path = `M0,0 L${pageWidth},0 L${pageWidth},${pageHeight} L0,${pageHeight} Z`;
-    this.container.style.clipPath = this.clipView;
+    let itemLimitWidth;
+    let pageWidth = limitSize - (buttonGroupWidth + pageSpacing);
+    const pageHeight = itemHeight * maxRows;
+    if (cols && maxRows) {
+      if (cols * maxRows <= this.items.length) pageWidth = limitSize;
+      itemLimitWidth = limitSize / cols;
+    }
 
+    this.clipView.style.path = `M-1,0 L${pageWidth},0 L${pageWidth},${pageHeight} L-1,${pageHeight} Z`;
+    this.container.style.clipPath = this.clipView;
     // Get page info.
     function doLayout(pageSize: number, items: CategoryItem[]) {
       let row = 1;
@@ -333,34 +341,54 @@ export class CategoryItems extends CustomElement<CategoryItemsStyleProps> {
         if (max[0] - offset > pageSize) {
           row += 1;
           offset = min[0];
-          if (row % maxRows === 1) {
-            pageOffsets.push((row - 1) * itemHeight);
-          }
+          if (row % maxRows === 1) pageOffsets.push((row - 1) * itemHeight);
         }
         item.setLocalPosition(min[0] - offset, (row - 1) * itemHeight);
       }
       return pageOffsets;
     }
-    const pageOffsets = doLayout(pageWidth, this.items);
+    let pageOffsets: number[] = [];
+    if (cols && itemLimitWidth) {
+      const [offsetX] = normalPadding(this.style.spacing);
+      let row = 1;
+      let offset = 0;
+      const pageOffsets: number[] = [0];
+      for (let i = 0; i < this.items.length; i += cols) {
+        offset = 0;
+        for (let j = 0; j < cols && i + j < this.items.length; j++) {
+          const item = this.items[i + j];
+          // todo 或许不应该在这里处理 spacing
+          item.update({ x: offset, y: (row - 1) * itemHeight, maxItemWidth: itemLimitWidth - offsetX });
+          offset += itemLimitWidth;
+        }
+        row += 1;
+        if (row % maxRows === 1) pageOffsets.push((row - 1) * itemHeight);
+      }
+    } else {
+      pageOffsets = doLayout(pageWidth, this.items);
 
-    // 不展示分页器.
-    if (pageOffsets.length === 1) {
-      const [offsetX, offsetY] = normalPadding(this.style.spacing);
-      const offset = this.ifHorizontal(offsetX, offsetY);
-      initPosition(this.items, this.style.orient || 'horizontal', offset);
-      doLayout(limitSize, this.items);
-      this.resetPageCfg();
-      return;
+      // 不展示分页器.
+      if (pageOffsets.length === 1) {
+        const [offsetX, offsetY] = normalPadding(this.style.spacing);
+        const offset = this.ifHorizontal(offsetX, offsetY);
+        initPosition(this.items, this.style.orient || 'horizontal', offset);
+        doLayout(limitSize, this.items);
+      }
     }
+
     this.maxPages = pageOffsets.length;
     this.currPage = 1;
     this.pageOffsets = pageOffsets;
 
-    // 更新 ButtonGroup 位置. (todo 可以优化下，靠近 items 而不是贴边)
-    buttonGroup.style.x = limitSize - buttonGroupWidth;
-    // todo 后续修复 存在几像素误差
-    buttonGroup.style.y = pageHeight / 2 - 2;
-    this.updatePageNavigatorState();
+    if (this.maxPages <= 1) {
+      this.resetPageCfg();
+    } else {
+      // 更新 ButtonGroup 位置. (todo 可以优化下，靠近 items 而不是贴边)
+      buttonGroup.style.x = limitSize - buttonGroupWidth;
+      // todo 后续修复 存在几像素误差
+      buttonGroup.style.y = pageHeight / 2 - 2;
+      this.updatePageNavigatorState();
+    }
   }
 
   // ====== 分页器

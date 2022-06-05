@@ -1,9 +1,7 @@
 ---
-title: Page Navigator
+title: Page Navigator · 分页器
 order: 7
 ---
-
-# 分页器
 
 > 分页器用于将一页画布拆分成多页
 

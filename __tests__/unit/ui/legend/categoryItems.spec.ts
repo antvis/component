@@ -7,6 +7,7 @@ const canvas = createCanvas(800);
 const ITEMS: CategoryItemsStyleProps['items'] = LEGEND_ITEMS.map((d) => {
   return {
     ...d,
+    value: d,
     itemMarker: { symbol: 'circle', style: { fill: d.color }, size: 8 },
     itemName: { content: d.name },
   };
@@ -30,7 +31,7 @@ describe('CategoryItems', () => {
 
     // @ts-ignore
     expect(group.clipView.getLocalBounds().halfExtents[0] * 2).toBe(
-      220 - 8 - buttonGroup.getLocalBounds().halfExtents[0] * 2
+      220 - 8 - buttonGroup.getLocalBounds().halfExtents[0] * 2 - 1
     );
     group.destroy();
   });

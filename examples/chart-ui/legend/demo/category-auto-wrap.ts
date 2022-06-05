@@ -1,7 +1,6 @@
 import { Canvas } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Category } from '@antv/gui';
-import * as dat from 'dat.gui';
 
 const renderer = new CanvasRenderer();
 
@@ -29,7 +28,7 @@ const items = [
 const category = new Category({
   style: {
     x: 10,
-    y: 300,
+    y: 10,
     items,
     title: {
       content: '基本分类图例',
@@ -48,25 +47,3 @@ const category = new Category({
 });
 
 canvas.appendChild(category);
-
-const itemsState = {};
-/** valueChanged */
-category.addEventListener('valueChanged', ({ detail: { value } }) => {
-  value.forEach(({ id, state }) => {
-    itemsState[id].setValue(stateMap[state]);
-  });
-});
-
-/** -------------------------配置区域--------------------------------------- */
-const $wrapper = document.getElementById('container');
-const cfg = new dat.GUI({ autoPlace: false });
-$wrapper.appendChild(cfg.domElement);
-const options = cfg.addFolder('选项');
-options.open();
-
-const stateMap = { selected: true, default: false, true: 'selected', false: 'default' };
-items.forEach(({ id, state }) => {
-  itemsState[id] = options.add({ [id]: stateMap[state] }, id).onChange((state) => {
-    category.setItemState(id, stateMap[state]);
-  });
-});

@@ -3,8 +3,9 @@ title: Legend
 order: 5
 ---
 
-# 图例
+<iframe width="100%" height="500" frameborder="0" allowfullscreen style="border:1px solid #d9d9d9;" src="https://www.yuque.com/docs/share/186dbb14-fdd1-4827-b16f-befa42f08aac?view=doc_embed">
 
+<!-- 
 > 图例（legend）是图表的辅助元素，使用颜色、大小、形状区分不同的数据类型，用于图表中数据的筛选
 
 ## 引入
@@ -147,4 +148,4 @@ import { Category, Continuous } from '@antv/gui';
 
 | **属性名** | **类型**      | **描述** | **默认值** |
 | ---------- | ------------- | -------- | ---------- |
-|            | <code></code> |          | ``         |
+|            | <code></code> |          | ``         | -->

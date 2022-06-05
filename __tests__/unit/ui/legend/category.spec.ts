@@ -70,7 +70,7 @@ describe('Category legend', () => {
     const category = new Category({ style: { items } });
     canvas.appendChild(category);
 
-    const legendItems = category.querySelectorAll('.legend-item') as Group[];
+    const legendItems = category.querySelectorAll('.legend-item') as CategoryItem[];
     expect(legendItems.length).toBe(items.length);
     expect(legendItems[0].childNodes.length).toBe(2);
     const [marker, name, value] = (legendItems[0].querySelector('.legend-item-container') as any)
@@ -90,7 +90,7 @@ describe('Category legend', () => {
       itemBackgroundStyle: { fill: 'pink' },
     });
     expect(legendItems.every((item) => item.getLocalPosition()[1] === 0)).toBe(true);
-    legendItems[0].emit('mousemove', {});
+    legendItems[0].setState('active');
     expect(legendItems[0]!.getLocalPosition()[1] === 0).toBe(true);
     expect(marker.getLocalPosition()[0]).toBe(4);
     expect(name.getLocalPosition()[0]).toBe(8 + 4);
@@ -139,8 +139,9 @@ describe('Category legend', () => {
       itemPadding: [2, 4],
       itemBackgroundStyle: { fill: 'pink', active: { fill: 'rgba(0,0,0,0.03)' } },
     });
+    const [item1, item2] = category.querySelectorAll('.legend-item') as any[];
     const [bg1, bg2] = category.querySelectorAll('.legend-item-background');
-    (bg1 as any).emit('mousemove', {});
+    item1.setState('active');
     expect(bg1.style.fill).toBe('rgba(0,0,0,0.03)');
     expect(bg2.style.fill).toBe('pink');
     category.destroy();
@@ -162,8 +163,9 @@ describe('Category legend', () => {
         },
       })
     );
+    const [item1, item2, item3] = category.querySelectorAll('.legend-item') as any[];
     const [name1, name2, name3] = category.querySelectorAll('.legend-item-name');
-    (name2 as any).emit('mousemove', {});
+    item2.setState('active');
     category.setItemState('legend-item-2', 'unselected');
     expect(name1.style.fill).toBe('grey');
     expect(name2.style.fill).toBe('black');
@@ -190,8 +192,9 @@ describe('Category legend', () => {
         },
       })
     );
+    const [, item2] = category.querySelectorAll('.legend-item') as any[];
     const [value1, value2, value3] = category.querySelectorAll('.legend-item-value') as any[];
-    value2.emit('mousemove', {});
+    item2.setState('active');
     category.setItemState('legend-item-2', 'unselected');
     expect(value1.style.fill).toBe('grey');
     expect(value2.style.fill).toBe('black');

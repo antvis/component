@@ -38,27 +38,41 @@ const items4 = [
 ];
 
 function createCategory(x, y, items, symbol = 'circle', furtherOptions = {}) {
-  canvas.appendChild(
-    new Category({
-      style: {
-        x,
-        y,
-        title: { content: 'Legend title' },
-        items,
-        itemMarker: {
-          size: 10,
-          symbol,
+  const category = new Category({
+    style: {
+      x,
+      y,
+      title: { content: 'Legend title' },
+      items,
+      itemMarker: {
+        size: 10,
+        symbol,
+        style: {
+          active: { stroke: '#000', lineWidth: 1 },
         },
-        padding: [12, 0],
-        spacing: [8, 0],
-        maxItemWidth: 160,
-        pageNavigator: {
-          pageSpacing: 4,
-        },
-        ...furtherOptions,
       },
-    })
-  );
+      padding: [12, 0],
+      spacing: [8, 0],
+      maxItemWidth: 160,
+      pageNavigator: {
+        pageSpacing: 4,
+      },
+      ...furtherOptions,
+    },
+  });
+  canvas.appendChild(category);
+
+  // 外部处理事件监听和交互
+  category.addEventListener('pointermove', (evt) => {
+    const legendItem = evt.composedPath().find((d) => d.className === 'legend-item');
+    if (!legendItem) return;
+    legendItem.setState('active');
+  });
+  category.addEventListener('pointerout', (evt) => {
+    const legendItem = evt.composedPath().find((d) => d.className === 'legend-item');
+    if (!legendItem) return;
+    legendItem.setState('default');
+  });
 }
 
 createCategory(50, 10, items1, undefined, { maxWidth: 200 });

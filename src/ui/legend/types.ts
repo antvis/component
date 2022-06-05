@@ -104,20 +104,6 @@ export type HandleCfg = {
 };
 
 /**
- * 分类图例，图例项
- */
-type CategoryItem = {
-  marker?: string;
-  name?: string;
-  value?: string;
-  color?: string;
-  id?: string;
-  // [todo] 为什么需要这么多状态
-  state?: State;
-  [key: keyof any]: any;
-};
-
-/**
  * 分类图例，图例项图标
  */
 type LegendItemMarkerCfg = ItemMarkerCfg;
@@ -262,10 +248,24 @@ export type ContinuousCfg = LegendBaseCfg & {
 
 export type ContinuousOptions = DisplayObjectConfig<ContinuousCfg>;
 
+// ===== Category Legend =====
+/**
+ * 分类图例，图例项
+ */
+export type CategoryItemValue = {
+  id?: string;
+  marker?: string;
+  name?: string;
+  value?: string;
+  color?: string;
+  state?: string;
+  [key: keyof any]: any;
+};
+
 // 分类图例配置
 export type CategoryCfg = LegendBaseCfg & {
   padding?: number | number[];
-  items: CategoryItem[];
+  items: CategoryItemValue[];
   // 图例项宽度（等分形式）
   itemWidth?: number;
   itemHeight?: number;
@@ -273,12 +273,12 @@ export type CategoryCfg = LegendBaseCfg & {
   spacing?: [number, number];
   itemMarker?:
     | Partial<LegendItemMarkerCfg>
-    | ((item: CategoryItem, index: number, items: CategoryItem[]) => LegendItemMarkerCfg);
+    | ((item: CategoryItemValue, index: number, items: CategoryItemValue[]) => LegendItemMarkerCfg);
   itemName?: Omit<ItemNameCfg, 'content'> & {
-    formatter?: (item: CategoryItem, index: number, items: CategoryItem[]) => string;
+    formatter?: (item: CategoryItemValue, index: number, items: CategoryItemValue[]) => string;
   };
   itemValue?: Omit<ItemValueCfg, 'content'> & {
-    formatter?: (item: CategoryItem, index: number, items: CategoryItem[]) => string;
+    formatter?: (item: CategoryItemValue, index: number, items: CategoryItemValue[]) => string;
   };
   itemPadding?: number | number[];
   itemBackgroundStyle?: MixShapeStyleProps;
@@ -286,6 +286,7 @@ export type CategoryCfg = LegendBaseCfg & {
   maxItemWidth?: number;
   // 自动换行、列
   autoWrap?: boolean;
+  cols?: number;
   // 最大行（横）/列（纵）数
   // maxCols?: number; // [todo] 暂时不提供
   maxRows?: number;

@@ -1,7 +1,7 @@
 import { CustomEvent } from '@antv/g';
 import { min, isFunction, deepMix } from '@antv/util';
 import { deepAssign, maybeAppend } from '../../util';
-import { CategoryItem } from './categoryItem';
+import { CategoryItem, CategoryItemStyleProps } from './categoryItem';
 import type { CategoryCfg, CategoryOptions, State } from './types';
 import { CATEGORY_DEFAULT_OPTIONS, DEFAULT_ITEM_MARKER, DEFAULT_ITEM_NAME, DEFAULT_ITEM_VALUE } from './constant';
 import { LegendBase } from './base';
@@ -40,12 +40,13 @@ export class Category extends LegendBase<CategoryCfg> {
       .call((selection) => {
         (selection.node() as CategoryItems).update({
           orient: this.orient,
-          items: this.itemsShapeCfg,
+          items: this.itemsStyleProps,
           spacing: this.style.spacing,
           autoWrap: this.style.autoWrap,
           maxRows: this.style.maxRows,
           maxWidth: this.style.maxWidth,
           maxHeight: this.style.maxHeight,
+          cols: this.style.cols,
           ...(this.style.pageNavigator || {}),
         });
       })
@@ -72,12 +73,12 @@ export class Category extends LegendBase<CategoryCfg> {
   /**
    * 获得items状态列表
    */
-  public getItemsStates(): { id: string; state: State }[] {
+  public getItemsStates(): { id: string; state: string }[] {
     return Array.from(this.idItem.entries()).map(([id, item]) => ({ id, state: item.getState() }));
   }
 
   // ======== 之前的代码
-  private get itemsShapeCfg() {
+  private get itemsStyleProps(): CategoryItemStyleProps[] {
     const { items: _items, maxWidth, maxItemWidth, itemMarker, itemName, itemValue, reverse } = this.style;
     const items = _items.slice();
     if (reverse) items.reverse();
@@ -86,13 +87,14 @@ export class Category extends LegendBase<CategoryCfg> {
       return {
         id: item.id || `legend-item-${idx}`,
         state: item.state || 'selected',
+        value: item,
         maxItemWidth: min([maxItemWidth ?? Number.MAX_VALUE, maxWidth ?? Number.MAX_VALUE]),
         itemMarker: (() => {
           const markerCfg = isFunction(itemMarker) ? itemMarker(item, idx, items) : itemMarker;
           return deepMix(
             {},
             DEFAULT_ITEM_MARKER,
-            { symbol: item.symbol, style: { fill: item.color, stroke: item.color } },
+            { symbol: item.marker, style: { fill: item.color, stroke: item.color } },
             markerCfg
           );
         })(),
