@@ -1,6 +1,5 @@
 import { CategoryItem } from '../../../../src/ui/legend/categoryItem';
 import { createCanvas } from '../../../utils/render';
-import { delay } from '../../../utils/delay';
 
 const canvas = createCanvas(500, 'svg', true);
 
@@ -11,6 +10,7 @@ const categoryItem = new CategoryItem({
     state: 'selected',
     id: '1',
     padding: 2,
+    value: { id: '1' },
     itemMarker: {
       size: 8,
       symbol: 'circle',
