@@ -2,7 +2,7 @@ import { CustomEvent } from '@antv/g';
 import { min, isFunction, deepMix } from '@antv/util';
 import { deepAssign, maybeAppend } from '../../util';
 import { CategoryItem, CategoryItemStyleProps } from './categoryItem';
-import type { CategoryCfg, CategoryOptions, State } from './types';
+import type { CategoryCfg, CategoryOptions } from './types';
 import { CATEGORY_DEFAULT_OPTIONS, DEFAULT_ITEM_MARKER, DEFAULT_ITEM_NAME, DEFAULT_ITEM_VALUE } from './constant';
 import { LegendBase } from './base';
 import { CategoryItems } from './categoryItems';
@@ -66,7 +66,7 @@ export class Category extends LegendBase<CategoryCfg> {
    * 设置某个item的状态
    * 会改变其样式
    */
-  public setItemState(id: string, state: State) {
+  public setItemState(id: string, state: string) {
     this.getItem(id)?.setState(state);
   }
 

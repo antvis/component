@@ -5,7 +5,6 @@ import type { PageNavigatorCfg } from './categoryItems';
 
 type TextProps = Omit<TextStyleProps, 'text'>;
 
-export type State = 'selected' | 'unselected' | 'disabled';
 export type SymbolCfg = MarkerStyleProps['symbol'];
 export type MixShapeStyleProps = ShapeAttrs & {
   disabled?: ShapeAttrs;
