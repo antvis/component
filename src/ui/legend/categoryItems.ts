@@ -103,7 +103,7 @@ export class CategoryItems extends CustomElement<CategoryItemsStyleProps> {
 
   connectedCallback() {
     this.container = this.appendChild(new Group());
-    this.clipView = new Path({ style: { path: [] } });
+    this.clipView = new Path({ style: { path: [] as any } });
     this.render();
     this.bindEvents();
   }

@@ -1,4 +1,4 @@
-import { PathStyleProps, CustomElement, DisplayObjectConfig, Path, PathCommand } from '@antv/g';
+import { PathStyleProps, CustomElement, DisplayObjectConfig, Path } from '@antv/g';
 import { deepAssign } from '../../util';
 import { DEFAULT_RAIL_CFG } from './constant';
 import { ifHorizontal } from './utils';
@@ -38,13 +38,13 @@ export class Rail extends CustomElement<RailStyleProps> {
 
   private updateBackground() {
     const { backgroundColor } = this.style;
-    this.path.style.path = this.getRailPath();
+    this.path.style.path = this.getRailPath() as any;
     this.path.attr({ fill: backgroundColor, fillOpacity: 0.45 });
   }
 
   private updateTrack() {
     const { fill } = this.style;
-    this.track.style.path = this.getRailPath();
+    this.track.style.path = this.getRailPath() as any;
     this.track.style.clipPath = this.getClipPath();
     this.track.style.fill = fill;
   }
@@ -63,14 +63,14 @@ export class Rail extends CustomElement<RailStyleProps> {
         ['M', 0, ch],
         ['L', 0 + cw, 0],
         ['L', 0 + cw, ch],
-      ] as PathCommand[];
+      ] as any[];
     }
     return [
       ['M', 0, ch],
       ['L', 0, 0],
       ['L', 0 + cw, 0],
       ['L', 0 + cw, ch],
-    ] as PathCommand[];
+    ] as any[];
   }
 
   private getClipPath() {

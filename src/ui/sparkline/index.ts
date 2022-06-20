@@ -1,4 +1,3 @@
-import type { PathCommand } from '@antv/g';
 import { Rect } from '@antv/g';
 import { clone, deepMix, isNumber, isArray, isFunction } from '@antv/util';
 import { Linear, Band } from '@antv/scale';
@@ -101,7 +100,7 @@ export class Sparkline extends GUI<SparklineCfg> {
     const lines = dataToLines(data, { type: 'line', x, y });
 
     // 生成区域path
-    let areas: PathCommand[][] = [];
+    let areas: any[] = [];
     if (areaStyle) {
       const { baseline } = this;
       if (isStack) {
@@ -119,7 +118,7 @@ export class Sparkline extends GUI<SparklineCfg> {
           path: smooth ? lineToCurvePath(line) : lineToLinePath(line),
           ...lineStyle,
         };
-      }),
+      }) as any,
       areas: areas.map((path, idx) => {
         return {
           path,

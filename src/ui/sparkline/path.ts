@@ -1,6 +1,5 @@
 import { clone, isEqual, clamp } from '@antv/util';
 import { catmullRom2Bezier } from '@antv/path-util';
-import type { PathCommand } from '@antv/g';
 import type { Data, Line, Point, Scales } from './types';
 
 /**
@@ -25,7 +24,7 @@ export function dataToLines(data: Data, scales: Scales): Line[] {
  */
 export function lineToLinePath(line: Line, reverse = false) {
   const M = reverse ? line.length - 1 : 0;
-  const linePath = line.map((point: Point, idx: number) => [idx === M ? 'M' : 'L', ...point]) as PathCommand[];
+  const linePath = line.map((point: Point, idx: number) => [idx === M ? 'M' : 'L', ...point]) as any[];
   return reverse ? linePath.reverse() : linePath;
 }
 
@@ -52,13 +51,13 @@ export function lineToCurvePath(line: Line, reverse = false) {
   } else {
     path.unshift(['M', ...line[0]]);
   }
-  return path as PathCommand[];
+  return path as any[];
 }
 
 /**
  * 根据baseline将path闭合
  */
-export function closePathByBaseLine(path: PathCommand[], width: number, baseline: number) {
+export function closePathByBaseLine(path: any[], width: number, baseline: number) {
   const closedPath = clone(path);
   closedPath.push(['L', width, baseline], ['L', 0, baseline], ['Z']);
   return closedPath;
@@ -78,11 +77,11 @@ export function linesToAreaPaths(lines: Line[], smooth: boolean, width: number, 
  * 生成折线堆叠区域封闭图形路径
  */
 export function linesToStackAreaPaths(lines: Line[], width: number, baseline: number) {
-  const paths: PathCommand[][] = [];
+  const paths: any[][] = [];
   for (let idx = lines.length - 1; idx >= 0; idx -= 1) {
     const currLine = lines[idx];
     const currCurvePath = lineToLinePath(currLine);
-    let path: PathCommand[];
+    let path: any[];
     if (idx === 0) {
       // 最底部的线直接与y=0连接成闭合区域
       path = closePathByBaseLine(currCurvePath, width, baseline);
@@ -105,11 +104,11 @@ export function linesToStackAreaPaths(lines: Line[], width: number, baseline: nu
  * 生成曲线堆叠区域封闭图形路径
  */
 export function linesToStackCurveAreaPaths(lines: Line[], width: number, baseline: number) {
-  const paths: PathCommand[][] = [];
+  const paths: any[][] = [];
   for (let idx = lines.length - 1; idx >= 0; idx -= 1) {
     const currLine = lines[idx];
     const currCurvePath = lineToCurvePath(currLine);
-    let path: PathCommand[];
+    let path: any[];
     if (idx === 0) {
       // 最底部的线直接与y=0连接成闭合区域
       path = closePathByBaseLine(currCurvePath, width, baseline);

@@ -2,7 +2,7 @@ import { CrosshairBase } from './base';
 import { LINE_CROSSHAIR_DEFAULT_STYLE } from './constant';
 import { deepAssign, getShapeSpace, throttle } from '../../util';
 import type { LineCrosshairCfg, LineCrosshairOptions } from './types';
-import type { PathCommand, Point } from '../../types';
+import type { Point } from '../../types';
 
 export type { LineCrosshairCfg, LineCrosshairOptions };
 
@@ -19,7 +19,7 @@ export class LineCrosshair extends CrosshairBase<LineCrosshairCfg> {
       startPos: [sx, sy],
       endPos: [ex, ey],
     } = this.attributes;
-    const path = [['M', 0, 0], ['L', ex - sx, ey - sy], ['Z']] as PathCommand[];
+    const path = [['M', 0, 0], ['L', ex - sx, ey - sy], ['Z']] as any[];
     return path;
   }
 

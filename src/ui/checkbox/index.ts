@@ -1,4 +1,4 @@
-import { Rect, Path, PathCommand, PathStyleProps, AABB } from '@antv/g';
+import { Rect, Path, PathStyleProps, AABB } from '@antv/g';
 import { deepMix, isFunction, isNil, isUndefined } from '@antv/util';
 import type { RectStyleProps } from '@antv/g';
 import { Text, TextCfg } from '../text';
@@ -148,7 +148,7 @@ export class Checkbox extends GUI<Required<CheckboxCfg>> {
       ['M', 3, 6],
       ['L', '5', '8.5'],
       ['L', '8.5', '4'],
-    ] as PathCommand[];
+    ] as any;
 
     const CHECKED_SHAPE_STYLE = {
       path: CHECKED_SHAPE_PATH,

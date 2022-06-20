@@ -2,7 +2,6 @@ import {
   Text,
   ElementEvent,
   Path,
-  PathCommand,
   CustomElement,
   DisplayObjectConfig,
   BaseCustomElementStyleProps,
@@ -31,7 +30,7 @@ function getPath(position: string, points: any) {
       ['L', x0 + w / 2, y1 + 4],
       ['L', x0 + w / 2 - size / 2, y1],
       ['L', x0, y1],
-    ] as PathCommand[];
+    ] as any[];
   }
 
   const h = y1 - y0;
@@ -45,7 +44,7 @@ function getPath(position: string, points: any) {
     ['L', x0 - 4, y0 + h / 2],
     ['L', x0, y0 + h / 2 - size / 2],
     ['L', x0, y0],
-  ] as PathCommand[];
+  ] as any[];
 }
 
 export class Indicator extends CustomElement<IndicatorStyleProps> {
@@ -94,7 +93,7 @@ export class Indicator extends CustomElement<IndicatorStyleProps> {
     const { min, max } = this.text.getLocalBounds();
     const w = Math.min(max[0] - min[0], 40);
     const points = [min[0] - 4, min[1] - 2, min[0] + w + 4, max[1] + 2];
-    const path = getPath(this.style.position, points);
+    const path = getPath(this.style.position, points) as any;
     this.background.style.path = path;
   }
 

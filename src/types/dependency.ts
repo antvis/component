@@ -16,5 +16,4 @@ export type {
   PolylineStyleProps as PolylineProps,
   TextStyleProps as TextProps,
   Group,
-  PathCommand,
 } from '@antv/g';

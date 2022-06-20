@@ -3,7 +3,7 @@ import { circle } from '../marker/symbol';
 import { deepAssign, throttle } from '../../util';
 import { CIRCLE_CROSSHAIR_DEFAULT_STYLE } from './constant';
 import { CircleCrosshairCfg, CircleCrosshairOptions } from './types';
-import type { PathCommand, Point } from '../../types';
+import type { Point } from '../../types';
 
 export type { CircleCrosshairCfg, CircleCrosshairOptions };
 
@@ -34,7 +34,7 @@ export class CircleCrosshair extends CrosshairBase<CircleCrosshairCfg> {
     const {
       center: [cx, cy],
     } = this.attributes;
-    const path = this.createCirclePath(((lx - cx) ** 2 + (ly - cy) ** 2) ** 0.5);
+    const path = this.createCirclePath(((lx - cx) ** 2 + (ly - cy) ** 2) ** 0.5) as any;
     this.crosshairShape.attr({ path });
   }
 
@@ -47,6 +47,6 @@ export class CircleCrosshair extends CrosshairBase<CircleCrosshairCfg> {
       center: [x, y],
       defaultRadius,
     } = this.attributes;
-    return circle(x, y, radius || defaultRadius) as PathCommand[];
+    return circle(x, y, radius || defaultRadius) as any[];
   }
 }

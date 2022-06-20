@@ -1,4 +1,3 @@
-import type { PathCommand } from '@antv/g';
 import { DisplayObject, Path } from '@antv/g';
 import { isArray } from '@antv/util';
 import { deepAssign } from '../../util';
@@ -126,7 +125,7 @@ export class Decoration extends DisplayObject<Required<DecorationCfg>> {
   /**
    * 根据位置创建直线路径
    */
-  private getLinePath(type: Omit<DecorationLine, 'none'>): PathCommand[] {
+  private getLinePath(type: Omit<DecorationLine, 'none'>): any[] {
     const { width } = this.attributes;
     const [x, y] = this.getLinePos(type);
     return [
@@ -138,7 +137,7 @@ export class Decoration extends DisplayObject<Required<DecorationCfg>> {
   /**
    * 根据位置创建双直线路径
    */
-  private getDoubleLinePath(type: Omit<DecorationLine, 'none'>): PathCommand[] {
+  private getDoubleLinePath(type: Omit<DecorationLine, 'none'>): any[] {
     const { doubleSpacing: spacing } = this;
     const { width } = this.attributes;
     const [x, y] = this.getLinePos(type);
@@ -157,7 +156,7 @@ export class Decoration extends DisplayObject<Required<DecorationCfg>> {
   /**
    * 根据位置创建波浪线路径
    */
-  private getWavyPath(type: Omit<DecorationLine, 'none'>): PathCommand[] {
+  private getWavyPath(type: Omit<DecorationLine, 'none'>): any[] {
     return [];
   }
 }

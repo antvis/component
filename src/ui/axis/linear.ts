@@ -143,7 +143,7 @@ export class Linear extends AxisBase<LinearAxisStyleProps> {
       path: [
         ['M', x1, y1],
         ['L', x2, y2],
-      ] as any[],
+      ] as any,
     };
   }
 

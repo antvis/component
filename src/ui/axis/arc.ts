@@ -44,7 +44,7 @@ export class Arc extends AxisBase<ArcAxisStyleProps> {
     super.update(deepAssign({}, Arc.defaultOptions.style, this.attributes, cfg));
   }
 
-  protected getLinePath() {
+  protected getLinePath(): any {
     const { radius, center = [0, 0], axisLine: axisLineCfg } = this.style;
 
     const { startAngle, endAngle } = this.getRadians();

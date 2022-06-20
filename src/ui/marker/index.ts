@@ -1,4 +1,4 @@
-import { Path, Image, PathCommand, ImageStyleProps, PathStyleProps, DisplayObject } from '@antv/g';
+import { Path, Image, ImageStyleProps, PathStyleProps, DisplayObject } from '@antv/g';
 import { deepMix, isFunction } from '@antv/util';
 import { GUI } from '../../core/gui';
 import { parseMarker } from './utils';
@@ -138,7 +138,7 @@ export class Marker extends GUI<Required<MarkerStyleProps>> {
     const { x = 0, y = 0, size = 0, symbol, ...args } = this.attributes;
     const r = (size as number) / 2;
     const symbolFn = isFunction(symbol) ? symbol : Marker.MARKER_SYMBOL_MAP.get(symbol);
-    const path = symbolFn?.(0, 0, r) as PathCommand[];
+    const path = symbolFn?.(0, 0, r) as any;
     return {
       path,
       ...args,

@@ -1,4 +1,4 @@
-import { CustomElement, CustomEvent, DisplayObjectConfig, PathCommand } from '@antv/g';
+import { CustomElement, CustomEvent, DisplayObjectConfig } from '@antv/g';
 import { deepMix } from '@antv/util';
 import { applyStyle, maybeAppend, select } from '../../util';
 import { DEFAULT_TIMELINE_STYLE } from './constants';
@@ -82,11 +82,11 @@ export class SpeedControl extends CustomElement<StyleProps> {
       .style('fill', 'transparent')
       .node();
 
-    const path = speeds.reduce((arr: PathCommand[], _: any, idx: number) => {
+    const path = speeds.reduce((arr: any[], _: any, idx: number) => {
       const offset = getOffsetByIndex(idx, size * 2);
       arr.push(['M', 0, offset], ['L', size, offset]);
       return arr;
-    }, [] as PathCommand[]);
+    }, [] as any[]);
 
     maybeAppend(group, '.speed-path', 'path')
       .attr('className', 'speed-path')

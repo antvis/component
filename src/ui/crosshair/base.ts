@@ -4,7 +4,7 @@ import { GUI } from '../../core/gui';
 import { Tag } from '../tag';
 import { CROSSHAIR_BASE_DEFAULT_STYLE } from './constant';
 import type { CrosshairBaseCfg, CrosshairBaseOptions } from './types';
-import type { PathCommand, Point } from '../../types';
+import type { Point } from '../../types';
 
 export abstract class CrosshairBase<T extends CrosshairBaseCfg> extends GUI<Required<T>> {
   public static tag = 'crosshair-base';
@@ -37,7 +37,7 @@ export abstract class CrosshairBase<T extends CrosshairBaseCfg> extends GUI<Requ
   /**
    * 获得 crosshair 的 path
    */
-  protected abstract get crosshairPath(): PathCommand[];
+  protected abstract get crosshairPath(): any[];
 
   private get tagCfg() {
     const { text } = this.attributes;
@@ -66,7 +66,7 @@ export abstract class CrosshairBase<T extends CrosshairBaseCfg> extends GUI<Requ
   public update(cfg: Partial<CrosshairBaseCfg>) {
     this.attr(deepMix({}, this.attributes, cfg));
     this.tagShape.update(this.tagCfg);
-    this.crosshairShape.attr(this.crosshairCfg);
+    this.crosshairShape.attr(this.crosshairCfg as any);
     this.adjustLayout();
   }
 

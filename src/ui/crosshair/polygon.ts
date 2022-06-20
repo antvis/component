@@ -3,7 +3,7 @@ import { CrosshairBase } from './base';
 import { POLYGON_CROSSHAIR_DEFAULT_STYLE } from './constant';
 import { PolygonCrosshairCfg, PolygonCrosshairOptions } from './types';
 import { deepAssign, intersection, lineLen, throttle } from '../../util';
-import type { PathCommand, Point } from '../../types';
+import type { Point } from '../../types';
 
 export type { PolygonCrosshairCfg, PolygonCrosshairOptions };
 
@@ -56,7 +56,7 @@ export class PolygonCrosshair extends CrosshairBase<PolygonCrosshairCfg> {
     const [ix, iy] = this.intersection([lx, ly]);
     if (!ix || !iy) return;
     const equivalentRadius = lineLen(center, [lx, ly]) / lineLen(center, [ix, iy]);
-    const path = this.createPolygonPath(equivalentRadius);
+    const path = this.createPolygonPath(equivalentRadius) as any;
     this.crosshairShape.attr({ path });
   }
 
@@ -74,7 +74,7 @@ export class PolygonCrosshair extends CrosshairBase<PolygonCrosshairCfg> {
       return [index === 0 ? 'M' : 'L', cx + tx, cy + ty];
     });
     path.push(['Z']);
-    return path as PathCommand[];
+    return path as any[];
   }
 
   /**
