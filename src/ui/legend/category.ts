@@ -64,8 +64,8 @@ export class Category extends LegendBase<CategoryCfg> {
    * 设置某个item的状态
    * 会改变其样式
    */
-  public setItemState(id: string, state: string) {
-    this.getItem(id)?.setState(state);
+  public setItemState(id: string, state: string, enable = true): void {
+    this.getItem(id)?.setState(state, enable);
   }
 
   /**
