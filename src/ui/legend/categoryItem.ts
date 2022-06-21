@@ -1,6 +1,6 @@
-import { Text, CustomElement, DisplayObjectConfig, CustomEvent } from '@antv/g';
+import { Text, CustomElement, DisplayObjectConfig } from '@antv/g';
 import { deepMix, get, isNil } from '@antv/util';
-import { applyStyle, getFont, maybeAppend, getEllipsisText, normalPadding, TEXT_INHERITABLE_PROPS } from '../../util';
+import { applyStyle, getFont, maybeAppend, getEllipsisText, normalPadding } from '../../util';
 import { Marker } from '../marker';
 import { NAME_VALUE_RATIO } from './constant';
 import { CategoryItemValue, ItemMarkerCfg, ItemNameCfg, ItemValueCfg, MixShapeStyleProps } from './types';
@@ -24,6 +24,9 @@ type CategoryItemOptions = DisplayObjectConfig<CategoryItemStyleProps>;
 
 const PREFIX = 'legend-item-';
 
+/**
+ * By default, nameShape and valueShape use `maxWidth / 2`
+ */
 function adjustText(nameShape?: Text | null, valueShape?: Text | null, maxWidth?: number) {
   if ((!nameShape && !valueShape) || typeof maxWidth !== 'number') return;
 
@@ -50,23 +53,28 @@ function adjustText(nameShape?: Text | null, valueShape?: Text | null, maxWidth?
   if (width1 + width2 + spacing > maxWidth) {
     // todo 后续开放占比配置。
     let [w1, w2] = [maxWidth * NAME_VALUE_RATIO, maxWidth * (1 - NAME_VALUE_RATIO)];
-    let nameFlag = true;
-    let valueFlag = true;
+    let ellipsisName = true;
+    let ellipsisValue = true;
     if (w1 >= width1) {
       w2 = maxWidth - (width1 + spacing);
-      nameFlag = false;
+      ellipsisName = false;
     } else if (w2 >= width2) {
       w1 = maxWidth - (width2 + spacing);
-      valueFlag = false;
+      ellipsisValue = false;
     }
-    if (nameFlag) {
+    if (ellipsisName) {
       nameShape.attr('text', getEllipsisText(nameShape.style.text, w1, getFont(nameShape)));
       valueShape.attr('x', Number(nameShape.style.x) + w1 + spacing);
     }
-    if (valueFlag) {
+    if (ellipsisValue) {
       valueShape.attr('text', getEllipsisText(valueShape.style.text, w2, getFont(valueShape)));
     }
   }
+}
+
+function getStateStyle(style = {}, state = ''): any {
+  const states = state.split('-');
+  return states.reduce((r, s) => ({ ...r, ...get(style, s, {}) }), {});
 }
 
 export class CategoryItem extends CustomElement<CategoryItemStyleProps> {
@@ -122,11 +130,16 @@ export class CategoryItem extends CustomElement<CategoryItemStyleProps> {
 
   connectedCallback() {
     this.render();
-    this.bindEvents();
   }
 
-  public setState(state: string = 'default') {
-    this.state = state;
+  public setState(state: string = '', enable: boolean = true) {
+    const set = new Set((this.state || '').split('-'));
+    if (enable) {
+      set.add(state);
+    } else {
+      set.delete(state);
+    }
+    this.state = [...set].join('-');
     this.render();
   }
 
@@ -182,7 +195,7 @@ export class CategoryItem extends CustomElement<CategoryItemStyleProps> {
           size: markerSize,
           symbol: itemMarker.symbol,
           ...(itemMarker.style || {}),
-          ...get(itemMarker.style || {}, this.state),
+          ...getStateStyle(itemMarker.style, this.state),
         });
       });
 
@@ -202,7 +215,7 @@ export class CategoryItem extends CustomElement<CategoryItemStyleProps> {
           textBaseline: 'middle',
           textAlign: 'left',
           ...(itemName.style || {}),
-          ...get(itemName.style || {}, this.state),
+          ...getStateStyle(itemName.style, this.state),
         });
       })
       .node() as Text;
@@ -222,12 +235,11 @@ export class CategoryItem extends CustomElement<CategoryItemStyleProps> {
         (selection.node() as Text).attr({
           x: nameShapeRight + (itemValue.spacing || 0),
           y: 0,
-          ...TEXT_INHERITABLE_PROPS,
           tip: itemValue?.content || '',
           text: itemValue?.content || '',
           textAlign: 'left',
           ...(itemValue.style || {}),
-          ...get(itemValue.style || {}, this.state),
+          ...getStateStyle(itemValue.style, this.state),
           textBaseline: 'middle',
         });
       })
@@ -255,21 +267,6 @@ export class CategoryItem extends CustomElement<CategoryItemStyleProps> {
       .style('height', itemHeight)
       .style('zIndex', -1)
       .call(applyStyle, backgroundStyle)
-      .call(applyStyle, get(backgroundStyle, this.state));
-  }
-
-  public onClick() {
-    if (this.state === 'disabled') return;
-    this.state = this.state === 'unselected' ? 'selected' : 'unselected';
-    const evt = new CustomEvent('stateChange', {
-      detail: { value: { id: this.style.id, state: this.state } },
-    });
-    this.dispatchEvent(evt as any);
-    this.render();
-  }
-
-  private bindEvents() {
-    // For PC and mobile.
-    this.addEventListener('pointerdown', this.onClick.bind(this));
+      .call(applyStyle, getStateStyle(backgroundStyle, this.state));
   }
 }

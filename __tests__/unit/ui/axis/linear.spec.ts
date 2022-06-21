@@ -564,7 +564,7 @@ describe('Cartesian axis title', () => {
     });
   });
 
-  it('Cartesian axis orientation is right, same as axis orientation is left', async () => {
+  it.skip('Cartesian axis orientation is right, same as axis orientation is left', async () => {
     const axis = createAxis({ startPos: [250, 150], endPos: [250, 300], ...quantitativeAxisOptions });
     canvas.appendChild(axis);
     await canvas.ready;

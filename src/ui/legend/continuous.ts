@@ -137,7 +137,8 @@ export class Continuous<T extends ContinuousCfg> extends LegendBase<T> {
   private drawRail() {
     const { orient, min, max } = this.style;
     const [s1, s2] = this.selection;
-    this.rail = select(this.rail || this.innerGroup.appendChild(new Rail()))
+    const innerGroup = this.querySelector('.legend-inner-group')!;
+    this.rail = select(this.rail || innerGroup.appendChild(new Rail()))
       .attr('className', 'legend-rail')
       .call(applyStyle, { ...this.railCfg, fill: this.color, orient })
       .style('selection', this.slidable ? [(s1 - min) / (max - min), (s2 - min) / (max - min)] : undefined)
@@ -165,7 +166,8 @@ export class Continuous<T extends ContinuousCfg> extends LegendBase<T> {
       }
     }
 
-    select2update(this.innerGroup, 'legend-label', Text, labels);
+    const innerGroup = this.querySelector('.legend-inner-group')! as any;
+    select2update(innerGroup, 'legend-label', Text, labels);
   }
 
   private drawHandles() {
@@ -190,7 +192,8 @@ export class Continuous<T extends ContinuousCfg> extends LegendBase<T> {
     );
 
     const handle = type === 'start' ? this.startHandle : this.endHandle;
-    return select(handle || this.innerGroup.appendChild(new Handle({})))
+    const innerGroup = this.querySelector('.legend-inner-group')! as any;
+    return select(handle || innerGroup.appendChild(new Handle({})))
       .attr('className', `legend-handle-${type}`)
       .call(applyStyle, {
         ...this.handleCfg,

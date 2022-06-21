@@ -77,7 +77,13 @@ function createCategory(x, y, items, symbol = 'circle', furtherOptions = {}) {
 
 createCategory(50, 10, items1, undefined, { maxWidth: 200 });
 createCategory(50, 60, items2, 'square');
-createCategory(50, 110, items3, undefined, {
+createCategory(50, 120, items3, undefined, {
+  padding: [4, 8],
+  title: { content: '带背景框' },
+  backgroundStyle: {
+    fill: 'rgba(255,0,0,0.05)',
+    radius: 4,
+  },
   itemMarker: {
     size: 12,
     symbol: 'smooth',
@@ -87,7 +93,7 @@ createCategory(50, 110, items3, undefined, {
     },
   },
 });
-createCategory(50, 160, items4, undefined, {
+createCategory(50, 180, items4, undefined, {
   itemMarker: {
     size: 10,
     symbol: 'hvh',
