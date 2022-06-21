@@ -48,6 +48,7 @@ function ellipseLabels(orient: string, labels: Text[], cfg?: any) {
       // Apply ellipsis to the labels overlaps.
       ellipsisStrategy = (text: string) => getEllipsisText(text, allowedLength, font);
     }
+    // todo 优化空间。最后一个 label 应该重新计算碰撞情况
     source.forEach((label, idx) => {
       const tip = (label.style as AxisTextStyleProps).tip || label.style.text;
       (label.style as AxisTextStyleProps).tip = tip;

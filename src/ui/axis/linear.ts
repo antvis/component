@@ -1,5 +1,5 @@
 import { vec2 } from '@antv/matrix-util';
-import { DisplayObjectConfig, ElementEvent, Text } from '@antv/g';
+import { DisplayObjectConfig, ElementEvent, Group, Text } from '@antv/g';
 import {
   deepAssign,
   defined,
@@ -79,11 +79,6 @@ export class Linear extends AxisBase<LinearAxisStyleProps> {
     super(deepAssign({}, Linear.defaultOptions, options));
   }
 
-  connectedCallback() {
-    super.connectedCallback();
-    this.bindEvents();
-  }
-
   public update(cfg: Partial<LinearAxisStyleProps> = {}) {
     super.update(deepAssign({}, Linear.defaultOptions.style, this.attributes, cfg));
   }
@@ -99,9 +94,17 @@ export class Linear extends AxisBase<LinearAxisStyleProps> {
     if (y0 > y1) [y1, y0] = [y0, y1];
     const min = [x0, y0];
     const max = [x1, y1];
-    let bounds = { min, max };
-    if (this.axisLabelGroup) {
-      bounds = this.axisLabelGroup.getLocalBounds() as any;
+    const bounds = { min, max };
+    const axisLabelGroup = this.querySelector('.axis-label-group') as Group;
+    if (axisLabelGroup) {
+      const labelBounds = axisLabelGroup.getLocalBounds() as any;
+      if (this.axisPosition === 'top' || this.axisPosition === 'bottom') {
+        bounds.min[1] = labelBounds.min[1];
+        bounds.max[1] = labelBounds.max[1];
+      } else if (this.axisPosition === 'left' || this.axisPosition === 'right') {
+        bounds.min[0] = labelBounds.min[0];
+        bounds.max[0] = labelBounds.max[0];
+      }
     }
     const { positionX, positionY } = this.style.title || {};
     if (typeof positionX === 'number') {
@@ -155,7 +158,9 @@ export class Linear extends AxisBase<LinearAxisStyleProps> {
 
     const arrows = [];
     const lineStyle = axisLineCfg?.style || {};
-    const defaultArrow = { symbol: 'axis-arrow', size: 10, fill: 'grey', stroke: 'grey', lineWidth: 1, ...lineStyle };
+    const stroke = lineStyle?.stroke || 'grey';
+    const defaultArrow = { symbol: 'axis-arrow', size: 10, lineWidth: 1, ...lineStyle, fill: stroke, stroke };
+
     if (start) {
       const angle = ifX(this.axisPosition, -90, -45);
       const [[startX, startY]] = [[Math.min(x1, x2), Math.min(y1, y2)]];
@@ -223,10 +228,10 @@ export class Linear extends AxisBase<LinearAxisStyleProps> {
     const { formatter, tickPadding = 0, offset = 0, alignTick = true, rotate = 0, maxLength, style = {} } = labelCfg;
 
     const sign = getSign(orient, -1, 1);
-    const data = Array.from(ticks).map((datum, idx) => {
+    const data: any = Array.from(ticks).map((datum, idx) => {
       let value = datum.value;
       if (!alignTick) {
-        value = mid((ticks[idx + 1]?.value || value) + value);
+        value = mid((idx === ticks.length - 1 ? 1 : ticks[idx + 1]?.value) + value);
       }
       const [, [x, y]] = getTickPoints(this.getEndPoints(), value, orient, tickLength + tickPadding);
       const text = formatter ? formatter(datum, idx) : datum.text;
@@ -240,7 +245,7 @@ export class Linear extends AxisBase<LinearAxisStyleProps> {
         );
       }
 
-      const font = getMemoFont(this.selection.node(), { ...labelStyle, text: text || '' });
+      const font = getMemoFont(this, { ...labelStyle, text: text || '' });
       const limitLength = parseLength(maxLength!, font);
 
       return {
@@ -278,7 +283,7 @@ export class Linear extends AxisBase<LinearAxisStyleProps> {
     return vec2.scale([0, 0], getVerticalVector(axesVector), verticalFactor);
   }
 
-  private bindEvents() {
+  protected bindEvents() {
     this.addEventListener(ElementEvent.BOUNDS_CHANGED, (evt: any) => {
       if (evt.target.className === 'axis-label-group') this.drawTitle();
     });

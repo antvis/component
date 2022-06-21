@@ -74,7 +74,7 @@ export class Marker extends GUI<Required<MarkerStyleProps>> {
   }
 
   connectedCallback() {
-    this.update();
+    this.render();
   }
 
   attributeChangedCallback(name: string, oldValue: any, newValue: any) {
@@ -90,16 +90,7 @@ export class Marker extends GUI<Required<MarkerStyleProps>> {
    */
   public update(cfg: Partial<MarkerStyleProps> = {}): void {
     this.attr(deepMix({}, this.attributes, cfg));
-    const { Ctor, name, ...style } = this.getStyleProps() || {};
-    if (this.markerShape && this.markerShape.name === name) {
-      this.markerShape.attr(style);
-      return;
-    }
-    if (this.markerShape) this.clear();
-    if (Ctor) {
-      this.markerShape = new Ctor({ name, style });
-      this.appendChild(this.markerShape);
-    }
+    this.render();
   }
 
   /**
@@ -109,6 +100,18 @@ export class Marker extends GUI<Required<MarkerStyleProps>> {
     this.markerShape?.destroy();
     this.markerShape = undefined;
     this.removeChildren();
+  }
+
+  private render() {
+    const { Ctor, name, ...style } = this.getStyleProps() || {};
+    if (this.markerShape && this.markerShape.name === name) {
+      this.markerShape.attr(style);
+    } else {
+      if (this.markerShape) this.clear();
+      if (Ctor) {
+        this.markerShape = this.appendChild(new Ctor({ name, style }));
+      }
+    }
   }
 
   private getStyleProps() {

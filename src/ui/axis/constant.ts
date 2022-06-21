@@ -20,7 +20,7 @@ export const AXIS_BASE_DEFAULT_OPTIONS: DisplayObjectConfig<Omit<AxisBaseStylePr
     // 轴线
     axisLine: {
       style: {
-        stroke: '#416180',
+        stroke: 'grey',
         lineWidth: 0.5,
         strokeOpacity: 0.85,
       },
@@ -48,6 +48,7 @@ export const AXIS_BASE_DEFAULT_OPTIONS: DisplayObjectConfig<Omit<AxisBaseStylePr
       style: {
         fill: 'black',
         fontSize: 12,
+        fontWeight: 'lighter',
       },
       alignTick: true,
       tickPadding: 2,

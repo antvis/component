@@ -4,12 +4,7 @@ import { CircleCrosshair } from '../../../../src';
 import { createDiv } from '../../../utils';
 import { delay } from '../../../utils/delay';
 
-const renderer = new Renderer({
-  enableDirtyRectangleRenderingDebug: false,
-  enableAutoRendering: true,
-  enableDirtyRectangleRendering: true,
-  // enableTAA: false,
-});
+const renderer = new Renderer();
 
 const div = createDiv();
 

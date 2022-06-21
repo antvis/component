@@ -2,7 +2,16 @@ import { vec2 } from '@antv/matrix-util';
 import type { DisplayObjectConfig, TextStyleProps } from '@antv/g';
 import type { ArcAxisStyleProps, Point } from './types';
 import { AXIS_BASE_DEFAULT_OPTIONS } from './constant';
-import { deepAssign, getEllipsisText, getMemoFont, DegToRad, defined, maybeAppend, applyStyle } from '../../util';
+import {
+  deepAssign,
+  getEllipsisText,
+  getMemoFont,
+  DegToRad,
+  defined,
+  maybeAppend,
+  applyStyle,
+  select,
+} from '../../util';
 import { AxisBase } from './base';
 import { getAxisTicks } from './axisTick';
 import { getAxisSubTicks } from './axisSubTick';
@@ -43,6 +52,8 @@ export class Arc extends AxisBase<ArcAxisStyleProps> {
   public update(cfg: Partial<ArcAxisStyleProps> = {}) {
     super.update(deepAssign({}, Arc.defaultOptions.style, this.attributes, cfg));
   }
+
+  protected bindEvents() {}
 
   protected getLinePath(): any {
     const { radius, center = [0, 0], axisLine: axisLineCfg } = this.style;
@@ -107,7 +118,7 @@ export class Arc extends AxisBase<ArcAxisStyleProps> {
       textAlign: titleStyle.textAlign || ('center' as any),
       textBaseline: titleStyle.textBaseline || ('middle' as any),
     };
-    const font = getMemoFont(this.selection.node(), attrs);
+    const font = getMemoFont(this, attrs);
     const text = defined(titleCfg.maxLength) ? getEllipsisText(content, titleCfg.maxLength!, font) : content;
     titleShape.call(applyStyle, { id: 'axis-title', ...attrs, tip: content, text });
   }
@@ -157,7 +168,7 @@ export class Arc extends AxisBase<ArcAxisStyleProps> {
     } = this.style;
 
     return labelCfg
-      ? getAxisLabels(this.selection, {
+      ? getAxisLabels(select(this), {
           ...labelCfg,
           startAngle,
           endAngle,

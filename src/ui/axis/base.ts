@@ -1,7 +1,7 @@
-import { Group, Line, LineStyleProps, Path, PathStyleProps, Text, DisplayObjectConfig } from '@antv/g';
-import { isNil, noop, pick } from '@antv/util';
+import { Group, Line, LineStyleProps, PathStyleProps, Text, DisplayObjectConfig } from '@antv/g';
+import { deepMix, isNil, noop, pick } from '@antv/util';
 import { GUI } from '../../core/gui';
-import { Selection, select, timer, select2update } from '../../util';
+import { select, select2update, maybeAppend, applyStyle } from '../../util';
 import { Marker, MarkerStyleProps } from '../marker';
 import { AxisBaseStyleProps, AxisTextStyleProps, OverlapType, Point, TickDatum } from './types';
 import { OverlapCallback, OverlapUtils } from './overlap';
@@ -9,17 +9,7 @@ import { OverlapCallback, OverlapUtils } from './overlap';
 export abstract class AxisBase<T extends AxisBaseStyleProps = AxisBaseStyleProps> extends GUI<T> {
   public static tag = 'axisBase';
 
-  protected axisLineGroup!: Group;
-
-  protected axisLabelGroup!: Group;
-
-  protected axisTickGroup!: Group;
-
-  protected axisSubTickGroup!: Group;
-
   protected axisGroup!: Group;
-
-  protected selection!: Selection;
 
   protected optimizedTicks: TickDatum[] = [];
 
@@ -27,32 +17,17 @@ export abstract class AxisBase<T extends AxisBaseStyleProps = AxisBaseStyleProps
 
   constructor(options: DisplayObjectConfig<T>) {
     super(options);
-    this.init();
-  }
-
-  public init() {
-    this.selection = select(this);
-
-    this.axisLineGroup = this.appendChild(new Group({ className: 'axis-line-group' }));
-    this.axisTickGroup = this.appendChild(new Group({ className: 'axis-tick-group' }));
-    this.axisSubTickGroup = this.appendChild(new Group({ className: 'axis-subtick-group' }));
-    this.axisLabelGroup = this.appendChild(new Group({ className: 'axis-label-group' }));
   }
 
   connectedCallback() {
     this.update();
+    this.bindEvents();
   }
 
   public update(cfg: Partial<AxisBaseStyleProps> = {}) {
-    // @ts-ignore
-    this.attr(cfg);
-    select2update(this.axisLineGroup, 'axis-line', Path, [this.getLinePath()]);
-    select2update(this.axisLineGroup, 'axis-arrow$$', Marker, this.getLineArrow());
-    this.optimizedTicks = this.calcOptimizedTicks();
-    this.drawTickLines();
-    this.drawLabels();
-    this.processOverlap();
-    this.drawTitle();
+    this.attr(deepMix({}, this.attributes, cfg));
+
+    this.render();
   }
 
   public clear() {}
@@ -74,8 +49,40 @@ export abstract class AxisBase<T extends AxisBaseStyleProps = AxisBaseStyleProps
 
   protected abstract getEndPoints(): Point[];
 
+  protected abstract bindEvents(): void;
+
+  private render() {
+    const axisLineGroup = maybeAppend(
+      this,
+      '.axis-line-group',
+      () => new Group({ className: 'axis-line-group' })
+    ).node();
+    maybeAppend(axisLineGroup, '.axis-line', 'path')
+      .attr('className', 'axis-line')
+      .call(applyStyle, this.getLinePath());
+
+    select(axisLineGroup)
+      .selectAll('.axis-arrow$$')
+      .remove()
+      .data(this.getLineArrow(), (d) => d.id)
+      .join((enter) =>
+        enter
+          .append(() => new Marker({}))
+          .attr('className', 'axis-arrow$$')
+          .each(function (datum) {
+            this.update(datum);
+          })
+      );
+
+    this.optimizedTicks = this.calcOptimizedTicks();
+    this.drawTickLines();
+    this.drawLabels();
+    this.processOverlap();
+    this.drawTitle();
+  }
+
   private calcOptimizedTicks() {
-    const { ticksThreshold } = this.style;
+    const { ticksThreshold, appendTick } = this.style;
     // Apply default id to ticks data.
     const ticks = Array.from(this.style.ticks || []).map((d, idx) => ({ id: `${idx}`, ...d }));
     const tickCount = ticks.length;
@@ -88,21 +95,31 @@ export abstract class AxisBase<T extends AxisBaseStyleProps = AxisBaseStyleProps
         optimizedTicks = ticks.filter((tick, idx) => idx % page === 0 || idx === tickCount - 1);
       }
     }
+    if (appendTick && optimizedTicks[optimizedTicks.length - 1].value !== 1) {
+      optimizedTicks.push({ value: 1, id: 'append' });
+    }
     return optimizedTicks;
   }
 
   /** Includes axis tickLine and axis subTickLine  */
   private drawTickLines() {
     const tickLineItems = this.getTickLineItems();
-    select2update(this.axisTickGroup, 'axis-tick', Line, tickLineItems) as Line[];
+    const group = maybeAppend(this, '.axis-tick-group', () => new Group({ className: 'axis-tick-group' })).node();
+    select2update(group, 'axis-tick', Line, tickLineItems) as Line[];
 
+    const subGroup = maybeAppend(
+      this,
+      '.axis-subtick-group',
+      () => new Group({ className: 'axis-subtick-group' })
+    ).node();
     const subTickLineItems = this.getSubTickLineItems();
-    select2update(this.axisSubTickGroup, 'axis-subtick', Line, subTickLineItems) as Line[];
+    select2update(subGroup, 'axis-subtick', Line, subTickLineItems) as Line[];
   }
 
   private drawLabels() {
     const labels = this.getLabelAttrs();
-    this.labels = select2update(this.axisLabelGroup, 'axis-label', Text, labels) as Text[];
+    const group = maybeAppend(this, '.axis-label-group', () => new Group({ className: 'axis-label-group' })).node();
+    this.labels = select2update(group, 'axis-label', Text, labels) as Text[];
   }
 
   // 是否可以执行某一 overlap
@@ -162,12 +179,10 @@ export abstract class AxisBase<T extends AxisBaseStyleProps = AxisBaseStyleProps
   protected autoHideTickLine() {
     if (!this.style.label?.autoHideTickLine) return;
 
-    const tickLines = this.axisTickGroup.querySelectorAll('.axis-tick');
+    const tickLines = this.querySelectorAll('.axis-tick');
     this.labels.forEach((label, idx) => {
       const tickLine = tickLines[idx];
-      if (!tickLine) return;
-      if (label.style.visibility === 'hidden' && tickLine) tickLine.style.visibility = 'hidden';
-      else tickLine.style.visibility = 'visible';
+      if (tickLine) tickLine.style.visibility = label.style.visibility;
     });
   }
 }

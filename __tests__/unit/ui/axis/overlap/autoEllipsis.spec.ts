@@ -51,7 +51,7 @@ describe('Overlap autoEllipsis', () => {
       'h-text'
     );
     // 文本计算 bbox 有些误差，可以通过调节 margin-top 来调整
-    EllipsisUtil.ellipsis('bottom', horizontalLabels, { minLength: 14, margin: [-2, 0, 0, 0] });
+    EllipsisUtil.ellipsis('bottom', horizontalLabels, { minLength: 14, margin: [-3, 0, 0, 0] });
     expect(horizontalLabels.some((d) => d.style.text.endsWith('...'))).not.toBeTruthy();
   });
 

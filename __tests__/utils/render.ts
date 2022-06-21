@@ -3,17 +3,9 @@ import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Renderer as SvgRenderer } from '@antv/g-svg';
 import { createDiv } from './dom';
 
-const canvasRenderer = new CanvasRenderer({
-  enableDirtyRectangleRenderingDebug: false,
-  enableAutoRendering: true,
-  enableDirtyRectangleRendering: true,
-});
+const canvasRenderer = new CanvasRenderer();
 
-const svgRenderer = new SvgRenderer({
-  enableDirtyRectangleRenderingDebug: false,
-  enableAutoRendering: true,
-  enableDirtyRectangleRendering: true,
-});
+const svgRenderer = new SvgRenderer();
 
 export function createCanvas(size = 300, renderer = 'canvas', grid = false) {
   const canvas = new Canvas({

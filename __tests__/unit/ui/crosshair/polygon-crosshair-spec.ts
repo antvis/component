@@ -1,15 +1,10 @@
-import { Canvas, PathCommand } from '@antv/g';
+import { Canvas } from '@antv/g';
 import { Renderer } from '@antv/g-canvas';
 import { PolygonCrosshair } from '../../../../src';
 import { createDiv } from '../../../utils';
 import { delay } from '../../../utils/delay';
 
-const renderer = new Renderer({
-  enableDirtyRectangleRenderingDebug: false,
-  enableAutoRendering: true,
-  enableDirtyRectangleRendering: true,
-  // enableTAA: false,
-});
+const renderer = new Renderer();
 
 const div = createDiv();
 
@@ -39,7 +34,7 @@ canvas.appendChild(polygon);
 describe('polygon-crosshair', () => {
   test('basic', async () => {
     // @ts-ignore
-    const path = polygon.crosshairShape.attr('path') as PathCommand[];
+    const path = polygon.crosshairShape.attr('path') as any[];
     // @ts-ignore
     polygon.points.forEach(([x, y], index) => {
       expect(x ** 2 + y ** 2).toBeCloseTo(1);
@@ -65,7 +60,7 @@ describe('polygon-crosshair', () => {
     polygon.setPointer([200, 100]);
     await delay(20);
     // @ts-ignore
-    const path = polygon.crosshairShape.attr('path') as PathCommand[];
+    const path = polygon.crosshairShape.attr('path') as any[];
     // @ts-ignore
     polygon.points.forEach(([x, y], index) => {
       const [px, py] = path![index].slice(1) as [number, number];

@@ -1,4 +1,4 @@
-import { Path, Group, PathCommand } from '@antv/g';
+import { Path, Group } from '@antv/g';
 import { Band as BandScale } from '@antv/scale';
 import { Arc, ArcAxisStyleProps } from '../../../../src';
 import { createCanvas } from '../../../utils/render';
@@ -31,10 +31,9 @@ describe('Arc axis', () => {
     const arc = createAxis({ center: [400, 400], radius: 60 });
     canvas.appendChild(arc);
 
-    const axisLine = arc.querySelectorAll('.axis-line')[0] as Path;
     let tickLines = arc.querySelectorAll('.axis-tick') as Path[];
 
-    it('Arc axis radius', () => {
+    it('Arc axis radius', async () => {
       expect(arc).toBeDefined();
       arc.update({
         startAngle: 0,
@@ -43,24 +42,29 @@ describe('Arc axis', () => {
         center: [150, 100],
         axisLine: { style: { lineWidth: 1, stroke: 'red' }, animate: false },
       });
-      const axisLine = arc.querySelectorAll('.axis-line')[0] as Path;
+      await canvas.ready;
+      const axisLine = arc.querySelector('.axis-line') as Path;
       const { min, max } = axisLine.getBounds();
       expect(max[0] - min[0]).toBe(100 * 2);
       expect((max[0] + min[0]) / 2).toBe(150);
       expect((max[1] + min[1]) / 2).toBe(100);
     });
 
-    it('Arc axis, ({ startAngle, endAngle })', () => {
+    it('Arc axis, ({ startAngle, endAngle })', async () => {
       arc.update({ center: [400, 400], radius: 50 });
-      expect((axisLine.style.path as PathCommand[])![0]).toEqual(['M', arc.style.center[0], arc.style.center[1]]);
-      expect((axisLine.style.path as PathCommand[])![1]).toEqual([
+      await canvas.ready;
+      const axisLine = arc.querySelector('.axis-line') as Path;
+      expect((axisLine.style.path as any[])![0]).toEqual(['M', arc.style.center[0], arc.style.center[1]]);
+      expect((axisLine.style.path as any[])![1]).toEqual([
         'L',
         arc.style.center[0] + arc.style.radius,
         arc.style.center[1],
       ]);
     });
 
-    it('Arc axis line, ({ axisLine: {} })', () => {
+    it('Arc axis line, ({ axisLine: {} })', async () => {
+      await canvas.ready;
+      const axisLine = arc.querySelector('.axis-line') as Path;
       expect(axisLine).toBeDefined();
       arc.update({ startAngle: -90, axisLine: { style: { stroke: 'red', lineWidth: 3 } } });
       expect(axisLine.style.stroke).toBe('red');
@@ -210,15 +214,17 @@ describe('Arc axis', () => {
             label: {
               align: 'tangential',
               autoEllipsis: true,
+              style: { fontSize: 10 },
             },
           },
         })
       );
-      arc.update({ label: { align: 'tangential' } });
-
       const labels = arc.querySelectorAll('.axis-label');
       expect(filter(labels).length).toBe(ticks.length);
       expect(labels.some((d) => d.style.text.endsWith('...'))).toBe(false);
+
+      arc.update({ label: { style: { fontSize: 13 } } });
+      expect(labels.some((d) => d.style.text.endsWith('...'))).toBe(true);
     });
   });
 });

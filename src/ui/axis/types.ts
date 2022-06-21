@@ -62,8 +62,6 @@ export type AxisTickLineCfg = {
   // 刻度线长度
   len?: number;
   style?: Partial<LineProps>;
-  // 末尾追加tick，一般用于label alignTick 为 false 的情况
-  // appendTick?: boolean;
 };
 
 export type AxisSubTickLineCfg = {
@@ -169,6 +167,8 @@ export type AxisBaseStyleProps = {
   label?: AxisLabelCfg | null;
   subTickLine?: AxisSubTickLineCfg;
   verticalFactor?: -1 | 1;
+  // 末尾追加tick，一般适用于 label alignTick 为 false 的情况
+  appendTick?: boolean;
 };
 
 export type AxisBaseOptions = DisplayObjectConfig<AxisBaseStyleProps>;
