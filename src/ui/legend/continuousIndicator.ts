@@ -98,7 +98,7 @@ export class Indicator extends CustomElement<IndicatorStyleProps> {
   }
 
   private bindEvents() {
-    this.text.addEventListener(ElementEvent.GEOMETRY_BOUNDS_CHANGED, () => {
+    this.text.addEventListener(ElementEvent.BOUNDS_CHANGED, () => {
       this.updateBackground();
     });
   }
