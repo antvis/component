@@ -40,7 +40,7 @@ describe('Arc axis', () => {
         endAngle: 270,
         radius: 100,
         center: [150, 100],
-        axisLine: { style: { lineWidth: 1, stroke: 'red' }, animate: false },
+        axisLine: { style: { lineWidth: 1, stroke: 'red' } },
       });
       await canvas.ready;
       const axisLine = arc.querySelector('.axis-line') as Path;

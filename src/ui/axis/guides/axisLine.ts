@@ -51,7 +51,12 @@ export function renderAxisLine(
   if (points) {
     const { start, end } = cfg?.arrow || {};
     const [[x1, y1], [x2, y2]] = points;
-    const angle = (x1 === x2 ? -90 : y1 === y2 ? 180 : (Math.atan((y2 - y1) / (x2 - x1)) / Math.PI) * 180) / 2;
+    let angle = ((Math.atan((y2 - y1) / (x2 - x1)) / Math.PI) * 180) / 2;
+    if (x1 === x2) {
+      angle = y1 > y2 ? 45 : -45;
+    } else if (y1 === y2) {
+      angle = x1 > x2 ? 0 : 90;
+    }
     renderAxisArrow(container, 'start', x1, y1, angle, start);
     renderAxisArrow(container, 'end', x2, y2, angle + 90, end);
   }

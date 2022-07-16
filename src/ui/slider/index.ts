@@ -2,6 +2,7 @@ import type { Cursor } from '@antv/g';
 import { Rect, Text, CustomEvent, Group } from '@antv/g';
 import { deepMix, get } from '@antv/util';
 import { GUI } from '../../core/gui';
+import { GUI as ComponentType } from '../../util/create';
 import { Handle } from './handle';
 import { Sparkline } from '../sparkline';
 import {
@@ -14,7 +15,7 @@ import {
 } from '../../util';
 import type { MarkerStyleProps } from '../marker';
 import type { SparklineCfg } from '../sparkline';
-import type { IHandleCfg } from './handle';
+import type { HandleStyleProps } from './handle';
 import type { ShapeAttrs, RectProps } from '../../types';
 import type { SliderCfg, SliderOptions, HandleCfg, Pair } from './types';
 
@@ -121,10 +122,10 @@ export class Slider extends GUI<SliderCfg> {
   private selectionShape!: Rect;
 
   // 开始滑块
-  private startHandle!: Handle;
+  private startHandle!: ComponentType<HandleStyleProps>;
 
   // 结束滑块
-  private endHandle!: Handle;
+  private endHandle!: ComponentType<HandleStyleProps>;
 
   /**
    * 选区开始的位置
@@ -374,8 +375,9 @@ export class Slider extends GUI<SliderCfg> {
     this.selectionShape.attr(this.calcMask());
     (['start', 'end'] as HandleType[]).forEach((handleType) => {
       const handle = this[`${handleType}Handle` as HandleName];
-      handle.setHandle(this.calcHandlePosition(handleType));
-      handle.setHandleText(this.calcHandleText(handleType));
+      const { x, y } = this.calcHandlePosition(handleType);
+      const textCfg = this.calcHandleText(handleType);
+      handle.update({ x, y, textCfg });
     });
   }
 
@@ -410,14 +412,18 @@ export class Slider extends GUI<SliderCfg> {
     let x = 0;
     let y = 0;
     const R = size / 2;
+    let textAlign = 'center';
     if (orient === 'horizontal') {
       const sh = spacing + R;
       const _ = sh + textWidth / 2;
       if (handleType === 'start') {
         const left = fX - sh - textWidth;
         x = left > 0 ? -_ : _;
+        textAlign = left > 0 ? 'end' : 'start';
       } else {
-        x = iW - fX - fW - sh > textWidth ? _ : -_;
+        const sign = iW - fX - fW - sh > textWidth;
+        x = sign ? _ : -_;
+        textAlign = sign ? 'start' : 'end';
       }
     } else {
       const _ = spacing + R;
@@ -427,7 +433,7 @@ export class Slider extends GUI<SliderCfg> {
         y = iH - fY - fH - R > textHeight ? _ : -_;
       }
     }
-    return { x, y, text: formattedText };
+    return { x, y, text: formattedText, textAlign: textAlign as any };
   }
 
   private getHandleTextShapeCfg(handleType: HandleType) {
@@ -439,27 +445,14 @@ export class Slider extends GUI<SliderCfg> {
     };
   }
 
-  private getHandleIconShapeCfg(handleType: HandleType): IHandleCfg['iconCfg'] {
-    const { height: H, orient } = this.attributes as Required<Pick<SliderCfg, 'height' | 'orient'>>;
+  private getHandleIconShapeCfg(handleType: HandleType): HandleStyleProps['iconCfg'] {
+    const { orient } = this.attributes as Required<Pick<SliderCfg, 'height' | 'orient'>>;
     const handleCfg = this.getHandleCfg(handleType);
-    const { show, handleIcon, handleStyle: style } = handleCfg;
+    const { handleIcon, handleStyle: style } = handleCfg;
     const cursor = this.getOrientVal(['ew-resize', 'ns-resize']) as Cursor;
     const size = this.getHandleSize(handleType);
-    let tempStyle!: Omit<IHandleCfg['iconCfg'], 'type' | 'orient'>;
-    let type!: 'hide' | 'default' | 'symbol';
-    if (!show) {
-      type = 'hide';
-      // @ts-ignore
-      tempStyle = {
-        cursor,
-        x: -size / 2,
-        y: -H / 2,
-        height: H,
-        width: size,
-        opacity: 0,
-        fill: 'red',
-      } as RectProps;
-    }
+    let tempStyle!: Omit<HandleStyleProps['iconCfg'], 'type' | 'orient'>;
+    let type!: 'default' | 'symbol';
     if (!handleIcon) {
       type = 'default';
       tempStyle = {
@@ -485,10 +478,12 @@ export class Slider extends GUI<SliderCfg> {
     };
   }
 
-  private getHandleShapeCfg(handleType: HandleType): IHandleCfg {
+  private getHandleShapeCfg(handleType: HandleType): HandleStyleProps {
+    const handleCfg = this.getHandleCfg(handleType);
     return {
       handleType,
       zIndex: 3,
+      visibility: handleCfg?.show ? 'visible' : 'hidden',
       ...this.calcHandlePosition(handleType),
       iconCfg: this.getHandleIconShapeCfg(handleType),
       textCfg: this.getHandleTextShapeCfg(handleType),
@@ -500,6 +495,7 @@ export class Slider extends GUI<SliderCfg> {
    */
   private createHandle(handleType: HandleType) {
     return new Handle({
+      type: `handle`,
       name: `handle`,
       style: this.getHandleShapeCfg(handleType) as any,
     });
@@ -550,12 +546,12 @@ export class Slider extends GUI<SliderCfg> {
     selection.addEventListener('mouseenter', this.onSelectionMouseenter);
     selection.addEventListener('mouseleave', this.onSelectionMouseleave);
 
-    const exceptHandleText = (target: EventTarget | null) => {
-      return target && (target as Handle).name !== 'text';
+    const exceptHandleText = (target: any | null) => {
+      return target && target.className !== '.handle-text';
     };
 
     [this.startHandle, this.endHandle].forEach((handle) => {
-      const handleType = handle.getType();
+      const { handleType } = handle.style;
       handle.addEventListener('mousedown', (e: any) => {
         const { target } = e;
         exceptHandleText(target) && this.onDragStart(handleType)(e);

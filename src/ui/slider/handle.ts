@@ -1,140 +1,102 @@
-import { DisplayObject, Rect, Line, Text } from '@antv/g';
-import { deepMix, get } from '@antv/util';
+import { Group, TextStyleProps } from '@antv/g';
 import { Marker, MarkerStyleProps } from '../marker';
-import type { TextProps, ShapeAttrs } from '../../types';
-import { TEXT_INHERITABLE_PROPS } from '../../util';
+import type { ShapeAttrs } from '../../types';
+import { applyStyle, maybeAppend, select } from '../../util';
+import { createComponent } from '../../util/create';
 
-export interface IHandleCfg {
+export interface HandleStyleProps {
   x: number;
   y: number;
   zIndex: number;
   handleType: 'start' | 'end';
+  visibility: 'visible' | 'hidden';
   iconCfg: (ShapeAttrs | MarkerStyleProps) & {
+    type: 'symbol' | 'default';
     size?: number;
     radius?: number | string;
-    type: 'hide' | 'symbol' | 'default';
-    orient: 'horizontal' | 'vertical';
+    orient?: 'horizontal' | 'vertical';
   };
-  textCfg: TextProps;
+  textCfg: TextStyleProps;
 }
 
-export class Handle extends DisplayObject<IHandleCfg> {
-  private iconShape: Rect | Marker;
-
-  private textShape: Text;
-
-  constructor({ style, ...rest }: Partial<DisplayObject<IHandleCfg>>) {
-    super({ type: 'handle', style, ...rest });
-    this.iconShape = this.createHandleIcon();
-    this.appendChild(this.iconShape);
-    this.textShape = this.createHandleText();
-    this.appendChild(this.textShape);
-    this.setHandleIconRotation();
-  }
-
-  public setHandle({ x, y }: { x: number; y: number }) {
-    this.attr({ x, y });
-  }
-
-  public setHandleText({ x, y, text }: { x: number; y: number; text: string }) {
-    this.textShape.attr({ x, y, text });
-  }
-
-  public getIcon() {
-    return this.iconShape;
-  }
-
-  public getType() {
-    return get(this.attributes, 'handleType');
-  }
-
-  public update(cfg: Partial<IHandleCfg>) {
-    this.attr(deepMix({}, this.attributes, cfg));
-    const { iconCfg, textCfg } = cfg;
-    if (iconCfg) {
-      this.updateIconShape();
-    }
-    if (textCfg) {
-      this.textShape.attr({ ...textCfg });
-    }
-  }
-
-  private updateIconShape() {
-    this.removeChild(this.iconShape, true);
-    this.iconShape = this.createHandleIcon();
-    this.appendChild(this.iconShape);
-    this.setHandleIconRotation();
-  }
-
-  /**
-   * 创建默认手柄图标
-   */
-  private createDefaultIcon() {
-    const {
-      iconCfg: { size, radius, ...rest },
-    } = this.attributes;
+const HandleIcon = createComponent<any>({
+  render(attributes, container) {
+    const { size = 10, radius = 2, stroke, fill, lineWidth, orient } = attributes;
     // 默认手柄
     const width = size!;
     const height = width * 2.4;
+    const rect = maybeAppend(container, '.rect', 'rect')
+      .attr('className', 'rect')
+      .style('x', -width / 2)
+      .style('y', -height / 2)
+      .style('width', width)
+      .style('height', height)
+      .style('stroke', stroke || '#bfbfbf')
+      .style('lineWidth', typeof lineWidth !== 'number' ? 1 : lineWidth)
+      .style('fill', fill || '#fff')
+      .style('radius', typeof radius !== 'number' ? width / 4 : radius)
+      .node();
 
-    // 创建默认图形
-    const defaultHandle = new Rect({
-      name: 'icon',
-      style: {
-        width,
-        height,
-        x: -width / 2,
-        y: -height / 2,
-        radius: radius ?? width / 4,
-        ...rest,
-      },
-    });
-    const { stroke, lineWidth } = rest;
+    const appendLine = (idx: number, x1: number, y1: number, x2: number, y2: number) => {
+      maybeAppend(rect, `line-${idx}`, 'line')
+        .attr('className', `line-${idx}`)
+        .style('x1', x1)
+        .style('y1', y1)
+        .style('x2', x2)
+        .style('y2', y2)
+        .style('stroke', rect.style.stroke)
+        .style('lineWidth', rect.style.lineWidth);
+    };
     const X1 = (1 / 3) * width;
     const X2 = (2 / 3) * width;
     const Y1 = (1 / 4) * height;
     const Y2 = (3 / 4) * height;
-    const createLine = (x1: number, y1: number, x2: number, y2: number) => {
-      return new Line({
-        name: 'line',
-        style: { x1, y1, x2, y2, stroke, lineWidth },
-      });
-    };
-    defaultHandle.appendChild(createLine(X1, Y1, X1, Y2));
-    defaultHandle.appendChild(createLine(X2, Y1, X2, Y2));
-    defaultHandle.setOrigin(width / 2, height / 2);
-    return defaultHandle;
-  }
+    appendLine(0, X1, Y1, X1, Y2);
+    appendLine(0, X2, Y1, X2, Y2);
 
-  private createHandleIcon() {
-    const { type, orient, ...style } = get(this.attributes, ['iconCfg']);
-    if (type === 'hide') {
-      return new Rect({ style, name: 'icon' });
-    }
-    if (type === 'symbol') {
-      return new Marker({ style, name: 'icon' });
-    }
-    // type === 'default'
-    return this.createDefaultIcon();
-  }
+    rect.setOrigin(width / 2, height / 2);
+    if (orient === 'vertical') container.setLocalEulerAngles(90);
+    else container.setLocalEulerAngles(0);
+  },
+});
 
-  private createHandleText() {
-    const { textCfg } = this.attributes;
-    return new Text({
-      name: 'text',
-      style: {
-        ...TEXT_INHERITABLE_PROPS,
-        ...textCfg,
-      },
-    });
-  }
-
-  private setHandleIconRotation() {
-    const orient = get(this.attributes, ['iconCfg', 'orient']);
-    if (orient === 'vertical') {
-      this.iconShape.setLocalEulerAngles(90);
-    } else {
-      this.iconShape.setLocalEulerAngles(0);
-    }
-  }
+function renderHandleIcon(container: Group, iconCfg: HandleStyleProps['iconCfg']) {
+  const { type } = iconCfg;
+  const className = `handle-icon ${type}-handle`;
+  select(container)
+    .selectAll('.handle-icon')
+    .data([type], (d) => d)
+    .join(
+      (enter) =>
+        enter.append((type) => {
+          if (type === 'symbol') return new Marker({ className, name: 'icon', style: iconCfg as any });
+          return new HandleIcon({ name: 'icon', className, style: iconCfg as any });
+        }),
+      (update) =>
+        update.each(function () {
+          this.update(iconCfg);
+        }),
+      (exit) => exit.remove()
+    );
 }
+
+function renderHandleText(container: Group, cfg: any = {}) {
+  const className = `handle-text`;
+  maybeAppend(container, `.${className}`, 'text')
+    .attr('className', className)
+    .style('fontSize', 12)
+    .style('fill', '#000')
+    .style('fillOpacity', 0.45)
+    .style('textAlign', 'center')
+    .style('textBaseline', 'middle')
+    .call(applyStyle, cfg);
+}
+
+export const Handle = createComponent<HandleStyleProps>({
+  render(attributes, container) {
+    const { iconCfg, textCfg } = attributes;
+
+    renderHandleIcon(container, iconCfg);
+    renderHandleText(container, textCfg);
+  },
+});
