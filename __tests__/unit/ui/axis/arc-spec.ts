@@ -93,7 +93,7 @@ describe('Arc axis', () => {
       arc.update({ ticks, tickLine: { len: 6, style: { lineWidth: 2, stroke: 'black' } } });
 
       tickLines = arc.querySelectorAll('.axis-tick') as Path[];
-      expect(tickLines.length).toBe(ticks.length - 1);
+      expect(tickLines.length).toBe(ticks.length);
       const tickLine0 = tickLines[0];
 
       const { x1, y1, x2, y2 } = tickLine0.attr() as any;
@@ -107,7 +107,7 @@ describe('Arc axis', () => {
       arc.update({ ticks, subTickLine: { len: 4, count: 2, style: { stroke: 'blue', lineWidth: 3 } } });
       const subTickLines = arc.querySelectorAll('.axis-subtick') as Path[];
 
-      expect(subTickLines.length).toBe((ticks.length - 1) * 2);
+      expect(subTickLines.length).toBe(ticks.length * 2);
       const subTickLine0 = subTickLines[0];
       const { x1, y1, x2, y2 } = subTickLine0.attr() as any;
       expect(Math.abs(+y2 - +y1)).toBeCloseTo(4, 0);
@@ -154,7 +154,7 @@ describe('Arc axis', () => {
       let visibleTickLines = filter(arc.querySelectorAll('.axis-tick'));
       // todo
       // expect(visibleLabels.length).toBeLessThan(arc1.querySelectorAll('.axis-label').length);
-      expect(visibleTickLines.length).toBe(visibleLabels.length);
+      expect(visibleTickLines.length).toBe(visibleLabels.length + 1);
 
       expect(labels[0].style.visibility).toBe('visible');
       // todo
@@ -165,7 +165,7 @@ describe('Arc axis', () => {
 
       visibleLabels = filter(arc.querySelectorAll('.axis-label'));
       visibleTickLines = filter(arc.querySelectorAll('.axis-tick'));
-      expect(visibleTickLines.length).toBe(arc.style!.ticks!.length - 1);
+      expect(visibleTickLines.length).toBe(arc.style!.ticks!.length);
       arc.remove();
       arc1.remove();
       canvas.removeChild(arc);
