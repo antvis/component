@@ -45,19 +45,19 @@ export class Selection<T = any> {
     html: HTML,
   };
 
-  private _elements: G2Element[];
+  public __data__: T[];
 
-  private _parent: G2Element;
+  private __elements__: G2Element[];
 
-  private _data: T[];
+  private __parent__: G2Element;
 
-  private _enter: Selection;
+  private __enter__: Selection;
 
-  private _exit: Selection;
+  private __exit__: Selection;
 
-  private _update: Selection;
+  private __update__: Selection;
 
-  private _document: IDocument;
+  private __document__: IDocument;
 
   constructor(
     elements: G2Element[] = null,
@@ -66,18 +66,18 @@ export class Selection<T = any> {
     document: IDocument = null,
     selections: [Selection, Selection, Selection] = [null, null, null]
   ) {
-    this._elements = elements;
-    this._data = data;
-    this._parent = parent;
-    this._document = document;
-    this._enter = selections[0];
-    this._update = selections[1];
-    this._exit = selections[2];
+    this.__elements__ = elements;
+    this.__data__ = data;
+    this.__parent__ = parent;
+    this.__document__ = document;
+    this.__enter__ = selections[0];
+    this.__update__ = selections[1];
+    this.__exit__ = selections[2];
   }
 
   selectAll(selector: string | G2Element[]): Selection<T> {
-    const elements = typeof selector === 'string' ? this._parent.querySelectorAll<G2Element>(selector) : selector;
-    return new Selection<T>(elements, null, this._elements[0], this._document);
+    const elements = typeof selector === 'string' ? this.__parent__.querySelectorAll<G2Element>(selector) : selector;
+    return new Selection<T>(elements, null, this.__elements__[0], this.__document__);
   }
 
   /**
@@ -85,14 +85,14 @@ export class Selection<T = any> {
    */
   select(selector: string | G2Element): Selection<T> {
     const element =
-      typeof selector === 'string' ? this._parent.querySelectorAll<G2Element>(selector)[0] || null : selector;
-    return new Selection<T>([element], null, element, this._document);
+      typeof selector === 'string' ? this.__parent__.querySelectorAll<G2Element>(selector)[0] || null : selector;
+    return new Selection<T>([element], null, element, this.__document__);
   }
 
   append(node: string | ((data: T, i: number) => G2Element)): Selection<T> {
     const createElement = (type: string) => {
-      if (this._document) {
-        return this._document.createElement<G2Element, BP>(type, {});
+      if (this.__document__) {
+        return this.__document__.createElement<G2Element, BP>(type, {});
       }
       const Ctor = Selection.registry[type];
       if (Ctor) return new Ctor();
@@ -101,28 +101,28 @@ export class Selection<T = any> {
     const callback = typeof node === 'function' ? node : () => createElement(node);
 
     const elements = [];
-    if (this._data !== null) {
+    if (this.__data__ !== null) {
       // For empty selection, append new element to parent.
       // Each element is bind with datum.
-      for (let i = 0; i < this._data.length; i++) {
-        const datum = this._data[i];
+      for (let i = 0; i < this.__data__.length; i++) {
+        const datum = this.__data__[i];
         const newElement = callback(datum, i);
         newElement.__data__ = datum;
-        this._parent.appendChild(newElement);
+        this.__parent__.appendChild(newElement);
         elements.push(newElement);
       }
-      return new Selection(elements, null, this._parent, this._document);
+      return new Selection(elements, null, this.__parent__, this.__document__);
     }
     // For non-empty selection, append new element to
     // selected element and return new selection.
-    for (let i = 0; i < this._elements.length; i++) {
-      const element = this._elements[i];
+    for (let i = 0; i < this.__elements__.length; i++) {
+      const element = this.__elements__[i];
       const datum = element.__data__;
       const newElement = callback(datum, i);
       element.appendChild(newElement);
       elements.push(newElement);
     }
-    return new Selection(elements, null, elements[0], this._document);
+    return new Selection(elements, null, elements[0], this.__document__);
   }
 
   /**
@@ -139,7 +139,7 @@ export class Selection<T = any> {
     const update = [];
 
     // A Map from key to each element.
-    const keyElement = new Map(this._elements.map((d, i) => [id(d.__data__, i), d]));
+    const keyElement = new Map(this.__elements__.map((d, i) => [id(d.__data__, i), d]));
 
     // Diff data with selection(elements with data).
     for (let i = 0; i < data.length; i++) {
@@ -160,17 +160,17 @@ export class Selection<T = any> {
 
     // Create new selection with enter, update and exit.
     const S: [Selection<T>, Selection<T>, Selection<T>] = [
-      new Selection<T>([], enter, this._parent, this._document),
-      new Selection<T>(update, null, this._parent, this._document),
-      new Selection<T>(exit, null, this._parent, this._document),
+      new Selection<T>([], enter, this.__parent__, this.__document__),
+      new Selection<T>(update, null, this.__parent__, this.__document__),
+      new Selection<T>(exit, null, this.__parent__, this.__document__),
     ];
 
-    return new Selection<T>(this._elements, null, this._parent, this._document, S);
+    return new Selection<T>(this.__elements__, null, this.__parent__, this.__document__, S);
   }
 
   merge(other: Selection<T>): Selection<T> {
-    const elements = [...this._elements, ...other._elements];
-    return new Selection<T>(elements, null, this._parent, this._document);
+    const elements = [...this.__elements__, ...other.__elements__];
+    return new Selection<T>(elements, null, this.__parent__, this.__document__);
   }
 
   /**
@@ -182,15 +182,15 @@ export class Selection<T = any> {
     update: (selection: Selection<T>) => any = (d) => d,
     exit: (selection: Selection<T>) => any = (d) => d.remove()
   ): Selection<T> {
-    const newEnter = enter(this._enter);
-    const newUpdate = update(this._update);
-    const newExit = exit(this._exit);
+    const newEnter = enter(this.__enter__);
+    const newUpdate = update(this.__update__);
+    const newExit = exit(this.__exit__);
     return newUpdate.merge(newEnter).merge(newExit);
   }
 
   remove(): Selection<T> {
-    const elements = [...this._elements];
-    this._elements.forEach((element) => {
+    const elements = [...this.__elements__];
+    this.__elements__.forEach((element) => {
       if (element.parentNode) {
         element.parentNode.removeChild(element);
         const index = elements.indexOf(element);
@@ -199,12 +199,12 @@ export class Selection<T = any> {
         element.remove();
       }
     });
-    return new Selection<T>(elements, null, this._parent, this._document);
+    return new Selection<T>(elements, null, this.__parent__, this.__document__);
   }
 
   each(callback: (datum: T, index: number) => any): Selection<T> {
-    for (let i = 0; i < this._elements.length; i++) {
-      const element = this._elements[i];
+    for (let i = 0; i < this.__elements__.length; i++) {
+      const element = this.__elements__[i];
       if (element) {
         const datum = element.__data__;
         callback.call(element, datum, i);
@@ -237,16 +237,16 @@ export class Selection<T = any> {
   }
 
   call(callback: (selection: Selection<T>, ...args: any[]) => any, ...args: any[]): Selection<T> {
-    callback.call(this._parent, this, ...args);
+    callback.call(this.__parent__, this, ...args);
     return this;
   }
 
   node(): G2Element {
-    return this._elements[0];
+    return this.__elements__[0];
   }
 
   nodes(): G2Element[] {
-    return this._elements;
+    return this.__elements__;
   }
 }
 

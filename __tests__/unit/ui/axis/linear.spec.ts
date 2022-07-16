@@ -20,14 +20,13 @@ describe('Linear axis.', () => {
     expect(axisLines.length).toBe(1);
 
     axis.update({ startPos: [30, 50], endPos: [250, 50] });
-    const [c1, c2] = axisLines[0].getAttribute('path');
-    expect(c1).toEqual(['M', 30, 50]);
-    expect(c2).toEqual(['L', 250, 50]);
+    const path = axisLines[0].getAttribute('path');
+    expect(path).toEqual('M30,50 L250,50');
     axis.destroy();
   });
 
   it('new Linear({ style:{...}}) should render a axis with custom style.', () => {
-    const arrow = { symbol: 'axis-arrow', size: 8, fill: 'red', stroke: 'red', lineWidth: 1 };
+    const arrow = { fill: 'red', stroke: 'red', lineWidth: 1 };
     const axis = canvas.appendChild(
       new Linear({
         style: {
@@ -43,12 +42,12 @@ describe('Linear axis.', () => {
 
     let axisArrows = axis.querySelectorAll('.axis-arrow$$') as DisplayObject[];
     expect(axisArrows.length).toBe(2);
-    expect(axisArrows[0].getEulerAngles()).toBeCloseTo(-90);
+    expect(axisArrows[0].getEulerAngles()).toBeCloseTo(90);
 
     axis.update({ axisLine: { arrow: { end: null } } });
     axisArrows = axis.querySelectorAll('.axis-arrow$$') as DisplayObject[];
-    expect(axisArrows[0]).toBeDefined();
-    expect(axisArrows[1]).toBeUndefined();
+    expect(axisArrows[0].style.visibility).toBe('visible');
+    expect(axisArrows[1].style.visibility).toBe('hidden');
     axis.destroy();
   });
 
@@ -433,136 +432,6 @@ describe('Cartesian axis title', () => {
     title: { content: 'Quantitative axis', titlePadding: 4, titleAnchor: 'center' as any },
     ticks: data,
   };
-  describe('Cartesian axis orientation is left', () => {
-    const LABEL = 'Cartesian axis Title in left orientation.';
-    it(`${LABEL} Defaults to:{ textAlign: "center", textBaseline: "bottom" }`, async () => {
-      const axis = createAxis({
-        startPos: [150, 150],
-        endPos: [150, 300],
-        verticalFactor: -1,
-        ...quantitativeAxisOptions,
-      });
-      canvas.appendChild(axis);
-      await canvas.ready;
-      const axisTitle = axis.getElementsByClassName('axis-title')[0] as Text;
-      const axisLabelsGroup = axis.getElementsByClassName('axis-label-group')[0] as Path;
-      const axisLine = axis.getElementsByClassName('axis-line')[0] as Path;
-
-      expect(axisTitle.style.textAlign).toBe('center');
-      expect(axisTitle.style.textBaseline).toBe('bottom');
-
-      // it(`${LABEL} TextAlign of title is determined relative to the titleAnchor, but textAlign specified by user could override it`, () => {
-      axis.update({ title: { titleAnchor: 'start' } });
-      expect(axisTitle.style.textAlign).toBe('end');
-
-      axis.update({ title: { titleAnchor: 'end' } });
-      expect(axisTitle.style.textAlign).toBe('start');
-
-      axis.update({ title: { style: { textAlign: 'left' } } });
-      expect(axisTitle.style.textAlign).toBe('left');
-
-      // it(`${LABEL} Custom the padding between the axis-labels and axis-title by TitlePadding`, () => {
-      axis.update({ title: { titlePadding: 0 } });
-      const {
-        min: [x10],
-        max: [x20],
-      } = axisTitle.getBounds();
-      const {
-        min: [axisLabelsGroupX],
-      } = axisLabelsGroup.getBounds();
-      expect(x20).toBe(axisLabelsGroupX);
-
-      axis.update({ title: { titlePadding: -8 } });
-      const {
-        min: [x11],
-        max: [x21],
-      } = axisTitle.getBounds();
-      expect(x11 - x10).toBe(8);
-      const {
-        min: [axisLabelsGroupX1],
-      } = axisLabelsGroup.getBounds();
-      expect(x21).toBe(axisLabelsGroupX1 + 8);
-
-      // it(`${LABEL} Offset acts on the direction of axis-line`, () => {
-      axis.update({ title: { style: { dx: 0 } } });
-      const {
-        min: [, y10],
-      } = axisTitle.getBounds();
-      axis.update({ title: { style: { dx: -5 } } });
-      const {
-        min: [, y110],
-      } = axisTitle.getBounds();
-      expect(y110 - y10).toBe(5);
-
-      // it(`${LABEL} Custom x-position of axis-title by 'positionX', relative to axis-line. TitlePadding will not work`, () => {
-      axis.update({ title: { titlePadding: 0, positionX: 0, style: { textBaseline: 'bottom' } } });
-      const {
-        max: [x23],
-      } = axisTitle.getBounds();
-      expect(x23).toBe(axisLabelsGroup.getBounds().min[0]);
-
-      // it(`${LABEL} Custom y-position of axis-title by 'positionY', relative to axis-line. Offset still can work`, () => {
-      axis.update({ title: { positionY: 0, style: { textAlign: 'end', dx: 0 } } });
-      const { min } = axisTitle.getBounds();
-      const [, y15] = min;
-      const {
-        min: [, axisLineY5],
-      } = axisLine.getBounds();
-      // todo
-      // expect(y15).toBe(axisLineY5);
-
-      axis.update({ title: { style: { dx: -20 } } });
-      const {
-        min: [, y11],
-      } = axisTitle.getBounds();
-      const {
-        min: [, axisLineY1],
-      } = axisLine.getBounds();
-      // todo
-      // expect(y11).toBe(axisLineY1 + 20);
-
-      axis.update({ title: { positionY: 0, style: { textAlign: 'start', dx: 0 } } });
-      const {
-        max: [, y26],
-      } = axisTitle.getBounds();
-      expect(y26).toBe(axisLineY5);
-
-      // it(`${LABEL} Rotation`, () => {
-      axis.update({
-        title: {
-          positionX: 0,
-          positionY: 0,
-          rotate: 0,
-          style: { textAlign: 'start', textBaseline: 'bottom' },
-        },
-      });
-      const {
-        min: [x1],
-        max: [, y1],
-      } = axisTitle.getBounds();
-      const {
-        min: [axisLineX, axisLineY],
-      } = axisLine.getBounds();
-      expect(y1).toBe(axisLineY);
-      expect(x1).toBe(axisLabelsGroup.getBounds().min[0]);
-
-      axis.update({ title: { style: { textAlign: 'end', dy: -8 } } });
-      const {
-        max: [x2, y2],
-      } = axisTitle.getBounds();
-      // todo 1px error.
-      expect(x2).toBe(axisLabelsGroup.getBounds().min[0] + 1);
-      // Offset acts on the direction of axis-line.
-      expect(y2).toBe(axisLineY - 8);
-
-      // it(`${LABEL} Limit axisTitle maxLength`, () => {
-      expect(axisTitle.style.text).toBe(axisTitle.style.text);
-
-      axis.update({ title: { maxLength: 60 } });
-      expect(axisTitle.style.text.endsWith('...')).toBe(true);
-      expect(axisTitle.style.text).not.toBe((axisTitle.style as AxisTextStyleProps).tip);
-    });
-  });
 
   it.skip('Cartesian axis orientation is right, same as axis orientation is left', async () => {
     const axis = createAxis({ startPos: [250, 150], endPos: [250, 300], ...quantitativeAxisOptions });
@@ -727,20 +596,6 @@ describe('Cartesian axis orientation is bottom', () => {
     expect(axisTitle.style.textAlign).toBe('left');
   });
 
-  it('Custom padding between the axis-labels and axis-title', () => {
-    axis.update({ title: { titlePadding: 0 } });
-    axisTitle = axis.querySelector('.axis-title') as Text;
-    axisLabelsGroup = axis.querySelector('.axis-label-group') as Group;
-
-    const y1 = axisTitle.getBounds().min[1];
-    const axisLabelsGroupY = axisLabelsGroup.getBounds().max[1];
-
-    expect(y1).toBe(axisLabelsGroupY);
-    axis.update({ title: { titlePadding: 8 } });
-    const y2 = axisTitle.getBounds().min[1];
-    expect(y2 - y1).toBe(8);
-  });
-
   it(`Offset acts on the direction of axis-line`, () => {
     axis.update({ title: { titleAnchor: 'start', style: { textAlign: 'start', dx: 10 } } });
     axisTitle = axis.querySelector('.axis-title') as Text;
@@ -758,32 +613,6 @@ describe('Cartesian axis orientation is bottom', () => {
     axis.remove();
   });
 });
-
-// describe('Cartesian axis orientation is top', () => {
-//   it('Axis title', () => {
-//     const axis = createAxis({ startPos: [30, 50], endPos: [350, 50], verticalFactor: -1, ...common });
-//     canvas.appendChild(axis);
-//     // @ts-ignore
-//     const axisTitle = axis.getElementsByClassName('axis-title')[0] as Text;
-//     expect(axisTitle.style.text).toBe('Ordinal axis');
-//     expect(axisTitle.style.textBaseline).toBe('bottom');
-//     const {
-//       min: [x1, y1],
-//     } = axisTitle.getBounds();
-
-//     axis.update({ title: { titlePadding: 0, style: { fill: 'blue', stroke: 'red', dx: 5 } } });
-
-//     expect(axisTitle.style.fill).toBe('blue');
-
-//     const {
-//       min: [x11, y11],
-//     } = axisTitle.getBounds();
-//     expect(y11 - y1).toBe(4);
-//     expect(x11 - x1).toBe(5);
-
-//     axis.destroy();
-//   });
-// });
 
 describe('axis examples', () => {
   describe('Continuous Scales', () => {

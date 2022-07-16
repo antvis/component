@@ -1,28 +1,26 @@
-import { vec2 } from '@antv/matrix-util';
-import { DisplayObjectConfig, ElementEvent, Group, Text } from '@antv/g';
-import {
-  deepAssign,
-  defined,
-  getEllipsisText,
-  ifNegative,
-  ifPositive,
-  mid,
-  multi,
-  parseLength,
-  getMemoFont,
-  TEXT_INHERITABLE_PROPS,
-  getFont,
-  maybeAppend,
-  applyStyle,
-} from '../../util';
+import { vec2, ext } from '@antv/matrix-util';
+import type { vec2 as Vector2 } from '@antv/matrix-util';
+import { DisplayObjectConfig } from '@antv/g';
+import { ifNegative, ifPositive, mid, multi, maybeAppend } from '../../util';
+import { createComponent } from '../../util/create';
 import { Marker } from '../marker';
-import { AxisBase } from './base';
-import { getAxisTitleStyle } from './axisTitle';
-import { getAxisTicks, getTickPoints } from './axisTick';
-import { getAxisSubTicks } from './axisSubTick';
-import { getSign, getVerticalVector, ifLeft, ifRight, ifTop, ifX, ifY } from './utils';
-import type { LinearAxisStyleProps, Point } from './types';
+import {
+  autoHideTickLine,
+  calcOptimizedTicks,
+  getSign,
+  ifLeft,
+  ifRight,
+  ifTop,
+  ifX,
+  ifY,
+  processOverlap,
+} from './utils';
+import type { AxisLabelCfg, AxisOrient, LinearAxisStyleProps } from './types';
 import { AXIS_BASE_DEFAULT_OPTIONS } from './constant';
+import { renderTitle } from './guides/axisTitle';
+import { renderTicks } from './guides/axisTicks';
+import { renderLabels } from './guides/axisLabels';
+import { renderAxisLine } from './guides/axisLine';
 
 type LinearOptions = DisplayObjectConfig<LinearAxisStyleProps>;
 export { LinearOptions };
@@ -42,7 +40,11 @@ Marker.registerSymbol('axis-arrow', (x0: number, y0: number, r: number) => {
   ];
 });
 
-export function getTickEndPoints(startPoint: Point, length: number, verticalVector: any = [0, 0]): [Point, Point] {
+export function getTickEndPoints(
+  startPoint: Vector2,
+  length: number,
+  verticalVector: any = [0, 0]
+): [Vector2, Vector2] {
   const [x, y] = startPoint;
   const [dx, dy] = vec2.scale([0, 0], verticalVector, length);
   return [
@@ -58,234 +60,190 @@ function inferAxisPosition(axesVector: any = [0, 0], verticalFactor = 1) {
 
   return position;
 }
-export class Linear extends AxisBase<LinearAxisStyleProps> {
-  public static tag = 'cartesian';
 
-  protected static defaultOptions = {
-    type: Linear.tag,
-    style: {
-      startPos: [0, 0],
-      endPos: [0, 0],
-      ...AXIS_BASE_DEFAULT_OPTIONS.style,
-    },
-  };
-
-  protected get axisPosition() {
-    const axesVector = this.getAxesVector();
-    return inferAxisPosition(axesVector, this.style.verticalFactor || 1);
-  }
-
-  constructor(options: LinearOptions) {
-    super(deepAssign({}, Linear.defaultOptions, options));
-  }
-
-  public update(cfg: Partial<LinearAxisStyleProps> = {}) {
-    super.update(deepAssign({}, Linear.defaultOptions.style, this.attributes, cfg));
-  }
-
-  protected getEndPoints() {
-    const { startPos, endPos } = this.style;
-    return [startPos || [0, 0], endPos || [0, 0]];
-  }
-
-  private getTitleBounds() {
-    let [[x0, y0], [x1, y1]] = this.getEndPoints();
-    if (x0 > x1) [x1, x0] = [x0, x1];
-    if (y0 > y1) [y1, y0] = [y0, y1];
-    const min = [x0, y0];
-    const max = [x1, y1];
-    const bounds = { min, max };
-    const axisLabelGroup = this.querySelector('.axis-label-group') as Group;
-    if (axisLabelGroup) {
-      const labelBounds = axisLabelGroup.getLocalBounds() as any;
-      if (this.axisPosition === 'top' || this.axisPosition === 'bottom') {
-        bounds.min[1] = labelBounds.min[1];
-        bounds.max[1] = labelBounds.max[1];
-      } else if (this.axisPosition === 'left' || this.axisPosition === 'right') {
-        bounds.min[0] = labelBounds.min[0];
-        bounds.max[0] = labelBounds.max[0];
-      }
-    }
-    const { positionX, positionY } = this.style.title || {};
-    if (typeof positionX === 'number') {
-      bounds.min[0] = positionX + min[0];
-      bounds.max[0] = positionX + min[0];
-    }
-    if (typeof positionY === 'number') {
-      bounds.min[1] = positionY + min[1];
-      bounds.max[1] = positionY + min[1];
-    }
-
-    return bounds as any;
-  }
-
-  protected drawTitle() {
-    const { title: titleCfg } = this.style;
-
-    const bounds = this.getTitleBounds();
-    const titleStyle = titleCfg ? getAxisTitleStyle(titleCfg, bounds, this.axisPosition) : { fontSize: 0 };
-    const titleShape = maybeAppend(this, '.axis-title', 'text')
-      .attr('className', 'axis-title')
-      .call(applyStyle, titleStyle)
-      .node() as Text;
-    if (titleShape && titleCfg?.maxLength) {
-      const text = getEllipsisText(titleShape.style.text, titleCfg.maxLength, getFont(titleShape));
-      titleShape.style.text = text;
-    }
-  }
-
-  protected getLinePath() {
-    const { axisLine: axisLineCfg } = this.style;
-
-    const [[x1, y1], [x2, y2]] = this.getEndPoints();
-    const style = axisLineCfg?.style;
-    return {
-      ...style,
-      visibility: (axisLineCfg ? 'visible' : 'hidden') as any,
-      animate: axisLineCfg?.animate,
-      path: [
-        ['M', x1, y1],
-        ['L', x2, y2],
-      ] as any,
-    };
-  }
-
-  protected getLineArrow() {
-    const { axisLine: axisLineCfg } = this.style;
-    const { start, end } = axisLineCfg?.arrow || {};
-
-    const [[x1, y1], [x2, y2]] = this.getEndPoints();
-
-    const arrows = [];
-    const lineStyle = axisLineCfg?.style || {};
-    const stroke = lineStyle?.stroke || 'grey';
-    const defaultArrow = { symbol: 'axis-arrow', size: 10, lineWidth: 1, ...lineStyle, fill: stroke, stroke };
-
-    if (start) {
-      const angle = ifX(this.axisPosition, -90, -45);
-      const [[startX, startY]] = [[Math.min(x1, x2), Math.min(y1, y2)]];
-      arrows.push({
-        id: 'start-arrow',
-        ...defaultArrow,
-        transformOrigin: 'left',
-        transform: `rotate(${angle}deg)`,
-        x: startX,
-        y: startY,
-        ...start,
-      });
-    }
-    if (end) {
-      const angle = ifX(this.axisPosition, 0, 45);
-      const [[endX, endY]] = [[Math.max(x1, x2), Math.max(y1, y2)]];
-      arrows.push({
-        id: 'end-arrow',
-        ...defaultArrow,
-        transformOrigin: 'left',
-        transform: `rotate(${angle}deg)`,
-        x: endX,
-        y: endY,
-        ...end,
-      });
-    }
-
-    return arrows;
-  }
-
-  protected getTickLineItems() {
-    const { tickLine: tickCfg } = this.style;
-    return tickCfg
-      ? getAxisTicks({
-          ...tickCfg,
-          ticks: this.optimizedTicks,
-          orient: this.axisPosition as any,
-          endPoints: this.getEndPoints(),
-          axisType: 'linear',
-        })
-      : [];
-  }
-
-  protected getSubTickLineItems() {
-    const { subTickLine: subTickCfg } = this.style;
-    return subTickCfg
-      ? getAxisSubTicks({
-          ...subTickCfg,
-          ticks: this.optimizedTicks,
-          orient: this.axisPosition as any,
-          endPoints: this.getEndPoints(),
-          axisType: 'linear',
-        })
-      : [];
-  }
-
-  protected getLabelAttrs() {
-    const { label: labelCfg, tickLine: tickLineCfg } = this.style;
-
-    if (!labelCfg) return [];
-
-    const tickLength = tickLineCfg?.len || 0;
-    const ticks = this.optimizedTicks || [];
-    const orient: any = this.axisPosition;
-    const { formatter, tickPadding = 0, offset = 0, alignTick = true, rotate = 0, maxLength, style = {} } = labelCfg;
-
-    const sign = getSign(orient, -1, 1);
-    const data: any = Array.from(ticks).map((datum, idx) => {
-      let value = datum.value;
-      if (!alignTick) {
-        value = mid((idx === ticks.length - 1 ? 1 : ticks[idx + 1]?.value) + value);
-      }
-      const [, [x, y]] = getTickPoints(this.getEndPoints(), value, orient, tickLength + tickPadding);
-      const text = formatter ? formatter(datum, idx) : datum.text;
-      const labelStyle = typeof style === 'function' ? style.call(null, datum, idx) : style;
-      let textAlign: any = ifX(orient, 'center', ifLeft(orient, 'end', 'start'));
-      if (rotate) {
-        textAlign = ifLeft(
-          orient,
-          'end',
-          ifRight(orient, 'start', ifPositive(multi(sign, rotate), 'left', ifNegative(multi(sign, rotate), 'right')))
-        );
-      }
-
-      const font = getMemoFont(this, { ...labelStyle, text: text || '' });
-      const limitLength = parseLength(maxLength!, font);
-
-      return {
-        ...TEXT_INHERITABLE_PROPS,
-        id: `label-${datum.id}`,
-        orient,
-        // TextStyleProps
-        visibility: 'visible',
-        x: x + ifX(orient, offset, 0)!,
-        y: y + ifY(orient, offset, 0)!,
-        tip: text,
-        text: defined(limitLength) ? getEllipsisText(text, limitLength!, font, '...') : text,
-        textAlign,
-        textBaseline: ifY(orient, 'middle', ifTop(orient, 'bottom', 'top')),
-        transform: `rotate(${rotate || 0}deg)`,
-        ...labelStyle,
-      };
-    });
-
-    return data as any[];
-  }
-
-  /** --------- Common utils --------- */
-  protected getAxesVector() {
-    const [[x1, y1], [x2, y2]] = this.getEndPoints();
-    return vec2.normalize([0, 0], [x2 - x1, y2 - y1]);
-  }
-
-  /**
-   * 获取给定 value 在轴上刻度的向量
-   */
-  protected getVerticalVector(value?: number) {
-    const { verticalFactor = 1 } = this.attributes;
-    const axesVector = this.getAxesVector();
-    return vec2.scale([0, 0], getVerticalVector(axesVector), verticalFactor);
-  }
-
-  protected bindEvents() {
-    this.addEventListener(ElementEvent.BOUNDS_CHANGED, (evt: any) => {
-      if (evt.target.className === 'axis-label-group') this.drawTitle();
-    });
-  }
+function getEndPoints(startPos?: Vector2, endPos?: Vector2): [Vector2, Vector2] {
+  return [startPos || [0, 0], endPos || [0, 0]];
 }
+
+function getTickPoints(endPoints: Vector2[], value: number, orient: AxisOrient, len = 0): Vector2[] {
+  const [[spx, spy], [epx, epy]] = endPoints;
+  const [x1, y1] = [value * (epx - spx) + spx, value * (epy - spy) + spy];
+
+  // 轴向量方向: 从左到右，从下到上
+  const axesVector = vec2.normalize([0, 0], [Math.abs(epx - spx), -Math.abs(epy - spy)]) as Vector2;
+  const sign = getSign(orient, -1, 1);
+  const [dx, dy] = vec2.scale([0, 0], ext.vertical([], axesVector as any, false /** 顺时针，增量 */) as Vector2, len);
+
+  return [
+    [x1, y1],
+    [x1 + multi(sign, dx), y1 + multi(sign, dy)],
+  ];
+}
+
+function getLabelAttrs(
+  ticks: any[],
+  endPoints: any[],
+  axisPosition: string,
+  labelCfg?: AxisLabelCfg | null,
+  tickLineCfg?: any
+) {
+  const tickLength = tickLineCfg?.len || 0;
+  const orient: any = axisPosition;
+  const { formatter, tickPadding = 0, offset = 0, alignTick = true, rotate = 0 } = labelCfg || {};
+
+  const sign = getSign(orient, -1, 1);
+  const data: any = Array.from(ticks).map((datum, idx) => {
+    let value = datum.value;
+    if (!alignTick) {
+      value = mid((idx === ticks.length - 1 ? 1 : ticks[idx + 1]?.value) + value);
+    }
+    const [, [x, y]] = getTickPoints(endPoints, value, orient, tickLength + tickPadding);
+    const text = formatter ? formatter(datum, idx) : datum.text;
+    let textAlign: any = ifX(orient, 'center', ifLeft(orient, 'end', 'start'));
+    if (rotate) {
+      textAlign = ifLeft(
+        orient,
+        'end',
+        ifRight(orient, 'start', ifPositive(multi(sign, rotate), 'left', ifNegative(multi(sign, rotate), 'right')))
+      );
+    }
+
+    return {
+      id: `label-${datum.id}`,
+      // orient,
+      x: x + ifX(orient, offset, 0)!,
+      y: y + ifY(orient, offset, 0)!,
+      text,
+      textAlign,
+      textBaseline: ifY(orient, 'middle', ifTop(orient, 'bottom', 'top')),
+      transform: `rotate(${rotate || 0}deg)`,
+    };
+  });
+
+  return data as any[];
+}
+
+function getTitlePosition(
+  endPoints: [Vector2, Vector2],
+  axisPosition: string,
+  offsetX: number,
+  offsetY: number,
+  cfg?: any
+): {
+  x: number;
+  y: number;
+  textAlign: string;
+  textBaseline: string;
+} {
+  const [start, end] = endPoints;
+  const [x1, y1] = start;
+  const [x2, y2] = end;
+
+  const minX = Math.min(x1, x2);
+  const maxX = Math.max(x1, x2);
+  const minY = Math.min(y1, y2);
+  const maxY = Math.max(y1, y2);
+  let x = minX;
+  let y = minY;
+  let ox = 0;
+  let oy = 0;
+  let textBaseline = 'bottom';
+  let textAlign = 'start';
+  if (axisPosition === 'left' || axisPosition === 'right') {
+    ox = offsetX + (cfg?.titlePadding || 0);
+    if (cfg?.titleAnchor === 'center') y = (y1 + y2) / 2;
+    if (cfg?.titleAnchor === 'end') (y = maxY), (textBaseline = 'top');
+    if (axisPosition === 'left') (textAlign = 'end'), (ox *= -1);
+  } else {
+    oy = offsetY + (cfg?.titlePadding || 0);
+    if (cfg?.titleAnchor === 'center') (x = (x1 + x2) / 2), (textAlign = 'center');
+    if (cfg?.titleAnchor === 'end') (x = maxX), (textAlign = 'end');
+    if (axisPosition === 'top') oy *= -1;
+    if (axisPosition === 'bottom') textBaseline = 'top';
+  }
+
+  if (cfg?.positionX !== undefined) (x = minX + cfg.positionX), (textAlign = 'start');
+  if (cfg?.positionY !== undefined) (y = minY + cfg.positionY), (textBaseline = 'bottom');
+
+  return { x: x + ox, y: y + oy, textAlign, textBaseline };
+}
+
+function getTickLines(ticks: any[], endPoints: any[], axisPosition: any, tickLength: number) {
+  return Array.from(ticks).map((datum) => {
+    const [[x1, y1], [x2, y2]] = getTickPoints(endPoints, datum.value, axisPosition, tickLength);
+    return { x1, y1, x2, y2, id: `tick-${datum.id}` };
+  });
+}
+
+function getSubTickLines(ticks: any[], points: any[], orient: any, subTickCount = 0, subTickLength = 0) {
+  return Array.from(ticks)
+    .map((datum: any, idx) => {
+      if (idx === ticks.length - 1) return [];
+      return Array(subTickCount)
+        .fill(null)
+        .map((d: any, subIdx) => {
+          const step = ((ticks[idx + 1]?.value || 1) - datum.value) / (subTickCount + 1);
+          const value = datum.value + step * (subIdx + 1);
+          const [[x1, y1], [x2, y2]] = getTickPoints(points, value, orient, subTickLength);
+          return { id: `sub-${datum.id}-${subIdx}`, x1, y1, x2, y2 };
+        });
+    })
+    .flat();
+}
+
+export const Linear = createComponent<LinearAxisStyleProps>(
+  {
+    render(attributes, container) {
+      const {
+        startPos,
+        endPos,
+        verticalFactor,
+        ticksThreshold,
+        appendTick,
+        axisLine,
+        ticks = [],
+        label,
+        tickLine,
+        subTickLine,
+        title,
+      } = attributes;
+      const points = getEndPoints(startPos, endPos);
+      const [[x1, y1], [x2, y2]] = points;
+      const axesVector = vec2.normalize([0, 0], [x2 - x1, y2 - y1]);
+      const axisPosition = inferAxisPosition(axesVector, verticalFactor || 1);
+      const optimizedTicks = calcOptimizedTicks(ticks, ticksThreshold, appendTick);
+      const axisLineGroup = maybeAppend(container, '.axis-line-group', 'g').attr('className', 'axis-line-group').node();
+      renderAxisLine(axisLineGroup, `M${x1},${y1} L${x2},${y2}`, points, axisLine);
+
+      const axisTickGroup = maybeAppend(container, '.axis-tick-group', 'g').attr('className', 'axis-tick-group').node();
+      const tickItems = getTickLines(optimizedTicks, points, axisPosition, tickLine?.len || 0);
+      renderTicks(axisTickGroup, tickItems, tickLine);
+
+      const SUBTICK_GROUP = 'axis-subtick-group';
+      const subTickGroup = maybeAppend(container, `.${SUBTICK_GROUP}`, 'g').attr('className', SUBTICK_GROUP).node();
+      const subTickItems = getSubTickLines(optimizedTicks, points, axisPosition, subTickLine?.count, subTickLine?.len);
+      renderTicks(subTickGroup, subTickItems, subTickLine, 'sub');
+
+      const LABEL_GROUP = 'axis-label-group';
+      const labelGroup = maybeAppend(container, `.${LABEL_GROUP}`, 'g').attr('className', LABEL_GROUP).node();
+      const labelsCfg = getLabelAttrs(optimizedTicks, points, axisPosition, label, tickLine);
+      renderLabels(labelGroup, labelsCfg, label);
+
+      // Process overlap.
+      const labels = labelGroup.querySelectorAll('.axis-label');
+      const tickLines = labelGroup.querySelectorAll('.axis-tick');
+      processOverlap(label, axisPosition)(labels);
+      autoHideTickLine(labels, tickLines, label?.autoHideTickLine);
+
+      // Render title.
+      const [hw1, hh1] = axisTickGroup.getBounds().halfExtents;
+      const [hw2, hh2] = labelGroup.getBounds().halfExtents;
+      const axisLineWidth = +(axisLine?.style?.lineWidth || 0);
+      const offsetX = (hw1 + hw2) * 2 + axisLineWidth;
+      const offsetY = (hh1 + hh2) * 2 + axisLineWidth;
+      const { x, y, textAlign, textBaseline } = getTitlePosition(points, axisPosition, offsetX, offsetY, title);
+      renderTitle(container, x, y, textAlign, textBaseline, title);
+    },
+  },
+  AXIS_BASE_DEFAULT_OPTIONS.style
+);

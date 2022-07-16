@@ -1,7 +1,7 @@
 import { Text } from '@antv/g';
 import { defined, getLocalBBox } from '../../../util';
 import { intersect } from '../../../layout/intersect';
-import { boundTest } from '../utils';
+import { boundTest } from '../utils/helper';
 
 const methods: Record<string, (items: Text[], args: any) => Text[]> = {
   parity: (items: Text[], { seq = 2 }) =>

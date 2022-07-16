@@ -1,8 +1,9 @@
 import { DisplayObjectConfig, RectStyleProps, CustomEvent } from '@antv/g';
 import { Band as BandScale } from '@antv/scale';
 import { deepMix } from '@antv/util';
-import { Linear } from '../axis';
+import { Linear, LinearAxisStyleProps } from '../axis';
 import { applyStyle, maybeAppend, select } from '../../util';
+import { GUI } from '../../util/create';
 import {
   AxisBase,
   AxisStyleProps,
@@ -172,7 +173,7 @@ export class CellAxis extends AxisBase<CellAxisStyleProps> {
           style: DEFAULT_AXIS_CFG,
         })
     ).call((selection) =>
-      (selection.node() as Linear).update({
+      (selection.node() as GUI<LinearAxisStyleProps>).update({
         startPos,
         endPos,
         ticks,

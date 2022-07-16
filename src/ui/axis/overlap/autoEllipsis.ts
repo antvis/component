@@ -2,7 +2,7 @@ import { Text } from '@antv/g';
 import { isNil } from '@antv/util';
 import { getEllipsisText, getFont, parseLength } from '../../../util';
 import { AxisTextStyleProps } from '../types';
-import { ifX, boundTest } from '../utils';
+import { ifX, boundTest } from '../utils/helper';
 import { getNumberSimplifyStrategy } from './autoEllipsisNumber';
 import { getTimeSimplifyStrategy } from './autoEllipsisTime';
 

@@ -1,3 +1,6 @@
+import { Text } from '@antv/g';
+import { intersect } from '../../../layout/intersect';
+
 // Condition on x-direction axis.
 export const ifX = <T = string | number | undefined>(position: string, a: T, b?: T): T | undefined =>
   position === 'top' || position === 'bottom' ? a : b;
@@ -31,4 +34,13 @@ export function assignNonempty<T>(target: Record<string, T>, source: Record<stri
     }
   }
   return target;
+}
+
+export function boundTest(items: Text[], margin?: number[]) {
+  let a: Text;
+  return [
+    ...items.reduce((r, b, i) => {
+      return !i || !a || !intersect(a, b, margin) ? ((a = b), r) : (r.add(a), r.add(b), r);
+    }, new Set<Text>()),
+  ];
 }

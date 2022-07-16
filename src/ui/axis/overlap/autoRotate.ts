@@ -1,6 +1,6 @@
 import { Text } from '@antv/g';
 import { ifNegative, ifPositive, multi } from '../../../util';
-import { ifLeft, ifRight, getSign, boundTest } from '../utils';
+import { ifLeft, ifRight, getSign, boundTest } from '../utils/helper';
 
 function rotateLabel(orient: string, label: Text, angle: number) {
   label.setEulerAngles(angle);

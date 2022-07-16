@@ -1,4 +1,5 @@
 import type { TextStyleProps } from '@antv/g';
+import type { vec2 as Vector2 } from '@antv/matrix-util';
 import type { MarkerStyleProps } from '../marker';
 import type { DisplayObjectConfig, LineProps, ShapeAttrs } from '../../types';
 import type { OverlapCallback } from './overlap';
@@ -46,7 +47,7 @@ export type AxisTitleCfg = {
    */
   maxLength?: number;
   style?: Omit<TextStyleProps, 'text'>;
-  animate?: boolean;
+  // animate?: boolean;
 };
 
 export type AxisLineCfg = {
@@ -55,7 +56,7 @@ export type AxisLineCfg = {
     start?: Partial<MarkerStyleProps> | null;
     end?: Partial<MarkerStyleProps> | null;
   };
-  animate?: boolean;
+  // animate?: boolean;
 };
 
 export type AxisTickLineCfg = {
@@ -173,18 +174,16 @@ export type AxisBaseStyleProps = {
 
 export type AxisBaseOptions = DisplayObjectConfig<AxisBaseStyleProps>;
 
-export type Point = [number, number];
-
 export type LinearAxisStyleProps = AxisBaseStyleProps & {
-  startPos?: Point;
-  endPos?: Point;
+  startPos?: Vector2;
+  endPos?: Vector2;
 };
 
 export type ArcAxisStyleProps = AxisBaseStyleProps & {
   startAngle?: number;
   endAngle?: number;
   radius: number;
-  center: Point;
+  center: Vector2;
 };
 
 export type HelixCfg = AxisBaseStyleProps & {

@@ -45,7 +45,7 @@ describe('Timeline SliderAxis', () => {
 
     expect(sliderAxis.querySelectorAll('.axis-label').length).toBeGreaterThan(0);
     sliderAxis.update({ label: null });
-    expect(sliderAxis.querySelectorAll('.axis-label').length).toBe(0);
+    expect(sliderAxis.querySelectorAll('.axis-label').every((d) => d.style.visibility === 'hidden')).toBe(true);
 
     sliderAxis.update({ label: { style: { fill: 'red' } } });
     expect(sliderAxis.querySelector('.axis-label')!.style.fill).toBe('red');

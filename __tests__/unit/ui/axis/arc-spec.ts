@@ -50,18 +50,6 @@ describe('Arc axis', () => {
       expect((max[1] + min[1]) / 2).toBe(100);
     });
 
-    it('Arc axis, ({ startAngle, endAngle })', async () => {
-      arc.update({ center: [400, 400], radius: 50 });
-      await canvas.ready;
-      const axisLine = arc.querySelector('.axis-line') as Path;
-      expect((axisLine.style.path as any[])![0]).toEqual(['M', arc.style.center[0], arc.style.center[1]]);
-      expect((axisLine.style.path as any[])![1]).toEqual([
-        'L',
-        arc.style.center[0] + arc.style.radius,
-        arc.style.center[1],
-      ]);
-    });
-
     it('Arc axis line, ({ axisLine: {} })', async () => {
       await canvas.ready;
       const axisLine = arc.querySelector('.axis-line') as Path;
@@ -78,7 +66,7 @@ describe('Arc axis', () => {
 
     it('Arc axis label, support ({ label: { formatter, style: { ... } }})', () => {
       const formatter = (d: any) => `hello_${d.text}`;
-      arc.update({ ticks, label: { formatter, style: { fill: 'red', textAlign: 'center' } } });
+      arc.update({ ticks, label: { formatter, style: { fill: 'red', textAlign: 'center' }, autoHide: false } });
 
       const axisLabels = arc.querySelectorAll('.axis-label');
       expect(axisLabels.length).toBe(ticks.length);
@@ -105,7 +93,7 @@ describe('Arc axis', () => {
       arc.update({ ticks, tickLine: { len: 6, style: { lineWidth: 2, stroke: 'black' } } });
 
       tickLines = arc.querySelectorAll('.axis-tick') as Path[];
-      expect(tickLines.length).toBe(ticks.length);
+      expect(tickLines.length).toBe(ticks.length - 1);
       const tickLine0 = tickLines[0];
 
       const { x1, y1, x2, y2 } = tickLine0.attr() as any;
@@ -119,7 +107,7 @@ describe('Arc axis', () => {
       arc.update({ ticks, subTickLine: { len: 4, count: 2, style: { stroke: 'blue', lineWidth: 3 } } });
       const subTickLines = arc.querySelectorAll('.axis-subtick') as Path[];
 
-      expect(subTickLines.length).toBe(ticks.length * 2);
+      expect(subTickLines.length).toBe((ticks.length - 1) * 2);
       const subTickLine0 = subTickLines[0];
       const { x1, y1, x2, y2 } = subTickLine0.attr() as any;
       expect(Math.abs(+y2 - +y1)).toBeCloseTo(4, 0);
@@ -177,9 +165,7 @@ describe('Arc axis', () => {
 
       visibleLabels = filter(arc.querySelectorAll('.axis-label'));
       visibleTickLines = filter(arc.querySelectorAll('.axis-tick'));
-      expect(visibleTickLines.length).toBe(arc.style!.ticks!.length);
-      expect(visibleTickLines.length).toBeGreaterThan(visibleLabels.length);
-
+      expect(visibleTickLines.length).toBe(arc.style!.ticks!.length - 1);
       arc.remove();
       arc1.remove();
       canvas.removeChild(arc);

@@ -3,7 +3,7 @@ import type { DisplayObjectConfig } from '@antv/g';
 import { clamp, deepMix } from '@antv/util';
 import { Point as PointScale } from '@antv/scale';
 import { applyStyle, maybeAppend, select, Selection } from '../../util';
-import { Linear } from '../axis';
+import { Linear, LinearAxisStyleProps } from '../axis';
 import {
   AxisBase,
   AxisStyleProps,
@@ -11,6 +11,7 @@ import {
   DEFAULT_STYLE as BASE_DEFAULT_STYLE,
   normalSelection,
 } from './playAxis';
+import { GUI } from '../../util/create';
 
 type SliderAxisOptions = DisplayObjectConfig<AxisStyleProps>;
 
@@ -164,7 +165,7 @@ export class SliderAxis extends AxisBase<AxisStyleProps> {
     const { position: verticalFactor = -1, tickLine: tickLineCfg, ...axisLabelCfg } = styles.label || {};
 
     maybeAppend(bg, '.slider-axis', () => new Linear({ className: 'slider-axis' })).call((selection) =>
-      (selection.node() as Linear).update(
+      (selection.node() as GUI<LinearAxisStyleProps>).update(
         deepMix({}, DEFAULT_AXIS_CFG, {
           startPos: [verticalFactor * this.ifH(0, width + 2), verticalFactor * this.ifH(height + 2, 0)],
           endPos: [

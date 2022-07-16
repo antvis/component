@@ -20,7 +20,8 @@ module.exports = {
     'no-plusplus': 'off',
     'no-param-reassign': 'warn',
     'no-restricted-syntax': 'warn',
-    '@typescript-eslint/no-unused-vars': ['warn'],
+    'no-nested-ternary': 'warn',
+    'max-classes-per-file': 'off',
     'import/extensions': 'off',
     'import/prefer-default-export': 'off',
     'object-curly-newline': 'off',
@@ -35,6 +36,7 @@ module.exports = {
     'no-underscore-dangle': 'off',
     'no-compare-neg-zero': 'off',
     '@typescript-eslint/no-dupe-class-members': ['error'],
+    '@typescript-eslint/no-unused-vars': ['warn'],
   },
   settings: {
     'import/parsers': {

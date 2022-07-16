@@ -113,20 +113,6 @@ export function parseLength(length: string | number, font: any) {
   return typeof length === 'string' ? measureTextWidth(length, font) : length;
 }
 
-function memoTextFontAttrs(cb: (shape: Text) => any) {
-  const cache = new Map<string, Text>();
-  return (group: DisplayObject, attrs: TextStyleProps) => {
-    const { fontSize, fontFamily, fontStyle, fontWeight, textAlign, textBaseline, textTransform } = attrs;
-    const key = JSON.stringify({ fontSize, fontFamily, fontStyle, fontWeight, textAlign, textBaseline, textTransform });
-    if (!cache.has(key)) {
-      const textNode = select(group).append('text').node() as Text;
-      textNode.attr({ ...attrs, visibility: 'hidden' });
-      cache.set(key, textNode);
-    }
-    return cb(cache.get(key)!);
-  };
-}
-
 export const getFont = (textShape: Text) => {
   const fontFamily = textShape.style.fontFamily || 'sans-serif';
   const fontWeight = textShape.style.fontWeight || 'normal';
@@ -136,8 +122,6 @@ export const getFont = (textShape: Text) => {
   fontSize = typeof fontSize === 'object' ? fontSize.value : fontSize;
   return { fontSize: fontSize as number, fontFamily, fontWeight, fontStyle, fontVariant };
 };
-
-export const getMemoFont = memoTextFontAttrs(getFont);
 
 /**
  * 对文本进行转换
