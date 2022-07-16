@@ -1,5 +1,5 @@
 import type { vec2 as Vector2 } from '@antv/matrix-util';
-import type { DisplayObjectConfig } from '@antv/g';
+import type { DisplayObjectConfig, LineStyleProps } from '@antv/g';
 import { isNumberEqual } from '@antv/util';
 import type { ArcAxisStyleProps, AxisOrient } from './types';
 import { AXIS_BASE_DEFAULT_OPTIONS } from './constant';
@@ -60,15 +60,11 @@ function getTickLines(
   orient: any,
   tickLength = 0
 ) {
-  const items = Array.from(ticks).map((datum) => {
+  return Array.from(ticks).map((datum) => {
     const tickAngle = (endAngle - startAngle) * datum.value + startAngle;
     const [[x1, y1], [x2, y2]] = getArcTickPoints(center, radius, tickAngle, orient, tickLength);
     return { x1, y1, x2, y2, id: `tick-${datum.id}` };
   });
-  // todo 优化写法
-  const id = (d: any = {}) => `${d.x1}-${d.y1}-${d.x2}-${d.y2}`;
-  if (items.length > 1 && id(items[0]) && id(items[items.length - 1])) items.splice(items.length - 1, 1);
-  return items;
 }
 
 function getSubTickLines(
@@ -83,11 +79,10 @@ function getSubTickLines(
 ) {
   return Array.from(ticks)
     .map((datum: any, idx) => {
-      if (idx === ticks.length - 1) return [];
       return Array(subTickCount)
         .fill(null)
         .map((d: any, subIdx) => {
-          const step = ((ticks[idx + 1]?.value || 1) - datum.value) / (subTickCount + 1);
+          const step = ((ticks[idx + 1]?.value || 1 + ticks[0].value) - datum.value) / (subTickCount + 1);
           const value = datum.value + step * (subIdx + 1);
           const tickAngle = (endAngle - startAngle) * value + startAngle;
           const [[x1, y1], [x2, y2]] = getArcTickPoints(center, radius, tickAngle, orient, subTickLength);
@@ -161,9 +156,14 @@ function getLabelAttrs(
         textAlign = ifOutside(orient, 'end', 'start');
       }
     } else if (align === 'tangential') {
-      angle = 90 + angle;
       textAlign = 'center';
-      textBaseline = ifOutside(orient, 'bottom', 'top');
+      if (angle >= 0 && angle < 180) {
+        angle += 270;
+        textBaseline = 'top';
+      } else {
+        angle += 90;
+        textBaseline = 'bottom';
+      }
     } else {
       // normal align.
       angle = rotate ?? 0;
