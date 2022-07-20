@@ -1,4 +1,4 @@
-import { DisplayObject, Group, Text } from '@antv/g';
+import { Group, Text } from '@antv/g';
 import { getFont, select, parseLength, defined, getEllipsisText } from '../../../util';
 import { AxisLabelCfg } from '../types';
 import { applyStyle } from './utils';
@@ -16,10 +16,21 @@ function limitText(textShape: Text, maxLength: string | number) {
   }
 }
 
+type LabelAttrs = {
+  id: string;
+  x: number;
+  y: number;
+  text: string;
+  data: any;
+  textAlign?: string;
+  textBaseline?: string;
+  transform?: string;
+};
+
 /**
  * Display labels default.
  */
-export function renderLabels(container: Group, labels: any[], cfg: AxisLabelCfg | null = {}) {
+export function renderLabels(container: Group, labels: LabelAttrs[], cfg: AxisLabelCfg | null = {}) {
   select(container)
     .selectAll('.axis-label')
     .data(cfg ? labels : [], (d) => d.id)

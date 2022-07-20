@@ -133,14 +133,14 @@ function getLabelAttrs(
   return Array.from(ticks).map((datum, idx) => {
     const tickAngle = (endAngle - startAngle) * datum.value + startAngle;
     const formatAngle = (a: number) => (a >= 270 ? (a - 360) % 360 : a);
-    let angle = formatAngle(tickAngle);
+    const tickOffset = tickLength + tickPadding;
 
-    const [, [x, y]] = getArcTickPoints(center, radius, tickAngle, orient, tickLength + tickPadding);
+    let angle = formatAngle(tickAngle);
+    let [, [x, y]] = getArcTickPoints(center, radius, tickAngle, orient, tickOffset);
     const text = formatter ? formatter(datum, idx) : datum.text;
 
     let textAlign: any = 'center';
     let textBaseline: any = 'baseline';
-
     // 垂直于坐标轴的向量
     const sideVector = [multi(sign, x - center[0]), multi(sign, y - center[1])];
     if (align === 'radial') {
@@ -157,12 +157,14 @@ function getLabelAttrs(
       }
     } else if (align === 'tangential') {
       textAlign = 'center';
+      textBaseline = 'bottom';
       if (angle >= 0 && angle < 180) {
         angle += 270;
-        textBaseline = 'top';
+        const labelSize =
+          typeof labelCfg?.style === 'function' ? labelCfg.style(datum, idx) : labelCfg?.style?.fontSize ?? 14;
+        [, [x, y]] = getArcTickPoints(center, radius, tickAngle, orient, tickOffset + labelSize);
       } else {
         angle += 90;
-        textBaseline = 'bottom';
       }
     } else {
       // normal align.
@@ -173,7 +175,6 @@ function getLabelAttrs(
 
     return {
       id: `label-${datum.id}`,
-      // orient,
       x,
       y,
       text,

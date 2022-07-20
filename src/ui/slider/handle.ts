@@ -9,7 +9,7 @@ export interface HandleStyleProps {
   y: number;
   zIndex: number;
   handleType: 'start' | 'end';
-  visibility: 'visible' | 'hidden';
+  visibility?: 'visible' | 'hidden';
   iconCfg: (ShapeAttrs | MarkerStyleProps) & {
     type: 'symbol' | 'default';
     size?: number;

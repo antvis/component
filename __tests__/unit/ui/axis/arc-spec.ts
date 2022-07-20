@@ -209,7 +209,7 @@ describe('Arc axis', () => {
       expect(filter(labels).length).toBe(ticks.length);
       expect(labels.some((d) => d.style.text.endsWith('...'))).toBe(false);
 
-      arc.update({ label: { style: { fontSize: 13 } } });
+      arc.update({ label: { style: { fontSize: 12 } } });
       expect(labels.some((d) => d.style.text.endsWith('...'))).toBe(true);
     });
   });
