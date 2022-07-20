@@ -1,5 +1,6 @@
-import { Canvas, Group } from '@antv/g';
+import { Canvas } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
+import { Band as BandScale } from '@antv/scale';
 import { Linear, Arc } from '@antv/gui';
 
 const renderer = new CanvasRenderer({
@@ -15,18 +16,36 @@ const canvas = new Canvas({
   renderer,
 });
 
-const data = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const [startX, startY] = [20, 280];
+const [endX, endY] = [260, 280];
 
-const step = 1 / data.length;
-const tickData = data.map((d, idx) => {
-  return { value: step * idx + step / 2, text: d, id: String(idx) };
-});
+const domain = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const scale = new BandScale({ domain });
+const ticks = domain.map((tick) => ({ value: scale.map(tick) + scale.getBandWidth(tick) / 2, text: tick }));
+
+const points = (x1, y1, x2, y2) => [
+  [x1, y1],
+  [x2, y2],
+];
+function getGridItems(x1: number, y1: number, x2: number, y2: number) {
+  const gridItems = [];
+  gridItems.push({ points: points(x1, y1, x1, y2) });
+  for (let idx = 0; idx < domain.length - 1; idx++) {
+    const x = ((scale.map(domain[idx]) + scale.getBandWidth(domain[idx]) + scale.map(domain[idx + 1])) / 2) * (x2 - x1);
+    gridItems.push({ points: points(x1 + x, y1, x1 + x, y2) });
+  }
+  gridItems.push({ points: points(x2, y1, x2, y2) });
+
+  return gridItems;
+}
+
+const gridItems = getGridItems(startX, startY, endX, startY - 100);
 
 const linear = new Linear({
   style: {
-    startPos: [20, 280],
-    endPos: [260, 280],
-    ticks: tickData,
+    startPos: [startX, startY],
+    endPos: [endX, endY],
+    ticks,
     title: {
       content: 'date month',
       titleAnchor: 'end',
@@ -34,6 +53,10 @@ const linear = new Linear({
         fontSize: 10,
         fontWeight: 'bold',
       },
+    },
+    grid: {
+      items: gridItems,
+      alternateColor: '#efefef',
     },
     axisLine: {
       style: {
@@ -55,11 +78,31 @@ const linear = new Linear({
 });
 canvas.appendChild(linear);
 
+const radius = 100;
+const startAngle = -90;
+const endAngle = 270;
+const arcGridItems = ticks.map(({ value }, idx) => {
+  const angle = (endAngle - startAngle) * value + startAngle;
+  return {
+    points: points(
+      200,
+      480,
+      200 + radius * Math.cos((angle * Math.PI) / 180),
+      480 + radius * Math.sin((angle * Math.PI) / 180)
+    ),
+  };
+});
+
 const arc = new Arc({
   style: {
     center: [200, 480],
     radius: 100,
-    ticks: tickData.map((d, idx) => ({ ...d, value: idx * step })),
+    startAngle: -90,
+    endAngle: 270,
+    ticks,
+    grid: {
+      items: arcGridItems,
+    },
     title: {
       content: 'date month',
       titleAnchor: 'end',

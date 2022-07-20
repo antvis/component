@@ -1,5 +1,5 @@
 import type { Group } from '@antv/g';
-import type { vec2 as Vector2 } from '@antv/matrix-util';
+import type { Vector2 } from '../../../types';
 import type { MarkerStyleProps } from '../../marker';
 import type { AxisLineCfg } from '../types';
 import { maybeAppend, applyStyle } from '../../../util';

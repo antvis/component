@@ -1,6 +1,6 @@
-import type { vec2 as Vector2 } from '@antv/matrix-util';
-import type { DisplayObjectConfig, LineStyleProps } from '@antv/g';
+import type { DisplayObjectConfig } from '@antv/g';
 import { isNumberEqual } from '@antv/util';
+import type { Vector2 } from '../../types';
 import type { ArcAxisStyleProps, AxisOrient } from './types';
 import { AXIS_BASE_DEFAULT_OPTIONS } from './constant';
 import { deepAssign, DegToRad, maybeAppend, multi } from '../../util';
@@ -10,6 +10,7 @@ import { renderLabels } from './guides/axisLabels';
 import { renderTitle } from './guides/axisTitle';
 import { renderTicks } from './guides/axisTicks';
 import { renderAxisLine } from './guides/axisLine';
+import { renderGrid } from './guides/axisGrid';
 
 const { PI, abs, cos, sin } = Math;
 const [PI2] = [PI * 2];
@@ -63,7 +64,7 @@ function getTickLines(
   return Array.from(ticks).map((datum) => {
     const tickAngle = (endAngle - startAngle) * datum.value + startAngle;
     const [[x1, y1], [x2, y2]] = getArcTickPoints(center, radius, tickAngle, orient, tickLength);
-    return { x1, y1, x2, y2, id: `tick-${datum.id}` };
+    return { x1, y1, x2, y2, id: `tick-${datum.id}`, data: datum };
   });
 }
 
@@ -223,12 +224,15 @@ export const Arc = createComponent<ArcAxisStyleProps>(
         label,
         ticks = [],
         title,
+        grid,
         ticksThreshold,
         appendTick,
         verticalFactor,
       } = attributes;
       const optimizedTicks = calcOptimizedTicks(ticks, ticksThreshold, appendTick);
       const axisPosition = verticalFactor === -1 ? 'inside' : 'outside';
+
+      renderGrid(container, grid);
 
       const axisLineGroup = maybeAppend(container, '.axis-line-group', 'g').attr('className', 'axis-line-group').node();
       const axisLinePath = getAxisLinePath(center, radius, (startAngle / 180) * Math.PI, (endAngle / 180) * Math.PI);
@@ -237,6 +241,7 @@ export const Arc = createComponent<ArcAxisStyleProps>(
 
       const axisTickGroup = maybeAppend(container, '.axis-tick-group', 'g').attr('className', 'axis-tick-group').node();
       const tickItems = getTickLines(optimizedTicks, startAngle, endAngle, radius, center, axisPosition, tickLine?.len);
+
       // todo Enable hide last one tick.
       renderTicks(axisTickGroup, tickItems, tickLine);
 

@@ -1,7 +1,6 @@
 import type { TextStyleProps } from '@antv/g';
-import type { vec2 as Vector2 } from '@antv/matrix-util';
 import type { MarkerStyleProps } from '../marker';
-import type { DisplayObjectConfig, LineProps, ShapeAttrs } from '../../types';
+import type { DisplayObjectConfig, LineProps, ShapeAttrs, Vector2 } from '../../types';
 import type { OverlapCallback } from './overlap';
 
 export type LabelType = 'text' | 'number' | 'time';
@@ -75,7 +74,7 @@ export type AxisSubTickLineCfg = {
 
 export type AxisLabelCfg = {
   type?: LabelType;
-  style?: Partial<TextStyleProps> | ((tick: TickDatum, index: number) => Partial<TextStyleProps>);
+  style?: Partial<TextStyleProps> | ((tick: TickDatum, index: number, ticks: TickDatum[]) => Partial<TextStyleProps>);
   formatter?: (tick: TickDatum, index?: number) => string;
   // label是否与Tick对齐
   alignTick?: boolean;
@@ -158,6 +157,19 @@ export type AxisLabelCfg = {
   showLast?: boolean;
 };
 
+type AxisGridCfg = {
+  items: Array<{ points: Vector2[]; id?: string }>;
+  type?: 'line' | 'circle';
+  // If type is 'circle', should specify the center.
+  center?: Vector2;
+  // If type is 'circle', determine whether to close path.
+  closed?: boolean;
+  // Style of grid line path.
+  lineStyle?: { stroke?: string; lineWidth?: number; strokeOpacity?: number; lineDash?: string | (string | number)[] };
+  /** FillColors between lines. */
+  alternateColor?: string | string[] | null;
+};
+
 export type AxisBaseStyleProps = {
   type?: AxisType;
   title?: AxisTitleCfg;
@@ -170,6 +182,7 @@ export type AxisBaseStyleProps = {
   verticalFactor?: -1 | 1;
   // 末尾追加tick，一般适用于 label alignTick 为 false 的情况
   appendTick?: boolean;
+  grid?: AxisGridCfg | null;
 };
 
 export type AxisBaseOptions = DisplayObjectConfig<AxisBaseStyleProps>;
@@ -186,11 +199,11 @@ export type ArcAxisStyleProps = AxisBaseStyleProps & {
   center: Vector2;
 };
 
-export type HelixCfg = AxisBaseStyleProps & {
+export type HelixStyleProps = AxisBaseStyleProps & {
   a?: number;
   b?: number;
   startAngle?: number;
   endAngle?: number;
   precision?: number;
 };
-export type HelixOptions = DisplayObjectConfig<HelixCfg>;
+export type HelixOptions = DisplayObjectConfig<HelixStyleProps>;

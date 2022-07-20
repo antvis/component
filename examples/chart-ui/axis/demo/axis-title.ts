@@ -21,11 +21,22 @@ const canvas = new Canvas({
 const rect = new Rect({ style: { x: 0, y: 0, width: 460, height: 600, stroke: '#dfdfdf', lineWidth: 1 } });
 canvas.appendChild(rect);
 
-function createTicks(domain, tickCount = 10) {
+function createData(domain, tickCount = 10, { x1, y1, x2, y2 }) {
   const linearScale = new LinearScale({ domain, range: [0, 1], tickCount, nice: true });
-  return linearScale.getTicks().map((d, idx) => {
+  const ticks = linearScale.getTicks().map((d, idx) => {
     return { value: linearScale.map(d), text: String(d), id: String(idx) };
   });
+
+  const points = (x1, y1, x2, y2) => [
+    [x1, y1],
+    [x2, y2],
+  ];
+  const gridItems = linearScale.getTicks().map((d, idx) => {
+    const y = y1 + (y2 - y1) * linearScale.map(d);
+    return { points: points(x1, y, x2, y) };
+  });
+
+  return { ticks, gridItems };
 }
 
 function createAxis(startPos = [0, 0], endPos = [0, 0], options = {}) {
@@ -37,10 +48,7 @@ function createAxis(startPos = [0, 0], endPos = [0, 0], options = {}) {
         title: { content: 'Quantitative Axis' },
         axisLine: { arrow: { start: { symbol: 'axis-arrow', size: 8 } } },
       },
-      {
-        ticks: createTicks([0, 480]),
-        ...options,
-      }
+      options
     ),
   });
   rect.appendChild(axis);
@@ -48,9 +56,9 @@ function createAxis(startPos = [0, 0], endPos = [0, 0], options = {}) {
   return axis;
 }
 
-const axis1 = createAxis([60, 174], [60, 24], {
+const axis1 = createAxis([100, 324], [100, 164], {
   verticalFactor: -1,
-  ticks: createTicks([0, 700000000], 7),
+  ticks: createData([0, 700000000], 7, { x1: 100, y1: 164, x2: 300, y2: 324 }).ticks,
   title: {
     content: 'Axis title',
     titlePadding: 2,
@@ -67,9 +75,19 @@ const axis1 = createAxis([60, 174], [60, 24], {
   },
 });
 
-const axis2 = createAxis([60, 390], [60, 220], {
+const { ticks: axis2Ticks, gridItems: axis2Items } = createData([0, 8000000], 8, {
+  x1: 100,
+  x2: 300,
+  y1: 556,
+  y2: 406,
+});
+const axis2 = createAxis([100, 556], [100, 406], {
   verticalFactor: -1,
-  ticks: createTicks([0, 7000000], 7),
+  ticks: axis2Ticks,
+  grid: {
+    items: axis2Items,
+    alternateColor: '#efefef',
+  },
   title: {
     content: 'Axis title',
     titleAnchor: 'start',
@@ -88,9 +106,9 @@ const axis2 = createAxis([60, 390], [60, 220], {
     },
   },
 });
-createAxis([60, 586], [60, 436], {
+createAxis([240, 356], [240, 206], {
   verticalFactor: -1,
-  ticks: createTicks([0, 7000000], 7),
+  ticks: createData([0, 7000000], 7, { x1: 240, y1: 206, x2: 440, y2: 256 }).ticks,
   title: {
     titleAnchor: 'start',
     rotate: 0,

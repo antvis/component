@@ -8,3 +8,4 @@ export type GUIOption<C> = {
 };
 
 export type Point = [number, number];
+export type Vector2 = [number, number];

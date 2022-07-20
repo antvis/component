@@ -1,6 +1,6 @@
 import { vec2, ext } from '@antv/matrix-util';
-import type { vec2 as Vector2 } from '@antv/matrix-util';
 import { DisplayObjectConfig } from '@antv/g';
+import type { Vector2 } from '../../types';
 import { ifNegative, ifPositive, mid, multi, maybeAppend } from '../../util';
 import { createComponent } from '../../util/create';
 import { Marker } from '../marker';
@@ -21,6 +21,7 @@ import { renderTitle } from './guides/axisTitle';
 import { renderTicks } from './guides/axisTicks';
 import { renderLabels } from './guides/axisLabels';
 import { renderAxisLine } from './guides/axisLine';
+import { renderGrid } from './guides/axisGrid';
 
 type LinearOptions = DisplayObjectConfig<LinearAxisStyleProps>;
 export { LinearOptions };
@@ -171,7 +172,7 @@ function getTitlePosition(
 function getTickLines(ticks: any[], endPoints: any[], axisPosition: any, tickLength: number) {
   return Array.from(ticks).map((datum) => {
     const [[x1, y1], [x2, y2]] = getTickPoints(endPoints, datum.value, axisPosition, tickLength);
-    return { x1, y1, x2, y2, id: `tick-${datum.id}` };
+    return { x1, y1, x2, y2, id: `tick-${datum.id}`, data: datum };
   });
 }
 
@@ -206,12 +207,16 @@ export const Linear = createComponent<LinearAxisStyleProps>(
         tickLine,
         subTickLine,
         title,
+        grid,
       } = attributes;
       const points = getEndPoints(startPos, endPos);
       const [[x1, y1], [x2, y2]] = points;
       const axesVector = vec2.normalize([0, 0], [x2 - x1, y2 - y1]);
       const axisPosition = inferAxisPosition(axesVector, verticalFactor || 1);
       const optimizedTicks = calcOptimizedTicks(ticks, ticksThreshold, appendTick);
+
+      renderGrid(container, grid);
+
       const axisLineGroup = maybeAppend(container, '.axis-line-group', 'g').attr('className', 'axis-line-group').node();
       renderAxisLine(axisLineGroup, `M${x1},${y1} L${x2},${y2}`, points, axisLine);
 

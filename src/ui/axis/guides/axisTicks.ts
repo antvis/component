@@ -16,13 +16,13 @@ export function renderTicks(container: Group, tickItems: any[], cfg?: any, type:
           .style('visibility', 'visible')
           .each(function (style, idx) {
             this.attr(style);
-            applyStyle(this, idx, cfg?.style);
+            applyStyle(this, idx, tickItems, cfg?.style);
           }),
       (update) =>
         update
           .each(function (style, idx) {
             this.attr(style);
-            applyStyle(this, idx, cfg?.style);
+            applyStyle(this, idx, tickItems, cfg?.style);
           })
           .style('visibility', 'visible'),
       (exit) => exit.remove()

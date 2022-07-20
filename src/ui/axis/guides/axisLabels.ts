@@ -28,7 +28,7 @@ type LabelAttrs = {
 };
 
 /**
- * Display labels default.
+ * Display labels by default.
  */
 export function renderLabels(container: Group, labels: LabelAttrs[], cfg: AxisLabelCfg | null = {}) {
   select(container)
@@ -47,14 +47,14 @@ export function renderLabels(container: Group, labels: LabelAttrs[], cfg: AxisLa
           .each(function (style, idx) {
             this.attr(style);
             limitText(this, cfg?.maxLength || Number.MAX_SAFE_INTEGER);
-            applyStyle(this, idx, cfg?.style);
+            applyStyle(this, idx, labels, cfg?.style);
           }),
       (update) =>
         update
           .each(function (style, idx) {
             this.attr(style);
             limitText(this, cfg?.maxLength || Number.MAX_SAFE_INTEGER);
-            applyStyle(this, idx, cfg?.style);
+            applyStyle(this, idx, labels, cfg?.style);
           })
           .style('visibility', 'visible'),
       (exit) => exit.remove()

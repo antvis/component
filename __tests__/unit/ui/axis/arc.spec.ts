@@ -1,7 +1,8 @@
-import { Path, Group } from '@antv/g';
+import { Path } from '@antv/g';
 import { Band as BandScale } from '@antv/scale';
 import { Arc, ArcAxisStyleProps } from '../../../../src';
 import { createCanvas } from '../../../utils/render';
+import { LINEAR_SCALE_DATA } from './data';
 
 const canvas = createCanvas(600);
 const domain = [
@@ -212,5 +213,41 @@ describe('Arc axis', () => {
       arc.update({ label: { style: { fontSize: 12 } } });
       expect(labels.some((d) => d.style.text.endsWith('...'))).toBe(true);
     });
+  });
+
+  afterAll(() => {
+    canvas.removeChildren();
+  });
+});
+
+describe('Examples of Arc axis', () => {
+  it('Should renders a linear axis with axisLine.', () => {
+    const axis = new Arc({
+      style: {
+        radius: 60,
+        center: [150, 150],
+        title: { content: 'Axis' },
+        ticks: LINEAR_SCALE_DATA,
+      },
+    });
+
+    canvas.appendChild(axis);
+  });
+
+  it('Should renders a linear axis with axisLine.', () => {
+    const axis = new Arc({
+      style: {
+        startAngle: 0,
+        endAngle: 270,
+        radius: 60,
+        center: [350, 150],
+        title: { content: 'Axis' },
+        ticks: LINEAR_SCALE_DATA,
+        subTickLine: { count: 2 },
+        label: { formatter: (d) => `${d.text} ____ hello,`, maxLength: 30 },
+      },
+    });
+
+    canvas.appendChild(axis);
   });
 });
