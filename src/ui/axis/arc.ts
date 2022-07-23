@@ -6,7 +6,7 @@ import { AXIS_BASE_DEFAULT_OPTIONS } from './constant';
 import { deepAssign, DegToRad, maybeAppend, multi } from '../../util';
 import { createComponent } from '../../util/create';
 import { autoHideTickLine, calcOptimizedTicks, getSign, ifOutside, processOverlap } from './utils';
-import { renderLabels } from './guides/axisLabels';
+import { renderAxisLabels } from './guides/axisLabels';
 import { renderTitle } from './guides/axisTitle';
 import { renderTicks } from './guides/axisTicks';
 import { renderAxisLine } from './guides/axisLine';
@@ -221,7 +221,7 @@ export const Arc = createComponent<ArcAxisStyleProps>(
         axisLine,
         tickLine,
         subTickLine,
-        label,
+        label = {},
         ticks = [],
         title,
         grid,
@@ -271,7 +271,7 @@ export const Arc = createComponent<ArcAxisStyleProps>(
         label,
         tickLine?.len
       );
-      renderLabels(labelGroup, labelsCfg, label);
+      renderAxisLabels(labelGroup, labelsCfg, label);
 
       // Process overlap.
       const labels = labelGroup.querySelectorAll('.axis-label');

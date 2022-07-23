@@ -6,7 +6,7 @@ import { createDiv } from '../../../utils';
 
 const renderer = new CanvasRenderer();
 
-describe('button', () => {
+describe.skip('button', () => {
   test('basic', async () => {
     const div = createDiv();
 

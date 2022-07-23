@@ -35,12 +35,7 @@ export type BreadcrumbCfg = {
 
   /** 样式 */
   /** 字体样式 */
-  readonly textStyle?: {
-    /** 默认字体样式 */
-    default?: Partial<TextProps>;
-    /** 激活字体样式 */
-    active?: Partial<TextProps>;
-  };
+  readonly textStyle?: Partial<TextProps>;
 
   /** 如果作为通用组件，给其它用户使用 */
   readonly onClick?: (id: string, item: BreadcrumbItem, items: BreadcrumbItem[]) => void;

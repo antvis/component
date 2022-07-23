@@ -11,32 +11,41 @@ const canvas = new Canvas({
   renderer,
 });
 
-const tag = new Tag({
+const tag0 = new Tag({
   style: {
     text: '无背景',
     padding: [4, 7],
     backgroundStyle: null,
   },
 });
-canvas.appendChild(tag);
+canvas.appendChild(tag0);
 
-const tag2 = new Tag({
+const tag = new Tag({
   style: {
     x: 100,
     text: '设置背景激活样式',
     padding: [4, 7],
     textStyle: {
-      active: {
-        cursor: 'pointer',
-      },
+      cursor: 'pointer',
     },
-    backgroundStyle: {
-      active: {
-        fill: 'lightgreen',
-        lineWidth: 0,
-        cursor: 'pointer',
-      },
-    },
+    backgroundStyle: {},
   },
 });
-canvas.appendChild(tag2);
+canvas.appendChild(tag);
+tag.addEventListener('mouseenter', () => {
+  tag.update({
+    backgroundStyle: {
+      fill: 'lightgreen',
+      lineWidth: 0,
+      cursor: 'pointer',
+    },
+  });
+});
+tag.addEventListener('mouseleave', () => {
+  tag.update({
+    backgroundStyle: {
+      lineWidth: 1,
+      fill: '#fafafa',
+    },
+  });
+});

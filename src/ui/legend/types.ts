@@ -193,6 +193,7 @@ export type ContinuousCfg = LegendBaseCfg & {
      * @title 标签格式化方式
      */
     formatter?: (value: number, idx?: number) => string;
+    maxLength?: number;
   };
   // 色板配置
   rail?: {
@@ -262,7 +263,7 @@ export type CategoryItemValue = {
 };
 
 // 分类图例配置
-export type CategoryCfg = LegendBaseCfg & {
+export type CategoryStyleProps = LegendBaseCfg & {
   padding?: number | number[];
   items: CategoryItemValue[];
   // 图例项宽度（等分形式）
@@ -295,4 +296,4 @@ export type CategoryCfg = LegendBaseCfg & {
   pageNavigator?: PageNavigatorCfg;
 };
 
-export type CategoryOptions = DisplayObjectConfig<CategoryCfg>;
+export type CategoryOptions = DisplayObjectConfig<CategoryStyleProps>;

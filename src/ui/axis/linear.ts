@@ -19,7 +19,7 @@ import type { AxisLabelCfg, AxisOrient, LinearAxisStyleProps } from './types';
 import { AXIS_BASE_DEFAULT_OPTIONS } from './constant';
 import { renderTitle } from './guides/axisTitle';
 import { renderTicks } from './guides/axisTicks';
-import { renderLabels } from './guides/axisLabels';
+import { renderAxisLabels } from './guides/axisLabels';
 import { renderAxisLine } from './guides/axisLine';
 import { renderGrid } from './guides/axisGrid';
 
@@ -203,7 +203,7 @@ export const Linear = createComponent<LinearAxisStyleProps>(
         appendTick,
         axisLine,
         ticks = [],
-        label,
+        label = {},
         tickLine,
         subTickLine,
         title,
@@ -232,7 +232,7 @@ export const Linear = createComponent<LinearAxisStyleProps>(
       const LABEL_GROUP = 'axis-label-group';
       const labelGroup = maybeAppend(container, `.${LABEL_GROUP}`, 'g').attr('className', LABEL_GROUP).node();
       const labelsCfg = getLabelAttrs(optimizedTicks, points, axisPosition, label, tickLine);
-      renderLabels(labelGroup, labelsCfg, label);
+      renderAxisLabels(labelGroup, labelsCfg, label);
 
       // Process overlap.
       const labels = labelGroup.querySelectorAll('.axis-label');

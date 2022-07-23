@@ -1,43 +1,32 @@
-import { TextStyleProps, CustomElement, Text, DisplayObjectConfig } from '@antv/g';
+import { TextStyleProps, Group } from '@antv/g';
+import { applyStyle, maybeAppend } from '../../util';
+import { BaseComponent } from '../../util/create';
 import { MarkerStyleProps, Marker } from '../marker';
 
 type HandleStyleProps = MarkerStyleProps & {
   textStyle?: TextStyleProps;
 };
 
-export class Handle extends CustomElement<HandleStyleProps> {
-  constructor(options: DisplayObjectConfig<HandleStyleProps> = {}) {
-    super(options);
-    this.marker = this.appendChild(new Marker({}));
-  }
-
-  private textShape: Text | null = null;
-
-  private marker!: Marker;
-
-  connectedCallback(): void {
-    this.draw();
-  }
-
-  attributeChangedCallback() {
-    this.draw();
-  }
-
-  private draw() {
-    const { symbol, fill, lineWidth, stroke, size = 8, textStyle, visibility } = this.style;
-    this.marker.attr({
-      symbol,
-      size: visibility === 'hidden' ? 0 : size,
-      fill,
-      lineWidth: lineWidth || 1,
-      stroke,
-    });
-    if (visibility === 'visible') {
-      this.textShape = this.textShape || this.appendChild(new Text({}));
-      this.textShape.attr(textStyle || {});
-    } else {
-      this.textShape?.remove();
-      this.textShape = null;
+export class Handle extends BaseComponent<HandleStyleProps> {
+  render(attribute: HandleStyleProps, container: Group) {
+    const { textStyle, visibility, symbol, size, fill, stroke, lineWidth } = attribute;
+    if (!symbol || visibility === 'hidden') {
+      container.querySelector('.handle')?.remove();
+      container.querySelector('.handle-text')?.remove();
+      return;
     }
+
+    maybeAppend(container, '.handle', () => new Marker({}))
+      .attr('className', 'handle')
+      .call((selection) => {
+        (selection.node() as Marker).update({
+          symbol,
+          size,
+          fill,
+          stroke,
+          lineWidth,
+        });
+      });
+    maybeAppend(container, '.handle-text', 'text').attr('className', 'handle-text').call(applyStyle, textStyle);
   }
 }

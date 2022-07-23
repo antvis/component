@@ -1,217 +1,94 @@
-import { Rect, RectStyleProps, Text, TextStyleProps } from '@antv/g';
+import type { Group } from '@antv/g';
 import { deepMix } from '@antv/util';
-import { GUI } from '../../core/gui';
-import { getStateStyle as getStyle, normalPadding, getShapeSpace, TEXT_INHERITABLE_PROPS } from '../../util';
-import { Marker, MarkerStyleProps } from '../marker';
+import { BaseComponent } from '../../util/create';
+import { normalPadding, maybeAppend, applyStyle } from '../../util';
+import { Marker } from '../marker';
 import type { TagStyleProps, TagOptions } from './types';
 
 export type { TagStyleProps, TagOptions };
+
+function adjust(container: Group, paddingLeft: number, paddingTop: number, align: string, baseline: string) {
+  const bounds = container.getLocalBounds();
+
+  let x = 0;
+  let y = 0;
+  if (align === 'start') x = paddingLeft;
+  if (align === 'center') x = -bounds.halfExtents[0];
+  if (align === 'end') x = -paddingLeft - bounds.halfExtents[0] * 2;
+  if (baseline === 'top') y = paddingTop + bounds.halfExtents[1];
+  if (baseline === 'middle') y = 0;
+  if (baseline === 'bottom') y = paddingTop - bounds.halfExtents[1] * 2;
+
+  container.setLocalPosition([x, y]);
+}
+
+function getTextPosition(markerShape: Marker, spacing?: number) {
+  const bounds = markerShape.getLocalBounds();
+
+  return {
+    x: bounds.halfExtents[0] ? bounds.max[0] + (spacing || 0) : (markerShape.style.x as number),
+    y: bounds.halfExtents[1] ? (bounds.min[1] + bounds.max[1]) / 2 : (markerShape.style.y as number),
+  };
+}
 
 /**
  * 带文本、图标的 Tag 组件，支持 iconfont 组件
  *
  * 组成元素：Marker + Text + BackgroundRect
  */
-export class Tag extends GUI<Required<TagStyleProps>> {
+export class Tag extends BaseComponent<Required<TagStyleProps>> {
   /**
    * 标签类型
    */
   public static tag = 'tag';
 
-  private get backgroundShapeCfg(): RectStyleProps {
-    const { backgroundStyle, radius = 0 } = this.attributes;
-    return {
-      radius,
-      ...((backgroundStyle ? getStyle(backgroundStyle) : {}) as RectStyleProps),
-    };
-  }
-
-  private get markerShapeCfg(): MarkerStyleProps {
-    const { marker } = this.attributes;
-    return marker;
-  }
-
-  private get textShapeCfg(): TextStyleProps {
-    const { text, textStyle } = this.attributes;
-    return {
-      ...getStyle(textStyle),
-      x: 0,
-      y: 0,
-      text,
-    };
-  }
-
-  private markerShape!: Marker;
-
-  private textShape!: Text;
-
-  private backgroundShape!: Rect;
-
-  /**
-   * 默认参数
-   */
   public static defaultOptions = {
     type: Tag.tag,
     style: {
-      text: '',
       padding: 4,
-      align: 'start',
-      verticalAlign: 'top',
-      textStyle: {
-        default: {
-          ...TEXT_INHERITABLE_PROPS,
-          fontSize: 12,
-          textAlign: 'start',
-          textBaseline: 'middle',
-          fill: '#000',
-        },
-        active: {},
-      },
-      marker: {
-        symbol: 'circle',
-        size: 0,
-      },
       spacing: 4,
-      radius: 2,
-      backgroundStyle: {
-        default: {
-          fill: '#fafafa',
-          stroke: '#d9d9d9',
-          lineWidth: 1,
-        },
-      },
     },
   };
 
   constructor(options: TagOptions) {
     super(deepMix({}, Tag.defaultOptions, options));
-    this.init();
   }
 
-  /**
-   * 根据 type 获取 maker shape
-   */
-  public init(): void {
-    this.initShape();
-    this.update();
-    this.bindEvents();
-  }
+  public render(attributes: TagStyleProps, container: Group) {
+    const { padding, marker, text, textStyle, radius, backgroundStyle, spacing, align, verticalAlign } = attributes;
+    const [pt, pr, pb, pl] = normalPadding(padding);
 
-  /**
-   * 组件的更新
-   */
-  public update(cfg?: Partial<TagStyleProps>) {
-    this.attr(deepMix({}, this.attributes, cfg));
-    this.updateBackground();
-    this.updateMarker();
-    this.updateText();
-    this.layout();
-  }
+    const group = maybeAppend(container, '.tag-content', 'g').attr('className', 'tag-content').node();
+    const markerShape = maybeAppend(group, '.tag-marker', () => new Marker({}))
+      .attr('className', 'tag-marker')
+      .call((selection) => (selection.node() as Marker).update(marker || { symbol: '', size: 0 }))
+      .node() as Marker;
 
-  /**
-   * 组件的清除
-   */
-  public clear() {
-    this.markerShape.destroy();
-    this.textShape.destroy();
-    this.backgroundShape.destroy();
-  }
+    const { x, y } = getTextPosition(markerShape, spacing);
+    maybeAppend(group, '.tag-text', 'text')
+      .attr('className', 'tag-text')
+      .style('fontFamily', 'sans-serif')
+      .style('fontSize', 12)
+      .style('x', x)
+      .style('y', y)
+      .style('text', text || '')
+      .call(applyStyle, textStyle)
+      // 强制居中
+      .style('textBaseline', 'middle');
+    adjust(group, pl, pt, align || 'start', verticalAlign || 'top');
 
-  private initShape() {
-    this.markerShape = new Marker({
-      name: 'tag-marker',
-      style: this.markerShapeCfg,
-    });
-    this.textShape = new Text({
-      name: 'tag-text',
-      style: this.textShapeCfg,
-    });
-    this.backgroundShape = new Rect({ name: 'background' });
-    this.backgroundShape.appendChild(this.markerShape);
-    this.backgroundShape.appendChild(this.textShape);
-
-    this.appendChild(this.backgroundShape);
-    this.backgroundShape.toBack();
-  }
-
-  /**
-   * 创建 background
-   */
-  private updateBackground() {
-    this.backgroundShape.attr(this.backgroundShapeCfg);
-  }
-
-  /**
-   * 创建 marker
-   */
-  private updateMarker() {
-    this.markerShape.update(this.markerShapeCfg);
-  }
-
-  /**
-   * 创建 text
-   */
-  private updateText() {
-    this.textShape.attr(this.textShapeCfg);
-  }
-
-  private layout() {
-    const { padding, spacing, marker, text, align, verticalAlign } = this.attributes;
-    const [top, right, bottom, left] = normalPadding(padding);
-    const { size = 0 } = marker;
-
-    const { width: markerWidth, height: markerHeight } = getShapeSpace(this.markerShape);
-    const { width: textWidth, height: textHeight } = this.textShape.getBoundingClientRect();
-    let width = left + right;
-    let height = 0;
-    if (size > 0) {
-      width += markerWidth + spacing;
-      height = Math.max(height, markerHeight);
-    }
-    if (text !== '') {
-      width += textWidth;
-      height = Math.max(height, textHeight);
-    }
-
-    height += top + bottom;
-
-    let horizontalAlignOffset = 0;
-    let verticalAlignOffset = 0;
-    if (align === 'center') horizontalAlignOffset = -width / 2;
-    else if (align === 'end') horizontalAlignOffset = -width;
-    if (verticalAlign === 'middle') verticalAlignOffset = -height / 2;
-    else if (verticalAlign === 'bottom') verticalAlignOffset = -height;
-
-    // background
-    this.backgroundShape.attr({ x: horizontalAlignOffset, y: verticalAlignOffset, width, height });
-
-    // marker
-    this.markerShape.attr({
-      x: left + markerWidth / 2,
-      y: height / 2,
-    });
-    // text
-    let textX = left;
-    if (size) textX += markerWidth + spacing;
-    // 设置 局部坐标系 下的位置
-    this.textShape.attr({
-      x: textX,
-      y: height / 2,
-    });
-  }
-
-  private bindEvents() {
-    this.addEventListener('mouseenter', () => {
-      const { backgroundStyle, textStyle } = this.attributes;
-      this.textShape.attr(getStyle(textStyle, 'active', true));
-      this.backgroundShape.attr(backgroundStyle ? getStyle(backgroundStyle, 'active', true) : {});
-      this.layout();
-    });
-
-    this.addEventListener('mouseleave', () => {
-      this.textShape.attr(this.textShapeCfg);
-      this.backgroundShape.attr(this.backgroundShapeCfg);
-      this.layout();
-    });
+    const bounds = group.getLocalBounds();
+    maybeAppend(container, '.tag-background', 'rect')
+      .attr('className', 'tag-background')
+      .style('zIndex', (group.style.zIndex || 0) - 1)
+      .style('x', bounds.min[0] - pl)
+      .style('y', bounds.min[1] - pt)
+      .style('width', backgroundStyle !== null ? pl + pr + bounds.halfExtents[0] * 2 : 0)
+      .style('height', backgroundStyle !== null ? pt + pb + bounds.halfExtents[1] * 2 : 0)
+      .style('radius', radius ?? 2)
+      .style('fill', '#fafafa')
+      .style('stroke', '#d9d9d9')
+      .style('lineWidth', 1)
+      .call(applyStyle, backgroundStyle);
   }
 }

@@ -16,6 +16,8 @@ export const LINE_CROSSHAIR_DEFAULT_STYLE = deepAssign({}, CROSSHAIR_BASE_DEFAUL
   type: 'line',
   text: {
     position: 'start',
+    align: 'center',
+    verticalAlign: 'bottom',
   },
 });
 

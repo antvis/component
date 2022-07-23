@@ -1,21 +1,10 @@
-import { Canvas } from '@antv/g';
-import { Renderer as CanvasRenderer } from '@antv/g-canvas';
-import { head, last } from '@antv/util';
 import { Tag } from '../../../../src';
-import { createDiv } from '../../../utils';
+import { createDiv, delay } from '../../../utils';
+import { createCanvas } from '../../../utils/render';
 
-const renderer = new CanvasRenderer();
+const canvas = createCanvas(500, 'svg');
 
 describe('tag', () => {
-  const div = createDiv();
-
-  const canvas = new Canvas({
-    container: div,
-    width: 500,
-    height: 300,
-    renderer,
-  });
-
   const tag = new Tag({
     style: {
       x: 0,
@@ -25,76 +14,49 @@ describe('tag', () => {
   });
   canvas.appendChild(tag);
 
-  test('defaultOptions', () => {
-    // to be fix later
-    // expect(tag.attr()).toMatchObject(Tag.defaultOptions.style);
+  it('padding', () => {
+    tag.update({ padding: [6, 8] });
+    const bounds = (tag.querySelector('.tag-content')! as any).getLocalBounds();
+    expect(bounds.min[0]).toBe(8);
+    expect(bounds.min[1]).toBe(6);
   });
 
-  test('padding', () => {
-    tag.update({ padding: 6 });
-    // @ts-ignore
-    const rect = tag.textShape.getBoundingClientRect();
-    // to be fix later
-    // expect(rect.top).toBe(6);
-    // expect(rect.left).toBe(6);
-  });
-
-  test('add marker', () => {
+  it('add marker', () => {
     tag.update({ spacing: 10, marker: { symbol: 'triangle', size: 12 } });
-    // @ts-ignore
-    const rect = tag.textShape.getBoundingClientRect();
-    // to be fix later
-    // expect(rect.top).toBe(6);
-    expect(rect.left).not.toBe(6);
 
-    // @ts-ignore
-    const { width: mWidth, left: mLeft } = tag.markerShape.getBoundingClientRect();
-    // to be fix later
-    // expect(rect.left).toBe(6 + 10 + mWidth);
-    // expect(mLeft).toBe(6);
+    const markerBounds = (tag.querySelector('.tag-marker')! as any).getLocalBounds();
+    const bounds = (tag.querySelector('.tag-text')! as any).getLocalBounds();
+    expect(markerBounds.max[0] + 10).toBe(bounds.min[0]);
   });
 
-  test('marker and text is vertical align', () => {
-    // @ts-ignore
-    tag.update({ textStyle: { default: { fontSize: 32 } }, marker: { symbol: 'circle', size: 10 } });
-    // @ts-ignore
-    const { height: tHeight, top: tTop } = tag.textShape.getBoundingClientRect();
-    // @ts-ignore
-    const { height: mHeight, top: mTop } = tag.markerShape.getBoundingClientRect();
-    // to be fix later
-    // expect(tHeight / 2 + tTop).toBe(mHeight / 2 + mTop);
-  });
-
-  test('text', () => {
+  it('text', () => {
     tag.update({ text: 'hello' });
-    // @ts-ignore
-    expect(tag.textShape.attr('text')).toBe('hello');
+    expect(tag.querySelector('.tag-text')!.style.text).toBe('hello');
   });
 
-  test('textStyle', () => {
-    // @ts-ignore
-    tag.update({ textStyle: { default: { fill: 'red' }, active: { fill: 'yellow' } } });
-    // @ts-ignore
-    expect(tag.textShape.attr('fill')).toBe('red');
-    // @ts-ignore
-    tag.emit('mouseenter');
-
-    // @ts-ignore
-    expect(tag.textShape.attr('fill')).toBe('yellow');
-    // @ts-ignore
-    tag.emit('mouseleave');
+  it('textStyle', () => {
+    tag.update({ textStyle: { fill: 'red' } });
+    expect(tag.querySelector('.tag-text')!.style.fill).toBe('red');
   });
 
-  test('backgrounStyle', () => {
-    // @ts-ignore
-    tag.update({ backgroundStyle: { default: { fill: 'red' }, active: { fill: 'blue' } } });
-    // @ts-ignore
-    expect(tag.backgroundShape.attr('fill')).toBe('red');
-    // @ts-ignore
-    tag.emit('mouseenter');
+  it('backgroundStyle', () => {
+    tag.update({ backgroundStyle: { fill: 'blue' } });
+    expect(tag.querySelector('.tag-background')!.style.fill).toBe('blue');
+  });
 
-    // @ts-ignore
-    expect(tag.backgroundShape.attr('fill')).toBe('blue');
+  // todo
+  it.skip('align and verticalAlign', () => {
+    tag.update({ marker: null, padding: [4, 8] });
+    tag.update({ x: 100, y: 0 });
+    setTimeout(() => {
+      expect(tag.getLocalBounds().min[0]).toBe(100);
+      expect(tag.getLocalBounds().min[1]).toBe(100);
+    }, 0);
+    // tag.update({ align: 'end' });
+    setTimeout(() => {
+      // console.log(tag.getLocalBounds().min[0]);
+      // expect(tag.getLocalBounds().min[0]).toBe(tag.getLocalBounds().halfExtents[0]);
+    }, 0);
   });
 
   afterAll(() => {

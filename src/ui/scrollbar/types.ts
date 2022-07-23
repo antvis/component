@@ -5,7 +5,7 @@ export type Orient = 'horizontal' | 'vertical';
 /**
  * 滚动条组件的属性配置
  */
-export type ScrollbarCfg = ShapeAttrs & {
+export type ScrollbarStyleProps = ShapeAttrs & {
   /**
    * 滑条朝向
    */
@@ -65,4 +65,4 @@ export type ScrollbarCfg = ShapeAttrs & {
 /**
  * 滚动条组件的配置项
  */
-export type ScrollbarOptions = DisplayObjectConfig<ScrollbarCfg>;
+export type ScrollbarOptions = DisplayObjectConfig<ScrollbarStyleProps>;

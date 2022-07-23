@@ -2,7 +2,7 @@ import { Group, TextStyleProps } from '@antv/g';
 import { Marker, MarkerStyleProps } from '../marker';
 import type { ShapeAttrs } from '../../types';
 import { applyStyle, maybeAppend, select } from '../../util';
-import { createComponent } from '../../util/create';
+import { createComponent, BaseComponent } from '../../util/create';
 
 export interface HandleStyleProps {
   x: number;
@@ -19,9 +19,9 @@ export interface HandleStyleProps {
   textCfg: TextStyleProps;
 }
 
-const HandleIcon = createComponent<any>({
+const HandleIcon = createComponent<HandleStyleProps['iconCfg']>({
   render(attributes, container) {
-    const { size = 10, radius = 2, stroke, fill, lineWidth, orient } = attributes;
+    const { size = 10, radius, stroke, fill, lineWidth, orient, fillOpacity, strokeOpacity } = attributes;
     // 默认手柄
     const width = size!;
     const height = width * 2.4;
@@ -31,10 +31,12 @@ const HandleIcon = createComponent<any>({
       .style('y', -height / 2)
       .style('width', width)
       .style('height', height)
+      .style('fill', fill || '#fff')
+      .style('fillOpacity', fillOpacity || 1)
       .style('stroke', stroke || '#bfbfbf')
       .style('lineWidth', typeof lineWidth !== 'number' ? 1 : lineWidth)
-      .style('fill', fill || '#fff')
-      .style('radius', typeof radius !== 'number' ? width / 4 : radius)
+      .style('strokeOpacity', strokeOpacity)
+      .style('radius', typeof radius !== 'number' ? width / 4 : radius ?? 2)
       .node();
 
     const appendLine = (idx: number, x1: number, y1: number, x2: number, y2: number) => {
@@ -45,6 +47,7 @@ const HandleIcon = createComponent<any>({
         .style('x2', x2)
         .style('y2', y2)
         .style('stroke', rect.style.stroke)
+        .style('strokeOpacity', rect.style.strokeOpacity)
         .style('lineWidth', rect.style.lineWidth);
     };
     const X1 = (1 / 3) * width;
@@ -61,11 +64,11 @@ const HandleIcon = createComponent<any>({
 });
 
 function renderHandleIcon(container: Group, iconCfg: HandleStyleProps['iconCfg']) {
-  const { type } = iconCfg;
+  const { type } = iconCfg || {};
   const className = `handle-icon ${type}-handle`;
   select(container)
     .selectAll('.handle-icon')
-    .data([type], (d) => d)
+    .data(type ? [type] : [], (d) => d)
     .join(
       (enter) =>
         enter.append((type) => {
@@ -92,11 +95,11 @@ function renderHandleText(container: Group, cfg: any = {}) {
     .call(applyStyle, cfg);
 }
 
-export const Handle = createComponent<HandleStyleProps>({
-  render(attributes, container) {
+export class Handle extends BaseComponent<HandleStyleProps> {
+  render(attributes: HandleStyleProps, container: Group) {
     const { iconCfg, textCfg } = attributes;
 
     renderHandleIcon(container, iconCfg);
     renderHandleText(container, textCfg);
-  },
-});
+  }
+}

@@ -82,16 +82,12 @@ Marker.registerSymbol('star', (x, y, r) => {
 canvas.appendChild(
   new Tag({
     style: {
-      x: 0,
+      x: 10,
       y: 10,
       text: 'Hello',
       textStyle: {
-        default: {
-          x: 0,
-          y: 30,
-          fontSize: 12,
-          fill: '#fa8c16',
-        },
+        fontSize: 12,
+        fill: '#fa8c16',
       },
       marker: {
         symbol: 'star',
@@ -99,10 +95,8 @@ canvas.appendChild(
         size: 20,
       },
       backgroundStyle: {
-        default: {
-          stroke: '#ffd591',
-          fill: '#fff7e6',
-        },
+        stroke: '#ffd591',
+        fill: '#fff7e6',
       },
     },
   })
@@ -110,33 +104,25 @@ canvas.appendChild(
 canvas.appendChild(
   new Tag({
     style: {
-      x: 0,
+      x: 10,
       y: 40,
       text: 'Hello',
       spacing: 6,
       textStyle: {
-        default: {
-          x: 0,
-          y: 30,
-          fontSize: 12,
-          fill: '#000',
-          fillOpacity: 0.85,
-        },
+        fontSize: 12,
+        fill: '#000',
+        fillOpacity: 0.85,
       },
       marker: {
         symbol: 'triangle',
-        x: 0,
-        y: 0,
         fill: '#000',
         stroke: '#000',
         fillOpacity: 0.85,
         size: 8,
       },
       backgroundStyle: {
-        default: {
-          stroke: '#d9d9d9',
-          fill: '#fafafa',
-        },
+        stroke: '#d9d9d9',
+        fill: '#fafafa',
       },
     },
   })
@@ -145,31 +131,23 @@ canvas.appendChild(
 canvas.appendChild(
   new Tag({
     style: {
-      x: 0,
+      x: 10,
       y: 70,
       text: 'Hello',
       textStyle: {
-        default: {
-          x: 0,
-          y: 30,
-          fontSize: 12,
-          fill: '#52c41a',
-          fillOpacity: 0.85,
-        },
+        fontSize: 12,
+        fill: '#52c41a',
+        fillOpacity: 0.85,
       },
       marker: {
         symbol: 'heart',
-        x: 0,
-        y: 0,
         fill: '#52c41a',
         fillOpacity: 0.85,
         size: 20,
       },
       backgroundStyle: {
-        default: {
-          stroke: '#b7eb8f',
-          fill: '#f6ffed',
-        },
+        stroke: '#b7eb8f',
+        fill: '#f6ffed',
       },
     },
   })
@@ -178,30 +156,22 @@ canvas.appendChild(
 canvas.appendChild(
   new Tag({
     style: {
-      x: 0,
+      x: 10,
       y: 100,
       text: 'success',
       textStyle: {
-        default: {
-          x: 0,
-          y: 30,
-          fontSize: 12,
-          fill: '#52c41a',
-          fillOpacity: 0.85,
-        },
+        fontSize: 12,
+        fill: '#52c41a',
+        fillOpacity: 0.85,
       },
       marker: {
         symbol: 'check',
-        x: 0,
-        y: 0,
         stroke: '#52c41a',
         size: 10,
       },
       backgroundStyle: {
-        default: {
-          stroke: '#b7eb8f',
-          fill: '#f6ffed',
-        },
+        stroke: '#b7eb8f',
+        fill: '#f6ffed',
       },
     },
   })
@@ -210,30 +180,22 @@ canvas.appendChild(
 canvas.appendChild(
   new Tag({
     style: {
-      x: 0,
+      x: 10,
       y: 130,
       text: 'stop',
       textStyle: {
-        default: {
-          x: 0,
-          y: 30,
-          fontSize: 12,
-          fill: '#000000d9',
-          fillOpacity: 0.85,
-        },
+        fontSize: 12,
+        fill: '#000000d9',
+        fillOpacity: 0.85,
       },
       marker: {
         symbol: 'stop',
-        x: 0,
-        y: 0,
         stroke: '#000000d9',
         size: 10,
       },
       backgroundStyle: {
-        default: {
-          stroke: '#d9d9d9',
-          fill: '#fafafa',
-        },
+        stroke: '#d9d9d9',
+        fill: '#fafafa',
       },
     },
   })
@@ -242,30 +204,22 @@ canvas.appendChild(
 canvas.appendChild(
   new Tag({
     style: {
-      x: 0,
+      x: 10,
       y: 160,
       text: 'error',
       textStyle: {
-        default: {
-          x: 0,
-          y: 30,
-          fontSize: 12,
-          fill: '#f5222d',
-          fillOpacity: 0.85,
-        },
+        fontSize: 12,
+        fill: '#f5222d',
+        fillOpacity: 0.85,
       },
       marker: {
         symbol: 'error',
-        x: 0,
-        y: 0,
         stroke: '#f5222d',
         size: 10,
       },
       backgroundStyle: {
-        default: {
-          stroke: '#ffa39e',
-          fill: '#fff1f0',
-        },
+        stroke: '#ffa39e',
+        fill: '#fff1f0',
       },
     },
   })

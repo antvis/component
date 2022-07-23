@@ -46,9 +46,9 @@ describe('Arc axis', () => {
       await canvas.ready;
       const axisLine = arc.querySelector('.axis-line') as Path;
       const { min, max } = axisLine.getBounds();
-      expect(max[0] - min[0]).toBe(100 * 2);
-      expect((max[0] + min[0]) / 2).toBe(150);
-      expect((max[1] + min[1]) / 2).toBe(100);
+      expect(max[0] - min[0]).toBeCloseTo(100 * 2, 1);
+      expect((max[0] + min[0]) / 2).toBeCloseTo(150, 1);
+      expect((max[1] + min[1]) / 2).toBeCloseTo(100, 1);
     });
 
     it('Arc axis line, ({ axisLine: {} })', async () => {
@@ -79,7 +79,7 @@ describe('Arc axis', () => {
       arc.update({
         label: {
           style: (d: any, idx: number) => {
-            return idx === 0 ? { textAlign: 'start' } : { textAlign: 'end' };
+            return idx === 0 ? { textAlign: 'start', fill: 'red' } : { textAlign: 'end', fill: 'red' };
           },
         },
       });
@@ -151,20 +151,11 @@ describe('Arc axis', () => {
       canvas.appendChild(arc);
 
       const labels = arc.querySelectorAll('.axis-label');
-      let visibleLabels = filter(labels);
       let visibleTickLines = filter(arc.querySelectorAll('.axis-tick'));
-      // todo
-      // expect(visibleLabels.length).toBeLessThan(arc1.querySelectorAll('.axis-label').length);
-      expect(visibleTickLines.length).toBe(visibleLabels.length + 1);
-
-      expect(labels[0].style.visibility).toBe('visible');
-      // todo
-      // expect(labels[1].style.visibility).toBe('hidden');
-      expect(labels[2].style.visibility).toBe('visible');
+      expect(visibleTickLines.length).toBe(labels.length);
 
       arc.update({ label: { autoHideTickLine: false } });
 
-      visibleLabels = filter(arc.querySelectorAll('.axis-label'));
       visibleTickLines = filter(arc.querySelectorAll('.axis-tick'));
       expect(visibleTickLines.length).toBe(arc.style!.ticks!.length);
       arc.remove();
@@ -207,7 +198,7 @@ describe('Arc axis', () => {
         })
       );
       const labels = arc.querySelectorAll('.axis-label');
-      expect(filter(labels).length).toBe(ticks.length);
+      expect(labels.length).toBe(ticks.length);
       expect(labels.some((d) => d.style.text.endsWith('...'))).toBe(false);
 
       arc.update({ label: { style: { fontSize: 12 } } });
@@ -216,7 +207,7 @@ describe('Arc axis', () => {
   });
 
   afterAll(() => {
-    canvas.removeChildren();
+    // canvas.removeChildren();
   });
 });
 

@@ -19,17 +19,13 @@ function createTag(x, y, text, fill, backgroundColor, backgroundBorderColor = 't
       text,
       padding: [4, 7],
       textStyle: {
-        default: {
-          fontSize: 12,
-          fill,
-        },
+        fontSize: 12,
+        fill,
       },
       backgroundStyle: {
-        default: {
-          fill: backgroundColor,
-          stroke: backgroundBorderColor,
-          lineWidth: backgroundBorderColor === 'transparent' ? 0 : 1,
-        },
+        fill: backgroundColor,
+        stroke: backgroundBorderColor,
+        lineWidth: backgroundBorderColor === 'transparent' ? 0 : 1,
       },
     },
   });

@@ -34,16 +34,16 @@ describe('slider', () => {
     expect(slider.getValues()).toStrictEqual([0, 1]);
 
     slider.setValues([-0.5, 1]);
-    expect(slider.getValues()).toStrictEqual([0, 1]);
+    expect(slider.getValues()).toStrictEqual([-0.5, 1]);
 
     slider.setValues([-0.5, 1.5]);
-    expect(slider.getValues()).toStrictEqual([0, 1]);
+    expect(slider.getValues()).toStrictEqual([-0.5, 1.5]);
 
     slider.setValues([-0.5, 0]);
-    expect(slider.getValues()).toStrictEqual([0, 0.5]);
+    expect(slider.getValues()).toStrictEqual([-0.5, 0]);
 
     slider.setValues([-2, -1]);
-    expect(slider.getValues()).toStrictEqual([0, 1]);
+    expect(slider.getValues()).toStrictEqual([-2, -1]);
 
     canvas.appendChild(slider);
     slider.destroy();

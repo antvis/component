@@ -31,7 +31,7 @@ describe('marker', () => {
     expect(marker.attr('fill')).toBe('green');
     expect(marker.attr('symbol')).toBe('triangle-down');
     // @ts-ignore
-    const path = marker.markerShape.style.path as any[];
+    const path = marker.querySelector('.marker')!.style.path as any[];
     expect(path[0][1]).toBe(-8);
     expect(path[1][1]).toBe(8);
     expect(path[2][1]).toBe(0);

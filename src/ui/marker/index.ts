@@ -1,6 +1,7 @@
-import { Path, Image, ImageStyleProps, PathStyleProps, DisplayObject } from '@antv/g';
-import { deepMix, isFunction } from '@antv/util';
-import { GUI } from '../../core/gui';
+import { Group } from '@antv/g';
+import { isFunction } from '@antv/util';
+import { applyStyle, maybeAppend } from '../../util';
+import { BaseComponent } from '../../util/create';
 import { parseMarker } from './utils';
 import {
   circle,
@@ -28,16 +29,46 @@ import type { MarkerStyleProps, MarkerOptions, FunctionalSymbol } from './types'
 
 export type { MarkerStyleProps, MarkerOptions, FunctionalSymbol };
 
-/**
- * Marker
- */
-export class Marker extends GUI<Required<MarkerStyleProps>> {
-  /**
-   * 标签类型
-   */
-  public static tag = 'marker';
+function getType(symbol: MarkerStyleProps['symbol']): string | null {
+  const markerType = parseMarker(symbol);
 
-  private markerShape: DisplayObject | undefined;
+  if (['base64', 'url', 'image'].includes(markerType)) {
+    return 'image';
+  }
+  if (symbol && markerType === 'symbol') {
+    return 'path';
+  }
+
+  return null;
+}
+
+export class Marker extends BaseComponent<MarkerStyleProps> {
+  public render(attributes: MarkerStyleProps, container: Group) {
+    const { x, y, symbol, size = 16, ...style } = attributes;
+    const type = getType(symbol);
+
+    if (!type) {
+      const shape = this.querySelector('.marker');
+      shape?.remove();
+      this.removeChildren();
+
+      return;
+    }
+
+    maybeAppend(container, `.${type}-marker`, type)
+      .attr('className', `marker ${type}-marker`)
+      .call((selection) => {
+        if (type === 'image') {
+          // todo 大小和 path symbol 保持一致
+          const r = (size as number) * 2;
+          selection.style('img', symbol).style('width', r).style('height', r).style('x', -size).style('y', -size);
+        } else {
+          const r = (size as number) / 2;
+          const symbolFn = isFunction(symbol) ? symbol : Marker.getSymbol(symbol);
+          selection.style('path', symbolFn?.(0, 0, r)).call(applyStyle, style);
+        }
+      });
+  }
 
   private static MARKER_SYMBOL_MAP = new Map<string, FunctionalSymbol>();
 
@@ -56,112 +87,6 @@ export class Marker extends GUI<Required<MarkerStyleProps>> {
   public static getSymbol = (type: string): FunctionalSymbol | undefined => {
     return Marker.MARKER_SYMBOL_MAP.get(type);
   };
-
-  /**
-   * 默认参数
-   */
-  private static defaultOptions = {
-    type: Marker.tag,
-    style: {
-      x: 0,
-      y: 0,
-      size: 16,
-    },
-  };
-
-  constructor(options: MarkerOptions) {
-    super(deepMix({}, Marker.defaultOptions, options));
-  }
-
-  connectedCallback() {
-    this.render();
-  }
-
-  attributeChangedCallback(name: string, oldValue: any, newValue: any) {
-    if (name === 'x' || name === 'y' || name === 'size' || name === 'symbol') {
-      this.update();
-    } else if (this.markerShape) {
-      this.markerShape.style[name] = newValue;
-    }
-  }
-
-  /**
-   * 组件的更新
-   */
-  public update(cfg: Partial<MarkerStyleProps> = {}): void {
-    this.attr(deepMix({}, this.attributes, cfg));
-    this.render();
-  }
-
-  /**
-   * 组件的清除
-   */
-  public clear() {
-    this.markerShape?.destroy();
-    this.markerShape = undefined;
-    this.removeChildren();
-  }
-
-  private render() {
-    const { Ctor, name, ...style } = this.getStyleProps() || {};
-    if (this.markerShape && this.markerShape.name === name) {
-      this.markerShape.attr(style);
-    } else {
-      if (this.markerShape) this.clear();
-      if (Ctor) {
-        this.markerShape = this.appendChild(new Ctor({ name, style }));
-      }
-    }
-  }
-
-  private getStyleProps() {
-    const { symbol } = this.style;
-    const markerType = parseMarker(symbol);
-
-    if (['base64', 'url', 'image'].includes(markerType)) {
-      return {
-        Ctor: Image,
-        name: 'markerImage',
-        ...this.getMarkerImageShapeCfg(),
-      };
-    }
-    if (markerType === 'symbol') {
-      return {
-        Ctor: Path,
-        name: 'markerSymbol',
-        ...this.getMarkerSymbolShapeCfg(),
-      };
-    }
-
-    return null;
-  }
-
-  // symbol marker
-  private getMarkerSymbolShapeCfg(): PathStyleProps {
-    const { x = 0, y = 0, size = 0, symbol, ...args } = this.attributes;
-    const r = (size as number) / 2;
-    const symbolFn = isFunction(symbol) ? symbol : Marker.MARKER_SYMBOL_MAP.get(symbol);
-    const path = symbolFn?.(0, 0, r) as any;
-    return {
-      path,
-      ...args,
-      // do not inherit className
-      class: 'marker-symbol',
-    };
-  }
-
-  // image marker
-  private getMarkerImageShapeCfg(): ImageStyleProps {
-    const { size = 0, symbol } = this.attributes;
-    const r2 = (size as number) * 2;
-    return {
-      x: -size,
-      y: -size,
-      width: r2,
-      height: r2,
-      img: symbol as unknown as HTMLImageElement,
-    };
-  }
 }
 
 /** Shapes for Point Geometry */

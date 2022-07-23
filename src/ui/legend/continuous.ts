@@ -1,6 +1,8 @@
-import { TextStyleProps, DisplayObject, clamp, Text, CustomEvent } from '@antv/g';
+import { DisplayObject, clamp, CustomEvent, Group } from '@antv/g';
 import { get, isUndefined, memoize } from '@antv/util';
-import { deepAssign, applyStyle, select, getEventPos, toPrecision, throttle, select2update } from '../../util';
+import { deepAssign, applyStyle, select, getEventPos, toPrecision, throttle, normalPadding } from '../../util';
+import { BaseComponent } from '../../util/create';
+import { renderLabels } from '../../util/primitive/labels';
 import {
   CONTINUOUS_DEFAULT_OPTIONS,
   DEFAULT_HANDLE_CFG,
@@ -8,7 +10,7 @@ import {
   DEFAULT_RAIL_CFG,
   STEP_RATIO,
 } from './constant';
-import { LegendBase } from './base';
+import { getTitleShapeBBox, renderGroup, renderRect, renderTitle } from './base';
 import { ContinuousCfg, ContinuousOptions } from './types';
 import { getSafetySelections, getStepValueByValue, ifHorizontal } from './utils';
 import { Rail } from './continuousRail';
@@ -17,26 +19,6 @@ import { Indicator } from './continuousIndicator';
 import { getChunkedColor, getNextTickValue } from './chunkContinuous';
 
 export type { ContinuousOptions };
-
-function getRailLabels(orient: string, rail: { size: number; length: number }, spacing: number) {
-  const [dx, dy] = ifHorizontal(orient, ['dx', 'dy'], ['dy', 'dx']);
-  const [align1, align2] = ifHorizontal(orient, ['right', 'left'], ['center', 'center']);
-  const [baseline1, baseline2] = ifHorizontal(orient, ['middle', 'middle'], ['bottom', 'top']);
-  return [
-    {
-      [dx]: -spacing,
-      [dy]: rail.size / 2,
-      textAlign: align1,
-      textBaseline: baseline1,
-    },
-    {
-      [dx]: rail.length + spacing,
-      [dy]: rail.size / 2,
-      textAlign: align2,
-      textBaseline: baseline2,
-    },
-  ];
-}
 
 function getTickStyle(orient: string, offset: number, align: string, railSize: number, spacing: number) {
   const [dx, dy] = ifHorizontal(orient, ['dx', 'dy'], ['dy', 'dx']);
@@ -49,18 +31,67 @@ function getTickStyle(orient: string, offset: number, align: string, railSize: n
   };
 }
 
+function getOffset(v: number, min: number, max: number, rail: any, reverse = false) {
+  if (reverse) return (v * (max - min)) / rail.length;
+
+  const ratio = max > min ? rail.length / (max - min) : 0;
+  return toPrecision((v - min) * ratio, 2);
+}
+
+function getLabels(attributes: ContinuousCfg, ticks: any[]) {
+  const { min, max, handle, orient = 'horizontal' } = attributes;
+  if (attributes.label === null || handle) return [];
+
+  const rail = deepAssign({ size: 24, length: 200 }, DEFAULT_RAIL_CFG, attributes.rail || {});
+  const label = deepAssign({}, DEFAULT_LABEL_CFG, attributes.label || {});
+  const { align, spacing } = label;
+  if (align === 'rail') {
+    const [dx, dy] = ifHorizontal(orient, ['dx', 'dy'], ['dy', 'dx']);
+    const [align1, align2] = ifHorizontal(orient, ['right', 'left'], ['center', 'center']);
+    const [baseline1, baseline2] = ifHorizontal(orient, ['middle', 'middle'], ['bottom', 'top']);
+    return [
+      {
+        id: `legend-label-0`,
+        text: `${min}`,
+        [dx]: -spacing,
+        [dy]: rail.size / 2,
+        textAlign: align1,
+        textBaseline: baseline1,
+      },
+      {
+        id: `legend-label-1`,
+        text: `${max}`,
+        [dx]: rail.length + spacing,
+        [dy]: rail.size / 2,
+        textAlign: align2,
+        textBaseline: baseline2,
+      },
+    ];
+  }
+  return ticks.map((tick: any, idx: number) => {
+    const offset = getOffset(tick, min, max, rail);
+    const tickStyle = getTickStyle(orient, offset, align, rail.size, spacing);
+    return { id: `legend-label-${idx}`, text: `${tick}`, ...tickStyle };
+  });
+}
+
 const sortTicks = memoize(
   (ticks: number[]) => ticks.sort((a, b) => a - b),
   (...args: any[]) => JSON.stringify(args)
 );
 
-export class Continuous<T extends ContinuousCfg> extends LegendBase<T> {
-  public static tag: string = 'continuous-legend';
+function renderRailLabels(container: Group, labels: any[], cfg?: any) {
+  renderLabels(container, 'legend-label', labels, cfg, {
+    fill: '#2C3542',
+    fillOpacity: 0.65,
+    fontWeight: 'normal',
+  });
+}
 
-  protected static defaultOptions = {
-    type: Continuous.tag,
-    ...CONTINUOUS_DEFAULT_OPTIONS,
-  };
+export class Continuous<T extends ContinuousCfg> extends BaseComponent<T> {
+  constructor(config: any) {
+    super(deepAssign({ type: 'continuous-legend' }, CONTINUOUS_DEFAULT_OPTIONS, config));
+  }
 
   protected rail!: Rail;
 
@@ -70,20 +101,54 @@ export class Continuous<T extends ContinuousCfg> extends LegendBase<T> {
 
   protected indicator!: Indicator;
 
-  constructor(options: ContinuousOptions) {
-    super(deepAssign({}, Continuous.defaultOptions, options));
-  }
+  public render(attributes: T, container: Group) {
+    const {
+      padding,
+      title,
+      inset,
+      orient = 'horizontal',
+      backgroundStyle = {},
+      maxWidth,
+      maxHeight,
+      label,
+    } = attributes;
+    const [top, right, bottom, left] = normalPadding(padding);
 
-  attributeChangedCallback(name: any, oldValue: any, newValue: any) {
-    super.attributeChangedCallback?.(name, oldValue, newValue);
-    if (name === 'orient') this.indicator.style.position = this.ifHorizontal('top', 'right');
+    const group = renderGroup(container, 'legend-container', left, top);
+
+    // Render inner.
+    const titleShape = renderTitle(group, title);
+    const titleSpacing = title?.spacing || 0;
+    const [insetTop, , , insetLeft] = normalPadding(inset);
+    const { left: tl, bottom: tb } = getTitleShapeBBox(titleShape);
+    const innerGroup = renderGroup(group, 'legend-inner-group', tl + insetLeft, tb + insetTop + titleSpacing);
+
+    const labels = getLabels(attributes, this.ticks);
+    renderRailLabels(innerGroup, labels, label);
+
+    this.drawInner();
+
+    // Render background.
+    const { min, max } = group.getLocalBounds();
+    const w = max[0] - min[0];
+    const h = max[1] - min[1];
+    renderRect(
+      container,
+      'legend-background',
+      Math.min(w + right + left, maxWidth || Number.MAX_VALUE),
+      Math.min(h + top + bottom, maxHeight || Number.MAX_VALUE),
+      backgroundStyle
+    );
   }
 
   public drawInner() {
-    this.drawLabels();
     this.drawRail();
     this.drawHandles();
     this.createIndicator();
+  }
+
+  private get orient() {
+    return this.style.orient || 'horizontal';
   }
 
   public get selection() {
@@ -102,11 +167,11 @@ export class Continuous<T extends ContinuousCfg> extends LegendBase<T> {
   }
 
   private get handleCfg() {
-    const { handle } = this.style;
+    const { handle, label } = this.style;
     return deepAssign({}, DEFAULT_HANDLE_CFG, handle || {}, {
       textStyle: this.labelsCfg.style,
       spacing: this.labelsCfg.spacing,
-      visibility: !handle ? 'hidden' : 'visible',
+      visibility: !handle || label === null ? 'hidden' : 'visible',
     });
   }
 
@@ -145,31 +210,6 @@ export class Continuous<T extends ContinuousCfg> extends LegendBase<T> {
       .node() as Rail;
   }
 
-  private drawLabels() {
-    let labels: (TextStyleProps & { id: string })[] = [];
-    const { min, max } = this.style;
-    if (!this.style.handle) {
-      const { align, spacing, style } = this.labelsCfg;
-      const { size } = this.railCfg;
-      const id = (idx: number) => `legend-label-${idx}`;
-      if (align === 'rail') {
-        const styles = getRailLabels(this.orient, this.railCfg, spacing);
-        labels = [
-          { id: id(0), text: `${min}`, ...style, ...styles[0] },
-          { id: id(1), text: `${max}`, ...style, ...styles[1] },
-        ];
-      } else {
-        labels = this.ticks.map((tick: any, idx: number) => {
-          const tickStyle = getTickStyle(this.orient, this.getOffset(tick), align, size, spacing);
-          return { id: id(idx), text: `${tick}`, ...tickStyle, ...style };
-        });
-      }
-    }
-
-    const innerGroup = this.querySelector('.legend-inner-group')! as any;
-    select2update(innerGroup, 'legend-label', Text, labels);
-  }
-
   private drawHandles() {
     const [min, max] = this.selection;
     this.startHandle = this.drawHandle('start', min);
@@ -195,20 +235,22 @@ export class Continuous<T extends ContinuousCfg> extends LegendBase<T> {
     const innerGroup = this.querySelector('.legend-inner-group')! as any;
     return select(handle || innerGroup.appendChild(new Handle({})))
       .attr('className', `legend-handle-${type}`)
-      .call(applyStyle, {
-        ...this.handleCfg,
-        x,
-        y,
-        symbol: this.ifHorizontal('horizontalHandle', 'verticalHandle'),
-        textStyle: {
-          text: `${value ?? ''}`,
-          x: +textStyle.dx - +x,
-          y: +textStyle.dy - +y,
-          textAlign: textStyle.textAlign,
-          textBaseline: textStyle.textBaseline,
-          ...this.handleCfg.textStyle,
-        },
-      })
+      .call((selection) =>
+        (selection.node() as Handle).update({
+          ...this.handleCfg,
+          x,
+          y,
+          symbol: this.ifHorizontal('horizontalHandle', 'verticalHandle'),
+          textStyle: {
+            text: `${value ?? ''}`,
+            x: +textStyle.dx - +x,
+            y: +textStyle.dy - +y,
+            textAlign: textStyle.textAlign,
+            textBaseline: textStyle.textBaseline,
+            ...this.handleCfg.textStyle,
+          },
+        })
+      )
       .node() as Handle;
   }
 
@@ -229,7 +271,6 @@ export class Continuous<T extends ContinuousCfg> extends LegendBase<T> {
   private prevValue!: number;
 
   public bindEvents() {
-    super.bindEvents();
     // 如果！slidable，则不绑定事件或者事件响应不生效
     // // 放置需要绑定drag事件的对象
     const dragObject = new Map<string, DisplayObject>();
@@ -269,14 +310,15 @@ export class Continuous<T extends ContinuousCfg> extends LegendBase<T> {
     }
 
     this.indicator.show();
+    const container = this.querySelector('.legend-container') as Group;
     const { min, max } = this.style;
     const safeValue = clamp(value, min, max);
     const offsetX = this.ifHorizontal(this.getOffset(safeValue), this.railCfg.size + 12);
     // todo consider size-rail.
     const offsetY = this.ifHorizontal(-14, this.getOffset(safeValue));
     const { x, y } = this.rail.getBBox();
-    const { x: x0, y: y0 } = this.container.getBBox();
-    const [dx, dy] = this.container.getLocalPosition();
+    const { x: x0, y: y0 } = container.getBBox();
+    const [dx, dy] = container.getLocalPosition();
     this.indicator.style.x = x - x0 + dx + offsetX;
     this.indicator.style.y = y - y0 + dy + offsetY;
     this.indicator.style.textStyle = { text };

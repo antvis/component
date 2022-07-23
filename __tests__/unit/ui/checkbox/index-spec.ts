@@ -4,7 +4,7 @@ import { createCanvas } from '../../../utils/render';
 
 const canvas = createCanvas(400);
 
-describe('checkbox', () => {
+describe.skip('checkbox', () => {
   test('basic', async () => {
     const checkbox = new Checkbox({
       style: {

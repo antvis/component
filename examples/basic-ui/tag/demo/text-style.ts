@@ -13,36 +13,29 @@ const canvas = new Canvas({
 
 const tag = new Tag({
   style: {
-    text: '字体激活',
-    padding: [4, 7],
-    textStyle: {
-      default: {
-        fontSize: 18,
-        fill: 'rgba(0, 0, 0, 0.85)',
-      },
-      active: {
-        fill: 'lightgreen',
-      },
-    },
-  },
-});
-canvas.appendChild(tag);
-
-const tag2 = new Tag({
-  style: {
     x: 100,
     text: '字体激活放大',
     padding: [4, 7],
     textStyle: {
-      default: {
-        fontSize: 18,
-        fill: 'rgba(0, 0, 0, 0.85)',
-      },
-      active: {
-        fontSize: 24,
-        fill: 'lightgreen',
-      },
+      fontSize: 18,
+      fill: 'rgba(0, 0, 0, 0.85)',
     },
   },
 });
-canvas.appendChild(tag2);
+canvas.appendChild(tag);
+tag.addEventListener('mouseenter', () => {
+  tag.update({
+    textStyle: {
+      fontSize: 24,
+      fill: 'lightgreen',
+    },
+  });
+});
+tag.addEventListener('mouseleave', () => {
+  tag.update({
+    textStyle: {
+      fontSize: 18,
+      fill: 'rgba(0, 0, 0, 0.85)',
+    },
+  });
+});

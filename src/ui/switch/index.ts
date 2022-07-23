@@ -19,9 +19,7 @@ const CLOSE_COLOR = '#00000040';
 const checkedChildrenStyle = {
   backgroundStyle: false,
   textStyle: {
-    default: {
-      fill: '#fff',
-    },
+    fill: '#fff',
   },
 } as TagStyleProps;
 
@@ -256,9 +254,7 @@ export class Switch extends GUI<Required<SwitchStyleProps>> {
       const children: TagStyleProps = {
         ...childTag,
         marker: childTag.marker && assign({}, dftMarkerStyle, childTag.marker),
-        textStyle: {
-          default: assign({}, dftTextStyle, childTag.textStyle),
-        },
+        textStyle: assign({}, dftTextStyle, childTag.textStyle),
       };
 
       if (!this.childrenShape[index]) {
@@ -286,7 +282,7 @@ export class Switch extends GUI<Required<SwitchStyleProps>> {
         });
       } else {
         this.backgroundShape.removeChild(childrenShape);
-        childrenShape?.clear();
+        childrenShape?.destroy();
       }
     });
   }

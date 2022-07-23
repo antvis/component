@@ -1,13 +1,13 @@
-import { Rect, CustomEvent } from '@antv/g';
+import { Rect, CustomEvent, Group } from '@antv/g';
 import { clamp, deepMix, get } from '@antv/util';
-import { GUI } from '../../core/gui';
-import { getStateStyle, getEventPos, normalPadding } from '../../util';
+import { BaseComponent } from '../../util/create';
+import { getStateStyle, getEventPos, normalPadding, maybeAppend, applyStyle } from '../../util';
 import type { RectProps } from '../../types';
-import type { ScrollbarOptions, ScrollbarCfg } from './types';
+import type { ScrollbarOptions, ScrollbarStyleProps } from './types';
 
-export type { ScrollbarOptions, ScrollbarCfg };
+export type { ScrollbarOptions, ScrollbarStyleProps };
 
-export class Scrollbar extends GUI<Required<ScrollbarCfg>> {
+export class Scrollbar extends BaseComponent<Required<ScrollbarStyleProps>> {
   /**
    * tag
    */
@@ -18,11 +18,6 @@ export class Scrollbar extends GUI<Required<ScrollbarCfg>> {
     style: {
       // 滑条朝向
       orient: 'vertical',
-
-      // 轨道宽高
-      width: 10,
-      height: 200,
-      value: 0,
 
       // 滑块范围控制
       min: 0,
@@ -35,7 +30,6 @@ export class Scrollbar extends GUI<Required<ScrollbarCfg>> {
 
       // 滚动条内边距，影响滑轨的实际可用空间
       padding: [2, 2, 2, 2],
-
       trackStyle: {
         default: {
           fill: '#fafafa',
@@ -55,25 +49,6 @@ export class Scrollbar extends GUI<Required<ScrollbarCfg>> {
       },
     },
   };
-
-  /**
-   * 计算滑块重心在轨道的比例位置
-   * @param offset 额外的偏移量
-   */
-  public get value() {
-    return this.getAttribute('value') as number;
-  }
-
-  /**
-   * 设置value
-   * @param value 当前位置的占比
-   */
-  public set value(value: number) {
-    const { value: oldValue, min, max } = this.attributes;
-    this.setAttribute('value', clamp(value, min, max));
-    // 通知触发valueChanged
-    this.onValueChanged(oldValue);
-  }
 
   // 滑道
   private trackShape!: Rect;
@@ -124,44 +99,33 @@ export class Scrollbar extends GUI<Required<ScrollbarCfg>> {
     return radius || this.getOrientVal([height, width]) / 2;
   }
 
-  private get trackShapeCfg() {
-    const { width, height } = this.attributes;
-    return { ...this.getStyle('trackStyle'), width, height, x: 0, y: 0 };
-  }
-
-  private get thumbShapeCfg() {
-    const { value, thumbLen } = this.attributes;
-    const trackInner = this.availableSpace;
-    const { x, y } = trackInner;
-    const { thumbRadius } = this;
-    const valueOffset = this.valueOffset(value);
-    return {
-      ...trackInner,
-      ...this.getStyle('thumbStyle'),
-      ...this.getOrientVal([
-        { x: x + valueOffset, width: thumbLen },
-        { y: y + valueOffset, height: thumbLen },
-      ]),
-      radius: thumbRadius,
-    };
-  }
-
   constructor(options: ScrollbarOptions) {
     super(deepMix({}, Scrollbar.defaultOptions, options));
-    this.init();
   }
 
-  attributeChangedCallback<Key extends keyof ScrollbarCfg>(
-    name: Key,
-    oldValue: ScrollbarCfg[Key],
-    newValue: ScrollbarCfg[Key]
-  ): void {
-    // 变更属性时需要重新计算value
-    if (name === 'value') {
-      const thumbOffset = this.valueOffset(newValue as number);
-      const [top, , , left] = this.padding;
-      this.setThumbOffset(thumbOffset + this.getOrientVal([left, top]));
-    }
+  public render(attributes: ScrollbarStyleProps, container: Group) {
+    const { width, height, trackStyle, thumbStyle, value, thumbLen, orient } = attributes;
+
+    const group = maybeAppend(container, '.track', 'rect')
+      .attr('className', 'track')
+      .style('width', width ?? 10)
+      .style('height', height ?? 200)
+      .call(applyStyle, getStateStyle(trackStyle))
+      .node();
+
+    const valueOffset = this.valueOffset(value || 0);
+    const bbox = this.availableSpace;
+    this.thumbShape = maybeAppend(group, '.thumb', 'rect')
+      .attr('className', 'thumb')
+      .style('x', orient === 'vertical' ? bbox.x : bbox.x + valueOffset)
+      .style('y', orient === 'vertical' ? bbox.y + valueOffset : bbox.y)
+      .style('width', orient === 'vertical' ? bbox.width : thumbLen)
+      .style('height', orient === 'vertical' ? thumbLen : bbox.height)
+      .style('radius', this.thumbRadius)
+      .call(applyStyle, getStateStyle(thumbStyle))
+      .node();
+
+    this.trackShape = group;
   }
 
   /**
@@ -169,7 +133,7 @@ export class Scrollbar extends GUI<Required<ScrollbarCfg>> {
    * @param offset 额外的偏移量
    */
   public getValue() {
-    return this.getAttribute('value');
+    return this.style.value;
   }
 
   /**
@@ -177,7 +141,11 @@ export class Scrollbar extends GUI<Required<ScrollbarCfg>> {
    * @param value 当前位置的占比
    */
   public setValue(value: number) {
-    this.value = value;
+    const { value: oldValue, min, max } = this.style;
+    this.update({ value: clamp(value, min, max) });
+
+    // 通知触发valueChanged
+    this.onValueChanged(oldValue);
   }
 
   /**
@@ -189,43 +157,11 @@ export class Scrollbar extends GUI<Required<ScrollbarCfg>> {
     this.setValue(this.valueOffset(deltaOffset, true) + value);
   }
 
-  public init() {
-    this.initShape();
-    this.trackShape.attr(this.trackShapeCfg);
-    this.thumbShape.attr(this.thumbShapeCfg);
-    this.bindEvents();
-  }
-
-  /**
-   * 组件的更新
-   */
-  public update(cfg: Partial<ScrollbarCfg>) {
-    this.attr(deepMix({}, this.attributes, cfg));
-    this.trackShape.attr(this.trackShapeCfg);
-    this.thumbShape.attr(this.thumbShapeCfg);
-  }
-
-  /**
-   * 组件的清除
-   */
-  public clear() {}
-
-  public destroy() {
-    this.removeChildren(true);
-  }
-
-  private initShape() {
-    this.trackShape = new Rect({ name: 'track' });
-    this.appendChild(this.trackShape);
-    this.thumbShape = new Rect({ name: 'thumb' });
-    this.trackShape.appendChild(this.thumbShape);
-  }
-
   /**
    * 值改变事件
    */
   private onValueChanged = (oldValue: any) => {
-    const newValue = this.value;
+    const { value: newValue } = this.style;
     if (oldValue === newValue) return;
     const evtVal = {
       detail: {
@@ -264,15 +200,7 @@ export class Scrollbar extends GUI<Required<ScrollbarCfg>> {
     return getStateStyle<RectProps>(get(this.attributes, name), state);
   }
 
-  /**
-   * 将滑块移动至指定位置
-   * @param thumbOffset 滑块位置偏移量
-   */
-  private setThumbOffset(thumbOffset: number) {
-    this.thumbShape.attr(this.getOrientVal<'x' | 'y'>(['x', 'y']), thumbOffset);
-  }
-
-  private bindEvents() {
+  public bindEvents() {
     this.trackShape.addEventListener('click', this.onTrackClick);
     this.thumbShape.addEventListener('mousedown', this.onDragStart);
     this.thumbShape.addEventListener('touchstart', this.onDragStart);

@@ -22,7 +22,6 @@ export const LEGEND_BASE_DEFAULT_OPTIONS = {
         textBaseline: 'top',
         fill: '#2C3542',
       },
-      formatter: (text: string) => text,
     },
     label: {
       style: {
@@ -106,18 +105,14 @@ export const DEFAULT_RAIL_CFG = {
 };
 
 export const DEFAULT_LABEL_CFG = {
-  style: {
-    fontFamily: 'sans-serif',
-    fill: '#2C3542',
-    fillOpacity: 0.65,
-    fontSize: 12,
-  },
   spacing: 4,
   formatter: (value: number) => String(value),
   align: 'rail',
   flush: true,
   /** 文本最大宽度 */
-  maxWidth: 30,
+  // todo 和 axis label maxLength 统一下
+  // maxWidth: 30,
+  maxLength: 30,
 };
 
 export const DEFAULT_HANDLE_CFG = {

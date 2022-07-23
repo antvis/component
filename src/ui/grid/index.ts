@@ -1,7 +1,7 @@
 import type { Group } from '@antv/g';
 import type { Vector2 } from '../../types';
 import { distance, select } from '../../util';
-import { createComponent } from '../../util/create';
+import { BaseComponent } from '../../util/create';
 import { applyStyle } from '../axis/guides/utils';
 import type { GridStyleProps } from './types';
 
@@ -83,8 +83,8 @@ function renderAlternateRegion(container: Group, items: any[], cfg?: any) {
     );
 }
 
-export const Grid = createComponent<GridStyleProps>({
-  render(attributes, container) {
+export class Grid extends BaseComponent<GridStyleProps> {
+  render(attributes: GridStyleProps, container: Group) {
     const { items = [], type, center, lineStyle, alternateColor, closed } = attributes;
     const lines = items.map((item, idx) => ({
       id: item.id || `grid-line-${idx}`,
@@ -116,5 +116,5 @@ export const Grid = createComponent<GridStyleProps>({
     }
 
     renderAlternateRegion(container, regions);
-  },
-});
+  }
+}

@@ -110,13 +110,11 @@ export class Statistic<T extends StatisticCfg = StatisticCfg> extends GUI<Requir
     return {
       text: '',
       ...title,
-      textStyle: assign({}, { default: title?.textStyle }),
+      textStyle: title?.textStyle,
       /** 默认不要背景 */
       backgroundStyle: {
-        default: {
-          fill: 'transparent',
-          lineWidth: 0,
-        },
+        fill: 'transparent',
+        lineWidth: 0,
       },
       padding: 0,
       x: 0,
@@ -141,13 +139,11 @@ export class Statistic<T extends StatisticCfg = StatisticCfg> extends GUI<Requir
     return {
       text: '',
       ...value,
-      textStyle: assign({}, { default: value?.textStyle }),
+      textStyle: value?.textStyle,
       /** 默认不要背景 */
       backgroundStyle: {
-        default: {
-          fill: 'transparent',
-          lineWidth: 0,
-        },
+        fill: 'transparent',
+        lineWidth: 0,
       },
       padding: 0,
       x: valueX,
