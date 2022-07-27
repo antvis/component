@@ -72,13 +72,8 @@ describe('breadcrumb', () => {
           { text: '测试4', id: '测试4' },
         ],
         textStyle: {
-          default: {
-            fill: '#f00',
-            fontSize: 16,
-          },
-          active: {
-            fill: '#0f0',
-          },
+          fill: '#f00',
+          fontSize: 16,
         },
         padding: [20, 20, 20, 20],
       },

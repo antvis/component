@@ -27,7 +27,7 @@ describe('Legend', () => {
           maxWidth: 165,
           maxHeight: 64,
           pageNavigator: {
-            pageFormatter: (c, t) => `${c} / ${t}`,
+            pageFormatter: (c: any, t: any) => `${c} / ${t}`,
           },
         },
       })
