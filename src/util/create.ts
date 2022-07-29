@@ -54,6 +54,10 @@ export abstract class BaseComponent<T> extends CustomElement<T> {
     this.render?.(this.attributes, this);
   }
 
+  public clear() {
+    this.removeChildren(true);
+  }
+
   public destroy() {
     this.removeChildren(true);
     this.remove();

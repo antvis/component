@@ -1,12 +1,11 @@
-import { Rect, Line } from '@antv/g';
-import { deepMix, isNil, omit, get, isPlainObject, assign, isFunction } from '@antv/util';
-import type { RectStyleProps } from '@antv/g';
-import { Tag, TagStyleProps } from '../tag';
-import { GUI } from '../../core/gui';
-import { getShapeSpace } from '../../util';
+import type { Group, Rect } from '@antv/g';
+import { deepMix, get, isEqual } from '@antv/util';
+import { BaseComponent } from '../../util/create';
+import { Tag } from '../tag';
 import type { GUIOption } from '../../types';
-import type { SwitchStyleProps, SwitchOptions } from './types';
 import { SIZE_STYLE } from './constant';
+import { maybeAppend, applyStyle } from '../../util';
+import type { SwitchStyleProps, SwitchOptions } from './types';
 
 export type { SwitchStyleProps, SwitchOptions };
 
@@ -15,52 +14,42 @@ const OPTION_COLOR = '#1890FF';
 // 关闭颜色 默认
 const CLOSE_COLOR = '#00000040';
 
-// 默认tag 样式
-const checkedChildrenStyle = {
-  backgroundStyle: false,
-  textStyle: {
-    fill: '#fff',
-  },
-} as TagStyleProps;
+function getHandleShapeStyle(shape: Rect, spacing: number = 0, checked: boolean = true) {
+  const size = Number(shape.style.height) - spacing * 2;
 
-export class Switch extends GUI<Required<SwitchStyleProps>> {
+  return {
+    x: checked ? Number(shape.style.width) + Number(shape.style.x) - spacing - size : Number(shape.style.x) + spacing,
+    y: Number(shape.style.y) + spacing,
+    width: size,
+    height: size,
+    radius: size / 2,
+  };
+}
+
+function getTagShapeStyle(
+  backgroundStyle: any,
+  { width, height }: { width: number; height: number },
+  spacing: number = 0,
+  checked: boolean = true
+) {
+  return {
+    x: checked
+      ? Number(backgroundStyle.x) + spacing
+      : Number(backgroundStyle.width) + Number(backgroundStyle.x) - width,
+    y: Number(backgroundStyle.y) + (Number(backgroundStyle.height) - height) / 2,
+  };
+}
+
+export class Switch extends BaseComponent<Required<SwitchStyleProps>> {
   /**
    * 组件 switch
    */
   public static tag = 'switch';
 
-  /** 背景 组件 */
-  private backgroundShape!: Rect;
-
-  /** 动效 组件 */
-  private rectStrokeShape!: Rect;
-
-  /** 控件 组件 */
-  private handleShape!: Rect;
-
-  /** 选中时内容 组件 */
-  private childrenShape: Tag[] = [];
-
-  /** 轨迹 */
-  private pathLineShape!: Line;
-
-  /** sizeStyle */
-  private sizeStyle!: RectStyleProps;
-
-  /** 值 */
+  /**
+   *  开关
+   */
   private checked!: boolean;
-
-  /** 默认值 */
-  private defaultChecked!: boolean;
-
-  /** 动画开启关闭 */
-  private animateFlag!: boolean;
-
-  /** 焦点 */
-  private nowFocus: boolean = false;
-
-  /** 其他交互开关 */
-  private otherOnClick: boolean = true;
 
   /**
    * 默认配置项
@@ -70,413 +59,144 @@ export class Switch extends GUI<Required<SwitchStyleProps>> {
     style: {
       x: 0,
       y: 0,
-      size: 'default',
       spacing: 2,
-      defaultChecked: true,
-      style: {
-        default: {
-          stroke: CLOSE_COLOR,
-          fill: CLOSE_COLOR,
-        },
-        selected: {
-          stroke: OPTION_COLOR,
-          fill: OPTION_COLOR,
-        },
-      },
+      checked: true,
+      disabled: false,
     },
   };
 
   constructor(options: SwitchOptions) {
     super(deepMix({}, Switch.defaultOptions, options));
-    this.init();
   }
 
-  public init(): void {
-    this.initChecked(); // 初始化checked
-    this.initShape(); // 初始化组件
-    this.update({}); // 更新组件
-    this.bindEvents(); // 添加交互
-  }
+  public render(attributes: SwitchStyleProps, container: Group) {
+    const { size = 'default', spacing, disabled, checked, unCheckedChildren, checkedChildren } = attributes;
 
-  // 获取checked
-  public getChecked() {
-    return this.checked;
-  }
+    const group = maybeAppend(container, '.switch-content', 'g').attr('className', 'switch-content').node();
+    const bounds = group.getLocalBounds();
 
-  /**
-   * 组件的更新
-   */
-  public update(cfg?: Partial<SwitchStyleProps>) {
-    this.attr(deepMix({}, this.attributes, cfg));
+    const { sizeStyle, tagStyle } = get(SIZE_STYLE, size, SIZE_STYLE.default);
 
-    // 更新开关
-    this.updateChecked();
+    // 其他统一属性
+    const cursor = disabled ? 'no-drop' : 'pointer';
+    const color = checked ? OPTION_COLOR : CLOSE_COLOR;
 
-    // 更新 shape attr
-    this.updateShape();
+    // 背景位置大小配置
+    let backgroundStyle = sizeStyle;
 
-    // 如果 修改了 checked 开启动画
-    if (this.animateFlag) {
-      this.animateSiwtch();
-    }
-  }
+    // Tag 配置, 创建
+    const tagCfg = checked ? checkedChildren : unCheckedChildren;
+    if (checkedChildren || unCheckedChildren) {
+      maybeAppend(group, '.switch-tag', () => new Tag({}))
+        .attr('className', 'switch-tag')
+        .call((selection) => {
+          const tagShape = selection.node() as Tag;
+          tagShape.update(
+            deepMix(
+              {
+                cursor,
+                backgroundStyle: null,
+                text: false,
+                marker: false,
+              },
+              tagStyle,
+              tagCfg
+            )
+          );
 
-  // 失焦
-  public blur() {
-    this.nowFocus = false;
-    this.clearBackgroundLineWidth();
-  }
+          // 增加 整体宽度 需要对 tag 提前渲染获得 width 然后通过 width 计算 x 的位置
+          const { max, min } = tagShape?.getLocalBounds();
+          const width = max[0] - min[0] + sizeStyle.radius;
+          const height = max[1] - min[1];
 
-  // 聚焦
-  public focus() {
-    this.nowFocus = true;
-    this.addBackgroundLineWidth();
-  }
+          // 计算获得背景宽度
+          const backgroundWidth = Math.max(width + sizeStyle.height + 2, sizeStyle.width);
 
-  /**
-   * 组件的清理
-   */
-  public clear() {}
+          backgroundStyle = {
+            ...sizeStyle,
+            width: backgroundWidth,
+          };
 
-  /**
-   * 组件的销毁
-   */
-  public destroy() {
-    this.handleShape.destroy();
-    this.backgroundShape.destroy();
-    this.rectStrokeShape.destroy();
-    this.pathLineShape.destroy();
-    this.childrenShape[0]?.destroy();
-    this.childrenShape[1]?.destroy();
-    this.removeChildren(true);
-    super.destroy();
-  }
-
-  /**
-   * 初始化创建
-   */
-  private initShape() {
-    // 初始化创建 背景
-    this.backgroundShape = this.createBackgroundShape();
-
-    // 初始化创建 动效
-    this.rectStrokeShape = this.createRectStrokeShape();
-
-    // 初始化创建 控件
-    this.handleShape = this.createHandleShape();
-
-    this.backgroundShape.appendChild(this.handleShape);
-
-    this.appendChild(this.rectStrokeShape);
-    this.appendChild(this.backgroundShape);
-  }
-
-  // 初始化checked 和 defaultChecked
-  private initChecked() {
-    const { defaultChecked, checked } = this.attributes;
-    this.defaultChecked = !!(checked || defaultChecked);
-    this.checked = !!(isNil(checked) ? defaultChecked : checked);
-  }
-
-  // 创建 背景Shape
-  private createBackgroundShape() {
-    return new Rect({
-      name: 'background',
-      style: {
-        ...Switch.defaultOptions.style,
-        ...this.sizeStyle,
-        strokeOpacity: 0.2,
-      },
-    });
-  }
-
-  // 创建 动效Shape
-  private createRectStrokeShape() {
-    return new Rect({
-      name: 'rectStroke',
-      style: {
-        ...Switch.defaultOptions.style,
-        ...this.sizeStyle,
-        lineWidth: 0,
-        fill: '#efefef',
-        strokeOpacity: 0.4,
-      },
-    });
-  }
-
-  // 创建 控件Shape
-  private createHandleShape() {
-    this.pathLineShape = new Line({ name: 'pathLine' });
-    // 暂时使用 Rect 为之后的变形动画做准备
-    return new Rect({
-      name: 'handle',
-      style: {
-        width: 0,
-        height: 0,
-        fill: '#fff',
-        offsetPath: this.pathLineShape,
-      },
-    });
-  }
-
-  // size 转化为 style
-  private updateSizeStyle() {
-    const { size } = this.attributes;
-    const { width, height } = get(this.attributes, ['style', this.checked ? 'selected' : 'default']);
-    const defaultSizeStyle = get(SIZE_STYLE, [size, 'sizeStyle']);
-    this.sizeStyle = {
-      width: width || defaultSizeStyle.width,
-      height: height || defaultSizeStyle.height,
-      radius: height ? height / 2 : defaultSizeStyle.height / 2,
-    };
-  }
-
-  // Shape 组件更新
-  private updateShape() {
-    // 更新 整个的 width height
-    this.updateSizeStyle();
-    // 创建/更新/销毁 开关显示标签 Shape
-    this.updateCheckedChildrenShape();
-    // 更新背景 + 动效
-    this.updateBackgroundShape();
-    // 更新控件
-    this.updateHandleShape();
-  }
-
-  // 创建/更新/销毁 开关显示标签 Shape
-  private updateCheckedChildrenShape() {
-    ['checkedChildren', 'unCheckedChildren'].forEach((key, index) => {
-      const childTag = get(this.attributes, key) as SwitchStyleProps['checkedChildren'];
-      if (!childTag) return;
-      const dftTextStyle = get(SIZE_STYLE, [this.attributes.size, 'textStyle']);
-      const dftMarkerStyle = get(SIZE_STYLE, [this.attributes.size, 'markerStyle']);
-      // 转换为 Tag 组件的配置
-      const children: TagStyleProps = {
-        ...childTag,
-        marker: childTag.marker && assign({}, dftMarkerStyle, childTag.marker),
-        textStyle: assign({}, dftTextStyle, childTag.textStyle),
-      };
-
-      if (!this.childrenShape[index]) {
-        this.childrenShape[index] = new Tag({
-          name: key,
-          style: checkedChildrenStyle,
+          tagShape.update(
+            getTagShapeStyle(
+              {
+                x: bounds.min[0],
+                y: bounds.min[1],
+                width: backgroundWidth,
+                height: backgroundStyle.height,
+              },
+              { width, height },
+              backgroundStyle.radius,
+              checked
+            )
+          );
         });
-      }
-
-      const childrenShape = this.childrenShape[index];
-      const textSpacing = this.getTextSpacing();
-
-      // children 为正常 对象 则更新
-      if (isPlainObject(children)) {
-        childrenShape.update({ ...omit(children, ['backgroundStyle', 'x']), x: 0 });
-
-        // checked 控制这个有无
-        (index === 0 ? this.checked : !this.checked)
-          ? this.backgroundShape.appendChild(childrenShape)
-          : this.backgroundShape.removeChild(childrenShape, false);
-
-        // 位置 为 开启 textSpacing, 关闭 整体width - 本身 width - textSpacing
-        childrenShape.update({
-          x: index ? this.getShapeWidth() - getShapeSpace(childrenShape)?.width - textSpacing : textSpacing,
-        });
-      } else {
-        this.backgroundShape.removeChild(childrenShape);
-        childrenShape?.destroy();
-      }
-    });
-  }
-
-  // 更新背景 + 动效
-  private updateBackgroundShape() {
-    const { style, disabled } = this.attributes;
-    const width = this.getShapeWidth();
-    const newAttr = assign({}, this.sizeStyle, { width }, get(style, this.checked ? 'selected' : 'default'));
-
-    this.backgroundShape.attr({
-      ...newAttr,
-      fillOpacity: disabled ? 0.4 : 1,
-      cursor: disabled ? 'no-drop' : 'pointer',
-    });
-
-    this.rectStrokeShape.attr(omit(newAttr, ['fill']));
-  }
-
-  // 更新控件
-  private updateHandleShape() {
-    const spacing = Number(this.attributes.spacing) || (Switch.defaultOptions.style.spacing as number);
-    const { height, radius } = this.sizeStyle;
-    const width = this.getShapeWidth();
-    const r = Number(radius) - spacing;
-
-    let updateAttr: RectStyleProps = {
-      y: spacing,
-      radius: r,
-      width: r * 2,
-      height: r * 2,
-    };
-
-    // 只有第一次的时候 才通过 width 改变 x 的位置, 使得它不会发生 animatyeFlag 时的闪烁
-    if (!this.animateFlag) {
-      updateAttr = {
-        ...updateAttr,
-        x: this.defaultChecked ? width - (height as number) + spacing : spacing,
-      };
     }
 
-    this.handleShape.attr(updateAttr);
+    // 背景 组件
+    const backgroundShape = maybeAppend(group, '.switch-background', 'rect')
+      .attr('className', 'switch-background')
+      .style('zIndex', (group.style.zIndex || 0) - 1)
+      .style('x', bounds.min[0])
+      .style('y', bounds.min[1])
+      .style('fill', color)
+      .style('cursor', cursor)
+      .style('fillOpacity', disabled ? 0.4 : 1)
+      .call(applyStyle, backgroundStyle)
+      .node() as Rect;
 
-    // 更新轨迹
-    this.pathLineShape.attr({
-      x1: width - (height as number) + spacing,
-      y1: spacing,
-      x2: spacing,
-      y2: spacing,
-    });
-  }
+    // 背景阴影动效 组件
+    const backgroundStrokeShape = maybeAppend(group, '.switch-background-stroke', 'rect')
+      .attr('className', 'switch-background-stroke')
+      .style('zIndex', (group.style.zIndex || 0) - 2)
+      .style('x', bounds.min[0])
+      .style('y', bounds.min[1])
+      .style('stroke', color)
+      .style('lineWidth', 0)
+      .call(applyStyle, backgroundStyle)
+      .node() as Rect;
 
-  /**
-   * 获取文本和边界的距离，默认取: 1/3 高度
-   */
-  private getTextSpacing(): number {
-    return Math.floor((this.sizeStyle.height as number) / 3);
-  }
+    // 控件 组件
+    maybeAppend(group, '.switch-handle', 'rect')
+      .attr('className', 'switch-handle')
+      .style('fill', '#fff')
+      .style('cursor', cursor)
+      .call((selection) => {
+        const handleShape = selection.node() as Rect;
 
-  // 获取背景Shape宽度  在有tag 和 无tag 的情况下是不同的
-  private getShapeWidth() {
-    const width = Number(get(this.attributes.style, [this.checked ? 'selected' : 'default', 'width']));
-    if (width) {
-      return width;
-    }
+        // 动画添加 通过获取 开启 和 关闭的 x 来实现动画效果
+        const newHandleShapeStyle = getHandleShapeStyle(backgroundShape as any, spacing, checked);
+        const oldHandleShapeStyle = getHandleShapeStyle(backgroundShape as any, spacing, !checked);
+        if (handleShape.attr('x') && !isEqual(newHandleShapeStyle, oldHandleShapeStyle) && this.checked !== checked) {
+          // 调整控件 和 tag 位置
+          handleShape.attr(oldHandleShapeStyle);
 
-    const textSpacing = this.getTextSpacing();
-    const hasChildTag = get(this.attributes, [this.checked ? 'checkedChildren' : 'unCheckedChildren']);
-    const childrenShape = this.childrenShape[this.checked ? 0 : 1];
-    const childrenWidth = hasChildTag
-      ? getShapeSpace(childrenShape)?.width + textSpacing - (this.sizeStyle.height as number)
-      : 0;
+          // 清理之前的动画
+          handleShape.getAnimations()[0]?.cancel();
+          backgroundStrokeShape.getAnimations()[0]?.cancel();
 
-    return childrenWidth + (this.sizeStyle.width as number);
-  }
+          // 控件组建变化添加动画 动画为 原 x -> 新 x
+          handleShape.animate([{ x: oldHandleShapeStyle.x }, { x: newHandleShapeStyle.x }], {
+            duration: 120,
+            fill: 'both',
+          });
 
-  // 更新 checked 如果 没有传入 checked 并且 checked 没有改变则不更新
-  private updateChecked() {
-    const { checked } = this.attributes;
-    this.animateFlag = !(isNil(checked) || this.checked === !!checked);
-    // 当不存在 checked 或 checked 没有改变 则不需要更改 checked 和 发生动效
-    if (this.animateFlag) this.checked = !!checked;
-  }
-
-  /**
-   * 添加交互
-   * switch 的移入移除的焦点显示
-   * switch 的点击切换
-   */
-  private bindEvents() {
-    this.addSwitchMouseenter(); // 移入
-    this.addSwitchMouseleave(); // 移出
-    this.addSwitchClick(); // 点击
-    this.addWindowClick(); // 外部 点击
-  }
-
-  // disabled 时 已经外部传入 checked时 禁止交互
-  private banEvent(fn: Function) {
-    const { disabled, checked } = this.attributes;
-    if (disabled || !isNil(checked)) return;
-    fn();
-  }
-
-  // 移入 switch 交互(去除焦点)
-  private addSwitchMouseenter() {
-    this.addEventListener('mouseenter', () => {
-      this.otherOnClick = false;
-      this.banEvent(() => {
-        this.clearBackgroundLineWidth();
-      });
-    });
-  }
-
-  // 移出 switch 交互(显示焦点)
-  private addSwitchMouseleave() {
-    this.addEventListener('mouseleave', () => {
-      this.otherOnClick = true;
-      this.banEvent(() => {
-        if (this.nowFocus) {
-          this.addBackgroundLineWidth();
+          // 动效组件变化添加动画 动画为 由内向外的 渐淡扩散
+          backgroundStrokeShape.animate(
+            [
+              { lineWidth: 0, strokeOpacity: 0.5 },
+              { lineWidth: 14, strokeOpacity: 0 },
+            ],
+            {
+              duration: 400,
+              easing: 'ease-on',
+            }
+          );
+        } else {
+          handleShape.attr(newHandleShapeStyle);
         }
       });
-    });
-  }
 
-  // 点击 switch 交互
-  private addSwitchClick() {
-    this.addEventListener('click', (e: any) => {
-      const { onClick, onChange, checked } = this.attributes;
-      this.banEvent(() => {
-        this.checked = checked || !this.checked;
-        this.animateFlag = isNil(checked);
-        this.nowFocus = true;
-        isFunction(onChange) && onChange(this.checked, e);
-        this.updateShape();
-        this.animateSiwtch();
-      });
-      isFunction(onClick) && onClick(this.checked, e);
-    });
-  }
-
-  // 移除焦点 交互
-  private addWindowClick() {
-    window.addEventListener('click', () => {
-      if (this.otherOnClick) {
-        this.nowFocus = false;
-      }
-      this.banEvent(() => {
-        this.clearBackgroundLineWidth();
-      });
-    });
-  }
-
-  private clearBackgroundLineWidth() {
-    this.backgroundShape.attr({
-      lineWidth: 0,
-    });
-  }
-
-  private addBackgroundLineWidth() {
-    this.backgroundShape.attr({
-      lineWidth: 5,
-    });
-  }
-
-  /**
-   * 变换 背景/控件 + 动画效果 + 动效
-   * 触发这个方法的情况 :
-   * 1、点击的时候
-   * 2、update 改变 checked 的时候 外部控制 开关
-   */
-  private animateSiwtch() {
-    // 点击动效
-    this.rectStrokeShape.animate(
-      [
-        { lineWidth: 0, strokeOpacity: 0.5 },
-        { lineWidth: 14, strokeOpacity: 0 },
-      ],
-      {
-        duration: 400,
-        easing: 'ease-on',
-      }
-    );
-
-    // 中间控件 位置变换
-    this.handleShape.animate(
-      [
-        { offsetDistance: this.checked ? 1 : 0 }, // 变换
-        { offsetDistance: !this.checked ? 1 : 0 },
-      ],
-      {
-        duration: 100,
-        fill: 'forwards',
-      }
-    );
+    this.checked = !!checked;
   }
 }

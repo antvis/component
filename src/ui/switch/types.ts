@@ -1,5 +1,5 @@
-import type { DisplayObjectConfig, MixAttrs, RectProps, LabelProps } from '../../types';
-import type { MarkerStyleProps } from '../marker/types';
+import type { DisplayObjectConfig } from '../../types';
+import type { TagStyleProps } from '../tag';
 
 export type SwitchStyleProps = {
   /**
@@ -35,48 +35,15 @@ export type SwitchStyleProps = {
    */
   spacing?: number;
   /**
-   * @title 初始是否选中
-   * @description 指定组件的初始状态，是否选中
-   * @default true
-   */
-  defaultChecked?: boolean;
-  /**
    * @title 选中时的内容
    * @description 选中时的内容。可以自定义文本和图标
    */
-  checkedChildren?: LabelProps & {
-    /**
-     * @title 图标
-     * @description 标签文本前缀的图标
-     */
-    marker?: MarkerStyleProps;
-  };
+  checkedChildren?: TagStyleProps;
   /**
    * @title 非选中时的内容
    * @description 选中时的内容。可以自定义文本和图标
    */
-  unCheckedChildren?: LabelProps & {
-    /**
-     * @title 图标
-     * @description 标签文本前缀的图标
-     */
-    marker?: MarkerStyleProps;
-  };
-  /**
-   * @title 样式
-   * @description 可设置组件的默认样式（default）和选中样式（selected）
-   */
-  style?: MixAttrs<Partial<RectProps>>;
-  /**
-   * @title 变化时回调函数
-   * @description 变化时回调函数
-   */
-  onChange?: (checked: boolean, e: Event) => void;
-  /**
-   * @title 点击时回调函数
-   * @description 点击时回调函数
-   */
-  onClick?: (checked: boolean, e: Event) => void;
+  unCheckedChildren?: TagStyleProps;
 };
 
 export type SwitchOptions = DisplayObjectConfig<SwitchStyleProps>;

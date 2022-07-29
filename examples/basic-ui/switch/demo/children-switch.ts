@@ -44,6 +44,7 @@ const childrenSwitch = new Switch({
         symbol: 'check',
         stroke: '#fff',
         size: 12,
+        x: 6,
       },
     },
     unCheckedChildren: {
@@ -52,9 +53,18 @@ const childrenSwitch = new Switch({
         symbol: 'stop',
         stroke: '#fff',
         size: 12,
+        x: 6,
       },
     },
   },
 });
 
 canvas.appendChild(childrenSwitch);
+let checked = true;
+
+childrenSwitch.on('click', (e) => {
+  checked = !checked;
+  childrenSwitch.update({
+    checked,
+  });
+});

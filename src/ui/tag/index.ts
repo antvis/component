@@ -1,4 +1,4 @@
-import type { Group } from '@antv/g';
+import { Group, isNil } from '@antv/g';
 import { deepMix } from '@antv/util';
 import { BaseComponent } from '../../util/create';
 import { normalPadding, maybeAppend, applyStyle } from '../../util';
@@ -61,7 +61,10 @@ export class Tag extends BaseComponent<Required<TagStyleProps>> {
     const group = maybeAppend(container, '.tag-content', 'g').attr('className', 'tag-content').node();
     const markerShape = maybeAppend(group, '.tag-marker', () => new Marker({}))
       .attr('className', 'tag-marker')
-      .call((selection) => (selection.node() as Marker).update(marker || { symbol: '', size: 0 }))
+      .call((selection) => {
+        (selection.node() as Marker).clear();
+        (selection.node() as Marker).update(marker || { symbol: 'triangle', size: 0, x: 0 });
+      })
       .node() as Marker;
 
     const { x, y } = getTextPosition(markerShape, spacing);
@@ -71,10 +74,16 @@ export class Tag extends BaseComponent<Required<TagStyleProps>> {
       .style('fontSize', 12)
       .style('x', x)
       .style('y', y)
-      .style('text', text || '')
+      .style('text', isNil(text) ? '' : `${text}`)
       .call(applyStyle, textStyle)
       // 强制居中
-      .style('textBaseline', 'middle');
+      .style('textBaseline', 'middle')
+      .call((selection) => {
+        // text 为空字符串或者 false 但 textShape 依然形成了体积
+        if (!text) {
+          selection.remove();
+        }
+      });
     adjust(group, pl, pt, align || 'start', verticalAlign || 'top');
 
     const bounds = group.getLocalBounds();
