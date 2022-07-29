@@ -1,5 +1,6 @@
-import { Text, CustomElement, DisplayObjectConfig } from '@antv/g';
+import { Text, DisplayObjectConfig, Group, DisplayObject } from '@antv/g';
 import { deepMix, get, isNil } from '@antv/util';
+import { BaseComponent } from '../../util/create';
 import { applyStyle, getFont, maybeAppend, getEllipsisText, normalPadding } from '../../util';
 import { Marker } from '../marker';
 import { NAME_VALUE_RATIO } from './constant';
@@ -25,14 +26,23 @@ type CategoryItemOptions = DisplayObjectConfig<CategoryItemStyleProps>;
 const PREFIX = 'legend-item-';
 
 /**
+ * Apply new text to shape, and store origin text in tip attribute.
+ */
+function applyShapeWithTip(shape?: DisplayObject | null, text?: string) {
+  if (!shape) return;
+  shape.setAttribute('tip', shape.style.text);
+  shape?.attr('text', text || '');
+}
+
+/**
  * By default, nameShape and valueShape use `maxWidth / 2`
  */
 function adjustText(nameShape?: Text | null, valueShape?: Text | null, maxWidth?: number) {
   if ((!nameShape && !valueShape) || typeof maxWidth !== 'number') return;
 
   if (Number(maxWidth) <= 0) {
-    nameShape?.attr('text', '');
-    valueShape?.attr('text', '');
+    applyShapeWithTip(nameShape, '');
+    applyShapeWithTip(valueShape, '');
     return;
   }
 
@@ -40,7 +50,7 @@ function adjustText(nameShape?: Text | null, valueShape?: Text | null, maxWidth?
     const shape = (nameShape || valueShape)!;
     const w = shape.getLocalBounds().halfExtents[0] * 2;
     if (w > maxWidth) {
-      shape.attr('text', getEllipsisText(shape.style.text, maxWidth, getFont(shape)));
+      applyShapeWithTip(shape, getEllipsisText(shape.style.text, maxWidth, getFont(shape)));
     }
     return;
   }
@@ -63,11 +73,11 @@ function adjustText(nameShape?: Text | null, valueShape?: Text | null, maxWidth?
       ellipsisValue = false;
     }
     if (ellipsisName) {
-      nameShape.attr('text', getEllipsisText(nameShape.style.text, w1, getFont(nameShape)));
+      applyShapeWithTip(nameShape, getEllipsisText(nameShape.style.text, w1, getFont(nameShape)));
       valueShape.attr('x', Number(nameShape.style.x) + w1 + spacing);
     }
     if (ellipsisValue) {
-      valueShape.attr('text', getEllipsisText(valueShape.style.text, w2, getFont(valueShape)));
+      applyShapeWithTip(valueShape, getEllipsisText(valueShape.style.text, w2, getFont(valueShape)));
     }
   }
 }
@@ -77,7 +87,7 @@ function getStateStyle(style = {}, state = ''): any {
   return states.reduce((r, s) => ({ ...r, ...get(style, s, {}) }), {});
 }
 
-export class CategoryItem extends CustomElement<CategoryItemStyleProps> {
+export class CategoryItem extends BaseComponent<CategoryItemStyleProps> {
   private state: string = 'default';
 
   public static defaultOptions: CategoryItemOptions = {
@@ -128,10 +138,6 @@ export class CategoryItem extends CustomElement<CategoryItemStyleProps> {
     this.state = this.style.state || 'selected';
   }
 
-  connectedCallback() {
-    this.render();
-  }
-
   public setState(state: string = '', enable: boolean = true) {
     const set = new Set((this.state || '').split('-'));
     if (enable) {
@@ -140,7 +146,7 @@ export class CategoryItem extends CustomElement<CategoryItemStyleProps> {
       set.delete(state);
     }
     this.state = [...set].join('-');
-    this.render();
+    this.update();
   }
 
   public getState(): string {
@@ -148,19 +154,17 @@ export class CategoryItem extends CustomElement<CategoryItemStyleProps> {
   }
 
   public update(cfg: Partial<CategoryItemStyleProps> = {}) {
-    this.attr(deepMix({}, this.attributes, cfg));
+    super.update(cfg);
     if (cfg.state) {
       this.state = cfg.state;
     }
-
-    this.render();
   }
 
   private get styles(): Required<Omit<CategoryItemStyleProps, 'state'>> {
     return deepMix({}, CategoryItem.defaultOptions.style, this.attributes);
   }
 
-  private render() {
+  public render(attributes: CategoryItemStyleProps, container: Group) {
     const { backgroundStyle, itemMarker, padding, itemName, itemValue, maxItemWidth } = this.styles;
     let { itemHeight } = this.styles;
     const [pt, pr, pb, pl] = normalPadding(padding);
@@ -176,13 +180,13 @@ export class CategoryItem extends CustomElement<CategoryItemStyleProps> {
         (pt + pb);
     }
 
-    const container = maybeAppend(this, `.${PREFIX}container`, 'g')
+    const group = maybeAppend(this, `.${PREFIX}container`, 'g')
       .attr('className', `${PREFIX}container`)
       .style('x', pl)
       .style('y', itemHeight / 2)
       .node();
 
-    maybeAppend(container, `.${PREFIX}marker`, () => new Marker({}))
+    maybeAppend(group, `.${PREFIX}marker`, () => new Marker({}))
       .attr('className', `${PREFIX}marker`)
       .call((selection) => {
         if (!itemMarker) {
@@ -200,7 +204,7 @@ export class CategoryItem extends CustomElement<CategoryItemStyleProps> {
       });
 
     const nameShapeX = markerSize ? markerSize + (itemName?.spacing || 0) : 0;
-    const nameShape = maybeAppend(container, `.${PREFIX}name`, 'text')
+    const nameShape = maybeAppend(group, `.${PREFIX}name`, 'text')
       .attr('className', `${PREFIX}name`)
       .call((selection) => {
         if (!itemName) {
@@ -210,7 +214,7 @@ export class CategoryItem extends CustomElement<CategoryItemStyleProps> {
         (selection.node() as Text).attr({
           x: nameShapeX,
           y: 0,
-          tip: itemName?.content || '',
+          tip: '',
           text: itemName?.content || '',
           textBaseline: 'middle',
           textAlign: 'left',
@@ -225,7 +229,7 @@ export class CategoryItem extends CustomElement<CategoryItemStyleProps> {
       nameShapeRight = nameShape.getLocalBounds().max[0];
     }
 
-    const valueShape = maybeAppend(container, `.${PREFIX}value`, 'text')
+    const valueShape = maybeAppend(group, `.${PREFIX}value`, 'text')
       .attr('className', `${PREFIX}value`)
       .call((selection) => {
         if (!itemValue) {
@@ -235,7 +239,7 @@ export class CategoryItem extends CustomElement<CategoryItemStyleProps> {
         (selection.node() as Text).attr({
           x: nameShapeRight + (itemValue.spacing || 0),
           y: 0,
-          tip: itemValue?.content || '',
+          tip: '',
           text: itemValue?.content || '',
           textAlign: 'left',
           ...(itemValue.style || {}),
@@ -252,7 +256,7 @@ export class CategoryItem extends CustomElement<CategoryItemStyleProps> {
       );
     }
 
-    const bounds = container.getLocalBounds();
+    const bounds = group.getLocalBounds();
     let itemWidth = Math.max(bounds.halfExtents[0] * 2 + pr + pl, this.styles.itemWidth || 0);
     if (!isNil(maxItemWidth)) {
       itemWidth = Math.min(maxItemWidth, itemWidth);

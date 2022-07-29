@@ -41,16 +41,17 @@ export abstract class BaseComponent<T> extends CustomElement<T> {
   }
 
   connectedCallback() {
+    // 临时修复初始化 x, y 设置不生效
+    // @ts-ignore
+    const { x, y } = this.style;
+    this.setLocalPosition([x || 0, y || 0]);
+
     this.update();
     this.bindEvents(this.attributes, this);
   }
 
   public update(cfg: Partial<T> = {}) {
     this.attr(deepMix({}, this.attributes, cfg));
-    // 临时修复 x, y 设置不生效
-    // @ts-ignore
-    const { x = 0, y = 0 } = this.style;
-    this.setLocalPosition([x, y]);
     this.render?.(this.attributes, this);
   }
 
@@ -59,6 +60,7 @@ export abstract class BaseComponent<T> extends CustomElement<T> {
   }
 
   public destroy() {
+    this.removeAllEventListeners();
     this.removeChildren(true);
     this.remove();
   }

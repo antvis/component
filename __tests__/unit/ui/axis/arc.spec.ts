@@ -200,14 +200,11 @@ describe('Arc axis', () => {
       const labels = arc.querySelectorAll('.axis-label');
       expect(labels.length).toBe(ticks.length);
       expect(labels.some((d) => d.style.text.endsWith('...'))).toBe(false);
-
-      arc.update({ label: { style: { fontSize: 12 } } });
-      expect(labels.some((d) => d.style.text.endsWith('...'))).toBe(true);
     });
   });
 
   afterAll(() => {
-    // canvas.removeChildren();
+    canvas.removeChildren();
   });
 });
 
