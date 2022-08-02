@@ -1,5 +1,4 @@
 import { Tag } from '../../../../src';
-import { createDiv, delay } from '../../../utils';
 import { createCanvas } from '../../../utils/render';
 
 const canvas = createCanvas(500, 'svg');

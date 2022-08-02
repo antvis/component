@@ -1,6 +1,6 @@
-import type { DisplayObjectConfig, MixAttrs, RectProps, LabelProps } from '../../types';
+import type { RectStyleProps, TextStyleProps, DisplayObjectConfig } from '@antv/g';
 
-export type CheckboxCfg = {
+export type CheckboxStyleProps = {
   /**
    * @title x 坐标
    * @description 局部坐标系下 x 轴坐标
@@ -17,37 +17,26 @@ export type CheckboxCfg = {
    */
   checked?: boolean;
   /**
-   * @title 是否禁用
-   * @description 指定当前是否禁用
-   */
-  disabled?: boolean;
-  /**
    * @title label chebox 间距
    * @description label 与 chebox 的方块的间距
    * @default 2
    */
   spacing?: number;
   /**
-   * @title 初始是否选中
-   * @description 指定组件的初始状态，是否选中
-   * @default true
+   * @title label 文本配置
+   * @description
    */
-  defaultChecked?: boolean;
-  /**
-   * @title 样式
-   * @description 可设置组件的默认样式（default），选中样式（selected）以及禁用样式（disabled)
-   */
-  label?: LabelProps;
+  label?: TextStyleProps;
   /**
    * @title checkbox 的方块样式
    * @description checkbox 的方块样式
    */
-  style?: MixAttrs<Partial<RectProps>>;
+  boxStyle?: Partial<RectStyleProps> | null;
   /**
-   * @title 变化时回调函数
-   * @description 变化时回调函数
+   * @title checkbox 的内部图标样式
+   * @description
    */
-  onChange?: (checked: boolean) => void;
+  checkedStyle?: Partial<RectStyleProps> | null;
 };
 
-export type CheckboxOptions = DisplayObjectConfig<CheckboxCfg>;
+export type CheckboxOptions = DisplayObjectConfig<CheckboxStyleProps>;

@@ -1,122 +1,81 @@
-import { Checkbox } from '../../../../src/ui/checkbox';
-import { Text } from '../../../../src/ui/text';
+import { Checkbox } from '../../../../src';
 import { createCanvas } from '../../../utils/render';
 
-const canvas = createCanvas(400);
+const canvas = createCanvas(500, 'svg');
 
-describe.skip('checkbox', () => {
-  test('basic', async () => {
-    const checkbox = new Checkbox({
-      style: {
-        x: 20,
-        y: 10,
-        label: { text: 'label text' },
-        checked: true,
-      },
-    });
-    canvas.appendChild(checkbox);
-    const {
-      x,
-      y,
-      label: { text, spacing },
-      checked,
-    } = checkbox.attributes;
-    expect(checkbox.getPosition()[0]).toBe(20);
-    expect(checkbox.getPosition()[1]).toBe(10);
-    expect(x).toBe(20);
-    expect(y).toBe(10);
-    expect(text).toBe('label text');
-    expect(spacing).toBe(4);
-    expect(checked).toBe(true);
-    const { label } = checkbox;
-    const labelX = (label as Text).getAttribute('x');
-    expect(labelX).toBe(16);
+describe('tag', () => {
+  const checkbox = new Checkbox({
+    style: {
+      x: 50,
+      y: 50,
+    },
   });
 
-  test('check', async () => {
-    const checkbox = new Checkbox({
-      style: {
-        x: 20,
-        y: 30,
-        label: { text: 'label text' },
-        style: {
-          default: {
-            fill: '#ffefff',
-            stroke: '#eeeeee',
-            radius: 3,
-          },
-          selected: {
-            fill: '#00dd00',
-            stroke: '#dddddd',
-          },
-        },
+  canvas.appendChild(checkbox);
+
+  it('label', () => {
+    checkbox.update({
+      label: {
+        text: '单选框',
+        fill: 'red',
+        fontSize: 20,
       },
     });
 
-    canvas.appendChild(checkbox);
-    const { style } = checkbox.attributes;
-    expect(style!.default!.fill).toBe('#ffefff');
-    expect(style!.default!.stroke).toBe('#eeeeee');
-    expect(style!.default!.radius).toBe(3);
-    let { checked } = checkbox.attributes;
-    expect(checked).toBe(false);
-    checkbox.update({ checked: true });
-    checked = checkbox.attributes.checked;
-    expect(checked).toBe(true);
-  });
-  // [todo] later
-  test.skip('vertical center', () => {
-    const checkbox = new Checkbox({
-      style: {
-        x: 20,
-        y: 50,
-        label: { text: 'label text', textStyle: { textBaseline: 'middle' } },
-      },
+    expect(checkbox.querySelector('.checkbox-label')?.attributes).toMatchObject({
+      text: '单选框',
+      fill: 'red',
+      fontSize: 20,
     });
-    canvas.appendChild(checkbox);
-    const {
-      center: [, checkboxY],
-      halfExtents: [, checkboxHeight],
-    } = checkbox.checkboxBounds;
-    const {
-      center: [, labelY],
-      halfExtents: [, labelHeight],
-    } = checkbox!.labelBounds;
-    console.log('checkboxY', checkbox, labelY);
+  });
 
-    expect((checkboxY - labelY) * 2).toBeCloseTo(checkboxHeight - labelHeight, 4);
-  });
-  test('disabled', () => {
-    const checkbox = new Checkbox({
-      style: {
-        x: 20,
-        y: 70,
-        label: { text: 'label text' },
-        disabled: true,
+  it('checkbox box', () => {
+    checkbox.update({
+      boxStyle: {
+        width: 20,
+        height: 20,
+        cursor: 'no-drop',
       },
     });
-    canvas.appendChild(checkbox);
-    const {
-      style: { fill, stroke },
-    } = checkbox.checkbox;
-    const { fontColor } = checkbox!.label!.style;
-    expect(checkbox.getAttribute('disabled')).toBe(true);
-    expect(fill).toBe('#f5f5f5');
-    expect(stroke).toBe('#d9d9d9');
-    expect(fontColor).toBe('rgba(0,0,0,0.25)');
+
+    expect(checkbox.querySelector('.checkbox-box')?.attributes).toMatchObject({
+      width: 20,
+      height: 20,
+      cursor: 'no-drop',
+    });
   });
-  // github actions ci 会ts报错，但是这段测试代码本地ok，可以用来测试label：null的情况
-  // test('label:null', () => {
-  //   const checkbox = new Checkbox({
-  //     style: {
-  //       x: 20,
-  //       y: 90,
-  //       label: { text: 'label text' },
-  //       disabled: true,
-  //     },
-  //   });
-  //   checkbox.update({ label: null });
-  //   canvas.appendChild(checkbox);
-  //   expect(checkbox.label).toBe(undefined);
-  // });
+
+  it('checkbox box checked', () => {
+    checkbox.update({
+      checkedStyle: {
+        lineWidth: 2,
+        path: [['M', 4, 6], ['L', '5', '8.5'], ['L', '8.5', '4'], ['L', '10', '4'], ['Z']],
+      } as any,
+    });
+
+    expect(checkbox.querySelector('.checkbox-box-checked')?.attributes).toMatchObject({
+      lineWidth: 2,
+      path: [['M', 4, 6], ['L', '5', '8.5'], ['L', '8.5', '4'], ['L', '10', '4'], ['Z']],
+    });
+  });
+
+  it('checked', () => {
+    expect(checkbox.querySelector('.checkbox-box')?.attributes).toMatchObject({
+      fill: '#ffffff',
+      stroke: '#dadada',
+    });
+
+    checkbox.update({
+      checked: true,
+    });
+
+    expect(checkbox.querySelector('.checkbox-box')?.attributes).toMatchObject({
+      stroke: '#3471F9',
+      fill: '#3471F9',
+    });
+  });
+
+  afterAll(() => {
+    checkbox.destroy();
+  });
 });
