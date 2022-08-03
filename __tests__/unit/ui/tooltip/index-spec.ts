@@ -92,7 +92,7 @@ describe('tooltip', () => {
     expect(tooltip.HTMLTooltipElement.getElementsByClassName('tooltip-title')[0]!.innerHTML).toBe('标题');
     let [tooltipList] = tooltip.HTMLTooltipElement.getElementsByClassName('tooltip-list');
     expect(tooltipList.children.length).toBe(2);
-    expect(tooltipList.querySelector('.tooltip-list-item-name')!.innerHTML).toBe('第一项');
+    expect(tooltipList.querySelector('.tooltip-list-item-name')!.innerHTML).toContain('第一项');
 
     tooltip.update({
       title: '更新了标题',
@@ -121,6 +121,6 @@ describe('tooltip', () => {
     expect(tooltip.HTMLTooltipElement.getElementsByClassName('tooltip-title')[0]!.innerHTML).toBe('更新了标题');
     [tooltipList] = tooltip.HTMLTooltipElement.getElementsByClassName('tooltip-list');
     expect(tooltipList.children.length).toBe(3);
-    expect(tooltipList.querySelector('.tooltip-list-item-name')!.innerHTML).toBe('第三项');
+    expect(tooltipList.querySelector('.tooltip-list-item-name')!.innerHTML).toContain('第三项');
   });
 });
