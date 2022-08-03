@@ -37,9 +37,11 @@ export class Tooltip extends GUI<Required<TooltipCfg>> {
         container: `<div class="${CLASS_NAME.CONTAINER}"></div>`,
         title: `<div class="${CLASS_NAME.TITLE}"></div>`,
         item: `<li class="${CLASS_NAME.LIST_ITEM}" data-index={index}>
-        <span class="${CLASS_NAME.MARKER}" style="background:{color}"></span>
-        <span class="${CLASS_NAME.NAME}">{name}</span>
-        <span class="${CLASS_NAME.VALUE}">{value}</span>
+        <span class="${CLASS_NAME.NAME}">
+          <span class="${CLASS_NAME.MARKER}" style="background:{color}"></span>
+          <span class="${CLASS_NAME.NAME_LABEL}" title="{name}">{name}</span>
+        </span>
+        <span class="${CLASS_NAME.VALUE}" title="{value}">{value}</span>
       </li>`,
       },
       style: TOOLTIP_STYLE,

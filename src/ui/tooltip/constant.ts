@@ -3,11 +3,18 @@ export const CLASS_NAME = {
   TITLE: 'tooltip-title',
   LIST: 'tooltip-list',
   LIST_ITEM: 'tooltip-list-item',
-  MARKER: 'tooltip-list-item-marker',
   NAME: 'tooltip-list-item-name',
+  MARKER: 'tooltip-list-item-marker',
+  NAME_LABEL: 'tooltip-list-item-name-label',
   VALUE: 'tooltip-list-item-value',
   CROSSHAIR_X: 'tooltip-crosshair-x',
   CROSSHAIR_Y: 'tooltip-crosshair-y',
+};
+
+const TEXT_OVERFLOW_STYLE = {
+  overflow: 'hidden',
+  'white-space': 'nowrap',
+  'text-overflow': 'ellipsis',
 };
 
 export const TOOLTIP_STYLE = {
@@ -27,10 +34,13 @@ export const TOOLTIP_STYLE = {
     'font-size': '12px',
     // 'font-family': ,
     'line-height': '20px',
-    padding: '10px 10px 10px 10px',
+    padding: '12px',
+    'min-width': '120px',
+    'max-width': '360px',
+    'font-family': 'Roboto-Regular',
   },
   [`.${CLASS_NAME.TITLE}`]: {
-    'margin-bottom': '4px',
+    color: 'rgba(0, 0, 0, 0.45)',
   },
   [`.${CLASS_NAME.LIST}`]: {
     margin: '0px',
@@ -39,23 +49,38 @@ export const TOOLTIP_STYLE = {
   },
   [`.${CLASS_NAME.LIST_ITEM}`]: {
     'list-style-type': 'none',
-    'margin-bottom': '4px',
+    'margin-top': '12px',
+    display: 'flex',
+    'line-height': '1em',
+    'align-items': 'center',
+    'justify-content': 'space-between',
+    'white-space': 'nowrap',
   },
   [`.${CLASS_NAME.MARKER}`]: {
     width: '8px',
     height: '8px',
     'border-radius': '50%',
     display: 'inline-block',
-    'margin-right': '8px',
+    'margin-right': '4px',
   },
   [`.${CLASS_NAME.NAME}`]: {
-    color: 'rgba(0, 0, 0, 0.45)',
+    display: 'flex',
+    'align-items': 'center',
+    'max-width': '216px',
+  },
+  [`.${CLASS_NAME.NAME_LABEL}`]: {
+    flex: 1,
+    ...TEXT_OVERFLOW_STYLE,
   },
   [`.${CLASS_NAME.VALUE}`]: {
     display: 'inline-block',
     float: 'right',
+    flex: 1,
+    'text-align': 'right',
+    'min-width': '28px',
     'margin-left': '30px',
-    color: 'rgba(0, 0, 0, 0.65)',
+    color: 'rgba(0, 0, 0, 0.85)',
+    ...TEXT_OVERFLOW_STYLE,
   },
   [`.${CLASS_NAME.CROSSHAIR_X}`]: {
     position: 'absolute',
