@@ -182,6 +182,7 @@ function getLabelAttrs(
       textAlign,
       textBaseline,
       transform: `rotate(${(angle || 0).toFixed(0)}deg)`,
+      // 需要保存下来
       data: datum,
     };
   });

@@ -111,6 +111,8 @@ function getLabelAttrs(
 
     return {
       id: `label-${datum.id}`,
+      // 需要保存下来, label style 设置回调需要
+      data: datum,
       // orient,
       x: x + ifX(orient, offset, 0)!,
       y: y + ifY(orient, offset, 0)!,
