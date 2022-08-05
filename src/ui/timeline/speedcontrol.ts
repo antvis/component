@@ -27,7 +27,6 @@ export class SpeedControl extends CustomElement<StyleProps> {
   public static tag = 'speed-control';
 
   public static defaultOptions: DisplayObjectConfig<StyleProps> = {
-    type: SpeedControl.tag,
     style: DEFAULT_STYLE,
   };
 
