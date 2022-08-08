@@ -3,7 +3,7 @@ import { Band as BandScale } from '@antv/scale';
 import { deepMix } from '@antv/util';
 import { Linear, LinearAxisStyleProps } from '../axis';
 import { applyStyle, maybeAppend, select } from '../../util';
-import { GUI } from '../../util/create';
+import { GUI } from '../../core/gui';
 import {
   AxisBase,
   AxisStyleProps,

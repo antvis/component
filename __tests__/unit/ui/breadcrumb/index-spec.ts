@@ -6,7 +6,7 @@ import { createDiv } from '../../../utils';
 const renderer = new CanvasRenderer();
 
 describe('breadcrumb', () => {
-  test('basic', async () => {
+  test('basic', () => {
     const div = createDiv();
 
     const canvas = new Canvas({
@@ -28,17 +28,18 @@ describe('breadcrumb', () => {
         ],
       },
     });
+    canvas.appendChild(breadcrumb);
 
     let { padding } = breadcrumb.attributes;
     if (!Array.isArray(padding)) {
       padding = [padding, padding, padding, padding];
     }
 
-    const { children } = breadcrumb.container;
+    const children = breadcrumb.querySelector('.container')?.children || [];
     expect(children.length).toBe(4 * 2 - 1);
 
-    const breadItemShapes = children.filter((item) => item.name === 'breadcrumb-item');
-    const separatorShapes = children.filter((item) => item.name === 'breadcrumb-separator');
+    const breadItemShapes = children.filter((item: any) => item.name === 'breadcrumb-item');
+    const separatorShapes = children.filter((item: any) => item.name === 'breadcrumb-separator');
 
     expect(breadItemShapes.length).toBe(4);
     expect(separatorShapes.length).toBe(3);
@@ -47,8 +48,6 @@ describe('breadcrumb', () => {
     breadItemShapes.forEach((item, idx) => expect(item.attr().text).toBe(`测试${idx + 1}`));
     // @ts-ignore
     separatorShapes.forEach((item) => expect(item.attr().text).toBe(`/`));
-
-    canvas.appendChild(breadcrumb);
   });
 
   test('custom style', async () => {

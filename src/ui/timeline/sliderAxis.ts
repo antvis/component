@@ -2,6 +2,7 @@ import { ElementEvent, Line, CustomEvent, Animation } from '@antv/g';
 import type { DisplayObjectConfig } from '@antv/g';
 import { clamp, deepMix } from '@antv/util';
 import { Point as PointScale } from '@antv/scale';
+import { GUI } from '../../core/gui';
 import { applyStyle, maybeAppend, select, Selection } from '../../util';
 import { Linear, LinearAxisStyleProps } from '../axis';
 import {
@@ -11,7 +12,6 @@ import {
   DEFAULT_STYLE as BASE_DEFAULT_STYLE,
   normalSelection,
 } from './playAxis';
-import { GUI } from '../../util/create';
 
 type SliderAxisOptions = DisplayObjectConfig<AxisStyleProps>;
 
