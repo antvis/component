@@ -1,6 +1,6 @@
 import { Group, Rect, Text } from '@antv/g';
 import { deepMix, get, isUndefined } from '@antv/util';
-import { GUI } from '../../core/gui';
+import { BaseComponent } from '../../util/create';
 import { SIZE_STYLE, TYPE_STYLE, DISABLED_STYLE } from './constant';
 import { deepAssign, getEllipsisText, getStateStyle, maybeAppend, applyStyle, normalPadding } from '../../util';
 import { Marker } from '../marker';
@@ -9,7 +9,7 @@ import type { TextProps, RectProps } from '../../types';
 
 export type { ButtonCfg, ButtonOptions };
 
-export class Button extends GUI<ButtonCfg> {
+export class Button extends BaseComponent<ButtonCfg> {
   /**
    * 组件类型
    */
