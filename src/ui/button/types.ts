@@ -45,10 +45,10 @@ export type ButtonCfg = {
    */
   shape?: 'circle' | 'round';
   /**
-   * @title 是否禁用
-   * @description 是否禁用按钮
+   * @title 按钮状态
+   * @description disabled 代表禁用按钮, active 代表
    */
-  disabled?: boolean;
+  state?: 'disabled' | 'active' | 'default';
   /**
    * @title 超长省略
    * @description 按钮文本超长时，是否省略文本

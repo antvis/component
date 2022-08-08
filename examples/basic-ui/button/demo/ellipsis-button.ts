@@ -1,25 +1,24 @@
 import { Canvas } from '@antv/g';
-import { Statistic } from '@antv/gui';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
+import { Button } from '@antv/gui';
 
 const renderer = new CanvasRenderer();
 
 const canvas = new Canvas({
   container: 'container',
   width: 300,
-  height: 100,
+  height: 300,
   renderer,
 });
 
-const statistic = new Statistic({
+const button = new Button({
   style: {
-    title: {
-      text: 'simple statistic',
-    },
-    value: {
-      text: '5123415515.151',
-    },
+    x: 50,
+    y: 50,
+    width: 60,
+    text: 'Simple Button',
+    ellipsis: true,
   },
 });
 
-canvas.appendChild(statistic);
+canvas.appendChild(button);

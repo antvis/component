@@ -1,3 +1,4 @@
+import { Group } from '@antv/g';
 import { deepMix, substitute, isString, isElement, isFunction, throttle } from '@antv/util';
 import { createDom } from '@antv/dom-util';
 import { GUI } from '../../core/gui';
@@ -117,20 +118,16 @@ export class Tooltip extends GUI<Required<TooltipCfg>> {
     super(deepMix({}, Tooltip.defaultOptions, options));
     this.visibility = this.attributes.visibility;
     this.initShape();
-    this.init();
   }
 
-  public init() {
+  public render(attributes: TooltipCfg, container: Group) {
     this.updateHTMLTooltipElement();
     this.updatePosition();
   }
 
   public update(cfg: Partial<TooltipCfg>) {
     this.attr(deepMix({}, this.attributes, cfg));
-    /* 更新内容 */
-    this.updateHTMLTooltipElement();
-    /* 更新位置 */
-    this.updatePosition();
+    this.render(this.attributes, this);
   }
 
   public clear() {

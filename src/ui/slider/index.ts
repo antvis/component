@@ -1,7 +1,7 @@
 import type { Cursor } from '@antv/g';
 import { Rect, Text, CustomEvent, Group } from '@antv/g';
 import { deepMix, get } from '@antv/util';
-import { BaseComponent } from '../../util/create';
+import { GUI } from '../../core/gui';
 import { Handle } from './handle';
 import { Sparkline } from '../sparkline';
 import {
@@ -26,7 +26,7 @@ interface IBackgroundStyleCfg extends ShapeAttrs {
   lineWidth: number;
 }
 
-export class Slider extends BaseComponent<SliderCfg> {
+export class Slider extends GUI<SliderCfg> {
   public static tag = 'slider';
 
   private static defaultOptions = {

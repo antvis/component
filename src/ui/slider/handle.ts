@@ -2,7 +2,8 @@ import { Group, TextStyleProps } from '@antv/g';
 import { Marker, MarkerStyleProps } from '../marker';
 import type { ShapeAttrs } from '../../types';
 import { applyStyle, maybeAppend, select } from '../../util';
-import { createComponent, BaseComponent } from '../../util/create';
+import { GUI } from '../../core/gui';
+import { createComponent } from '../../util/create';
 
 export interface HandleStyleProps {
   x: number;
@@ -95,7 +96,7 @@ function renderHandleText(container: Group, cfg: any = {}) {
     .call(applyStyle, cfg);
 }
 
-export class Handle extends BaseComponent<HandleStyleProps> {
+export class Handle extends GUI<HandleStyleProps> {
   render(attributes: HandleStyleProps, container: Group) {
     const { iconCfg, textCfg } = attributes;
 

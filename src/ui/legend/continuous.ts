@@ -1,7 +1,7 @@
 import { DisplayObject, clamp, CustomEvent, Group } from '@antv/g';
 import { get, isUndefined, memoize } from '@antv/util';
 import { deepAssign, applyStyle, select, getEventPos, toPrecision, throttle, normalPadding } from '../../util';
-import { BaseComponent } from '../../util/create';
+import { GUI } from '../../core/gui';
 import { renderLabels } from '../../util/primitive/labels';
 import {
   CONTINUOUS_DEFAULT_OPTIONS,
@@ -88,7 +88,7 @@ function renderRailLabels(container: Group, labels: any[], cfg?: any) {
   });
 }
 
-export class Continuous<T extends ContinuousCfg> extends BaseComponent<T> {
+export class Continuous<T extends ContinuousCfg> extends GUI<T> {
   constructor(config: any) {
     super(deepAssign({ type: 'continuous-legend' }, CONTINUOUS_DEFAULT_OPTIONS, config));
   }

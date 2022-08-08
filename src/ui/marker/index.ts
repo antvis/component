@@ -1,7 +1,7 @@
 import { Group } from '@antv/g';
 import { isFunction } from '@antv/util';
 import { applyStyle, maybeAppend } from '../../util';
-import { BaseComponent } from '../../util/create';
+import { GUI } from '../../core/gui';
 import { parseMarker } from './utils';
 import {
   circle,
@@ -42,7 +42,7 @@ function getType(symbol: MarkerStyleProps['symbol']): string | null {
   return null;
 }
 
-export class Marker extends BaseComponent<MarkerStyleProps> {
+export class Marker extends GUI<MarkerStyleProps> {
   public render(attributes: MarkerStyleProps, container: Group) {
     const { x, y, symbol, size = 16, ...style } = attributes;
     const type = getType(symbol);

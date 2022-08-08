@@ -1,7 +1,7 @@
-import { DisplayObject, Group, Text } from '@antv/g';
+import { Group, Text } from '@antv/g';
 import { deepMix, isNil, pick } from '@antv/util';
 import { GUI } from '../../core/gui';
-import { normalPadding, TEXT_INHERITABLE_PROPS } from '../../util';
+import { maybeAppend, normalPadding, TEXT_INHERITABLE_PROPS } from '../../util';
 import { Tag } from '../tag';
 import type { BreadcrumbCfg, BreadcrumbOptions, BreadcrumbItem } from './type';
 
@@ -63,51 +63,77 @@ export class Breadcrumb extends GUI<Required<BreadcrumbCfg>> {
    */
   constructor(options: BreadcrumbOptions) {
     super(deepMix({}, Breadcrumb.defaultOptions, options));
-    this.init();
   }
 
-  public init(): void {
-    this.cursorX = 0;
-    this.cursorY = 0;
-    const { x, y, items, textStyle, padding } = this.attributes;
-    const [top, , left] = normalPadding(padding);
+  public render(attributes: BreadcrumbCfg, container: Group) {
+    const { x, y, items, textStyle, padding, width, separator } = attributes;
+    const [top, right, left] = normalPadding(padding);
 
-    // 创建 container 容器
-    this.container = new Group({ name: `${Breadcrumb.tag}-container` });
-    this.appendChild(this.container);
-    this.container.translate(x + left, y + top);
+    const selection = maybeAppend(container, '.container', 'g')
+      .attr('className', 'container')
+      .style('x', x + left)
+      .style('y', y + top);
 
-    items.forEach((item, idx) => {
-      const breadcrumbItemShape = new Tag({
-        name: `${Breadcrumb.tag}-item`,
-        id: item.id,
+    let cursorX = 0;
+    let cursorY = 0;
+
+    selection.node().removeChildren(true);
+    for (let i = 0; i < items.length; i++) {
+      const datum = items[i];
+      const shape = new Tag({
+        className: 'breadcrumb-item',
         style: {
-          x: this.cursorX,
-          y: this.cursorY,
-          text: isNil(item.text) ? item.id : item.text,
+          x: cursorX,
+          y: cursorY,
+          text: isNil(datum.text) ? datum.id : datum.text,
           textStyle,
-          ...pick(item, ['marker']),
+          ...pick(datum, ['marker']),
           // 强制不需要背景
           padding: 0,
           backgroundStyle: null,
         },
       });
+      selection.append(() => shape);
 
-      // 计算并添加当前 shape 的宽度
-      const textBbox = breadcrumbItemShape.getBounds()!;
-      const textWidth = textBbox.getMax()[0] - textBbox.getMin()[0];
-      const textHeight = textBbox.getMax()[1] - textBbox.getMin()[1];
-      this.autoWrap(breadcrumbItemShape, textWidth, textHeight);
-
-      this.container.appendChild(breadcrumbItemShape);
-      // 绑定事件
-      this.bindEvents(breadcrumbItemShape, item);
-
-      // 最后一个分隔符，不需要渲染
-      if (idx !== items.length - 1) {
-        this.createSeparator(this.container, textHeight, idx);
+      const bounds = shape.getLocalBounds();
+      const shapeW = bounds.halfExtents[0] * 2;
+      const shapeH = bounds.halfExtents[1] * 2;
+      cursorX += shapeW;
+      // todo 换行策略还需要考虑 分隔符
+      if (!isNil(width)) {
+        const avaliableWidth = width! - right;
+        if (cursorX > avaliableWidth) {
+          shape.attr({ x: 0, y: cursorY + shapeH });
+          // 更新光标
+          cursorX = shapeW;
+          cursorY += shapeH;
+        }
       }
-    });
+
+      // 绑定事件
+      this.bindInnerEvents(shape, datum);
+
+      const { spacing = 0, text = '/', style } = separator || {};
+      // 最后一个分隔符，不需要渲染
+      if (i !== items.length - 1) {
+        const shape = new Text({
+          name: `${Breadcrumb.tag}-separator`,
+          id: `${Breadcrumb.tag}-separator-${i}`,
+          style: {
+            ...TEXT_INHERITABLE_PROPS,
+            x: cursorX + spacing!,
+            y: cursorY + shapeH / 2,
+            ...style,
+            text,
+            textAlign: 'end',
+            textBaseline: 'middle',
+          },
+        });
+        selection.append(() => shape);
+        const bounds = shape.getLocalBounds();
+        cursorX += bounds.halfExtents[0] * 2 + spacing!;
+      }
+    }
   }
 
   /**
@@ -116,51 +142,7 @@ export class Breadcrumb extends GUI<Required<BreadcrumbCfg>> {
    */
   public update(cfg: Partial<BreadcrumbCfg>): void {
     this.attr(deepMix({}, this.attributes, cfg));
-    this.clear();
-    this.init();
-  }
-
-  /**
-   * 组件清除
-   */
-  public clear(): void {
-    this.container.destroy();
-  }
-
-  /**
-   * 创建分隔符shape，返回最新的宽度
-   * @param y
-   * @returns
-   */
-  private createSeparator(container: Group, height: number, idx: number): void {
-    const { separator } = this.attributes;
-    const { spacing = 0, text = '/', style } = separator;
-
-    const shape = new Text({
-      name: `${Breadcrumb.tag}-separator`,
-      id: `${Breadcrumb.tag}-separator-${idx}`,
-      style: {
-        ...TEXT_INHERITABLE_PROPS,
-        x: this.cursorX + spacing!,
-        y: this.cursorY,
-        ...style,
-        text,
-        // 默认 bottom 对齐，然后再进行偏移 height
-        textBaseline: 'bottom',
-      },
-    });
-
-    // 计算并添加当前 shape 的宽度
-    const textBbox = shape.getBounds()!;
-    const textWidth = textBbox.getMax()[0] - textBbox.getMin()[0];
-    const textHeight = textBbox.getMax()[1] - textBbox.getMin()[1];
-    const overflow = this.autoWrap(shape, textWidth + spacing /** 分隔符左边间距 */, textHeight);
-    if (!overflow) {
-      this.cursorX += spacing /** 分隔符右边间距 */;
-    }
-
-    shape.translate(0, height);
-    container.appendChild(shape);
+    this.render(this.attributes, this);
   }
 
   /**
@@ -168,7 +150,7 @@ export class Breadcrumb extends GUI<Required<BreadcrumbCfg>> {
    * @param shape
    * @param item
    */
-  private bindEvents(shape: Tag, item: BreadcrumbItem) {
+  private bindInnerEvents(shape: Tag, item: BreadcrumbItem) {
     const { items, onClick } = this.attributes;
 
     if (onClick) {
@@ -176,30 +158,5 @@ export class Breadcrumb extends GUI<Required<BreadcrumbCfg>> {
         onClick.call(shape, item.id, item, items);
       });
     }
-  }
-
-  /**
-   * 判断是否超出宽度, 然后自动换行
-   * @param shape
-   */
-  private autoWrap(shape: DisplayObject, textWidth: number, textHeight: number): boolean {
-    const { width, padding } = this.attributes;
-    // 更新光标
-    this.cursorX += textWidth;
-
-    if (!isNil(width)) {
-      const [, right] = normalPadding(padding);
-      const avaliableWidth = width - right;
-
-      if (this.cursorX > avaliableWidth) {
-        shape.attr({ x: 0, y: this.cursorY + textHeight });
-        // 更新光标
-        this.cursorX = textWidth;
-        this.cursorY += textHeight;
-        return true;
-      }
-    }
-
-    return false;
   }
 }

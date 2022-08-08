@@ -1,6 +1,6 @@
 import { Text, DisplayObjectConfig, Group, DisplayObject } from '@antv/g';
 import { deepMix, get, isNil } from '@antv/util';
-import { BaseComponent } from '../../util/create';
+import { GUI } from '../../core/gui';
 import { applyStyle, getFont, maybeAppend, getEllipsisText, normalPadding } from '../../util';
 import { Marker } from '../marker';
 import { NAME_VALUE_RATIO } from './constant';
@@ -87,7 +87,7 @@ function getStateStyle(style = {}, state = ''): any {
   return states.reduce((r, s) => ({ ...r, ...get(style, s, {}) }), {});
 }
 
-export class CategoryItem extends BaseComponent<CategoryItemStyleProps> {
+export class CategoryItem extends GUI<CategoryItemStyleProps> {
   private state: string = 'default';
 
   public static defaultOptions: CategoryItemOptions = {

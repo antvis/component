@@ -1,6 +1,7 @@
 import { Path, Group } from '@antv/g';
 import { deepMix } from '@antv/util';
 import { GUI } from '../../core/gui';
+import { maybeAppend } from '../../util';
 import { Tag } from '../tag';
 import { CROSSHAIR_BASE_DEFAULT_STYLE } from './constant';
 import type { CrosshairBaseCfg, CrosshairBaseOptions } from './types';
@@ -55,24 +56,30 @@ export abstract class CrosshairBase<T extends CrosshairBaseCfg> extends GUI<Requ
 
   constructor(options: CrosshairBaseOptions) {
     super(deepMix({}, CrosshairBase.defaultOptions, options));
-    this.init();
   }
 
-  public init() {
-    this.initShape();
+  public render(attributes: T, container: Group) {
+    const group = maybeAppend(container, '.crosshair-group', 'g').attr('className', 'crosshair-group').node();
+    this.shapesGroup = group;
+
+    this.tagShape = maybeAppend(
+      group,
+      '.crosshair-tag',
+      () => new Tag({ className: 'crosshair-tag', style: this.tagCfg })
+    ).node() as Tag;
+    this.crosshairShape = maybeAppend(
+      group,
+      '.crosshair-path',
+      () => new Path({ className: 'crosshair-path', style: this.crosshairCfg })
+    ).node() as Path;
+
     this.adjustLayout();
   }
 
-  public update(cfg: Partial<CrosshairBaseCfg>) {
+  public update(cfg: Partial<CrosshairBaseCfg> = {}) {
     this.attr(deepMix({}, this.attributes, cfg));
-    this.tagShape.update(this.tagCfg);
-    this.crosshairShape.attr(this.crosshairCfg as any);
-    this.adjustLayout();
+    this.render(this.attributes, this);
   }
-
-  public clear() {}
-
-  public destroy() {}
 
   /**
    * 设置当前指针的位置
@@ -87,16 +94,4 @@ export abstract class CrosshairBase<T extends CrosshairBaseCfg> extends GUI<Requ
    * 调整tag
    */
   protected abstract adjustLayout(): void;
-
-  private initShape() {
-    this.shapesGroup = new Group({ name: 'crosshairGroup' });
-    this.appendChild(this.shapesGroup);
-    this.tagShape = new Tag({ name: 'tag', style: this.tagCfg });
-    this.shapesGroup.appendChild(this.tagShape);
-    this.crosshairShape = new Path({
-      name: 'crosshair',
-      style: this.crosshairCfg,
-    });
-    this.shapesGroup.appendChild(this.crosshairShape);
-  }
 }

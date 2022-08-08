@@ -1,6 +1,6 @@
 import { Group, isNil } from '@antv/g';
 import { deepMix } from '@antv/util';
-import { BaseComponent } from '../../util/create';
+import { GUI } from '../../core/gui';
 import { normalPadding, maybeAppend, applyStyle } from '../../util';
 import { Marker } from '../marker';
 import type { TagStyleProps, TagOptions } from './types';
@@ -36,7 +36,7 @@ function getTextPosition(markerShape: Marker, spacing?: number) {
  *
  * 组成元素：Marker + Text + BackgroundRect
  */
-export class Tag extends BaseComponent<Required<TagStyleProps>> {
+export class Tag extends GUI<Required<TagStyleProps>> {
   /**
    * 标签类型
    */

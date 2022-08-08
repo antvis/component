@@ -1,6 +1,6 @@
 import type { Group, Rect } from '@antv/g';
 import { deepMix, get, isEqual } from '@antv/util';
-import { BaseComponent } from '../../util/create';
+import { GUI } from '../../core/gui';
 import { Tag } from '../tag';
 import type { GUIOption } from '../../types';
 import { SIZE_STYLE } from './constant';
@@ -40,7 +40,7 @@ function getTagShapeStyle(
   };
 }
 
-export class Switch extends BaseComponent<Required<SwitchStyleProps>> {
+export class Switch extends GUI<Required<SwitchStyleProps>> {
   /**
    * 组件 switch
    */

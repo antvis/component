@@ -1,7 +1,7 @@
 import { deepMix, assign } from '@antv/util';
 import type { Group, Rect } from '@antv/g';
 import { maybeAppend, applyStyle } from '../../util';
-import { BaseComponent } from '../../util/create';
+import { GUI } from '../../core/gui';
 import type { GUIOption } from '../../types';
 import type { CheckboxStyleProps, CheckboxOptions } from './types';
 
@@ -18,7 +18,7 @@ function getLablePosition(shape: Rect, spacing?: number) {
   };
 }
 
-export class Checkbox extends BaseComponent<Required<CheckboxStyleProps>> {
+export class Checkbox extends GUI<Required<CheckboxStyleProps>> {
   /**
    * 组件 checkbox
    */

@@ -60,11 +60,11 @@ const button = new Button({
     markerStyle: {
       default: {
         fill: '#fff',
-        size: 50,
+        size: 40,
       },
       active: {
         fill: '#c0365a',
-        size: 50,
+        size: 40,
       },
     },
   },

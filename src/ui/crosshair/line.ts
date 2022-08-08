@@ -102,16 +102,17 @@ export class LineCrosshair extends CrosshairBase<LineCrosshairCfg> {
     this.tagShape.show();
 
     const { position } = text as { position: 'start' | 'end' };
+
     const { width, height } = this.tagShapeSpace;
     // 偏移量
     const [xOffset, yOffset] = this.getOrientVal(
       {
-        start: [-width, -height / 2],
-        end: [x2 - x1, -height / 2],
+        start: [-width / 2, height / 2],
+        end: [x2 - x1 + width / 2, height / 2],
       },
       {
-        start: [-width / 2, -height],
-        end: [-width / 2, y2 - y1],
+        start: [0, 0],
+        end: [0, y2 - y1 + height],
       }
     )[position];
     this.tagShape.setLocalPosition(xOffset, yOffset);

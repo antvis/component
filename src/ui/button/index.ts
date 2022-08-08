@@ -1,15 +1,8 @@
-import { Rect, Text } from '@antv/g';
+import { Group, Rect, Text } from '@antv/g';
 import { deepMix, get, isUndefined } from '@antv/util';
 import { GUI } from '../../core/gui';
 import { SIZE_STYLE, TYPE_STYLE, DISABLED_STYLE } from './constant';
-import {
-  deepAssign,
-  getEllipsisText,
-  measureTextWidth,
-  getFont,
-  getStateStyle,
-  TEXT_INHERITABLE_PROPS,
-} from '../../util';
+import { deepAssign, getEllipsisText, getStateStyle, maybeAppend, applyStyle, normalPadding } from '../../util';
 import { Marker } from '../marker';
 import type { ButtonCfg, ButtonOptions, IMarkerCfg } from './types';
 import type { TextProps, RectProps } from '../../types';
@@ -28,7 +21,6 @@ export class Button extends GUI<ButtonCfg> {
   private static defaultOptions = {
     type: Button.tag,
     style: {
-      disabled: false,
       cursor: 'pointer',
       padding: 10,
       size: 'middle',
@@ -37,11 +29,7 @@ export class Button extends GUI<ButtonCfg> {
       markerAlign: 'left',
       markerSpacing: 5,
       textStyle: {
-        default: {
-          ...TEXT_INHERITABLE_PROPS,
-          textAlign: 'center',
-          textBaseline: 'middle',
-        },
+        default: {},
         active: {},
       },
       buttonStyle: {
@@ -57,28 +45,18 @@ export class Button extends GUI<ButtonCfg> {
     },
   };
 
-  private markerShape!: Marker;
-
   /**
    * 文本
    */
   private textShape!: Text;
 
-  /**
-   * 按钮容器
-   */
-  private backgroundShape!: Rect;
+  private state: 'default' | 'active' | 'disabled' = 'default';
 
-  private get disabled() {
-    return this.style.disabled;
-  }
-
-  private get markerWidth(): number {
-    if (this.markerShape.isVisible()) {
-      const { size } = this.getStyle('markerStyle') as IMarkerCfg;
-      return size! as number;
-    }
-    return 0;
+  private get markerSize(): number {
+    const { marker: markerSymbol } = this.attributes;
+    const markerStyle = this.getStyle('markerStyle');
+    const markerSize = !markerSymbol ? 0 : markerStyle?.size || 2;
+    return markerSize;
   }
 
   /**
@@ -94,40 +72,14 @@ export class Button extends GUI<ButtonCfg> {
     return getEllipsisText(text, width);
   }
 
-  private get textWidth(): number {
-    if (this.textShape.attr('text') === '') {
-      return 0;
-    }
-    return measureTextWidth(this.text, getFont(this.textShape));
-  }
-
   /* 获得文本可用宽度 */
   private get textAvailableWidth(): number {
     const { marker, padding, ellipsis, width: bWidth, markerSpacing: spacing } = this.attributes;
     if (!ellipsis) return Infinity;
     /* 按钮总宽度 */
     const width = (isUndefined(bWidth) ? (this.getStyle('buttonStyle') as RectProps).width : bWidth) as number;
-    if (marker) return width - padding! * 2 - spacing! - this.markerWidth;
+    if (marker) return width - padding! * 2 - spacing! - this.markerSize;
     return width - padding! * 2;
-  }
-
-  /**
-   * 根据文本和marker来计算按钮宽度
-   */
-  private get buttonWidth(): number {
-    const { marker, padding, width: bWidth, ellipsis, markerSpacing: spacing } = this.attributes;
-    if (!isUndefined(bWidth)) return bWidth;
-    if (ellipsis) return (this.getStyle('buttonStyle') as RectProps).width as number;
-    const text = this.textShape.attr('text');
-    const { markerWidth } = this;
-    const { textWidth } = this;
-    let width = padding! * 2;
-
-    if (marker) {
-      if (text !== '') width += markerWidth + textWidth + spacing!;
-      else width += markerWidth;
-    } else if (text !== '') width += textWidth;
-    return width;
   }
 
   private get buttonHeight(): number {
@@ -138,7 +90,6 @@ export class Button extends GUI<ButtonCfg> {
 
   constructor(options: ButtonOptions) {
     super(deepAssign({}, Button.defaultOptions, options));
-    this.init();
   }
 
   /**
@@ -150,11 +101,9 @@ export class Button extends GUI<ButtonCfg> {
 
   private getStyle(name: 'markerStyle', state?: 'default' | 'active'): IMarkerCfg;
 
-  private getStyle(
-    name: 'textStyle' | 'buttonStyle' | 'markerStyle',
-    state: 'default' | 'active' = 'default'
-  ): TextProps | RectProps | IMarkerCfg {
-    const { size, type, disabled } = this.attributes;
+  private getStyle(name: 'textStyle' | 'buttonStyle' | 'markerStyle'): TextProps | RectProps | IMarkerCfg {
+    const { size, type } = this.attributes;
+    const state = this.state;
     const mixedStyle = deepMix(
       {},
       get(SIZE_STYLE, [size, name]),
@@ -162,7 +111,7 @@ export class Button extends GUI<ButtonCfg> {
       getStateStyle(get(this.attributes, name), state, true)
     );
 
-    if (disabled) {
+    if (state === 'disabled') {
       // 从DISABLED_STYLE中pick中pick mixedStyle里已有的style
       Object.keys(mixedStyle).forEach((key) => {
         if (key in DISABLED_STYLE[name]) {
@@ -177,173 +126,106 @@ export class Button extends GUI<ButtonCfg> {
     return mixedStyle;
   }
 
-  /**
-   * 初始化button
-   */
-  public init(): void {
-    this.initShape();
-    this.updateMarker();
-    this.updateText();
-    this.updateButton();
-    this.adjustLayout();
-    this.bindEvents();
+  // @todo 处理 markerAlign='right' 的场景. 方案: left marker & right marker 处理为两个 shape, 互相不干扰
+  public render(attributes: ButtonCfg, container: Group) {
+    const { padding, marker: markerSymbol, markerSpacing = 0 } = attributes;
+    container.attr('cursor', this.state === 'disabled' ? 'not-allowed' : 'pointer');
+    const [pt, pr, pb, pl] = normalPadding(padding);
+    const height = this.buttonHeight;
+
+    const markerStyle = this.getStyle('markerStyle');
+    const { markerSize } = this;
+    const markerShape = maybeAppend(
+      container,
+      '.marker',
+      () => new Marker({ className: 'marker', style: { symbol: 'circle' } })
+    )
+      .call((selection) => {
+        (selection.node() as Marker).update({
+          ...markerStyle,
+          symbol: markerSymbol,
+          x: pl + markerSize / 2,
+          y: height / 2,
+          size: markerSize,
+        });
+      })
+      .node() as Marker;
+
+    const bounds = markerShape.getLocalBounds();
+
+    const { text = '' } = this;
+    const textStyle = this.getStyle('textStyle');
+    this.textShape = maybeAppend(container, '.text', 'text')
+      .attr('className', 'text')
+      .style('x', markerSize ? bounds.max[0] + markerSpacing : pl)
+      .style('y', height / 2)
+      .style('text', text)
+      .style('textAlign', 'left')
+      .style('textBaseline', 'middle')
+      .call(applyStyle, textStyle)
+      .node() as Text;
+
+    const textBounds = this.textShape.getLocalBounds();
+    const buttonStyle = this.getStyle('buttonStyle') as RectProps;
+
+    maybeAppend(container, '.background', 'rect')
+      .attr('className', 'background')
+      .style('zIndex', -1)
+      .call(applyStyle, buttonStyle)
+      .style('height', height)
+      .style('width', pl + (markerSize ? markerSize + markerSpacing : 0) + textBounds.halfExtents[0] * 2 + pr)
+      .node();
   }
 
   /**
    * 组件的更新
    */
-  public update(cfg: Partial<ButtonCfg>) {
+  public update(cfg: Partial<ButtonCfg> = {}) {
     this.attr(deepMix({}, this.attributes, cfg));
-    this.updateMarker();
-    this.updateText();
-    this.updateButton();
-    this.adjustLayout();
+    const { state = 'default' } = this.attributes;
+    // 更新状态
+    this.state = state;
+    this.render(this.attributes, this);
   }
 
   /** 更新状态 (不需要走 update) */
-  public setState(state: 'disabled' | 'enabled') {
-    if (state === 'disabled') {
-      this.style.disabled = true;
-    } else {
-      this.style.disabled = false;
-    }
-    this.attr('cursor', this.style.disabled ? 'not-allowed' : 'pointer');
-    this.markerShape.attr('cursor', this.style.disabled ? 'not-allowed' : 'pointer');
-  }
-
-  /**
-   * 组件的清除
-   */
-  public clear() {}
-
-  public destroy() {
-    this.removeChildren(true);
-    super.destroy();
+  public setState(state: 'disabled' | 'active' | 'default') {
+    this.update({ state });
   }
 
   public hide() {
-    this.markerShape.update({ visibility: 'hidden' });
-    this.textShape.style.visibility = 'hidden';
-    this.backgroundShape.style.visibility = 'hidden';
+    // @ts-ignore
+    this.style.visibility = 'hidden';
   }
 
   public show() {
-    this.markerShape.update({ visibility: 'visible' });
-    this.textShape.style.visibility = 'visible';
-    this.backgroundShape.style.visibility = 'visible';
-  }
-
-  private initShape() {
-    this.markerShape = new Marker({
-      name: 'marker',
-      style: { symbol: 'circle', ...this.getStyle('markerStyle') },
-    });
-    this.textShape = new Text({ name: 'text', style: { text: '' } });
-    this.backgroundShape = new Rect({ name: 'background', style: { width: 0, height: 0 } });
-    this.backgroundShape.appendChild(this.markerShape);
-    this.backgroundShape.appendChild(this.textShape);
-    this.appendChild(this.backgroundShape);
-  }
-
-  private updateMarker() {
-    const { marker } = this.attributes;
-    if (isUndefined(marker)) this.markerShape.hide();
-    else {
-      this.markerShape.update({
-        symbol: marker,
-        ...this.getStyle('markerStyle'),
-      });
-      this.markerShape.show();
-    }
-  }
-
-  /**
-   * 更新文本内容和样式
-   */
-  private updateText() {
-    const { text } = this;
-    if (text === '') this.textShape.hide();
-    else {
-      this.textShape.attr({ ...this.getStyle('textStyle'), text });
-      this.textShape.show();
-    }
-  }
-
-  private updateButton() {
-    const { disabled } = this.attributes;
-    this.attr('cursor', disabled ? 'not-allowed' : 'pointer');
-
-    const height = this.buttonHeight;
-    const buttonStyle = this.getStyle('buttonStyle') as RectProps;
-    this.backgroundShape.attr({ ...buttonStyle, height });
+    // @ts-ignore
+    this.style.visibility = 'visible';
   }
 
   private clickEvents = () => {
-    const { onClick } = this.attributes;
+    const { onClick, state } = this.attributes;
     // 点击事件
-    !this.disabled && onClick?.call(this, this);
+    state !== 'disabled' && onClick?.call(this, this);
   };
 
   private mouseenterEvent = () => {
-    const { disabled } = this.attributes;
-    if (!disabled) {
-      // 鼠标悬浮事件
-      this.markerShape.update(this.getStyle('markerStyle', 'active'));
-      this.textShape.attr(this.getStyle('textStyle', 'active'));
-      this.backgroundShape.attr({
-        ...this.getStyle('buttonStyle', 'active'),
-        width: this.buttonWidth,
-        height: this.buttonHeight,
-      });
+    const { state } = this.attributes;
+    if (state !== 'disabled') {
+      this.state = 'active';
+      this.render(this.attributes, this);
     }
   };
 
   private mouseleaveEvent = () => {
-    // 恢复默认状态
-    this.markerShape.update(this.getStyle('markerStyle'));
-    this.textShape.attr(this.getStyle('textStyle'));
-    this.backgroundShape.attr({
-      ...this.getStyle('buttonStyle'),
-      width: this.buttonWidth,
-      height: this.buttonHeight,
-    });
+    const { state = 'default' } = this.attributes;
+    this.state = state;
+    this.render(this.attributes, this);
   };
 
-  private bindEvents(): void {
+  public bindEvents(): void {
     this.addEventListener('click', this.clickEvents);
     this.addEventListener('mouseenter', this.mouseenterEvent);
     this.addEventListener('mouseleave', this.mouseleaveEvent);
-  }
-
-  private adjustLayout() {
-    const { padding, marker, markerAlign: align, markerSpacing: spacing } = this.attributes;
-    const width = this.buttonWidth;
-    const height = this.buttonHeight;
-    const halfButtonWidth = width / 2;
-    const halfTextWidth = this.textWidth / 2;
-    const text = this.textShape.attr('text');
-    let textX = 0;
-    let markerX = 0;
-    const markerY = height / 2;
-    const textY = height / 2;
-
-    if (marker) {
-      const { markerWidth } = this;
-      const halfMarkerWidth = markerWidth / 2;
-      if (text === '') markerX = halfButtonWidth;
-      else if (align === 'left') {
-        markerX = halfMarkerWidth + padding!;
-        textX = padding! + markerWidth + spacing! + halfTextWidth;
-      } else {
-        markerX = this.buttonWidth - padding! - halfMarkerWidth;
-        textX = padding! + halfTextWidth;
-      }
-    } else if (text !== '') textX = halfButtonWidth;
-
-    this.markerShape.attr({ x: markerX, y: markerY });
-    this.textShape.attr({ x: textX, y: textY });
-
-    // 设置button宽度
-    this.backgroundShape.attr({ width: this.buttonWidth });
   }
 }

@@ -1,5 +1,5 @@
 import { deepMix, isString, isElement, assign, get } from '@antv/util';
-import { DisplayObject } from '@antv/g';
+import { DisplayObject, Group } from '@antv/g';
 import { GUI } from '../../core/gui';
 import { deepAssign } from '../../util';
 import { CLASS_NAME, POPTIP_ID, POPTIP_STYLE } from './constant';
@@ -55,15 +55,12 @@ export class Poptip extends GUI<Required<PoptipCfg>> {
 
   constructor(options: PoptipOptions) {
     super(deepMix({ style: { id: POPTIP_ID } }, Poptip.defaultOptions, options));
-    this.init();
+    this.initShape();
   }
 
-  /**
-   * poptip 组件初始化
-   */
-  public init() {
-    this.initShape();
-    this.update();
+  public render(attributes: PoptipCfg, container: Group) {
+    this.visibility = this.style.visibility;
+    this.updatePoptipElement();
   }
 
   /**
@@ -71,9 +68,7 @@ export class Poptip extends GUI<Required<PoptipCfg>> {
    */
   public update(cfg?: Partial<PoptipCfg>) {
     this.attr(deepMix({}, this.style, cfg));
-
-    this.visibility = this.style.visibility;
-    this.updatePoptipElement();
+    this.render(this.attributes, this);
   }
 
   /**

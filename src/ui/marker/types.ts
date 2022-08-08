@@ -14,7 +14,7 @@ export interface MarkerStyleProps extends ShapeAttrs {
   /**
    * 标记的大小，默认为 16
    */
-  size?: number | string;
+  size?: number;
   /**
    * 标记的类型，或者 path callback
    */

@@ -1,7 +1,7 @@
 import { Group } from '@antv/g';
 import { min, isFunction, deepMix } from '@antv/util';
 import { maybeAppend, normalPadding } from '../../util';
-import { BaseComponent } from '../../util/create';
+import { GUI } from '../../core/gui';
 import { CategoryItem, CategoryItemStyleProps } from './categoryItem';
 import type { CategoryStyleProps, CategoryOptions } from './types';
 import { getTitleShapeBBox, renderGroup, renderRect, renderTitle } from './base';
@@ -58,7 +58,7 @@ function getItems(attributes: any): CategoryItemStyleProps[] {
   });
 }
 
-export class Category extends BaseComponent<CategoryStyleProps> {
+export class Category extends GUI<CategoryStyleProps> {
   constructor(config: any) {
     super(deepMix({}, CATEGORY_DEFAULT_OPTIONS, config));
   }

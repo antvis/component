@@ -17,7 +17,8 @@ const button = new Button({
     y: 50,
     text: 'Custom Button',
     type: 'primary',
-    marker: (x, y, r) => {
+    marker: (x, y, size) => {
+      const r = size * 2;
       const path = [];
       for (let i = 0; i < 5; i++) {
         path.push([
@@ -34,8 +35,8 @@ const button = new Button({
       path.push(['Z']);
       return path;
     },
-    padding: 5,
-    markerSpacing: 0,
+    padding: 4,
+    markerSpacing: 2,
     // ellipsis: true,
     buttonStyle: {
       default: {
@@ -58,11 +59,11 @@ const button = new Button({
     markerStyle: {
       default: {
         fill: '#fff',
-        size: 30,
+        size: 12,
       },
       active: {
         fill: '#eb913a',
-        size: 30,
+        size: 12,
       },
     },
   },

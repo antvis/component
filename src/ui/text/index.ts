@@ -248,6 +248,10 @@ export class Text extends GUI<Required<TextCfg>> {
 
   public update(cfg: Partial<TextCfg>) {
     this.attr(deepAssign({}, this.attributes, cfg));
+    this.render();
+  }
+
+  public render() {
     this.clear();
     this.backgroundShape.attr(this.backgroundCfg);
     this.textShape.attr(this.textCfg);

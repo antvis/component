@@ -64,7 +64,7 @@ export const TYPE_STYLE = {
       active: {},
     },
     buttonStyle: {
-      default: { stroke: '#bbb', lineDash: [5, 5] },
+      default: { fill: 'transparent', stroke: '#bbb', lineDash: [5, 5] },
       active: {},
     },
     markerStyle: {},
@@ -75,7 +75,7 @@ export const TYPE_STYLE = {
       active: {},
     },
     buttonStyle: {
-      default: { lineWidth: 0 },
+      default: { fill: 'transparent', lineWidth: 0 },
       active: {},
     },
     markerStyle: {
@@ -88,7 +88,7 @@ export const TYPE_STYLE = {
       active: {},
     },
     buttonStyle: {
-      default: { lineWidth: 0 },
+      default: { fill: 'transparent', lineWidth: 0 },
       active: {},
     },
     markerStyle: {
@@ -101,7 +101,7 @@ export const TYPE_STYLE = {
       active: { fill: '#1890ff' },
     },
     buttonStyle: {
-      default: { stroke: '#bbb' },
+      default: { fill: 'transparent', stroke: '#bbb' },
       active: { stroke: '#1890ff' },
     },
     markerStyle: {

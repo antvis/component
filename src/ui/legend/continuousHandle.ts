@@ -1,13 +1,13 @@
 import { TextStyleProps, Group } from '@antv/g';
 import { applyStyle, maybeAppend } from '../../util';
-import { BaseComponent } from '../../util/create';
+import { GUI } from '../../core/gui';
 import { MarkerStyleProps, Marker } from '../marker';
 
 type HandleStyleProps = MarkerStyleProps & {
   textStyle?: TextStyleProps;
 };
 
-export class Handle extends BaseComponent<HandleStyleProps> {
+export class Handle extends GUI<HandleStyleProps> {
   render(attribute: HandleStyleProps, container: Group) {
     const { textStyle, visibility, symbol, size, fill, stroke, lineWidth } = attribute;
     if (!symbol || visibility === 'hidden') {

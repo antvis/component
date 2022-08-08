@@ -1,40 +1,37 @@
-import { CustomElement } from '@antv/g';
+import { CustomElement, DisplayObjectConfig, Group } from '@antv/g';
+import { deepMix } from '@antv/util';
 
-export abstract class GUI<CustomElementStyleProps> extends CustomElement<CustomElementStyleProps> {
-  public static tag: string = 'gui';
-
-  connectedCallback(): void {}
-
-  disconnectedCallback(): void {}
-
-  /**
-   * 组件初始化
-   */
-  public init(): void {}
-
-  /**
-   * 属性发生修改时触发
-   */
-  attributeChangedCallback?<Key extends keyof CustomElementStyleProps>(
-    name: Key,
-    oldValue: CustomElementStyleProps[Key],
-    newValue: CustomElementStyleProps[Key]
-  ): void;
-
-  // 下面的部分是 GUI 自定义的
-
-  /**
-   * 组件的更新
-   */
-  public abstract update(cfg: Partial<CustomElementStyleProps>): void;
-
-  /**
-   * 组件的清除
-   */
-  public clear(): void {}
-
-  public destroy(): void {
-    this.removeChildren(true);
-    this.parentNode && this.parentNode.removeChild(this);
+export abstract class GUI<T> extends CustomElement<T> {
+  constructor(config: DisplayObjectConfig<T>) {
+    super(config);
   }
+
+  connectedCallback() {
+    // 临时修复初始化 x, y 设置不生效
+    // @ts-ignore
+    const { x, y } = this.style;
+    this.setLocalPosition([x || 0, y || 0]);
+
+    this.update();
+    this.bindEvents(this.attributes, this);
+  }
+
+  public update(cfg: Partial<T> = {}) {
+    this.attr(deepMix({}, this.attributes, cfg));
+    this.render?.(this.attributes, this);
+  }
+
+  public clear() {
+    this.removeChildren(true);
+  }
+
+  public destroy() {
+    this.removeAllEventListeners();
+    this.removeChildren(true);
+    this.remove();
+  }
+
+  public abstract render(attributes: T, container: Group): void;
+
+  public bindEvents(attributes: T, container: Group): void {}
 }

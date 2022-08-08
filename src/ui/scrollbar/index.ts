@@ -1,13 +1,13 @@
 import { Rect, CustomEvent, Group } from '@antv/g';
 import { clamp, deepMix, get } from '@antv/util';
-import { BaseComponent } from '../../util/create';
+import { GUI } from '../../core/gui';
 import { getStateStyle, getEventPos, normalPadding, maybeAppend, applyStyle } from '../../util';
 import type { RectProps } from '../../types';
 import type { ScrollbarOptions, ScrollbarStyleProps } from './types';
 
 export type { ScrollbarOptions, ScrollbarStyleProps };
 
-export class Scrollbar extends BaseComponent<Required<ScrollbarStyleProps>> {
+export class Scrollbar extends GUI<Required<ScrollbarStyleProps>> {
   /**
    * tag
    */
