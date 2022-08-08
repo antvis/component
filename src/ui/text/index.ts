@@ -9,7 +9,7 @@ import {
   measureTextWidth,
   TEXT_INHERITABLE_PROPS,
 } from '../../util';
-import { BaseComponent } from '../../util/create';
+import { GUI } from '../../core/gui';
 import type { TextCfg, TextOptions, DecorationCfg } from './types';
 import type { TextProps } from '../../types';
 
@@ -26,7 +26,7 @@ export type { TextCfg, TextOptions };
  * 7. set anchor
  */
 
-export class Text extends BaseComponent<Required<TextCfg>> {
+export class Text extends GUI<Required<TextCfg>> {
   public static tag = 'paragraph';
 
   private static defaultOptions = {

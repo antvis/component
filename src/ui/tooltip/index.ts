@@ -1,14 +1,14 @@
 import { Group } from '@antv/g';
 import { deepMix, substitute, isString, isElement, isFunction, throttle } from '@antv/util';
 import { createDom } from '@antv/dom-util';
-import { BaseComponent } from '../../util/create';
+import { GUI } from '../../core/gui';
 import { applyStyleSheet, parseHTML } from '../../util';
 import { CLASS_NAME, TOOLTIP_STYLE } from './constant';
 import type { TooltipCfg, TooltipOptions, TooltipItem, TooltipPosition } from './types';
 
 export type { TooltipCfg, TooltipOptions };
 
-export class Tooltip extends BaseComponent<Required<TooltipCfg>> {
+export class Tooltip extends GUI<Required<TooltipCfg>> {
   public static tag = 'tooltip';
 
   private static defaultOptions = {
