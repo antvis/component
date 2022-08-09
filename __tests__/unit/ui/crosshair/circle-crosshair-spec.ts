@@ -1,26 +1,14 @@
-import { Canvas } from '@antv/g';
-import { Renderer } from '@antv/g-canvas';
 import { CircleCrosshair } from '../../../../src';
-import { createDiv } from '../../../utils';
 import { delay } from '../../../utils/delay';
+import { createCanvas } from '../../../utils/render';
 
-const renderer = new Renderer();
-
-const div = createDiv();
-
-const canvas = new Canvas({
-  container: div,
-  width: 500,
-  height: 500,
-  renderer,
-});
-
+const canvas = createCanvas();
 const circle = new CircleCrosshair({
   style: {
     center: [250, 250],
     defaultRadius: 50,
     lineStyle: {
-      lineWidth: 2,
+      lineWidth: 1,
     },
   },
 });
@@ -41,8 +29,8 @@ describe('circle-crosshair', () => {
     circle.update({
       center: [50, 50],
     });
-    // @ts-ignore
-    expect(circle.crosshairShape.attr('path')).toStrictEqual([
+    const crosshairShape = circle.querySelector('.crosshair-path') as any;
+    expect(crosshairShape.attr('path')).toStrictEqual([
       ['M', 0, 50],
       ['A', 50, 50, 0, 1, 0, 100, 50],
       ['A', 50, 50, 0, 1, 0, 0, 50],
@@ -51,7 +39,6 @@ describe('circle-crosshair', () => {
   });
 
   test('setPointer', async () => {
-    // r = 100
     circle.setPointer([50, 150]);
     await delay(20);
     // @ts-ignore

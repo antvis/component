@@ -118,6 +118,7 @@ export class Tooltip extends GUI<Required<TooltipCfg>> {
     super(deepMix({}, Tooltip.defaultOptions, options));
     this.visibility = this.attributes.visibility;
     this.initShape();
+    this.render(this.attributes, this);
   }
 
   public render(attributes: TooltipCfg, container: Group) {

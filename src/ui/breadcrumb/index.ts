@@ -43,21 +43,6 @@ export class Breadcrumb extends GUI<Required<BreadcrumbCfg>> {
   };
 
   /**
-   * 面包屑容器
-   */
-  public container!: Group;
-
-  /**
-   * 光标 X 位置
-   */
-  private cursorX: number = 0;
-
-  /**
-   * 光标 Y 位置
-   */
-  private cursorY: number = 0;
-
-  /**
    *
    * @param options
    */
@@ -117,7 +102,7 @@ export class Breadcrumb extends GUI<Required<BreadcrumbCfg>> {
       // 最后一个分隔符，不需要渲染
       if (i !== items.length - 1) {
         const shape = new Text({
-          name: `${Breadcrumb.tag}-separator`,
+          className: `${Breadcrumb.tag}-separator`,
           id: `${Breadcrumb.tag}-separator-${i}`,
           style: {
             ...TEXT_INHERITABLE_PROPS,

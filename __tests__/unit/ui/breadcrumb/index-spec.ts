@@ -2,20 +2,13 @@ import { Canvas } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Breadcrumb } from '../../../../src';
 import { createDiv } from '../../../utils';
+import { createCanvas } from '../../../utils/render';
 
 const renderer = new CanvasRenderer();
 
 describe('breadcrumb', () => {
-  test('basic', () => {
-    const div = createDiv();
-
-    const canvas = new Canvas({
-      container: div,
-      width: 500,
-      height: 300,
-      renderer,
-    });
-
+  test('basic', async () => {
+    const canvas = createCanvas();
     const breadcrumb = new Breadcrumb({
       style: {
         x: 50,
@@ -30,16 +23,18 @@ describe('breadcrumb', () => {
     });
     canvas.appendChild(breadcrumb);
 
+    await canvas.ready;
+
     let { padding } = breadcrumb.attributes;
     if (!Array.isArray(padding)) {
       padding = [padding, padding, padding, padding];
     }
 
-    const children = breadcrumb.querySelector('.container')?.children || [];
-    expect(children.length).toBe(4 * 2 - 1);
+    const container = breadcrumb.querySelector('.container') as any;
+    expect(container.children.length).toBe(4 * 2 - 1);
 
-    const breadItemShapes = children.filter((item: any) => item.name === 'breadcrumb-item');
-    const separatorShapes = children.filter((item: any) => item.name === 'breadcrumb-separator');
+    const breadItemShapes = container.querySelectorAll('.breadcrumb-item');
+    const separatorShapes = container.querySelectorAll('.breadcrumb-separator');
 
     expect(breadItemShapes.length).toBe(4);
     expect(separatorShapes.length).toBe(3);
@@ -77,12 +72,12 @@ describe('breadcrumb', () => {
         padding: [20, 20, 20, 20],
       },
     });
+    canvas.appendChild(breadcrumb);
+    await canvas.ready;
 
     const { padding } = breadcrumb.attributes;
 
     expect(padding).toEqual([20, 20, 20, 20]);
-
-    canvas.appendChild(breadcrumb);
   });
 
   test('custom separator', async () => {
@@ -115,6 +110,7 @@ describe('breadcrumb', () => {
         },
       },
     });
+    canvas.appendChild(breadcrumb);
 
     // const { separator } = breadcrumb.attributes;
     // to be fix later
@@ -127,25 +123,22 @@ describe('breadcrumb', () => {
     //     lineHeight: 14,
     //   },
     // });
+    await canvas.ready;
 
     const childrens = breadcrumb.children;
     const separatorShapes = childrens.filter((item) => item.name === 'breadcrumb-separator');
     // @ts-ignore
     separatorShapes.forEach((item) => expect(item.attr().text).toBe(`>`));
-
-    canvas.appendChild(breadcrumb);
   });
 
   test('custom width', async () => {
     const div = createDiv();
-
     const canvas = new Canvas({
       container: div,
       width: 300,
       height: 300,
       renderer,
     });
-
     const breadcrumb = new Breadcrumb({
       style: {
         x: 0,
@@ -159,34 +152,33 @@ describe('breadcrumb', () => {
         width: 200,
       },
     });
+    canvas.appendChild(breadcrumb);
 
     const { x, width } = breadcrumb.attributes;
     let { padding } = breadcrumb.attributes;
     if (!Array.isArray(padding)) {
       padding = [padding, padding, padding, padding];
     }
+    await canvas.ready;
 
-    const childrens = breadcrumb.container.children;
-
-    const breadItemShapes = childrens.filter((item) => item.name === 'breadcrumb-item');
-    const separatorShapes = childrens.filter((item) => item.name === 'breadcrumb-separator');
+    const children = (breadcrumb.querySelector('.container') as any).children;
+    const breadItemShapes = children.filter((item) => item.name === 'breadcrumb-item');
+    const separatorShapes = children.filter((item) => item.name === 'breadcrumb-separator');
 
     breadItemShapes.forEach((item) => {
       // @ts-ignore
       const rect = item.getBoundingClientRect();
       expect(rect.right).not.toBeGreaterThan(x + width - (padding as number[])[1]);
+      separatorShapes.forEach((item) => {
+        // @ts-ignore
+        const rect = item.getBoundingClientRect();
+        expect(rect.right).not.toBeGreaterThan(x + width - (padding as number[])[1]);
+        // [todo]
+        // expect(rect.left).not.toBeLessThan(x + (padding as number[])[3]);
+      });
+
       // fixme later
       // expect(rect.left).not.toBeLessThan(x + (padding as number[])[3]);
     });
-
-    separatorShapes.forEach((item) => {
-      // @ts-ignore
-      const rect = item.getBoundingClientRect();
-      expect(rect.right).not.toBeGreaterThan(x + width - (padding as number[])[1]);
-      // [todo]
-      // expect(rect.left).not.toBeLessThan(x + (padding as number[])[3]);
-    });
-
-    canvas.appendChild(breadcrumb);
   });
 });

@@ -1,7 +1,7 @@
 import { Path, Group } from '@antv/g';
 import { deepMix } from '@antv/util';
 import { GUI } from '../../core/gui';
-import { maybeAppend } from '../../util';
+import { applyStyle, maybeAppend } from '../../util';
 import { Tag } from '../tag';
 import { CROSSHAIR_BASE_DEFAULT_STYLE } from './constant';
 import type { CrosshairBaseCfg, CrosshairBaseOptions } from './types';
@@ -67,11 +67,10 @@ export abstract class CrosshairBase<T extends CrosshairBaseCfg> extends GUI<Requ
       '.crosshair-tag',
       () => new Tag({ className: 'crosshair-tag', style: this.tagCfg })
     ).node() as Tag;
-    this.crosshairShape = maybeAppend(
-      group,
-      '.crosshair-path',
-      () => new Path({ className: 'crosshair-path', style: this.crosshairCfg })
-    ).node() as Path;
+    this.crosshairShape = maybeAppend(group, '.crosshair-path', 'path')
+      .attr('className', 'crosshair-path')
+      .call(applyStyle, this.crosshairCfg)
+      .node() as Path;
 
     this.adjustLayout();
   }

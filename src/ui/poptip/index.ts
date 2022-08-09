@@ -56,6 +56,7 @@ export class Poptip extends GUI<Required<PoptipCfg>> {
   constructor(options: PoptipOptions) {
     super(deepMix({ style: { id: POPTIP_ID } }, Poptip.defaultOptions, options));
     this.initShape();
+    this.render(this.attributes, this);
   }
 
   public render(attributes: PoptipCfg, container: Group) {
