@@ -162,14 +162,14 @@ describe('breadcrumb', () => {
     await canvas.ready;
 
     const children = (breadcrumb.querySelector('.container') as any).children;
-    const breadItemShapes = children.filter((item) => item.name === 'breadcrumb-item');
-    const separatorShapes = children.filter((item) => item.name === 'breadcrumb-separator');
+    const breadItemShapes = children.filter((item: any) => item.name === 'breadcrumb-item');
+    const separatorShapes = children.filter((item: any) => item.name === 'breadcrumb-separator');
 
-    breadItemShapes.forEach((item) => {
+    breadItemShapes.forEach((item: any) => {
       // @ts-ignore
       const rect = item.getBoundingClientRect();
       expect(rect.right).not.toBeGreaterThan(x + width - (padding as number[])[1]);
-      separatorShapes.forEach((item) => {
+      separatorShapes.forEach((item: any) => {
         // @ts-ignore
         const rect = item.getBoundingClientRect();
         expect(rect.right).not.toBeGreaterThan(x + width - (padding as number[])[1]);
