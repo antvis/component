@@ -1,3 +1,9 @@
+#### 0.8.28 (2022-08-10)
+
+##### Bug Fixes
+
+- **annotation:** annotation html 在 container 没有绝对定位时获取宽度宽度自适应导致位置计算出错的问题。 ([#272](https://github.com/antvis/component/pull/272)) ([e930d028](https://github.com/antvis/component/pull/272/commits/e930d02846f2ec7b3136e94ddc9bad6d7b5a63fd))
+
 #### 0.8.27 (2022-04-12)
 
 ##### New Features
