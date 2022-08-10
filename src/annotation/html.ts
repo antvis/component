@@ -15,7 +15,7 @@ export default class HtmlAnnotation extends HtmlComponent<HtmlAnnotationCfg> imp
       locationType: 'point',
       x: 0,
       y: 0,
-      containerTpl: `<div class="g2-html-annotation"></div>`,
+      containerTpl: `<div class="g2-html-annotation" style="position:absolute"></div>`,
       alignX: 'left',
       alignY: 'top',
       html: '',
