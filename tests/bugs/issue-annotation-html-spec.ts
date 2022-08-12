@@ -1,4 +1,5 @@
 import { Canvas } from '@antv/g-canvas';
+import Theme from '../../src/util/theme';
 import HtmlAnnotation from '../../src/annotation/html';
 
 describe('html annotation alignX', () => {
@@ -15,7 +16,7 @@ describe('html annotation alignX', () => {
 
   const html = new HtmlAnnotation({
     parent,
-    html: '2222',
+    html: `<div style="fontSize: 12px; fontFamily: ${Theme.fontFamily};" >2222</div>`,
     x: 400,
     y: 200,
     alignX: 'middle',
