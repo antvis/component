@@ -16,7 +16,7 @@ describe('html annotation alignX', () => {
 
   const html = new HtmlAnnotation({
     parent,
-    html: `<div style="fontSize: 12px; fontFamily: ${Theme.fontFamily};" >2222</div>`,
+    html: `<div style="font-size: 12px; font-family: ${Theme.fontFamily};">2222</div>`,
     x: 400,
     y: 200,
     alignX: 'middle',
@@ -26,7 +26,7 @@ describe('html annotation alignX', () => {
     html.init();
     html.render();
     const container = parent.children[0] as HTMLElement;
-    expect(container.style.left).toBe('381px');
+    expect(container.style.left).toBe('386px');
   });
 
   it('destroy', () => {
