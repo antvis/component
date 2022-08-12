@@ -1,5 +1,4 @@
 import { Canvas } from '@antv/g-canvas';
-import Theme from '../../src/util/theme';
 import HtmlAnnotation from '../../src/annotation/html';
 
 describe('html annotation alignX', () => {
@@ -16,17 +15,38 @@ describe('html annotation alignX', () => {
 
   const html = new HtmlAnnotation({
     parent,
-    html: `<div style="font-size:12px;font-family:${Theme.fontFamily};margin:0;">2222</div>`,
+    html: '2222',
     x: 400,
     y: 200,
     alignX: 'middle',
   });
 
   it('init', () => {
+    // 添加自定义的匹配器
+    expect.extend({
+      toBeWithinRange(received, floor, ceiling) {
+        const pass = received >= floor && received <= ceiling;
+        if (pass) {
+          return {
+            message: () =>
+              `expected ${received} not to be within range ${floor} - ${ceiling}`,
+            pass: true,
+          };
+        } else {
+          return {
+            message: () =>
+              `expected ${received} to be within range ${floor} - ${ceiling}`,
+            pass: false,
+          };
+        }
+      },
+    });
+
     html.init();
     html.render();
     const container = parent.children[0] as HTMLElement;
-    expect(container.style.left).toBe('386px');
+    // @ts-ignore
+    expect(Number(container.style.left.replace('px', ''))).toBeWithinRange(380, 390);
   });
 
   it('destroy', () => {
