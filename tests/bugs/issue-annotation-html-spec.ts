@@ -22,10 +22,31 @@ describe('html annotation alignX', () => {
   });
 
   it('init', () => {
+    // 添加自定义的匹配器
+    expect.extend({
+      toBeWithinRange(received, floor, ceiling) {
+        const pass = received >= floor && received <= ceiling;
+        if (pass) {
+          return {
+            message: () =>
+              `expected ${received} not to be within range ${floor} - ${ceiling}`,
+            pass: true,
+          };
+        } else {
+          return {
+            message: () =>
+              `expected ${received} to be within range ${floor} - ${ceiling}`,
+            pass: false,
+          };
+        }
+      },
+    });
+
     html.init();
     html.render();
     const container = parent.children[0] as HTMLElement;
-    expect(container.style.left).toBe('381px');
+    // @ts-ignore
+    expect(Number(container.style.left.replace('px', ''))).toBeWithinRange(380, 390);
   });
 
   it('destroy', () => {
