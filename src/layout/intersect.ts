@@ -101,28 +101,5 @@ export function intersect(a: DisplayObject<any>, b: DisplayObject<any>, margin?:
     intersectBoxLine(q, [p[0], p[1], p[4], p[5]]) ||
     intersectBoxLine(q, [p[4], p[5], p[6], p[7]]) ||
     intersectBoxLine(q, [p[2], p[3], p[6], p[7]]);
-  const debug = localStorage.getItem('__debug__');
-  // @ts-ignore
-  if (debug && window.canvas) {
-    const draw = (points: any[], stroke = 'red') =>
-      // @ts-ignore
-      window.canvas.appendChild(
-        new Path({
-          style: {
-            lineWidth: 1,
-            stroke,
-            path: [
-              ['M', points[0], points[1]],
-              ['L', points[2], points[3]],
-              ['L', points[4], points[5]],
-              ['L', points[6], points[7]],
-              ['Z'],
-            ],
-          },
-        })
-      );
-    draw(p);
-    draw(q, 'blue');
-  }
   return result;
 }
