@@ -1,3 +1,9 @@
+#### 0.8.29 (2022-08-26)
+
+##### Bug Fixes
+
+- **tooltip:** 修复自定义 tooltip 的动画没有 transition 效果 ([#275](https://github.com/antvis/component/pull/275)) ([839f3f86](https://github.com/antvis/component/commit/839f3f86b203692e002476f1577a33f9aa772183))
+
 #### 0.8.28 (2022-08-10)
 
 ##### Bug Fixes
