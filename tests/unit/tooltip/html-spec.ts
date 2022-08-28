@@ -314,7 +314,6 @@ describe('test tooltip', () => {
       tooltip.init();
       container = tooltip.getContainer();
       expect(Array.from(container.classList).includes('g2-tooltip')).toBe(true);
-      expect(Array.from(container.classList).includes('custom-html-tooltip')).toBe(true);
       each(HtmlTheme[CssConst.CONTAINER_CLASS], (val, key) => {
         if (!['transition', 'boxShadow', 'fontFamily', 'padding'].includes(key)) {
           expect(container.style[key] + '').toBe(val + '');
@@ -326,7 +325,6 @@ describe('test tooltip', () => {
       tooltip.render();
       container = tooltip.getContainer();
       expect(Array.from(container.classList).includes('g2-tooltip')).toBe(true);
-      expect(Array.from(container.classList).includes('custom-html-tooltip')).toBe(true);
       const title = container.getElementsByClassName('g2-tooltip-title')[0] as HTMLElement;
       expect(title.innerText).toBe('My Title html');
       const listItems = Array.from(container.getElementsByClassName('g2-tooltip-list-item')) as HTMLElement[];
