@@ -1,9 +1,5 @@
 #### 0.8.30 (2022-08-29)
 
-##### Chores
-
-- v0.8.29 & changelog ([#276](https://github.com/antvis/component/pull/276)) ([87fe3340](https://github.com/antvis/component/commit/87fe33409c3f33037578aa67d7ee1c5609757f09))
-
 ##### Bug Fixes
 
 - **tooltip:**
