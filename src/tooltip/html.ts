@@ -10,7 +10,7 @@ import TooltipTheme from './html-theme';
 
 import { ILocation } from '../interfaces';
 import { getAlignPoint } from '../util/align';
-import { CONTAINER_CLASS } from './css-const';
+import { CONTAINER_CLASS_CUSTOM } from './css-const';
 
 function hasOneKey(obj, keys) {
   let result = false;
@@ -141,10 +141,11 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
       }
       const newContainer = this.getHtmlContentNode();
       const customContainer = document.createElement('div');
-      customContainer.className = CONTAINER_CLASS;
+      customContainer.className = CONTAINER_CLASS_CUSTOM;
       customContainer.appendChild(newContainer);
       this.get('parent').appendChild(customContainer);
       this.set('container', customContainer);
+      this.set('containerClassName', CONTAINER_CLASS_CUSTOM);
       this.resetStyles();
       this.applyStyles();
     }

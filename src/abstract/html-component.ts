@@ -1,5 +1,6 @@
 import { createDom, modifyCSS } from '@antv/dom-util';
 import { isNil, isString, deepMix, each, hasKey } from '@antv/util';
+import { CONTAINER_CLASS_CUSTOM } from '../tooltip/css-const';
 import { BBox, ComponentCfg, HtmlComponentCfg } from '../types';
 import { clearDom, createBBox, hasClass } from '../util/util';
 import Component from './component';
@@ -91,9 +92,7 @@ abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends 
     }
   }
 
-  protected initDom() {
-
-  }
+  protected initDom() {}
 
   protected initContainer() {
     let container = this.get('container');
@@ -150,6 +149,11 @@ abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends 
     each(styles, (style, name) => {
       const elements = element.getElementsByClassName(name);
       each(elements, (el) => {
+        const containerClassName = this.get('containerClassName');
+        // 在自定义容器下, 可以渲染 g2-tooltip 的样式, 以兼容线上场景, 但是不应该设置 visibility
+        if (containerClassName === CONTAINER_CLASS_CUSTOM) {
+          delete style.visibility;
+        }
         modifyCSS(el, style);
       });
     });
@@ -172,7 +176,7 @@ abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends 
    * @protected
    * 初始化事件
    */
-  protected initEvent() { }
+  protected initEvent() {}
 
   /**
    * @protected
@@ -188,7 +192,7 @@ abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends 
    * @protected
    * 清理事件
    */
-  protected removeEvent() { }
+  protected removeEvent() {}
 
   protected updateInner(cfg) {
     // 更新样式
@@ -199,7 +203,7 @@ abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends 
     // 只要属性发生变化，都调整一些位置
     this.resetPosition();
   }
-  protected resetPosition() { };
+  protected resetPosition() {}
 }
 
 export default HtmlComponent;
