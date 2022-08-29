@@ -1,5 +1,6 @@
 import { createDom, modifyCSS } from '@antv/dom-util';
 import { isNil, isString, deepMix, each, hasKey } from '@antv/util';
+import { CONTAINER_CLASS_CUSTOM } from '../tooltip/css-const';
 import { BBox, ComponentCfg, HtmlComponentCfg } from '../types';
 import { clearDom, createBBox, hasClass } from '../util/util';
 import Component from './component';
@@ -150,6 +151,11 @@ abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends 
     each(styles, (style, name) => {
       const elements = element.getElementsByClassName(name);
       each(elements, (el) => {
+        const containerClassName = this.get('containerClassName');
+        // 在自定义容器下, 可以渲染 g2-tooltip 的样式, 以兼容线上场景, 但是不应该设置 visibility
+        if (containerClassName === CONTAINER_CLASS_CUSTOM) {
+          delete style.visibility;
+        }
         modifyCSS(el, style);
       });
     });

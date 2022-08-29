@@ -1,4 +1,5 @@
 export const CONTAINER_CLASS = 'g2-tooltip';
+export const CONTAINER_CLASS_CUSTOM = 'g2-tooltip-custom';
 export const TITLE_CLASS = 'g2-tooltip-title';
 export const LIST_CLASS = 'g2-tooltip-list';
 export const LIST_ITEM_CLASS = 'g2-tooltip-list-item';
