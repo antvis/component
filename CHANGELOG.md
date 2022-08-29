@@ -1,3 +1,15 @@
+#### 0.8.30 (2022-08-29)
+
+##### Chores
+
+- v0.8.29 & changelog ([#276](https://github.com/antvis/component/pull/276)) ([87fe3340](https://github.com/antvis/component/commit/87fe33409c3f33037578aa67d7ee1c5609757f09))
+
+##### Bug Fixes
+
+- **tooltip:**
+  - 修复当 customContent 传入非 DOM 或单一 DOM 结构无法渲染的问题 ([#277](https://github.com/antvis/component/pull/277)) ([74bec9d5](https://github.com/antvis/component/commit/74bec9d53221d4b3680c2a8ae0f2b4b1fd254af0))
+  - 修复自定义 tooltip 的动画没有 transition 效果 ([#275](https://github.com/antvis/component/pull/275)) ([839f3f86](https://github.com/antvis/component/commit/839f3f86b203692e002476f1577a33f9aa772183))
+
 #### 0.8.29 (2022-08-26)
 
 ##### Bug Fixes
