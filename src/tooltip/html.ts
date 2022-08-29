@@ -197,11 +197,15 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
 
   // 根据 customContent 渲染
   private renderCustomContent() {
-    const newContainer = this.getHtmlContentNode();
-    const oldContainer: HTMLElement = this.get('container');
-    oldContainer.innerHTML = '';
-    const newChild = newContainer.children[0];
-    oldContainer.appendChild(newChild);
+    const node = this.getHtmlContentNode();
+    const parent: HTMLElement = this.get('parent');
+    const curContainer: HTMLElement = this.get('container');
+    if (curContainer && curContainer.parentNode === parent) {
+      parent.replaceChild(node, curContainer);
+    } else {
+      parent.appendChild(node);
+    }
+    this.set('container', node);
     this.resetStyles();
     this.applyStyles();
   }
