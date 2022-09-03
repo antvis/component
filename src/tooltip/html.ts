@@ -210,7 +210,7 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
   private renderCustomContent() {
     const newContainer = this.getHtmlContentNode();
     let oldContainer: HTMLElement = this.get('container');
-    // 如果一个图表的 tooltip 一开始是默认的, 而后手动调用了 tooltip({custom():{}}) 方法, 则会导致 oldContainer 是 'g2-tooltip', 但其实应该 'g2-tooltip-custom'
+    // 如果一个图表的 tooltip 一开始是默认的, 而后手动设置了 customContent 方法, 则会导致 oldContainer 是 'g2-tooltip', 但其实应该 'g2-tooltip-custom'
     let existG2TooltipClass = hasClass(oldContainer, CONTAINER_CLASS);
     if (existG2TooltipClass) {
       this.setCustomContainer();
