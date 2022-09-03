@@ -10,7 +10,8 @@ import TooltipTheme from './html-theme';
 
 import { ILocation } from '../interfaces';
 import { getAlignPoint } from '../util/align';
-import { CONTAINER_CLASS_CUSTOM } from './css-const';
+import { hasClass } from '../util/util';
+import { CONTAINER_CLASS, CONTAINER_CLASS_CUSTOM } from './css-const';
 
 function hasOneKey(obj, keys) {
   let result = false;
@@ -132,6 +133,13 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
       });
   }
 
+  private setCustomContainer(): void {
+    const customContainer = document.createElement('div');
+    customContainer.className = CONTAINER_CLASS_CUSTOM;
+    this.set('container', customContainer);
+    this.set('containerClassName', CONTAINER_CLASS_CUSTOM);
+  }
+
   // 如有 customContent 则根据 customContent 设置 container
   protected initContainer() {
     super.initContainer();
@@ -139,13 +147,11 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
       if (this.get('container')) {
         this.get('container').remove();
       }
+      this.setCustomContainer();
       const newContainer = this.getHtmlContentNode();
-      const customContainer = document.createElement('div');
-      customContainer.className = CONTAINER_CLASS_CUSTOM;
+      const customContainer: HTMLElement = this.get('container');
       customContainer.appendChild(newContainer);
       this.get('parent').appendChild(customContainer);
-      this.set('container', customContainer);
-      this.set('containerClassName', CONTAINER_CLASS_CUSTOM);
       this.resetStyles();
       this.applyStyles();
     }
@@ -203,9 +209,21 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
   // 根据 customContent 渲染
   private renderCustomContent() {
     const newContainer = this.getHtmlContentNode();
-    const oldContainer: HTMLElement = this.get('container');
+    let oldContainer: HTMLElement = this.get('container');
+    // 如果一个图表的 tooltip 一开始是默认的, 而后手动调用了 tooltip({custom():{}}) 方法, 则会导致 oldContainer 是 'g2-tooltip', 但其实应该 'g2-tooltip-custom'
+    let existG2TooltipClass = hasClass(oldContainer, CONTAINER_CLASS);
+    if (existG2TooltipClass) {
+      this.setCustomContainer();
+      oldContainer = this.get('container');
+      const parent: HTMLElement = this.get('parent');
+      const target = parent.querySelector(`.${CONTAINER_CLASS}`);
+      parent.removeChild(target);
+    }
     oldContainer.innerHTML = '';
     oldContainer.appendChild(newContainer);
+    if (existG2TooltipClass) {
+      this.get('parent').appendChild(oldContainer);
+    }
     this.resetStyles();
     this.applyStyles();
   }

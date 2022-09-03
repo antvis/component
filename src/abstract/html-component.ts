@@ -153,10 +153,15 @@ abstract class HtmlComponent<T extends ComponentCfg = HtmlComponentCfg> extends 
       each(elements, (el) => {
         const containerClassName = this.get('containerClassName');
         // 在自定义容器下, 可以渲染 g2-tooltip 的样式, 以兼容线上场景, 但是不应该设置 visibility
+        let newStyle = style;
         if (containerClassName === CONTAINER_CLASS_CUSTOM) {
-          delete style.visibility;
+          newStyle = {
+            ...style,
+            visibility: 'unset',
+            position: 'unset',
+          };
         }
-        modifyCSS(el, style);
+        modifyCSS(el, newStyle);
       });
     });
   }
