@@ -201,11 +201,14 @@ class Tooltip<T extends TooltipCfg = TooltipCfg> extends HtmlComponent implement
     const parent: HTMLElement = this.get('parent');
     const curContainer: HTMLElement = this.get('container');
     if (curContainer && curContainer.parentNode === parent) {
-      parent.replaceChild(node, curContainer);
+      // keep `curContainer` stable, just replace children
+      // @see https://developer.mozilla.org/zh-CN/docs/Web/API/Element/replaceChildren
+      curContainer.innerHTML = '';
+      curContainer.append(...Array.from(node.children));
     } else {
       parent.appendChild(node);
+      this.set('container', node);
     }
-    this.set('container', node);
     this.resetStyles();
     this.applyStyles();
   }
