@@ -279,7 +279,7 @@ describe('test tooltip', () => {
     });
   });
 
-  describe('customContent', () => {
+  describe.only('customContent', () => {
     const items = [
       { name: 'china', value: '100' },
       { name: 'india', value: '200' },
@@ -349,6 +349,43 @@ describe('test tooltip', () => {
           });
         });
       });
+
+      tooltip.update({
+        customContent: (title: string, data: any[]) => {
+          return `
+            <div class="g2-tooltip updated-html-tooltip" style="background: red;">
+              text
+            </div>
+            `;
+        },
+      });
+      expect(Array.from(container.classList).includes('g2-tooltip')).toBe(true);
+      expect(Array.from(container.classList).includes('custom-html-tooltip')).toBe(false);
+      expect(Array.from(container.classList).includes('updated-html-tooltip')).toBe(true);
+      expect(container.innerHTML.trim()).toBe('text');
+
+      tooltip.update({
+        customContent: (title: string, data: any[]) => {
+          return `
+          <div class="g2-tooltip custom-html-tooltip">
+            <div class="g2-tooltip-title">My Title ${title}</div>
+            <ul class="g2-tooltip-list">
+              ${data
+                .map(
+                  (item) => `
+                <li class="g2-tooltip-list-item my-list-item">My Value: ${item.value}<li>
+              `
+                )
+                .join('')}
+            </ul>
+          </div>
+          `;
+        },
+      });
+
+      expect(Array.from(container.classList).includes('g2-tooltip')).toBe(true);
+      expect(Array.from(container.classList).includes('custom-html-tooltip')).toBe(true);
+      expect(Array.from(container.classList).includes('updated-html-tooltip')).toBe(false);
     });
 
     it('hide/show', () => {
