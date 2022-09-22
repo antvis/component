@@ -313,9 +313,11 @@ describe('test tooltip', () => {
     it('init', () => {
       tooltip.init();
       container = tooltip.getContainer();
-      expect(Array.from(container.classList).includes('g2-tooltip')).toBe(true);
-      expect(Array.from(container.classList).includes('custom-html-tooltip')).toBe(true);
-      each(HtmlTheme[CssConst.CONTAINER_CLASS], (val, key) => {
+      const isCustomContent = Array.from(container.classList).includes(CssConst.CONTAINER_CLASS_CUSTOM);
+      expect(isCustomContent).toBe(true);
+      const target = container.getElementsByClassName('custom-html-tooltip');
+      expect(target.length).toBe(1);
+      each(HtmlTheme[CssConst.CONTAINER_CLASS_CUSTOM], (val, key) => {
         if (!['transition', 'boxShadow', 'fontFamily', 'padding'].includes(key)) {
           expect(container.style[key] + '').toBe(val + '');
         }
@@ -325,8 +327,10 @@ describe('test tooltip', () => {
     it('render', () => {
       tooltip.render();
       container = tooltip.getContainer();
-      expect(Array.from(container.classList).includes('g2-tooltip')).toBe(true);
-      expect(Array.from(container.classList).includes('custom-html-tooltip')).toBe(true);
+      const isCustomContent = Array.from(container.classList).includes(CssConst.CONTAINER_CLASS_CUSTOM);
+      expect(isCustomContent).toBe(true);
+      const target = container.getElementsByClassName('custom-html-tooltip');
+      expect(target.length).toBe(1);
       const title = container.getElementsByClassName('g2-tooltip-title')[0] as HTMLElement;
       expect(title.innerText).toBe('My Title html');
       const listItems = Array.from(container.getElementsByClassName('g2-tooltip-list-item')) as HTMLElement[];
@@ -334,7 +338,7 @@ describe('test tooltip', () => {
         expect(Array.from(listItem.classList).includes('my-list-item')).toBe(true);
         expect(listItem.innerText).toBe(`My Value: ${items[index].value}`);
       });
-      each(HtmlTheme[CssConst.CONTAINER_CLASS], (val, key) => {
+      each(HtmlTheme[CssConst.CONTAINER_CLASS_CUSTOM], (val, key) => {
         if (!['transition', 'boxShadow', 'fontFamily', 'padding'].includes(key)) {
           expect(container.style[key] + '').toBe(val + '');
         }
@@ -343,8 +347,11 @@ describe('test tooltip', () => {
         const elements = container.getElementsByClassName(key);
         each(elements, (element) => {
           each(val, (cssVal, cssKey) => {
-            if (!['transition', 'boxShadow', 'fontFamily', 'padding'].includes(cssKey)) {
-              expect(element.style[cssKey] + '').toBe(cssVal + '');
+            // 当开启 customContent 时, g2-tooltip 的 visibility 和 position 均为 unset.
+            if (!(['visibility', 'position'].includes(cssKey) && isCustomContent && key === CssConst.CONTAINER_CLASS)) {
+              if (!['transition', 'boxShadow', 'fontFamily', 'padding'].includes(cssKey)) {
+                expect(element.style[cssKey] + '').toBe(cssVal + '');
+              }
             }
           });
         });
