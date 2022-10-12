@@ -1,9 +1,3 @@
-#### 0.8.32 (2022-09-22)
-
-##### Bug Fixes
-
-- **tooltip:** 修复 tooltip transition 不生效以及线上兼容问题 ([#282](https://github.com/antvis/component/pull/282)) ([3c827591](https://github.com/antvis/component/commit/3c827591d9a2fea76b2c8738e39c1a297837d69a))
-
 #### 0.8.31 (2022-08-29)
 
 ##### Revert
