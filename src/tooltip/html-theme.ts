@@ -24,14 +24,6 @@ export default {
     lineHeight: '20px',
     padding: '10px 10px 6px 10px',
   },
-  [`${CssConst.CONTAINER_CLASS_CUSTOM}`]: {
-    position: 'absolute',
-    zIndex: 8,
-    transition:
-      'visibility 0.2s cubic-bezier(0.23, 1, 0.32, 1), ' +
-      'left 0.4s cubic-bezier(0.23, 1, 0.32, 1), ' +
-      'top 0.4s cubic-bezier(0.23, 1, 0.32, 1)',
-  },
   [`${CssConst.TITLE_CLASS}`]: {
     marginBottom: '4px',
   },
