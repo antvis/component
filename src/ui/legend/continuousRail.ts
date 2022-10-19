@@ -45,7 +45,11 @@ export class Rail extends CustomElement<RailStyleProps> {
   private updateTrack() {
     const { fill } = this.style;
     this.track.style.path = this.getRailPath() as any;
-    this.track.style.clipPath = this.getClipPath();
+    const clipPath = this.getClipPath();
+    this.track.style.clipPath = clipPath;
+    if (clipPath) {
+      this.track.appendChild(clipPath);
+    }
     this.track.style.fill = fill;
   }
 

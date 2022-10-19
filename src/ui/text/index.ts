@@ -288,6 +288,7 @@ export class Text extends GUI<Required<TextCfg>> {
       // 裁切
       this.clipRect = new Rect({ name: 'clip-rect', style: this.clipRectCfg });
       this.backgroundShape.style.clipPath = this.clipRect;
+      this.backgroundShape.appendChild(this.clipRect);
     }
   }
 

@@ -328,6 +328,7 @@ export class PageNavigator extends GUI<PageNavigatorCfg> {
       },
     });
     this.view.style.clipPath = this.clipView;
+    this.view.appendChild(this.clipView);
     // 将全景图挂载到翻页器
     this.appendChild(this.view);
     this.view.toBack(); // 避免遮挡分页器按钮
