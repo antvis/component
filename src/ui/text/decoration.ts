@@ -104,7 +104,7 @@ export class Decoration extends DisplayObject<Required<DecorationCfg>> {
   }
 
   public clear() {
-    this.removeChildren(true);
+    this.removeChildren();
   }
 
   /**

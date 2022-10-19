@@ -1,4 +1,4 @@
-import { ElementEvent, Line, CustomEvent, Animation } from '@antv/g';
+import { ElementEvent, Line, CustomEvent, IAnimation } from '@antv/g';
 import type { DisplayObjectConfig } from '@antv/g';
 import { clamp, deepMix } from '@antv/util';
 import { Point as PointScale } from '@antv/scale';
@@ -37,9 +37,9 @@ function getPositionByIndex(index: number, totalLength: number, data: any[]) {
 }
 
 export class SliderAxis extends AxisBase<AxisStyleProps> {
-  private startHandleAnimation: Animation | null = null;
+  private startHandleAnimation: IAnimation | null = null;
 
-  private endHandleAnimation: Animation | null = null;
+  private endHandleAnimation: IAnimation | null = null;
 
   public static defaultOptions: SliderAxisOptions = {
     style: deepMix({}, BASE_DEFAULT_STYLE, {

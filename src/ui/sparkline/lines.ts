@@ -33,8 +33,8 @@ export class Lines extends DisplayObject<ILinesCfg> {
   }
 
   public clear(): void {
-    this.linesGroup.removeChildren(true);
-    this.areasGroup.removeChildren(true);
+    this.linesGroup.removeChildren();
+    this.areasGroup.removeChildren();
   }
 
   public update(cfg: Partial<ILinesCfg>) {

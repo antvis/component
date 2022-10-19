@@ -1,5 +1,5 @@
-import { Group, isNil } from '@antv/g';
-import { deepMix } from '@antv/util';
+import { Group } from '@antv/g';
+import { deepMix, isNil } from '@antv/util';
 import { GUI } from '../../core/gui';
 import { normalPadding, maybeAppend, applyStyle } from '../../util';
 import { Marker } from '../marker';

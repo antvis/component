@@ -47,6 +47,6 @@ export class Columns extends DisplayObject<IColumnsCfg> {
   }
 
   public clear(): void {
-    this.removeChildren(true);
+    this.removeChildren();
   }
 }

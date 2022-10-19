@@ -8,9 +8,8 @@ export abstract class GUI<T> extends CustomElement<T> {
 
   connectedCallback() {
     // 临时修复初始化 x, y 设置不生效
-    // @ts-ignore
     const { x, y } = this.style;
-    this.setLocalPosition([x || 0, y || 0]);
+    this.setLocalPosition([Number(x) || 0, Number(y) || 0]);
 
     this.update();
     this.bindEvents(this.attributes, this);
@@ -22,12 +21,12 @@ export abstract class GUI<T> extends CustomElement<T> {
   }
 
   public clear() {
-    this.removeChildren(true);
+    this.removeChildren();
   }
 
   public destroy() {
     this.removeAllEventListeners();
-    this.removeChildren(true);
+    this.removeChildren();
     this.remove();
   }
 

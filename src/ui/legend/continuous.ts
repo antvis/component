@@ -1,5 +1,5 @@
-import { DisplayObject, clamp, CustomEvent, Group } from '@antv/g';
-import { get, isUndefined, memoize } from '@antv/util';
+import { DisplayObject, CustomEvent, Group } from '@antv/g';
+import { get, isUndefined, memoize, clamp } from '@antv/util';
 import { deepAssign, applyStyle, select, getEventPos, toPrecision, throttle, normalPadding } from '../../util';
 import { GUI } from '../../core/gui';
 import { renderLabels } from '../../util/primitive/labels';

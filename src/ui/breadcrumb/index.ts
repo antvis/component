@@ -62,7 +62,7 @@ export class Breadcrumb extends GUI<Required<BreadcrumbCfg>> {
     let cursorX = 0;
     let cursorY = 0;
 
-    selection.node().removeChildren(true);
+    selection.node().removeChildren();
     for (let i = 0; i < items.length; i++) {
       const datum = items[i];
       const shape = new Tag({

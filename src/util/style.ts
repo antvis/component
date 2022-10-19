@@ -31,6 +31,7 @@ export const TEXT_INHERITABLE_PROPS: Pick<
 /**
  * 从带状态样式中返回移除了状态样式的默认样式
  */
+// @ts-ignore
 export function getDefaultStyle<T>(style: MixAttrs<T> | undefined): T | undefined {
   if (style === undefined) ({} as T);
   if (style) {
@@ -55,6 +56,7 @@ export function getDefaultStyle<T>(style: MixAttrs<T> | undefined): T | undefine
  * @param state 状态
  * @param isMerge 是否将状态样式与默认样式合并
  */
+// @ts-ignore
 export function getStateStyle<T>(style?: MixAttrs<T>, state?: StyleState, isMerge: boolean = false): Partial<T> {
   if (!state) {
     const temp = getDefaultStyle(style);

@@ -1,16 +1,8 @@
-import {
-  Text,
-  ElementEvent,
-  Path,
-  CustomElement,
-  DisplayObjectConfig,
-  BaseCustomElementStyleProps,
-  TextStyleProps,
-} from '@antv/g';
+import { Text, ElementEvent, Path, CustomElement, DisplayObjectConfig, TextStyleProps } from '@antv/g';
 import { clamp } from '@antv/util';
 import { deepAssign } from '../../util';
 
-type IndicatorStyleProps = BaseCustomElementStyleProps & {
+type IndicatorStyleProps = {
   position: 'top' | 'right';
   textStyle?: TextStyleProps;
 };

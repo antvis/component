@@ -1,9 +1,9 @@
 import {
-  BaseCustomElementStyleProps,
   CustomElement,
   DisplayObjectConfig,
   PathStyleProps,
   RectStyleProps,
+  BaseCustomElementStyleProps,
 } from '@antv/g';
 import { deepMix, omit } from '@antv/util';
 import { FunctionalSymbol } from '../marker/types';
