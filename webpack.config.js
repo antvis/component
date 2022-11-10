@@ -1,3 +1,5 @@
+const path = require('path');
+
 const BABEL_OPTIONS = {
   plugins: [
     [
@@ -29,6 +31,9 @@ module.exports = {
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
+    alias: {
+      '@': path.resolve(__dirname, 'src/'),
+    },
   },
   module: {
     rules: [

@@ -14,7 +14,7 @@
     "lib": ["dom", "DOM.Iterable", "esnext"],
     "skipLibCheck": true,
     "sourceRoot": "src",
-    "baseUrl": "src",
+    "baseUrl": ".",
     "strict": true,
     "importHelpers": true,
     "downlevelIteration": true,
