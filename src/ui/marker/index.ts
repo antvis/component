@@ -44,7 +44,7 @@ function getType(symbol: MarkerStyleProps['symbol']): string | null {
 
 export class Marker extends GUI<MarkerStyleProps> {
   public render(attributes: MarkerStyleProps, container: Group) {
-    const { x, y, symbol, size = 16, ...style } = attributes;
+    const { x, y, symbol, size = 16, ...style } = attributes as Required<MarkerStyleProps>;
     const type = getType(symbol);
 
     if (!type) {
@@ -65,7 +65,8 @@ export class Marker extends GUI<MarkerStyleProps> {
         } else {
           const r = (size as number) / 2;
           const symbolFn = isFunction(symbol) ? symbol : Marker.getSymbol(symbol);
-          selection.style('path', symbolFn?.(0, 0, r)).call(applyStyle, style);
+          // @ts-ignore
+          selection.style('path', symbolFn?.(x, y, r)).call(applyStyle, style);
         }
       });
   }

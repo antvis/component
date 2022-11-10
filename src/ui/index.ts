@@ -28,17 +28,8 @@ export type { SliderOptions } from './slider';
 export { Scrollbar } from './scrollbar';
 export type { ScrollbarOptions, ScrollbarStyleProps } from './scrollbar';
 // author by [Aarebecca](https://github.com/Aarebecca)
-export { Arc, Linear, Helix } from './axis';
-export type {
-  AxisBaseStyleProps,
-  AxisBaseOptions,
-  LinearAxisStyleProps,
-  LinearOptions,
-  ArcAxisStyleProps,
-  ArcOptions,
-  HelixCfg,
-  HelixOptions,
-} from './axis';
+export { Axis, Helix } from './axis';
+export type { AxisStyleProps } from './axis';
 export { Sheet } from './sheet';
 export type { SheetOptions } from './sheet';
 export { Timeline } from './timeline';
@@ -51,8 +42,8 @@ export type { TooltipCfg } from './tooltip';
 export { Switch } from './switch';
 export type { SwitchOptions } from './switch';
 // author by [Aarebecca](https://github.com/Aarebecca)
-export { PageNavigator } from './page-navigator';
-export type { PageNavigatorOptions } from './page-navigator';
+export { Navigator } from './navigator';
+export type { NavigatorOptions } from './navigator';
 export { LineCrosshair, CircleCrosshair, PolygonCrosshair } from './crosshair';
 export type { LineCrosshairOptions, CircleCrosshairOptions, PolygonCrosshairOptions } from './crosshair';
 export { Text } from './text';

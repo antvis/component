@@ -1,6 +1,4 @@
-import { pick, noop, isNil } from '@antv/util';
-import { OverlapUtils, OverlapCallback } from '../overlap';
-import { LinearAxisStyleProps, OverlapType } from '../types';
+import type { VerticalFactor, Direction } from '../types';
 
 export * from './helper';
 
@@ -22,62 +20,15 @@ export function calcOptimizedTicks(ticks: any[], ticksThreshold?: number | false
   return optimizedTicks;
 }
 
-// 是否可以执行某一 overlap
-function canProcessOverlap(labelCfg: LinearAxisStyleProps['label'], type: OverlapType) {
-  if (!labelCfg) return false;
-
-  // 对 autoRotate，如果配置了旋转角度，直接进行固定角度旋转
-  if (type === 'autoRotate') {
-    return isNil(labelCfg.rotate);
-  }
-
-  // 默认所有 overlap 都可执行
-  return true;
-}
-
-export function processOverlap(labelCfg: LinearAxisStyleProps['label'], axisPosition: string) {
-  return (labels: any[]) => {
-    if (!labelCfg) return;
-
-    // Do labels layout.
-    const { overlapOrder = [] } = labelCfg;
-    let cfg = {
-      labelType: labelCfg.type,
-      ...pick(labelCfg, [
-        'optionalAngles',
-        'minLength',
-        'maxLength',
-        'ellipsisStep',
-        'showFirst',
-        'showLast',
-        'margin',
-      ]),
-    };
-
-    // const labels = this.labels;
-    overlapOrder.forEach((type) => {
-      const util = OverlapUtils.get(type);
-      const overlapCfg = labelCfg[type];
-      if (util && overlapCfg && canProcessOverlap(labelCfg, type)) {
-        let overlapFunc: OverlapCallback = util.getDefault();
-        if (typeof overlapCfg === 'function') {
-          overlapFunc = overlapCfg;
-        } else if (typeof overlapCfg === 'object') {
-          overlapFunc = util[overlapCfg.type] || noop;
-          cfg = { ...cfg, ...overlapCfg.cfg };
-        } else if (typeof overlapCfg === 'string') {
-          overlapFunc = util[overlapCfg] || noop;
-        }
-        overlapFunc(axisPosition, labels as any[], cfg);
-      }
-    });
-  };
-}
-
 export function autoHideTickLine(labels: any[], tickLines: any[], autoHideTickLine?: boolean) {
   if (!autoHideTickLine) return;
   labels.forEach((label, idx) => {
     const tickLine = tickLines[idx];
     if (tickLine) tickLine.style.visibility = label.style.visibility;
   });
+}
+
+export function getFactor(...args: Direction[]): VerticalFactor {
+  const _ = (str: typeof args[number]): VerticalFactor => (str === 'positive' ? -1 : 1);
+  return args.reduce((acc, cur) => acc * _(cur), 1) as unknown as VerticalFactor;
 }

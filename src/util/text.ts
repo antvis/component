@@ -1,7 +1,6 @@
-import { DisplayObject, Text, TextStyleProps } from '@antv/g';
-import { isString, memoize, values, toString } from '@antv/util';
+import { Text } from '@antv/g';
+import { isString, memoize, toString, values } from '@antv/util';
 import type { Properties } from 'csstype';
-import { select } from './selection';
 
 type Font = Pick<Properties, 'fontFamily' | 'fontWeight' | 'fontStyle' | 'fontVariant'> & {
   fontSize?: number;
@@ -109,7 +108,7 @@ export const getEllipsisText = (text: any, maxWidth: number, font?: Font, dot: s
   return `${r.join('')}${dot}`;
 };
 
-export function parseLength(length: string | number, font: any) {
+export function parseLength(length: string | number, font: any): number {
   return typeof length === 'string' ? measureTextWidth(length, font) : length;
 }
 

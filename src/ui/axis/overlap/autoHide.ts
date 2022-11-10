@@ -1,24 +1,34 @@
-import { Text } from '@antv/g';
-import { defined, getLocalBBox } from '../../../util';
-import { intersect } from '../../../layout/intersect';
+import type { DisplayObject } from '@antv/g';
+import { defined, getLocalBBox } from '@/util';
+import { intersect } from '@/layout/intersect';
+import type { HideOverlapCfg, AxisStyleProps } from '../types';
+import { isAxisHorizontal, isAxisVertical } from '../guides/axisLine';
 import { boundTest } from '../utils/helper';
 
-const methods: Record<string, (items: Text[], args: any) => Text[]> = {
-  parity: (items: Text[], { seq = 2 }) =>
+type Hide = (item: DisplayObject) => void;
+type Show = (item: DisplayObject) => void;
+export type Utils = { hide: Hide; show: Show };
+
+const methods: Record<string, (items: DisplayObject[], args: any) => DisplayObject[]> = {
+  parity: (items: DisplayObject[], { seq = 2 }) =>
     items.filter((item, i) => (i % seq ? ((item.style.visibility = 'hidden'), false) : true)),
 };
 
-// reset all items to be fully visible
-const reset = (source: Text[]) => (source.forEach((item) => (item.style.visibility = 'visible')), source);
-
 const filterDefined = (arr: any[]) => arr.filter((d) => defined(d));
 
-function equidistance(orient: string | null, labels: Text[], cfg?: any) {
+export default function equidistance(
+  labels: DisplayObject[],
+  overlapCfg: HideOverlapCfg,
+  cfg: AxisStyleProps,
+  utils: Utils
+) {
   const count = labels.length;
+  const { keepHeader, keepTail } = overlapCfg;
   if (count <= 1) return;
-  if (count === 2 && cfg?.showFirst && cfg?.showLast) return;
+  if (count === 2 && keepHeader && keepTail) return;
 
   const parityHide = methods.parity;
+  const reset = (_: DisplayObject[]) => (_.forEach(utils.show), _);
   let seq = 2;
   // 浅复制
   const source = labels.slice();
@@ -27,12 +37,8 @@ function equidistance(orient: string | null, labels: Text[], cfg?: any) {
   const timeout = 200;
   const now = Date.now();
 
-  const minLabelWidth =
-    Math.min.apply(
-      null,
-      labels.map((d) => d.getBBox().width)
-    ) || 1;
-  if (orient === 'top' || orient === 'bottom') {
+  const minLabelWidth = Math.min(1, ...labels.map((d) => d.getBBox().width));
+  if (cfg.type === 'linear' && (isAxisHorizontal(cfg) || isAxisVertical(cfg))) {
     const minX = getLocalBBox(labels[0]).left;
     const maxX = getLocalBBox(labels[count - 1]).right;
     const distance = Math.abs(maxX - minX) || 1;
@@ -41,22 +47,22 @@ function equidistance(orient: string | null, labels: Text[], cfg?: any) {
 
   let first;
   let last;
-  if (cfg?.showFirst) {
+  if (keepHeader) {
     first = source.splice(0, 1)[0];
   }
-  if (cfg?.showLast) {
+  if (keepTail) {
     last = source.splice(-1, 1)[0];
     source.reverse();
   }
-  while (boundTest(filterDefined(last ? [last, ...target, first] : [first, ...target]), cfg?.margin).length) {
+  while (boundTest(filterDefined(last ? [last, ...target, first] : [first, ...target]), overlapCfg?.margin).length) {
     // 每两步，减一个 (不需要考虑保留 first)
     if (last && !first && seq % 2 === 0) {
       const rest = source.splice(0, 1);
-      rest.forEach((d) => (d.style.visibility = 'hidden'));
+      rest.forEach(utils.hide);
     } else if (last && first) {
       // 如果有 first 的话，每一步，减一个（增加迭代次数）
       const rest = source.splice(0, 1);
-      rest.forEach((d) => (d.style.visibility = 'hidden'));
+      rest.forEach(utils.hide);
     }
 
     target = parityHide(reset(source), { seq });
@@ -66,28 +72,23 @@ function equidistance(orient: string | null, labels: Text[], cfg?: any) {
   }
 }
 
-function greedy(orient: string | null, labels: Text[], cfg?: any) {
+export function greedy(labels: DisplayObject[], overlapCfg: HideOverlapCfg) {
   const count = labels.length;
   if (count <= 1) return;
-  if (count === 2 && cfg?.showFirst && cfg?.showLast) return;
+  const { keepHeader, keepTail } = overlapCfg;
+  if (count === 2 && keepHeader && keepTail) return;
 
   // 浅复制
   const source = labels.slice();
 
-  let a: Text;
+  let a: DisplayObject;
   source.forEach((b, i) => {
-    if (!i || !a || !intersect(a, b, cfg?.margin)) {
+    if (!i || !a || !intersect(a, b, overlapCfg?.margin)) {
       a = b;
-    } else if (i === count - 1 && cfg?.showLast) {
+    } else if (i === count - 1 && keepTail) {
       a.style.visibility = 'hidden';
     } else {
       b.style.visibility = 'hidden';
     }
   });
 }
-
-export default {
-  getDefault: () => equidistance,
-  equidistance,
-  greedy,
-};

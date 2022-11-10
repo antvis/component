@@ -128,7 +128,7 @@ export class Button extends GUI<ButtonCfg> {
 
   // @todo 处理 markerAlign='right' 的场景. 方案: left marker & right marker 处理为两个 shape, 互相不干扰
   public render(attributes: ButtonCfg, container: Group) {
-    const { padding, marker: markerSymbol, markerSpacing = 0 } = attributes;
+    const { padding = 0, marker: markerSymbol, markerSpacing = 0 } = attributes;
     container.attr('cursor', this.state === 'disabled' ? 'not-allowed' : 'pointer');
     const [pt, pr, pb, pl] = normalPadding(padding);
     const height = this.buttonHeight;

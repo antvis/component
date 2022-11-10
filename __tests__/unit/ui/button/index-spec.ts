@@ -183,8 +183,8 @@ describe.skip('button', () => {
     expect(stroke).toBe('#666');
     expect(lineWidth).toBe(5);
     expect(radius).toBe(10);
-    expect(lineDash![0]).toBe(6);
-    expect(lineDash![1]).toBe(10);
+    expect((lineDash as number[])[0]).toBe(6);
+    expect((lineDash as number[])[1]).toBe(10);
 
     canvas.appendChild(button);
   });
@@ -248,8 +248,8 @@ describe.skip('button', () => {
     expect(activeButtonStyle.stroke).toBe('#666');
     expect(activeButtonStyle.lineWidth).toBe(5);
     expect(activeButtonStyle.radius).toBe(10);
-    expect(activeButtonStyle.lineDash![0]).toBe(6);
-    expect(activeButtonStyle.lineDash![1]).toBe(10);
+    expect((activeButtonStyle.lineDash as number[])[0]).toBe(6);
+    expect((activeButtonStyle.lineDash as number[])[1]).toBe(10);
 
     canvas.appendChild(button);
   });

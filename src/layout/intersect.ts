@@ -1,5 +1,5 @@
 import { DisplayObject, Path } from '@antv/g';
-import { DegToRad } from '../util';
+import { degToRad } from '../util';
 import { Bounds } from './bounds';
 
 /**
@@ -88,7 +88,7 @@ function bound(bounds: Bounds, item: DisplayObject<any>, margin = [0, 0, 0, 0]) 
   const [t = 0, r = 0, b = t, l = r] = margin;
   bounds.set((dx += x) - l, (dy += y) - t, dx + w + r, dy + height + b);
   item.setEulerAngles(angle);
-  return bounds.rotatedPoints(angle * DegToRad, anchorX, anchorY);
+  return bounds.rotatedPoints(degToRad(angle), anchorX, anchorY);
 }
 
 export const IntersectUtils = { lineToLine, intersectBoxLine, bound };

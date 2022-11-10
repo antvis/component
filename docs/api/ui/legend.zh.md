@@ -34,7 +34,7 @@ import { Category, Continuous } from '@antv/gui';
 | end        | <code>number</code>                | 结束区间   | `max`          |
 | color      | <code>string \| string[]</code>    | 颜色       | `[]`           |
 | label      | <code>false \| LabelCfg</code>     | 标签       | `[]`           |
-| rail       | <code>RailCfg</code>               | 色板       | `[]`           |
+| rail       | <code>RibbonCfg</code>               | 色板       | `[]`           |
 | slidable   | <code>boolean</code>               | 是否可滑动 | `true`         |
 | step       | <code>number</code>                | 步长       | `(max-min)*1%` |
 | handle     | <code>false \| HandleCfg</code>    | 手柄配置   | `[]`           |
@@ -79,7 +79,7 @@ import { Category, Continuous } from '@antv/gui';
 | formatter  | <code>(value: number, idx: number)=>string</code> | 标签文本格式化 | `[]`       |
 | align      | <code>'rail' \| 'inside' \| 'outside'</code>      | 标签对齐方式   | `rail`     |
 
-### RailCfg
+### RibbonCfg
 
 | **属性名**      | **类型**                       | **描述**                     | **默认值** |
 | --------------- | ------------------------------ | ---------------------------- | ---------- |

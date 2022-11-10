@@ -4,14 +4,6 @@ export type FunctionalSymbol = (x: number, y: number, r: number) => any;
 
 export interface MarkerStyleProps extends ShapeAttrs {
   /**
-   * 标记的位置 x，默认为 0
-   */
-  x?: number | string;
-  /**
-   * 标记的位置 x，默认为 0
-   */
-  y?: number | string;
-  /**
    * 标记的大小，默认为 16
    */
   size?: number;

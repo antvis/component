@@ -1,8 +1,8 @@
 import { DisplayObject, Path } from '@antv/g';
 import { isArray } from '@antv/util';
-import { deepAssign } from '../../util';
-import type { DecorationCfg, DecorationOptions, DecorationLine, DecorationShape } from './types';
 import type { PathProps } from '../../types';
+import { deepAssign } from '../../util';
+import type { DecorationCfg, DecorationLine, DecorationOptions, DecorationShape } from './types';
 
 type StandDecorationCfgType = [DecorationLine, DecorationShape];
 

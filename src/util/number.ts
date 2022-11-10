@@ -41,5 +41,3 @@ export const ifPositive = <T extends keyof any>(x: any, a: T, b?: T) => (x > 0 &
 export const multi = (a: number, b: number) => a * b;
 // Calculate the result of  (a + b) / 2.
 export const mid = (a: number, b?: number) => a / 2 + (b || 0) / 2;
-// Transform angle to radian.
-export const DegToRad = Math.PI / 180;

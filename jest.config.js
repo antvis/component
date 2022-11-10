@@ -27,4 +27,11 @@ module.exports = {
     '!**/(countdown|statistic|link|toolbox)/**',
   ], // Transform esm to cjs.
   transformIgnorePatterns: [`<rootDir>/node_modules/(?!(${esm}))`],
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/src/$1',
+  },
+  testPathIgnorePatterns: [
+    '/__tests__/unit/',
+    '/__tests__/bugs/',
+  ],
 };

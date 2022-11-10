@@ -1,11 +1,13 @@
 import { isNumber, isArray } from '@antv/util';
 
+export type Padding = number | number[];
+
 type NormalPaddingType = [number, number, number, number];
 
 /**
  * 规范化padding
  */
-export function normalPadding(padding: number | number[] | unknown): NormalPaddingType {
+export function normalPadding(padding: Padding): NormalPaddingType {
   if (isNumber(padding)) {
     return [padding, padding, padding, padding];
   }

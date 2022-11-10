@@ -1,15 +1,22 @@
-import { Text } from '@antv/g';
+import { getFont, parseLength } from '@/util';
+import type { Text } from '@antv/g';
 import { isNil } from '@antv/util';
-import { getEllipsisText, getFont, parseLength } from '../../../util';
-import { AxisTextStyleProps } from '../types';
-import { ifX, boundTest } from '../utils/helper';
-import { getNumberSimplifyStrategy } from './autoEllipsisNumber';
-import { getTimeSimplifyStrategy } from './autoEllipsisTime';
+import { AxisStyleProps, EllipsisOverlapCfg } from '../types';
+import { boundTest } from '../utils/helper';
 
-function ellipseLabels(orient: string, labels: Text[], cfg?: any) {
+export type Utils = {
+  ellipsis: (text: Text, len?: number, suffix?: string) => void;
+};
+
+export default function ellipseLabels(
+  labels: Text[],
+  overlapCfg: EllipsisOverlapCfg,
+  cfg: AxisStyleProps,
+  utils: Utils
+) {
   if (labels.length <= 1) return;
+  const { suffix = '...', minLength, maxLength, step: ellipsisStep, margin = [0, 0, 0, 0] } = overlapCfg;
 
-  const { ellipsisStep, minLength, maxLength, margin = [], labelType } = cfg;
   const font = getFont(labels[0] as Text);
   const step = parseLength(ellipsisStep!, font) || 1;
   const min = parseLength(minLength!, font) || 1;
@@ -22,44 +29,19 @@ function ellipseLabels(orient: string, labels: Text[], cfg?: any) {
       labels.map((d) => d.getBBox().width)
     );
   }
-
   // Generally, 100 ticks cost less than 300ms. If cost time exceed, means ticks count is too large to see.
   const timeout = 300;
   const now = Date.now();
-
   let source = labels.slice();
   const [top = 0, right = 0, bottom = top, left = right] = margin as number[];
   for (let allowedLength = max; allowedLength > min + step; allowedLength -= step) {
     source = boundTest(labels, margin);
-
     // 碰撞检测
     if (source.length < 1) return;
     // layout time exceeded;
     if (Date.now() - now > timeout) return;
-
-    let ellipsisStrategy = (text: string, label: Text) => '';
-    // [todo] y-direction.
-    const width = ifX(orient, allowedLength - left - right, allowedLength);
-    if (labelType === 'time') {
-      ellipsisStrategy = getTimeSimplifyStrategy(labels, width);
-    } else if (labelType === 'number') {
-      ellipsisStrategy = getNumberSimplifyStrategy(labels, width);
-    } else {
-      // Apply ellipsis to the labels overlaps.
-      ellipsisStrategy = (text: string) => getEllipsisText(text, allowedLength, font);
-    }
-    // todo 优化空间。最后一个 label 应该重新计算碰撞情况
-    source.forEach((label, idx) => {
-      const tip = (label.style as AxisTextStyleProps).tip || label.style.text;
-      (label.style as AxisTextStyleProps).tip = tip;
-      const text = ellipsisStrategy.call(null, tip, label);
-      label.attr('text', text);
+    source.forEach((label) => {
+      utils.ellipsis(label, allowedLength, suffix);
     });
   }
 }
-
-// [todo] Support head-ellipsis, or mid-ellipsis later.
-export default {
-  getDefault: () => ellipseLabels,
-  ellipsis: ellipseLabels,
-};

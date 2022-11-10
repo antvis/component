@@ -1,267 +1,288 @@
-import { DisplayObject, CustomEvent, Group } from '@antv/g';
-import { get, isUndefined, memoize, clamp } from '@antv/util';
-import { deepAssign, applyStyle, select, getEventPos, toPrecision, throttle, normalPadding } from '../../util';
-import { GUI } from '../../core/gui';
-import { renderLabels } from '../../util/primitive/labels';
+import { GUI } from '@/core/gui';
+import { Point } from '@/types';
+import { Indicator } from '@/ui/indicator';
 import {
-  CONTINUOUS_DEFAULT_OPTIONS,
-  DEFAULT_HANDLE_CFG,
-  DEFAULT_LABEL_CFG,
-  DEFAULT_RAIL_CFG,
-  STEP_RATIO,
-} from './constant';
-import { getTitleShapeBBox, renderGroup, renderRect, renderTitle } from './base';
-import { ContinuousCfg, ContinuousOptions } from './types';
+  applyStyle,
+  deepAssign,
+  getEventPos,
+  getStyleFromPrefixed,
+  getStylesFromPrefixed,
+  ifShow,
+  select,
+  Selection,
+  throttle,
+  toPrecision,
+  filterTransform,
+} from '@/util';
+import { CustomEvent, Group } from '@antv/g';
+import { Linear } from '@antv/scale';
+import { capitalize, clamp, isUndefined, memoize } from 'lodash';
+import type { AxisStyleProps } from '../axis';
+import { Axis } from '../axis';
+import { Title } from '../title';
+import { CLASS_NAMES, CONTINUOUS_DEFAULT_OPTIONS, STEP_RATIO } from './constant';
+import { Handle } from './continuous/handle';
+import { Ribbon } from './continuous/ribbon';
+import { getNextTickValue } from './continuous/utils';
+import { ContinuousDatum, ContinuousOptions, ContinuousStyleProps } from './types';
 import { getSafetySelections, getStepValueByValue, ifHorizontal } from './utils';
-import { Rail } from './continuousRail';
-import { Handle } from './continuousHandle';
-import { Indicator } from './continuousIndicator';
-import { getChunkedColor, getNextTickValue } from './chunkContinuous';
 
 export type { ContinuousOptions };
 
-function getTickStyle(orient: string, offset: number, align: string, railSize: number, spacing: number) {
-  const [dx, dy] = ifHorizontal(orient, ['dx', 'dy'], ['dy', 'dx']);
+type RT = Required<ContinuousStyleProps>;
 
-  return {
-    [dx]: offset,
-    [dy]: align === 'start' ? -spacing : railSize + spacing,
-    textAlign: ifHorizontal(orient, 'center', align === 'start' ? 'right' : 'left'),
-    textBaseline: ifHorizontal(orient, align === 'start' ? 'bottom' : 'top', 'middle'),
-  };
-}
+const PREFIX = (str: string) => `legend-continuous-${str}`;
 
-function getOffset(v: number, min: number, max: number, rail: any, reverse = false) {
-  if (reverse) return (v * (max - min)) / rail.length;
-
-  const ratio = max > min ? rail.length / (max - min) : 0;
-  return toPrecision((v - min) * ratio, 2);
-}
-
-function getLabels(attributes: ContinuousCfg, ticks: any[]) {
-  const { min, max, handle, orient = 'horizontal' } = attributes;
-  if (attributes.label === null || handle) return [];
-
-  const rail = deepAssign({ size: 24, length: 200 }, DEFAULT_RAIL_CFG, attributes.rail || {});
-  const label = deepAssign({}, DEFAULT_LABEL_CFG, attributes.label || {});
-  const { align, spacing } = label;
-  if (align === 'rail') {
-    const [dx, dy] = ifHorizontal(orient, ['dx', 'dy'], ['dy', 'dx']);
-    const [align1, align2] = ifHorizontal(orient, ['right', 'left'], ['center', 'center']);
-    const [baseline1, baseline2] = ifHorizontal(orient, ['middle', 'middle'], ['bottom', 'top']);
-    return [
-      {
-        id: `legend-label-0`,
-        text: `${min}`,
-        [dx]: -spacing,
-        [dy]: rail.size / 2,
-        textAlign: align1,
-        textBaseline: baseline1,
-      },
-      {
-        id: `legend-label-1`,
-        text: `${max}`,
-        [dx]: rail.length + spacing,
-        [dy]: rail.size / 2,
-        textAlign: align2,
-        textBaseline: baseline2,
-      },
-    ];
-  }
-  return ticks.map((tick: any, idx: number) => {
-    const offset = getOffset(tick, min, max, rail);
-    const tickStyle = getTickStyle(orient, offset, align, rail.size, spacing);
-    return { id: `legend-label-${idx}`, text: `${tick}`, ...tickStyle };
-  });
-}
-
-const sortTicks = memoize(
-  (ticks: number[]) => ticks.sort((a, b) => a - b),
-  (...args: any[]) => JSON.stringify(args)
+const getMinMax = memoize(
+  (data: ContinuousDatum[]) => {
+    return {
+      min: Math.min(...data.map((d) => d.value)),
+      max: Math.max(...data.map((d) => d.value)),
+    };
+  },
+  (data) => data.map((d) => d.id)
 );
 
-function renderRailLabels(container: Group, labels: any[], cfg?: any) {
-  renderLabels(container, 'legend-label', labels, cfg, {
-    fill: '#2C3542',
-    fillOpacity: 0.65,
-    fontWeight: 'normal',
-  });
-}
-
-export class Continuous<T extends ContinuousCfg> extends GUI<T> {
+export class Continuous extends GUI<ContinuousStyleProps> {
   constructor(config: any) {
-    super(deepAssign({ type: 'continuous-legend' }, CONTINUOUS_DEFAULT_OPTIONS, config));
+    super(deepAssign({}, CONTINUOUS_DEFAULT_OPTIONS, config));
   }
 
-  protected rail!: Rail;
+  protected eventToOffsetScale = new Linear({});
 
-  protected startHandle!: Handle;
+  protected _ribbonScale = new Linear({});
 
-  protected endHandle!: Handle;
+  protected ribbon!: Selection;
 
-  protected indicator!: Indicator;
+  protected indicator!: Selection;
 
-  public render(attributes: T, container: Group) {
+  protected handlesGroup!: Selection;
+
+  protected startHandle!: Selection;
+
+  protected endHandle!: Selection;
+
+  public render(attributes: ContinuousStyleProps, container: Group) {
     const {
-      padding,
-      title,
-      inset,
-      orient = 'horizontal',
-      backgroundStyle = {},
-      maxWidth,
-      maxHeight,
-      label,
-    } = attributes;
-    const [top, right, bottom, left] = normalPadding(padding);
+      data,
+      width,
+      height,
+      orient,
+      defaultValue = [0, 1],
+      color,
+      block,
+      type,
+      slidable,
+      step,
+      showHandle,
+      showLabel,
+      showIndicator,
+    } = attributes as RT;
 
-    const group = renderGroup(container, 'legend-container', left, top);
-
-    // Render inner.
-    const titleShape = renderTitle(group, title);
-    const titleSpacing = title?.spacing || 0;
-    const [insetTop, , , insetLeft] = normalPadding(inset);
-    const { left: tl, bottom: tb } = getTitleShapeBBox(titleShape);
-    const innerGroup = renderGroup(group, 'legend-inner-group', tl + insetLeft, tb + insetTop + titleSpacing);
-
-    const labels = getLabels(attributes, this.ticks);
-    renderRailLabels(innerGroup, labels, label);
-
-    this.drawInner();
-
-    // Render background.
-    const { min, max } = group.getLocalBounds();
-    const w = max[0] - min[0];
-    const h = max[1] - min[1];
-    renderRect(
-      container,
-      'legend-background',
-      Math.min(w + right + left, maxWidth || Number.MAX_VALUE),
-      Math.min(h + top + bottom, maxHeight || Number.MAX_VALUE),
-      backgroundStyle
+    const [titleStyle, labelStyle, indicatorStyle, ribbonStyle, handleStyle] = getStylesFromPrefixed(
+      filterTransform(attributes),
+      ['title', 'label', 'indicator', 'ribbon', 'handle']
     );
-  }
 
-  public drawInner() {
-    this.drawRail();
-    this.drawHandles();
-    this.createIndicator();
-  }
+    const titleEl = select(container).maybeAppendByClassName(
+      CLASS_NAMES.title,
+      () => new Title({ style: { width, height, ...titleStyle } })
+    );
 
-  private get orient() {
-    return this.style.orient || 'horizontal';
-  }
+    // @ts-ignore
+    const { x, y, width: w, height: h } = titleEl.node().getAvailableSpace();
 
-  public get selection() {
-    const { min, max, start, end } = this.style;
-    return [start || min, end || max] as [number, number];
-  }
+    const contentGroup = select(container)
+      .maybeAppendByClassName(CLASS_NAMES.contentGroup, 'g')
+      .call(applyStyle, { x, y });
 
-  private get labelsCfg() {
-    const { label } = this.style;
-    return deepAssign({}, DEFAULT_LABEL_CFG, label || {});
-  }
+    const ribbonGroup = contentGroup.maybeAppendByClassName(CLASS_NAMES.ribbonGroup, 'g');
+    this.renderRibbon(ribbonGroup, ribbonStyle);
 
-  private get railCfg(): Record<string, any> & { size: number; length: number } {
-    const { rail } = this.style;
-    return deepAssign({ size: 24, length: 200 }, DEFAULT_RAIL_CFG, rail || {});
-  }
+    this.handlesGroup = ribbonGroup.maybeAppendByClassName(CLASS_NAMES.handlesGroup, 'g');
+    this.renderHandles();
 
-  private get handleCfg() {
-    const { handle, label } = this.style;
-    return deepAssign({}, DEFAULT_HANDLE_CFG, handle || {}, {
-      textStyle: this.labelsCfg.style,
-      spacing: this.labelsCfg.spacing,
-      visibility: !handle || label === null ? 'hidden' : 'visible',
+    this.renderIndicator(contentGroup, indicatorStyle);
+
+    const labelGroup = select(container).maybeAppendByClassName(CLASS_NAMES.labelGroup, 'g').call(applyStyle, { x, y });
+
+    ifShow(showLabel, labelGroup, () => {
+      this.renderLabel(labelGroup);
     });
   }
 
-  // Condition if orient is equal to 'horizontal'.
-  protected ifHorizontal<T>(a: T, b: T) {
-    return ifHorizontal(this.orient, typeof a === 'function' ? a() : a, typeof b === 'function' ? b() : b);
+  private get range() {
+    const { data } = this.attributes;
+    return getMinMax(data);
   }
 
-  protected get color(): string {
-    const { color = [] } = this.style;
-    const colors = Array.from(color);
-    const count = colors.length;
-
-    if (!count) return '';
-    if (this.railCfg.chunked) return getChunkedColor(this.ticks, colors, this.orient);
-    return colors.reduce((r, c, idx) => (r += ` ${idx / (count - 1)}:${c}`), `l(${this.ifHorizontal('0', '270')})`);
+  private get ribbonScale() {
+    const { min, max } = this.range;
+    this._ribbonScale.update({
+      domain: [min, max],
+      range: [0, 1],
+    });
+    return this._ribbonScale;
   }
 
-  private get slidable() {
-    return !!this.style.handle;
-  }
-
-  protected get ticks() {
-    const { min, max } = this.style;
-    return sortTicks([min, ...(this.railCfg.ticks || []), max]);
-  }
-
-  private drawRail() {
-    const { orient, min, max } = this.style;
-    const [s1, s2] = this.selection;
-    const innerGroup = this.querySelector('.legend-inner-group')!;
-    this.rail = select(this.rail || innerGroup.appendChild(new Rail()))
-      .attr('className', 'legend-rail')
-      .call(applyStyle, { ...this.railCfg, fill: this.color, orient })
-      .style('selection', this.slidable ? [(s1 - min) / (max - min), (s2 - min) / (max - min)] : undefined)
-      .node() as Rail;
-  }
-
-  private drawHandles() {
+  private get ribbonRange() {
     const [min, max] = this.selection;
-    this.startHandle = this.drawHandle('start', min);
-    this.endHandle = this.drawHandle('end', max);
+    const scale = this.ribbonScale;
+    return [scale.map(min), scale.map(max)];
   }
 
-  private drawHandle(type: string, value: number) {
-    const { align, spacing } = this.labelsCfg;
-    const { size } = this.railCfg;
-    const { size: handleSize } = this.handleCfg;
+  public get selection() {
+    const { min, max } = this.range;
+    const { defaultValue: [start, end] = [min, max] } = this.attributes;
+    return [start, end] as [number, number];
+  }
 
+  protected ifHorizontal<T>(a: T, b: T) {
+    return ifHorizontal(this.style.orient, typeof a === 'function' ? a() : a, typeof b === 'function' ? b() : b);
+  }
+
+  private renderRibbon(group: Selection, style: any) {
+    const { type, orient, color, block, data } = this.attributes;
+    this.ribbon = group
+      .maybeAppendByClassName(CLASS_NAMES.ribbon, () => new Ribbon({}))
+      .call(applyStyle, {
+        type,
+        orient,
+        color,
+        block,
+        blocks: data.length - 1,
+        range: this.ribbonRange,
+        ...style,
+      });
+  }
+
+  private renderHandles() {
+    const { showHandle, slidable } = this.attributes;
+    const [min, max] = this.selection;
+    this.startHandle = this.renderHandle('start', min);
+    this.endHandle = this.renderHandle('end', max);
+    if (!showHandle || !slidable) this.handlesGroup.style('visibility', 'hidden');
+    else this.handlesGroup.style('visibility', 'visible');
+  }
+
+  private renderHandle(type: string, value: number) {
+    const { orient } = this.attributes;
+    const { formatter, ...handleStyle } = getStyleFromPrefixed(this.attributes, 'handle');
+    const handle = this.handlesGroup
+      // @ts-ignore
+      .maybeAppendByClassName(CLASS_NAMES.prefix(`${type}-handle`), () => new Handle({}))
+      .call(applyStyle, { orient, labelText: value, ...handleStyle });
+    this.setHandlePosition(type, value);
+    return handle;
+  }
+
+  private setHandlePosition(type: string, value: number) {
+    const { ribbonSize, handleFormatter } = this.attributes;
     const offset = this.getOffset(value);
-    const { dx: x, dy: y } = getTickStyle(this.orient, offset, align, size, -handleSize / 3);
-    const textStyle = getTickStyle(
-      this.orient,
-      offset,
-      align,
-      size,
-      align === 'start' ? spacing : handleSize / 3 + spacing
-    );
+    const [x, y] = this.ifHorizontal([offset, ribbonSize * 0.7], [ribbonSize / 2, offset]);
+    // @ts-ignore
+    const handle = this.handlesGroup.select(`.${CLASS_NAMES.prefix(`${type}-handle`)}`).node();
+    handle?.attr('formatter', handleFormatter);
+    const [prevX, prevY] = handle.getLocalPosition();
 
-    const handle = type === 'start' ? this.startHandle : this.endHandle;
-    const innerGroup = this.querySelector('.legend-inner-group')! as any;
-    return select(handle || innerGroup.appendChild(new Handle({})))
-      .attr('className', `legend-handle-${type}`)
-      .call((selection) =>
-        (selection.node() as Handle).update({
-          ...this.handleCfg,
-          x,
-          y,
-          symbol: this.ifHorizontal('horizontalHandle', 'verticalHandle'),
-          textStyle: {
-            text: `${value ?? ''}`,
-            x: +textStyle.dx - +x,
-            y: +textStyle.dy - +y,
-            textAlign: textStyle.textAlign,
-            textBaseline: textStyle.textBaseline,
-            ...this.handleCfg.textStyle,
+    if (Math.abs(x + y - prevX - prevY) < 100) handle?.setLocalPosition(x, y);
+    else
+      handle?.animate(
+        [
+          {
+            transform: `translate(${handle.getLocalPosition().slice(0, 2).join(',')})`,
           },
-        })
-      )
-      .node() as Handle;
+          {
+            transform: `translate(${x}, ${y})`,
+          },
+        ],
+        { duration: 200, fill: 'both' }
+      );
   }
 
-  private createIndicator() {
-    this.indicator = this.appendChild(
-      new Indicator({
-        zIndex: 2,
-        className: 'legend-indicator',
-        style: { position: this.ifHorizontal('top', 'right') },
-      })
+  private renderIndicator(group: Selection, style: any) {
+    const { formatter } = style;
+    this.indicator = group
+      .maybeAppendByClassName(CLASS_NAMES.indicator, () => new Indicator({}))
+      .call(applyStyle, { ...style });
+    this.indicator.node().attr('formatter', formatter);
+  }
+
+  private get labelData(): ContinuousDatum[] {
+    const { data, labelAlign } = this.attributes;
+    return data.reduce((acc, curr, index, arr) => {
+      const id = curr?.id ?? index.toString();
+      if (labelAlign === 'value')
+        acc.push({
+          ...curr,
+          id,
+          label: curr?.label ?? curr.value.toString(),
+          value: this.ribbonScale.map(curr.value),
+        });
+      else if (index < arr.length - 1) {
+        const next = arr[index + 1];
+        const [cr, nx] = [curr.value, next.value];
+        const midVal = (cr + nx) / 2;
+        acc.push({
+          ...curr,
+          id,
+          range: [cr, nx],
+          label: [cr, nx].join('~'),
+          value: this.ribbonScale.map(midVal),
+        });
+      }
+      return acc;
+    }, [] as ContinuousDatum[]);
+  }
+
+  private get labelStyle() {
+    const { orient, labelDirection = 'positive' } = this.attributes;
+    let [labelTextAlign, labelTextBaseline] = ['center', 'middle'];
+    if (orient === 'horizontal') {
+      if (labelDirection === 'positive') labelTextBaseline = 'top';
+      else labelTextBaseline = 'bottom';
+    } else if (labelDirection === 'positive') labelTextAlign = 'end';
+    else labelTextAlign = 'start';
+    return {
+      labelTextAlign,
+      labelTextBaseline,
+    };
+  }
+
+  private renderLabel(group: Selection) {
+    const { ribbonSize, ribbonLen } = this.attributes;
+    const { spacing, align, formatter, filter, ...labelStyle } = getStyleFromPrefixed(this.attributes, 'label');
+    const [startPos, endPos] = this.ifHorizontal(
+      [
+        [0, ribbonSize / 2],
+        [ribbonLen, ribbonSize / 2],
+      ],
+      [
+        [ribbonSize / 2, 0],
+        [ribbonSize / 2, ribbonLen],
+      ]
     );
+
+    const style = {
+      type: 'linear',
+      startPos,
+      endPos,
+      data: this.labelData,
+      showLine: false,
+      showGrid: false,
+      showTick: false,
+      labelSpacing: spacing + ribbonSize / 2,
+      labelTransform: 'rotate(0)',
+      ...this.labelStyle,
+      ...Object.fromEntries(Object.entries(labelStyle).map(([k, v]) => [`label${capitalize(k)}`, v])),
+    } as AxisStyleProps;
+
+    const axis = group
+      .maybeAppendByClassName(CLASS_NAMES.label, () => new Axis({ style }))
+      .call(applyStyle, style)
+      .node();
+    axis.attr('labelFormatter', formatter);
+    axis.attr('labelFilter', filter);
   }
 
   /** 当前交互的对象 */
@@ -272,28 +293,31 @@ export class Continuous<T extends ContinuousCfg> extends GUI<T> {
 
   public bindEvents() {
     // 如果！slidable，则不绑定事件或者事件响应不生效
-    // // 放置需要绑定drag事件的对象
-    const dragObject = new Map<string, DisplayObject>();
-    dragObject.set('rail', this.rail);
+    // 放置需要绑定drag事件的对象
+    const dragObject = new Map<string, Selection>();
+    dragObject.set('ribbon', this.ribbon);
     dragObject.set('start', this.startHandle);
     dragObject.set('end', this.endHandle);
     // 绑定 drag 开始事件
     dragObject.forEach((obj, key) => {
-      obj.addEventListener('mousedown', this.onDragStart(key));
-      obj.addEventListener('touchstart', this.onDragStart(key));
+      obj?.on('mousedown', this.onDragStart(key));
+      obj?.on('touchstart', this.onDragStart(key));
     });
-    this.startHandle.addEventListener('mouseover', () => this.updateMouse());
-    this.endHandle.addEventListener('mouseover', () => this.updateMouse());
-
-    this.rail.addEventListener('mousemove', this.onHovering);
+    this.startHandle?.on('mouseover', () => this.updateMouse());
+    this.endHandle?.on('mouseover', () => this.updateMouse());
+    this.ribbon.on('mousemove', this.onHovering);
     this.addEventListener('mouseout', this.hideIndicator);
   }
 
   private onHovering = (e: any) => {
+    const { data, block } = this.attributes;
     e.stopPropagation();
     const value = this.getValueByCanvasPoint(e);
-    if (get(this.attributes, ['rail', 'chunked'])) {
-      const { range } = getNextTickValue(this.ticks, value);
+    if (block) {
+      const { range } = getNextTickValue(
+        data.map(({ value }) => value),
+        value
+      );
       this.showIndicator((range[0] + range[1]) / 2, `${range[0]}-${range[1]}`);
       this.dispatchIndicated(value, range);
     } else {
@@ -304,40 +328,38 @@ export class Continuous<T extends ContinuousCfg> extends GUI<T> {
   };
 
   public showIndicator(value: number, text = `${value}`) {
-    if (typeof value !== 'number') {
+    const { orient, showIndicator } = this.attributes;
+    if (!showIndicator || typeof value !== 'number') {
       this.hideIndicator();
       return;
     }
-
-    this.indicator.show();
-    const container = this.querySelector('.legend-container') as Group;
-    const { min, max } = this.style;
+    const { min, max } = this.range;
     const safeValue = clamp(value, min, max);
-    const offsetX = this.ifHorizontal(this.getOffset(safeValue), this.railCfg.size + 12);
-    // todo consider size-rail.
-    const offsetY = this.ifHorizontal(-14, this.getOffset(safeValue));
-    const { x, y } = this.rail.getBBox();
-    const { x: x0, y: y0 } = container.getBBox();
-    const [dx, dy] = container.getLocalPosition();
-    this.indicator.style.x = x - x0 + dx + offsetX;
-    this.indicator.style.y = y - y0 + dy + offsetY;
-    this.indicator.style.textStyle = { text };
+    const pos: Point = [this.getOffset(safeValue), 0];
+    if (orient === 'vertical') pos.reverse();
+    const indicator = this.indicator.node();
+    indicator.attr('visibility', 'visible');
+    indicator.attr('position', this.ifHorizontal('top', 'left'));
+    indicator.attr('value', text);
+    indicator.setLocalPosition(...pos);
   }
 
   private hideIndicator() {
-    this.indicator?.hide();
+    this.indicator?.style('visibility', 'hidden');
   }
 
   private onDragStart = (target: string) => (e: any) => {
     e.stopPropagation();
+
     // 关闭滑动
-    if (!this.slidable) return;
+    if (!this.attributes.slidable) return;
     this.target = target;
+
     this.prevValue = this.getTickValue(this.getValueByCanvasPoint(e));
-    this.addEventListener('mousemove', this.onDragging);
-    this.addEventListener('touchmove', this.onDragging);
-    this.addEventListener('mouseleave', this.onDragEnd);
-    this.addEventListener('mouseup', this.onDragEnd);
+    document.addEventListener('mousemove', this.onDragging);
+    document.addEventListener('touchmove', this.onDragging);
+    document.addEventListener('mouseleave', this.onDragEnd);
+    document.addEventListener('mouseup', this.onDragEnd);
     document.addEventListener('mouseup', this.onDragEnd);
     document.addEventListener('touchend', this.onDragEnd);
   };
@@ -351,25 +373,21 @@ export class Continuous<T extends ContinuousCfg> extends GUI<T> {
 
     if (target === 'start') start !== currValue && this.updateSelection(currValue, end);
     else if (target === 'end') end !== currValue && this.updateSelection(start, currValue);
-    else if (target === 'rail') {
-      if (diffValue !== 0) {
-        this.prevValue = currValue;
-        this.updateSelection(diffValue, diffValue, true);
-      }
+    else if (target === 'ribbon' && diffValue !== 0) {
+      this.prevValue = currValue;
+      this.updateSelection(diffValue, diffValue, true);
     }
   };
 
-  private onDragEnd() {
-    // @ts-ignore
+  private onDragEnd = () => {
     this.style.cursor = 'default';
-    this.removeEventListener('mousemove', this.onDragging);
-    this.removeEventListener('touchmove', this.onDragging);
+    document.removeEventListener('mousemove', this.onDragging);
+    document.removeEventListener('touchmove', this.onDragging);
     document.removeEventListener('mouseup', this.onDragEnd);
     document.removeEventListener('touchend', this.onDragEnd);
-  }
+  };
 
   private updateMouse() {
-    // @ts-ignore
     if (this.style.slidable) this.style.cursor = 'grabbing';
   }
 
@@ -379,6 +397,7 @@ export class Continuous<T extends ContinuousCfg> extends GUI<T> {
 
   private updateSelection(stVal: number, endVal: number, isOffset: boolean = false) {
     const [currSt, currEnd] = this.selection;
+
     let [start, end] = [stVal, endVal];
     if (isOffset) {
       // 获取当前值
@@ -386,23 +405,28 @@ export class Continuous<T extends ContinuousCfg> extends GUI<T> {
       end += currEnd;
     }
     // 值校验
-    const { min, max } = this.style;
+    const { min, max } = this.range;
     [start, end] = getSafetySelections([min, max], [start, end], this.selection);
-    this.update({ start, end } as any);
+    this.update({ defaultValue: [start, end] });
     this.dispatchSelection();
   }
 
   private get step(): number {
-    const { step, min, max } = this.attributes;
-    if (isUndefined(step)) {
-      return toPrecision((max - min) * STEP_RATIO, 0);
-    }
+    const { step = 1 } = this.attributes;
+    const { min, max } = this.range;
+    if (isUndefined(step)) return toPrecision((max - min) * STEP_RATIO, 0);
     return step;
   }
 
   private getTickValue(value: number): number {
-    if (this.railCfg.chunked) return getNextTickValue(this.ticks, value).tick;
-    return getStepValueByValue(value, this.step, this.style.min);
+    const { data, block } = this.attributes;
+    const { min } = this.range;
+    if (block)
+      return getNextTickValue(
+        data.map(({ value }) => value),
+        value
+      ).tick;
+    return getStepValueByValue(value, this.step, min);
   }
 
   /**
@@ -410,28 +434,28 @@ export class Continuous<T extends ContinuousCfg> extends GUI<T> {
    * @param limit {boolean} 我也忘了要干啥了
    */
   private getValueByCanvasPoint(e: any, limit: boolean = false) {
-    const { min, max } = this.style;
-    const [x, y] = this.rail.getPosition();
+    const { min, max } = this.range;
+    const [x, y] = this.ribbon.node().getPosition();
     const startPos = this.ifHorizontal(x, y);
     const currValue = this.ifHorizontal(...getEventPos(e));
     const offset = currValue - startPos;
     const value = clamp(this.getOffset(offset, true) + min, min, max);
-
     return value;
   }
 
   /** reverse: 屏幕偏移量 -> 值 */
-  private getOffset(v: number, reverse = false) {
-    const { min, max } = this.style;
-    if (reverse) return (v * (max - min)) / this.railCfg.length;
-
-    const ratio = max > min ? this.railCfg.length / (max - min) : 0;
-    return toPrecision((v - min) * ratio, 2);
+  private getOffset(value: number, reverse = false) {
+    const { min, max } = this.range;
+    const { ribbonLen } = this.attributes;
+    const scale = this.eventToOffsetScale;
+    scale.update({ domain: [min, max], range: [0, ribbonLen] });
+    if (reverse) return scale.invert(value);
+    return scale.map(value);
   }
 
-  @throttle(20)
+  @throttle(100)
   private dispatchSelection() {
-    const evt = new CustomEvent('valueChanged', {
+    const evt = new CustomEvent('valuechange', {
       detail: {
         value: this.selection,
       },
@@ -439,12 +463,11 @@ export class Continuous<T extends ContinuousCfg> extends GUI<T> {
     this.dispatchEvent(evt as any);
   }
 
-  @throttle(20)
+  @throttle(100)
   private dispatchIndicated(value: number, range?: unknown) {
-    const evt = new CustomEvent('onIndicated', {
+    const evt = new CustomEvent('indicated', {
       detail: { value, range },
     });
-
     this.dispatchEvent(evt as any);
   }
 }

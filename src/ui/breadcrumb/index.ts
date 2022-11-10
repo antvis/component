@@ -51,7 +51,7 @@ export class Breadcrumb extends GUI<Required<BreadcrumbCfg>> {
   }
 
   public render(attributes: BreadcrumbCfg, container: Group) {
-    const { x, y, items, textStyle, padding, width, separator } = attributes;
+    const { x, y, items, textStyle, padding = 0, width, separator } = attributes;
     const [top, right, left] = normalPadding(padding);
 
     const selection = maybeAppend(container, '.container', 'g')

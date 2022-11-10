@@ -13,7 +13,7 @@ export abstract class GUI<T> extends CustomElement<T> {
 
 export function createComponent<T>(
   descriptor: Descriptor<T>,
-  defaultStyle?: T
+  defaultStyle?: Partial<T>
 ): new (c: DisplayObjectConfig<T>) => GUI<T> {
   return class extends CustomElement<T> {
     public descriptor: Descriptor<T>;
@@ -30,6 +30,10 @@ export function createComponent<T>(
 
     public update(cfg: Partial<T> = {}) {
       this.attr(deepMix({}, this.attributes, cfg));
+      this.descriptor.render?.(this.attributes, this);
+    }
+
+    attributeChangedCallback() {
       this.descriptor.render?.(this.attributes, this);
     }
   };

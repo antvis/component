@@ -1,6 +1,6 @@
 {
   "name": "@antv/gui",
-  "version": "0.4.3-alpha.43",
+  "version": "0.4.3-alpha.44",
   "description": "UI components for AntV G.",
   "license": "MIT",
   "main": "lib/index.js",
@@ -14,6 +14,7 @@
     "dist"
   ],
   "scripts": {
+    "dev": "vite",
     "start": "gatsby clean && npm run site:develop",
     "site:develop": "cross-env PORT=3000 gatsby develop --open -H 0.0.0.0",
     "site:clean": "gatsby clean",
@@ -25,13 +26,15 @@
     "lint": "NODE_ENV=test && eslint ./src/**/*.ts ./__tests__/**/*.ts && prettier ./src ./__tests__ --check ",
     "fix": "eslint ./src/**/*.ts ./__tests__/**/*.ts --fix && prettier ./src ./__tests__ --write ",
     "coverage": "jest -w 16 --coverage",
-    "test": "jest",
+    "test": "run-s test:integration test:unit",
     "test-live": "cross-env DEBUG_MODE=1 jest --watch",
+    "test:unit": "jest --config jest.config.js --coverage",
+    "test:integration": "jest --config jest.node.config.js --coverage",
     "build": "run-s clean build:* size",
     "build:umd": "webpack",
-    "build:cjs": "tsc -p tsconfig.json --target ES5 --module commonjs --outDir lib",
-    "build:esm": "tsc -p tsconfig.json --target ES5 --module ESNext --outDir esm",
-    "ci": "run-s lint coverage build",
+    "build:cjs": "tsc -p tsconfig.build.json --target ES5 --module commonjs --outDir lib",
+    "build:esm": "tsc -p tsconfig.build.json --target ES5 --module ESNext --outDir esm",
+    "ci": "run-s lint test build",
     "prepublishOnly": "npm run ci",
     "prepare": "husky install"
   },
@@ -47,10 +50,11 @@
     "@antv/matrix-util": "^3.0.4",
     "@antv/path-util": "^2.0.15",
     "@antv/scale": "^0.4.3",
-    "@antv/util": "^2.0.13",
-    "csstype": "^3.0.8",
+    "@antv/util": "^3.3.1",
+    "d3-array": "^3.2.0",
     "fecha": "^4.2.1",
-    "svg-path-parser": "^1.1.0"
+    "svg-path-parser": "^1.1.0",
+    "lodash": "^4.17.21"
   },
   "peerDependencies": {
     "@antv/g": "^5.0.1"
@@ -65,12 +69,18 @@
     "@babel/preset-env": "^7.16.11",
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^12.0.1",
-    "@types/jest": "^26.0.20",
+    "@types/d3-array": "^3.0.3",
+    "@types/jest": "^26.0.1",
+    "@types/jsdom": "^20.0.1",
+    "@types/pixelmatch": "^5.2.4",
+    "@types/pngjs": "^6.0.1",
     "@types/svg-path-parser": "^1.1.2",
+    "@types/xmlserializer": "^0.6.3",
     "@typescript-eslint/eslint-plugin": "^4.18.0",
     "@typescript-eslint/parser": "^4.19.0",
     "babel-loader": "^8.2.3",
     "babel-preset-gatsby": "^1.13.0",
+    "canvas": "^2.9.1",
     "core-js": "^3.14.0",
     "cross-env": "^7.0.3",
     "csstype": "^3.0.8",
@@ -84,11 +94,14 @@
     "gatsby": "^2.24.63",
     "gh-pages": "^3.2.3",
     "husky": "^5.0.9",
-    "jest": "^26.6.3",
+    "jest": "^26.0.1",
     "jest-electron": "^0.1.11",
+    "jsdom": "^19.0.0",
     "limit-size": "^0.1.4",
     "lint-staged": "^10.5.4",
     "npm-run-all": "^4.1.5",
+    "pixelmatch": "^5.3.0",
+    "pngjs": "^6.0.0",
     "prettier": "^2.2.1",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
@@ -100,8 +113,10 @@
     "ts-loader": "^7.0.0",
     "tslib": "^2.0.3",
     "typescript": "^4.3.4",
+    "vite": "^3.1.8",
     "webpack": "^4.44.2",
-    "webpack-cli": "^4.9.1"
+    "webpack-cli": "^4.9.1",
+    "xmlserializer": "^0.6.1"
   },
   "lint-staged": {
     "*.{ts,tsx}": [

@@ -1,5 +1,5 @@
-import { Text, DisplayObject, TextStyleProps } from '@antv/g';
-import { Vector2 } from '../types';
+import { DisplayObject, Text, TextStyleProps } from '@antv/g';
+import { Point } from '../types';
 import { select } from './selection';
 
 /**
@@ -33,10 +33,22 @@ export function createTempText(group: DisplayObject, attrs: TextStyleProps): Tex
   return textNode;
 }
 
-export function distance(p1: Vector2, p2: Vector2): number {
+export function distance(p1: Point, p2: Point): number {
   const [x1, y1] = p1;
   const [x2, y2] = p2;
   const dx = x2 - x1;
   const dy = y2 - y1;
   return Math.sqrt(dx * dx + dy * dy);
+}
+
+export function isHorizontal(p1: Point, p2: Point): boolean {
+  const [x1, y1] = p1;
+  const [x2, y2] = p2;
+  return x1 !== x2 && y1 === y2;
+}
+
+export function isVertical(p1: Point, p2: Point): boolean {
+  const [x1, y1] = p1;
+  const [x2, y2] = p2;
+  return x1 === x2 && y1 !== y2;
 }

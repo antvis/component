@@ -1,0 +1,1 @@
+export { IndicatorDemo } from './indicator';

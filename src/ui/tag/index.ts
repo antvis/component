@@ -55,7 +55,7 @@ export class Tag extends GUI<Required<TagStyleProps>> {
   }
 
   public render(attributes: TagStyleProps, container: Group) {
-    const { padding, marker, text, textStyle, radius, backgroundStyle, spacing, align, verticalAlign } = attributes;
+    const { padding = 0, marker, text, textStyle, radius, backgroundStyle, spacing, align, verticalAlign } = attributes;
     const [pt, pr, pb, pl] = normalPadding(padding);
 
     const group = maybeAppend(container, '.tag-content', 'g').attr('className', 'tag-content').node();

@@ -39,7 +39,7 @@ describe('Legend', () => {
 
     legend.update({ maxWidth: 565, maxItemWidth: 120, itemWidth: 120, autoWrap: true, maxRows: 3 });
     const items = legend.querySelectorAll('.legend-item') as any[];
-    expect(items[1].getLocalBounds().min[0]).toBe(items[5].getLocalBounds().min[0]);
+    expect(items[1].getLocalBounds().min[0]).toBeCloseTo(items[5].getLocalBounds().min[0]);
 
     legend.destroy();
   });
