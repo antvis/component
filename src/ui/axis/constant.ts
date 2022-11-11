@@ -1,7 +1,7 @@
-import { classNames } from '@/util';
 import type { DisplayObjectConfig } from '@antv/g';
 import { Path } from '@antv/g';
 import { deepMix } from '@antv/util';
+import { classNames } from '../../util';
 import type { AxisBaseStyleProps } from './types';
 
 export const AXIS_BASE_DEFAULT_CFG: DisplayObjectConfig<Partial<AxisBaseStyleProps>> = {

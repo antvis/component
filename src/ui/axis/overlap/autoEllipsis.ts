@@ -1,6 +1,6 @@
-import { getFont, parseLength } from '@/util';
 import type { Text } from '@antv/g';
 import { isNil } from '@antv/util';
+import { getFont, parseLength } from '../../../util';
 import { AxisStyleProps, EllipsisOverlapCfg } from '../types';
 import { boundTest } from '../utils/helper';
 

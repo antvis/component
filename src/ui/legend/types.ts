@@ -1,6 +1,6 @@
-import type { DisplayObjectConfig, ExtendDisplayObject, PrefixedStyle } from '@/types';
-import type { Padding } from '@/util';
 import type { GroupStyleProps, PathStyleProps, RectStyleProps, TextStyleProps } from '@antv/g';
+import type { DisplayObjectConfig, ExtendDisplayObject, PrefixedStyle } from '../../types';
+import type { Padding } from '../../util';
 import type { TitleStyleProps } from '../title';
 import type { CategoryItemsStyleProps } from './category/items';
 import type { HandleStyleProps } from './continuous/handle';

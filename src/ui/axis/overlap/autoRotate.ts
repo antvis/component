@@ -1,6 +1,6 @@
 import type { DisplayObject } from '@antv/g';
 import { isArray, isNil } from 'lodash';
-import { getTransform } from '@/util';
+import { getTransform } from '../../../util';
 import { AxisStyleProps, RotateOverlapCfg } from '../types';
 import { boundTest } from '../utils/helper';
 

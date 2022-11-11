@@ -1,5 +1,14 @@
-import { ExtendDisplayObject, PrefixedStyle } from '@/types';
-import type { Padding, Selection } from '@/util';
+import type {
+  DisplayObject,
+  DisplayObjectConfig,
+  GroupStyleProps,
+  PathStyleProps,
+  RectStyleProps,
+  TextStyleProps,
+} from '@antv/g';
+import { isNumber, isString } from 'lodash';
+import { ExtendDisplayObject, PrefixedStyle } from '../../../types';
+import type { Padding, Selection } from '../../../util';
 import {
   applyStyle,
   classNames,
@@ -10,16 +19,7 @@ import {
   normalPadding,
   renderExtDo,
   select,
-} from '@/util';
-import type {
-  DisplayObject,
-  DisplayObjectConfig,
-  GroupStyleProps,
-  PathStyleProps,
-  RectStyleProps,
-  TextStyleProps,
-} from '@antv/g';
-import { isNumber, isString } from 'lodash';
+} from '../../../util';
 import { circle } from '../../marker/symbol';
 
 type ItemTextStyle = Omit<TextStyleProps, 'text'>;

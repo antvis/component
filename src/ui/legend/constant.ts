@@ -1,5 +1,5 @@
 import { deepMix } from '@antv/util';
-import { classNames } from '@/util';
+import { classNames } from '../../util';
 import type { LegendBaseOptions } from './types';
 
 export const LEGEND_BASE_DEFAULT_OPTIONS: Partial<LegendBaseOptions> = {

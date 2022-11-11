@@ -14,15 +14,12 @@
     "lib": ["dom", "DOM.Iterable", "esnext"],
     "skipLibCheck": true,
     "sourceRoot": "src",
-    "baseUrl": "./",
+    "baseUrl": ".",
     "strict": true,
     "importHelpers": true,
     "downlevelIteration": true,
-    "noImplicitThis": false,
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "noImplicitThis": false
   },
-  "include": ["src/**/*", "./__tests__/**/*"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "examples"]
 }

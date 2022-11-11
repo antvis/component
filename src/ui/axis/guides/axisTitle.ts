@@ -1,5 +1,5 @@
-import type { Selection } from '@/util';
-import { applyStyle, renderExtDo, styleSeparator } from '@/util';
+import type { Selection } from '../../../util';
+import { applyStyle, renderExtDo, styleSeparator } from '../../../util';
 import { CLASS_NAMES } from '../constant';
 import type { AxisStyleProps } from '../types';
 

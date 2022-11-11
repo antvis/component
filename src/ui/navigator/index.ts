@@ -1,6 +1,8 @@
-import type { Vector2 } from '@/types';
-import { button } from '@/ui/marker/symbol';
-import type { Selection } from '@/util';
+import { DisplayObject, Rect } from '@antv/g';
+import { clamp, get, noop, set } from 'lodash';
+import type { Vector2 } from '../../types';
+import { button } from '../marker/symbol';
+import type { Selection } from '../../util';
 import {
   applyStyle,
   createComponent,
@@ -9,9 +11,7 @@ import {
   styleSeparator,
   TEXT_INHERITABLE_PROPS,
   classNames,
-} from '@/util';
-import { DisplayObject, Rect } from '@antv/g';
-import { clamp, get, noop, set } from 'lodash';
+} from '../../util';
 import type { NavigatorStyleProps } from './types';
 
 export type { NavigatorOptions, NavigatorStyleProps } from './types';

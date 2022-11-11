@@ -1,6 +1,6 @@
-import type { ExtendDisplayObject, PrefixedStyle } from '@/types';
-import { Padding } from '@/util';
 import type { PathStyleProps, TextStyleProps, GroupStyleProps } from '@antv/g';
+import type { ExtendDisplayObject, PrefixedStyle } from '../../types';
+import { Padding } from '../../util';
 
 export type Position = 'top' | 'right' | 'bottom' | 'left';
 

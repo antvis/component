@@ -1,6 +1,9 @@
-import { GUI } from '@/core/gui';
-import { Point } from '@/types';
-import { Indicator } from '@/ui/indicator';
+import { CustomEvent, Group } from '@antv/g';
+import { Linear } from '@antv/scale';
+import { capitalize, clamp, isUndefined, memoize } from 'lodash';
+import { GUI } from '../../core/gui';
+import { Point } from '../../types';
+import { Indicator } from '../indicator';
 import {
   applyStyle,
   deepAssign,
@@ -13,10 +16,7 @@ import {
   throttle,
   toPrecision,
   filterTransform,
-} from '@/util';
-import { CustomEvent, Group } from '@antv/g';
-import { Linear } from '@antv/scale';
-import { capitalize, clamp, isUndefined, memoize } from 'lodash';
+} from '../../util';
 import type { AxisStyleProps } from '../axis';
 import { Axis } from '../axis';
 import { Title } from '../title';

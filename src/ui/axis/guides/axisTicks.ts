@@ -1,8 +1,8 @@
-import type { Vector2 } from '@/types';
-import { applyStyle, getCallbackValue, select, Selection, styleSeparator } from '@/util';
 import type { Group } from '@antv/g';
 import { DisplayObject } from '@antv/g';
 import { isFunction, memoize } from 'lodash';
+import { applyStyle, getCallbackValue, select, Selection, styleSeparator } from '../../../util';
+import type { Vector2 } from '../../../types';
 import { CLASS_NAMES } from '../constant';
 import type { AxisDatum, AxisStyleProps } from '../types';
 import { getDirectionVector, getValuePos } from './axisLine';

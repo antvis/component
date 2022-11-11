@@ -1,6 +1,5 @@
-import { Handle } from '@/ui/legend/continuous/handle';
-import { Marker } from '@/ui/marker';
 import { Group } from '@antv/g';
+import { Handle } from '../../../../src/ui/legend/continuous/handle';
 
 export const HandleDemo = () => {
   const group = new Group({});

@@ -1,4 +1,4 @@
-import { applyStyle, createComponent, getStyleFromPrefixed, select } from '@/util';
+import { applyStyle, createComponent, getStyleFromPrefixed, select } from '../../util';
 import { Title } from '../title';
 import { CategoryItems } from './category/items';
 import { CLASS_NAMES } from './constant';

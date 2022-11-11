@@ -1,6 +1,6 @@
-import { Ribbon } from '@/ui/legend/continuous/ribbon';
 import { Group } from '@antv/g';
 import { Quantize } from '@antv/scale';
+import { Ribbon } from '../../../../src/ui/legend/continuous/ribbon';
 
 export const RibbonDemo = () => {
   const group = new Group({});

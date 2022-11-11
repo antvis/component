@@ -1,5 +1,8 @@
-import type { Vector2 } from '@/types';
-import type { Selection, _Element } from '@/util';
+import type { DisplayObject, Group } from '@antv/g';
+import { vec2 } from '@antv/matrix-util';
+import { isFunction, isString, memoize } from 'lodash';
+import type { Vector2 } from '../../../types';
+import type { Selection, _Element } from '../../../util';
 import {
   applyStyle,
   getCallbackValue,
@@ -9,10 +12,7 @@ import {
   renderExtDo,
   select,
   styleSeparator,
-} from '@/util';
-import type { DisplayObject, Group } from '@antv/g';
-import { vec2 } from '@antv/matrix-util';
-import { isFunction, isString, memoize } from 'lodash';
+} from '../../../util';
 import { CLASS_NAMES } from '../constant';
 import { processOverlap } from '../overlap';
 import type { AxisDatum, AxisStyleProps } from '../types';

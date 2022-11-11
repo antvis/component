@@ -1,5 +1,5 @@
 import type { GroupStyleProps, TextStyleProps } from '@antv/g';
-import type { Padding } from '@/util';
+import type { Padding } from '../../util';
 
 export interface TitleStyle extends GroupStyleProps, TextStyleProps {}
 

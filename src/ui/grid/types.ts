@@ -1,5 +1,5 @@
 import type { DisplayObjectConfig, LineStyleProps } from '@antv/g';
-import type { Point } from '@/types';
+import type { Point } from '../../types';
 
 export type GridStyle = LineStyleProps;
 

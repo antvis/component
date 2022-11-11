@@ -7,9 +7,4 @@ export default defineConfig({
     port: 8080,
     open: '/',
   },
-  resolve: {
-    alias: {
-      '@': path.resolve('./src'),
-    },
-  },
 });

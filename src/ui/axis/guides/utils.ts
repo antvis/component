@@ -1,7 +1,7 @@
-import type { CallbackableObject } from '@/types';
-import { getCallbackValue } from '@/util';
 import { DisplayObject } from '@antv/g';
 import { isFunction } from 'lodash';
+import type { CallbackableObject } from '../../../types';
+import { getCallbackValue } from '../../../util';
 import type { AxisStyleProps, AxisDatumCP } from '../types';
 
 export function applyStyle(shape: DisplayObject, idx: number, attrs: any[], style?: any) {

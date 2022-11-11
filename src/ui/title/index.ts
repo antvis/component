@@ -1,7 +1,7 @@
-import { deepAssign, Selection, applyStyle, createComponent, normalPadding, select, styleSeparator } from '@/util';
 import type { DisplayObjectConfig, Group } from '@antv/g';
 import { DisplayObject } from '@antv/g';
-import { GUI } from '@/core/gui';
+import { deepAssign, Selection, applyStyle, createComponent, normalPadding, select, styleSeparator } from '../../util';
+import { GUI } from '../../core/gui';
 import type { TitleStyleProps } from './types';
 
 export type { TitleStyleProps };

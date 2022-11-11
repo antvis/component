@@ -1,14 +1,13 @@
 import type { DisplayObject, LineStyleProps, TextStyleProps } from '@antv/g';
-import type { GridCfg } from '@/ui/grid/types';
 import type {
   Callbackable,
-  CallbackParameter,
   CallbackableObject,
+  CallbackParameter,
   ExtendDisplayObject,
   PrefixedStyle,
-  Point,
   Vector2,
-} from '@/types';
+} from '../../types';
+import type { GridCfg } from '../grid/types';
 
 export type AxisType = 'linear' | 'arc' | 'helix';
 

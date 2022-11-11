@@ -1,4 +1,6 @@
-import type { Callbackable, CallbackableObject, CallbackParameter, PrefixedStyle } from '@/types';
+import type { GroupStyleProps } from '@antv/g';
+import { DisplayObject, Group } from '@antv/g';
+import { chain, noop } from 'lodash';
 import {
   classNames,
   createComponent,
@@ -7,10 +9,8 @@ import {
   Padding,
   select,
   filterTransform,
-} from '@/util';
-import type { GroupStyleProps } from '@antv/g';
-import { DisplayObject, Group } from '@antv/g';
-import { chain, noop } from 'lodash';
+} from '../../../util';
+import type { Callbackable, CallbackableObject, CallbackParameter, PrefixedStyle } from '../../../types';
 import type { NavigatorStyleProps } from '../../navigator';
 import { Navigator } from '../../navigator';
 import { ifHorizontal } from '../utils';

@@ -1,6 +1,6 @@
 import type { DisplayObject } from '@antv/g';
-import { defined, getLocalBBox } from '@/util';
-import { intersect } from '@/layout/intersect';
+import { defined, getLocalBBox } from '../../../util';
+import { intersect } from '../../../layout/intersect';
 import type { HideOverlapCfg, AxisStyleProps } from '../types';
 import { isAxisHorizontal, isAxisVertical } from '../guides/axisLine';
 import { boundTest } from '../utils/helper';

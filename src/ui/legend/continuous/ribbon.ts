@@ -1,7 +1,7 @@
-import type { PrefixedStyle } from '@/types';
-import { applyStyle, createComponent, getStylesFromPrefixed, select, Selection, classNames } from '@/util';
 import { Group, GroupStyleProps, Path, PathStyleProps, RectStyleProps } from '@antv/g';
 import { isFunction } from 'lodash';
+import type { PrefixedStyle } from '../../../types';
+import { applyStyle, createComponent, getStylesFromPrefixed, select, Selection, classNames } from '../../../util';
 import { ifHorizontal } from '../utils';
 import { getBlockColor } from './utils';
 

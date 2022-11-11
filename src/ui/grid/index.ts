@@ -1,6 +1,6 @@
 import type { Group } from '@antv/g';
-import type { Point } from '@/types';
-import { GUI } from '@/core/gui';
+import type { Point } from '../../types';
+import { GUI } from '../../core/gui';
 import { distance, select } from '../../util';
 import { applyStyle } from '../axis/guides/utils';
 import type { GridCfg, GridStyle } from './types';

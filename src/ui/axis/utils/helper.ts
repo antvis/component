@@ -1,5 +1,5 @@
 import type { DisplayObject } from '@antv/g';
-import { intersect } from '@/layout/intersect';
+import { intersect } from '../../../layout/intersect';
 
 const nonempty = (x: any) => x !== undefined && x != null && `${x}` !== '';
 export function assignNonempty<T>(target: Record<string, T>, source: Record<string, T>): Record<string, T> {

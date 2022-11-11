@@ -1,7 +1,7 @@
-export { Category, Continuous } from '@/ui/legend';
-export { CategoryItem } from '@/ui/legend/category/item';
-export { CategoryItems } from '@/ui/legend/category/items';
-export { smooth } from '@/ui/marker/symbol';
+export { Category, Continuous } from '../../../../src/ui/legend';
+export { CategoryItem } from '../../../../src/ui/legend/category/item';
+export { CategoryItems } from '../../../../src/ui/legend/category/items';
+export { smooth } from '../../../../src/ui/marker/symbol';
 
 export const createItemCfg = (args: any) => {
   return {

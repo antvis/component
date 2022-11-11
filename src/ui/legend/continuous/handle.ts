@@ -1,8 +1,8 @@
-import type { PrefixedStyle } from '@/types';
-import { Marker, MarkerStyleProps } from '@/ui/marker';
-import { applyStyle, createComponent, getStylesFromPrefixed, select, classNames, ifShow } from '@/util';
 import type { GroupStyleProps } from '@antv/g';
 import { Group, TextStyleProps } from '@antv/g';
+import type { PrefixedStyle } from '../../../types';
+import { Marker, MarkerStyleProps } from '../../marker';
+import { applyStyle, createComponent, getStylesFromPrefixed, select, classNames, ifShow } from '../../../util';
 import { ifHorizontal } from '../utils';
 
 export type HandleStyleProps<T = any> = GroupStyleProps &

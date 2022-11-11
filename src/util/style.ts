@@ -1,6 +1,6 @@
-import type { MixAttrs, StyleState } from '@/types';
 import type { TextStyleProps } from '@antv/g';
 import { clone, deepMix, get } from '@antv/util';
+import type { MixAttrs, StyleState } from '../types';
 import { STATE_LIST } from '../constant';
 
 /**

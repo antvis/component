@@ -1,7 +1,7 @@
-import type { Point, Vector2 } from '@/types';
-import { applyStyle, degToRad, renderExtDo, select, Selection } from '@/util';
 import { ext, vec2 } from '@antv/matrix-util';
 import { memoize } from 'lodash';
+import type { Point, Vector2 } from '../../../types';
+import { applyStyle, degToRad, renderExtDo, select, Selection } from '../../../util';
 import { CLASS_NAMES } from '../constant';
 import type { ArcAxisStyleProps, AxisLineCfg, AxisStyleProps, Direction, LinearAxisStyleProps } from '../types';
 import { baseDependencies } from './utils';

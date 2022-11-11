@@ -1,8 +1,8 @@
-import type { Point } from '@/types';
-import { Grid } from '@/ui/grid';
-import { applyStyle, degToRad, getCallbackValue, Selection } from '@/util';
 import { vec2 } from '@antv/matrix-util';
 import { isFunction } from 'lodash';
+import type { Point } from '../../../types';
+import { Grid } from '../../grid';
+import { applyStyle, degToRad, getCallbackValue, Selection } from '../../../util';
 import { CLASS_NAMES } from '../constant';
 import type { AxisDatum, AxisStyleProps } from '../types';
 import { getDirectionVector, getValuePos } from './axisLine';

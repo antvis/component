@@ -1,5 +1,6 @@
-import { GUI } from '@/core/gui';
-import type { Point } from '@/types';
+import { DisplayObjectConfig, ElementEvent, Group } from '@antv/g';
+import { GUI } from '../../core/gui';
+import type { Point } from '../../types';
 import {
   applyStyle,
   deepAssign,
@@ -12,8 +13,7 @@ import {
   styleSeparator,
   TEXT_INHERITABLE_PROPS,
   classNames,
-} from '@/util';
-import { DisplayObjectConfig, ElementEvent, Group } from '@antv/g';
+} from '../../util';
 import { DEFAULT_INDICATOR_CFG } from './constant';
 import type { IndicatorStyleProps, Position } from './types';
 
