@@ -1,6 +1,6 @@
 {
   "name": "@antv/gui",
-  "version": "0.4.3-alpha.45",
+  "version": "0.4.3-alpha.46",
   "description": "UI components for AntV G.",
   "license": "MIT",
   "main": "lib/index.js",
@@ -26,7 +26,7 @@
     "lint": "NODE_ENV=test && eslint ./src/**/*.ts ./__tests__/**/*.ts && prettier ./src ./__tests__ --check ",
     "fix": "eslint ./src/**/*.ts ./__tests__/**/*.ts --fix && prettier ./src ./__tests__ --write ",
     "coverage": "jest -w 16 --coverage",
-    "test": "run-s test:integration test:unit",
+    "test": "run-s test:integration",
     "test-live": "cross-env DEBUG_MODE=1 jest --watch",
     "test:unit": "jest --config jest.config.js --coverage",
     "test:integration": "jest --config jest.node.config.js --coverage",
@@ -53,8 +53,7 @@
     "@antv/util": "^3.3.1",
     "d3-array": "^3.2.0",
     "fecha": "^4.2.1",
-    "svg-path-parser": "^1.1.0",
-    "lodash": "^4.17.21"
+    "svg-path-parser": "^1.1.0"
   },
   "peerDependencies": {
     "@antv/g": "^5.0.1"

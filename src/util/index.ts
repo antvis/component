@@ -23,3 +23,5 @@ export * from './if-show';
 export * from './create';
 export * from './classnames';
 export * from './filter-transform';
+export * from './group-by';
+export * from './capitalize';

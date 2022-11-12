@@ -1,29 +1,30 @@
 import type { GroupStyleProps } from '@antv/g';
 import { DisplayObject, Group } from '@antv/g';
-import { chain, noop } from 'lodash';
+import { noop } from '@antv/util';
+import type { CallbackableObject, CallbackParameter, PrefixedStyle } from '../../../types';
 import {
   classNames,
   createComponent,
+  filterTransform,
   getCallbackValue,
   getStylesFromPrefixed,
+  groupBy,
   Padding,
   select,
-  filterTransform,
 } from '../../../util';
-import type { Callbackable, CallbackableObject, CallbackParameter, PrefixedStyle } from '../../../types';
 import type { NavigatorStyleProps } from '../../navigator';
 import { Navigator } from '../../navigator';
 import { ifHorizontal } from '../utils';
 import type { CategoryItemData, CategoryItemStyle, CategoryItemStyleProps } from './item';
 import { CategoryItem } from './item';
 
-interface CatoryItemsDatum extends CategoryItemData {
+interface CategoryItemsDatum extends CategoryItemData {
   [keys: string]: any;
 }
 
 interface CategoryItemsCfg {
   orient: 'horizontal' | 'vertical';
-  data: CatoryItemsDatum[];
+  data: CategoryItemsDatum[];
   width: number;
   height: number;
   gridRow?: number;
@@ -38,7 +39,7 @@ interface CategoryItemsCfg {
 
 type CallbackableItemStyle = CallbackableObject<
   Omit<CategoryItemStyle, 'width' | 'height'>,
-  CallbackParameter<CatoryItemsDatum>
+  CallbackParameter<CategoryItemsDatum>
 >;
 
 export type CategoryItemsStyleProps = GroupStyleProps &
@@ -145,9 +146,10 @@ export const CategoryItems = createComponent<CategoryItemsStyleProps>(
       } = filterTransform(attributes) as Required<CategoryItemsStyleProps>;
 
       const [navStyle, itemStyle] = getStylesFromPrefixed(restStyle, ['nav', 'item']);
-      const renderData = Object.entries(chain(getRenderData(data, attributes, itemStyle)).groupBy('page').value()).map(
+      const renderData = Object.entries(groupBy(getRenderData(data, attributes, itemStyle), 'page')).map(
         ([page, items]) => ({ page, items })
       );
+
       const pageViews = new Group({ className: CLASS_NAMES.pageView.class });
 
       const [iW, iH] = getItemShape(attributes);

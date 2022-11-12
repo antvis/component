@@ -1,4 +1,4 @@
-import { isString, isNumber } from 'lodash';
+import { isString, isNumber } from '@antv/util';
 import type { DisplayObject } from '@antv/g';
 import { Text } from '@antv/g';
 import type { ExtendDisplayObject } from '../types';

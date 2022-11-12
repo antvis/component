@@ -1,6 +1,6 @@
 import type { Group } from '@antv/g';
 import { DisplayObject } from '@antv/g';
-import { isFunction, memoize } from 'lodash';
+import { isFunction, memoize } from '@antv/util';
 import { applyStyle, getCallbackValue, select, Selection, styleSeparator } from '../../../util';
 import type { Vector2 } from '../../../types';
 import { CLASS_NAMES } from '../constant';

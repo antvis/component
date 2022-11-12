@@ -6,7 +6,7 @@ import type {
   RectStyleProps,
   TextStyleProps,
 } from '@antv/g';
-import { isNumber, isString } from 'lodash';
+import { isNumber, isString } from '@antv/util';
 import { ExtendDisplayObject, PrefixedStyle } from '../../../types';
 import type { Padding, Selection } from '../../../util';
 import {

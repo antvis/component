@@ -1,5 +1,5 @@
 import { ext, vec2 } from '@antv/matrix-util';
-import { memoize } from 'lodash';
+import { memoize } from '@antv/util';
 import type { Point, Vector2 } from '../../../types';
 import { applyStyle, degToRad, renderExtDo, select, Selection } from '../../../util';
 import { CLASS_NAMES } from '../constant';

@@ -1,5 +1,5 @@
 import { DisplayObject } from '@antv/g';
-import { isFunction } from 'lodash';
+import { isFunction } from '@antv/util';
 import type { CallbackableObject } from '../../../types';
 import { getCallbackValue } from '../../../util';
 import type { AxisStyleProps, AxisDatumCP } from '../types';

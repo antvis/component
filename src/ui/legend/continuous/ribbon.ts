@@ -1,5 +1,5 @@
 import { Group, GroupStyleProps, Path, PathStyleProps, RectStyleProps } from '@antv/g';
-import { isFunction } from 'lodash';
+import { isFunction } from '@antv/util';
 import type { PrefixedStyle } from '../../../types';
 import { applyStyle, createComponent, getStylesFromPrefixed, select, Selection, classNames } from '../../../util';
 import { ifHorizontal } from '../utils';

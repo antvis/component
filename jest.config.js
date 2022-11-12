@@ -27,5 +27,5 @@ module.exports = {
     '!**/(countdown|statistic|link|toolbox)/**',
   ], // Transform esm to cjs.
   transformIgnorePatterns: [`<rootDir>/node_modules/(?!(${esm}))`],
-  testPathIgnorePatterns: ['/__tests__/unit/', '/__tests__/bugs/'],
+  testPathIgnorePatterns: ['/__tests__/integration/', '/__tests__/bugs/'],
 };

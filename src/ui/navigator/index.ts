@@ -1,5 +1,5 @@
 import { DisplayObject, Rect } from '@antv/g';
-import { clamp, get, noop, set } from 'lodash';
+import { clamp, get, noop, set } from '@antv/util';
 import type { Vector2 } from '../../types';
 import { button } from '../marker/symbol';
 import type { Selection } from '../../util';

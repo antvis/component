@@ -1,12 +1,13 @@
 import { CustomEvent, Group } from '@antv/g';
 import { Linear } from '@antv/scale';
-import { capitalize, clamp, isUndefined, memoize } from 'lodash';
+import { clamp, isUndefined, memoize } from '@antv/util';
 import { GUI } from '../../core/gui';
 import { Point } from '../../types';
 import { Indicator } from '../indicator';
 import {
   applyStyle,
   deepAssign,
+  capitalize,
   getEventPos,
   getStyleFromPrefixed,
   getStylesFromPrefixed,
@@ -31,8 +32,6 @@ export type { ContinuousOptions };
 
 type RT = Required<ContinuousStyleProps>;
 
-const PREFIX = (str: string) => `legend-continuous-${str}`;
-
 const getMinMax = memoize(
   (data: ContinuousDatum[]) => {
     return {
@@ -40,7 +39,7 @@ const getMinMax = memoize(
       max: Math.max(...data.map((d) => d.value)),
     };
   },
-  (data) => data.map((d) => d.id)
+  (data) => data.map((d: any) => d.id)
 );
 
 export class Continuous extends GUI<ContinuousStyleProps> {

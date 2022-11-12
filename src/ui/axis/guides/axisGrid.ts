@@ -1,5 +1,5 @@
 import { vec2 } from '@antv/matrix-util';
-import { isFunction } from 'lodash';
+import { isFunction } from '@antv/util';
 import type { Point } from '../../../types';
 import { Grid } from '../../grid';
 import { applyStyle, degToRad, getCallbackValue, Selection } from '../../../util';
