@@ -61,7 +61,7 @@ const CLASS_NAMES = classNames(
     controller: 'controller',
     clipPath: 'clip-path',
   },
-  'navitagor'
+  'navigator'
 );
 
 function setVisiblePages(pages: number[], ctx: Context) {

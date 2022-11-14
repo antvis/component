@@ -34,5 +34,50 @@ export const CategoryItem = () => {
 
   item.style.markerFill = 'blue';
 
+  createItem({ x: 100, y: 350, width: undefined, height: undefined, spacing: [5, 5] });
+
+  createItem({ x: 100, y: 400, width: undefined, height: undefined, value: '', spacing: [5, 5] });
+
+  group.appendChild(
+    new CI({
+      style: {
+        x: 300,
+        y: 50,
+        label: 'pre-colonial Americas',
+        labelFill: 'red',
+        markerFill: 'red',
+      },
+    })
+  );
+
+  const item2 = group.appendChild(
+    new CI({
+      style: {
+        x: 300,
+        y: 100,
+        label: 'pre-colonial Americas',
+        labelFill: 'red',
+        markerFill: 'red',
+      },
+    })
+  );
+
+  item2.attr('width', 60);
+
+  group.appendChild(
+    new CI({
+      style: {
+        x: 300,
+        y: 150,
+        label: 'pre-colonial Americas',
+        labelFill: 'red',
+        value: '100%',
+        valueFill: 'green',
+        markerFill: 'red',
+        spacing: [5, 5],
+      },
+    })
+  );
+
   return group;
 };

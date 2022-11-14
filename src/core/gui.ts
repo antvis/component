@@ -1,5 +1,5 @@
 import { CustomElement, DisplayObjectConfig, Group } from '@antv/g';
-import { deepMix } from '@antv/util';
+import { deepAssign } from '../util';
 
 export abstract class GUI<T> extends CustomElement<T> {
   constructor(config: DisplayObjectConfig<T>) {
@@ -11,13 +11,13 @@ export abstract class GUI<T> extends CustomElement<T> {
     const { x = 0, y = 0 } = this.style;
     this.setLocalPosition([+x, +y]);
 
-    this.render(this.attributes, this);
+    this.render(this.attributes as Required<T>, this);
     this.bindEvents(this.attributes, this);
   }
 
   public update(cfg: Partial<T> = {}) {
-    this.attr(deepMix({}, this.attributes, cfg));
-    this.render?.(this.attributes, this);
+    this.attr(deepAssign({}, this.attributes, cfg));
+    this.render?.(this.attributes as Required<T>, this);
   }
 
   public clear() {
@@ -31,7 +31,7 @@ export abstract class GUI<T> extends CustomElement<T> {
   }
 
   attributeChangedCallback() {
-    this.render?.(this.attributes, this);
+    this.render?.(this.attributes as Required<T>, this);
   }
 
   public abstract render(attributes: T, container: Group): void;

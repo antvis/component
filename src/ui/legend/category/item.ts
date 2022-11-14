@@ -1,29 +1,31 @@
 import type {
   DisplayObject,
   DisplayObjectConfig,
+  Group,
   GroupStyleProps,
-  PathStyleProps,
   RectStyleProps,
   TextStyleProps,
 } from '@antv/g';
 import { isNumber, isString } from '@antv/util';
+import { GUI } from '../../../core/gui';
 import { ExtendDisplayObject, PrefixedStyle } from '../../../types';
-import type { Padding, Selection } from '../../../util';
 import {
   applyStyle,
   classNames,
-  createComponent,
-  filterTransform,
-  getStylesFromPrefixed,
+  deepAssign,
+  ellipsisIt,
+  getStyleFromPrefixed,
   ifShow,
   normalPadding,
+  Padding,
   renderExtDo,
   select,
+  Selection,
 } from '../../../util';
 import { circle } from '../../marker/symbol';
 
 type ItemTextStyle = Omit<TextStyleProps, 'text'>;
-type ItemBackgrounStyle = Omit<RectStyleProps, 'width' | 'height'>;
+type ItemBackgroundStyle = Omit<RectStyleProps, 'width' | 'height'>;
 
 export interface CategoryItemData {
   label?: ExtendDisplayObject;
@@ -34,18 +36,23 @@ export type CategoryItemStyle = {
   [key: `marker${string}`]: any;
 } & PrefixedStyle<ItemTextStyle, 'label'> &
   PrefixedStyle<ItemTextStyle, 'value'> &
-  PrefixedStyle<ItemBackgrounStyle, 'background'>;
-export interface CategoryItemCfg extends GroupStyleProps {
-  width: number;
-  height: number;
-  span?: number[];
+  PrefixedStyle<ItemBackgroundStyle, 'background'>;
+
+export type CategoryItemCfg = Omit<GroupStyleProps, 'width' | 'height'> & {
+  /** spacing between marker, label and value */
   spacing?: Padding;
-  maxWidth?: number;
-}
+  // if width and height not specific, set it to actual space occurred
+  width?: number;
+  height?: number;
+  /** space allocation of marker, label and value */
+  span?: Padding;
+};
 
 export type CategoryItemStyleProps = CategoryItemStyle & CategoryItemCfg & CategoryItemData;
 
 export type CategoryItemOptions = DisplayObjectConfig<CategoryItemStyleProps>;
+
+type RI = Required<CategoryItemStyleProps>;
 
 const CLASS_NAMES = classNames(
   {
@@ -61,7 +68,8 @@ const CLASS_NAMES = classNames(
   'legend-category-item'
 );
 
-const DEFAULT_CFG: Partial<CategoryItemStyleProps> = {
+const DEFAULT_ITEM_CFG: Partial<CategoryItemStyleProps> = {
+  span: [0.5, 1, 1],
   marker: 'path',
   markerD: circle(6, 6, 6),
   markerFill: '#d3d2d3',
@@ -77,132 +85,162 @@ const DEFAULT_CFG: Partial<CategoryItemStyleProps> = {
   valueTextBaseline: 'middle',
 };
 
-function isShowValue(value: CategoryItemStyleProps['value']) {
-  if (!value) return false;
-  if (isString(value) || isNumber(value)) return value !== '';
-  return value.attr('text') !== '';
-}
+export class CategoryItem extends GUI<CategoryItemStyleProps> {
+  constructor(config: DisplayObjectConfig<CategoryItemStyleProps>) {
+    super(deepAssign({}, { style: DEFAULT_ITEM_CFG }, config));
+  }
 
-function getItemLayout(cfg: CategoryItemStyleProps) {
-  const { value, width, span = [0.5, 1, 1], spacing = 0 } = cfg;
-  const showValue = isShowValue(value);
-  const [span1, span2, _span3] = normalPadding(span);
-  const span3 = showValue ? _span3 : 0;
-  const [spacing1, spacing2] = normalPadding(spacing);
-  const basis = span1 + span2 + span3;
-  const aWidth = width - spacing1 - spacing2;
-  const w1 = (aWidth * span1) / basis;
-  const w2 = (aWidth * span2) / basis;
-  const w3 = (aWidth * span3) / basis;
-  return {
-    pos: [w1 / 2, w1 + spacing1, w1 + w2 + spacing1 + spacing2],
-    width: [w1, w2, w3],
-  };
-}
+  private markerGroup!: Selection<Group>;
 
-function renderMarker(container: Selection, cfg: CategoryItemStyleProps, style: PathStyleProps) {
-  container.maybeAppendByClassName(CLASS_NAMES.marker, cfg.marker!).call(applyStyle, { anchor: '0.5 0.5', ...style });
-}
+  private labelGroup!: Selection<Group>;
 
-function renderLabel(container: Selection, cfg: CategoryItemStyleProps, style: ItemTextStyle) {
-  const { label, height } = cfg;
-  container.maybeAppendByClassName(CLASS_NAMES.label, () => renderExtDo(label!)).call(applyStyle, style);
-}
+  private valueGroup!: Selection<Group>;
 
-function renderValue(container: Selection, cfg: CategoryItemStyleProps, style: ItemTextStyle) {
-  const { value } = cfg;
-  container.maybeAppendByClassName(CLASS_NAMES.value, () => renderExtDo(value!)).call(applyStyle, style);
-}
+  private background!: Selection<Group>;
 
-function renderBackground(container: Selection, cfg: CategoryItemStyleProps, style: ItemBackgrounStyle) {
-  const { width, height } = cfg;
-  container.style('zIndex', -1);
-  container.maybeAppendByClassName(CLASS_NAMES.background, 'rect').call(applyStyle, { width, height, ...style });
-}
+  private get showValue() {
+    const { value } = this.attributes;
+    if (!value) return false;
+    if (isString(value) || isNumber(value)) return value !== '';
+    return value.attr('text') !== '';
+  }
 
-function adjustLayout(container: Selection, cfg: CategoryItemStyleProps) {
-  const { width, height, value } = cfg;
-  const h = height / 2;
-  const showValue = isShowValue(value);
-  const {
-    pos: [x1, x2, x3],
-    width: [, w2, w3],
-  } = getItemLayout(cfg);
-  const setTextEllipsisCfg = (el: Selection, w: number) => {
-    const node = el.node();
-    if (node.nodeName === 'text') {
-      el.call(applyStyle, {
-        wordWrap: true,
-        wordWrapWidth: w,
-        maxLines: 1,
-        textOverflow: '...',
-      });
+  private get actualSpace() {
+    const marker = this.markerGroup;
+    const label = this.labelGroup;
+    const value = this.valueGroup;
+    const { width: markerWidth, height: markerHeight } = marker.node().getBBox();
+    const { width: labelWidth, height: labelHeight } = label.node().getBBox();
+    const { width: valueWidth, height: valueHeight } = value.node().getBBox();
+    return {
+      markerWidth,
+      labelWidth,
+      valueWidth,
+      height: Math.max(markerHeight, labelHeight, valueHeight),
+    };
+  }
+
+  private get span() {
+    const { attributes } = this;
+    if (!('span' in attributes)) return [1, 1, 1];
+    const { span } = attributes;
+    const [span1, span2, _span3] = normalPadding(span!);
+    const span3 = this.showValue ? _span3 : 0;
+    const basis = span1 + span2 + span3;
+    return [span1 / basis, span2 / basis, span3 / basis];
+  }
+
+  private get shape() {
+    const { attributes } = this;
+    let { markerWidth, labelWidth, valueWidth, height } = this.actualSpace;
+
+    if (attributes.width) {
+      const { width: w } = attributes;
+      const [span1, span2, span3] = this.span;
+      [markerWidth, labelWidth, valueWidth] = [span1 * w, span2 * w, span3 * w];
     }
-  };
-  container.select(`.${CLASS_NAMES.markerGroup}`).call(applyStyle, { x: x1, y: h });
-  const labelGroup = container.select(`.${CLASS_NAMES.labelGroup}`).call(applyStyle, { x: x2, y: h });
-  setTextEllipsisCfg(labelGroup.select(`.${CLASS_NAMES.label}`), w2);
-  if (showValue) {
-    const valueGroup = container.select(`.${CLASS_NAMES.valueGroup}`).call(applyStyle, { x: x3, y: h });
-    setTextEllipsisCfg(valueGroup.select(`.${CLASS_NAMES.value}`), w3);
+    if (attributes.height) height = attributes.height;
+
+    const [spacing1, spacing2] = this.spacing;
+    const width = markerWidth + labelWidth + valueWidth + spacing1 + spacing2;
+    return { width, height, markerWidth, labelWidth, valueWidth };
+  }
+
+  private get spacing() {
+    const { spacing } = this.attributes;
+    if (!spacing) return [0, 0];
+    const [spacing1, spacing2] = normalPadding(spacing);
+    if (this.showValue) return [spacing1, spacing2];
+    return [spacing1, 0];
+  }
+
+  private get layout() {
+    const { markerWidth, labelWidth, valueWidth, width, height } = this.shape;
+    const [spacing1, spacing2] = this.spacing;
+    return {
+      height,
+      width,
+      markerWidth,
+      labelWidth,
+      valueWidth,
+      position: [markerWidth / 2, markerWidth + spacing1, markerWidth + labelWidth + spacing1 + spacing2],
+    };
+  }
+
+  private renderMarker(container: Selection) {
+    const { marker } = this.attributes;
+    const style = getStyleFromPrefixed(this.attributes, 'marker');
+    this.markerGroup = container.maybeAppendByClassName(CLASS_NAMES.markerGroup, 'g');
+    ifShow(
+      !!marker,
+      this.markerGroup,
+      () => {
+        this.markerGroup
+          .maybeAppendByClassName(CLASS_NAMES.marker, marker!)
+          .call(applyStyle, { anchor: '0.5 0.5', ...style });
+      },
+      true
+    );
+  }
+
+  private renderLabel(container: Selection) {
+    const { label } = this.attributes;
+    const style = getStyleFromPrefixed(this.attributes, 'label');
+    this.labelGroup = container.maybeAppendByClassName<Group>(CLASS_NAMES.labelGroup, 'g');
+    this.labelGroup.maybeAppendByClassName(CLASS_NAMES.label, () => renderExtDo(label!)).call(applyStyle, style);
+  }
+
+  private renderValue(container: Selection) {
+    const { value } = this.attributes;
+    const style = getStyleFromPrefixed(this.attributes, 'value');
+    this.valueGroup = container.maybeAppendByClassName(CLASS_NAMES.valueGroup, 'g');
+    ifShow(
+      this.showValue,
+      this.valueGroup,
+      () => {
+        this.valueGroup.maybeAppendByClassName(CLASS_NAMES.value, () => renderExtDo(value!)).call(applyStyle, style);
+      },
+      true
+    );
+  }
+
+  private renderBackground(container: Selection) {
+    const { width, height } = this.shape;
+    const style = getStyleFromPrefixed(this.attributes, 'background');
+    this.background = container.maybeAppendByClassName(CLASS_NAMES.backgroundGroup, 'g').style('zIndex', -1);
+    this.background
+      .maybeAppendByClassName(CLASS_NAMES.background, 'rect')
+      .call(applyStyle, { width, height, ...style });
+  }
+
+  private adjustLayout() {
+    const {
+      layout: {
+        markerWidth,
+        labelWidth,
+        valueWidth,
+        width,
+        height,
+        position: [markerX, labelX, valueX],
+      },
+    } = this;
+
+    const halfHeight = height / 2;
+    this.markerGroup.call(applyStyle, { x: markerX, y: halfHeight });
+    this.labelGroup.call(applyStyle, { x: labelX, y: halfHeight });
+    ellipsisIt(this.labelGroup.select(CLASS_NAMES.label.class), labelWidth);
+    if (this.showValue) {
+      this.valueGroup.call(applyStyle, { x: valueX, y: halfHeight });
+      ellipsisIt(this.valueGroup.select(CLASS_NAMES.value.class), valueWidth);
+    }
+  }
+
+  public render(attributes: CategoryItemStyleProps, container: Group) {
+    const ctn = select(container);
+    this.renderMarker(ctn);
+    this.renderLabel(ctn);
+    this.renderValue(ctn);
+    this.renderBackground(ctn);
+    this.adjustLayout();
   }
 }
-
-export const CategoryItem = createComponent<CategoryItemStyleProps>(
-  {
-    render(attributes, container) {
-      const { width, height, span, spacing, maxWidth, marker, label, value, ...restStyle } =
-        filterTransform(attributes);
-      const [markerStyle, labelStyle, valueStyle, itemBackgroundStyle] = getStylesFromPrefixed(restStyle, [
-        'marker',
-        'label',
-        'value',
-        'background',
-      ]);
-
-      const group = select(container);
-
-      /** marker */
-      const markerGroup = group.maybeAppendByClassName(CLASS_NAMES.markerGroup, 'g');
-      ifShow(
-        !!marker,
-        markerGroup,
-        () => {
-          renderMarker(markerGroup, attributes, markerStyle);
-        },
-        true
-      );
-
-      /** label */
-      const labelGroup = group.maybeAppendByClassName(CLASS_NAMES.labelGroup, 'g');
-      ifShow(
-        !!label,
-        labelGroup,
-        () => {
-          renderLabel(labelGroup, attributes, labelStyle);
-        },
-        true
-      );
-
-      /** value */
-      const valueGroup = group.maybeAppendByClassName(CLASS_NAMES.valueGroup, 'g');
-      ifShow(
-        isShowValue(value),
-        valueGroup,
-        () => {
-          renderValue(valueGroup, attributes, valueStyle);
-        },
-        true
-      );
-
-      /** background */
-      const backgroundGroup = group.maybeAppendByClassName(CLASS_NAMES.backgroundGroup, 'g');
-      renderBackground(backgroundGroup, attributes, itemBackgroundStyle);
-
-      adjustLayout(select(container), attributes);
-    },
-  },
-  {
-    ...DEFAULT_CFG,
-  }
-);

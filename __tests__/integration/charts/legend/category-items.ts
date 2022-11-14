@@ -65,6 +65,7 @@ export const CategoryItems = () => {
     gridRow: 1,
     width: 500,
     height: 30,
+    navDuration: 1000,
     navLoop: true,
     colPadding: 10,
     itemMarker: (_: any) =>

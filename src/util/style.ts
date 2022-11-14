@@ -106,9 +106,7 @@ export function applyStyleSheet(element: HTMLElement, style: { [key: string]: Ob
  */
 export function getStyleFromPrefixed(style: { [keys: string]: any }, prefix: string, invert: boolean = false) {
   const _style: { [keys: string]: any } = {};
-  const startsWith = (str: string, prefix: string) => {
-    return str.startsWith(prefix) && str.length > prefix.length;
-  };
+  const startsWith = (str: string, prefix: string) => new RegExp(`^${prefix}[A-Z].*`).test(str);
   const capitalizeFirstLetter = (str: string) => {
     return str.charAt(0).toLowerCase() + str.slice(1);
   };
@@ -126,7 +124,6 @@ export function getStyleFromPrefixed(style: { [keys: string]: any }, prefix: str
 }
 
 export function getStylesFromPrefixed(style: any, prefix: string[]) {
-  // debugger;
   const styles: any[] = [];
   let _style = style;
   for (let i = 0; i < prefix.length; i++) {

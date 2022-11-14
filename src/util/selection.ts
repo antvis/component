@@ -1,20 +1,6 @@
 // @ts-nocheck
-import {
-  BaseStyleProps as BP,
-  Circle,
-  DisplayObject,
-  Ellipse,
-  Group,
-  HTML,
-  IDocument,
-  Image,
-  Line,
-  Path,
-  Polygon,
-  Polyline,
-  Rect,
-  Text,
-} from '@antv/g';
+import { Circle, Ellipse, Group, HTML, IDocument, Image, Line, Path, Polygon, Polyline, Rect, Text } from '@antv/g';
+import type { BaseStyleProps as BP, DisplayObject } from '@antv/g';
 import { group } from 'd3-array';
 
 export type _Element = DisplayObject & {
@@ -150,7 +136,7 @@ export class Selection<T = any> {
     return new Selection(elements, null, elements[0], this._document);
   }
 
-  #maybeAppend(selector: string, node: string | (() => _Element)) {
+  #maybeAppend<T extends DisplayObject>(selector: string, node: string | (() => _Element)): Selection<T> {
     const element = this._elements[0];
     const child = element.querySelector<_Element>(selector);
     if (child) return new Selection([child], null, this._parent, this._document);
@@ -159,21 +145,21 @@ export class Selection<T = any> {
     return new Selection([newChild], null, this._parent, this._document);
   }
 
-  maybeAppend(id: string, node: string | (() => _Element)) {
-    const element = this.#maybeAppend(`#${id}`, node);
+  maybeAppend<T = DisplayObject>(id: string, node: string | (() => _Element)) {
+    const element = this.#maybeAppend<T>(id.startsWith('#') ? id : `#${id}`, node);
     element.attr('id', id);
     return element;
   }
 
-  maybeAppendByClassName(className: any, node: string | (() => _Element)) {
-    const cls = className.toString();
-    const element = this.#maybeAppend(`.${cls}`, node);
+  maybeAppendByClassName<T = DisplayObject>(className: any, node: string | (() => _Element)) {
+    const cls: string = className.toString();
+    const element = this.#maybeAppend<T>(cls.startsWith('.') ? cls : `.${cls}`, node);
     element.attr('className', cls);
     return element;
   }
 
-  maybeAppendByName(name: string, node: string | (() => _Element)) {
-    const element = this.#maybeAppend(`[name="${name}"]`, node);
+  maybeAppendByName<T = DisplayObject>(name: string, node: string | (() => _Element)) {
+    const element = this.#maybeAppend<T>(`[name="${name}"]`, node);
     element.attr('name', name);
     return element;
   }

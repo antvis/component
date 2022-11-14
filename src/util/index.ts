@@ -25,3 +25,5 @@ export * from './classnames';
 export * from './filter-transform';
 export * from './group-by';
 export * from './capitalize';
+export * from './ellipsis';
+export * from './layout';

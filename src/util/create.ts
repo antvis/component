@@ -3,7 +3,7 @@ import { deepMix } from '@antv/util';
 import { deepAssign } from './deep-assign';
 
 type Descriptor<T> = {
-  render?: (attributes: T, container: CustomElement<T>) => void;
+  render?: (attributes: Required<T>, container: CustomElement<T>) => void;
   bindEvents?: (attributes: T, container: CustomElement<T>) => void;
 };
 
@@ -24,17 +24,17 @@ export function createComponent<T>(
     }
 
     connectedCallback() {
-      this.descriptor.render?.(this.attributes, this);
+      this.descriptor.render?.(this.attributes as Required<T>, this);
       this.descriptor.bindEvents?.(this.attributes, this);
     }
 
     public update(cfg: Partial<T> = {}) {
       this.attr(deepMix({}, this.attributes, cfg));
-      this.descriptor.render?.(this.attributes, this);
+      this.descriptor.render?.(this.attributes as Required<T>, this);
     }
 
     attributeChangedCallback() {
-      this.descriptor.render?.(this.attributes, this);
+      this.descriptor.render?.(this.attributes as Required<T>, this);
     }
   };
 }
