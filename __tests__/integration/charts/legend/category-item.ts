@@ -7,7 +7,7 @@ export const CategoryItem = () => {
   const createItem = (args: any) => {
     return group.appendChild(
       new CI({
-        style: createItemCfg(args),
+        style: createItemCfg({ layout: 'fixed', ...args }),
       })
     );
   };
@@ -43,6 +43,7 @@ export const CategoryItem = () => {
       style: {
         x: 300,
         y: 50,
+        layout: 'fixed',
         label: 'pre-colonial Americas',
         labelFill: 'red',
         markerFill: 'red',
@@ -55,6 +56,7 @@ export const CategoryItem = () => {
       style: {
         x: 300,
         y: 100,
+        layout: 'fixed',
         label: 'pre-colonial Americas',
         labelFill: 'red',
         markerFill: 'red',
@@ -69,6 +71,7 @@ export const CategoryItem = () => {
       style: {
         x: 300,
         y: 150,
+        layout: 'fixed',
         label: 'pre-colonial Americas',
         labelFill: 'red',
         value: '100%',

@@ -350,7 +350,7 @@ export class Selection<T = any> {
     return this;
   }
 
-  node(): _Element {
+  node<T extends _Element = _Element>(): T {
     return this._elements[0];
   }
 

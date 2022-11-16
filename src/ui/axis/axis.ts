@@ -72,40 +72,25 @@ export const Axis = createComponent<AxisStyleProps>(
       });
       /** grid */
       const axisGridGroup = select(container).maybeAppendByClassName(CLASS_NAMES.gridGroup, 'g');
-      ifShow(showGrid!, axisGridGroup, () => renderGrid(axisGridGroup, data, attributes, gridStyle), true);
+      ifShow(showGrid!, axisGridGroup, (group) => renderGrid(group, data, attributes, gridStyle));
       /** main group */
       const axisMainGroup = select(container).maybeAppendByClassName(CLASS_NAMES.mainGroup, 'g');
 
       /** line */
       const axisLineGroup = axisMainGroup.maybeAppendByClassName(CLASS_NAMES.lineGroup, 'g');
-      ifShow(
-        showLine!,
-        axisLineGroup,
-        () => {
-          renderAxisLine(axisLineGroup, attributes, lineStyle);
-        },
-        true
-      );
+      ifShow(showLine!, axisLineGroup, (group) => {
+        renderAxisLine(group, attributes, lineStyle);
+      });
       /** tick */
       const axisTickGroup = axisMainGroup.maybeAppendByClassName(CLASS_NAMES.tickGroup, 'g');
-      ifShow(
-        showTick!,
-        axisTickGroup,
-        () => {
-          renderTicks(axisTickGroup, data, attributes, tickStyle);
-        },
-        true
-      );
+      ifShow(showTick!, axisTickGroup, (group) => {
+        renderTicks(group, data, attributes, tickStyle);
+      });
       /** label */
       const axisLabelGroup = axisMainGroup.maybeAppendByClassName(CLASS_NAMES.labelGroup, 'g');
-      ifShow(
-        showLabel!,
-        axisLabelGroup,
-        () => {
-          renderLabels(axisLabelGroup, data, attributes, labelStyle);
-        },
-        true
-      );
+      ifShow(showLabel!, axisLabelGroup, (group) => {
+        renderLabels(group, data, attributes, labelStyle);
+      });
       /** title */
       renderTitle(select(container), attributes, titleStyle);
     },

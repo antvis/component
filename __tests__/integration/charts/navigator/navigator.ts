@@ -46,26 +46,22 @@ export const NavigatorDemo = () => {
 
   const nav1 = createNav({ x: 100, y: 100 });
   // setInterval(() => {
-  //   // @ts-ignore
   //   nav1.next();
   // }, 1000);
 
   const nav2 = createNav({ x: 300, y: 100, orient: 'vertical', duration: 1000 });
   // setInterval(() => {
-  //   // @ts-ignore
   //   nav2.prev();
   // }, 1000);
 
   const nav3 = createNav({ x: 450, y: 100, duration: 1000, effect: 'in-quart' });
   // setInterval(() => {
-  //   // @ts-ignore
   //   nav3.next();
   // }, 1000);
 
   const nav4 = createNav({ x: 650, y: 100, initPage: 3, orient: 'vertical' });
 
   // setTimeout(() => {
-  //   // @ts-ignore
   //   nav4.next().finished.then(() => {
   //     setTimeout(() => {
   //       nav4.update({ initPage: 2 });
@@ -80,7 +76,6 @@ export const NavigatorDemo = () => {
   //     pageViews: createPageViews(10, [100, 100], (str) => `update-${str}`),
   //   });
   //   setInterval(() => {
-  //     // @ts-ignore
   //     nav5.next();
   //   }, 1000);
   // }, 1000);

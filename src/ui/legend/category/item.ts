@@ -39,6 +39,7 @@ export type CategoryItemStyle = {
   PrefixedStyle<ItemBackgroundStyle, 'background'>;
 
 export type CategoryItemCfg = Omit<GroupStyleProps, 'width' | 'height'> & {
+  layout?: 'fixed' | 'fit';
   /** spacing between marker, label and value */
   spacing?: Padding;
   // if width and height not specific, set it to actual space occurred
@@ -56,6 +57,7 @@ type RI = Required<CategoryItemStyleProps>;
 
 const CLASS_NAMES = classNames(
   {
+    layout: 'fit',
     markerGroup: 'marker-group',
     marker: 'marker',
     labelGroup: 'label-group',
@@ -134,7 +136,7 @@ export class CategoryItem extends GUI<CategoryItemStyleProps> {
     const { attributes } = this;
     let { markerWidth, labelWidth, valueWidth, height } = this.actualSpace;
 
-    if (attributes.width) {
+    if (attributes.layout === 'fixed' && attributes.width) {
       const { width: w } = attributes;
       const [span1, span2, span3] = this.span;
       [markerWidth, labelWidth, valueWidth] = [span1 * w, span2 * w, span3 * w];
@@ -171,16 +173,11 @@ export class CategoryItem extends GUI<CategoryItemStyleProps> {
     const { marker } = this.attributes;
     const style = getStyleFromPrefixed(this.attributes, 'marker');
     this.markerGroup = container.maybeAppendByClassName(CLASS_NAMES.markerGroup, 'g');
-    ifShow(
-      !!marker,
-      this.markerGroup,
-      () => {
-        this.markerGroup
-          .maybeAppendByClassName(CLASS_NAMES.marker, marker!)
-          .call(applyStyle, { anchor: '0.5 0.5', ...style });
-      },
-      true
-    );
+    ifShow(!!marker, this.markerGroup, () => {
+      this.markerGroup
+        .maybeAppendByClassName(CLASS_NAMES.marker, marker!)
+        .call(applyStyle, { anchor: '0.5 0.5', ...style });
+    });
   }
 
   private renderLabel(container: Selection) {
@@ -194,14 +191,9 @@ export class CategoryItem extends GUI<CategoryItemStyleProps> {
     const { value } = this.attributes;
     const style = getStyleFromPrefixed(this.attributes, 'value');
     this.valueGroup = container.maybeAppendByClassName(CLASS_NAMES.valueGroup, 'g');
-    ifShow(
-      this.showValue,
-      this.valueGroup,
-      () => {
-        this.valueGroup.maybeAppendByClassName(CLASS_NAMES.value, () => renderExtDo(value!)).call(applyStyle, style);
-      },
-      true
-    );
+    ifShow(this.showValue, this.valueGroup, () => {
+      this.valueGroup.maybeAppendByClassName(CLASS_NAMES.value, () => renderExtDo(value!)).call(applyStyle, style);
+    });
   }
 
   private renderBackground(container: Selection) {

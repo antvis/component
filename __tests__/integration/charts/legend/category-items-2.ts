@@ -1,39 +1,16 @@
 import { Group, Image, Rect, Text } from '@antv/g';
 import { CategoryItems as CIs } from './utils';
+import { flowItemData } from './data';
 
 export const CategoryItems2 = () => {
   const group = new Group({});
   const colors = ['red', 'orange', 'green', 'blue', 'purple'];
-  const itemsData = [
-    {
-      label: 'Middle East',
-    },
-    {
-      label: 'South Asia',
-    },
-    {
-      label: 'East Asia',
-    },
-    {
-      label: 'Europe(and colonial offshoots)',
-    },
-    {
-      label: 'Sub-Saharan Africa',
-    },
-    {
-      label: 'pre-colonial Americas',
-    },
-    {
-      label: 'the Steppes',
-      value: '100',
-    },
-  ];
 
   const createItems = (args: any) => {
     return group.appendChild(
       new CIs({
         style: {
-          data: itemsData,
+          data: flowItemData,
           itemLabelFill: 'red',
           itemValueFill: 'green',
           itemMarkerFill: 'orange',
@@ -48,12 +25,14 @@ export const CategoryItems2 = () => {
     y: 10,
     colPadding: 10,
     rowPadding: 5,
+    maxWidth: 1000,
     itemMarkerFill: (_: any, index: number) => colors[index % colors.length],
   });
 
   createItems({
     x: 10,
     y: 50,
+    maxWidth: 1000,
     itemSpacing: [0, 10],
     itemMarkerFill: (_: any, index: number) => colors[index % colors.length],
   });
@@ -61,6 +40,7 @@ export const CategoryItems2 = () => {
   createItems({
     x: 10,
     y: 90,
+    maxWidth: 1000,
     itemSpacing: [5, 10],
     colPadding: 10,
     itemMarkerFill: (_: any, index: number) => colors[index % colors.length],
@@ -69,6 +49,7 @@ export const CategoryItems2 = () => {
   createItems({
     x: 10,
     y: 130,
+    maxWidth: 1000,
     colPadding: 10,
     itemMarkerFill: (_: any, index: number) => colors[index % colors.length],
   });
@@ -76,9 +57,9 @@ export const CategoryItems2 = () => {
   createItems({
     x: 10,
     y: 170,
-    gridRow: 2,
-    gridCol: 5,
     colPadding: 10,
+    maxWidth: 650,
+    maxHeight: 50,
     itemMarkerFill: (_: any, index: number) => colors[index % colors.length],
   });
 

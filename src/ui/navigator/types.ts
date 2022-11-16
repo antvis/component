@@ -7,8 +7,10 @@ export interface NavigatorStyle
     PrefixedStyle<TextStyleProps, 'pageNum'> {}
 
 export interface NavigatorCfg {
-  pageWidth: number;
-  pageHeight: number;
+  /** once pageWidth is not provided, it will be set to bbox shape */
+  pageWidth?: number;
+  /** infer to pageWidth */
+  pageHeight?: number;
   effect?: string;
   duration?: number;
   orient?: 'horizontal' | 'vertical';

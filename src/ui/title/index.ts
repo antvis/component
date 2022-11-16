@@ -1,7 +1,7 @@
 import type { DisplayObjectConfig, Group } from '@antv/g';
 import { DisplayObject } from '@antv/g';
-import { deepAssign, Selection, applyStyle, createComponent, normalPadding, select, styleSeparator } from '../../util';
 import { GUI } from '../../core/gui';
+import { applyStyle, classNames, deepAssign, normalPadding, select, Selection, styleSeparator } from '../../util';
 import type { TitleStyleProps } from './types';
 
 export type { TitleStyleProps };
@@ -18,6 +18,13 @@ const DEFAULT_TITLE_CFG: Partial<TitleStyleProps> = {
   spacing: 0,
   position: 'left-top',
 };
+
+const CLASS_NAMES = classNames(
+  {
+    text: 'text',
+  },
+  'title'
+);
 
 /**
  * @example
@@ -64,7 +71,7 @@ export class Title extends GUI<TitleStyleProps> {
   public getAvailableSpace() {
     const container = this;
     const { width, height: H, position, spacing, inset } = this.attributes as Required<TitleStyleProps>;
-    const title = container.querySelector<DisplayObject>('#title-text');
+    const title = container.querySelector<DisplayObject>(CLASS_NAMES.text.class);
     if (!title) return { x: 0, y: 0, width, height: H };
 
     const { height: h } = title.getBBox();
@@ -83,8 +90,15 @@ export class Title extends GUI<TitleStyleProps> {
   }
 
   public render(attributes: TitleStyleProps, container: Group) {
-    const { width, height, position, spacing, ...restStyle } = attributes as Required<TitleStyleProps>;
-    const [titleStyle] = styleSeparator(restStyle);
+    const {
+      width,
+      height,
+      position,
+      spacing,
+      class: className, // remove class attr
+      ...restStyle
+    } = attributes as Required<TitleStyleProps>;
+    const [titleStyle, groupStyle] = styleSeparator(restStyle);
     const { x, y, textAlign, textBaseline } = getTitleLayout(attributes);
     if (!restStyle.text) {
       container.removeChildren();
@@ -92,7 +106,7 @@ export class Title extends GUI<TitleStyleProps> {
     }
 
     select(container)
-      .maybeAppend('title-text', 'text')
+      .maybeAppendByClassName(CLASS_NAMES.text, 'text')
       .call(applyStyle, titleStyle)
       .call(mayApplyStyle, { x, y, textAlign, textBaseline });
   }

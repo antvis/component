@@ -68,7 +68,7 @@ export const Handle = createComponent<HandleStyleProps>(
           .maybeAppendByClassName(CLASS_NAMES.label, 'text')
           .call(applyStyle, { text: formatter(text).toString(), ...labelStyle });
 
-        // adujust layout
+        // adjust layout
         const { width, height } = marker.node().getBBox();
         const [x, y, textAlign, textBaseline] = ifHorizontal(
           orient,

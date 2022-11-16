@@ -142,6 +142,7 @@ export function getStylesFromPrefixed(style: any, prefix: string[]) {
  * @returns shape style and rest style
  */
 export function styleSeparator(style: { [keys: string]: any }) {
+  const ignoreStyleDict = ['x', 'y'];
   const groupStyleDict: string[] = [
     'transform',
     'transformOrigin',
@@ -161,7 +162,9 @@ export function styleSeparator(style: { [keys: string]: any }) {
   const output: typeof style = {};
   const groupStyle: typeof style = {};
   Object.entries(style).forEach(([key, val]) => {
-    if (groupStyleDict.indexOf(key) !== -1) groupStyle[key] = val;
+    if (ignoreStyleDict.includes(key)) {
+      // do nothing
+    } else if (groupStyleDict.indexOf(key) !== -1) groupStyle[key] = val;
     else output[key] = val;
   });
   return [output, groupStyle];

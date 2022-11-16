@@ -4,7 +4,7 @@ export function ifShow(
   show: boolean,
   container: Selection,
   creator: (group: Selection) => void,
-  removeChildren?: boolean
+  removeChildren: boolean = true
 ) {
   if (show) {
     creator(container);

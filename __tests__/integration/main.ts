@@ -42,10 +42,10 @@ class DemoHandler {
     const select = this.#selectDemo;
     if (!canvas || !this.#caseNames.includes(name)) return;
     canvas.removeChildren();
+    select.value = name;
     // @ts-ignore
     canvas.appendChild(cases[name]());
 
-    select.value = name;
     this.storeStatus(name);
   }
 

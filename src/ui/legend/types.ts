@@ -25,7 +25,7 @@ export type LabelStyle = PrefixedStyle<TextStyleProps, 'label'>;
 export type LabelCfg<T = any> = {
   showLabel?: boolean;
   labelDirection?: 'ends' | 'positive' | 'negative';
-  /** spacing bewteen label and legend item */
+  /** spacing between label and legend item */
   labelSpacing?: number;
   labelAlign?: 'value' | 'range';
   labelFormatter?: (val: T, index: number, arr: T[]) => string;
@@ -51,16 +51,13 @@ export type LegendBaseCfg = {
 };
 
 export type LegendBaseStyleProps = LegendBaseStyle & LegendBaseCfg;
-
 export type LegendBaseOptions = DisplayObjectConfig<LegendBaseStyleProps>;
 
 export type ContinuousStyle = LegendBaseStyle & HandleLabelStyle & IndicatorStyle;
-
 export type RibbonCfg = Omit<RibbonStyleProps, 'orient' | 'range' | 'blocks' | 'size' | 'len'> & {
   ribbonSize: number;
   ribbonLen: number;
 };
-
 export type ContinuousCfg = LegendBaseCfg &
   RibbonCfg &
   HandleCfg &
@@ -73,12 +70,8 @@ export type ContinuousCfg = LegendBaseCfg &
   };
 
 export type ContinuousStyleProps = ContinuousStyle & ContinuousCfg;
-
 export type ContinuousOptions = DisplayObjectConfig<ContinuousStyleProps>;
 
-export type CategoryStyleProps = {
-  title: TextStyleProps['text'];
-} & LegendBaseCfg &
-  CategoryItemsStyleProps;
-
+export type CategoryCfg = LegendBaseStyle;
+export type CategoryStyleProps = CategoryCfg & LegendBaseStyle & CategoryItemsStyleProps;
 export type CategoryOptions = DisplayObjectConfig<CategoryStyleProps>;

@@ -105,8 +105,8 @@ export class Continuous extends GUI<ContinuousStyleProps> {
 
     const labelGroup = select(container).maybeAppendByClassName(CLASS_NAMES.labelGroup, 'g').call(applyStyle, { x, y });
 
-    ifShow(showLabel, labelGroup, () => {
-      this.renderLabel(labelGroup);
+    ifShow(showLabel, labelGroup, (group) => {
+      this.renderLabel(group);
     });
   }
 

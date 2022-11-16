@@ -27,3 +27,4 @@ export * from './group-by';
 export * from './capitalize';
 export * from './ellipsis';
 export * from './layout';
+export * from './transpose';
