@@ -1,7 +1,7 @@
 import { Path, Group } from '@antv/g';
 import { deepMix } from '@antv/util';
 import { GUI } from '../../core/gui';
-import { applyStyle, maybeAppend } from '../../util';
+import { applyStyle, maybeAppend, subObject } from '../../util';
 import { Tag } from '../tag';
 import { CROSSHAIR_BASE_DEFAULT_STYLE } from './constant';
 import type { CrosshairBaseCfg, CrosshairBaseOptions } from './types';
@@ -11,7 +11,7 @@ export abstract class CrosshairBase<T extends CrosshairBaseCfg> extends GUI<Requ
   public static tag = 'crosshair-base';
 
   protected static defaultOptions = {
-    type: CrosshairBase.tag,
+    // type: CrosshairBase.tag,
     style: CROSSHAIR_BASE_DEFAULT_STYLE,
   };
 
@@ -41,13 +41,13 @@ export abstract class CrosshairBase<T extends CrosshairBaseCfg> extends GUI<Requ
   protected abstract get crosshairPath(): any[];
 
   private get tagCfg() {
-    const { text } = this.attributes;
-    const { position, ...rest } = text!;
+    const tagStyle = subObject(this.attributes, 'tag');
+    const { position, ...rest } = tagStyle;
     return rest;
   }
 
   private get crosshairCfg() {
-    const { lineStyle } = this.attributes;
+    const lineStyle = subObject(this.attributes, 'line');
     return {
       ...lineStyle,
       path: this.crosshairPath,

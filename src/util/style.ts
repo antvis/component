@@ -104,7 +104,7 @@ export function applyStyleSheet(element: HTMLElement, style: { [key: string]: Ob
  * @param invert get the reset style
  * @returns
  */
-export function getStyleFromPrefixed(style: { [keys: string]: any }, prefix: string, invert: boolean = false) {
+export function subObject(style: { [keys: string]: any }, prefix: string, invert: boolean = false) {
   const _style: { [keys: string]: any } = {};
   const startsWith = (str: string, prefix: string) => new RegExp(`^${prefix}[A-Z].*`).test(str);
   const capitalizeFirstLetter = (str: string) => {
@@ -123,13 +123,13 @@ export function getStyleFromPrefixed(style: { [keys: string]: any }, prefix: str
   return _style;
 }
 
-export function getStylesFromPrefixed(style: any, prefix: string[]) {
+export function subObjects(style: any, prefix: string[]) {
   const styles: any[] = [];
   let _style = style;
   for (let i = 0; i < prefix.length; i++) {
     const p = prefix[i];
-    styles.push(getStyleFromPrefixed(_style, p) as any);
-    _style = getStyleFromPrefixed(_style, p, true);
+    styles.push(subObject(_style, p) as any);
+    _style = subObject(_style, p, true);
   }
   // rest
   styles.push(_style);

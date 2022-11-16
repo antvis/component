@@ -1,5 +1,5 @@
 import { DisplayObjectConfig } from '@antv/g';
-import { getStylesFromPrefixed, ifShow, sampling, select, filterTransform, createComponent } from '../../util';
+import { subObjects, ifShow, sampling, select, filterTransform, createComponent } from '../../util';
 import { AXIS_BASE_DEFAULT_CFG, CLASS_NAMES } from './constant';
 import { renderGrid } from './guides/axisGrid';
 import { renderLabels } from './guides/axisLabels';
@@ -58,7 +58,7 @@ export const Axis = createComponent<AxisStyleProps>(
         return rest;
       })();
 
-      const [titleStyle, lineStyle, tickStyle, labelStyle, gridStyle] = getStylesFromPrefixed(restStyle, [
+      const [titleStyle, lineStyle, tickStyle, labelStyle, gridStyle] = subObjects(restStyle, [
         'title',
         'line',
         'tick',

@@ -1,24 +1,18 @@
 import { deepAssign } from '../../util';
 
 export const CROSSHAIR_BASE_DEFAULT_STYLE = {
-  text: {
-    text: '',
-  },
-  lineStyle: {
-    stroke: '#416180',
-    strokeOpacity: 0.45,
-    lineWidth: 1,
-    lineDash: [5, 5],
-  },
+  tagText: '',
+  lineStroke: '#416180',
+  lineStrokeOpacity: 0.45,
+  lineLineWidth: 1,
+  lineLineDash: [5, 5],
 };
 
 export const LINE_CROSSHAIR_DEFAULT_STYLE = deepAssign({}, CROSSHAIR_BASE_DEFAULT_STYLE, {
   type: 'line',
-  text: {
-    position: 'start',
-    align: 'center',
-    verticalAlign: 'bottom',
-  },
+  tagPosition: 'start',
+  tagAlign: 'center',
+  tagVerticalAlign: 'bottom',
 });
 
 export const CIRCLE_CROSSHAIR_DEFAULT_STYLE = deepAssign({}, CROSSHAIR_BASE_DEFAULT_STYLE, {

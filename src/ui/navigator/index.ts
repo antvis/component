@@ -7,7 +7,7 @@ import {
   applyStyle,
   classNames,
   deepAssign,
-  getStylesFromPrefixed,
+  subObjects,
   select,
   styleSeparator,
   TEXT_INHERITABLE_PROPS,
@@ -191,7 +191,7 @@ export class Navigator extends GUI<NavigatorStyleProps> {
     const { controllerSpacing: spacing, pageViews } = this.attributes as Required<NavigatorStyleProps>;
     const { pageWidth, pageHeight } = this.pageShape;
     if (pageViews.length < 2) return;
-    const [style, textStyle] = getStylesFromPrefixed(this.attributes, ['button', 'pageNum']);
+    const [style, textStyle] = subObjects(this.attributes, ['button', 'pageNum']);
     const [pathStyle, groupStyle] = styleSeparator(style);
 
     const prevBtnGroup = container.maybeAppendByClassName(CLASS_NAMES.prevBtnGroup, 'g').call(applyStyle, groupStyle);

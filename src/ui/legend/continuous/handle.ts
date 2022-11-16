@@ -2,7 +2,7 @@ import type { GroupStyleProps } from '@antv/g';
 import { Group, TextStyleProps } from '@antv/g';
 import type { PrefixedStyle } from '../../../types';
 import { Marker, MarkerStyleProps } from '../../marker';
-import { applyStyle, createComponent, getStylesFromPrefixed, select, classNames, ifShow } from '../../../util';
+import { applyStyle, createComponent, subObjects, select, classNames, ifShow } from '../../../util';
 import { ifHorizontal } from '../utils';
 
 export type HandleStyleProps<T = any> = GroupStyleProps &
@@ -49,7 +49,7 @@ export const Handle = createComponent<HandleStyleProps>(
         formatter,
         markerSymbol = ifHorizontal(orient, 'horizontalHandle', 'verticalHandle'),
       } = attribute as Required<HandleStyleProps>;
-      const [{ text, ...labelStyle }, handleStyle] = getStylesFromPrefixed(attribute, ['label', 'marker']);
+      const [{ text, ...labelStyle }, handleStyle] = subObjects(attribute, ['label', 'marker']);
       if (!markerSymbol || visibility === 'hidden') {
         container.querySelector(CLASS_NAMES.marker.class)?.remove();
         container.querySelector(CLASS_NAMES.label.class)?.remove();

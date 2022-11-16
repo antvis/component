@@ -22,10 +22,8 @@ const line = new LineCrosshair({
     lineStyle: {
       lineWidth: 2,
     },
-    text: {
-      text: '123',
-      position: 'start',
-    },
+    tagText: '123',
+    tagPosition: 'start',
   },
 });
 

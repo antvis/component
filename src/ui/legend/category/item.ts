@@ -14,7 +14,7 @@ import {
   classNames,
   deepAssign,
   ellipsisIt,
-  getStyleFromPrefixed,
+  subObject,
   ifShow,
   normalPadding,
   Padding,
@@ -171,7 +171,7 @@ export class CategoryItem extends GUI<CategoryItemStyleProps> {
 
   private renderMarker(container: Selection) {
     const { marker } = this.attributes;
-    const style = getStyleFromPrefixed(this.attributes, 'marker');
+    const style = subObject(this.attributes, 'marker');
     this.markerGroup = container.maybeAppendByClassName(CLASS_NAMES.markerGroup, 'g');
     ifShow(!!marker, this.markerGroup, () => {
       this.markerGroup
@@ -182,14 +182,14 @@ export class CategoryItem extends GUI<CategoryItemStyleProps> {
 
   private renderLabel(container: Selection) {
     const { label } = this.attributes;
-    const style = getStyleFromPrefixed(this.attributes, 'label');
+    const style = subObject(this.attributes, 'label');
     this.labelGroup = container.maybeAppendByClassName<Group>(CLASS_NAMES.labelGroup, 'g');
     this.labelGroup.maybeAppendByClassName(CLASS_NAMES.label, () => renderExtDo(label!)).call(applyStyle, style);
   }
 
   private renderValue(container: Selection) {
     const { value } = this.attributes;
-    const style = getStyleFromPrefixed(this.attributes, 'value');
+    const style = subObject(this.attributes, 'value');
     this.valueGroup = container.maybeAppendByClassName(CLASS_NAMES.valueGroup, 'g');
     ifShow(this.showValue, this.valueGroup, () => {
       this.valueGroup.maybeAppendByClassName(CLASS_NAMES.value, () => renderExtDo(value!)).call(applyStyle, style);
@@ -198,7 +198,7 @@ export class CategoryItem extends GUI<CategoryItemStyleProps> {
 
   private renderBackground(container: Selection) {
     const { width, height } = this.shape;
-    const style = getStyleFromPrefixed(this.attributes, 'background');
+    const style = subObject(this.attributes, 'background');
     this.background = container.maybeAppendByClassName(CLASS_NAMES.backgroundGroup, 'g').style('zIndex', -1);
     this.background
       .maybeAppendByClassName(CLASS_NAMES.background, 'rect')

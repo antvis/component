@@ -1,12 +1,13 @@
+import { LineStyleProps } from '@antv/g';
 import type { TagStyleProps } from '../tag';
-import type { DisplayObjectConfig, LineProps, Point, ShapeAttrs } from '../../types';
+import type { DisplayObjectConfig, LineProps, Point, ShapeAttrs, PrefixedStyle } from '../../types';
 
-export interface CrosshairBaseCfg extends ShapeAttrs {
+export interface CrosshairBaseCfg
+  extends ShapeAttrs,
+    PrefixedStyle<LineStyleProps, 'line'>,
+    Partial<PrefixedStyle<TagStyleProps, 'tag'>> {
   type?: 'line' | 'circle' | 'polygon';
-  lineStyle?: Partial<LineProps>;
-  text?: TagStyleProps & {
-    position?: 'start' | 'end';
-  };
+  tagPosition?: 'start' | 'end';
 }
 
 export interface LineCrosshairCfg extends CrosshairBaseCfg {

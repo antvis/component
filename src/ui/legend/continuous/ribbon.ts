@@ -1,7 +1,7 @@
 import { Group, GroupStyleProps, Path, PathStyleProps, RectStyleProps } from '@antv/g';
 import { isFunction } from '@antv/util';
 import type { PrefixedStyle } from '../../../types';
-import { applyStyle, createComponent, getStylesFromPrefixed, select, Selection, classNames } from '../../../util';
+import { applyStyle, createComponent, subObjects, select, Selection, classNames } from '../../../util';
 import { ifHorizontal } from '../utils';
 import { getBlockColor } from './utils';
 
@@ -115,7 +115,7 @@ function renderRibbon(container: Selection, cfg: RibbonStyleProps, style: any) {
 export const Ribbon = createComponent<RibbonStyleProps>(
   {
     render(attribute: RibbonStyleProps, container: Group) {
-      const [ribbonStyle, backgroundStyle] = getStylesFromPrefixed(attribute, ['ribbon', 'background']);
+      const [ribbonStyle, backgroundStyle] = subObjects(attribute, ['ribbon', 'background']);
       const backgroundGroup = select(container).maybeAppendByClassName(CLASS_NAMES.backgroundGroup, 'g');
       renderBackground(backgroundGroup, attribute, backgroundStyle);
 

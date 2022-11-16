@@ -8,7 +8,7 @@ import {
   deepAssign,
   filterTransform,
   getCallbackValue,
-  getStyleFromPrefixed,
+  subObject,
   groupBy,
   Padding,
   select,
@@ -117,7 +117,7 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
 
   private get renderData() {
     const { data } = this.attrs;
-    const style = getStyleFromPrefixed(this.attrs, 'item');
+    const style = subObject(this.attrs, 'item');
     const d = data.map((datum, index) => {
       const { id = index, label, value } = datum;
       return {
@@ -282,7 +282,7 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
 
   private renderNavigator(container: Selection) {
     const { orient, width, height } = this.attrs;
-    const navStyle = getStyleFromPrefixed(this.attrs, 'nav');
+    const navStyle = subObject(this.attrs, 'nav');
     const shape = this.itemShape === 'fixed' ? { pageWidth: width, pageHeight: height } : {};
     container.maybeAppendByClassName(
       CLASS_NAMES.navigator,

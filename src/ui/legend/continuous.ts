@@ -9,8 +9,8 @@ import {
   deepAssign,
   capitalize,
   getEventPos,
-  getStyleFromPrefixed,
-  getStylesFromPrefixed,
+  subObject,
+  subObjects,
   ifShow,
   select,
   Selection,
@@ -78,10 +78,13 @@ export class Continuous extends GUI<ContinuousStyleProps> {
       showIndicator,
     } = attributes as RT;
 
-    const [titleStyle, labelStyle, indicatorStyle, ribbonStyle, handleStyle] = getStylesFromPrefixed(
-      filterTransform(attributes),
-      ['title', 'label', 'indicator', 'ribbon', 'handle']
-    );
+    const [titleStyle, labelStyle, indicatorStyle, ribbonStyle, handleStyle] = subObjects(filterTransform(attributes), [
+      'title',
+      'label',
+      'indicator',
+      'ribbon',
+      'handle',
+    ]);
 
     const titleEl = select(container).maybeAppendByClassName(
       CLASS_NAMES.title,
@@ -166,7 +169,7 @@ export class Continuous extends GUI<ContinuousStyleProps> {
 
   private renderHandle(type: string, value: number) {
     const { orient } = this.attributes;
-    const { formatter, ...handleStyle } = getStyleFromPrefixed(this.attributes, 'handle');
+    const { formatter, ...handleStyle } = subObject(this.attributes, 'handle');
     const handle = this.handlesGroup
       // @ts-ignore
       .maybeAppendByClassName(CLASS_NAMES.prefix(`${type}-handle`), () => new Handle({}))
@@ -250,7 +253,7 @@ export class Continuous extends GUI<ContinuousStyleProps> {
 
   private renderLabel(group: Selection) {
     const { ribbonSize, ribbonLen } = this.attributes;
-    const { spacing, align, formatter, filter, ...labelStyle } = getStyleFromPrefixed(this.attributes, 'label');
+    const { spacing, align, formatter, filter, ...labelStyle } = subObject(this.attributes, 'label');
     const [startPos, endPos] = this.ifHorizontal(
       [
         [0, ribbonSize / 2],

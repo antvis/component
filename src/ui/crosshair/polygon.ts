@@ -11,7 +11,6 @@ export class PolygonCrosshair extends CrosshairBase<PolygonCrosshairCfg> {
   public static tag = 'polygon-crosshair';
 
   protected static defaultOptions = {
-    type: PolygonCrosshair.tag,
     style: POLYGON_CROSSHAIR_DEFAULT_STYLE,
   };
 

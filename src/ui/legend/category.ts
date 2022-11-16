@@ -1,14 +1,6 @@
 import type { DisplayObjectConfig, Group } from '@antv/g';
 import { GUI } from '../../core/gui';
-import {
-  applyStyle,
-  deepAssign,
-  getStyleFromPrefixed,
-  getStylesFromPrefixed,
-  select,
-  Selection,
-  styleSeparator,
-} from '../../util';
+import { applyStyle, deepAssign, subObject, subObjects, select, Selection, styleSeparator } from '../../util';
 import type { TitleStyleProps } from '../title';
 import { Title } from '../title';
 import { CategoryItems } from './category/items';
@@ -32,7 +24,7 @@ export class Category extends GUI<CategoryStyleProps> {
   }
 
   private renderTitle(container: Selection, width: number, height: number) {
-    const style = getStyleFromPrefixed(this.attributes, 'title') as TitleStyleProps;
+    const style = subObject(this.attributes, 'title') as TitleStyleProps;
     const [titleStyle, groupStyle] = styleSeparator(style);
     this.titleGroup = container.maybeAppendByClassName<Group>(CLASS_NAMES.titleGroup, 'g').call(applyStyle, groupStyle);
     this.titleGroup
@@ -44,7 +36,7 @@ export class Category extends GUI<CategoryStyleProps> {
   }
 
   private renderItems(container: Selection) {
-    const [, style] = getStylesFromPrefixed(this.attributes, ['title']);
+    const [, style] = subObjects(this.attributes, ['title']);
     const [itemStyle, groupStyle] = styleSeparator(style);
 
     this.itemsGroup = container.maybeAppendByClassName<Group>(CLASS_NAMES.itemsGroup, 'g').call(applyStyle, groupStyle);

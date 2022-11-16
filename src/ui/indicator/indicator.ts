@@ -4,7 +4,7 @@ import type { Point } from '../../types';
 import {
   applyStyle,
   deepAssign,
-  getStyleFromPrefixed,
+  subObject,
   isHorizontal,
   normalPadding,
   renderExtDo,
@@ -53,7 +53,7 @@ export class Indicator<T = any> extends GUI<IndicatorStyleProps<T>> {
       [max[0] + r, max[1] + b],
     ];
     const path = this.getPath(position, points);
-    const backgroundStyle = getStyleFromPrefixed(this.attributes, 'background');
+    const backgroundStyle = subObject(this.attributes, 'background');
     this.background = select(this.group)
       .maybeAppendByClassName(CLASS_NAMES.background, 'path')
       .call(applyStyle, backgroundStyle)
@@ -63,7 +63,7 @@ export class Indicator<T = any> extends GUI<IndicatorStyleProps<T>> {
 
   private renderLabel() {
     const { value, formatter } = this.attributes as RT;
-    const labelStyle = getStyleFromPrefixed(this.attributes, 'label');
+    const labelStyle = subObject(this.attributes, 'label');
     const [textStyle, groupStyle] = styleSeparator(labelStyle);
     this.label = select(this.group).maybeAppendByClassName(CLASS_NAMES.labelGroup, 'g').call(applyStyle, groupStyle);
     if (!value) return;

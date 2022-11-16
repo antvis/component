@@ -11,7 +11,6 @@ export class CircleCrosshair extends CrosshairBase<CircleCrosshairCfg> {
   public static tag = 'circle-crosshair';
 
   protected static defaultOptions = {
-    type: CircleCrosshair.tag,
     style: CIRCLE_CROSSHAIR_DEFAULT_STYLE,
   };
 

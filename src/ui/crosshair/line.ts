@@ -7,10 +7,9 @@ import type { Point } from '../../types';
 export type { LineCrosshairCfg, LineCrosshairOptions };
 
 export class LineCrosshair extends CrosshairBase<LineCrosshairCfg> {
-  public static tag = 'line-crosshair';
+  static tag = 'line-crosshair';
 
   protected static defaultOptions = {
-    type: LineCrosshair.tag,
     style: LINE_CROSSHAIR_DEFAULT_STYLE,
   };
 
@@ -90,18 +89,17 @@ export class LineCrosshair extends CrosshairBase<LineCrosshairCfg> {
    */
   private adjustTag() {
     const {
-      text,
+      tagText,
+      tagPosition,
       startPos: [x1, y1],
       endPos: [x2, y2],
     } = this.attributes;
 
-    if (!text || text === '') {
+    if (!tagText || tagText === '') {
       this.tagShape.hide();
       return;
     }
     this.tagShape.show();
-
-    const { position } = text as { position: 'start' | 'end' };
 
     const { width, height } = this.tagShapeSpace;
     // 偏移量
@@ -114,7 +112,7 @@ export class LineCrosshair extends CrosshairBase<LineCrosshairCfg> {
         start: [0, 0],
         end: [0, y2 - y1 + height],
       }
-    )[position];
+    )[tagPosition];
     this.tagShape.setLocalPosition(xOffset, yOffset);
   }
 
