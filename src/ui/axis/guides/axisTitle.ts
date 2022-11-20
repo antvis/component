@@ -42,11 +42,11 @@ function createTitleEl(container: Selection, cfg: AxisStyleProps) {
 }
 
 function applyTitleStyle(title: Selection, group: Selection, cfg: AxisStyleProps, style: any) {
-  const [titleStyle, { transform, ...groupStyle }] = styleSeparator(style);
+  const [titleStyle, { transform = '', ...groupStyle }] = styleSeparator(style);
   title.call(applyStyle, titleStyle);
-  group.node().attr(getTitleLayout(group, title, cfg));
+  const { x, y } = getTitleLayout(group, title, cfg);
   group.node().attr(groupStyle);
-  percentTransform(group, transform);
+  percentTransform(group, `translate(${x}, ${y}) ${transform}`);
 }
 
 export function renderTitle(container: Selection, cfg: AxisStyleProps, style: any) {

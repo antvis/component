@@ -17,6 +17,7 @@ export const CategoryGrid = () => {
     return group.appendChild(
       new C({
         style: {
+          layout: 'grid',
           data: createItemData(20),
           ...args,
         },
@@ -27,7 +28,7 @@ export const CategoryGrid = () => {
   const colors = ['#5781f0', '#70d2a0', '#556484', '#efb745', '#5f4fee'];
   createCategory({
     titleText: 'Legend Title',
-    width: 400,
+    width: 455,
     height: 50,
     gridCol: 6,
     gridRow: 1,
@@ -36,9 +37,21 @@ export const CategoryGrid = () => {
   });
 
   createCategory({
+    x: 500,
+    titleText: 'Legend Title',
+    width: 455,
+    height: 50,
+    gridCol: 6,
+    gridRow: 1,
+    data: createItemData(6),
+    itemMarkerFill: (_: any, i: number) => colors[i % colors.length],
+    itemValue: '',
+  });
+
+  createCategory({
     y: 100,
     titleText: 'Legend Title',
-    width: 400,
+    width: 455,
     height: 50,
     gridCol: 6,
     gridRow: 2,
@@ -50,7 +63,7 @@ export const CategoryGrid = () => {
     y: 200,
     titleText: 'Legend Title',
     orient: 'vertical',
-    width: 400,
+    width: 455,
     height: 50,
     gridCol: 6,
     gridRow: 2,
@@ -64,7 +77,7 @@ export const CategoryGrid = () => {
   createCategory({
     y: 300,
     orient: 'vertical',
-    width: 80,
+    width: 135,
     height: 128,
     navLoop: true,
     gridRow: 8,

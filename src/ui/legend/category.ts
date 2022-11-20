@@ -18,11 +18,6 @@ export class Category extends GUI<CategoryStyleProps> {
 
   private itemsGroup!: Selection;
 
-  private get isShapeSet() {
-    const { width, height } = this.attributes;
-    return !!width && !!height;
-  }
-
   private renderTitle(container: Selection, width: number, height: number) {
     const style = subObject(this.attributes, 'title') as TitleStyleProps;
     const [titleStyle, groupStyle] = styleSeparator(style);
@@ -35,9 +30,12 @@ export class Category extends GUI<CategoryStyleProps> {
       .call(applyStyle, titleStyle);
   }
 
-  private renderItems(container: Selection) {
+  private renderItems(container: Selection, width: number, height: number) {
     const [, style] = subObjects(this.attributes, ['title']);
-    const [itemStyle, groupStyle] = styleSeparator(style);
+    const [_itemStyle, groupStyle] = styleSeparator(style);
+
+    // rewrite width and height to available space
+    const itemStyle = { ..._itemStyle, width, height };
 
     this.itemsGroup = container.maybeAppendByClassName<Group>(CLASS_NAMES.itemsGroup, 'g').call(applyStyle, groupStyle);
     this.itemsGroup
@@ -49,25 +47,21 @@ export class Category extends GUI<CategoryStyleProps> {
   }
 
   private adjustLayout() {
-    const {
-      x,
-      y,
-      width: w,
-      height: h,
-    } = this.titleGroup.select(CLASS_NAMES.title.class).node<Title>().getAvailableSpace();
+    const { x, y } = this.titleGroup.select(CLASS_NAMES.title.class).node<Title>().getAvailableSpace();
     this.itemsGroup.node().setLocalPosition(x, y);
-    this.isShapeSet && this.itemsGroup.attr('width', w).attr('height', h);
   }
 
   render(attributes: CategoryStyleProps, container: Group) {
+    const { width, height } = attributes;
     const ctn = select(container);
-    this.renderItems(ctn);
-
-    // once width and height are not provided, use the actual shape of items to set title
-    const { width: itemsWidth, height: itemsHeight } = this.itemsGroup.node().getBBox();
-    const { width = itemsWidth, height = itemsHeight } = attributes;
-
     this.renderTitle(ctn, width, height);
+
+    const { width: availableWidth, height: availableHeight } = (
+      this.titleGroup.select(CLASS_NAMES.title.class).node() as Title
+    ).getAvailableSpace();
+
+    this.renderItems(ctn, +availableWidth, +availableHeight);
+
     this.adjustLayout();
   }
 }

@@ -27,12 +27,12 @@ interface CategoryItemsDatum extends CategoryItemData {
 interface CategoryItemsCfg {
   orient?: 'horizontal' | 'vertical';
   data: CategoryItemsDatum[];
-  width?: number;
-  height?: number;
+  layout?: 'flex' | 'grid';
+  width: number;
+  height: number;
   gridRow?: number;
   gridCol?: number;
-  maxWidth?: number;
-  maxHeight?: number;
+  // maxItemWidth?: number;
   padding?: Padding;
   rowPadding?: number;
   colPadding?: number;
@@ -76,10 +76,11 @@ const CATEGORY_ITEMS_DEFAULT_CFG: CategoryItemsStyleProps = {
   data: [],
   gridRow: 1,
   padding: 0,
-  maxWidth: 500,
-  maxHeight: 20,
+  width: 1000,
+  height: 100,
   rowPadding: 0,
   colPadding: 0,
+  layout: 'flex',
   orient: 'horizontal',
   click: noop,
   mouseenter: noop,
@@ -97,14 +98,10 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
 
   private pageViews = new Group({ className: CLASS_NAMES.pageView.name });
 
+  private navigatorShape: [number, number] = [0, 0];
+
   private get attrs() {
     return filterTransform(this.attributes) as CategoryItemsStyleProps;
-  }
-
-  private get itemShape(): 'fixed' | 'fit' {
-    const { width, height } = this.attrs;
-    if (width && height) return 'fixed';
-    return 'fit';
   }
 
   private get grid(): [number, number] {
@@ -116,7 +113,7 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
   }
 
   private get renderData() {
-    const { data } = this.attrs;
+    const { data, layout } = this.attrs;
     const style = subObject(this.attrs, 'item');
     const d = data.map((datum, index) => {
       const { id = index, label, value } = datum;
@@ -124,7 +121,7 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
         id: `${id}`,
         index,
         style: {
-          layout: this.itemShape,
+          layout,
           label,
           value,
           ...Object.fromEntries(
@@ -139,8 +136,9 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
     return d;
   }
 
-  private get gridLayout() {
+  private getGridLayout() {
     const { orient, width, height, rowPadding, colPadding } = this.attrs as Required<CategoryItemsStyleProps>;
+    const [navWidth] = this.navigatorShape;
     const [gridRow, gridCol] = this.grid;
     const pageSize = gridCol * gridRow;
 
@@ -155,7 +153,7 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
       const [row, col] = pos;
 
       // calc x, y and shape
-      const colWidth = (width - (gridCol - 1) * colPadding) / gridCol;
+      const colWidth = (width - navWidth - (gridCol - 1) * colPadding) / gridCol;
       const rowHeight = (height - (gridRow - 1) * rowPadding) / gridRow;
       let [x, y] = [0, 0];
       if (orient === 'horizontal') {
@@ -169,8 +167,16 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
     });
   }
 
-  private get flexLayout(): ItemLayout[] {
-    const { maxWidth, maxHeight, rowPadding, colPadding: cP } = this.attrs as Required<CategoryItemsStyleProps>;
+  private getFlexLayout(): ItemLayout[] {
+    const {
+      width: maxWidth,
+      height: maxHeight,
+      rowPadding,
+      colPadding: cP,
+    } = this.attrs as Required<CategoryItemsStyleProps>;
+    const [navWidth] = this.navigatorShape;
+    const [gridRow, gridCol] = this.grid;
+    const [limitWidth, limitHeight] = [maxWidth - navWidth, maxHeight];
     let [x, y, page, pageIndex, col, row, prevWidth, prevHeight] = [0, 0, 0, 0, 0, 0, 0, 0];
 
     return (this.itemsCache.children as CategoryItem[]).map((item, index) => {
@@ -179,7 +185,7 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
       // assume that every item has the same height
       const nextWidth = prevWidth + colPadding + width;
       // inline
-      if (nextWidth <= maxWidth) {
+      if (nextWidth <= limitWidth && ((col && col < gridCol) || !col)) {
         [x, y, prevWidth] = [prevWidth + colPadding, prevHeight, nextWidth];
         return { width, height, x, y, page, index, pageIndex: pageIndex++, row, col: col++ };
       }
@@ -187,30 +193,27 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
       // wrap
       [row, col, prevWidth, prevHeight] = [row + 1, 0, 0, prevHeight + height + rowPadding];
       const nextHeight = prevHeight + rowPadding + height;
-      if (nextHeight <= maxHeight) {
+      if (nextHeight <= limitHeight && ((row && row < gridRow) || !row)) {
         [x, y, prevWidth] = [prevWidth, prevHeight, width];
         return { width, height, x, y, page, index, pageIndex: pageIndex++, row, col: col++ };
       }
 
       // paging
-      [x, y, prevWidth, prevHeight, page, pageIndex, col] = [0, 0, width, 0, page + 1, 0, 0];
-      return { width, height, x, y, page, index, pageIndex: pageIndex++, row: 0, col: col++ };
+      [x, y, prevWidth, prevHeight, page, pageIndex, row, col] = [0, 0, width, 0, page + 1, 0, 0, 0];
+      return { width, height, x, y, page, index, pageIndex: pageIndex++, row, col: col++ };
     });
   }
 
   private get itemsLayout() {
-    /**
-     * precondition:
-     * gridRow, maxWidth, maxHeight is preset
-     *
-     * layout 1: if itemShape is fixed (width and height have been specified)
-     * use grid layout, wrap depends on gridCol, paging depends on count of items exceed gridRow * gridCol
-     *
-     * layout 2: otherwise
-     * use flex layout, wrapping when width close to maxWidth, paging when height close to maxHeight
-     * note: at least one line is in the layout
-     */
-    return this.itemShape === 'fixed' ? this.gridLayout : this.flexLayout;
+    this.navigatorShape = [0, 0];
+    const cb = this.attributes.layout === 'grid' ? this.getGridLayout : this.getFlexLayout;
+    const layout = cb.call(this);
+    // re layout
+    if (layout.slice(-1)[0].page > 0) {
+      this.navigatorShape = [55, 0];
+      return cb.call(this);
+    }
+    return layout;
   }
 
   private ifHorizontal<T>(a: T, b: T): T {
@@ -281,9 +284,10 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
   }
 
   private renderNavigator(container: Selection) {
-    const { orient, width, height } = this.attrs;
+    const { orient, layout, width, height } = this.attrs;
+    const [navWidth, navHeight] = this.navigatorShape;
     const navStyle = subObject(this.attrs, 'nav');
-    const shape = this.itemShape === 'fixed' ? { pageWidth: width, pageHeight: height } : {};
+    const shape = layout === 'grid' ? { pageWidth: width - navWidth, pageHeight: height - navHeight } : {};
     container.maybeAppendByClassName(
       CLASS_NAMES.navigator,
       () =>

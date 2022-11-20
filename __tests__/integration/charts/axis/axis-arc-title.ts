@@ -17,7 +17,7 @@ export const AxisArcTitle = () => {
     labelSpacing: 15,
   });
 
-  createAxis({ angleRange: [-90, 270], center: [150, 150], titleTransform: 'translate("100%", 0)' });
+  createAxis({ angleRange: [-90, 270], center: [150, 150], titleTransform: 'translate(100%, 0)' });
   createAxis({
     angleRange: [-90, 270],
     center: [400, 150],
@@ -27,7 +27,7 @@ export const AxisArcTitle = () => {
     angleRange: [-90, 270],
     center: [650, 150],
     titlePosition: 'rb',
-    titleTransform: 'translate("-100%", 0)',
+    titleTransform: 'translate(-100%, 0)',
   });
   createAxis({
     angleRange: [-90, 270],
@@ -38,7 +38,7 @@ export const AxisArcTitle = () => {
     angleRange: [-90, 270],
     center: [150, 400],
     titlePosition: 'tl',
-    titleTransform: 'translate("100%", 0)',
+    titleTransform: 'translate(100%, 0)',
   });
   createAxis({
     angleRange: [-90, 270],

@@ -9,6 +9,9 @@ export const CategoryFlow = () => {
     return group.appendChild(
       new C({
         style: {
+          layout: 'flex',
+          width: 500,
+          height: 40,
           data: flowItemData,
           ...args,
         },
@@ -19,7 +22,7 @@ export const CategoryFlow = () => {
   const colors = ['#5781f0', '#70d2a0', '#556484', '#efb745', '#5f4fee'];
   createCategory({
     titleText: 'Legend Title',
-    maxWidth: 1000,
+    width: 1000,
     itemMarkerFill: (_: any, i: number) => colors[i % colors.length],
     itemValue: '',
   });
@@ -27,7 +30,7 @@ export const CategoryFlow = () => {
   createCategory({
     y: 40,
     titleText: 'Legend Title',
-    maxWidth: 550,
+    width: 600,
     itemMarkerFill: (_: any, i: number) => colors[i % colors.length],
     itemValue: '',
   });
@@ -36,6 +39,7 @@ export const CategoryFlow = () => {
     y: 80,
     titleText: 'Legend Title',
     orient: 'vertical',
+    width: 600,
     rowPadding: 10,
     colPadding: 10,
     itemSpacing: 5,

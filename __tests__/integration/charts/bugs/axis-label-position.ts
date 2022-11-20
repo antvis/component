@@ -47,7 +47,7 @@ export const BugAxisLabelPosition = () => {
         gridCenter: [400, 400],
         gridControlAngles: [90, 180, 360],
         showTick: false,
-        labelTransform: 'translate("50%", 0)',
+        labelTransform: 'translate(50%, 0)',
         title: 'Population',
         titleTextBaseline: 'bottom',
         titlePosition: 't',

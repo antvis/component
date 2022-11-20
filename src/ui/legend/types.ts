@@ -17,7 +17,7 @@ export interface ContinuousDatum extends ContinuousBaseDatum {
 }
 
 type HandleLabelStyle = PrefixedStyle<HandleStyleProps, 'handle'>;
-type HandleCfg<T = any> = {
+type HandleCfg = {
   showHandle?: boolean;
 };
 

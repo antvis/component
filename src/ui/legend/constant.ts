@@ -22,8 +22,6 @@ export const CATEGORY_DEFAULT_OPTIONS = deepMix({}, LEGEND_BASE_DEFAULT_OPTIONS,
   style: {
     type: 'category',
     items: [],
-    maxWidth: undefined,
-    maxHeight: undefined,
     maxCols: undefined,
     maxRows: undefined,
     spacing: [8, 2],

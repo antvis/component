@@ -10,7 +10,10 @@ export const CategoryItems2 = () => {
     return group.appendChild(
       new CIs({
         style: {
+          layout: 'flex',
           data: flowItemData,
+          width: 500,
+          // height: 20,
           itemLabelFill: 'red',
           itemValueFill: 'green',
           itemMarkerFill: 'orange',
@@ -25,14 +28,14 @@ export const CategoryItems2 = () => {
     y: 10,
     colPadding: 10,
     rowPadding: 5,
-    maxWidth: 1000,
+    width: 1000,
     itemMarkerFill: (_: any, index: number) => colors[index % colors.length],
   });
 
   createItems({
     x: 10,
     y: 50,
-    maxWidth: 1000,
+    width: 1000,
     itemSpacing: [0, 10],
     itemMarkerFill: (_: any, index: number) => colors[index % colors.length],
   });
@@ -40,7 +43,7 @@ export const CategoryItems2 = () => {
   createItems({
     x: 10,
     y: 90,
-    maxWidth: 1000,
+    width: 1000,
     itemSpacing: [5, 10],
     colPadding: 10,
     itemMarkerFill: (_: any, index: number) => colors[index % colors.length],
@@ -49,7 +52,7 @@ export const CategoryItems2 = () => {
   createItems({
     x: 10,
     y: 130,
-    maxWidth: 1000,
+    width: 1000,
     colPadding: 10,
     itemMarkerFill: (_: any, index: number) => colors[index % colors.length],
   });
@@ -58,8 +61,21 @@ export const CategoryItems2 = () => {
     x: 10,
     y: 170,
     colPadding: 10,
-    maxWidth: 650,
-    maxHeight: 50,
+    gridRow: 2,
+    gridCol: 5,
+    width: 650,
+    height: 50,
+    itemMarkerFill: (_: any, index: number) => colors[index % colors.length],
+  });
+
+  createItems({
+    x: 10,
+    y: 240,
+    colPadding: 10,
+    gridRow: 2,
+    gridCol: 2,
+    width: 650,
+    height: 50,
     itemMarkerFill: (_: any, index: number) => colors[index % colors.length],
   });
 

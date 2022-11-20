@@ -39,7 +39,7 @@ export type CategoryItemStyle = {
   PrefixedStyle<ItemBackgroundStyle, 'background'>;
 
 export type CategoryItemCfg = Omit<GroupStyleProps, 'width' | 'height'> & {
-  layout?: 'fixed' | 'fit';
+  layout?: 'flex' | 'grid';
   /** spacing between marker, label and value */
   spacing?: Padding;
   // if width and height not specific, set it to actual space occurred
@@ -53,11 +53,9 @@ export type CategoryItemStyleProps = CategoryItemStyle & CategoryItemCfg & Categ
 
 export type CategoryItemOptions = DisplayObjectConfig<CategoryItemStyleProps>;
 
-type RI = Required<CategoryItemStyleProps>;
-
 const CLASS_NAMES = classNames(
   {
-    layout: 'fit',
+    layout: 'flex',
     markerGroup: 'marker-group',
     marker: 'marker',
     labelGroup: 'label-group',
@@ -136,7 +134,7 @@ export class CategoryItem extends GUI<CategoryItemStyleProps> {
     const { attributes } = this;
     let { markerWidth, labelWidth, valueWidth, height } = this.actualSpace;
 
-    if (attributes.layout === 'fixed' && attributes.width) {
+    if (attributes.layout === 'grid' && attributes.width) {
       const { width: w } = attributes;
       const [span1, span2, span3] = this.span;
       [markerWidth, labelWidth, valueWidth] = [span1 * w, span2 * w, span3 * w];

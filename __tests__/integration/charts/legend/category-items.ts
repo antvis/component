@@ -14,7 +14,7 @@ export const CategoryItems = () => {
   };
 
   const createItems = (args: any) => {
-    const { width = 300, height = 90, gridRow = 3, gridCol = 3, rowPadding = 0, colPadding = 0 } = args;
+    const { width = 355, height = 90, gridRow = 3, gridCol = 3 } = args;
     return group.appendChild(
       new CIs({
         style: {
@@ -22,6 +22,7 @@ export const CategoryItems = () => {
           height,
           gridRow,
           gridCol,
+          layout: 'grid',
           data: createItemData(20),
           itemLabelFill: 'red',
           itemValueFill: 'green',
@@ -49,7 +50,7 @@ export const CategoryItems = () => {
     y: 250,
     gridCol: 1,
     gridRow: 5,
-    width: 100,
+    width: 155,
     height: 210,
     rowPadding: 10,
     orient: 'vertical',
@@ -63,7 +64,7 @@ export const CategoryItems = () => {
     y: 250,
     gridCol: 3,
     gridRow: 1,
-    width: 500,
+    width: 555,
     height: 30,
     navDuration: 1000,
     navLoop: true,
@@ -101,8 +102,9 @@ export const CategoryItems = () => {
       style: {
         x: 400,
         y: 350,
-        width: 500,
+        width: 555,
         height: 50,
+        layout: 'grid',
         orient: 'horizontal',
         gridRow: 2,
         gridCol: 8,
