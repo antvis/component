@@ -67,7 +67,15 @@ export const RibbonDemo = () => {
 
   ribbon.style.range = [0.4, 0.8];
 
+  createRibbon({ x: 350, y: 100, type: 'color', color, blocks: 10, len: 400 });
+
   createRibbon({ x: 350, y: 150, type: 'color', color, block: true, blocks: 10, len: 400 });
+
+  createRibbon({ x: 350, y: 200, type: 'size', color, blocks: 10, len: 400 });
+
+  createRibbon({ x: 350, y: 250, type: 'size', color, block: true, blocks: 10, len: 400 });
+
+  createRibbon({ x: 350, y: 300, type: 'color', color, blocks: 10, len: 400, range: [0.2, 0.8] });
 
   return group;
 };

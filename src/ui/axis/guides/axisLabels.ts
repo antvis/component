@@ -12,6 +12,7 @@ import {
   renderExtDo,
   select,
   styleSeparator,
+  percentTransform,
 } from '../../../util';
 import { CLASS_NAMES } from '../constant';
 import { processOverlap } from '../overlap';
@@ -154,7 +155,7 @@ function applyLabelStyle(
   // 3. set rotation
   // 4. set label align
   const label = group.getElementsByClassName<DisplayObject>(CLASS_NAMES.labelItem.toString())?.[0];
-  const [labelStyle, groupStyle] = styleSeparator(getCallbackStyle(style, [datum, index, data]));
+  const [labelStyle, { transform, ...groupStyle }] = styleSeparator(getCallbackStyle(style, [datum, index, data]));
   label?.nodeName === 'text' &&
     select(label as DisplayObject).call(applyStyle, {
       fontSize: 12,
@@ -164,6 +165,7 @@ function applyLabelStyle(
       ...labelStyle,
     });
   group.attr({ ...getLabelPos(datum, index, data, cfg), ...groupStyle });
+  percentTransform(group, transform);
   const rotate = getLabelRotation(datum, group, cfg);
   setRotateAndAdjustLabelAlign(rotate, group, cfg);
 }

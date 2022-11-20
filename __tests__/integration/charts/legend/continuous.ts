@@ -31,6 +31,16 @@ export const ContinuousDemo = () => {
   createContinuous({ step: 100, defaultValue: [200, 500], labelDirection: 'negative' });
 
   createContinuous({
+    x: 300,
+    y: 450,
+    step: 50,
+    titleText: '',
+    defaultValue: [250, 500],
+    labelDirection: 'negative',
+    ribbonLen: 400,
+  });
+
+  createContinuous({
     x: 75,
     y: 150,
     orient: 'vertical',

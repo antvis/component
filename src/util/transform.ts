@@ -14,3 +14,35 @@ export function getTransform(el: DisplayObject | Selection, attr: string): numbe
 export function hasSetRotate(el: DisplayObject | Selection): boolean {
   return !!getTransform(el, 'rotate');
 }
+
+export function getTranslate(el: DisplayObject | Selection, x: number | `{number}%`, y: number | `{number}%`) {
+  const node = el instanceof DisplayObject ? el : el.node();
+  const { width, height } = node.getBBox();
+  const [tx, ty] = [x, y].map((v, i) =>
+    typeof v === 'string'
+      ? (parseFloat(v.match(/[+-]?([0-9]*[.])?[0-9]+/)?.[0] || '0') / 100) * (i === 0 ? width : height)
+      : v
+  );
+  return [tx, ty];
+}
+
+export function translate(el: DisplayObject | Selection, x: number | `{number}%`, y: number | `{number}%`) {
+  const node = el instanceof DisplayObject ? el : el.node();
+  const [tx, ty] = getTranslate(el, x, y);
+  node.attr('transform', `translate(${tx}, ${ty})`);
+}
+
+/**
+ * transform that support translate percent value
+ */
+export function percentTransform(el: DisplayObject | Selection, val: string) {
+  if (!val) return;
+  try {
+    const node = el instanceof DisplayObject ? el : el.node();
+    const reg = /translate\(([+-]*[\d]+|['"][+-]*[\d]+%['"]), *([+-]*[\d]+|['"][+-]*[\d]+%['"])\)/g;
+    const temp = val.replaceAll(reg, (match, x, y) => `translate(${getTranslate(node, x, y)})`);
+    node.attr('transform', temp);
+  } catch (e) {
+    // do nothing
+  }
+}

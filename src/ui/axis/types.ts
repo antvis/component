@@ -7,6 +7,7 @@ import type {
   PrefixedStyle,
   Vector2,
 } from '../../types';
+import type { TitleStyleProps } from '../title';
 import type { GridCfg } from '../grid/types';
 
 export type AxisType = 'linear' | 'arc' | 'helix';
@@ -21,10 +22,6 @@ export interface AxisDatum {
 }
 
 export type AxisDatumCP = CallbackParameter<AxisDatum>;
-
-export type AxisPosition = 'left' | 'right' | 'top' | 'bottom' | 'center';
-
-export type AxisLabelPosition = 'left' | 'right' | 'top' | 'bottom' | 'inner' | 'outter';
 
 export type Direction = 'positive' | 'negative';
 
@@ -66,7 +63,7 @@ export type LabelOverlapCfg =
   | WrapOverlapCfg
   | CustomOverlapCfg;
 
-export type AxisTitleStyle = PrefixedStyle<TextStyleProps, 'title'>;
+export type AxisTitleStyle = PrefixedStyle<Omit<TextStyleProps, 'textAlign'>, 'title'>;
 export type AxisTitleCfg = {
   title?: ExtendDisplayObject;
   /**
@@ -74,14 +71,10 @@ export type AxisTitleCfg = {
    */
   titleSpacing?: number;
   /**
-   * title align relative to the axis
-   */
-  titleAlign?: 'start' | 'middle' | 'end';
-  /**
    * the position of title relative to axis
    * 'inner' can only be used in polar coordinates
    */
-  titlePosition?: 'bottom' | 'top' | 'left' | 'right' | 'inner';
+  titlePosition?: TitleStyleProps['position'];
 };
 export type AxisLineStyle = PrefixedStyle<LineStyleProps, 'line'>;
 export type AxisLineCfg = {
@@ -92,8 +85,8 @@ export type AxisLineCfg = {
   truncRange?: [number, number];
   /**
    * the shape of truncate point or area
-   * when using a callback form, the argument will additional returns the positon of two points
-   * we will provide sevaral default shapes
+   * when using a callback form, the argument will additional returns the position of two points
+   * we will provide several default shapes
    */
   truncShape?: Callbackable<
     ExtendDisplayObject | [ExtendDisplayObject, ExtendDisplayObject],
@@ -143,7 +136,7 @@ export type AxisLabelCfg = {
   /**
    * spacing between label and it's tick
    */
-  labelSpacing?: Callbackable<number, AxisDatumCP>;
+  labelSpacing?: Callbackable<number | `${number}%`, AxisDatumCP>;
   labelFilter?: (...params: AxisDatumCP) => boolean;
   /**
    * formatter for labels, if string, return directly. you can even format it as a g shape

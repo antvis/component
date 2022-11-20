@@ -32,7 +32,7 @@ const CLASS_NAMES = classNames(
  * left-top -> lt
  * inner -> i
  */
-function positionNormalizer(position: Required<TitleStyleProps>['position']): string {
+export function positionNormalizer(position: Required<TitleStyleProps>['position']): string {
   if (!/\S+-\S+/g.test(position)) return position.length > 2 ? position[0] : position;
   return position
     .split('-')

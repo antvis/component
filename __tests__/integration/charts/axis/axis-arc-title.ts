@@ -17,43 +17,47 @@ export const AxisArcTitle = () => {
     labelSpacing: 15,
   });
 
-  createAxis({ angleRange: [-90, 270], center: [150, 150] });
+  createAxis({ angleRange: [-90, 270], center: [150, 150], titleTransform: 'translate("100%", 0)' });
   createAxis({
     angleRange: [-90, 270],
     center: [400, 150],
-    titleAlign: 'middle',
+    titlePosition: 'b',
   });
   createAxis({
     angleRange: [-90, 270],
     center: [650, 150],
-    titleAlign: 'end',
+    titlePosition: 'rb',
+    titleTransform: 'translate("-100%", 0)',
   });
   createAxis({
     angleRange: [-90, 270],
     center: [900, 150],
     titlePosition: 'inner',
   });
-  createAxis({ angleRange: [-90, 270], center: [150, 400], titlePosition: 'top' });
+  createAxis({
+    angleRange: [-90, 270],
+    center: [150, 400],
+    titlePosition: 'tl',
+    titleTransform: 'translate("100%", 0)',
+  });
   createAxis({
     angleRange: [-90, 270],
     center: [400, 400],
     titleSpacing: 10,
-    titleAlign: 'middle',
-    titlePosition: 'left',
+    titlePosition: 'l',
   });
   createAxis({
     angleRange: [-90, 270],
     center: [650, 400],
     titleSpacing: 10,
-    titleAlign: 'middle',
-    titlePosition: 'right',
+    titlePosition: 'r',
   });
   createAxis({
     angleRange: [-90, 270],
     center: [900, 400],
     titleSpacing: 10,
-    titleAlign: 'middle',
-    titlePosition: 'top',
+    titlePosition: 't',
+    titleTextBaseline: 'middle',
     labelDirection: 'negative',
   });
   return group;

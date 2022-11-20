@@ -23,7 +23,6 @@ export const Axis = createComponent<AxisStyleProps>(
         animation,
         title,
         titleSpacing,
-        titleAlign,
         truncRange,
         truncShape,
         showLine,

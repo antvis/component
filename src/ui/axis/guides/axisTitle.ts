@@ -1,5 +1,6 @@
 import type { Selection } from '../../../util';
-import { applyStyle, renderExtDo, styleSeparator } from '../../../util';
+import { applyStyle, renderExtDo, styleSeparator, percentTransform } from '../../../util';
+import { positionNormalizer } from '../../title';
 import { CLASS_NAMES } from '../constant';
 import type { AxisStyleProps } from '../types';
 
@@ -11,29 +12,21 @@ function getTitlePosition(
   x: number;
   y: number;
 } {
-  const { titleAlign: align = 'start', titlePosition: position = 'bottom', titleSpacing: spacing = 0 } = cfg;
+  const { titlePosition: position = 'lb', titleSpacing: spacing = 0 } = cfg;
+  const pos = positionNormalizer(position);
   const { x: ax, y: ay, width: aw, height: ah } = axis.node().getBBox();
-  const { width: tw, height: th } = title.node().getBBox();
   const [aHw, aHh] = axis.node().getBounds().halfExtents;
-  const [tHw] = title.node().getBounds().halfExtents;
-
-  const positionScore = { left: -1, right: 1, top: -1, bottom: 1, inner: 0.5 };
-  const alignScore = { start: -1, middle: 0, end: 1 };
-
+  const [tHw, tHh] = title.node().getBounds().halfExtents;
   const [lcx, lcy] = [ax + aHw - tHw, ay + aHh];
-  const [vw, vh] = [(tw + aw) / 2 + spacing, (th + ah) / 2 + spacing];
-  const [dx, dy] = [(aw - tw) / 2, (ah - th) / 2];
 
-  if (position === 'inner') return { x: lcx, y: lcy };
-  if (position === 'bottom' || position === 'top')
-    return {
-      x: lcx + alignScore[align] * dx,
-      y: lcy + positionScore[position] * vh,
-    };
-  return {
-    x: lcx + positionScore[position] * vw,
-    y: lcy + alignScore[align] * dy,
-  };
+  let [x, y] = [lcx, lcy];
+
+  if (pos.includes('l')) x -= aHw + tHw + spacing;
+  if (pos.includes('r')) x += aHw + tHw + spacing;
+  if (pos.includes('t')) y -= aHh + tHh + spacing;
+  if (pos.includes('b')) y += aHh + tHh + spacing;
+
+  return { x, y };
 }
 
 function getTitleLayout(container: Selection, title: Selection, cfg: AxisStyleProps) {
@@ -49,10 +42,11 @@ function createTitleEl(container: Selection, cfg: AxisStyleProps) {
 }
 
 function applyTitleStyle(title: Selection, group: Selection, cfg: AxisStyleProps, style: any) {
-  const [titleStyle, groupStyle] = styleSeparator(style);
+  const [titleStyle, { transform, ...groupStyle }] = styleSeparator(style);
   title.call(applyStyle, titleStyle);
-  group.node().attr(groupStyle);
   group.node().attr(getTitleLayout(group, title, cfg));
+  group.node().attr(groupStyle);
+  percentTransform(group, transform);
 }
 
 export function renderTitle(container: Selection, cfg: AxisStyleProps, style: any) {
