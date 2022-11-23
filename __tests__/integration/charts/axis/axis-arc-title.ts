@@ -13,6 +13,7 @@ export const AxisArcTitle = () => {
     titleFill: 'red',
     titleFontSize: 16,
     titleFontWeight: 'bold',
+    titleSpacing: 10,
     tickLength: 10,
     labelSpacing: 15,
   });

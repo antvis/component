@@ -50,7 +50,7 @@ export const BugAxisTitlePosition = () => {
         title: 'unemployment',
         titlePosition: 'l',
         titleFontWeight: 'bold',
-        titleSpacing: 0,
+        titleSpacing: 10,
         titleTextBaseline: 'middle',
         titleTransformOrigin: 'center',
         titleAnchor: '0.5 0.5',

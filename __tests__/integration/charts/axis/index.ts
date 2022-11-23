@@ -19,3 +19,4 @@ export { AxisArcLabelPerpendicular } from './axis-arc-label-perpendicular';
 export { AxisGrid } from './axis-grid';
 export { AxisGrid2 } from './axis-grid-2';
 export { AxisGrid3 } from './axis-grid-3';
+export { AxisLinearTitlePosition } from './axis-linear-title-position';

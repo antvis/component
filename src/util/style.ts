@@ -162,10 +162,10 @@ export function styleSeparator(style: { [keys: string]: any }) {
   const output: typeof style = {};
   const groupStyle: typeof style = {};
   Object.entries(style).forEach(([key, val]) => {
-    if (groupStyleDict.indexOf(key) !== -1) groupStyle[key] = val;
-    else if (ignoreStyleDict.includes(key)) {
+    if (ignoreStyleDict.includes(key)) {
       // do nothing
-    } else output[key] = val;
+    } else if (groupStyleDict.indexOf(key) !== -1) groupStyle[key] = val;
+    else output[key] = val;
   });
   return [output, groupStyle];
 }

@@ -7,6 +7,7 @@ export const AxisLinearLabelRotate = () => {
   const createAxis = axisWarper(group, {
     type: 'linear',
     data: data(24),
+    titleTransform: 'translate(100%, 0)',
     lineLineWidth: 5,
     tickLineWidth: 5,
     labelSpacing: 5,

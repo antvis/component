@@ -63,7 +63,7 @@ export type LabelOverlapCfg =
   | WrapOverlapCfg
   | CustomOverlapCfg;
 
-export type AxisTitleStyle = PrefixedStyle<Omit<TextStyleProps, 'textAlign'>, 'title'>;
+export type AxisTitleStyle = PrefixedStyle<TextStyleProps, 'title'>;
 export type AxisTitleCfg = {
   title?: ExtendDisplayObject;
   /**

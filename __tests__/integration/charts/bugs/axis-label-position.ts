@@ -11,6 +11,7 @@ export const BugAxisLabelPosition = () => {
         titleFillOpacity: 1,
         titleFontSize: 12,
         titleFontWeight: 'bold',
+        titleSpacing: 10,
         lineStroke: '#BFBFBF',
         lineStrokeOpacity: 0.45,
         tickStroke: '#BFBFBF',

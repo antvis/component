@@ -11,6 +11,7 @@ export const AxisLinearLabelOverlapMultiple = () => {
     tickLineWidth: 5,
     labelSpacing: 5,
     labelFormatter: () => 'ABCDEFGHIJKL',
+    titleTransform: 'translate(100%, 0)',
   });
 
   const transforms = {
@@ -31,7 +32,8 @@ export const AxisLinearLabelOverlapMultiple = () => {
     },
   };
 
-  createAxis({ startPos: [50, 50], endPos: [500, 50], title: 'default', labelTransforms: [] });
+  const axis = createAxis({ startPos: [50, 50], endPos: [500, 50], title: 'default', labelTransforms: [] });
+  console.log(axis);
 
   createAxis({
     startPos: [50, 100],
