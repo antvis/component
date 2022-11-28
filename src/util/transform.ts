@@ -40,7 +40,8 @@ export function percentTransform(el: DisplayObject | Selection, val: string) {
   try {
     const node = el instanceof DisplayObject ? el : el.node();
     const reg = /translate\(([+-]*[\d]+[%]*),[ ]*([+-]*[\d]+[%]*)\)/g;
-    const computedVal = val.replaceAll(reg, (match, x, y) => `translate(${getTranslate(node, x, y)})`);
+
+    const computedVal = val.replace(reg, (match, x, y) => `translate(${getTranslate(node, x, y)})`);
     node.attr('transform', computedVal);
   } catch (e) {
     // do nothing
