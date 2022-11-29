@@ -57,14 +57,15 @@ function renderGridLine(container: Group, items: GridCfg['items'], cfg: GridCfg,
       (enter) =>
         enter
           .append('path')
-          .attr('className', 'grid-line')
+
           .style('stroke', '#D9D9D9')
           .style('lineWidth', 1)
           .style('lineDash', [4, 4])
           .each(function ({ path }, idx) {
             this.attr({ ...style, path });
             applyStyle(this, idx, lines, { path, ...style });
-          }),
+          })
+          .attr('className', 'grid-line'),
       (update) =>
         update.each(function (style, idx) {
           this.attr(style);
@@ -94,11 +95,11 @@ function renderAlternateRegion(container: Group, items: GridCfg['items'], cfg: G
       (enter) =>
         enter
           .append('path')
-          .attr('className', 'grid-region')
           .each(function (style, idx) {
             this.attr(style);
             applyStyle(this, idx, regions, style);
-          }),
+          })
+          .attr('className', 'grid-region'),
       (update) =>
         update.each(function (style, idx) {
           this.attr(style);
@@ -120,7 +121,8 @@ function dataFormatter(data: GridCfg['items'], cfg: GridCfg) {
 
 export class Grid extends GUI<GridCfg> {
   render(attributes: GridCfg, container: Group) {
-    const { items = [], type, center, areaFill, closed, ...style } = attributes;
+    // @ts-ignore do no passBy className
+    const { className, items = [], type, center, areaFill, closed, ...style } = attributes;
     const data = dataFormatter(items, attributes);
     renderGridLine(container, data, attributes, style);
     renderAlternateRegion(container, data, attributes);
