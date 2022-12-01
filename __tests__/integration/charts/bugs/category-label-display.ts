@@ -33,7 +33,6 @@ export const BugCategoryLabelDisplay = () => {
         titleFontWeight: 'bold',
         titleFillOpacity: 1,
         itemMarkerFillOpacity: 1,
-        itemMarkerSize: 4,
         itemMarkerD: [['M', 0, 4], ['A', 4, 4, 0, 1, 0, 8, 4], ['A', 4, 4, 0, 1, 0, 0, 4], ['Z']],
       },
     })

@@ -1,9 +1,21 @@
 import { Group } from '@antv/g';
 import { axisWarper, data } from '../../utils';
+import { Axis } from '../../../../src/ui/axis';
 
 export const AxisLinearLabelRotate = () => {
   const group = new Group({});
-
+  // group.appendChild(
+  //   new Axis({
+  //     style: {
+  //       radius: 80,
+  //       lineLineWidth: 1,
+  //       tickLength: 10,
+  //       labelSpacing: 10,
+  //       ...baseParams,
+  //       ...extraParams,
+  //     },
+  //   })
+  // );
   const createAxis = axisWarper(group, {
     type: 'linear',
     data: data(24),

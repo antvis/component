@@ -1,7 +1,7 @@
 import { ext, vec2 } from '@antv/matrix-util';
 import { memoize } from '@antv/util';
 import type { Point, Vector2 } from '../../../types';
-import { applyStyle, degToRad, renderExtDo, select, Selection } from '../../../util';
+import { applyStyle, degToRad, renderExtDo, select, Selection, scaleToPixel } from '../../../util';
 import { CLASS_NAMES } from '../constant';
 import type { ArcAxisStyleProps, AxisLineCfg, AxisStyleProps, Direction, LinearAxisStyleProps } from '../types';
 import { baseDependencies } from './utils';
@@ -165,7 +165,8 @@ function renderAxisArrow(
 ) {
   if (!lineArrow) return;
   const arrow = renderExtDo(lineArrow);
-  select(arrow).call(applyStyle, { ...style, transform: `scale(${lineArrowSize})` });
+  select(arrow).call(applyStyle, { ...style });
+  scaleToPixel(arrow, lineArrowSize!, true);
   let shapeToAddArrow: Selection;
   if (type === 'arc') shapeToAddArrow = container.select(CLASS_NAMES.line.class);
   else if (truncRange) shapeToAddArrow = container.select(CLASS_NAMES.lineSecond.class);

@@ -17,7 +17,7 @@ import {
 import type { NavigatorStyleProps } from '../../navigator';
 import { Navigator } from '../../navigator';
 import { ifHorizontal } from '../utils';
-import type { CategoryItemData, CategoryItemStyle } from './item';
+import type { CategoryItemData, CategoryItemStyleProps } from './item';
 import { CategoryItem } from './item';
 
 interface CategoryItemsDatum extends CategoryItemData {
@@ -28,8 +28,8 @@ interface CategoryItemsCfg {
   orient?: 'horizontal' | 'vertical';
   data: CategoryItemsDatum[];
   layout?: 'flex' | 'grid';
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
   gridRow?: number;
   gridCol?: number;
   // maxItemWidth?: number;
@@ -42,7 +42,7 @@ interface CategoryItemsCfg {
 }
 
 type CallbackableItemStyle = CallbackableObject<
-  Omit<CategoryItemStyle, 'width' | 'height'>,
+  Omit<CategoryItemStyleProps, 'width' | 'height'>,
   CallbackParameter<CategoryItemsDatum>
 >;
 
@@ -74,7 +74,8 @@ const CLASS_NAMES = classNames(
 
 const CATEGORY_ITEMS_DEFAULT_CFG: CategoryItemsStyleProps = {
   data: [],
-  gridRow: 1,
+  gridRow: Infinity,
+  gridCol: undefined,
   padding: 0,
   width: 1000,
   height: 100,
@@ -85,6 +86,20 @@ const CATEGORY_ITEMS_DEFAULT_CFG: CategoryItemsStyleProps = {
   click: noop,
   mouseenter: noop,
   mouseleave: noop,
+};
+
+/**
+ * if value exists, it need to follow rule, otherwise, return default value
+ * @param value
+ * @param rule
+ * @param defaultValue
+ * @returns
+ */
+const ifSatisfied = <T>(value: T, rule: (val: T) => boolean, defaultValue = true) => {
+  if (value) {
+    return rule(value);
+  }
+  return defaultValue;
 };
 
 export class CategoryItems extends GUI<CategoryItemsStyleProps> {
@@ -108,8 +123,8 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
     const { gridRow, gridCol, data } = this.attrs;
     if (!gridRow && !gridCol) throw new Error('gridRow and gridCol can not be set null at the same time');
     if (!!gridRow && !!gridCol) return [gridRow, gridCol];
-    if (gridRow) return [1, data.length];
-    return [data.length, 1]; // !!gridCol
+    if (gridRow) return [gridRow, data.length];
+    return [data.length, gridCol!]; // !!gridCol
   }
 
   private get renderData() {
@@ -125,10 +140,7 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
           label,
           value,
           ...Object.fromEntries(
-            Object.entries(style).map(([key, val]) => [
-              key,
-              key === 'marker' ? val : getCallbackValue(val, [datum, index, data]),
-            ])
+            Object.entries(style).map(([key, val]) => [key, getCallbackValue(val, [datum, index, data])])
           ),
         },
       };
@@ -137,7 +149,7 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
   }
 
   private getGridLayout() {
-    const { orient, width, height, rowPadding, colPadding } = this.attrs as Required<CategoryItemsStyleProps>;
+    const { orient, width, rowPadding, colPadding } = this.attrs as Required<CategoryItemsStyleProps>;
     const [navWidth] = this.navigatorShape;
     const [gridRow, gridCol] = this.grid;
     const pageSize = gridCol * gridRow;
@@ -154,7 +166,8 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
 
       // calc x, y and shape
       const colWidth = (width - navWidth - (gridCol - 1) * colPadding) / gridCol;
-      const rowHeight = (height - (gridRow - 1) * rowPadding) / gridRow;
+      const rowHeight = item.getBBox().height;
+
       let [x, y] = [0, 0];
       if (orient === 'horizontal') {
         [x, y] = [prevOffset, row * (rowHeight + rowPadding)];
@@ -163,6 +176,7 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
         [x, y] = [col * (colWidth + colPadding), prevOffset];
         prevOffset = row === gridRow - 1 ? 0 : prevOffset + rowHeight + rowPadding;
       }
+
       return { page, index, row, col, pageIndex, width: colWidth, height: rowHeight, x, y } as ItemLayout;
     });
   }
@@ -185,7 +199,7 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
       // assume that every item has the same height
       const nextWidth = prevWidth + colPadding + width;
       // inline
-      if (nextWidth <= limitWidth && ((col && col < gridCol) || !col)) {
+      if (nextWidth <= limitWidth && ifSatisfied(col, (c) => c < gridCol)) {
         [x, y, prevWidth] = [prevWidth + colPadding, prevHeight, nextWidth];
         return { width, height, x, y, page, index, pageIndex: pageIndex++, row, col: col++ };
       }
@@ -193,7 +207,7 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
       // wrap
       [row, col, prevWidth, prevHeight] = [row + 1, 0, 0, prevHeight + height + rowPadding];
       const nextHeight = prevHeight + rowPadding + height;
-      if (nextHeight <= limitHeight && ((row && row < gridRow) || !row)) {
+      if (nextHeight <= limitHeight && ifSatisfied(row, (r) => r < gridRow)) {
         [x, y, prevWidth] = [prevWidth, prevHeight, width];
         return { width, height, x, y, page, index, pageIndex: pageIndex++, row, col: col++ };
       }
@@ -226,6 +240,7 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
     this.items = [];
     this.itemsCache.removeChildren();
     const itemEls = this.items;
+
     select(this.itemsCache)
       .selectAll(CLASS_NAMES.itemPage.class)
       .data(this.renderData)
@@ -273,7 +288,12 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
                 const { x, y, index, width, height } = layout;
                 const item = this.appendChild(items[index]);
                 set(item, '__data__', layout);
-                item.attr('x', x).attr('y', y).attr('width', width).attr('height', height);
+                item.update({
+                  x,
+                  y,
+                  width,
+                  height,
+                });
               });
             }),
         (update) => update,
@@ -284,22 +304,19 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
   }
 
   private renderNavigator(container: Selection) {
-    const { orient, layout, width, height } = this.attrs;
+    const { orient, layout, width } = this.attrs;
     const [navWidth, navHeight] = this.navigatorShape;
     const navStyle = subObject(this.attrs, 'nav');
-    const shape = layout === 'grid' ? { pageWidth: width - navWidth, pageHeight: height - navHeight } : {};
-    container.maybeAppendByClassName(
-      CLASS_NAMES.navigator,
-      () =>
-        new Navigator({
-          style: {
-            ...navStyle,
-            ...shape,
-            orient,
-            pageViews: this.pageViews.children as DisplayObject[],
-          },
-        })
-    );
+    const height = (this.pageViews.children[0] as Group)?.getBBox().height || 0;
+
+    const shape = layout === 'grid' ? { pageWidth: width! - navWidth, pageHeight: height - navHeight } : {};
+    const style = {
+      ...navStyle,
+      ...shape,
+      orient,
+      pageViews: this.pageViews.children as DisplayObject[],
+    };
+    container.maybeAppendByClassName(CLASS_NAMES.navigator, () => new Navigator({ style })).update(navStyle);
   }
 
   render(attributes: Required<CategoryItemsStyleProps>, container: Group) {

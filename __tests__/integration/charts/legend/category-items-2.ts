@@ -1,83 +1,37 @@
-import { Group, Image, Rect, Text } from '@antv/g';
-import { CategoryItems as CIs } from './utils';
-import { flowItemData } from './data';
+import { Group } from '@antv/g';
+import { CategoryItems, createItemData } from './utils';
 
 export const CategoryItems2 = () => {
-  const group = new Group({});
-  const colors = ['red', 'orange', 'green', 'blue', 'purple'];
+  const group = new Group();
 
-  const createItems = (args: any) => {
-    return group.appendChild(
-      new CIs({
-        style: {
-          layout: 'flex',
-          data: flowItemData,
-          width: 500,
-          // height: 20,
-          itemLabelFill: 'red',
-          itemValueFill: 'green',
-          itemMarkerFill: 'orange',
-          ...args,
-        },
-      })
-    );
-  };
+  const colors = ['orange', 'green'];
+  const width = 355;
+  const height = 90;
+  const gridRow = 3;
+  const gridCol = 3;
 
-  createItems({
-    x: 10,
-    y: 10,
-    colPadding: 10,
-    rowPadding: 5,
-    width: 1000,
-    itemMarkerFill: (_: any, index: number) => colors[index % colors.length],
-  });
+  const items = group.appendChild(
+    new CategoryItems({
+      style: {
+        width,
+        height,
+        gridRow,
+        gridCol,
+        layout: 'grid',
+        orient: 'vertical',
+        data: createItemData(20),
+        itemLabelFill: 'red',
+        itemValueFill: 'green',
+        colPadding: 10,
+        rowPadding: 5,
+        itemMarkerFill: (_: any, index: number) => colors[index % colors.length],
+      },
+    })
+  );
 
-  createItems({
-    x: 10,
-    y: 50,
-    width: 1000,
-    itemSpacing: [0, 10],
-    itemMarkerFill: (_: any, index: number) => colors[index % colors.length],
-  });
-
-  createItems({
-    x: 10,
-    y: 90,
-    width: 1000,
-    itemSpacing: [5, 10],
-    colPadding: 10,
-    itemMarkerFill: (_: any, index: number) => colors[index % colors.length],
-  });
-
-  createItems({
-    x: 10,
-    y: 130,
-    width: 1000,
-    colPadding: 10,
-    itemMarkerFill: (_: any, index: number) => colors[index % colors.length],
-  });
-
-  createItems({
-    x: 10,
-    y: 170,
-    colPadding: 10,
-    gridRow: 2,
-    gridCol: 5,
-    width: 650,
-    height: 50,
-    itemMarkerFill: (_: any, index: number) => colors[index % colors.length],
-  });
-
-  createItems({
-    x: 10,
-    y: 240,
-    colPadding: 10,
-    gridRow: 2,
-    gridCol: 2,
-    width: 650,
-    height: 50,
-    itemMarkerFill: (_: any, index: number) => colors[index % colors.length],
-  });
+  items.attr('itemMarkerFill', (d: any, i: number) => (i % 2 === 0 ? 'pink' : 'purple'));
 
   return group;
 };
+
+CategoryItems2.tags = ['分类图例', '图例组', '网格布局', '纵向分页', '图标样式回调', '样式属性更新'];

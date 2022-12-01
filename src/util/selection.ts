@@ -330,6 +330,13 @@ export class Selection<T = any> {
     });
   }
 
+  update(option: any): Selection<T> {
+    const callback = typeof option !== 'function' ? () => option : option;
+    return this.each(function (d, i) {
+      if (option) this.update(callback.call(this, d, i));
+    });
+  }
+
   transition(value: any): Selection<T> {
     const callback = typeof value !== 'function' ? () => value : value;
     const { _transitions: T } = this;

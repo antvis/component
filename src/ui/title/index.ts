@@ -72,14 +72,14 @@ export class Title extends GUI<TitleStyleProps> {
     const container = this;
     const { width, height: H, position, spacing, inset } = this.attributes as Required<TitleStyleProps>;
     const title = container.querySelector<DisplayObject>(CLASS_NAMES.text.class);
-    if (!title) return { x: 0, y: 0, width, height: H };
+    if (!title) return { x: 0, y: 0, width: +width, height: +H };
 
     const { height: h } = title.getBBox();
     const [st, , sb] = normalPadding(spacing);
 
     let [y, height] = [0, +H - h];
     const pos = positionNormalizer(position);
-    if (pos === 'i') return { x: 0, y, width, height: H };
+    if (pos === 'i') return { x: 0, y, width: +width, height: +H };
 
     if (pos.includes('t')) [y, height] = [h + st, +H - h - st];
     if (pos.includes('b')) [height] = [+H - h - sb];

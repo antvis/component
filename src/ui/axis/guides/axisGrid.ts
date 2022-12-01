@@ -63,7 +63,7 @@ export function renderGrid(container: Selection, _data: AxisDatum[], cfg: AxisSt
   const gridItems = type === 'segment' ? renderStraight(data, cfg) : renderSurround(data, cfg, style);
   container
     .maybeAppendByClassName(CLASS_NAMES.grid, () => new Grid({}))
-    .call(applyStyle, {
+    .update({
       type,
       connect,
       closed,

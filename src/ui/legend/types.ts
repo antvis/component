@@ -72,5 +72,5 @@ export type ContinuousCfg = LegendBaseCfg &
 export type ContinuousStyleProps = ContinuousStyle & ContinuousCfg;
 export type ContinuousOptions = DisplayObjectConfig<ContinuousStyleProps>;
 
-export type CategoryStyleProps = LegendBaseStyle & CategoryItemsStyleProps;
+export type CategoryStyleProps = LegendBaseStyleProps & CategoryItemsStyleProps;
 export type CategoryOptions = DisplayObjectConfig<CategoryStyleProps>;

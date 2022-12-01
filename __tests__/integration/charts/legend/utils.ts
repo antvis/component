@@ -3,16 +3,11 @@ export { CategoryItem } from '../../../../src/ui/legend/category/item';
 export { CategoryItems } from '../../../../src/ui/legend/category/items';
 export { smooth } from '../../../../src/ui/marker/symbol';
 
-export const createItemCfg = (args: any) => {
-  return {
-    width: 100,
-    height: 30,
-    label: 'label',
-    value: 'value',
-    markerFill: 'red',
-    labelFill: 'red',
-    valueFill: 'green',
-    backgroundFill: '#f7f7f7',
-    ...args,
-  };
+export const createItemData = (num: number) => {
+  return new Array(num).fill(0).map((d, i) => ({
+    id: `${i + 1}`,
+    label: `${i + 1}-label`,
+    value: `${i + 1}-value`,
+    extInfo: 'further text',
+  }));
 };

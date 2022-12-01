@@ -22,6 +22,7 @@ export const Axis = createComponent<AxisStyleProps>(
         crossSize,
         animation,
         title,
+        showTitle,
         titleSpacing,
         truncRange,
         truncShape,
@@ -91,7 +92,10 @@ export const Axis = createComponent<AxisStyleProps>(
         renderLabels(group, data, attributes, labelStyle);
       });
       /** title */
-      renderTitle(select(container), attributes, titleStyle);
+      const axisTitleGroup = select(container).maybeAppendByClassName(CLASS_NAMES.titleGroup, 'g');
+      ifShow(showTitle, axisTitleGroup, (group) => {
+        renderTitle(group, select(container), attributes, titleStyle);
+      });
     },
   },
   {

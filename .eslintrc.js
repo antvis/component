@@ -37,6 +37,7 @@ module.exports = {
     'no-compare-neg-zero': 'off',
     '@typescript-eslint/no-dupe-class-members': ['error'],
     '@typescript-eslint/no-unused-vars': ['warn'],
+    "no-use-before-define": "off",
   },
   settings: {
     'import/parsers': {

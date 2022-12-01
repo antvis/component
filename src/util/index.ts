@@ -28,3 +28,4 @@ export * from './capitalize';
 export * from './ellipsis';
 export * from './layout';
 export * from './transpose';
+export * from './scale-to-pixel';

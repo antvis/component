@@ -1,5 +1,6 @@
 import { Group, Text } from '@antv/g';
 import { axisWarper } from '../../utils';
+import { Axis } from '../../../../src/ui/axis';
 
 export const AxisLinearVertical = () => {
   const data = [

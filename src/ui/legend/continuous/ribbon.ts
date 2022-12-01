@@ -1,7 +1,7 @@
-import { Group, GroupStyleProps, Path, PathStyleProps, RectStyleProps } from '@antv/g';
+import { Group, GroupStyleProps, PathStyleProps, RectStyleProps } from '@antv/g';
 import { isFunction } from '@antv/util';
 import type { PrefixedStyle } from '../../../types';
-import { applyStyle, createComponent, subObjects, select, Selection, classNames } from '../../../util';
+import { applyStyle, classNames, createComponent, select, Selection, subObjects } from '../../../util';
 import { ifHorizontal } from '../utils';
 import { getBlockColor } from './utils';
 

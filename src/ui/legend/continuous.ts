@@ -73,6 +73,7 @@ export class Continuous extends GUI<ContinuousStyleProps> {
       type,
       slidable,
       step,
+      showTitle,
       showHandle,
       showLabel,
       showIndicator,
@@ -90,6 +91,7 @@ export class Continuous extends GUI<ContinuousStyleProps> {
       CLASS_NAMES.title,
       () => new Title({ style: { width, height, ...titleStyle } })
     );
+    ifShow(showTitle, select(container), (group) => {});
 
     // @ts-ignore
     const { x, y, width: w, height: h } = titleEl.node().getAvailableSpace();
@@ -147,7 +149,7 @@ export class Continuous extends GUI<ContinuousStyleProps> {
     const { type, orient, color, block, data } = this.attributes;
     this.ribbon = group
       .maybeAppendByClassName(CLASS_NAMES.ribbon, () => new Ribbon({}))
-      .call(applyStyle, {
+      .update({
         type,
         orient,
         color,
@@ -203,11 +205,7 @@ export class Continuous extends GUI<ContinuousStyleProps> {
   }
 
   private renderIndicator(group: Selection, style: any) {
-    const { formatter } = style;
-    this.indicator = group
-      .maybeAppendByClassName(CLASS_NAMES.indicator, () => new Indicator({}))
-      .call(applyStyle, { ...style });
-    this.indicator.node().attr('formatter', formatter);
+    this.indicator = group.maybeAppendByClassName(CLASS_NAMES.indicator, () => new Indicator({ style })).update(style);
   }
 
   private get labelData(): ContinuousDatum[] {
@@ -339,11 +337,12 @@ export class Continuous extends GUI<ContinuousStyleProps> {
     const safeValue = clamp(value, min, max);
     const pos: Point = [this.getOffset(safeValue), 0];
     if (orient === 'vertical') pos.reverse();
-    const indicator = this.indicator.node();
-    indicator.attr('visibility', 'visible');
-    indicator.attr('position', this.ifHorizontal('top', 'left'));
-    indicator.attr('value', text);
-    indicator.setLocalPosition(...pos);
+    this.indicator.update({
+      visibility: 'visible',
+      position: this.ifHorizontal('top', 'left'),
+      value: text,
+    });
+    this.indicator.node().setLocalPosition(...pos);
   }
 
   private hideIndicator() {

@@ -33,11 +33,10 @@ function getTitleLayout(axis: Selection, titleGroup: Selection, cfg: AxisStylePr
   return getTitlePosition(mainGroup, titleGroup, cfg);
 }
 
-function createTitleEl(axis: Selection, cfg: AxisStyleProps) {
+function createTitleEl(container: Selection, cfg: AxisStyleProps) {
   const { title } = cfg;
-  const titleGroup = axis.maybeAppendByClassName(CLASS_NAMES.titleGroup, 'g').attr('anchor', '0 0');
-  const titleEl = titleGroup.maybeAppendByClassName(CLASS_NAMES.title, () => renderExtDo(title!));
-  return [titleGroup, titleEl];
+  const titleEl = container.maybeAppendByClassName(CLASS_NAMES.title, () => renderExtDo(title!));
+  return [container, titleEl];
 }
 
 function applyTitleStyle(titleEl: Selection, titleGroup: Selection, axis: Selection, cfg: AxisStyleProps, style: any) {
@@ -49,8 +48,8 @@ function applyTitleStyle(titleEl: Selection, titleGroup: Selection, axis: Select
   percentTransform(titleEl, transform);
 }
 
-export function renderTitle(axis: Selection, cfg: AxisStyleProps, style: any) {
+export function renderTitle(container: Selection, axis: Selection, cfg: AxisStyleProps, style: any) {
   if (!cfg.title) return;
-  const [titleGroup, titleEl] = createTitleEl(axis, cfg);
+  const [titleGroup, titleEl] = createTitleEl(container, cfg);
   applyTitleStyle(titleEl, titleGroup, axis, cfg, style);
 }

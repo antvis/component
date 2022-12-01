@@ -21,6 +21,7 @@ import {
   renderExtDo,
   select,
   Selection,
+  scaleToPixel,
 } from '../../../util';
 import { circle } from '../../marker/symbol';
 
@@ -33,19 +34,17 @@ export interface CategoryItemData {
 }
 export type CategoryItemStyle = {
   marker?: string | (() => DisplayObject);
+  markerSize?: number;
   [key: `marker${string}`]: any;
 } & PrefixedStyle<ItemTextStyle, 'label'> &
   PrefixedStyle<ItemTextStyle, 'value'> &
   PrefixedStyle<ItemBackgroundStyle, 'background'>;
 
 export type CategoryItemCfg = Omit<GroupStyleProps, 'width' | 'height'> & {
-  layout?: 'flex' | 'grid';
   /** spacing between marker, label and value */
   spacing?: Padding;
   // if width and height not specific, set it to actual space occurred
   width?: number;
-  height?: number;
-  /** space allocation of marker, label and value */
   span?: Padding;
 };
 
@@ -69,10 +68,11 @@ const CLASS_NAMES = classNames(
 );
 
 const DEFAULT_ITEM_CFG: Partial<CategoryItemStyleProps> = {
-  span: [0.5, 1, 1],
+  span: [1, 1],
   marker: 'path',
   markerD: circle(6, 6, 6),
   markerFill: '#d3d2d3',
+  markerSize: 10,
   labelFill: '#646464',
   valueFill: '#646464',
   labelFontSize: 12,
@@ -122,26 +122,27 @@ export class CategoryItem extends GUI<CategoryItemStyleProps> {
 
   private get span() {
     const { attributes } = this;
-    if (!('span' in attributes)) return [1, 1, 1];
+    if (!('span' in attributes)) return [1, 1];
     const { span } = attributes;
-    const [span1, span2, _span3] = normalPadding(span!);
-    const span3 = this.showValue ? _span3 : 0;
-    const basis = span1 + span2 + span3;
-    return [span1 / basis, span2 / basis, span3 / basis];
+    const [span1, _span2] = normalPadding(span!);
+    const span2 = this.showValue ? _span2 : 0;
+    const basis = span1 + span2;
+    return [span1 / basis, span2 / basis];
   }
 
   private get shape() {
-    const { attributes } = this;
-    let { markerWidth, labelWidth, valueWidth, height } = this.actualSpace;
-
-    if (attributes.layout === 'grid' && attributes.width) {
-      const { width: w } = attributes;
-      const [span1, span2, span3] = this.span;
-      [markerWidth, labelWidth, valueWidth] = [span1 * w, span2 * w, span3 * w];
-    }
-    if (attributes.height) height = attributes.height;
-
+    const { markerSize, width: fullWidth } = this.attributes;
+    const actualSpace = this.actualSpace;
+    const { markerWidth, height } = actualSpace;
+    let { labelWidth, valueWidth } = this.actualSpace;
     const [spacing1, spacing2] = this.spacing;
+
+    if (fullWidth) {
+      const width = fullWidth - markerSize! - spacing1 - spacing2;
+      const [span1, span2] = this.span;
+      [labelWidth, valueWidth] = [span1 * width, span2 * width];
+    }
+
     const width = markerWidth + labelWidth + valueWidth + spacing1 + spacing2;
     return { width, height, markerWidth, labelWidth, valueWidth };
   }
@@ -168,13 +169,14 @@ export class CategoryItem extends GUI<CategoryItemStyleProps> {
   }
 
   private renderMarker(container: Selection) {
-    const { marker } = this.attributes;
+    const { marker, markerSize } = this.attributes;
     const style = subObject(this.attributes, 'marker');
     this.markerGroup = container.maybeAppendByClassName(CLASS_NAMES.markerGroup, 'g');
     ifShow(!!marker, this.markerGroup, () => {
       this.markerGroup
         .maybeAppendByClassName(CLASS_NAMES.marker, marker!)
         .call(applyStyle, { anchor: '0.5 0.5', ...style });
+      scaleToPixel(this.markerGroup.node(), markerSize!, true);
     });
   }
 
@@ -218,6 +220,7 @@ export class CategoryItem extends GUI<CategoryItemStyleProps> {
     const halfHeight = height / 2;
     this.markerGroup.call(applyStyle, { x: markerX, y: halfHeight });
     this.labelGroup.call(applyStyle, { x: labelX, y: halfHeight });
+
     ellipsisIt(this.labelGroup.select(CLASS_NAMES.label.class), labelWidth);
     if (this.showValue) {
       this.valueGroup.call(applyStyle, { x: valueX, y: halfHeight });

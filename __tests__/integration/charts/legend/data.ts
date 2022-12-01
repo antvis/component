@@ -19,6 +19,7 @@ export const flowItemData = [
   },
   {
     label: 'the Steppes',
-    value: '100',
   },
 ];
+
+export const colors = ['#5781f0', '#70d2a0', '#556484', '#efb745', '#5f4fee'];

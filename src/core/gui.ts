@@ -30,9 +30,7 @@ export abstract class GUI<T> extends CustomElement<T> {
     this.remove();
   }
 
-  attributeChangedCallback() {
-    this.render?.(this.attributes as Required<T>, this);
-  }
+  attributeChangedCallback() {}
 
   public abstract render(attributes: T, container: Group): void;
 

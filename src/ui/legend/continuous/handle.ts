@@ -60,7 +60,7 @@ export const Handle = createComponent<HandleStyleProps>(
       const marker = select(container)
         // .maybeAppendByClassName(CLASS_NAMES.marker, () => new Marker({ style }))
         .maybeAppend(CLASS_NAMES.marker.name, () => new Marker({}))
-        .call(applyStyle, style);
+        .update(style);
 
       const labelGroup = select(container).maybeAppendByClassName(CLASS_NAMES.labelGroup, 'g');
       ifShow(showLabel, labelGroup, (group) => {

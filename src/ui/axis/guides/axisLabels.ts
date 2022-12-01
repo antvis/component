@@ -98,7 +98,7 @@ function getLabelAlign(value: number, rotate: number, cfg: AxisStyleProps) {
     if (inRange(tickAngle, 90, 270)) return 'end';
     return 'start';
   }
-  // TODO 直角坐标系倾斜状态布局
+  // TODO 笛卡尔坐标系倾斜状态布局
   return 'start';
   // const align = { '1': 'start', '-1': 'end' };
   // if (labelAlign === 'parallel') return 'middle';

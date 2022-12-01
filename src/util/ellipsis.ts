@@ -3,12 +3,9 @@ import { applyStyle } from './selection';
 
 export function ellipsisIt(el: Selection, w: number) {
   const node = el.node();
+
   if (node.nodeName === 'text') {
-    el.call(applyStyle, {
-      wordWrap: true,
-      wordWrapWidth: w,
-      maxLines: 1,
-      textOverflow: '...',
-    });
+    const cfg = { wordWrap: true, wordWrapWidth: w, maxLines: 1, textOverflow: '...' };
+    el.call(applyStyle, cfg);
   }
 }

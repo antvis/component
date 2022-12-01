@@ -2,6 +2,7 @@ import { Group, Circle, Text } from '@antv/g';
 import { axisWarper, data } from '../../utils';
 import { Indicator } from '../../../../src/ui/indicator';
 import { createGrid } from '../../utils/grid';
+import { Axis } from '../../../../src/ui/axis';
 
 export const IndicatorDemo = () => {
   const group = new Group({

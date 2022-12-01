@@ -1,5 +1,6 @@
 import { Group } from '@antv/g';
 import { axisWarper } from '../../utils';
+import { Axis } from '../../../../src/ui/axis';
 
 export const AxisLinearTitlePosition = () => {
   const group = new Group({});

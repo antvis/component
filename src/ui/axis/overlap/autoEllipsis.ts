@@ -35,13 +35,14 @@ export default function ellipseLabels(
   let source = labels.slice();
   const [top = 0, right = 0, bottom = top, left = right] = margin as number[];
   for (let allowedLength = max; allowedLength > min + step; allowedLength -= step) {
+    source.forEach((label) => {
+      utils.ellipsis(label, allowedLength, suffix);
+    });
+
     source = boundTest(labels, margin);
     // 碰撞检测
     if (source.length < 1) return;
     // layout time exceeded;
     if (Date.now() - now > timeout) return;
-    source.forEach((label) => {
-      utils.ellipsis(label, allowedLength, suffix);
-    });
   }
 }

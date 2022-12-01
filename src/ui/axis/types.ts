@@ -181,6 +181,10 @@ export type AxisBaseStyleProps = AxisTitleStyle &
   AxisGridStyle &
   AxisGridCfg & {
     /**
+     * determine whether the title is visible
+     */
+    showTitle?: boolean;
+    /**
      * the animation effect when axis is rendered
      */
     animation?: string;
