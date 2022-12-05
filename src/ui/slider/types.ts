@@ -1,72 +1,33 @@
-import type {
-  ShapeAttrs,
-  DisplayObjectConfig,
-  TextProps,
-  MixAttrs,
-  RectProps,
-  ImageProps,
-  PathProps,
-} from '../../types';
-import type { MarkerStyleProps } from '../marker';
-import type { SparklineCfg } from '../sparkline/types';
+import { GroupStyleProps, RectStyleProps } from '@antv/g';
+import type { DisplayObjectConfig, PrefixedStyle } from '../../types';
+import type { Selection } from '../../util';
+import type { Padding } from '../../util/padding';
+import type { SparklineStyleProps } from '../sparkline/types';
+import type { HandleStyleProps as HandleBaseStyleProps } from './handle';
 
-export type Pair<T> = [T, T];
+export interface HandleStyleProps extends PrefixedStyle<HandleBaseStyleProps, 'handle'> {
+  /**  是否显示Handle */
+  showHandle?: boolean;
+  /** 文本格式化 */
+  formatter?: (value: number) => string;
+}
 
-export type HandleCfg = {
-  /**
-   * 是否显示Handle
-   */
-  show?: boolean;
-  /**
-   * 大小
-   */
-  size?: number;
-  /**
-   * 文本格式化
-   */
-  formatter?: (name: string, value: number) => string;
-  /**
-   * 文字样式
-   */
-  textStyle?: TextProps;
-  /**
-   * 文字与手柄的间隔
-   */
-  spacing?: number;
-  /**
-   * 手柄图标
-   */
-  handleIcon?: MarkerStyleProps['symbol'] | string;
-  /**
-   * 手柄图标样式
-   */
-  handleStyle?: ShapeAttrs & { radius?: number };
-};
-
-export type SliderCfg = {
-  x?: number;
-  y?: number;
+export interface SliderStyleProps
+  extends GroupStyleProps,
+    PrefixedStyle<Omit<SparklineStyleProps, 'width' | 'height'> & { padding?: Padding }, 'sparkline'>,
+    PrefixedStyle<RectStyleProps, 'background'>,
+    PrefixedStyle<RectStyleProps, 'Selection'>,
+    HandleStyleProps {
   orient?: 'vertical' | 'horizontal';
-  values: Pair<number>;
-  names: Pair<string>;
-  min?: number;
-  max?: number;
-  width?: number;
-  height?: number;
-  padding?: number | number[];
-  backgroundStyle?: MixAttrs<ShapeAttrs>;
-  selectionStyle?: MixAttrs<RectProps>;
-  handle?:
-    | HandleCfg
-    | {
-        start: HandleCfg;
-        end: HandleCfg;
-      };
+  length?: number;
+  size?: number;
+  values?: [number, number];
+  padding?: Padding;
+  onBackgroundMouseenter?: (el: Selection) => void;
+  onBackgroundMouseleave?: (el: Selection) => void;
+  onSelectionMouseenter?: (el: Selection) => void;
+  onSelectionMouseleave?: (el: Selection) => void;
+  onValueChange?: (value: [number, number], oldValue: [number, number]) => void;
+}
 
-  /**
-   * 缩略图数据及其配置
-   */
-  sparkline?: { padding?: number[] } & SparklineCfg;
-};
-
-export type SliderOptions = DisplayObjectConfig<SliderCfg>;
+export type SliderOptions = DisplayObjectConfig<SliderStyleProps>;

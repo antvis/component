@@ -1,0 +1,10 @@
+export { Slider1 } from './slider-1';
+export { Slider2 } from './slider-2';
+export { Slider3 } from './slider-3';
+export { Slider4 } from './slider-4';
+export { Slider5 } from './slider-5';
+export { Slider6 } from './slider-6';
+export { Slider7 } from './slider-7';
+export { Slider8 } from './slider-8';
+export { Handle1 } from './handle-1';
+export { Handle2 } from './handle-2';

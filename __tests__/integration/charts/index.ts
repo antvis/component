@@ -5,3 +5,5 @@ export * from './title';
 export * from './indicator';
 export * from './crosshair';
 export * from './bugs';
+export * from './slider';
+export * from './sparkline';

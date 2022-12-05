@@ -1,5 +1,5 @@
 import type { TextStyleProps } from '@antv/g';
-import { clone, deepMix, get } from '@antv/util';
+import { clone, deepMix, get, indexOf } from '@antv/util';
 import type { MixAttrs, StyleState } from '../types';
 import { STATE_LIST } from '../constant';
 
@@ -105,35 +105,45 @@ export function applyStyleSheet(element: HTMLElement, style: { [key: string]: Ob
  * @returns
  */
 export function subObject(style: { [keys: string]: any }, prefix: string, invert: boolean = false) {
-  const _style: { [keys: string]: any } = {};
   const startsWith = (str: string, prefix: string) => new RegExp(`^${prefix}[A-Z].*`).test(str);
   const capitalizeFirstLetter = (str: string) => {
     return str.charAt(0).toLowerCase() + str.slice(1);
   };
-  const add = (key: string) => {
-    if (invert) {
-      _style[key] = style[key];
-      return;
+  return Object.keys(style).reduce((acc, curr) => {
+    if (startsWith(curr, prefix) !== invert) {
+      if (invert) acc[curr] = style[curr];
+      else acc[capitalizeFirstLetter(curr.slice(prefix.length))] = style[curr];
     }
-    _style[capitalizeFirstLetter(key.slice(prefix.length))] = style[key];
-  };
-  Object.keys(style).forEach((key) => {
-    if (startsWith(key, prefix) !== invert) add(key);
-  });
-  return _style;
+    return acc;
+  }, {} as typeof style);
 }
 
 export function subObjects(style: any, prefix: string[]) {
-  const styles: any[] = [];
-  let _style = style;
-  for (let i = 0; i < prefix.length; i++) {
-    const p = prefix[i];
-    styles.push(subObject(_style, p) as any);
-    _style = subObject(_style, p, true);
-  }
-  // rest
-  styles.push(_style);
-  return styles;
+  let internalStyle = style;
+  const finalStyle = Object.keys(style).reduce((acc, curr, index) => {
+    if (index >= prefix.length) return acc;
+    const pre = prefix[index];
+    acc.push(subObject(internalStyle, pre));
+    internalStyle = subObject(internalStyle, pre, true);
+    return acc;
+  }, [] as typeof style[]);
+  finalStyle.push(internalStyle);
+  return finalStyle;
+}
+
+/**
+ * add prefix to style
+ * @param style
+ * @param prefix
+ */
+export function prefixStyle(style: any, prefix: string) {
+  const capitalizeFirstLetter = (str: string) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+  return Object.keys(style).reduce((acc, curr) => {
+    acc[`${prefix}${capitalizeFirstLetter(curr)}`] = style[curr];
+    return acc;
+  }, {} as typeof style);
 }
 
 /**

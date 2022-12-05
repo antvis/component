@@ -1,6 +1,7 @@
-import { Path, DisplayObject, Group } from '@antv/g';
+import type { BaseStyleProps, PathStyleProps } from '@antv/g';
+import { DisplayObject, Group } from '@antv/g';
 import { deepMix } from '@antv/util';
-import type { PathStyleProps, BaseStyleProps } from '@antv/g';
+import { applyStyle, select } from '../../util';
 
 export interface ILinesCfg extends BaseStyleProps {
   lines: PathStyleProps[];
@@ -14,15 +15,8 @@ export class Lines extends DisplayObject<ILinesCfg> {
 
   constructor({ style, ...rest }: Partial<DisplayObject<ILinesCfg>>) {
     super(deepMix({}, { type: 'lines', style: { width: 0, height: 0 } }, { style, ...rest }));
-    this.linesGroup = new Group({
-      name: 'lines',
-    });
-    this.appendChild(this.linesGroup);
-
-    this.areasGroup = new Group({
-      name: 'areas',
-    });
-    this.appendChild(this.areasGroup);
+    this.linesGroup = this.appendChild(new Group({ name: 'lines' }));
+    this.areasGroup = this.appendChild(new Group({ name: 'areas' }));
     this.render();
   }
 
@@ -46,24 +40,36 @@ export class Lines extends DisplayObject<ILinesCfg> {
   }
 
   private createLines(lines: ILinesCfg['lines']) {
-    lines.forEach((cfg) => {
-      this.linesGroup.appendChild(
-        new Path({
-          name: 'line',
-          style: cfg,
-        })
+    select(this.linesGroup)
+      .selectAll('line')
+      .data(lines)
+      .join(
+        (enter) =>
+          enter.append('path').each(function (cfg) {
+            select(this).call(applyStyle, cfg);
+          }),
+        (update) =>
+          update.each(function (cfg) {
+            select(this).call(applyStyle, cfg);
+          }),
+        (remove) => remove.remove()
       );
-    });
   }
 
   private createAreas(areas: ILinesCfg['areas']) {
-    areas.forEach((cfg) => {
-      this.areasGroup.appendChild(
-        new Path({
-          name: 'area',
-          style: cfg,
-        })
+    select(this.linesGroup)
+      .selectAll('area')
+      .data(areas)
+      .join(
+        (enter) =>
+          enter.append('path').each(function (cfg) {
+            select(this).call(applyStyle, cfg);
+          }),
+        (update) =>
+          update.each(function (cfg) {
+            select(this).call(applyStyle, cfg);
+          }),
+        (remove) => remove.remove()
       );
-    });
   }
 }

@@ -18,6 +18,7 @@ const sparkline = new Sparkline({
   style: {
     x: 10,
     y: 10,
+    type: 'line',
     width: 300,
     height: 50,
     smooth: false,
@@ -51,6 +52,7 @@ describe('sparkline', () => {
     sparkline.update({
       x: 10,
       y: 10,
+      type: 'line',
       width: 300,
       height: 50,
       smooth: false,
@@ -67,6 +69,7 @@ describe('sparkline', () => {
     sparkline.update({
       x: 10,
       y: 10,
+      type: 'line',
       width: 300,
       height: 50,
       smooth: true,
@@ -83,13 +86,12 @@ describe('sparkline', () => {
     sparkline.update({
       x: 10,
       y: 10,
+      type: 'line',
       width: 300,
       height: 50,
       smooth: false,
-      areaStyle: {
-        lineWidth: 0,
-        opacity: 0.5,
-      },
+      areaLineWidth: 0,
+      areaOpacity: 0.5,
       data: [
         [10, 2, 3, 4, 15, 10, 5, 0, 3, 1],
         [5, 7, 10, 3, 10, 6, 10, 1, 5, 0],
@@ -102,13 +104,12 @@ describe('sparkline', () => {
     sparkline.update({
       x: 10,
       y: 10,
+      type: 'line',
       width: 300,
       height: 50,
       smooth: true,
-      areaStyle: {
-        lineWidth: 0,
-        opacity: 0.5,
-      },
+      areaLineWidth: 0,
+      areaOpacity: 0.5,
       data: [
         [10, 2, 3, 4, 15, 10, 5, 0, 3, 1],
         [5, 7, 10, 3, 10, 6, 10, 1, 5, 0],
@@ -121,14 +122,13 @@ describe('sparkline', () => {
     sparkline.update({
       x: 10,
       y: 10,
+      type: 'line',
       width: 300,
       height: 50,
       smooth: false,
       isStack: true,
-      areaStyle: {
-        lineWidth: 0,
-        opacity: 0.5,
-      },
+      areaLineWidth: 0,
+      areaOpacity: 0.5,
       data: [
         [10, 2, 3, 4, 15, 10, 5, 0, 3, 1],
         [5, 7, 10, 3, 10, 6, 10, 1, 5, 0],
@@ -141,14 +141,13 @@ describe('sparkline', () => {
     sparkline.update({
       x: 10,
       y: 10,
+      type: 'line',
       width: 300,
       height: 50,
       smooth: true,
       isStack: true,
-      areaStyle: {
-        lineWidth: 0,
-        opacity: 0.5,
-      },
+      areaLineWidth: 0,
+      areaOpacity: 0.5,
       data: [
         [10, 2, 3, 4, 15, 10, 5, 0, 3, 1],
         [5, 7, 10, 3, 10, 6, 10, 1, 5, 0],

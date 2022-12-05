@@ -1,5 +1,6 @@
-import { Linear, Band } from '@antv/scale';
-import type { ShapeAttrs, DisplayObjectConfig } from '../../types';
+import type { GroupStyleProps, LineStyleProps as GLineStyleProps, PathStyleProps, RectStyleProps } from '@antv/g';
+import { Band, Linear } from '@antv/scale';
+import type { CallbackableObject, CallbackParameter, DisplayObjectConfig, PrefixedStyle } from '../../types';
 
 export type Point = [number, number];
 export type Line = Point[];
@@ -10,60 +11,35 @@ export type Scales = {
   x: Linear | Band;
 };
 
-export type SparklineCfg = ShapeAttrs & {
-  data?: number[] | number[][];
-  width?: number;
-  height?: number;
-  isStack?: boolean;
-  color?: string | string[] | ((idx: number) => string);
-
-  /**
-   * @title 类型。line 或 column
-   */
-  type?: 'line' | 'column';
-
-  // line
+interface LineStyleProps
+  extends CallbackableObject<PrefixedStyle<GLineStyleProps, 'line'>, CallbackParameter<Data>>,
+    CallbackableObject<PrefixedStyle<PathStyleProps, 'area'>, CallbackParameter<Data>> {
   /**
    * @title 是否光滑
    * @description 折线是否光滑
    */
   smooth?: boolean;
-  /**
-   * @title 折线样式
-   */
-  lineStyle?: ShapeAttrs | ((idx: number) => ShapeAttrs);
-  /**
-   * @title 面积图样式
-   */
-  areaStyle?: ShapeAttrs | ((idx: number) => ShapeAttrs);
-  /**
-   * @title 数据的最小值
-   */
-  minValue?: number;
-  /**
-   * @title 数据的最大值
-   */
-  maxValue?: number;
-  /**
-   * @title 是否 nice。如果开启的话，会对数据进行扩展
-   * @description Extends the domain so that it starts and ends on nice round values if it is true.
-   * @default true
-   */
-  nice?: boolean;
+}
 
-  // column
+interface ColumnStyleProps
+  extends CallbackableObject<PrefixedStyle<RectStyleProps, 'column'>, CallbackParameter<Data>> {
   /**
    * @title 是否分组
    */
   isGroup?: boolean;
   /**
-   * @title 柱子样式
-   */
-  columnStyle?: ShapeAttrs | ((idx: number) => ShapeAttrs);
-  /**
    * @title 分组柱子的间距
    */
-  barPadding?: number;
-};
+  spacing?: number;
+}
 
-export type SparklineOptions = DisplayObjectConfig<SparklineCfg>;
+export type SparklineStyleProps = GroupStyleProps & {
+  type: 'line' | 'column';
+  data?: number[] | number[][];
+  isStack?: boolean;
+  range?: [number, number];
+  color?: string | string[] | ((idx: number) => string);
+} & LineStyleProps &
+  ColumnStyleProps;
+
+export type SparklineOptions = DisplayObjectConfig<SparklineStyleProps>;

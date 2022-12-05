@@ -21,14 +21,12 @@ const slider = new Slider({
     width: 400,
     height: 40,
     values: [0.3, 0.7],
-    names: ['leftVal', 'rightVal'],
   },
 });
 
 describe('slider', () => {
   test('basic', async () => {
     expect(slider.getValues()).toStrictEqual([0.3, 0.7]);
-    expect(slider.getNames()).toStrictEqual(['leftVal', 'rightVal']);
 
     slider.setValues([0, 1]);
     expect(slider.getValues()).toStrictEqual([0, 1]);
@@ -57,7 +55,6 @@ describe('slider', () => {
       height: 400,
       orient: 'vertical',
       values: [0.3, 0.7],
-      names: ['aboveVal', 'belowVal'],
     });
   });
 
@@ -68,20 +65,8 @@ describe('slider', () => {
       width: 400,
       height: 40,
       values: [0.3, 0.7],
-      names: ['leftVal', 'rightVal'],
-      handle: {
-        start: {
-          size: 15,
-          formatter: (name, value) => {
-            return `${name}: ${value * 100}%`;
-          },
-          handleIcon: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
-        },
-        end: {
-          spacing: 20,
-          handleIcon: 'diamond',
-        },
-      },
+      handleIconSize: 15,
+      formatter: (value) => `${value * 100}%`,
     });
   });
 
@@ -93,7 +78,6 @@ describe('slider', () => {
       height: 400,
       orient: 'vertical',
       values: [0.3, 0.7],
-      names: ['aboveVal', 'belowVal'],
     });
   });
 
@@ -104,14 +88,10 @@ describe('slider', () => {
       width: 400,
       height: 40,
       values: [0.3, 0.7],
-      names: ['leftVal', 'rightVal'],
-      sparkline: {
-        // type: 'column',
-        data: [
-          [1, 3, 2, -4, 1, 3, 2, -4],
-          [5, 1, 5, -8, 5, 1, 5, -8],
-        ],
-      },
+      sparklineData: [
+        [1, 3, 2, -4, 1, 3, 2, -4],
+        [5, 1, 5, -8, 5, 1, 5, -8],
+      ],
     });
   });
 });

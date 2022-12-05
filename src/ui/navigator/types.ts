@@ -3,7 +3,7 @@ import { PrefixedStyle } from '../../types';
 
 export interface NavigatorStyle
   extends Omit<RectStyleProps, 'width' | 'height'>,
-    PrefixedStyle<PathStyleProps, 'button'>,
+    PrefixedStyle<PathStyleProps & { size?: number }, 'button'>,
     PrefixedStyle<TextStyleProps, 'pageNum'> {}
 
 export interface NavigatorCfg {

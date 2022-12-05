@@ -1,106 +1,99 @@
-import { Group, TextStyleProps } from '@antv/g';
-import { Marker, MarkerStyleProps } from '../marker';
-import type { ShapeAttrs } from '../../types';
-import { applyStyle, maybeAppend, select } from '../../util';
-import { GUI } from '../../core/gui';
+import type { GroupStyleProps, PathStyleProps, TextStyleProps, DisplayObjectConfig } from '@antv/g';
+import { Group } from '@antv/g';
+import type { PrefixedStyle } from '../../types';
+import { applyStyle, classNames, select, subObject, deepAssign } from '../../util';
 import { createComponent } from '../../util/create';
+import { GUI } from '../../core/gui';
+import { HANDLE_DEFAULT_CFG, HANDLE_ICON_DEFAULT_CFG, HANDLE_LABEL_DEFAULT_CFG } from './constant';
 
-export interface HandleStyleProps {
-  x: number;
-  y: number;
-  zIndex: number;
-  handleType: 'start' | 'end';
-  visibility?: 'visible' | 'hidden';
-  iconCfg: (ShapeAttrs | MarkerStyleProps) & {
-    type: 'symbol' | 'default';
-    size?: number;
-    radius?: number | string;
-    orient?: 'horizontal' | 'vertical';
-  };
-  textCfg: TextStyleProps;
+export type IconStyleProps = PathStyleProps & {
+  size?: number;
+  radius?: number;
+  orient?: 'horizontal' | 'vertical';
+};
+
+export type LabelStyleProps = TextStyleProps;
+
+export interface HandleStyleProps
+  extends GroupStyleProps,
+    PrefixedStyle<LabelStyleProps, 'label'>,
+    PrefixedStyle<IconStyleProps, 'icon'> {
+  type?: 'start' | 'end';
+  orient?: IconStyleProps['orient'];
 }
 
-const HandleIcon = createComponent<HandleStyleProps['iconCfg']>({
+const CLASS_NAMES = classNames(
+  {
+    label: 'label',
+    icon: 'icon',
+    iconRect: 'icon-rect',
+    iconLine: 'icon-line',
+  },
+  'handle'
+);
+
+const HandleIcon = createComponent<IconStyleProps>({
   render(attributes, container) {
-    const { size = 10, radius, stroke, fill, lineWidth, orient, fillOpacity, strokeOpacity } = attributes;
+    const { size = 10, radius = size / 4, orient, class: className, ...iconStyle } = attributes;
     // 默认手柄
     const width = size!;
     const height = width * 2.4;
-    const rect = maybeAppend(container, '.rect', 'rect')
-      .attr('className', 'rect')
-      .style('x', -width / 2)
-      .style('y', -height / 2)
-      .style('width', width)
-      .style('height', height)
-      .style('fill', fill || '#fff')
-      .style('fillOpacity', fillOpacity || 1)
-      .style('stroke', stroke || '#bfbfbf')
-      .style('lineWidth', typeof lineWidth !== 'number' ? 1 : lineWidth)
-      .style('strokeOpacity', strokeOpacity)
-      .style('radius', typeof radius !== 'number' ? width / 4 : radius ?? 2)
-      .node();
 
-    const appendLine = (idx: number, x1: number, y1: number, x2: number, y2: number) => {
-      maybeAppend(rect, `line-${idx}`, 'line')
-        .attr('className', `line-${idx}`)
-        .style('x1', x1)
-        .style('y1', y1)
-        .style('x2', x2)
-        .style('y2', y2)
-        .style('stroke', rect.style.stroke)
-        .style('strokeOpacity', rect.style.strokeOpacity)
-        .style('lineWidth', rect.style.lineWidth);
-    };
-    const X1 = (1 / 3) * width;
-    const X2 = (2 / 3) * width;
-    const Y1 = (1 / 4) * height;
-    const Y2 = (3 / 4) * height;
-    appendLine(0, X1, Y1, X1, Y2);
-    appendLine(0, X2, Y1, X2, Y2);
+    const rect = select(container)
+      .maybeAppendByClassName(CLASS_NAMES.iconRect, 'rect')
+      .call(applyStyle, {
+        ...iconStyle,
+        width,
+        height,
+        radius,
+        x: -width / 2,
+        y: -height / 2,
+      });
 
-    rect.setOrigin(width / 2, height / 2);
+    const x1 = (1 / 3) * width;
+    const x2 = (2 / 3) * width;
+    const y1 = (1 / 4) * height;
+    const y2 = (3 / 4) * height;
+
+    rect
+      .maybeAppendByClassName(`${CLASS_NAMES.iconLine}-1`, 'line')
+      .call(applyStyle, { x1, x2: x1, y1, y2 })
+      .call(applyStyle, iconStyle);
+    rect
+      .maybeAppendByClassName(`${CLASS_NAMES.iconLine}-2`, 'line')
+      .call(applyStyle, { x1: x2, x2, y1, y2 })
+      .call(applyStyle, iconStyle);
+
+    rect.node().setOrigin(width / 2, height / 2);
     if (orient === 'vertical') container.setLocalEulerAngles(90);
     else container.setLocalEulerAngles(0);
   },
 });
 
-function renderHandleIcon(container: Group, iconCfg: HandleStyleProps['iconCfg']) {
-  const { type } = iconCfg || {};
-  const className = `handle-icon ${type}-handle`;
-  select(container)
-    .selectAll('.handle-icon')
-    .data(type ? [type] : [], (d) => d)
-    .join(
-      (enter) =>
-        enter.append((type) => {
-          if (type === 'symbol') return new Marker({ className, name: 'icon', style: iconCfg as any });
-          return new HandleIcon({ name: 'icon', className, style: iconCfg as any });
-        }),
-      (update) =>
-        update.each(function () {
-          this.update(iconCfg);
-        }),
-      (exit) => exit.remove()
-    );
-}
-
-function renderHandleText(container: Group, cfg: any = {}) {
-  const className = `handle-text`;
-  maybeAppend(container, `.${className}`, 'text')
-    .attr('className', className)
-    .style('fontSize', 12)
-    .style('fill', '#000')
-    .style('fillOpacity', 0.45)
-    .style('textAlign', 'center')
-    .style('textBaseline', 'middle')
-    .call(applyStyle, cfg);
-}
-
 export class Handle extends GUI<HandleStyleProps> {
-  render(attributes: HandleStyleProps, container: Group) {
-    const { iconCfg, textCfg } = attributes;
+  constructor(config: DisplayObjectConfig<HandleStyleProps>) {
+    super(deepAssign({}, { style: HANDLE_DEFAULT_CFG }, config));
+  }
 
-    renderHandleIcon(container, iconCfg);
-    renderHandleText(container, textCfg);
+  private renderLabel(container: Group) {
+    const labelStyle = subObject(this.attributes, 'label');
+    select(container)
+      .maybeAppendByClassName(CLASS_NAMES.label, 'text')
+      .call(applyStyle, { ...HANDLE_LABEL_DEFAULT_CFG, ...labelStyle });
+  }
+
+  private renderIcon(container: Group) {
+    const { orient } = this.attributes;
+    const iconStyle = { orient, ...HANDLE_ICON_DEFAULT_CFG, ...subObject(this.attributes, 'icon') };
+    select(container)
+      .maybeAppendByClassName(CLASS_NAMES.icon, () => {
+        return new HandleIcon({ style: iconStyle });
+      })
+      .update(iconStyle);
+  }
+
+  public render(attributes: HandleStyleProps, container: Group) {
+    this.renderIcon(container);
+    this.renderLabel(container);
   }
 }

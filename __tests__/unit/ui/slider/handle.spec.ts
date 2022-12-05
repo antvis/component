@@ -12,14 +12,9 @@ describe('Handle of slider', () => {
         x: 50,
         y: 30,
         zIndex: 2,
-        handleType: 'start',
-        iconCfg: {
-          type: 'default',
-          orient: 'vertical',
-        },
-        textCfg: {
-          text: '',
-        },
+        type: 'start',
+        orient: 'vertical',
+        labelText: '',
       },
     });
     canvas.appendChild(handle);
@@ -32,25 +27,16 @@ describe('Handle of slider', () => {
         x: 90,
         y: 30,
         zIndex: 2,
-        handleType: 'start',
-        iconCfg: {
-          type: 'default',
-          orient: 'horizontal',
-        },
-        textCfg: {
-          text: 'Hello',
-          textAlign: 'left',
-          dx: 8,
-        },
+        type: 'start',
+        orient: 'horizontal',
+        labelText: 'Hello',
+        labelTextAlign: 'left',
+        labelDx: 8,
       },
     });
     canvas.appendChild(handle);
     handle.update({
-      iconCfg: {
-        type: 'default',
-        orient: 'horizontal',
-        stroke: 'red',
-      },
+      iconStroke: 'red',
     });
   });
 
@@ -61,25 +47,15 @@ describe('Handle of slider', () => {
         x: 50,
         y: 80,
         zIndex: 2,
-        handleType: 'start',
-        iconCfg: {
-          type: 'default',
-          orient: 'horizontal',
-        },
-        textCfg: {
-          text: '',
-        },
+        type: 'start',
+        orient: 'horizontal',
+        labelText: '',
       },
     });
     canvas.appendChild(handle);
 
     handle.update({
-      iconCfg: {
-        size: 8,
-        type: 'symbol',
-        orient: 'horizontal',
-        symbol: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
-      },
+      iconSize: 8,
     });
   });
 });

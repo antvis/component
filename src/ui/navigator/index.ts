@@ -12,6 +12,7 @@ import {
   styleSeparator,
   TEXT_INHERITABLE_PROPS,
   transpose,
+  scaleToPixel,
 } from '../../util';
 import { button } from '../marker/symbol';
 import type { NavigatorStyleProps } from './types';
@@ -27,6 +28,7 @@ const NAVIGATOR_DEFAULT_CFG: NavigatorStyleProps = {
   loop: false,
   buttonPath: button(0, 0, 6),
   buttonFill: 'black',
+  buttonSize: 12,
   buttonCursor: 'pointer',
   formatter: (curr, total) => `${curr}/${total}`,
   pageNumFontSize: 12,
@@ -125,6 +127,7 @@ export class Navigator extends GUI<NavigatorStyleProps> {
 
     const { width: bpW, height: bpH } = prevBtn.getBBox();
     const { width: bnW, height: bnH } = nextBtn.getBBox();
+
     const maxWidth = Math.max(bpW, pW, bnW);
 
     const {
@@ -192,7 +195,7 @@ export class Navigator extends GUI<NavigatorStyleProps> {
     const { pageWidth, pageHeight } = this.pageShape;
     if (pageViews.length < 2) return;
     const [style, textStyle] = subObjects(this.attributes, ['button', 'pageNum']);
-    const [pathStyle, groupStyle] = styleSeparator(style);
+    const [{ size, ...pathStyle }, groupStyle] = styleSeparator(style);
 
     const prevBtnGroup = container.maybeAppendByClassName(CLASS_NAMES.prevBtnGroup, 'g').call(applyStyle, groupStyle);
     this.prevBtnGroup = prevBtnGroup.node();
@@ -202,7 +205,13 @@ export class Navigator extends GUI<NavigatorStyleProps> {
     this.nextBtnGroup = nextBtnGroup.node();
     nextBtnGroup.maybeAppendByClassName(CLASS_NAMES.nextBtn, 'path').attr('className', 'btn');
 
-    container.selectAll('.btn').call(applyStyle, pathStyle);
+    container
+      .selectAll('.btn')
+      .call(applyStyle, pathStyle)
+      .each(function () {
+        select(this).style('transformOrigin', 'center');
+        scaleToPixel(select(this).node(), size, true);
+      });
 
     const pageInfoGroup = container.maybeAppendByClassName(CLASS_NAMES.pageInfoGroup, 'g');
     this.pageInfoGroup = pageInfoGroup.node();
