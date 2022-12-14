@@ -70,9 +70,11 @@ export const Axis = createComponent<AxisStyleProps>(
         if (truncRange && value > truncRange[0] && value < truncRange[1]) return false;
         return true;
       });
+
       /** grid */
       const axisGridGroup = select(container).maybeAppendByClassName(CLASS_NAMES.gridGroup, 'g');
       ifShow(showGrid!, axisGridGroup, (group) => renderGrid(group, data, attributes, gridStyle));
+
       /** main group */
       const axisMainGroup = select(container).maybeAppendByClassName(CLASS_NAMES.mainGroup, 'g');
 
@@ -81,16 +83,19 @@ export const Axis = createComponent<AxisStyleProps>(
       ifShow(showLine!, axisLineGroup, (group) => {
         renderAxisLine(group, attributes, lineStyle);
       });
+
       /** tick */
       const axisTickGroup = axisMainGroup.maybeAppendByClassName(CLASS_NAMES.tickGroup, 'g');
       ifShow(showTick!, axisTickGroup, (group) => {
         renderTicks(group, data, attributes, tickStyle);
       });
+
       /** label */
       const axisLabelGroup = axisMainGroup.maybeAppendByClassName(CLASS_NAMES.labelGroup, 'g');
       ifShow(showLabel!, axisLabelGroup, (group) => {
         renderLabels(group, data, attributes, labelStyle);
       });
+
       /** title */
       const axisTitleGroup = select(container).maybeAppendByClassName(CLASS_NAMES.titleGroup, 'g');
       ifShow(showTitle, axisTitleGroup, (group) => {

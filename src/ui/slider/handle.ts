@@ -97,7 +97,7 @@ export class Handle extends GUI<HandleStyleProps> {
     const [labelStyle, groupStyle] = styleSeparator(style, []);
 
     const labelGroup = select(container)
-      .maybeAppendByClassName(CLASS_NAMES.labelGroup, 'group')
+      .maybeAppendByClassName(CLASS_NAMES.labelGroup, 'g')
       .call(applyStyle, groupStyle);
     ifShow(!!showLabel, labelGroup, (group) => {
       this.label = group

@@ -191,7 +191,7 @@ export class Slider extends GUI<SliderStyleProps> {
 
   private renderSparkline(container: Group) {
     const { orient } = this.attributes;
-    const sparklineGroup = select(container).maybeAppendByClassName('slider-sparkline-group', 'group');
+    const sparklineGroup = select(container).maybeAppendByClassName('slider-sparkline-group', 'g');
     ifShow(orient === 'horizontal', sparklineGroup, (group) => {
       const sparklineStyle = this.sparklineShapeCfg as SparklineStyleProps;
       group
@@ -211,7 +211,7 @@ export class Slider extends GUI<SliderStyleProps> {
   }
 
   private renderSelection(container: Group) {
-    this.foregroundGroup = select(container).maybeAppendByClassName('slider-foreground', 'group');
+    this.foregroundGroup = select(container).maybeAppendByClassName('slider-foreground', 'g');
 
     this.selectionShape = this.foregroundGroup
       .maybeAppendByClassName('slider-selection', 'rect')
