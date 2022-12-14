@@ -7,3 +7,5 @@ export * from './crosshair';
 export * from './bugs';
 export * from './slider';
 export * from './sparkline';
+export * from './scrollbar';
+export * from './tooltip';

@@ -9,8 +9,8 @@ export const Slider5 = () => {
       style: {
         x: 10,
         y: 10,
-        length: 300,
-        size: 50,
+        trackLength: 300,
+        trackSize: 50,
         sparklineType: 'line',
         sparklineSmooth: false,
         sparklineIsStack: true,

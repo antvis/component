@@ -158,7 +158,7 @@ describe('scrollbar', () => {
       1
     );
 
-    scrollbar.addEventListener('valueChanged', (e: any) => {
+    scrollbar.addEventListener('valuechange', (e: any) => {
       e;
     });
 

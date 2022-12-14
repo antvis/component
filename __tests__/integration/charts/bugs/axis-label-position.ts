@@ -4,7 +4,7 @@ import { Axis } from '../../../../src/ui/axis';
 export const BugAxisLabelPosition = () => {
   const group = new Group({});
 
-  const axis = group.appendChild(
+  group.appendChild(
     new Axis({
       style: {
         titleFill: '#595959',

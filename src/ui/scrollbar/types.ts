@@ -1,25 +1,29 @@
-import type { DisplayObjectConfig, ShapeAttrs, MixAttrs } from '../../types';
-
-export type Orient = 'horizontal' | 'vertical';
+import type { DisplayObjectConfig, GroupStyleProps, RectStyleProps } from '@antv/g';
+import type { PrefixedStyle } from '../../types';
+import type { Padding } from '../../util';
+import type { SliderStyleProps } from '../slider';
 
 /**
  * 滚动条组件的属性配置
  */
-export type ScrollbarStyleProps = ShapeAttrs & {
+export interface ScrollbarStyleProps
+  extends GroupStyleProps,
+    PrefixedStyle<RectStyleProps, 'track'>,
+    PrefixedStyle<RectStyleProps, 'thumb'> {
   /**
    * 滑条朝向
    */
-  orient?: Orient;
+  orient?: SliderStyleProps['orient'];
+
+  /**
+   * 轨道长度，默认取 viewportLength
+   */
+  trackLength?: number;
 
   /**
    * 轨道宽度
    */
-  width?: number;
-
-  /**
-   * 轨道高度
-   */
-  height?: number;
+  trackSize?: number;
 
   /**
    * 滚动条的值
@@ -27,40 +31,31 @@ export type ScrollbarStyleProps = ShapeAttrs & {
   value?: number;
 
   /**
-   * 可滚动范围的值的上限
-   */
-  min?: number;
-
-  /**
-   * 可滚动范围的值的下限
-   */
-  max?: number;
-
-  /**
    * 滑块是否圆角
    */
   isRound?: boolean;
 
-  /**
-   * 滑块长度
-   */
-  thumbLen?: number;
+  /** 视图总长度 */
+  contentLength: number;
+
+  /** 显示区域长度 */
+  viewportLength: number;
 
   /**
-   * 滚动条内边距，影响滑轨的实际可用空间 [top, right, bottom, left]
+   * 滚动条内边距
    */
-  padding?: number | number[];
+  padding?: Padding;
 
   /**
-   * 滑轨样式
+   * 是否可以拖动
    */
-  trackStyle?: MixAttrs<Partial<ShapeAttrs>>;
+  slidable?: boolean;
 
   /**
-   * 滑块样式
+   * 是否启用滚轮滚动
    */
-  thumbStyle?: MixAttrs<Partial<ShapeAttrs>>;
-};
+  scrollable?: boolean;
+}
 
 /**
  * 滚动条组件的配置项

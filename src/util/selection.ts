@@ -333,7 +333,7 @@ export class Selection<T = any> {
   update(option: any): Selection<T> {
     const callback = typeof option !== 'function' ? () => option : option;
     return this.each(function (d, i) {
-      if (option) this.update(callback.call(this, d, i));
+      if (option && this.update) this.update(callback.call(this, d, i));
     });
   }
 

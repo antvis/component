@@ -9,8 +9,8 @@ export const Slider7 = () => {
       style: {
         x: 10,
         y: 10,
-        length: 300,
-        size: 50,
+        trackLength: 300,
+        trackSize: 50,
         orient: 'vertical',
         sparklineType: 'line',
         sparklineSmooth: false,

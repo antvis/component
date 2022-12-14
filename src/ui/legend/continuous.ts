@@ -18,8 +18,7 @@ import {
   toPrecision,
   filterTransform,
 } from '../../util';
-import type { AxisStyleProps } from '../axis';
-import { Axis } from '../axis';
+import { Axis, type AxisStyleProps } from '../axis';
 import { Title } from '../title';
 import { CLASS_NAMES, CONTINUOUS_DEFAULT_OPTIONS, STEP_RATIO } from './constant';
 import { Handle } from './continuous/handle';
@@ -466,7 +465,7 @@ export class Continuous extends GUI<ContinuousStyleProps> {
 
   @throttle(100)
   private dispatchIndicated(value: number, range?: unknown) {
-    const evt = new CustomEvent('indicated', {
+    const evt = new CustomEvent('indicate', {
       detail: { value, range },
     });
     this.dispatchEvent(evt as any);

@@ -4,7 +4,7 @@ import { axisWarper } from './create-axis';
 import { data } from './mock-data';
 
 export const createGrid = (group: Group, len = 400, args = {}) => {
-  group.appendChild(
+  const g = group.appendChild(
     new Rect({
       style: {
         width: len,
@@ -40,4 +40,6 @@ export const createGrid = (group: Group, len = 400, args = {}) => {
     labelDirection: 'negative',
     gridDirection: 'positive',
   });
+
+  return g;
 };

@@ -1,166 +1,140 @@
-import { Rect, CustomEvent, Group } from '@antv/g';
-import { clamp, deepMix, get } from '@antv/util';
+import { CustomEvent, Group } from '@antv/g';
+import { clamp, deepMix } from '@antv/util';
 import { GUI } from '../../core/gui';
-import { getStateStyle, getEventPos, normalPadding, maybeAppend, applyStyle } from '../../util';
-import type { RectProps } from '../../types';
+import { normalPadding, prefixStyle, select, subObjects, getEventPos } from '../../util';
+import { Slider, type SliderStyleProps } from '../slider';
 import type { ScrollbarOptions, ScrollbarStyleProps } from './types';
 
 export type { ScrollbarOptions, ScrollbarStyleProps };
 
 export class Scrollbar extends GUI<Required<ScrollbarStyleProps>> {
-  /**
-   * tag
-   */
   public static tag = 'scrollbar';
 
   private static defaultOptions = {
     type: Scrollbar.tag,
     style: {
-      // 滑条朝向
-      orient: 'vertical',
-
-      // 滑块范围控制
-      min: 0,
-      max: 1,
-      // 滑块是否为圆角
+      value: 0,
+      trackSize: 10,
       isRound: true,
-
-      // 滑块长度
-      thumbLen: 20,
-
-      // 滚动条内边距，影响滑轨的实际可用空间
+      slidable: true,
+      scrollable: true,
+      orient: 'vertical',
       padding: [2, 2, 2, 2],
-      trackStyle: {
-        default: {
-          fill: '#fafafa',
-          lineWidth: 1,
-          stroke: '#e8e8e8',
-        },
-        active: {},
-      },
-
-      thumbStyle: {
-        default: {
-          fill: '#c1c1c1',
-        },
-        active: {
-          opacity: 0.8,
-        },
-      },
     },
   };
 
-  // 滑道
-  private trackShape!: Rect;
+  private slider!: Slider;
 
-  // 滑块
-  private thumbShape!: Rect;
-
-  /**
-   * 拖动开始位置
-   */
-  private prevPos!: number;
+  private range: [number, number] = [0, 1];
 
   private get padding(): [number, number, number, number] {
     const { padding } = this.attributes;
     return normalPadding(padding);
   }
 
-  /**
-   * 获得轨道可用空间
-   */
-  private get availableSpace() {
-    const { width, height } = this.attributes;
-    const [top, right, bottom, left] = this.padding;
-    return {
-      x: left,
-      y: top,
-      width: width - (left + right),
-      height: height - (top + bottom),
-    };
-  }
-
-  /**
-   * 获得轨道长度
-   */
-  private get trackLen() {
-    const { width, height } = this.availableSpace;
-    return this.getOrientVal([width, height]);
-  }
-
-  /**
-   * 滑块的圆角半径
-   */
-  private get thumbRadius() {
-    const { isRound } = this.attributes;
-    const { width, height } = this.availableSpace;
-    const radius = get(this.attributes, ['thumbStyle', 'default', 'radius']);
-    if (!isRound) return 0;
-    return radius || this.getOrientVal([height, width]) / 2;
-  }
-
   constructor(options: ScrollbarOptions) {
     super(deepMix({}, Scrollbar.defaultOptions, options));
   }
 
-  public render(attributes: ScrollbarStyleProps, container: Group) {
-    const { width, height, trackStyle, thumbStyle, value, thumbLen, orient } = attributes;
+  private get value() {
+    const { value } = this.attributes;
+    const [min, max] = this.range;
+    return clamp(value, min, max);
+  }
 
-    const group = maybeAppend(container, '.track', 'rect')
-      .attr('className', 'track')
-      .style('width', width ?? 10)
-      .style('height', height ?? 200)
-      .call(applyStyle, getStateStyle(trackStyle))
-      .node();
+  private get trackLength() {
+    const { viewportLength, trackLength = viewportLength } = this.attributes;
+    return trackLength;
+  }
 
-    const valueOffset = this.valueOffset(value || 0);
-    const bbox = this.availableSpace;
-    this.thumbShape = maybeAppend(group, '.thumb', 'rect')
-      .attr('className', 'thumb')
-      .style('x', orient === 'vertical' ? bbox.x : bbox.x + valueOffset)
-      .style('y', orient === 'vertical' ? bbox.y + valueOffset : bbox.y)
-      .style('width', orient === 'vertical' ? bbox.width : thumbLen)
-      .style('height', orient === 'vertical' ? thumbLen : bbox.height)
-      .style('radius', this.thumbRadius)
-      .call(applyStyle, getStateStyle(thumbStyle))
-      .node();
+  private get availableSpace() {
+    const { trackSize } = this.attributes;
+    const trackLength = this.trackLength;
+    const [top, right, bottom, left] = this.padding;
+    const [width, height] = this.getOrientVal([
+      [trackLength, trackSize],
+      [trackSize, trackLength],
+    ]);
+    return {
+      x: left,
+      y: top,
+      width: +width - (left + right),
+      height: +height - (top + bottom),
+    };
+  }
 
-    this.trackShape = group;
+  private get trackRadius() {
+    const { isRound, trackSize } = this.attributes;
+    if (!isRound) return 0;
+    return trackSize / 2;
+  }
+
+  private get thumbRadius() {
+    const { isRound } = this.attributes;
+    if (!isRound) return 0;
+    const { width, height } = this.availableSpace;
+    return this.attributes.thumbRadius || this.getOrientVal([height, width]) / 2;
   }
 
   /**
-   * 计算滑块重心在轨道的比例位置
-   * @param offset 额外的偏移量
+   * accord to thumbLen and value, calculate the values of slider
    */
+  private getValues(value = this.value): [number, number] {
+    const { viewportLength, contentLength } = this.attributes;
+    const unit = viewportLength / contentLength;
+    const [min, max] = this.range;
+    const start = value * (max - min - unit);
+    return [start, start + unit];
+  }
+
   public getValue() {
-    return this.style.value;
+    return this.value;
+  }
+
+  private renderSlider(container: Group) {
+    const { orient, trackSize, padding, slidable } = this.attributes;
+    const [trackStyle, selectionStyle] = subObjects(this.attributes, ['track', 'thumb']);
+    const style: SliderStyleProps = {
+      orient,
+      padding,
+      slidable,
+      trackSize,
+      brushable: false,
+      showHandle: false,
+      values: this.getValues(),
+      trackLength: this.trackLength,
+      trackRadius: this.trackRadius,
+      selectionRadius: this.thumbRadius,
+      ...prefixStyle(trackStyle, 'track'),
+      ...prefixStyle(selectionStyle, 'selection'),
+    };
+    this.slider = select(container)
+      .maybeAppendByClassName('scrollbar', () => new Slider({ style }))
+      .update(style)
+      .node();
+  }
+
+  public render(attributes: ScrollbarStyleProps, container: Group) {
+    this.renderSlider(container);
   }
 
   /**
    * 设置value
    * @param value 当前位置的占比
    */
-  public setValue(value: number) {
-    const { value: oldValue, min, max } = this.style;
-    this.update({ value: clamp(value, min, max) });
-
-    // 通知触发valueChanged
-    this.onValueChanged(oldValue);
-  }
-
-  /**
-   * 设置相对偏移，鼠标拖动、滚轮滑动时使用
-   * @param offset 鼠标、滚轮的偏移量
-   */
-  public setOffset(deltaOffset: number) {
-    const value = this.getValue() as number;
-    this.setValue(this.valueOffset(deltaOffset, true) + value);
+  public setValue(value: number, animate: boolean = false) {
+    const { value: oldValue } = this.style;
+    const [min, max] = this.range;
+    this.slider.setValues(this.getValues(clamp(value, min, max)), animate);
+    // 通知触发valueChange
+    // todo 调用 setValue 不触发 valuechange
+    this.onValueChange(oldValue);
   }
 
   /**
    * 值改变事件
    */
-  private onValueChanged = (oldValue: any) => {
+  private onValueChange = (oldValue: any) => {
     const { value: newValue } = this.style;
     if (oldValue === newValue) return;
     const evtVal = {
@@ -169,41 +143,15 @@ export class Scrollbar extends GUI<Required<ScrollbarStyleProps>> {
         value: newValue,
       },
     };
-    const scrollEvt = new CustomEvent('scroll', evtVal);
-    this.dispatchEvent(scrollEvt);
-    const valueChangedEvt = new CustomEvent('valueChanged', evtVal);
-    this.dispatchEvent(valueChangedEvt);
+    this.dispatchEvent(new CustomEvent('scroll', evtVal));
+    this.dispatchEvent(new CustomEvent('valuechange', evtVal));
   };
 
-  /**
-   * value - offset 相互转换
-   * @param num
-   * @param reverse true - value -> offset; false - offset -> value
-   * @returns
-   */
-  private valueOffset(num: number, reverse = false) {
-    const { thumbLen, min, max } = this.attributes;
-    const L = this.trackLen - thumbLen;
-    if (!reverse) {
-      // value2offset
-      return L * clamp(num, min, max);
-    }
-    // offset2value
-    return num / L;
-  }
-
-  /* 获取样式属性
-   * @param name style的key值
-   * @param isActive 是否激活状态的样式
-   */
-  private getStyle(name: 'thumbStyle' | 'trackStyle', state: 'default' | 'active' = 'default') {
-    return getStateStyle<RectProps>(get(this.attributes, name), state);
-  }
-
   public bindEvents() {
-    this.trackShape.addEventListener('click', this.onTrackClick);
-    this.thumbShape.addEventListener('mousedown', this.onDragStart);
-    this.thumbShape.addEventListener('touchstart', this.onDragStart);
+    this.slider.addEventListener('trackClick', (e: CustomEvent) => {
+      e.stopPropagation();
+      this.onTrackClick(e.detail);
+    });
     this.onHover();
   }
 
@@ -220,63 +168,39 @@ export class Scrollbar extends GUI<Required<ScrollbarStyleProps>> {
    * 点击轨道事件
    */
   private onTrackClick = (e: any) => {
-    const { thumbLen } = this.attributes;
+    const { slidable } = this.attributes;
+    if (!slidable) return;
     const [x, y] = this.getLocalPosition();
     const [top, , , left] = this.padding;
     const basePos = this.getOrientVal([(x as number) + left, (y as number) + top]);
-    const clickPos = this.getOrientVal(getEventPos(e)) - thumbLen / 2;
-    const value = this.valueOffset(clickPos - basePos, true);
-    this.setValue(value);
+    const clickPos = this.getOrientVal(getEventPos(e));
+    const value = (clickPos - basePos) / this.trackLength;
+    this.setValue(value, true);
   };
 
   /**
    * 悬浮事件
    */
   private onHover() {
-    this.thumbShape.addEventListener('mouseenter', this.onThumbMouseenter);
-    this.trackShape.addEventListener('mouseenter', this.onTrackMouseenter);
-    this.thumbShape.addEventListener('mouseleave', this.onThumbMouseleave);
-    this.trackShape.addEventListener('mouseleave', this.onTrackMouseleave);
+    this.slider.addEventListener('selectionMouseenter', this.onThumbMouseenter);
+    this.slider.addEventListener('trackMouseenter', this.onTrackMouseenter);
+    this.slider.addEventListener('selectionMouseleave', this.onThumbMouseleave);
+    this.slider.addEventListener('trackMouseleave', this.onTrackMouseleave);
   }
 
-  private onThumbMouseenter = () => {
-    this.thumbShape.attr(this.getStyle('thumbStyle', 'active'));
+  private onThumbMouseenter = (e: CustomEvent) => {
+    this.dispatchEvent(new CustomEvent('thumbMouseenter', { detail: e.detail }));
   };
 
-  private onTrackMouseenter = () => {
-    this.trackShape.attr(this.getStyle('trackStyle', 'active'));
+  private onTrackMouseenter = (e: CustomEvent) => {
+    this.dispatchEvent(new CustomEvent('trackMouseenter', { detail: e.detail }));
   };
 
-  private onThumbMouseleave = () => {
-    this.thumbShape.attr(this.getStyle('thumbStyle'));
+  private onThumbMouseleave = (e: CustomEvent) => {
+    this.dispatchEvent(new CustomEvent('thumbMouseleave', { detail: e.detail }));
   };
 
-  private onTrackMouseleave = () => {
-    this.trackShape.attr(this.getStyle('trackStyle'));
-  };
-
-  private onDragStart = (e: any) => {
-    e.stopPropagation();
-    this.prevPos = this.getOrientVal(getEventPos(e));
-    document.addEventListener('mousemove', this.onDragging);
-    document.addEventListener('mouseup', this.onDragEnd);
-    document.addEventListener('touchmove', this.onDragging);
-    document.addEventListener('touchcancel', this.onDragEnd);
-  };
-
-  private onDragging = (e: MouseEvent | TouchEvent) => {
-    e.stopPropagation();
-    const currPos = this.getOrientVal(getEventPos(e));
-    const diff = currPos - this.prevPos;
-    this.setOffset(diff);
-    this.prevPos = currPos;
-  };
-
-  private onDragEnd = (e: MouseEvent | TouchEvent) => {
-    e.preventDefault();
-    document.removeEventListener('mousemove', this.onDragging);
-    document.removeEventListener('mouseup', this.onDragEnd);
-    document.removeEventListener('touchmove', this.onDragging);
-    document.removeEventListener('touchcancel', this.onDragEnd);
+  private onTrackMouseleave = (e: CustomEvent) => {
+    this.dispatchEvent(new CustomEvent('trackMouseleave', { detail: e.detail }));
   };
 }

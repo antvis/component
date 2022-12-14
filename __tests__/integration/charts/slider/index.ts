@@ -6,5 +6,8 @@ export { Slider5 } from './slider-5';
 export { Slider6 } from './slider-6';
 export { Slider7 } from './slider-7';
 export { Slider8 } from './slider-8';
+export { Slider9 } from './slider-9';
+export { Slider10 } from './slider-10';
+export { Slider11 } from './slider-11';
 export { Handle1 } from './handle-1';
 export { Handle2 } from './handle-2';

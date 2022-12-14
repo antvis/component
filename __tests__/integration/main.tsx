@@ -1,4 +1,4 @@
-import { Canvas, CanvasEvent } from '@antv/g';
+import { Canvas, CanvasEvent, type DisplayObject } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Renderer as SVGRenderer } from '@antv/g-svg';
 import { Select, Tag } from 'antd';
@@ -18,6 +18,7 @@ type Renderer = keyof typeof renderers;
 
 const View: React.FC = () => {
   const canvasRef = useRef<Canvas>();
+  const nodeRef = useRef<DisplayObject>();
   const containerRef = useRef<HTMLDivElement>(null);
   const searchParams = new URLSearchParams(window.location.search);
   const [canvasReady, setCanvasReady] = useState(false);
@@ -30,10 +31,22 @@ const View: React.FC = () => {
     return renderers[renderer];
   }, [renderer]);
 
+  const destroyShapeRecursive = (shape?: DisplayObject) => {
+    if (!shape) return;
+    if (shape.childNodes.length > 0) {
+      for (let index = shape.childNodes.length - 1; index > 0; index--) {
+        const child = shape.childNodes[index] as DisplayObject;
+        destroyShapeRecursive(child);
+      }
+    }
+    shape.destroy();
+  };
+
   const renderCase = (name: string) => {
     if (!canvasRef.current || !casesName.includes(name)) return;
-    canvasRef.current.removeChildren();
+    destroyShapeRecursive(nodeRef.current);
     const node = cases[name]();
+    nodeRef.current = node;
     const title = cases[name].tags || [name];
     document.title = title.join('-');
     setTags(title);

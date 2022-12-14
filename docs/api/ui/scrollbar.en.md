@@ -33,4 +33,4 @@ import { Scrollbar } from '@antv/gui';
 | **事件**     | **触发条件**                                                                            | **参数**                                           |
 | ------------ | --------------------------------------------------------------------------------------- | -------------------------------------------------- |
 | scroll       | Occurs when the scroll box has been moved by either a mouse or keyboard action          | <code>value: `number`</code>                       |
-| valueChanged | Occurs when the Value property is changed, either by a Scroll event or programmatically | <code>{oldValue: `number`, value: `number`}</code> |
+| valuechange | Occurs when the Value property is changed, either by a Scroll event or programmatically | <code>{oldValue: `number`, value: `number`}</code> |

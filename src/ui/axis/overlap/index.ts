@@ -1,12 +1,8 @@
-import type { DisplayObject } from '@antv/g';
-import { Text } from '@antv/g';
+import { Text, type DisplayObject } from '@antv/g';
 import type { AxisStyleProps, LabelOverlapCfg } from '../types';
-import ellipsis from './autoEllipsis';
-import type { Utils as EllipsisUtils } from './autoEllipsis';
-import hide from './autoHide';
-import type { Utils as HideUtils } from './autoHide';
-import rotate from './autoRotate';
-import type { Utils as RotateUtils } from './autoRotate';
+import ellipsis, { type Utils as EllipsisUtils } from './autoEllipsis';
+import hide, { type Utils as HideUtils } from './autoHide';
+import rotate, { type Utils as RotateUtils } from './autoRotate';
 
 export type OverlapCallback = (labels: Text[], overlapCfg: any, cfg: AxisStyleProps, utils: any) => any;
 

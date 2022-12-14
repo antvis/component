@@ -18,4 +18,5 @@ export const HANDLE_LABEL_DEFAULT_CFG = {
 export const HANDLE_DEFAULT_CFG = {
   orient: 'horizontal',
   type: 'start',
+  showLabel: true,
 } as const;

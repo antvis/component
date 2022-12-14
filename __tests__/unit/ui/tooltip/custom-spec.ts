@@ -54,6 +54,7 @@ const sparkline = new Sparkline({
     y: 0,
     width: 100,
     height: 50,
+    type: 'line',
     smooth: true,
     data: [
       [10, 2, 3, 4, 15, 10, 5, 0, 3, 1],
@@ -99,9 +100,7 @@ const tooltip = new Tooltip({
         'vertical-align': 'middle',
       },
     },
-    customContent: () => {
-      return customElement;
-    },
+    customContent: customElement,
   },
 });
 

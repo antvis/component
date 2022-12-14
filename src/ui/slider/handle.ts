@@ -1,14 +1,24 @@
-import type { GroupStyleProps, PathStyleProps, TextStyleProps, DisplayObjectConfig } from '@antv/g';
+import type { GroupStyleProps, PathStyleProps, TextStyleProps, DisplayObjectConfig, DisplayObject } from '@antv/g';
 import { Group } from '@antv/g';
-import type { PrefixedStyle } from '../../types';
-import { applyStyle, classNames, select, subObject, deepAssign } from '../../util';
-import { createComponent } from '../../util/create';
 import { GUI } from '../../core/gui';
+import type { PrefixedStyle } from '../../types';
+import {
+  applyStyle,
+  classNames,
+  select,
+  subObject,
+  deepAssign,
+  type Selection,
+  ifShow,
+  styleSeparator,
+} from '../../util';
+import { createComponent } from '../../util/create';
 import { HANDLE_DEFAULT_CFG, HANDLE_ICON_DEFAULT_CFG, HANDLE_LABEL_DEFAULT_CFG } from './constant';
 
 export type IconStyleProps = PathStyleProps & {
   size?: number;
   radius?: number;
+  shape?: string | (() => DisplayObject);
   orient?: 'horizontal' | 'vertical';
 };
 
@@ -19,11 +29,13 @@ export interface HandleStyleProps
     PrefixedStyle<LabelStyleProps, 'label'>,
     PrefixedStyle<IconStyleProps, 'icon'> {
   type?: 'start' | 'end';
+  showLabel?: boolean;
   orient?: IconStyleProps['orient'];
 }
 
 const CLASS_NAMES = classNames(
   {
+    labelGroup: 'label-group',
     label: 'label',
     icon: 'icon',
     iconRect: 'icon-rect',
@@ -71,25 +83,47 @@ const HandleIcon = createComponent<IconStyleProps>({
 });
 
 export class Handle extends GUI<HandleStyleProps> {
+  private label!: Selection;
+
+  private icon!: Selection;
+
   constructor(config: DisplayObjectConfig<HandleStyleProps>) {
     super(deepAssign({}, { style: HANDLE_DEFAULT_CFG }, config));
   }
 
   private renderLabel(container: Group) {
-    const labelStyle = subObject(this.attributes, 'label');
-    select(container)
-      .maybeAppendByClassName(CLASS_NAMES.label, 'text')
-      .call(applyStyle, { ...HANDLE_LABEL_DEFAULT_CFG, ...labelStyle });
+    const { showLabel } = this.attributes;
+    const style = subObject(this.attributes, 'label');
+    const [labelStyle, groupStyle] = styleSeparator(style, []);
+
+    const labelGroup = select(container)
+      .maybeAppendByClassName(CLASS_NAMES.labelGroup, 'group')
+      .call(applyStyle, groupStyle);
+    ifShow(!!showLabel, labelGroup, (group) => {
+      this.label = group
+        .maybeAppendByClassName(CLASS_NAMES.label, 'text')
+        .call(applyStyle, { ...HANDLE_LABEL_DEFAULT_CFG, ...labelStyle });
+
+      /** avoid trigger event on label */
+      this.label.on('mousedown', (e: MouseEvent) => {
+        e.stopPropagation();
+      });
+      this.label.on('touchstart', (e: MouseEvent) => {
+        e.stopPropagation();
+      });
+    });
   }
 
   private renderIcon(container: Group) {
-    const { orient } = this.attributes;
-    const iconStyle = { orient, ...HANDLE_ICON_DEFAULT_CFG, ...subObject(this.attributes, 'icon') };
-    select(container)
-      .maybeAppendByClassName(CLASS_NAMES.icon, () => {
+    const {
+      iconShape = () => {
         return new HandleIcon({ style: iconStyle });
-      })
-      .update(iconStyle);
+      },
+      orient,
+    } = this.attributes;
+    const iconStyle = { orient, ...HANDLE_ICON_DEFAULT_CFG, ...subObject(this.attributes, 'icon') };
+
+    this.icon = select(container).maybeAppendByClassName(CLASS_NAMES.icon, iconShape).update(iconStyle);
   }
 
   public render(attributes: HandleStyleProps, container: Group) {

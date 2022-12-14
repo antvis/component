@@ -9,14 +9,13 @@ export const Slider4 = () => {
       style: {
         x: 10,
         y: 10,
-        length: 300,
-        size: 50,
-        onValueChange: console.log,
+        trackLength: 300,
+        trackSize: 50,
       },
     })
   );
 
-  slider.addEventListener('valueChange', (e: any) => {
+  slider.addEventListener('valuechange', (e: any) => {
     console.log('value change', e);
   });
 

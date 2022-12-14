@@ -1,8 +1,7 @@
 import type { DisplayObjectConfig, Group } from '@antv/g';
 import { GUI } from '../../core/gui';
 import { ifShow, applyStyle, deepAssign, subObject, subObjects, select, Selection, styleSeparator } from '../../util';
-import type { TitleStyleProps } from '../title';
-import { Title } from '../title';
+import { Title, type TitleStyleProps } from '../title';
 import { CategoryItems } from './category/items';
 import { CATEGORY_DEFAULT_OPTIONS, CLASS_NAMES } from './constant';
 import type { CategoryOptions, CategoryStyleProps } from './types';

@@ -1,8 +1,8 @@
 import { Group } from '@antv/g';
-import { deepMix, substitute, isString, isElement, isFunction, throttle } from '@antv/util';
+import { deepMix, substitute, isString, isElement } from '@antv/util';
 import { createDom } from '@antv/dom-util';
 import { GUI } from '../../core/gui';
-import { applyStyleSheet, parseHTML } from '../../util';
+import { applyStyleSheet, parseHTML, throttle, ifShow } from '../../util';
 import { CLASS_NAME, TOOLTIP_STYLE } from './constant';
 import type { TooltipCfg, TooltipOptions, TooltipItem, TooltipPosition } from './types';
 
@@ -23,7 +23,6 @@ export class Tooltip extends GUI<Required<TooltipCfg>> {
       enterable: false,
       autoPosition: true,
       items: [],
-      throttleFrequency: 50,
       container: {
         x: 0,
         y: 0,
@@ -53,6 +52,10 @@ export class Tooltip extends GUI<Required<TooltipCfg>> {
     return this.element;
   }
 
+  public getContainer() {
+    return this.element;
+  }
+
   public set position([x, y]: [number, number]) {
     this.attr({ x, y });
     this.updatePosition();
@@ -66,21 +69,16 @@ export class Tooltip extends GUI<Required<TooltipCfg>> {
 
   private get items(): Required<TooltipItem[]> {
     const { items } = this.attributes;
-    return this.sort(
-      this.filter(
-        items.map(({ name = '', value, color = 'black', index, ...rest }, idx) => {
-          return { name, value, color, index: index === undefined ? idx : index, ...rest };
-        })
-      )
-    );
+    return items.map(({ name = '', value, color = 'black', index, ...rest }, idx) => {
+      return { name, value, color, index: index ?? idx, ...rest };
+    });
   }
 
   private get HTMLTooltipItemsElements() {
     const { template } = this.attributes;
-    const { item: itemTemplate } = template;
     const itemsHTML: HTMLElement[] = [];
     this.items.forEach((item) => {
-      itemsHTML.push(createDom(substitute(itemTemplate!, item)) as HTMLElement);
+      itemsHTML.push(createDom(substitute(template.item!, item)) as HTMLElement);
     });
     return itemsHTML;
   }
@@ -92,10 +90,6 @@ export class Tooltip extends GUI<Required<TooltipCfg>> {
     const { customContent } = this.attributes;
     if (isString(customContent)) return parseHTML(customContent);
     if (isElement(customContent)) return customContent as HTMLElement;
-    if (isFunction(customContent)) {
-      const { items } = this.attributes;
-      return parseHTML(customContent(items));
-    }
     return undefined;
   }
 
@@ -103,26 +97,14 @@ export class Tooltip extends GUI<Required<TooltipCfg>> {
 
   private visibility: 'visible' | 'hidden' = 'visible';
 
-  /**
-   * 节流位置更新
-   */
-  private throttleUpdatePosition = throttle(
-    () => {
-      this.setOffsetPosition(this.autoPosition(this.getRelativeOffsetFromCursor()));
-    },
-    this.attributes.throttleFrequency,
-    {}
-  );
-
   constructor(options: TooltipOptions) {
     super(deepMix({}, Tooltip.defaultOptions, options));
-    this.visibility = this.attributes.visibility;
     this.initShape();
     this.render(this.attributes, this);
   }
 
   public render(attributes: TooltipCfg, container: Group) {
-    this.updateHTMLTooltipElement();
+    this.renderHTMLTooltipElement();
     this.updatePosition();
   }
 
@@ -156,33 +138,30 @@ export class Tooltip extends GUI<Required<TooltipCfg>> {
    */
   private initShape() {
     const { template } = this.attributes;
-    const { container } = template;
-    this.element = createDom(container!) as HTMLElement;
-    if (this.id || this.id !== '') {
-      this.element.setAttribute('id', this.id);
-    }
+    this.element = createDom(template.container!) as HTMLElement;
+    if (this.id) this.element.setAttribute('id', this.id);
   }
 
   /**
    * 更新 HTML 上的内容
    */
-  private updateHTMLTooltipElement() {
-    const { title } = this.attributes;
+  private renderHTMLTooltipElement() {
+    const { title, enterable } = this.attributes;
     const container = this.element;
     const { customContent } = this;
 
+    this.element.style.pointerEvents = enterable ? 'auto' : 'none';
+
     this.clear();
-    if (customContent) {
-      // 自定义内容
-      container.appendChild(customContent);
-    } else {
-      const {
-        template: { title: titleTemplate },
-      } = this.attributes;
-      // 置入title
-      container.innerHTML = titleTemplate!;
-      // 更新标题
-      container.getElementsByClassName(CLASS_NAME.TITLE)[0]!.innerHTML = title;
+    if (customContent) container.appendChild(customContent);
+    else {
+      const { template } = this.attributes;
+      if (title) {
+        // 置入title
+        container.innerHTML = template.title!;
+        // 更新标题
+        container.getElementsByClassName(CLASS_NAME.TITLE)[0].innerHTML = title;
+      } else container.getElementsByClassName(CLASS_NAME.TITLE)?.[0].remove();
 
       const itemsHTML = this.HTMLTooltipItemsElements;
       const ul = document.createElement('ul');
@@ -204,24 +183,16 @@ export class Tooltip extends GUI<Required<TooltipCfg>> {
    * @param assignPosition {TooltipPosition} tooltip相对于指针的位置，不指定时使用默认参数
    */
   private getRelativeOffsetFromCursor(assignPosition?: TooltipPosition) {
-    const {
-      position,
-      offset: [hOffset, vOffset],
-    } = this.attributes;
-    const posArr = (assignPosition || position).split('-') as ('top' | 'bottom' | 'left' | 'right')[];
-    const posMap = {
-      left: [-1, 0],
-      right: [1, 0],
-      top: [0, -1],
-      bottom: [0, 1],
-    };
+    const { position, offset } = this.attributes;
+    const positionName = (assignPosition || position).split('-') as ('top' | 'bottom' | 'left' | 'right')[];
+    const positionScore = { left: [-1, 0], right: [1, 0], top: [0, -1], bottom: [0, 1] };
 
     const { width, height } = this.elementSize;
     let absolutelyOffset = [-width / 2, -height / 2];
-    posArr.forEach((pos) => {
+    positionName.forEach((pos) => {
       const [abs1, abs2] = absolutelyOffset;
-      const [pos1, pos2] = posMap[pos];
-      absolutelyOffset = [abs1 + (width / 2 + hOffset) * pos1, abs2 + (height / 2 + vOffset) * pos2];
+      const [pos1, pos2] = positionScore[pos];
+      absolutelyOffset = [abs1 + (width / 2 + offset[0]) * pos1, abs2 + (height / 2 + offset[1]) * pos2];
     });
     return absolutelyOffset as [number, number];
   }
@@ -231,15 +202,12 @@ export class Tooltip extends GUI<Required<TooltipCfg>> {
    */
   private setOffsetPosition([offsetX, offsetY]: [number, number]) {
     const {
-      x,
-      y,
+      x = 0,
+      y = 0,
       container: { x: cx, y: cy },
     } = this.attributes;
 
-    // const { x: pX, y: pY } = parent.getBoundingClientRect();
     // // 设置属性
-    // this.element.style.left = `${x + pX + offsetX}px`;
-    // this.element.style.top = `${y + pY + offsetY}px`;
     this.element.style.left = `${x + cx + offsetX}px`;
     this.element.style.top = `${y + cy + offsetY}px`;
   }
@@ -247,6 +215,7 @@ export class Tooltip extends GUI<Required<TooltipCfg>> {
   /**
    * 更新tooltip的位置
    */
+  @throttle(100)
   private updatePosition() {
     // 尝试当前的位置使用默认position能否放下
     // 如果不能，则改变取溢出边的反向position
@@ -257,7 +226,7 @@ export class Tooltip extends GUI<Required<TooltipCfg>> {
      *    ⬇️
      * 实际摆放位置
      */
-    this.throttleUpdatePosition();
+    this.setOffsetPosition(this.autoPosition(this.getRelativeOffsetFromCursor()));
   }
 
   /**
@@ -300,17 +269,5 @@ export class Tooltip extends GUI<Required<TooltipCfg>> {
 
     const correctedPositionString = correctivePosition.join('-');
     return this.getRelativeOffsetFromCursor(correctedPositionString as TooltipPosition);
-  }
-
-  private filter(items: TooltipItem[]): TooltipItem[] {
-    const { filterBy } = this.attributes;
-    if (filterBy) return items.filter(filterBy);
-    return items;
-  }
-
-  private sort(items: TooltipItem[]): TooltipItem[] {
-    const { sortBy } = this.attributes;
-    if (sortBy) return items.sort(sortBy);
-    return items;
   }
 }

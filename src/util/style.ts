@@ -1,7 +1,7 @@
 import type { TextStyleProps } from '@antv/g';
-import { clone, deepMix, get, indexOf } from '@antv/util';
-import type { MixAttrs, StyleState } from '../types';
+import { clone, deepMix, get } from '@antv/util';
 import { STATE_LIST } from '../constant';
+import type { MixAttrs, StyleState } from '../types';
 
 /**
  * 以下属性都是可继承的，这意味着没有显式定义（值为 unset）时，是需要从未来的祖先节点中计算得到的。
@@ -149,10 +149,10 @@ export function prefixStyle(style: any, prefix: string) {
 /**
  * extract group style from mixin style
  * @param style
+ * @param ignoreStyleDict style will be ignore from style
  * @returns shape style and rest style
  */
-export function styleSeparator(style: { [keys: string]: any }) {
-  const ignoreStyleDict = ['x', 'y'];
+export function styleSeparator(style: { [keys: string]: any }, ignoreStyleDict: string[] = ['x', 'y']) {
   const groupStyleDict: string[] = [
     'transform',
     'transformOrigin',

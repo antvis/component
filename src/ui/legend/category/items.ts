@@ -1,5 +1,4 @@
-import type { DisplayObject, DisplayObjectConfig, GroupStyleProps } from '@antv/g';
-import { Group } from '@antv/g';
+import { Group, type DisplayObject, type DisplayObjectConfig, type GroupStyleProps } from '@antv/g';
 import { noop, set } from '@antv/util';
 import { GUI } from '../../../core/gui';
 import type { CallbackableObject, CallbackParameter, PrefixedStyle } from '../../../types';
@@ -8,17 +7,15 @@ import {
   deepAssign,
   filterTransform,
   getCallbackValue,
-  subObject,
   groupBy,
   Padding,
   select,
   Selection,
+  subObject,
 } from '../../../util';
-import type { NavigatorStyleProps } from '../../navigator';
-import { Navigator } from '../../navigator';
+import { Navigator, type NavigatorStyleProps } from '../../navigator';
 import { ifHorizontal } from '../utils';
-import type { CategoryItemData, CategoryItemStyleProps } from './item';
-import { CategoryItem } from './item';
+import { CategoryItem, type CategoryItemData, type CategoryItemStyleProps } from './item';
 
 interface CategoryItemsDatum extends CategoryItemData {
   [keys: string]: any;

@@ -2,17 +2,18 @@ import type { DisplayObject, Group } from '@antv/g';
 import { vec2 } from '@antv/matrix-util';
 import { isFunction, isString, memoize } from '@antv/util';
 import type { Vector2 } from '../../../types';
-import type { Selection, _Element } from '../../../util';
 import {
   applyStyle,
   getCallbackValue,
   getTransform,
   inRange,
+  percentTransform,
   radToDeg,
   renderExtDo,
   select,
   styleSeparator,
-  percentTransform,
+  type Selection,
+  type _Element,
 } from '../../../util';
 import { CLASS_NAMES } from '../constant';
 import { processOverlap } from '../overlap';

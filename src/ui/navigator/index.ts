@@ -2,7 +2,6 @@ import { DisplayObjectConfig, Group, Rect, Text } from '@antv/g';
 import { clamp } from '@antv/util';
 import { GUI } from '../../core/gui';
 import type { Vector2 } from '../../types';
-import type { Selection } from '../../util';
 import {
   applyStyle,
   classNames,
@@ -13,6 +12,7 @@ import {
   TEXT_INHERITABLE_PROPS,
   transpose,
   scaleToPixel,
+  type Selection,
 } from '../../util';
 import { button } from '../marker/symbol';
 import type { NavigatorStyleProps } from './types';
@@ -97,7 +97,7 @@ export class Navigator extends GUI<NavigatorStyleProps> {
 
   public get finished() {
     if (!this.finishedPromise) {
-      this.finishedPromise = new Promise((resolve, reject) => {
+      this.finishedPromise = new Promise((resolve) => {
         this.resolveFinishedPromise = () => {
           this.finishedPromise = null;
           resolve(this.currPage);

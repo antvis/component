@@ -20,13 +20,13 @@ function lineToLine(line1: number[], line2: number[]) {
 
   const s02x = x0 - x2;
   const s02y = y0 - y2;
-  const sNumer = s10x * s02y - s10y * s02x;
-  if (sNumer < 0 === denomPositive) return false;
+  const sNum = s10x * s02y - s10y * s02x;
+  if (sNum < 0 === denomPositive) return false;
 
-  const tNumer = s32x * s02y - s32y * s02x;
-  if (tNumer < 0 === denomPositive) return false;
+  const tNum = s32x * s02y - s32y * s02x;
+  if (tNum < 0 === denomPositive) return false;
 
-  if (sNumer > denom === denomPositive || tNumer > denom === denomPositive) return false;
+  if (sNum > denom === denomPositive || tNum > denom === denomPositive) return false;
 
   return true;
 }

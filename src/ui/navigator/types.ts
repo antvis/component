@@ -1,5 +1,5 @@
 import type { DisplayObjectConfig, Group, PathStyleProps, RectStyleProps, TextStyleProps } from '@antv/g';
-import { PrefixedStyle } from '../../types';
+import type { PrefixedStyle } from '../../types';
 
 export interface NavigatorStyle
   extends Omit<RectStyleProps, 'width' | 'height'>,

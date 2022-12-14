@@ -1,5 +1,4 @@
-import type { Selection } from '../../../util';
-import { applyStyle, renderExtDo, styleSeparator, percentTransform } from '../../../util';
+import { applyStyle, renderExtDo, styleSeparator, percentTransform, type Selection } from '../../../util';
 import { positionNormalizer } from '../../title';
 import { CLASS_NAMES } from '../constant';
 import type { AxisStyleProps } from '../types';

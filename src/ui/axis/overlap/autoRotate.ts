@@ -16,7 +16,7 @@ export default function adjustAngle(
   cfg: AxisStyleProps,
   utils: Utils
 ) {
-  const { optionalAngles = [0, 45, 90], margin, recoverWhenFailed } = overlapCfg;
+  const { optionalAngles = [0, 45, 90], margin, recoverWhenFailed = true } = overlapCfg;
   const defaultAngles = labels.map((label) => +(getTransform(label, 'rotate') || 0));
   const runAndPassed = () => boundTest(labels, margin).length < 1;
   const setLabelsRotate = (angle: RotateType | RotateType[]) =>

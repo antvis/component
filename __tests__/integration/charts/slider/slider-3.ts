@@ -10,8 +10,8 @@ export const Slider3 = () => {
         x: 10,
         y: 10,
         values: [0.25, 0.75],
-        length: 300,
-        size: 50,
+        trackLength: 300,
+        trackSize: 50,
       },
     })
   );

@@ -1,5 +1,7 @@
 import type { DisplayObjectConfig } from '../../types';
 
+type CustomElement = string | HTMLElement;
+
 export type TooltipPosition =
   | 'top'
   | 'bottom'
@@ -30,12 +32,8 @@ export interface TooltipCfg {
   offset?: [number, number];
   /* 自动调整位置，需要设置容器属性 */
   autoPosition?: boolean;
-  /** 节流频率 */
-  throttleFrequency?: number;
-  /** 排序 */
-  sortBy?: (item: TooltipItem) => any;
-  /** 过滤 */
-  filterBy?: (item: TooltipItem) => boolean;
+  /** 指针是否可进入 */
+  enterable?: boolean;
   /** 画布的左上角坐标 */
   container: {
     x: number;
@@ -49,7 +47,7 @@ export interface TooltipCfg {
     height: number;
   };
   /* 项目 */
-  items: TooltipItem[];
+  items?: TooltipItem[];
   /* 模版 */
   template?: {
     /* 容器模版 */
@@ -59,7 +57,7 @@ export interface TooltipCfg {
     item?: string;
   };
   /* 自定义内容 */
-  customContent?: string | HTMLElement | ((items: TooltipItem[]) => string | HTMLElement);
+  customContent?: CustomElement;
   /**
    * 样式
    */

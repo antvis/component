@@ -1,5 +1,4 @@
-import type { DisplayObjectConfig } from '@antv/g';
-import { Path } from '@antv/g';
+import { Path, type DisplayObjectConfig } from '@antv/g';
 import { deepMix } from '@antv/util';
 import { classNames } from '../../util';
 import type { AxisBaseStyleProps } from './types';

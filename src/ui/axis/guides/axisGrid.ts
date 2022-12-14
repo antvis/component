@@ -1,8 +1,8 @@
 import { vec2 } from '@antv/matrix-util';
 import { isFunction } from '@antv/util';
 import type { Point } from '../../../types';
+import { degToRad, getCallbackValue, Selection } from '../../../util';
 import { Grid } from '../../grid';
-import { applyStyle, degToRad, getCallbackValue, Selection } from '../../../util';
 import { CLASS_NAMES } from '../constant';
 import type { AxisDatum, AxisStyleProps } from '../types';
 import { getDirectionVector, getValuePos } from './axisLine';
