@@ -35,7 +35,7 @@ function renderStraight(data: AxisDatum[], cfg: AxisStyleProps) {
 function renderSurround(data: AxisDatum[], cfg: AxisStyleProps, style: any) {
   const { controlAngles } = style;
   const center = getGridCenter(cfg);
-  if (!center) throw new Error('grid center is not provid');
+  if (!center) throw new Error('grid center is not provide');
   if (data.length < 2) throw new Error('Invalid grid data');
   if (!controlAngles || controlAngles.length === 0) throw new Error('Invalid gridControlAngles');
 
@@ -56,11 +56,11 @@ function renderSurround(data: AxisDatum[], cfg: AxisStyleProps, style: any) {
   });
 }
 
-export function renderGrid(container: Selection, _data: AxisDatum[], cfg: AxisStyleProps, style: any) {
+export function renderGrid(container: Selection, data: AxisDatum[], cfg: AxisStyleProps, style: any) {
   const { type, closed, areaFill, connect } = style;
   const center = getGridCenter(cfg);
-  const data = filterExec(_data, cfg.gridFilter);
-  const gridItems = type === 'segment' ? renderStraight(data, cfg) : renderSurround(data, cfg, style);
+  const finalData = filterExec(data, cfg.gridFilter);
+  const gridItems = type === 'segment' ? renderStraight(finalData, cfg) : renderSurround(finalData, cfg, style);
   container
     .maybeAppendByClassName(CLASS_NAMES.grid, () => new Grid({}))
     .update({
@@ -71,7 +71,7 @@ export function renderGrid(container: Selection, _data: AxisDatum[], cfg: AxisSt
       ...style,
       items: gridItems,
       areaFill: isFunction(areaFill)
-        ? data.map((datum, index) => getCallbackValue(areaFill, [datum, index, data]))
+        ? finalData.map((datum, index) => getCallbackValue(areaFill, [datum, index, finalData]))
         : areaFill,
     });
 }

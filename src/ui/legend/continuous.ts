@@ -48,7 +48,7 @@ export class Continuous extends GUI<ContinuousStyleProps> {
 
   protected eventToOffsetScale = new Linear({});
 
-  protected _ribbonScale = new Linear({});
+  protected innerRibbonScale = new Linear({});
 
   protected ribbon!: Selection;
 
@@ -121,11 +121,11 @@ export class Continuous extends GUI<ContinuousStyleProps> {
 
   private get ribbonScale() {
     const { min, max } = this.range;
-    this._ribbonScale.update({
+    this.innerRibbonScale.update({
       domain: [min, max],
       range: [0, 1],
     });
-    return this._ribbonScale;
+    return this.innerRibbonScale;
   }
 
   private get ribbonRange() {

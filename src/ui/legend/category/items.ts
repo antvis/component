@@ -61,9 +61,8 @@ type ItemLayout = {
 
 const CLASS_NAMES = classNames(
   {
-    itemPage: 'item-page',
+    page: 'item-page',
     navigator: 'navigator',
-    pageView: 'page-view',
     item: 'item',
   },
   'items'
@@ -106,9 +105,11 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
 
   private items: CategoryItem[] = [];
 
-  private itemsCache = new Group();
+  private itemsCache = this.appendChild(new Group());
 
-  private pageViews = new Group({ className: CLASS_NAMES.pageView.name });
+  private pageViews: Group[] = [];
+
+  private navigator!: Selection;
 
   private navigatorShape: [number, number] = [0, 0];
 
@@ -128,7 +129,7 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
     const { data, layout } = this.attrs;
     const style = subObject(this.attrs, 'item');
     const d = data.map((datum, index) => {
-      const { id = index, label, value } = datum;
+      const { id = index as number, label, value } = datum;
       return {
         id: `${id}`,
         index,
@@ -191,7 +192,7 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
     let [x, y, page, pageIndex, col, row, prevWidth, prevHeight] = [0, 0, 0, 0, 0, 0, 0, 0];
 
     return (this.itemsCache.children as CategoryItem[]).map((item, index) => {
-      const { width, height } = item.getBBox();
+      const { width, height } = (item as DisplayObject).getBBox();
       const colPadding = prevWidth === 0 ? 0 : cP;
       // assume that every item has the same height
       const nextWidth = prevWidth + colPadding + width;
@@ -234,21 +235,14 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
 
   private renderItems() {
     const { click, mouseenter, mouseleave } = this.attrs;
-    this.items = [];
-    this.itemsCache.removeChildren();
-    const itemEls = this.items;
 
     select(this.itemsCache)
-      .selectAll(CLASS_NAMES.itemPage.class)
+      .selectAll(CLASS_NAMES.page.class)
       .data(this.renderData)
       .join(
         (enter) =>
           enter
-            .append(({ style }) => {
-              const item = new CategoryItem({ style });
-              itemEls.push(item);
-              return item;
-            })
+            .append(({ style }) => new CategoryItem({ style }))
             .attr('className', CLASS_NAMES.item.name)
             .on('click', function () {
               click?.(this);
@@ -259,65 +253,59 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
             .on('mouseleave', function () {
               mouseleave?.(this);
             }),
-        (update) =>
-          update.each(function ({ style }) {
-            this.update(style);
-          }),
-        (exit) => exit.remove()
-      );
-
-    // mount to this to calculate bbox
-    this.appendChild(this.itemsCache).style.visibility = 'hidden';
-  }
-
-  private adjustLayout() {
-    const { items, itemsLayout } = this;
-    select(this.pageViews)
-      .selectAll(CLASS_NAMES.itemPage.class)
-      .data(Object.entries(groupBy(itemsLayout, 'page')).map(([page, items]) => ({ page, items })))
-      .join(
-        (enter) =>
-          enter
-            .append('g')
-            .attr('className', CLASS_NAMES.itemPage.name)
-            .each(function ({ items: l }) {
-              l.forEach((layout) => {
-                const { x, y, index, width, height } = layout;
-                const item = this.appendChild(items[index]);
-                set(item, '__data__', layout);
-                item.update({
-                  x,
-                  y,
-                  width,
-                  height,
-                });
-              });
-            }),
         (update) => update,
         (exit) => exit.remove()
       );
-    // unmount pageViews
-    this.removeChild(this.itemsCache);
+  }
+
+  private clearCache() {
+    this.itemsCache.removeChildren();
+    this.pageViews.forEach((page) => page.destroy());
+    this.pageViews.splice(0);
+  }
+
+  private adjustLayout() {
+    const itemsCache = [...this.itemsCache.children];
+    const layouts = Object.entries(groupBy(this.itemsLayout, 'page')).map(([page, items]) => ({ page, items }));
+
+    this.clearCache();
+
+    layouts.forEach(({ items }) => {
+      const page = new Group({
+        className: CLASS_NAMES.page.name,
+      });
+      this.pageViews.push(page);
+      items.forEach((layout) => {
+        const { x, y, index, width, height } = layout;
+        const item = page.appendChild(itemsCache[index]) as CategoryItem;
+        set(item, '__data__', layout);
+        item.update({ x, y, width, height });
+      });
+    });
+    this.itemsCache.destroyChildren();
   }
 
   private renderNavigator(container: Selection) {
     const { orient, layout, width } = this.attrs;
     const [navWidth, navHeight] = this.navigatorShape;
     const navStyle = subObject(this.attrs, 'nav');
-    const height = (this.pageViews.children[0] as Group)?.getBBox().height || 0;
-
+    const height = (this.pageViews[0] as Group)?.getBBox().height || 0;
     const shape = layout === 'grid' ? { pageWidth: width! - navWidth, pageHeight: height - navHeight } : {};
     const style = {
       ...navStyle,
       ...shape,
       orient,
-      pageViews: this.pageViews.children as DisplayObject[],
+      pageViews: this.pageViews,
     };
-    container.maybeAppendByClassName(CLASS_NAMES.navigator, () => new Navigator({ style })).update(navStyle);
+
+    this.navigator = container
+      .maybeAppendByClassName(CLASS_NAMES.navigator, () => new Navigator({ style: { pageViews: [] } }))
+      .update(style);
   }
 
   render(attributes: Required<CategoryItemsStyleProps>, container: Group) {
-    const ctn = select(container);
+    const { data } = this.attributes;
+    if (!data || data.length === 0) return;
     /**
      * 1. render items
      * 2. paging
@@ -325,6 +313,6 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
      */
     this.renderItems();
     this.adjustLayout();
-    this.renderNavigator(ctn);
+    this.renderNavigator(select(container));
   }
 }

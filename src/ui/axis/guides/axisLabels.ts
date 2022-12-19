@@ -22,10 +22,10 @@ import { getFactor } from '../utils';
 import { getDirectionVector, getLineTangentVector, getValuePos } from './axisLine';
 import { filterExec, getCallbackStyle } from './utils';
 
-const angleNormalizer = (_angle: number) => {
-  let angle = _angle;
-  while (angle < 0) angle += 360;
-  return angle % 360;
+const angleNormalizer = (angle: number) => {
+  let normalizedAngle = angle;
+  while (normalizedAngle < 0) normalizedAngle += 360;
+  return normalizedAngle % 360;
 };
 
 const getAngle = memoize(
@@ -121,12 +121,12 @@ function setRotateAndAdjustLabelAlign(rotate: number, group: _Element, cfg: Axis
 
 function getLabelPos(datum: AxisDatum, index: number, data: AxisDatum[], cfg: AxisStyleProps) {
   const { showTick, tickLength, tickDirection, labelDirection, labelSpacing } = cfg;
-  const _labelSpacing = getCallbackValue<number>(labelSpacing, [datum, index, data]);
+  const finalLabelSpacing = getCallbackValue<number>(labelSpacing, [datum, index, data]);
   const [labelVector, unionFactor] = [getLabelVector(datum.value, cfg), getFactor(labelDirection!, tickDirection!)];
   const extraLength = unionFactor === 1 ? getCallbackValue<number>(showTick ? tickLength : 0, [datum, index, data]) : 0;
   const [x, y] = vec2.add(
     [0, 0],
-    vec2.scale([0, 0], labelVector, _labelSpacing + extraLength),
+    vec2.scale([0, 0], labelVector, finalLabelSpacing + extraLength),
     getValuePos(datum.value, cfg)
   );
   return { x, y };
@@ -193,19 +193,19 @@ function overlapHandler(cfg: AxisStyleProps) {
   });
 }
 
-export function renderLabels(container: Selection, _data: AxisDatum[], cfg: AxisStyleProps, style: any) {
-  const data = filterExec(_data, cfg.labelFilter);
+export function renderLabels(container: Selection, data: AxisDatum[], cfg: AxisStyleProps, style: any) {
+  const finalData = filterExec(data, cfg.labelFilter);
   container
     .selectAll(CLASS_NAMES.label.class)
-    .data(data)
+    .data(finalData)
     .join(
       (enter) =>
         enter
           .append('g')
           .attr('className', CLASS_NAMES.label.name)
           .each(function (...args) {
-            createLabelEl(select(this), ...args, data, cfg);
-            applyLabelStyle(...args, data, this, cfg, style);
+            createLabelEl(select(this), ...args, finalData, cfg);
+            applyLabelStyle(...args, finalData, this, cfg, style);
           })
           .call(() => {
             overlapHandler.call(container, cfg);
@@ -215,8 +215,8 @@ export function renderLabels(container: Selection, _data: AxisDatum[], cfg: Axis
           .each(function (...args) {
             const group = select(this);
             group.node().removeChildren();
-            createLabelEl(group, ...args, data, cfg);
-            applyLabelStyle(...args, data, this, cfg, style);
+            createLabelEl(group, ...args, finalData, cfg);
+            applyLabelStyle(...args, finalData, this, cfg, style);
           })
           .call(() => {
             overlapHandler.call(container, cfg);

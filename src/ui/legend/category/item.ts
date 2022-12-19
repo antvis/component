@@ -40,7 +40,7 @@ export type CategoryItemStyle = {
   PrefixedStyle<ItemTextStyle, 'value'> &
   PrefixedStyle<ItemBackgroundStyle, 'background'>;
 
-export type CategoryItemCfg = Omit<GroupStyleProps, 'width' | 'height'> & {
+export type CategoryItemCfg = GroupStyleProps & {
   /** spacing between marker, label and value */
   spacing?: Padding;
   // if width and height not specific, set it to actual space occurred
@@ -124,8 +124,8 @@ export class CategoryItem extends GUI<CategoryItemStyleProps> {
     const { attributes } = this;
     if (!('span' in attributes)) return [1, 1];
     const { span } = attributes;
-    const [span1, _span2] = normalPadding(span!);
-    const span2 = this.showValue ? _span2 : 0;
+    const [span1, innerSpan] = normalPadding(span!);
+    const span2 = this.showValue ? innerSpan : 0;
     const basis = span1 + span2;
     return [span1 / basis, span2 / basis];
   }

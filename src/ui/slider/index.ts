@@ -170,7 +170,7 @@ export class Slider extends GUI<SliderStyleProps> {
     transition(this.endHandle.node(), this.getHandleShapeCfg('end'), this.animation, animate);
   }
 
-  private _setValues(values: SliderStyleProps['values'] = [0, 0], trigger: boolean = false) {
+  private innerSetValues(values: SliderStyleProps['values'] = [0, 0], trigger: boolean = false) {
     const oldValues = this.values;
     const newValues = this.clampValues(values);
     this.update({ values: newValues });
@@ -410,7 +410,7 @@ export class Slider extends GUI<SliderStyleProps> {
     const [oldStartVal, oldEndVal] = this.getValues();
     const values = [oldStartVal + stOffset, oldEndVal + endOffset].sort() as [number, number];
     if (animate) this.setValues(values);
-    else this._setValues(values, true);
+    else this.innerSetValues(values, true);
   }
 
   private getRatio(val: number) {
@@ -503,7 +503,7 @@ export class Slider extends GUI<SliderStyleProps> {
         if (!brushable) return;
         // 绘制蒙板
         this.selectionWidth += deltaVal;
-        this._setValues(
+        this.innerSetValues(
           [this.selectionStartPos, this.selectionStartPos + this.selectionWidth].sort() as [number, number],
           true
         );

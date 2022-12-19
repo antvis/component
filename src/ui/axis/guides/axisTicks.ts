@@ -61,25 +61,25 @@ function applyTickStyle(
   applyStyle(tick, tickStyle);
 }
 
-export function renderTicks(container: Selection, _data: AxisDatum[], cfg: AxisStyleProps, callbackableStyle: any) {
-  const data = filterExec(_data, cfg.tickFilter);
+export function renderTicks(container: Selection, data: AxisDatum[], cfg: AxisStyleProps, callbackableStyle: any) {
+  const finalData = filterExec(data, cfg.tickFilter);
   container
     .selectAll('.axis-tick')
-    .data(data)
+    .data(finalData)
     .join(
       (enter) =>
         enter
           .append('g')
           .attr('className', CLASS_NAMES.tick.name)
           .each(function (...args) {
-            const tick = createTickEl(select(this), ...args, data, cfg);
-            applyTickStyle(...args, data, tick, this, cfg, callbackableStyle);
+            const tick = createTickEl(select(this), ...args, finalData, cfg);
+            applyTickStyle(...args, finalData, tick, this, cfg, callbackableStyle);
           }),
       (update) =>
         update.each(function (...args) {
           this.removeChildren();
-          const tick = createTickEl(select(this), ...args, data, cfg);
-          applyTickStyle(...args, data, tick, this, cfg, callbackableStyle);
+          const tick = createTickEl(select(this), ...args, finalData, cfg);
+          applyTickStyle(...args, finalData, tick, this, cfg, callbackableStyle);
         }),
       (exit) => exit.remove()
     );

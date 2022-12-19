@@ -28,7 +28,7 @@ export default function equidistance(
   if (count === 2 && keepHeader && keepTail) return;
 
   const parityHide = methods.parity;
-  const reset = (_: DisplayObject[]) => (_.forEach(utils.show), _);
+  const reset = (els: DisplayObject[]) => (els.forEach(utils.show), els);
   let seq = 2;
   // 浅复制
   const source = labels.slice();

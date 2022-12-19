@@ -35,15 +35,23 @@ export class Category extends GUI<CategoryStyleProps> {
 
   private renderItems(container: Selection, width: number, height: number) {
     const [, style] = subObjects(this.attributes, ['title']);
-    const [_itemStyle, groupStyle] = styleSeparator(style);
+    const [partialItemStyle, groupStyle] = styleSeparator(style);
 
     // rewrite width and height to available space
-    const itemStyle = { ..._itemStyle, width, height };
+    const itemStyle = { ...partialItemStyle, width, height };
 
     this.itemsGroup = container.maybeAppendByClassName<Group>(CLASS_NAMES.itemsGroup, 'g').call(applyStyle, groupStyle);
     this.itemsGroup
-      .maybeAppendByClassName(CLASS_NAMES.items, () => new CategoryItems({ style: itemStyle as CategoryStyleProps }))
-      .update(groupStyle);
+      .maybeAppendByClassName(
+        CLASS_NAMES.items,
+        () =>
+          new CategoryItems({
+            style: {
+              data: [],
+            },
+          })
+      )
+      .update(itemStyle);
 
     // cuz itemsStyle has callbackable parameters, so it can not passed by call applyStyle
     Object.entries(itemStyle).forEach(([k, v]) => this.itemsGroup.attr(k, v));

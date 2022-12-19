@@ -17,7 +17,7 @@ export const Axis = createComponent<AxisStyleProps>(
     render(attributes, container) {
       const {
         type,
-        data: _data,
+        data,
         dataThreshold = 100,
         crossSize,
         animation,
@@ -66,14 +66,14 @@ export const Axis = createComponent<AxisStyleProps>(
         'grid',
       ]);
 
-      const data = sampling(_data, dataThreshold).filter(({ value }) => {
+      const sampledData = sampling(data, dataThreshold).filter(({ value }) => {
         if (truncRange && value > truncRange[0] && value < truncRange[1]) return false;
         return true;
       });
 
       /** grid */
       const axisGridGroup = select(container).maybeAppendByClassName(CLASS_NAMES.gridGroup, 'g');
-      ifShow(showGrid!, axisGridGroup, (group) => renderGrid(group, data, attributes, gridStyle));
+      ifShow(showGrid!, axisGridGroup, (group) => renderGrid(group, sampledData, attributes, gridStyle));
 
       /** main group */
       const axisMainGroup = select(container).maybeAppendByClassName(CLASS_NAMES.mainGroup, 'g');
@@ -87,13 +87,13 @@ export const Axis = createComponent<AxisStyleProps>(
       /** tick */
       const axisTickGroup = axisMainGroup.maybeAppendByClassName(CLASS_NAMES.tickGroup, 'g');
       ifShow(showTick!, axisTickGroup, (group) => {
-        renderTicks(group, data, attributes, tickStyle);
+        renderTicks(group, sampledData, attributes, tickStyle);
       });
 
       /** label */
       const axisLabelGroup = axisMainGroup.maybeAppendByClassName(CLASS_NAMES.labelGroup, 'g');
       ifShow(showLabel!, axisLabelGroup, (group) => {
-        renderLabels(group, data, attributes, labelStyle);
+        renderLabels(group, sampledData, attributes, labelStyle);
       });
 
       /** title */
