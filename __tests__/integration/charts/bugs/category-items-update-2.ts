@@ -1,8 +1,8 @@
 import { Group } from '@antv/g';
 import { CategoryItems } from '../../../../src/ui/legend/category/items';
-import { flowItemData, colors } from '../legend/data';
+import { flowItemData } from '../legend/data';
 
-export const BugCategoryItemsUpdate = () => {
+export const BugCategoryItemsUpdate2 = () => {
   const group = new Group();
 
   const items = group.appendChild(
@@ -11,26 +11,30 @@ export const BugCategoryItemsUpdate = () => {
         width: 400,
         height: 100,
         gridRow: 2,
+        gridCol: 3,
         layout: 'grid',
         data: flowItemData,
         itemLabelFill: 'green',
         itemValueFill: 'green',
         colPadding: 10,
         rowPadding: 5,
-        itemMarkerFill: (_: any, index: number) => colors[index % colors.length],
       },
     })
   );
 
   setTimeout(() => {
-    // 期望变成红色
-    items.update({
-      itemLabelFill: 'red',
-      itemMarkerFill: 'red',
-    });
+    items.update({ width: 500 });
   }, 1000);
+
+  setTimeout(() => {
+    items.update({ width: 300 });
+  }, 2000);
+
+  setTimeout(() => {
+    items.update({ colPadding: 0, rowPadding: 0 });
+  }, 3000);
 
   return group;
 };
 
-BugCategoryItemsUpdate.tags = ['BUG', '不更新'];
+BugCategoryItemsUpdate2.tags = ['BUG', '图例项', '更新样式'];

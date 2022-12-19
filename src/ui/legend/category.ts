@@ -24,12 +24,10 @@ export class Category extends GUI<CategoryStyleProps> {
     this.titleGroup = container.maybeAppendByClassName<Group>(CLASS_NAMES.titleGroup, 'g').call(applyStyle, groupStyle);
 
     ifShow(!!showTitle, this.titleGroup, (group) => {
+      const finalTitleStyle = { width, height, ...titleStyle };
       group
-        .maybeAppendByClassName(
-          CLASS_NAMES.title,
-          () => new Title({ style: { width, height, ...titleStyle } as TitleStyleProps })
-        )
-        .update(titleStyle);
+        .maybeAppendByClassName(CLASS_NAMES.title, () => new Title({ style: finalTitleStyle as TitleStyleProps }))
+        .update(finalTitleStyle);
     });
   }
 

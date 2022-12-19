@@ -7,8 +7,8 @@ import { getBlockColor } from './utils';
 
 export type Interpolate<T = string> = (val: number) => T;
 
-export type RibbonStyle = PrefixedStyle<PathStyleProps, 'ribbon'> &
-  PrefixedStyle<RectStyleProps, 'background'> & {
+export type RibbonStyle = PrefixedStyle<PathStyleProps, 'selection'> &
+  PrefixedStyle<RectStyleProps, 'track'> & {
     size: number;
     len: number;
   };
@@ -27,10 +27,10 @@ export type RibbonStyleProps = GroupStyleProps & RibbonStyle & RibbonCfg;
 
 const CLASS_NAMES = classNames(
   {
-    backgroundGroup: 'background-group',
-    background: 'background',
-    ribbonGroup: 'ribbon-group',
-    ribbon: 'ribbon',
+    trackGroup: 'background-group',
+    track: 'background',
+    selectionGroup: 'ribbon-group',
+    selection: 'ribbon',
     clipPath: 'clip-path',
   },
   'ribbon'
@@ -45,7 +45,7 @@ const DEFAULT_RIBBON_CFG: RibbonStyleProps = {
   block: false,
   blocks: 0,
   color: ['#fff', '#000'],
-  backgroundFill: '#e5e5e5',
+  trackFill: '#e5e5e5',
 };
 
 function getShape(cfg: RibbonStyleProps) {
@@ -53,7 +53,7 @@ function getShape(cfg: RibbonStyleProps) {
   return ifHorizontal(orient, [len, size], [size, len]);
 }
 
-function getBackgroundPath(cfg: RibbonStyleProps) {
+function getTrackPath(cfg: RibbonStyleProps) {
   const { type } = cfg;
   const [cw, ch] = getShape(cfg);
 
@@ -63,8 +63,8 @@ function getBackgroundPath(cfg: RibbonStyleProps) {
   return [['M', 0, ch], ['L', 0, 0], ['L', 0 + cw, 0], ['L', 0 + cw, ch], ['Z']] as any[];
 }
 
-function getRibbonPath(cfg: RibbonStyleProps) {
-  return getBackgroundPath(cfg);
+function getSelectionPath(cfg: RibbonStyleProps) {
+  return getTrackPath(cfg);
 }
 
 function getColor(cfg: RibbonStyleProps) {
@@ -94,17 +94,15 @@ function getClipPath(cfg: RibbonStyleProps): any[] {
   return [['M', x, y], ['L', x, h], ['L', w, h], ['L', w, y], ['Z']];
 }
 
-function renderBackground(container: Selection, cfg: RibbonStyleProps, style: any) {
-  container
-    .maybeAppendByClassName(CLASS_NAMES.background, 'path')
-    .call(applyStyle, { path: getBackgroundPath(cfg), ...style });
+function renderTrack(container: Selection, cfg: RibbonStyleProps, style: any) {
+  container.maybeAppendByClassName(CLASS_NAMES.track, 'path').call(applyStyle, { path: getTrackPath(cfg), ...style });
 }
 
-function renderRibbon(container: Selection, cfg: RibbonStyleProps, style: any) {
+function renderSelection(container: Selection, cfg: RibbonStyleProps, style: any) {
   const fill = getColor(cfg);
   const ribbon = container
-    .maybeAppendByClassName(CLASS_NAMES.ribbon, 'path')
-    .call(applyStyle, { path: getRibbonPath(cfg), fill, ...style });
+    .maybeAppendByClassName(CLASS_NAMES.selection, 'path')
+    .call(applyStyle, { path: getSelectionPath(cfg), fill, ...style });
   const clipPath = ribbon
     .maybeAppendByClassName(CLASS_NAMES.clipPath, 'path')
     .call(applyStyle, { path: getClipPath(cfg) })
@@ -115,17 +113,17 @@ function renderRibbon(container: Selection, cfg: RibbonStyleProps, style: any) {
 export const Ribbon = createComponent<RibbonStyleProps>(
   {
     render(attribute: RibbonStyleProps, container: Group) {
-      const [ribbonStyle, backgroundStyle] = subObjects(attribute, ['ribbon', 'background']);
-      const backgroundGroup = select(container).maybeAppendByClassName(CLASS_NAMES.backgroundGroup, 'g');
-      renderBackground(backgroundGroup, attribute, backgroundStyle);
+      const [selectionStyle, trackStyle] = subObjects(attribute, ['selection', 'track']);
+      const trackGroup = select(container).maybeAppendByClassName(CLASS_NAMES.trackGroup, 'g');
+      renderTrack(trackGroup, attribute, trackStyle);
 
       /**
        * - ribbon group
        *  |- ribbon
        * - clip path
        */
-      const ribbonGroup = select(container).maybeAppendByClassName(CLASS_NAMES.ribbonGroup, 'g');
-      renderRibbon(ribbonGroup, attribute, ribbonStyle);
+      const ribbonGroup = select(container).maybeAppendByClassName(CLASS_NAMES.selectionGroup, 'g');
+      renderSelection(ribbonGroup, attribute, selectionStyle);
     },
   },
   {

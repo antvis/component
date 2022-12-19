@@ -152,7 +152,7 @@ export function prefixStyle(style: any, prefix: string) {
  * @param ignoreStyleDict style will be ignore from style
  * @returns shape style and rest style
  */
-export function styleSeparator(style: { [keys: string]: any }, ignoreStyleDict: string[] = ['x', 'y']) {
+export function styleSeparator(style: { [keys: string]: any }, ignoreStyleDict: string[] = ['x', 'y', 'class']) {
   const groupStyleDict: string[] = [
     'transform',
     'transformOrigin',

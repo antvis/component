@@ -272,9 +272,13 @@ export class Navigator extends GUI<NavigatorStyleProps> {
   private renderController(container: Selection) {
     const { controllerSpacing: spacing, pageViews } = this.attributes as Required<NavigatorStyleProps>;
     const { pageWidth, pageHeight } = this.pageShape;
-    if (pageViews.length < 2) return;
+    const visible = pageViews.length >= 2;
 
-    const group = container.maybeAppendByClassName(CLASS_NAMES.controller, 'g');
+    const group = container
+      .maybeAppendByClassName(CLASS_NAMES.controller, 'g')
+      .style('visibility', visible ? 'visible' : 'hidden');
+
+    if (!visible) return;
 
     const [style, textStyle] = subObjects(this.attributes, ['button', 'pageNum']);
     const [{ size, ...pathStyle }, groupStyle] = styleSeparator(style);

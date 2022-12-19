@@ -188,6 +188,7 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
     } = this.attrs as Required<CategoryItemsStyleProps>;
     const [navWidth] = this.navigatorShape;
     const [gridRow, gridCol] = this.grid;
+
     const [limitWidth, limitHeight] = [maxWidth - navWidth, maxHeight];
     let [x, y, page, pageIndex, col, row, prevWidth, prevHeight] = [0, 0, 0, 0, 0, 0, 0, 0];
 

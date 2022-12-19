@@ -1,8 +1,7 @@
 import { Group } from '@antv/g';
 import { CategoryItem } from '../../../../src/ui/legend/category/item';
-import { flowItemData, colors } from '../legend/data';
 
-export const BugCategoryItemUpdate = () => {
+export const BugCategoryItemUpdate1 = () => {
   const group = new Group();
 
   const item = group.appendChild(
@@ -27,4 +26,4 @@ export const BugCategoryItemUpdate = () => {
   return group;
 };
 
-BugCategoryItemUpdate.tags = ['BUG', '不更新'];
+BugCategoryItemUpdate1.tags = ['BUG', '不更新'];

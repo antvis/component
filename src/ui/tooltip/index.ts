@@ -161,7 +161,7 @@ export class Tooltip extends GUI<Required<TooltipCfg>> {
         container.innerHTML = template.title!;
         // 更新标题
         container.getElementsByClassName(CLASS_NAME.TITLE)[0].innerHTML = title;
-      } else container.getElementsByClassName(CLASS_NAME.TITLE)?.[0].remove();
+      } else container.getElementsByClassName(CLASS_NAME.TITLE)?.[0]?.remove();
 
       const itemsHTML = this.HTMLTooltipItemsElements;
       const ul = document.createElement('ul');
