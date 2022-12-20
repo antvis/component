@@ -18,6 +18,7 @@ export const Axis = createComponent<AxisStyleProps>(
       const {
         type,
         data,
+        class: className,
         dataThreshold = 100,
         crossSize,
         animation,

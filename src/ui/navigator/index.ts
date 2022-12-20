@@ -1,17 +1,17 @@
-import { DisplayObjectConfig, Group, Rect, Text } from '@antv/g';
-import { clamp, isEqual } from '@antv/util';
+import { ElementEvent, Group, Rect, Text, type DisplayObjectConfig } from '@antv/g';
+import { clamp, debounce } from '@antv/util';
 import { GUI } from '../../core/gui';
 import type { Vector2 } from '../../types';
 import {
   applyStyle,
   classNames,
   deepAssign,
-  subObjects,
+  scaleToPixel,
   select,
   styleSeparator,
+  subObjects,
   TEXT_INHERITABLE_PROPS,
   transpose,
-  scaleToPixel,
   type Selection,
 } from '../../util';
 import { button } from '../marker/symbol';
@@ -20,7 +20,6 @@ import type { NavigatorStyleProps } from './types';
 export type { NavigatorOptions, NavigatorStyleProps } from './types';
 
 const NAVIGATOR_DEFAULT_CFG: NavigatorStyleProps = {
-  pageViews: [],
   effect: 'linear',
   duration: 200,
   orient: 'horizontal',
@@ -60,22 +59,22 @@ export class Navigator extends GUI<NavigatorStyleProps> {
     super(deepAssign({}, { style: NAVIGATOR_DEFAULT_CFG }, options));
   }
 
-  private get defaultPage() {
-    const { initPage = 0, pageViews } = this.attributes;
-    return clamp(initPage, 0, Math.max(pageViews.length - 1, 0));
-  }
-
-  private innerCurrPage: number = this.defaultPage;
-
   private finishedPromise: Promise<number> | null = null;
 
   private resolveFinishedPromise: Function | null = null;
 
   private playState: 'idle' | 'running' = 'idle';
 
-  private contentGroup!: Selection<Group>;
+  private contentGroup = this.appendChild(new Group({ class: CLASS_NAMES.contentGroup.name }));
 
-  private playWindow!: Group;
+  private playWindow = this.contentGroup.appendChild(new Group({ class: CLASS_NAMES.playWindow.name }));
+
+  private get defaultPage() {
+    const { initPage = 0 } = this.attributes;
+    return clamp(initPage, 0, Math.max(this.pageViews.length - 1, 0));
+  }
+
+  private innerCurrPage: number = this.defaultPage;
 
   private clipPath!: Selection<Rect>;
 
@@ -85,8 +84,12 @@ export class Navigator extends GUI<NavigatorStyleProps> {
 
   private pageInfoGroup!: Group;
 
+  private get pageViews() {
+    return this.playWindow.children as Group[];
+  }
+
   private get pageShape() {
-    const { pageViews } = this.attributes;
+    const { pageViews } = this;
     const [maxWidth, maxHeight] = transpose(
       pageViews.map((pageView) => {
         const { width, height } = pageView.getBBox();
@@ -97,6 +100,10 @@ export class Navigator extends GUI<NavigatorStyleProps> {
     const { pageWidth = maxWidth, pageHeight = maxHeight } = this.attributes;
 
     return { pageWidth, pageHeight };
+  }
+
+  public getContainer() {
+    return this.playWindow;
   }
 
   public get currPage() {
@@ -117,10 +124,10 @@ export class Navigator extends GUI<NavigatorStyleProps> {
   }
 
   public goTo(pageNum: number) {
-    const { duration, effect, pageViews } = this.attributes;
-    const { currPage, playState, finished, playWindow } = this;
+    const { duration, effect } = this.attributes;
+    const { currPage, playState, finished, playWindow, pageViews } = this;
     if (playState !== 'idle' || pageNum < 0 || pageViews.length <= 0 || pageNum >= pageViews.length)
-      return { finished };
+      return { finished: this.finished };
     pageViews[currPage].setLocalPosition(0, 0);
     this.prepareFollowingPage(pageNum);
     const animateCfg = { duration, easing: effect, fill: 'both' } as const;
@@ -138,29 +145,25 @@ export class Navigator extends GUI<NavigatorStyleProps> {
       this.resolveFinishedPromise?.();
     });
 
-    return { finished };
+    return { finished: this.finished };
   }
 
   public prev() {
-    const { loop, pageViews } = this.attributes;
-    const pages = pageViews.length;
+    const { loop } = this.attributes;
+    const pages = this.pageViews.length;
     const page = this.currPage;
-    if (!loop && page <= 0) return { finished: Promise.resolve };
+    if (!loop && page <= 0) return { finished: this.finished };
     const following = loop ? (page - 1 + pages) % pages : clamp(page - 1, 0, pages);
     return this.goTo(following);
   }
 
   public next() {
-    const { loop, pageViews } = this.attributes;
-    const pages = pageViews.length;
+    const { loop } = this.attributes;
+    const pages = this.pageViews.length;
     const page = this.currPage;
-    if (!loop && page >= pages - 1) return { finished: Promise.resolve };
+    if (!loop && page >= pages - 1) return { finished: this.finished };
     const following = loop ? (page + 1) % pages : clamp(page + 1, 0, pages);
     return this.goTo(following);
-  }
-
-  private renderContentGroup(container: Selection) {
-    this.contentGroup = container.maybeAppendByClassName(CLASS_NAMES.contentGroup, 'g');
   }
 
   private renderClipPath(container: Selection) {
@@ -169,22 +172,12 @@ export class Navigator extends GUI<NavigatorStyleProps> {
       .maybeAppendByClassName(CLASS_NAMES.clipPath, 'rect')
       .style('width', pageWidth)
       .style('height', pageHeight);
-    this.contentGroup.style('clipPath', this.clipPath.node());
-  }
 
-  private renderPlayWindow(container: Selection) {
-    const { pageViews } = this.attributes;
-    this.playWindow = container.maybeAppendByClassName(CLASS_NAMES.playWindow, 'g').node();
-
-    if (pageViews?.length > 0 && !isEqual(this.playWindow.children, pageViews)) {
-      this.playWindow.destroyChildren();
-      pageViews.forEach((view) => this.playWindow.appendChild(view));
-    }
+    this.contentGroup.attr('clipPath', this.clipPath.node());
   }
 
   private setVisiblePages(pages: number[]) {
-    const { pageViews } = this.attributes;
-    pageViews.forEach((page, index) => {
+    (this.playWindow.children as Group[]).forEach((page, index) => {
       if (pages.includes(index)) page.attr('visibility', 'visible');
       else page.attr('visibility', 'hidden');
     });
@@ -240,7 +233,8 @@ export class Navigator extends GUI<NavigatorStyleProps> {
   private updatePageInfo() {
     const {
       currPage,
-      attributes: { formatter, pageViews },
+      pageViews,
+      attributes: { formatter },
     } = this;
     if (pageViews.length < 2) return;
     (this.pageInfoGroup.querySelector(CLASS_NAMES.pageInfo.class) as Text)?.attr(
@@ -260,8 +254,7 @@ export class Navigator extends GUI<NavigatorStyleProps> {
   }
 
   private prepareFollowingPage(pageNum: number) {
-    const { currPage } = this;
-    const { pageViews } = this.attributes;
+    const { currPage, pageViews } = this;
     this.setVisiblePages([pageNum, currPage]);
     if (pageNum !== currPage) {
       const [dx, dy] = this.getFollowingPageDiff(pageNum);
@@ -270,9 +263,9 @@ export class Navigator extends GUI<NavigatorStyleProps> {
   }
 
   private renderController(container: Selection) {
-    const { controllerSpacing: spacing, pageViews } = this.attributes as Required<NavigatorStyleProps>;
+    const { controllerSpacing: spacing } = this.attributes as Required<NavigatorStyleProps>;
     const { pageWidth, pageHeight } = this.pageShape;
-    const visible = pageViews.length >= 2;
+    const visible = this.pageViews.length >= 2;
 
     const group = container
       .maybeAppendByClassName(CLASS_NAMES.controller, 'g')
@@ -319,8 +312,6 @@ export class Navigator extends GUI<NavigatorStyleProps> {
   }
 
   render(attributes: NavigatorStyleProps, container: Group) {
-    const { pageViews } = attributes;
-    if (!!pageViews && pageViews.length <= 0) return;
     /**
      * container
      *  |- contentGroup (with clip path)
@@ -329,11 +320,15 @@ export class Navigator extends GUI<NavigatorStyleProps> {
      *  |- clipPath
      */
     const containerSelection = select(container);
-    this.renderContentGroup(containerSelection);
-    this.renderPlayWindow(this.contentGroup);
     this.renderClipPath(containerSelection);
     this.renderController(containerSelection);
     this.setVisiblePages([this.defaultPage]);
     this.goTo(this.defaultPage);
+  }
+
+  public bindEvents() {
+    const render = debounce(() => this.render(this.attributes, this), 50);
+    this.playWindow.addEventListener(ElementEvent.INSERTED, render);
+    this.playWindow.addEventListener(ElementEvent.REMOVED, render);
   }
 }

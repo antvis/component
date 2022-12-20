@@ -16,7 +16,6 @@ export interface NavigatorCfg {
   orient?: 'horizontal' | 'vertical';
   initPage?: number;
   loop?: boolean;
-  pageViews: Group[];
   /** padding between buttons and page number  */
   controllerPadding?: number;
   /** spacing between controller and page content */

@@ -34,20 +34,21 @@ export const NavigatorNull = () => {
   const nav = group.appendChild(
     new Navigator({
       style: {
-        x: 100,
-        y: 100,
-        pageWidth: 100,
-        pageHeight: 100,
         loop: true,
-        pageViews: [],
       },
     })
   );
 
   setTimeout(() => {
+    createPageViews(2, [100, 100]).forEach((page) => {
+      nav.getContainer().appendChild(page);
+    });
     nav.update({
       initPage: 1,
-      pageViews: createPageViews(2, [100, 100]),
+      x: 150,
+      y: 150,
+      pageWidth: 100,
+      pageHeight: 100,
     });
   }, 1000);
 

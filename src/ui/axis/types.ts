@@ -1,4 +1,4 @@
-import type { DisplayObject, LineStyleProps, TextStyleProps } from '@antv/g';
+import type { DisplayObject, LineStyleProps, TextStyleProps, GroupStyleProps } from '@antv/g';
 import type {
   Callbackable,
   CallbackableObject,
@@ -170,7 +170,8 @@ export type AxisGridCfg = {
    */
   gridAreaFill?: string | string[] | Callbackable<string, AxisDatumCP>;
 };
-export type AxisBaseStyleProps = AxisTitleStyle &
+export type AxisBaseStyleProps = GroupStyleProps &
+  AxisTitleStyle &
   AxisTitleCfg &
   AxisLineStyle &
   AxisLineCfg &

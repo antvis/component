@@ -40,10 +40,13 @@ export const NavigatorOverPages = () => {
         pageWidth: 100,
         pageHeight: 100,
         loop: true,
-        pageViews: createPageViews(2, [100, 100]),
       },
     })
   );
+
+  createPageViews(2, [100, 100]).forEach((page) => {
+    nav.getContainer().appendChild(page);
+  });
 
   setTimeout(() => {
     nav.update({

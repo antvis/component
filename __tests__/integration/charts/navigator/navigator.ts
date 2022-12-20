@@ -36,9 +36,11 @@ export const NavigatorDemo = () => {
         pageWidth: 100,
         pageHeight: 100,
         loop: true,
-        pageViews: createPageViews(size, [100, 100]),
         ...args,
       },
+    });
+    createPageViews(size, [100, 100]).forEach((page) => {
+      nav.getContainer().appendChild(page);
     });
     group.appendChild(nav);
     return nav;
@@ -72,8 +74,9 @@ export const NavigatorDemo = () => {
   const nav5 = createNav({ x: 100, y: 250, initPage: 3 });
 
   // setTimeout(() => {
-  //   nav5.update({
-  //     pageViews: createPageViews(10, [100, 100], (str) => `update-${str}`),
+  //   nav5.getContainer().destroyChildren();
+  //   createPageViews(10, [100, 100], (str) => `nav5-${str}`).forEach((page) => {
+  //     nav5.getContainer().appendChild(page);
   //   });
   //   setInterval(() => {
   //     nav5.next();

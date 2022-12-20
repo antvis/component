@@ -34,7 +34,7 @@ export function createComponent<T>(
     }
 
     attributeChangedCallback() {
-      this.descriptor.render?.(this.attributes as Required<T>, this);
+      this.descriptor?.render?.(this.attributes as Required<T>, this);
     }
   };
 }

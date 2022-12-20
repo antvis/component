@@ -7,6 +7,7 @@ export const AxisArcBasis1 = () => {
 
   group.appendChild(
     new Axis({
+      class: 'axis-class',
       style: {
         type: 'arc',
         angleRange: [-135, 135],

@@ -33,9 +33,7 @@ export const NavigatorUpdate = () => {
 
   const nav = group.appendChild(
     new Navigator({
-      style: {
-        pageViews: [],
-      },
+      style: {},
     })
   );
 
@@ -45,7 +43,9 @@ export const NavigatorUpdate = () => {
       x: 100,
       y: 100,
       loop: true,
-      pageViews: createPageViews(10, [100, 100], (str) => `page - ${str} \n updated`),
+    });
+    createPageViews(10, [100, 100], (str) => `page - ${str} \n updated`).forEach((page) => {
+      nav.getContainer().appendChild(page);
     });
   }, 1000);
 
@@ -54,7 +54,10 @@ export const NavigatorUpdate = () => {
     nav.update({
       pageWidth: 200,
       pageHeight: 200,
-      pageViews: createPageViews(10, [200, 200], (str) => `page - ${str} \n update \n page size`),
+    });
+    nav.getContainer().destroyChildren();
+    createPageViews(10, [200, 200], (str) => `page - ${str} \n update \n page size`).forEach((page) => {
+      nav.getContainer().appendChild(page);
     });
   }, 2000);
 
@@ -69,7 +72,10 @@ export const NavigatorUpdate = () => {
     nav.update({
       pageWidth: 100,
       pageHeight: 100,
-      pageViews: createPageViews(10, [100, 100], (str) => `page - ${str} \n updated`),
+    });
+    nav.getContainer().destroyChildren();
+    createPageViews(10, [100, 100], (str) => `page - ${str} \n updated`).forEach((page) => {
+      nav.getContainer().appendChild(page);
     });
   }, 4000);
 

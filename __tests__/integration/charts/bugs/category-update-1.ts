@@ -5,7 +5,7 @@ import { flowItemData, colors } from '../legend/data';
 export const BugCategoryUpdate1 = () => {
   const group = new Group();
 
-  const legend = group.appendChild(
+  const category = group.appendChild(
     new Category({
       className: 'category-legend',
       style: {
@@ -23,7 +23,7 @@ export const BugCategoryUpdate1 = () => {
 
   setTimeout(() => {
     // 期望变成红色
-    legend.update({ itemLabelFill: 'red' });
+    category.update({ itemLabelFill: 'red' });
   }, 1000);
 
   return group;

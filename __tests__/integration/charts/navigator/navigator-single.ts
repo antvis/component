@@ -39,10 +39,13 @@ export const NavigatorSingle = () => {
         pageWidth: 100,
         pageHeight: 100,
         loop: true,
-        pageViews: createPageViews(1, [100, 100]),
       },
     })
   );
+
+  createPageViews(1, [100, 100]).forEach((page) => {
+    nav.getContainer().appendChild(page);
+  });
 
   return group;
 };

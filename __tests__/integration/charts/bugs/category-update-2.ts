@@ -5,7 +5,7 @@ import { flowItemData, colors } from '../legend/data';
 export const BugCategoryUpdate2 = () => {
   const group = new Group();
 
-  const legend = group.appendChild(
+  const category = group.appendChild(
     new Category({
       style: {
         y: 30,
@@ -21,12 +21,12 @@ export const BugCategoryUpdate2 = () => {
   );
 
   setTimeout(() => {
-    legend.update({ width: 300 });
+    category.update({ width: 300 });
   }, 1000);
 
-  setTimeout(() => {
-    legend.update({ width: 600 });
-  }, 2000);
+  // setTimeout(() => {
+  //   category.update({ width: 600 });
+  // }, 2000);
 
   return group;
 };

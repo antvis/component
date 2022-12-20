@@ -34,9 +34,11 @@ export const NavigatorWithoutShape = () => {
     const nav = new Navigator({
       style: {
         loop: true,
-        pageViews: createPageViews(size, [100, 100]),
         ...args,
       },
+    });
+    createPageViews(size, [100, 100]).forEach((page) => {
+      nav.getContainer().appendChild(page);
     });
     group.appendChild(nav);
     return nav;
