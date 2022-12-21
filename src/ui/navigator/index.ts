@@ -278,19 +278,16 @@ export class Navigator extends GUI<NavigatorStyleProps> {
 
     const prevBtnGroup = group.maybeAppendByClassName(CLASS_NAMES.prevBtnGroup, 'g').call(applyStyle, groupStyle);
     this.prevBtnGroup = prevBtnGroup.node();
-    prevBtnGroup.maybeAppendByClassName(CLASS_NAMES.prevBtn, 'path').attr('className', 'btn');
+    const prevBtn = prevBtnGroup.maybeAppendByClassName(CLASS_NAMES.prevBtn, 'path');
 
     const nextBtnGroup = group.maybeAppendByClassName(CLASS_NAMES.nextBtnGroup, 'g').call(applyStyle, groupStyle);
     this.nextBtnGroup = nextBtnGroup.node();
-    nextBtnGroup.maybeAppendByClassName(CLASS_NAMES.nextBtn, 'path').attr('className', 'btn');
+    const nextBtn = nextBtnGroup.maybeAppendByClassName(CLASS_NAMES.nextBtn, 'path');
 
-    group
-      .selectAll('.btn')
-      .call(applyStyle, pathStyle)
-      .each(function () {
-        select(this).style('transformOrigin', 'center');
-        scaleToPixel(select(this).node(), size, true);
-      });
+    [prevBtn, nextBtn].forEach((btn) => {
+      btn.node().attr({ ...pathStyle, transformOrigin: 'center' });
+      scaleToPixel(btn.node(), size, true);
+    });
 
     const pageInfoGroup = group.maybeAppendByClassName(CLASS_NAMES.pageInfoGroup, 'g');
     this.pageInfoGroup = pageInfoGroup.node();
