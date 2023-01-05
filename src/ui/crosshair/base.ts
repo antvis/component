@@ -1,7 +1,7 @@
 import { Path, Group } from '@antv/g';
 import { deepMix } from '@antv/util';
 import { GUI } from '../../core/gui';
-import { applyStyle, maybeAppend, subObject } from '../../util';
+import { select, subObject } from '../../util';
 import { Tag } from '../tag';
 import { CROSSHAIR_BASE_DEFAULT_STYLE } from './constant';
 import type { CrosshairBaseCfg, CrosshairBaseOptions } from './types';
@@ -11,7 +11,6 @@ export abstract class CrosshairBase<T extends CrosshairBaseCfg> extends GUI<Requ
   public static tag = 'crosshair-base';
 
   protected static defaultOptions = {
-    // type: CrosshairBase.tag,
     style: CROSSHAIR_BASE_DEFAULT_STYLE,
   };
 
@@ -59,18 +58,16 @@ export abstract class CrosshairBase<T extends CrosshairBaseCfg> extends GUI<Requ
   }
 
   public render(attributes: T, container: Group) {
-    const group = maybeAppend(container, '.crosshair-group', 'g').attr('className', 'crosshair-group').node();
+    const group = select(container).maybeAppendByClassName('.crosshair-group', 'g').node();
     this.shapesGroup = group;
 
-    this.tagShape = maybeAppend(
-      group,
-      '.crosshair-tag',
-      () => new Tag({ className: 'crosshair-tag', style: this.tagCfg })
-    ).node() as Tag;
-    this.crosshairShape = maybeAppend(group, '.crosshair-path', 'path')
-      .attr('className', 'crosshair-path')
-      .call(applyStyle, this.crosshairCfg)
-      .node() as Path;
+    this.tagShape = select(group)
+      .maybeAppend('.crosshair-tag', () => new Tag({ className: 'crosshair-tag', style: this.tagCfg }))
+      .node() as Tag;
+    this.crosshairShape = select(group)
+      .maybeAppendByClassName('.crosshair-path', 'path')
+      .node()
+      .attr(this.crosshairCfg) as Path;
 
     this.adjustLayout();
   }

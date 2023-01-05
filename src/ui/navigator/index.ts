@@ -3,7 +3,6 @@ import { clamp, debounce } from '@antv/util';
 import { GUI } from '../../core/gui';
 import type { Vector2 } from '../../types';
 import {
-  applyStyle,
   classNames,
   deepAssign,
   scaleToPixel,
@@ -168,10 +167,10 @@ export class Navigator extends GUI<NavigatorStyleProps> {
 
   private renderClipPath(container: Selection) {
     const { pageWidth, pageHeight } = this.pageShape;
-    this.clipPath = container
-      .maybeAppendByClassName(CLASS_NAMES.clipPath, 'rect')
-      .style('width', pageWidth)
-      .style('height', pageHeight);
+    this.clipPath = container.maybeAppendByClassName(CLASS_NAMES.clipPath, 'rect').styles({
+      width: pageWidth,
+      height: pageHeight,
+    });
 
     this.contentGroup.attr('clipPath', this.clipPath.node());
   }
@@ -276,16 +275,16 @@ export class Navigator extends GUI<NavigatorStyleProps> {
     const [style, textStyle] = subObjects(this.attributes, ['button', 'pageNum']);
     const [{ size, ...pathStyle }, groupStyle] = styleSeparator(style);
 
-    const prevBtnGroup = group.maybeAppendByClassName(CLASS_NAMES.prevBtnGroup, 'g').call(applyStyle, groupStyle);
+    const prevBtnGroup = group.maybeAppendByClassName(CLASS_NAMES.prevBtnGroup, 'g').styles(groupStyle);
     this.prevBtnGroup = prevBtnGroup.node();
     const prevBtn = prevBtnGroup.maybeAppendByClassName(CLASS_NAMES.prevBtn, 'path');
 
-    const nextBtnGroup = group.maybeAppendByClassName(CLASS_NAMES.nextBtnGroup, 'g').call(applyStyle, groupStyle);
+    const nextBtnGroup = group.maybeAppendByClassName(CLASS_NAMES.nextBtnGroup, 'g').styles(groupStyle);
     this.nextBtnGroup = nextBtnGroup.node();
     const nextBtn = nextBtnGroup.maybeAppendByClassName(CLASS_NAMES.nextBtn, 'path');
 
     [prevBtn, nextBtn].forEach((btn) => {
-      btn.node().attr({ ...pathStyle, transformOrigin: 'center' });
+      btn.styles({ ...pathStyle, transformOrigin: 'center' });
       scaleToPixel(btn.node(), size, true);
     });
 
@@ -293,7 +292,7 @@ export class Navigator extends GUI<NavigatorStyleProps> {
     this.pageInfoGroup = pageInfoGroup.node();
     pageInfoGroup
       .maybeAppendByClassName(CLASS_NAMES.pageInfo, 'text')
-      .call(applyStyle, { ...TEXT_INHERITABLE_PROPS, ...textStyle });
+      .styles({ ...TEXT_INHERITABLE_PROPS, ...textStyle });
 
     this.updatePageInfo();
 

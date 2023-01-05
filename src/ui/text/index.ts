@@ -30,7 +30,6 @@ export class Text extends GUI<Required<TextCfg>> {
   public static tag = 'paragraph';
 
   private static defaultOptions = {
-    type: Text.tag,
     style: {
       text: '',
 

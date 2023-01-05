@@ -1,7 +1,7 @@
 import type { DisplayObjectConfig, Group } from '@antv/g';
 import { DisplayObject } from '@antv/g';
 import { GUI } from '../../core/gui';
-import { applyStyle, classNames, deepAssign, normalPadding, select, Selection, styleSeparator } from '../../util';
+import { classNames, deepAssign, normalPadding, select, Selection, styleSeparator } from '../../util';
 import type { TitleStyleProps } from './types';
 
 export type { TitleStyleProps };
@@ -43,12 +43,14 @@ export function positionNormalizer(position: Required<TitleStyleProps>['position
 }
 
 function mayApplyStyle(el: Selection, style: any) {
-  for (const [key, value] of Object.entries(style)) {
+  const finalStyle = Object.entries(style).reduce((acc, [key, value]) => {
     const currAttr = el.node().attr(key);
-    if (!currAttr) el.style(key, value);
-  }
-}
+    if (!currAttr) acc[key] = value;
+    return acc;
+  }, {} as Record<string, any>);
 
+  el.styles(finalStyle);
+}
 function getTitleLayout(cfg: TitleStyleProps) {
   const { width, height, position } = cfg as Required<TitleStyleProps>;
   const [hW, hH] = [+width / 2, +height / 2];
@@ -98,7 +100,7 @@ export class Title extends GUI<TitleStyleProps> {
       class: className, // remove class attr
       ...restStyle
     } = attributes as Required<TitleStyleProps>;
-    const [titleStyle, groupStyle] = styleSeparator(restStyle);
+    const [titleStyle] = styleSeparator(restStyle);
     const { x, y, textAlign, textBaseline } = getTitleLayout(attributes);
     if (!restStyle.text) {
       container.removeChildren();
@@ -107,7 +109,7 @@ export class Title extends GUI<TitleStyleProps> {
 
     select(container)
       .maybeAppendByClassName(CLASS_NAMES.text, 'text')
-      .call(applyStyle, titleStyle)
+      .styles(titleStyle)
       .call(mayApplyStyle, { x, y, textAlign, textBaseline });
   }
 }

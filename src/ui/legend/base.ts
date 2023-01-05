@@ -1,5 +1,5 @@
 import { Group, DisplayObject, HTML, Text } from '@antv/g';
-import { applyStyle, maybeAppend } from '../../util';
+import { maybeAppend, select } from '../../util';
 
 export function getTitleShapeBBox(titleShape?: DisplayObject): {
   top: number;
@@ -39,31 +39,35 @@ export function renderTitle(container: Group, cfg?: any): any | null {
   })
     .call((selection) => {
       if (useHTML) {
-        selection
-          .style('width', cfg.width ?? 80)
-          .style('height', cfg.height ?? 20)
-          .style('innerHTML', innerHTML);
+        selection.styles({
+          width: cfg.width ?? 80,
+          height: cfg.height ?? 80,
+          innerHTML,
+        });
       } else {
-        selection
-          .style('fontSize', 12)
-          .style('textBaseline', 'top')
-          .style('text', cfg.content || '');
+        selection.styles({
+          fontSize: 12,
+          textBaseline: 'top',
+          text: cfg.content || '',
+        });
       }
     })
-    .call(applyStyle, style)
+    .styles(style)
     .node();
 }
 
 export function renderGroup(container: Group, className: string, x: number, y: number): Group {
-  return maybeAppend(container, `.${className}`, 'g').attr('className', className).style('x', x).style('y', y).node();
+  return maybeAppend(container, `.${className}`, 'g').styles({ className, x, y }).node();
 }
 
-export function renderRect(container: Group, className: string, width: number, height: number, style?: any) {
-  return maybeAppend(container, `.${className}`, 'rect')
-    .attr('className', className)
-    .style('zIndex', -1)
-    .style('width', width)
-    .style('height', height)
-    .call(applyStyle, style || {})
+export function renderRect(container: Group, className: string, width: number, height: number, style: any = {}) {
+  return select(container)
+    .maybeAppendByClassName(className, 'rect')
+    .styles({
+      zIndex: -1,
+      width,
+      height,
+      ...style,
+    })
     .node();
 }

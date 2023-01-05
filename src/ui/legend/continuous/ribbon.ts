@@ -1,7 +1,7 @@
 import { Group, GroupStyleProps, PathStyleProps, RectStyleProps } from '@antv/g';
 import { isFunction } from '@antv/util';
 import type { PrefixedStyle } from '../../../types';
-import { applyStyle, classNames, createComponent, select, Selection, subObjects } from '../../../util';
+import { classNames, createComponent, select, Selection, subObjects } from '../../../util';
 import { ifHorizontal } from '../utils';
 import { getBlockColor } from './utils';
 
@@ -95,17 +95,17 @@ function getClipPath(cfg: RibbonStyleProps): any[] {
 }
 
 function renderTrack(container: Selection, cfg: RibbonStyleProps, style: any) {
-  container.maybeAppendByClassName(CLASS_NAMES.track, 'path').call(applyStyle, { path: getTrackPath(cfg), ...style });
+  container.maybeAppendByClassName(CLASS_NAMES.track, 'path').styles({ path: getTrackPath(cfg), ...style });
 }
 
 function renderSelection(container: Selection, cfg: RibbonStyleProps, style: any) {
   const fill = getColor(cfg);
   const ribbon = container
     .maybeAppendByClassName(CLASS_NAMES.selection, 'path')
-    .call(applyStyle, { path: getSelectionPath(cfg), fill, ...style });
+    .styles({ path: getSelectionPath(cfg), fill, ...style });
   const clipPath = ribbon
     .maybeAppendByClassName(CLASS_NAMES.clipPath, 'path')
-    .call(applyStyle, { path: getClipPath(cfg) })
+    .styles({ path: getClipPath(cfg) })
     .node();
   ribbon.style('clip-path', clipPath);
 }

@@ -4,7 +4,7 @@ import { GUI } from '../../core/gui';
 import { Tag } from '../tag';
 import type { GUIOption } from '../../types';
 import { SIZE_STYLE } from './constant';
-import { maybeAppend, applyStyle } from '../../util';
+import { select } from '../../util';
 import type { SwitchStyleProps, SwitchOptions } from './types';
 
 export type { SwitchStyleProps, SwitchOptions };
@@ -55,7 +55,6 @@ export class Switch extends GUI<Required<SwitchStyleProps>> {
    * 默认配置项
    */
   public static defaultOptions: GUIOption<SwitchStyleProps> = {
-    type: Switch.tag,
     style: {
       x: 0,
       y: 0,
@@ -72,7 +71,7 @@ export class Switch extends GUI<Required<SwitchStyleProps>> {
   public render(attributes: SwitchStyleProps, container: Group) {
     const { size = 'default', spacing, disabled, checked, unCheckedChildren, checkedChildren } = attributes;
 
-    const group = maybeAppend(container, '.switch-content', 'g').attr('className', 'switch-content').node();
+    const group = select(container).maybeAppendByClassName('switch-content', 'g').node();
     const bounds = group.getLocalBounds();
 
     const { sizeStyle, tagStyle } = get(SIZE_STYLE, size, SIZE_STYLE.default);
@@ -87,8 +86,8 @@ export class Switch extends GUI<Required<SwitchStyleProps>> {
     // Tag 配置, 创建
     const tagCfg = checked ? checkedChildren : unCheckedChildren;
     if (checkedChildren || unCheckedChildren) {
-      maybeAppend(group, '.switch-tag', () => new Tag({}))
-        .attr('className', 'switch-tag')
+      select(group)
+        .maybeAppendByClassName('switch-tag', () => new Tag({}))
         .call((selection) => {
           const tagShape = selection.node() as Tag;
           tagShape.update(
@@ -134,33 +133,39 @@ export class Switch extends GUI<Required<SwitchStyleProps>> {
     }
 
     // 背景 组件
-    const backgroundShape = maybeAppend(group, '.switch-background', 'rect')
-      .attr('className', 'switch-background')
-      .style('zIndex', (group.style.zIndex || 0) - 1)
-      .style('x', bounds.min[0])
-      .style('y', bounds.min[1])
-      .style('fill', color)
-      .style('cursor', cursor)
-      .style('fillOpacity', disabled ? 0.4 : 1)
-      .call(applyStyle, backgroundStyle)
+    const backgroundShape = select(group)
+      .maybeAppendByClassName('switch-background', 'rect')
+      .styles({
+        zIndex: (group.style.zIndex || 0) - 1,
+        x: bounds.min[0],
+        y: bounds.min[1],
+        fill: color,
+        cursor,
+        fillOpacity: disabled ? 0.4 : 1,
+        ...backgroundStyle,
+      })
       .node() as Rect;
 
     // 背景阴影动效 组件
-    const backgroundStrokeShape = maybeAppend(group, '.switch-background-stroke', 'rect')
-      .attr('className', 'switch-background-stroke')
-      .style('zIndex', (group.style.zIndex || 0) - 2)
-      .style('x', bounds.min[0])
-      .style('y', bounds.min[1])
-      .style('stroke', color)
-      .style('lineWidth', 0)
-      .call(applyStyle, backgroundStyle)
+    const backgroundStrokeShape = select(group)
+      .maybeAppendByClassName('switch-background-stroke', 'rect')
+      .styles({
+        zIndex: (group.style.zIndex || 0) - 2,
+        x: bounds.min[0],
+        y: bounds.min[1],
+        stroke: color,
+        lineWidth: 0,
+        ...backgroundStyle,
+      })
       .node() as Rect;
 
     // 控件 组件
-    maybeAppend(group, '.switch-handle', 'rect')
-      .attr('className', 'switch-handle')
-      .style('fill', '#fff')
-      .style('cursor', cursor)
+    select(group)
+      .maybeAppendByClassName('switch-handle', 'rect')
+      .styles({
+        fill: '#fff',
+        cursor,
+      })
       .call((selection) => {
         const handleShape = selection.node() as Rect;
 

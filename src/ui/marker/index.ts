@@ -1,6 +1,6 @@
 import { Group } from '@antv/g';
 import { isFunction } from '@antv/util';
-import { applyStyle, maybeAppend } from '../../util';
+import { maybeAppend } from '../../util';
 import { GUI } from '../../core/gui';
 import { parseMarker } from './utils';
 import {
@@ -61,12 +61,18 @@ export class Marker extends GUI<MarkerStyleProps> {
         if (type === 'image') {
           // todo 大小和 path symbol 保持一致
           const r = (size as number) * 2;
-          selection.style('img', symbol).style('width', r).style('height', r).style('x', -size).style('y', -size);
+          selection.styles({
+            img: symbol,
+            width: r,
+            height: r,
+            x: -size,
+            y: -size,
+          });
         } else {
           const r = (size as number) / 2;
           const symbolFn = isFunction(symbol) ? symbol : Marker.getSymbol(symbol);
           // @ts-ignore
-          selection.style('path', symbolFn?.(x, y, r)).call(applyStyle, style);
+          selection.styles({ path: symbolFn?.(x, y, r), ...style });
         }
       });
   }

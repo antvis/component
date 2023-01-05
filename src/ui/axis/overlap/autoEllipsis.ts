@@ -1,4 +1,4 @@
-import type { Text } from '@antv/g';
+import type { DisplayObject, Text } from '@antv/g';
 import { isNil } from '@antv/util';
 import { getFont, parseLength } from '../../../util';
 import { AxisStyleProps, EllipsisOverlapCfg } from '../types';
@@ -6,10 +6,11 @@ import { boundTest } from '../utils/helper';
 
 export type Utils = {
   ellipsis: (text: Text, len?: number, suffix?: string) => void;
+  getTextShape: (el: DisplayObject) => Text;
 };
 
 export default function ellipseLabels(
-  labels: Text[],
+  labels: DisplayObject[],
   overlapCfg: EllipsisOverlapCfg,
   cfg: AxisStyleProps,
   utils: Utils
@@ -17,7 +18,7 @@ export default function ellipseLabels(
   if (labels.length <= 1) return;
   const { suffix = '...', minLength, maxLength, step: ellipsisStep, margin = [0, 0, 0, 0] } = overlapCfg;
 
-  const font = getFont(labels[0] as Text);
+  const font = getFont(utils.getTextShape(labels[0]));
   const step = parseLength(ellipsisStep!, font) || 1;
   const min = parseLength(minLength!, font) || 1;
   let max = parseLength(maxLength!, font);
@@ -36,7 +37,7 @@ export default function ellipseLabels(
   const [top = 0, right = 0, bottom = top, left = right] = margin as number[];
   for (let allowedLength = max; allowedLength > min + step; allowedLength -= step) {
     source.forEach((label) => {
-      utils.ellipsis(label, allowedLength, suffix);
+      utils.ellipsis(utils.getTextShape(label), allowedLength, suffix);
     });
 
     source = boundTest(labels, margin);

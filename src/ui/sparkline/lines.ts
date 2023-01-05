@@ -1,7 +1,7 @@
 import type { BaseStyleProps, PathStyleProps } from '@antv/g';
 import { DisplayObject, Group } from '@antv/g';
 import { deepMix } from '@antv/util';
-import { applyStyle, select } from '../../util';
+import { select } from '../../util';
 
 export interface ILinesCfg extends BaseStyleProps {
   lines: PathStyleProps[];
@@ -46,11 +46,11 @@ export class Lines extends DisplayObject<ILinesCfg> {
       .join(
         (enter) =>
           enter.append('path').each(function (cfg) {
-            select(this).call(applyStyle, cfg);
+            select(this).styles(cfg);
           }),
         (update) =>
           update.each(function (cfg) {
-            select(this).call(applyStyle, cfg);
+            select(this).styles(cfg);
           }),
         (remove) => remove.remove()
       );
@@ -63,11 +63,11 @@ export class Lines extends DisplayObject<ILinesCfg> {
       .join(
         (enter) =>
           enter.append('path').each(function (cfg) {
-            select(this).call(applyStyle, cfg);
+            select(this).styles(cfg);
           }),
         (update) =>
           update.each(function (cfg) {
-            select(this).call(applyStyle, cfg);
+            select(this).styles(cfg);
           }),
         (remove) => remove.remove()
       );

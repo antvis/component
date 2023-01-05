@@ -39,11 +39,7 @@ export function transition(
 
   const applyStyle = () => {
     if ('update' in el) el.update(target);
-    else
-      Object.keys(target).forEach((key) => {
-        el.attr(key, target[key]);
-      });
-
+    else el.attr(target);
     return Promise.resolve();
   };
 

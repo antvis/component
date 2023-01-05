@@ -330,6 +330,17 @@ export class Selection<T = any> {
     });
   }
 
+  styles(style: Record<string, any>): Selection<T> {
+    return this.each(function (d, i) {
+      const finalStyle = Object.entries(style).reduce((acc, [key, value]) => {
+        const callback = typeof value !== 'function' ? () => value : value;
+        if (value !== undefined) acc[key] = callback.call(this, d, i);
+        return acc;
+      }, {});
+      this.attr(finalStyle);
+    });
+  }
+
   update(option: any): Selection<T> {
     const callback = typeof option !== 'function' ? () => option : option;
     return this.each(function (d, i) {
@@ -371,13 +382,6 @@ export class Selection<T = any> {
 
   parent(): DisplayObject {
     return this._parent;
-  }
-}
-
-export function applyStyle(selection: Selection, style: Record<string, keyof any>) {
-  if (!style) return;
-  for (const [key, value] of Object.entries(style)) {
-    selection.style(key, value);
   }
 }
 

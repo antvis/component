@@ -1,6 +1,6 @@
 import { Group, TextStyleProps, type GroupStyleProps } from '@antv/g';
 import type { PrefixedStyle } from '../../../types';
-import { applyStyle, createComponent, subObjects, select, classNames, ifShow } from '../../../util';
+import { createComponent, subObjects, select, classNames, ifShow } from '../../../util';
 import { Marker, MarkerStyleProps } from '../../marker';
 import { ifHorizontal } from '../utils';
 
@@ -65,7 +65,7 @@ export const Handle = createComponent<HandleStyleProps>(
       ifShow(showLabel, labelGroup, (group) => {
         const label = group
           .maybeAppendByClassName(CLASS_NAMES.label, 'text')
-          .call(applyStyle, { text: formatter(text).toString(), ...labelStyle });
+          .styles({ text: formatter(text).toString(), ...labelStyle });
 
         // adjust layout
         const { width, height } = marker.node().getBBox();

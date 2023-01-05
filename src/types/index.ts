@@ -1,5 +1,3 @@
-// ----------------------------------------------------------------
-
 import { DisplayObject } from '@antv/g';
 
 export * from './compose';
@@ -7,7 +5,6 @@ export * from './dependency';
 export type { MixAttrs, StyleState } from './styles';
 
 export type GUIOption<C> = {
-  type: string;
   style: C;
 };
 

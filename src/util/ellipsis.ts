@@ -1,11 +1,10 @@
+import { Text } from '@antv/g';
 import type { Selection } from './selection';
-import { applyStyle } from './selection';
 
-export function ellipsisIt(el: Selection, w: number) {
-  const node = el.node();
-
+export function ellipsisIt(el: Text | Selection<Text>, w: number, suffix = '...') {
+  const node = el instanceof Text ? el : (el.node() as Text);
   if (node.nodeName === 'text') {
-    const cfg = { wordWrap: true, wordWrapWidth: w, maxLines: 1, textOverflow: '...' };
-    el.call(applyStyle, cfg);
+    const cfg = { wordWrap: true, wordWrapWidth: w, maxLines: 1, textOverflow: suffix };
+    node.attr(cfg);
   }
 }

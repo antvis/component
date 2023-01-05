@@ -11,7 +11,6 @@ export class Scrollbar extends GUI<Required<ScrollbarStyleProps>> {
   public static tag = 'scrollbar';
 
   private static defaultOptions = {
-    type: Scrollbar.tag,
     style: {
       value: 0,
       trackSize: 10,

@@ -2,16 +2,7 @@ import type { GroupStyleProps, PathStyleProps, TextStyleProps, DisplayObjectConf
 import { Group } from '@antv/g';
 import { GUI } from '../../core/gui';
 import type { PrefixedStyle } from '../../types';
-import {
-  applyStyle,
-  classNames,
-  select,
-  subObject,
-  deepAssign,
-  type Selection,
-  ifShow,
-  styleSeparator,
-} from '../../util';
+import { classNames, select, subObject, deepAssign, type Selection, ifShow, styleSeparator } from '../../util';
 import { createComponent } from '../../util/create';
 import { HANDLE_DEFAULT_CFG, HANDLE_ICON_DEFAULT_CFG, HANDLE_LABEL_DEFAULT_CFG } from './constant';
 
@@ -53,7 +44,7 @@ const HandleIcon = createComponent<IconStyleProps>({
 
     const rect = select(container)
       .maybeAppendByClassName(CLASS_NAMES.iconRect, 'rect')
-      .call(applyStyle, {
+      .styles({
         ...iconStyle,
         width,
         height,
@@ -67,14 +58,8 @@ const HandleIcon = createComponent<IconStyleProps>({
     const y1 = (1 / 4) * height;
     const y2 = (3 / 4) * height;
 
-    rect
-      .maybeAppendByClassName(`${CLASS_NAMES.iconLine}-1`, 'line')
-      .call(applyStyle, { x1, x2: x1, y1, y2 })
-      .call(applyStyle, iconStyle);
-    rect
-      .maybeAppendByClassName(`${CLASS_NAMES.iconLine}-2`, 'line')
-      .call(applyStyle, { x1: x2, x2, y1, y2 })
-      .call(applyStyle, iconStyle);
+    rect.maybeAppendByClassName(`${CLASS_NAMES.iconLine}-1`, 'line').styles({ x1, x2: x1, y1, y2, ...iconStyle });
+    rect.maybeAppendByClassName(`${CLASS_NAMES.iconLine}-2`, 'line').styles({ x1: x2, x2, y1, y2, ...iconStyle });
 
     rect.node().setOrigin(width / 2, height / 2);
     if (orient === 'vertical') container.setLocalEulerAngles(90);
@@ -96,13 +81,11 @@ export class Handle extends GUI<HandleStyleProps> {
     const style = subObject(this.attributes, 'label');
     const [labelStyle, groupStyle] = styleSeparator(style, []);
 
-    const labelGroup = select(container)
-      .maybeAppendByClassName(CLASS_NAMES.labelGroup, 'g')
-      .call(applyStyle, groupStyle);
+    const labelGroup = select(container).maybeAppendByClassName(CLASS_NAMES.labelGroup, 'g').styles(groupStyle);
     ifShow(!!showLabel, labelGroup, (group) => {
       this.label = group
         .maybeAppendByClassName(CLASS_NAMES.label, 'text')
-        .call(applyStyle, { ...HANDLE_LABEL_DEFAULT_CFG, ...labelStyle });
+        .styles({ ...HANDLE_LABEL_DEFAULT_CFG, ...labelStyle });
 
       /** avoid trigger event on label */
       this.label.on('mousedown', (e: MouseEvent) => {

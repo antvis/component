@@ -1,6 +1,6 @@
 import { Group, DisplayObject, Text } from '@antv/g';
 import { getFont, parseLength, getEllipsisText } from '../text';
-import { select, applyStyle } from '../selection';
+import { select } from '../selection';
 import { defined } from '../defined';
 
 export type LabelAttrs = {
@@ -47,7 +47,7 @@ export function renderLabels(
   className: string,
   labels: LabelAttrs[],
   cfg?: LabelCfg | null,
-  defaultStyle?: any
+  defaultStyle: any = {}
 ) {
   select(container)
     .selectAll(`.${className}`)
@@ -56,11 +56,7 @@ export function renderLabels(
       (enter) =>
         enter
           .append('text')
-          .attr('className', className)
-          .style('fontFamily', 'sans-serif')
-          .style('fontSize', 12)
-          .style('fontWeight', 'normal')
-          .call(applyStyle, defaultStyle || {})
+          .styles({ className, fontFamily: 'sans-serif', fontSize: 12, fontWeight: 'normal', ...defaultStyle })
           .each(function (datum, idx) {
             this.attr(datum);
             limitText(this, cfg?.maxLength || Number.MAX_SAFE_INTEGER);

@@ -1,6 +1,6 @@
 import { deepMix, assign } from '@antv/util';
 import type { Group, Rect } from '@antv/g';
-import { maybeAppend, applyStyle } from '../../util';
+import { maybeAppend } from '../../util';
 import { GUI } from '../../core/gui';
 import type { GUIOption } from '../../types';
 import type { CheckboxStyleProps, CheckboxOptions } from './types';
@@ -34,7 +34,6 @@ export class Checkbox extends GUI<Required<CheckboxStyleProps>> {
    * 默认配置项
    */
   public static defaultOptions: GUIOption<CheckboxStyleProps> = {
-    type: Checkbox.tag,
     style: {
       x: 0,
       y: 0,
@@ -64,22 +63,26 @@ export class Checkbox extends GUI<Required<CheckboxStyleProps>> {
     const checkboxBoxCheckedStyle = assign({} as any, CHECKED_SHAPE_STYLE, checkedStyle);
 
     this.checkboxBoxShape = maybeAppend(group, '.checkbox-box', 'rect')
-      .attr('className', 'checkbox-box')
-      .style('zIndex', (group.style.zIndex || 0) - 1)
-      .call(applyStyle, checkboxBoxStyle)
+      .styles({
+        className: 'checkbox-box',
+        zIndex: (group.style.zIndex || 0) - 1,
+        ...checkboxBoxStyle,
+      })
       .node();
 
-    maybeAppend(this.checkboxBoxShape, '.checkbox-checked', 'path')
-      .attr('className', 'checkbox-box-checked')
-      .style('stroke', '#ffffff')
-      .call(applyStyle, checkboxBoxCheckedStyle);
+    maybeAppend(this.checkboxBoxShape, '.checkbox-checked', 'path').styles({
+      className: 'checkbox-box-checked',
+      stroke: '#fff',
+      ...checkboxBoxCheckedStyle,
+    });
 
     const { x, y } = getLablePosition(this.checkboxBoxShape, Number(spacing));
 
-    maybeAppend(group, '.checkbox-label', 'text')
-      .attr('className', 'checkbox-label')
-      .style('x', x)
-      .style('y', y)
-      .call(applyStyle, label);
+    maybeAppend(group, '.checkbox-label', 'text').styles({
+      className: 'checkbox-label',
+      x,
+      y,
+      ...label,
+    });
   }
 }

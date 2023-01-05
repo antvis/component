@@ -1,4 +1,4 @@
-import { applyStyle, renderExtDo, styleSeparator, percentTransform, type Selection } from '../../../util';
+import { renderExtDo, styleSeparator, percentTransform, type Selection } from '../../../util';
 import { positionNormalizer } from '../../title';
 import { CLASS_NAMES } from '../constant';
 import type { AxisStyleProps } from '../types';
@@ -40,9 +40,9 @@ function createTitleEl(container: Selection, cfg: AxisStyleProps) {
 
 function applyTitleStyle(titleEl: Selection, titleGroup: Selection, axis: Selection, cfg: AxisStyleProps, style: any) {
   const [titleStyle, { transform = '', ...groupStyle }] = styleSeparator(style);
-  titleEl.call(applyStyle, titleStyle);
+  titleEl.styles(titleStyle);
   const { x, y } = getTitleLayout(axis, titleGroup, cfg);
-  titleGroup.node().attr(groupStyle);
+  titleGroup.styles(groupStyle);
   titleGroup.node().setPosition(x, y);
   percentTransform(titleEl, transform);
 }

@@ -1,7 +1,7 @@
 import { ext, vec2 } from '@antv/matrix-util';
 import { memoize } from '@antv/util';
 import type { Point, Vector2 } from '../../../types';
-import { applyStyle, degToRad, renderExtDo, select, Selection, scaleToPixel } from '../../../util';
+import { degToRad, renderExtDo, scaleToPixel, Selection } from '../../../util';
 import { CLASS_NAMES } from '../constant';
 import type { ArcAxisStyleProps, AxisLineCfg, AxisStyleProps, Direction, LinearAxisStyleProps } from '../types';
 import { baseDependencies } from './utils';
@@ -87,12 +87,12 @@ function renderArc(container: Selection, cfg: ArcAxisStyleProps, style: any) {
   console.assert(endAngle > startAngle, 'end angle should be greater than start angle');
   const diffAngle = endAngle - startAngle;
   if (diffAngle === 360) {
-    container
-      .maybeAppendByClassName(CLASS_NAMES.line, 'circle')
-      .style('cx', cx)
-      .style('cy', cy)
-      .style('r', radius)
-      .call(applyStyle, style);
+    container.maybeAppendByClassName(CLASS_NAMES.line, 'circle').styles({
+      cx,
+      cy,
+      r: radius,
+      ...style,
+    });
     return;
   }
   const [rx, ry] = [radius, radius];
@@ -107,7 +107,7 @@ function renderArc(container: Selection, cfg: ArcAxisStyleProps, style: any) {
   const path = isClosePath
     ? `M${cx},${cy},L${x1},${y1},A${rx},${ry},0,${large},${sweep},${x2},${y2},L${cx},${cy}`
     : `M${x1},${y1},A${rx},${ry},0,${large},${sweep},${x2},${y2}`;
-  container.maybeAppendByClassName(CLASS_NAMES.line, 'path').style('path', path).call(applyStyle, style);
+  container.maybeAppendByClassName(CLASS_NAMES.line, 'path').styles({ path, ...style });
 }
 
 function renderTruncation<T>(container: Selection, { truncRange, truncShape, lineExtension }: AxisLineCfg, style: any) {
@@ -134,7 +134,7 @@ function renderLinear(container: Selection, cfg: LinearAxisStyleProps, style: an
     container
       .maybeAppendByClassName(className, 'line')
       .attr('className', `${CLASS_NAMES.line.name} ${className}`)
-      .call(applyStyle, { ...style, x1: a, y1: b, x2: c, y2: d });
+      .styles({ ...style, x1: a, y1: b, x2: c, y2: d });
   };
   if (!truncRange) {
     renderLine('axis-line', [
@@ -165,7 +165,7 @@ function renderAxisArrow(
 ) {
   if (!lineArrow) return;
   const arrow = renderExtDo(lineArrow);
-  select(arrow).call(applyStyle, { ...style });
+  arrow.attr(style);
   scaleToPixel(arrow, lineArrowSize!, true);
   let shapeToAddArrow: Selection;
   if (type === 'arc') shapeToAddArrow = container.select(CLASS_NAMES.line.class);

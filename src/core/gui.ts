@@ -7,10 +7,6 @@ export abstract class GUI<T> extends CustomElement<T> {
   }
 
   connectedCallback() {
-    // 临时修复初始化 x, y 设置不生效
-    const { x = 0, y = 0 } = this.style;
-    this.setLocalPosition([+x, +y]);
-
     this.render(this.attributes as Required<T>, this);
     this.bindEvents(this.attributes, this);
   }

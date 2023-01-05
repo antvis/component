@@ -1,7 +1,7 @@
 import { DisplayObject, BaseStyleProps, Rect, Group } from '@antv/g';
 import { deepMix } from '@antv/util';
 import type { ShapeAttrs } from '../../types';
-import { applyStyle, select } from '../../util';
+import { select } from '../../util';
 
 export interface IColumnCfg extends ShapeAttrs {
   width: number;
@@ -33,11 +33,11 @@ export class Columns extends DisplayObject<IColumnsCfg> {
       .join(
         (enter) =>
           enter.append('rect').each(function (cfg) {
-            select(this).call(applyStyle, cfg);
+            select(this).styles(cfg);
           }),
         (update) =>
           update.each(function (cfg) {
-            select(this).call(applyStyle, cfg);
+            select(this).styles(cfg);
           }),
         (remove) => remove.remove()
       );

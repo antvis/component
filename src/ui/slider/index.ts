@@ -2,7 +2,6 @@ import { CustomEvent, Group, Rect, Text, type Cursor } from '@antv/g';
 import { deepMix } from '@antv/util';
 import { GUI } from '../../core/gui';
 import {
-  applyStyle,
   getEventPos,
   ifShow,
   normalPadding,
@@ -27,7 +26,6 @@ export class Slider extends GUI<SliderStyleProps> {
   public static tag = 'slider';
 
   private static defaultOptions = {
-    type: Slider.tag,
     style: {
       values: [0, 1],
       trackLength: 200,
@@ -185,8 +183,7 @@ export class Slider extends GUI<SliderStyleProps> {
 
     this.trackShape = select(container)
       .maybeAppendByClassName('slider-track', 'rect')
-      .call(applyStyle, { ...this.shape, ...trackStyle })
-      .style('cursor', brushable ? 'crosshair' : 'default');
+      .styles({ ...this.shape, ...trackStyle, cursor: brushable ? 'crosshair' : 'default' });
   }
 
   private renderSparkline(container: Group) {
@@ -215,7 +212,7 @@ export class Slider extends GUI<SliderStyleProps> {
 
     this.selectionShape = this.foregroundGroup
       .maybeAppendByClassName('slider-selection', 'rect')
-      .call(applyStyle, this.selectionCfg);
+      .styles(this.selectionCfg);
 
     const createHandle = (type: any) => {
       const className = `${type}-handle`;

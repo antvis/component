@@ -2,7 +2,6 @@ import { DisplayObjectConfig, ElementEvent, Group } from '@antv/g';
 import { GUI } from '../../core/gui';
 import type { Point } from '../../types';
 import {
-  applyStyle,
   deepAssign,
   subObject,
   isHorizontal,
@@ -56,8 +55,7 @@ export class Indicator<T = any> extends GUI<IndicatorStyleProps<T>> {
     const backgroundStyle = subObject(this.attributes, 'background');
     this.background = select(this.group)
       .maybeAppendByClassName(CLASS_NAMES.background, 'path')
-      .call(applyStyle, backgroundStyle)
-      .style('path', path);
+      .styles({ ...backgroundStyle, path });
     this.group.appendChild(this.label.node());
   }
 
@@ -65,12 +63,12 @@ export class Indicator<T = any> extends GUI<IndicatorStyleProps<T>> {
     const { value, formatter } = this.attributes as RT;
     const labelStyle = subObject(this.attributes, 'label');
     const [textStyle, groupStyle] = styleSeparator(labelStyle);
-    this.label = select(this.group).maybeAppendByClassName(CLASS_NAMES.labelGroup, 'g').call(applyStyle, groupStyle);
+    this.label = select(this.group).maybeAppendByClassName(CLASS_NAMES.labelGroup, 'g').styles(groupStyle);
     if (!value) return;
     const text = this.label
       .maybeAppendByClassName(CLASS_NAMES.label, () => renderExtDo(formatter(value)))
       .style('text', formatter(value).toString());
-    text.selectAll('text').call(applyStyle, { ...TEXT_INHERITABLE_PROPS, ...textStyle });
+    text.selectAll('text').styles({ ...TEXT_INHERITABLE_PROPS, ...textStyle });
   }
 
   private adjustLayout() {

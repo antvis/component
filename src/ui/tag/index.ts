@@ -1,7 +1,7 @@
 import { Group } from '@antv/g';
 import { deepMix, isNil } from '@antv/util';
 import { GUI } from '../../core/gui';
-import { normalPadding, maybeAppend, applyStyle } from '../../util';
+import { normalPadding, maybeAppend, select } from '../../util';
 import { Marker } from '../marker';
 import type { TagStyleProps, TagOptions } from './types';
 
@@ -43,7 +43,6 @@ export class Tag extends GUI<Required<TagStyleProps>> {
   public static tag = 'tag';
 
   public static defaultOptions = {
-    type: Tag.tag,
     style: {
       padding: 4,
       spacing: 4,
@@ -68,16 +67,17 @@ export class Tag extends GUI<Required<TagStyleProps>> {
       .node() as Marker;
 
     const { x, y } = getTextPosition(markerShape, spacing);
-    maybeAppend(group, '.tag-text', 'text')
-      .attr('className', 'tag-text')
-      .style('fontFamily', 'sans-serif')
-      .style('fontSize', 12)
-      .style('x', x)
-      .style('y', y)
-      .style('text', isNil(text) ? '' : `${text}`)
-      .call(applyStyle, textStyle)
-      // 强制居中
-      .style('textBaseline', 'middle')
+    select(group)
+      .maybeAppendByClassName('tag-text', 'text')
+      .styles({
+        fontFamily: 'sans-serif',
+        fontSize: 12,
+        text: isNil(text) ? '' : `${text}`,
+        x,
+        y,
+        ...textStyle,
+        textBaseline: 'middle',
+      })
       .call((selection) => {
         // text 为空字符串或者 false 但 textShape 依然形成了体积
         if (!text) {
@@ -87,17 +87,19 @@ export class Tag extends GUI<Required<TagStyleProps>> {
     adjust(group, pl, pt, align || 'start', verticalAlign || 'top');
 
     const bounds = group.getLocalBounds();
-    maybeAppend(container, '.tag-background', 'rect')
-      .attr('className', 'tag-background')
-      .style('zIndex', (group.style.zIndex || 0) - 1)
-      .style('x', bounds.min[0] - pl)
-      .style('y', bounds.min[1] - pt)
-      .style('width', backgroundStyle !== null ? pl + pr + bounds.halfExtents[0] * 2 : 0)
-      .style('height', backgroundStyle !== null ? pt + pb + bounds.halfExtents[1] * 2 : 0)
-      .style('radius', radius ?? 2)
-      .style('fill', '#fafafa')
-      .style('stroke', '#d9d9d9')
-      .style('lineWidth', 1)
-      .call(applyStyle, backgroundStyle);
+    select(container)
+      .maybeAppendByClassName('tag-background', 'rect')
+      .styles({
+        zIndex: (group.style.zIndex || 0) - 1,
+        y: bounds.min[1] - pt,
+        x: bounds.min[0] - pl,
+        width: backgroundStyle !== null ? pl + pr + bounds.halfExtents[0] * 2 : 0,
+        height: backgroundStyle !== null ? pt + pb + bounds.halfExtents[1] * 2 : 0,
+        radius: radius ?? 2,
+        fill: '#fafafa',
+        stroke: '#d9d9d9',
+        lineWidth: 1,
+        ...backgroundStyle,
+      });
   }
 }

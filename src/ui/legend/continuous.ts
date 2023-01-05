@@ -5,7 +5,6 @@ import { GUI } from '../../core/gui';
 import { Point } from '../../types';
 import { Indicator } from '../indicator';
 import {
-  applyStyle,
   deepAssign,
   capitalize,
   getEventPos,
@@ -95,9 +94,7 @@ export class Continuous extends GUI<ContinuousStyleProps> {
     // @ts-ignore
     const { x, y, width: w, height: h } = titleEl.node().getAvailableSpace();
 
-    const contentGroup = select(container)
-      .maybeAppendByClassName(CLASS_NAMES.contentGroup, 'g')
-      .call(applyStyle, { x, y });
+    const contentGroup = select(container).maybeAppendByClassName(CLASS_NAMES.contentGroup, 'g').styles({ x, y });
 
     const ribbonGroup = contentGroup.maybeAppendByClassName(CLASS_NAMES.ribbonGroup, 'g');
     this.renderRibbon(ribbonGroup, ribbonStyle);
@@ -107,7 +104,7 @@ export class Continuous extends GUI<ContinuousStyleProps> {
 
     this.renderIndicator(contentGroup, indicatorStyle);
 
-    const labelGroup = select(container).maybeAppendByClassName(CLASS_NAMES.labelGroup, 'g').call(applyStyle, { x, y });
+    const labelGroup = select(container).maybeAppendByClassName(CLASS_NAMES.labelGroup, 'g').styles({ x, y });
 
     ifShow(showLabel, labelGroup, (group) => {
       this.renderLabel(group);
@@ -174,7 +171,7 @@ export class Continuous extends GUI<ContinuousStyleProps> {
     const handle = this.handlesGroup
       // @ts-ignore
       .maybeAppendByClassName(CLASS_NAMES.prefix(`${type}-handle`), () => new Handle({}))
-      .call(applyStyle, { orient, labelText: value, ...handleStyle });
+      .styles({ orient, labelText: value, ...handleStyle });
     this.setHandlePosition(type, value);
     return handle;
   }
@@ -278,7 +275,7 @@ export class Continuous extends GUI<ContinuousStyleProps> {
 
     const axis = group
       .maybeAppendByClassName(CLASS_NAMES.label, () => new Axis({ style }))
-      .call(applyStyle, style)
+      .styles(style)
       .node();
     axis.attr('labelFormatter', formatter);
     axis.attr('labelFilter', filter);

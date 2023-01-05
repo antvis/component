@@ -2,7 +2,7 @@ import { Group, Rect } from '@antv/g';
 import { clone, deepMix, isNumber, isArray, isFunction } from '@antv/util';
 import { Linear, Band } from '@antv/scale';
 import { GUI } from '../../core/gui';
-import { applyStyle, maybeAppend, subObject } from '../../util';
+import { maybeAppend, subObject } from '../../util';
 import { Lines } from './lines';
 import { Columns } from './columns';
 import { getRange, getStackedData } from './utils';
@@ -187,7 +187,7 @@ export class Sparkline extends GUI<SparklineStyleProps> {
       if (type === 'line') return new Lines({ className, style: cfg });
       return new Columns({ className, style: cfg });
     })
-      .call(applyStyle, cfg)
+      .styles(cfg)
       .node() as any;
   }
 

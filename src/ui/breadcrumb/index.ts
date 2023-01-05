@@ -17,7 +17,6 @@ export class Breadcrumb extends GUI<Required<BreadcrumbCfg>> {
    * 默认参数
    */
   private static defaultOptions = {
-    type: Breadcrumb.tag,
     style: {
       separator: {
         text: '/',
@@ -54,10 +53,11 @@ export class Breadcrumb extends GUI<Required<BreadcrumbCfg>> {
     const { x, y, items, textStyle, padding = 0, width, separator } = attributes;
     const [top, right, left] = normalPadding(padding);
 
-    const selection = maybeAppend(container, '.container', 'g')
-      .attr('className', 'container')
-      .style('x', x + left)
-      .style('y', y + top);
+    const selection = maybeAppend(container, '.container', 'g').styles({
+      className: 'container',
+      x: x + left,
+      y: y + top,
+    });
 
     let cursorX = 0;
     let cursorY = 0;

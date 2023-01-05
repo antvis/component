@@ -1,9 +1,8 @@
-import type { DisplayObject, Group } from '@antv/g';
+import type { DisplayObject, Group, Text } from '@antv/g';
 import { vec2 } from '@antv/matrix-util';
 import { isFunction, isString, memoize } from '@antv/util';
 import type { Vector2 } from '../../../types';
 import {
-  applyStyle,
   getCallbackValue,
   getTransform,
   inRange,
@@ -11,6 +10,7 @@ import {
   radToDeg,
   renderExtDo,
   select,
+  ellipsisIt,
   styleSeparator,
   type Selection,
   type _Element,
@@ -158,7 +158,7 @@ function applyLabelStyle(
   const label = group.getElementsByClassName<DisplayObject>(CLASS_NAMES.labelItem.toString())?.[0];
   const [labelStyle, { transform, ...groupStyle }] = styleSeparator(getCallbackStyle(style, [datum, index, data]));
   label?.nodeName === 'text' &&
-    select(label as DisplayObject).call(applyStyle, {
+    label.attr({
       fontSize: 12,
       fontFamily: 'sans-serif',
       fontWeight: 'normal',
@@ -182,14 +182,10 @@ function overlapHandler(cfg: AxisStyleProps) {
     rotate: (label, angle) => {
       setRotateAndAdjustLabelAlign(+angle, label, cfg);
     },
-    ellipsis: (label, len, suffix) => {
-      label
-        .querySelector<DisplayObject>('text')
-        ?.attr('wordWrap', true)
-        .attr('wordWrapWidth', len)
-        .attr('maxLines', 1)
-        .attr('textOverflow', suffix);
+    ellipsis: (label, len = Infinity, suffix) => {
+      label && ellipsisIt(label, len, suffix);
     },
+    getTextShape: (label) => label.querySelector<DisplayObject>('text') as Text,
   });
 }
 

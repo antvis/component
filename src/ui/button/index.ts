@@ -1,11 +1,11 @@
-import { Group, Rect, Text } from '@antv/g';
+import { Group, Text } from '@antv/g';
 import { deepMix, get, isUndefined } from '@antv/util';
 import { GUI } from '../../core/gui';
-import { SIZE_STYLE, TYPE_STYLE, DISABLED_STYLE } from './constant';
-import { deepAssign, getEllipsisText, getStateStyle, maybeAppend, applyStyle, normalPadding } from '../../util';
+import type { RectProps, TextProps } from '../../types';
+import { deepAssign, getEllipsisText, getStateStyle, maybeAppend, normalPadding, select } from '../../util';
 import { Marker } from '../marker';
+import { DISABLED_STYLE, SIZE_STYLE, TYPE_STYLE } from './constant';
 import type { ButtonCfg, ButtonOptions, IMarkerCfg } from './types';
-import type { TextProps, RectProps } from '../../types';
 
 export type { ButtonCfg, ButtonOptions };
 
@@ -19,7 +19,6 @@ export class Button extends GUI<ButtonCfg> {
    * 默认参数
    */
   private static defaultOptions = {
-    type: Button.tag,
     style: {
       cursor: 'pointer',
       padding: 10,
@@ -157,24 +156,28 @@ export class Button extends GUI<ButtonCfg> {
     const textStyle = this.getStyle('textStyle');
     this.textShape = maybeAppend(container, '.text', 'text')
       .attr('className', 'text')
-      .style('x', markerSize ? bounds.max[0] + markerSpacing : pl)
-      .style('y', height / 2)
-      .style('text', text)
-      .style('textAlign', 'left')
-      .style('textBaseline', 'middle')
-      .call(applyStyle, textStyle)
+      .styles({
+        x: markerSize ? bounds.max[0] + markerSpacing : pl,
+        y: height / 2,
+        // @ts-ignore
+        text,
+        textAlign: 'left',
+        textBaseline: 'middle',
+        ...textStyle,
+      })
       .node() as Text;
 
     const textBounds = this.textShape.getLocalBounds();
     const buttonStyle = this.getStyle('buttonStyle') as RectProps;
 
-    maybeAppend(container, '.background', 'rect')
-      .attr('className', 'background')
-      .style('zIndex', -1)
-      .call(applyStyle, buttonStyle)
-      .style('height', height)
-      .style('width', pl + (markerSize ? markerSize + markerSpacing : 0) + textBounds.halfExtents[0] * 2 + pr)
-      .node();
+    select(container)
+      .maybeAppendByClassName('.background', 'rect')
+      .styles({
+        zIndex: -1,
+        ...buttonStyle,
+        height,
+        width: pl + (markerSize ? markerSize + markerSpacing : 0) + textBounds.halfExtents[0] * 2 + pr,
+      });
   }
 
   /**

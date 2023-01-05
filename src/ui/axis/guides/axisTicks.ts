@@ -1,7 +1,7 @@
 import { DisplayObject, type Group } from '@antv/g';
 import { isFunction, memoize } from '@antv/util';
 import type { Vector2 } from '../../../types';
-import { applyStyle, getCallbackValue, select, Selection, styleSeparator } from '../../../util';
+import { getCallbackValue, select, Selection, styleSeparator } from '../../../util';
 import { CLASS_NAMES } from '../constant';
 import type { AxisDatum, AxisStyleProps } from '../types';
 import { getDirectionVector, getValuePos } from './axisLine';
@@ -56,9 +56,9 @@ function applyTickStyle(
   const tickVector = getTickVector(datum.value, cfg);
   const { x1, x2, y1, y2, x, y } = getTickLineLayout(datum, index, data, tickVector, cfg);
   const [tickStyle, groupStyle] = styleSeparator(getCallbackStyle(style, [datum, index, data]));
-  tick.node().nodeName === 'line' && tick.call(applyStyle, { x1, x2, y1, y2, ...tickStyle });
+  tick.node().nodeName === 'line' && tick.styles({ x1, x2, y1, y2, ...tickStyle });
   group.attr({ x, y, ...groupStyle });
-  applyStyle(tick, tickStyle);
+  tick.styles(tickStyle);
 }
 
 export function renderTicks(container: Selection, data: AxisDatum[], cfg: AxisStyleProps, callbackableStyle: any) {

@@ -1,6 +1,6 @@
 import type { DisplayObjectConfig, Group } from '@antv/g';
 import { GUI } from '../../core/gui';
-import { ifShow, applyStyle, deepAssign, subObject, subObjects, select, Selection, styleSeparator } from '../../util';
+import { ifShow, deepAssign, subObject, subObjects, select, Selection, styleSeparator } from '../../util';
 import { Title, type TitleStyleProps } from '../title';
 import { CategoryItems } from './category/items';
 import { CATEGORY_DEFAULT_OPTIONS, CLASS_NAMES } from './constant';
@@ -21,7 +21,7 @@ export class Category extends GUI<CategoryStyleProps> {
     const { showTitle } = this.attributes;
     const style = subObject(this.attributes, 'title') as TitleStyleProps;
     const [titleStyle, groupStyle] = styleSeparator(style);
-    this.titleGroup = container.maybeAppendByClassName<Group>(CLASS_NAMES.titleGroup, 'g').call(applyStyle, groupStyle);
+    this.titleGroup = container.maybeAppendByClassName<Group>(CLASS_NAMES.titleGroup, 'g').styles(groupStyle);
 
     ifShow(!!showTitle, this.titleGroup, (group) => {
       const finalTitleStyle = { width, height, ...titleStyle };
@@ -38,7 +38,7 @@ export class Category extends GUI<CategoryStyleProps> {
     // rewrite width and height to available space
     const itemStyle = { ...partialItemStyle, width, height };
 
-    this.itemsGroup = container.maybeAppendByClassName<Group>(CLASS_NAMES.itemsGroup, 'g').call(applyStyle, groupStyle);
+    this.itemsGroup = container.maybeAppendByClassName<Group>(CLASS_NAMES.itemsGroup, 'g').styles(groupStyle);
     this.itemsGroup
       .maybeAppendByClassName(
         CLASS_NAMES.items,

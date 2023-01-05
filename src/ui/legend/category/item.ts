@@ -1,4 +1,5 @@
 import type {
+  Text,
   DisplayObject,
   DisplayObjectConfig,
   Group,
@@ -10,7 +11,6 @@ import { isNumber, isString } from '@antv/util';
 import { GUI } from '../../../core/gui';
 import { ExtendDisplayObject, PrefixedStyle } from '../../../types';
 import {
-  applyStyle,
   classNames,
   deepAssign,
   ellipsisIt,
@@ -173,9 +173,7 @@ export class CategoryItem extends GUI<CategoryItemStyleProps> {
     const style = subObject(this.attributes, 'marker');
     this.markerGroup = container.maybeAppendByClassName(CLASS_NAMES.markerGroup, 'g');
     ifShow(!!marker, this.markerGroup, () => {
-      this.markerGroup
-        .maybeAppendByClassName(CLASS_NAMES.marker, marker!)
-        .call(applyStyle, { anchor: '0.5 0.5', ...style });
+      this.markerGroup.maybeAppendByClassName(CLASS_NAMES.marker, marker!).styles({ anchor: '0.5 0.5', ...style });
       scaleToPixel(this.markerGroup.node(), markerSize!, true);
     });
   }
@@ -184,7 +182,7 @@ export class CategoryItem extends GUI<CategoryItemStyleProps> {
     const { label } = this.attributes;
     const style = subObject(this.attributes, 'label');
     this.labelGroup = container.maybeAppendByClassName<Group>(CLASS_NAMES.labelGroup, 'g');
-    this.labelGroup.maybeAppendByClassName(CLASS_NAMES.label, () => renderExtDo(label!)).call(applyStyle, style);
+    this.labelGroup.maybeAppendByClassName(CLASS_NAMES.label, () => renderExtDo(label!)).styles(style);
   }
 
   private renderValue(container: Selection) {
@@ -192,7 +190,7 @@ export class CategoryItem extends GUI<CategoryItemStyleProps> {
     const style = subObject(this.attributes, 'value');
     this.valueGroup = container.maybeAppendByClassName(CLASS_NAMES.valueGroup, 'g');
     ifShow(this.showValue, this.valueGroup, () => {
-      this.valueGroup.maybeAppendByClassName(CLASS_NAMES.value, () => renderExtDo(value!)).call(applyStyle, style);
+      this.valueGroup.maybeAppendByClassName(CLASS_NAMES.value, () => renderExtDo(value!)).styles(style);
     });
   }
 
@@ -200,9 +198,7 @@ export class CategoryItem extends GUI<CategoryItemStyleProps> {
     const { width, height } = this.shape;
     const style = subObject(this.attributes, 'background');
     this.background = container.maybeAppendByClassName(CLASS_NAMES.backgroundGroup, 'g').style('zIndex', -1);
-    this.background
-      .maybeAppendByClassName(CLASS_NAMES.background, 'rect')
-      .call(applyStyle, { width, height, ...style });
+    this.background.maybeAppendByClassName(CLASS_NAMES.background, 'rect').styles({ width, height, ...style });
   }
 
   private adjustLayout() {
@@ -218,13 +214,13 @@ export class CategoryItem extends GUI<CategoryItemStyleProps> {
     } = this;
 
     const halfHeight = height / 2;
-    this.markerGroup.call(applyStyle, { x: markerX, y: halfHeight });
-    this.labelGroup.call(applyStyle, { x: labelX, y: halfHeight });
+    this.markerGroup.styles({ x: markerX, y: halfHeight });
+    this.labelGroup.styles({ x: labelX, y: halfHeight });
 
-    ellipsisIt(this.labelGroup.select(CLASS_NAMES.label.class), labelWidth);
+    ellipsisIt(this.labelGroup.select(CLASS_NAMES.label.class) as Selection<Text>, labelWidth);
     if (this.showValue) {
-      this.valueGroup.call(applyStyle, { x: valueX, y: halfHeight });
-      ellipsisIt(this.valueGroup.select(CLASS_NAMES.value.class), valueWidth);
+      this.valueGroup.styles({ x: valueX, y: halfHeight });
+      ellipsisIt(this.valueGroup.select(CLASS_NAMES.value.class) as Selection<Text>, valueWidth);
     }
   }
 
