@@ -1,10 +1,11 @@
 import { flex } from './flex';
 import { grid } from './grid';
-import type { LayoutConfig, LayoutContainer, LayoutItem } from './types';
+import type { LayoutConfig, LayoutItem } from './types';
 
-export default (container: LayoutContainer, config: LayoutConfig) => {
-  const { children } = container;
-  const { type } = config;
-  const caller = type === 'flex' ? flex : grid;
-  return caller.call(null, container, children, config);
+export default (container: LayoutItem, children: LayoutItem[], config: LayoutConfig) => {
+  if (children.length === 0) return [];
+  const callers = { flex, grid };
+  const caller = config.display in callers ? callers[config.display] : null;
+  // @ts-ignore
+  return caller?.call(null, container, children, config) || [];
 };

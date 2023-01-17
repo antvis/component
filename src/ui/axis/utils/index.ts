@@ -29,6 +29,6 @@ export function autoHideTickLine(labels: any[], tickLines: any[], autoHideTickLi
 }
 
 export function getFactor(...args: Direction[]): VerticalFactor {
-  const fn = (str: typeof args[number]): VerticalFactor => (str === 'positive' ? -1 : 1);
+  const fn = (str: (typeof args)[number]): VerticalFactor => (str === 'positive' ? -1 : 1);
   return args.reduce((acc, cur) => acc * fn(cur), 1) as unknown as VerticalFactor;
 }

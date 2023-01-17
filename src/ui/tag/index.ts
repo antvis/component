@@ -1,7 +1,7 @@
 import { Group } from '@antv/g';
 import { deepMix, isNil } from '@antv/util';
 import { GUI } from '../../core/gui';
-import { normalPadding, maybeAppend, select } from '../../util';
+import { normalSeriesAttr, maybeAppend, select } from '../../util';
 import { Marker } from '../marker';
 import type { TagStyleProps, TagOptions } from './types';
 
@@ -55,7 +55,7 @@ export class Tag extends GUI<Required<TagStyleProps>> {
 
   public render(attributes: TagStyleProps, container: Group) {
     const { padding = 0, marker, text, textStyle, radius, backgroundStyle, spacing, align, verticalAlign } = attributes;
-    const [pt, pr, pb, pl] = normalPadding(padding);
+    const [pt, pr, pb, pl] = normalSeriesAttr(padding);
 
     const group = maybeAppend(container, '.tag-content', 'g').attr('className', 'tag-content').node();
     const markerShape = maybeAppend(group, '.tag-marker', () => new Marker({}))

@@ -1,7 +1,7 @@
 import { CustomEvent, Group } from '@antv/g';
 import { clamp, deepMix } from '@antv/util';
 import { GUI } from '../../core/gui';
-import { normalPadding, prefixStyle, select, subObjects, getEventPos } from '../../util';
+import { normalSeriesAttr, prefixStyle, select, subObjects, getEventPos } from '../../util';
 import { Slider, type SliderStyleProps } from '../slider';
 import type { ScrollbarOptions, ScrollbarStyleProps } from './types';
 
@@ -28,7 +28,7 @@ export class Scrollbar extends GUI<Required<ScrollbarStyleProps>> {
 
   private get padding(): [number, number, number, number] {
     const { padding } = this.attributes;
-    return normalPadding(padding);
+    return normalSeriesAttr(padding);
   }
 
   constructor(options: ScrollbarOptions) {

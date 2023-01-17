@@ -8,7 +8,7 @@ import {
   filterTransform,
   getCallbackValue,
   groupBy,
-  Padding,
+  SeriesAttr,
   select,
   Selection,
   subObject,
@@ -30,7 +30,7 @@ interface CategoryItemsCfg {
   gridRow?: number;
   gridCol?: number;
   // maxItemWidth?: number;
-  padding?: Padding;
+  padding?: SeriesAttr;
   rowPadding?: number;
   colPadding?: number;
   click?: (el: Selection) => void;

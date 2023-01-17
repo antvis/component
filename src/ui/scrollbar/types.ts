@@ -1,6 +1,6 @@
 import type { DisplayObjectConfig, GroupStyleProps, RectStyleProps } from '@antv/g';
 import type { PrefixedStyle } from '../../types';
-import type { Padding } from '../../util';
+import type { SeriesAttr } from '../../util';
 import type { SliderStyleProps } from '../slider';
 
 /**
@@ -44,7 +44,7 @@ export interface ScrollbarStyleProps
   /**
    * 滚动条内边距
    */
-  padding?: Padding;
+  padding?: SeriesAttr;
 
   /**
    * 是否可以拖动

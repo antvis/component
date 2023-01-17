@@ -1,5 +1,5 @@
 import { renderExtDo, styleSeparator, percentTransform, type Selection } from '../../../util';
-import { positionNormalizer } from '../../title';
+import { parsePosition } from '../../title';
 import { CLASS_NAMES } from '../constant';
 import type { AxisStyleProps } from '../types';
 
@@ -13,7 +13,7 @@ function getTitlePosition(
 } {
   const { titlePosition: position = 'lb', titleSpacing: spacing = 0 } = cfg;
 
-  const pos = positionNormalizer(position);
+  const pos = parsePosition(position);
   const { x: ax, y: ay } = mainGroup.node().getBBox();
   const [aHw, aHh] = mainGroup.node().getBounds().halfExtents;
   const [tHw, tHh] = titleGroup.node().getBounds().halfExtents;

@@ -24,8 +24,8 @@ export interface FlexContainerConfig {
   alignContent: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'stretch';
 }
 
-export interface FlexLayoutConfig {
-  type: 'flex';
-  containerConfig: Partial<FlexContainerConfig>;
-  itemsConfig: Partial<FlexItemConfig>[];
+export interface FlexElementConfig extends FlexItemConfig, FlexContainerConfig {}
+
+export interface FlexLayoutConfig extends Partial<FlexContainerConfig>, Partial<FlexItemConfig> {
+  display: 'flex';
 }

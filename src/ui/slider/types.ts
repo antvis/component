@@ -1,6 +1,6 @@
 import { GroupStyleProps, RectStyleProps } from '@antv/g';
 import type { DisplayObjectConfig, PrefixedStyle } from '../../types';
-import type { Padding } from '../../util/padding';
+import type { SeriesAttr } from '../../util/series';
 import type { SparklineStyleProps } from '../sparkline/types';
 import type { HandleStyleProps as HandleBaseStyleProps } from './handle';
 
@@ -15,7 +15,7 @@ export interface HandleStyleProps extends PrefixedStyle<HandleBaseStyleProps, 'h
 
 export interface SliderStyleProps
   extends GroupStyleProps,
-    PrefixedStyle<Omit<SparklineStyleProps, 'width' | 'height'> & { padding?: Padding }, 'sparkline'>,
+    PrefixedStyle<Omit<SparklineStyleProps, 'width' | 'height'> & { padding?: SeriesAttr }, 'sparkline'>,
     PrefixedStyle<RectStyleProps, 'track'>,
     PrefixedStyle<RectStyleProps, 'selection'>,
     HandleStyleProps {
@@ -26,7 +26,7 @@ export interface SliderStyleProps
   brushable?: boolean;
   scrollable?: boolean;
   values?: [number, number];
-  padding?: Padding;
+  padding?: SeriesAttr;
 }
 
 export type SliderOptions = DisplayObjectConfig<SliderStyleProps>;

@@ -4,7 +4,7 @@ import { GUI } from '../../core/gui';
 import {
   getEventPos,
   ifShow,
-  normalPadding,
+  normalSeriesAttr,
   prefixStyle,
   select,
   subObject,
@@ -112,7 +112,7 @@ export class Slider extends GUI<SliderStyleProps> {
     if (orient !== 'horizontal') return null;
 
     const { padding, ...sparklineStyle } = subObject(this.attributes, 'sparkline');
-    const [top, right, bottom, left] = normalPadding(padding!);
+    const [top, right, bottom, left] = normalSeriesAttr(padding!);
     const { width, height } = this.availableSpace;
     const { trackLineWidth = 0 } = this.attributes;
     const bkgLW = +trackLineWidth;
@@ -137,7 +137,7 @@ export class Slider extends GUI<SliderStyleProps> {
 
   private get availableSpace() {
     const { padding } = this.attributes;
-    const [top, right, bottom, left] = normalPadding(padding!);
+    const [top, right, bottom, left] = normalSeriesAttr(padding!);
     const { width, height } = this.shape;
     return {
       x: left,

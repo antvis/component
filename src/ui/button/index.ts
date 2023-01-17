@@ -2,7 +2,7 @@ import { Group, Text } from '@antv/g';
 import { deepMix, get, isUndefined } from '@antv/util';
 import { GUI } from '../../core/gui';
 import type { RectProps, TextProps } from '../../types';
-import { deepAssign, getEllipsisText, getStateStyle, maybeAppend, normalPadding, select } from '../../util';
+import { deepAssign, getEllipsisText, getStateStyle, maybeAppend, normalSeriesAttr, select } from '../../util';
 import { Marker } from '../marker';
 import { DISABLED_STYLE, SIZE_STYLE, TYPE_STYLE } from './constant';
 import type { ButtonCfg, ButtonOptions, IMarkerCfg } from './types';
@@ -129,7 +129,7 @@ export class Button extends GUI<ButtonCfg> {
   public render(attributes: ButtonCfg, container: Group) {
     const { padding = 0, marker: markerSymbol, markerSpacing = 0 } = attributes;
     container.attr('cursor', this.state === 'disabled' ? 'not-allowed' : 'pointer');
-    const [pt, pr, pb, pl] = normalPadding(padding);
+    const [pt, pr, pb, pl] = normalSeriesAttr(padding);
     const height = this.buttonHeight;
 
     const markerStyle = this.getStyle('markerStyle');

@@ -1,7 +1,7 @@
 import type { DisplayObjectConfig, Group } from '@antv/g';
 import { DisplayObject } from '@antv/g';
 import { GUI } from '../../core/gui';
-import { classNames, deepAssign, normalPadding, select, Selection, styleSeparator } from '../../util';
+import { classNames, deepAssign, normalSeriesAttr, select, Selection, styleSeparator } from '../../util';
 import type { TitleStyleProps } from './types';
 
 export type { TitleStyleProps };
@@ -32,7 +32,7 @@ const CLASS_NAMES = classNames(
  * left-top -> lt
  * inner -> i
  */
-export function positionNormalizer(position: Required<TitleStyleProps>['position']): string {
+export function parsePosition(position: Required<TitleStyleProps>['position']): string {
   if (!/\S+-\S+/g.test(position)) return position.length > 2 ? position[0] : position;
   return position
     .split('-')
@@ -55,7 +55,7 @@ function getTitleLayout(cfg: TitleStyleProps) {
   const { width, height, position } = cfg as Required<TitleStyleProps>;
   const [hW, hH] = [+width / 2, +height / 2];
   let [x, y, textAlign, textBaseline] = [+hW, +hH, 'center', 'middle'];
-  const pos = positionNormalizer(position);
+  const pos = parsePosition(position);
 
   if (pos.includes('l')) [x, textAlign] = [0, 'start'];
   if (pos.includes('r')) [x, textAlign] = [+width, 'end'];
@@ -77,16 +77,16 @@ export class Title extends GUI<TitleStyleProps> {
     if (!title) return { x: 0, y: 0, width: +width, height: +H };
 
     const { height: h } = title.getBBox();
-    const [st, , sb] = normalPadding(spacing);
+    const [st, , sb] = normalSeriesAttr(spacing);
 
     let [y, height] = [0, +H - h];
-    const pos = positionNormalizer(position);
+    const pos = parsePosition(position);
     if (pos === 'i') return { x: 0, y, width: +width, height: +H };
 
     if (pos.includes('t')) [y, height] = [h + st, +H - h - st];
     if (pos.includes('b')) [height] = [+H - h - sb];
 
-    const [iT, iR, iB, iL] = normalPadding(inset);
+    const [iT, iR, iB, iL] = normalSeriesAttr(inset);
     const [iW, iH] = [iL + iR, iT + iB];
     return { x: iL, y: y + iT, width: +width - iW, height: height - iH };
   }

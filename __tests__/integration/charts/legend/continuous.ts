@@ -21,7 +21,7 @@ export const ContinuousDemo = () => {
           ribbonSize: 30,
           handleMarkerSize: 30,
           handleFormatter: (str: any) => `${str}°C`,
-          backgroundFill: 'pink',
+          ribbonTrackFill: 'pink',
           ...args,
         },
       })

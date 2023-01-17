@@ -33,7 +33,7 @@ export const TEXT_INHERITABLE_PROPS: Pick<
  */
 // @ts-ignore
 export function getDefaultStyle<T>(style: MixAttrs<T> | undefined): T | undefined {
-  if (style === undefined) ({} as T);
+  if (style === undefined) ({}) as T;
   if (style) {
     return style?.default;
   }
@@ -126,7 +126,7 @@ export function subObjects(style: any, prefix: string[]) {
     acc.push(subObject(internalStyle, pre));
     internalStyle = subObject(internalStyle, pre, true);
     return acc;
-  }, [] as typeof style[]);
+  }, [] as (typeof style)[]);
   finalStyle.push(internalStyle);
   return finalStyle;
 }

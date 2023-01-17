@@ -9,3 +9,4 @@ export * from './slider';
 export * from './sparkline';
 export * from './scrollbar';
 export * from './tooltip';
+export * from './layout';

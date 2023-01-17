@@ -5,7 +5,7 @@ import {
   deepAssign,
   subObject,
   isHorizontal,
-  normalPadding,
+  normalSeriesAttr,
   renderExtDo,
   select,
   Selection,
@@ -44,7 +44,7 @@ export class Indicator<T = any> extends GUI<IndicatorStyleProps<T>> {
 
   private renderBackground() {
     const { position, padding } = this.style as RT;
-    const [t, r, b, l] = normalPadding(padding);
+    const [t, r, b, l] = normalSeriesAttr(padding);
     const { min, max } = this.label.node().getLocalBounds();
 
     const points: Edge = [

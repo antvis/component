@@ -1,6 +1,6 @@
 import type { BBox, LayoutItem } from '../types';
 
-export function getItemsBBox(items: LayoutItem[]): BBox {
+export function getItemsBBox(items: LayoutItem[]) {
   let minX = Infinity;
   let minY = Infinity;
   let maxX = -Infinity;
@@ -14,6 +14,5 @@ export function getItemsBBox(items: LayoutItem[]): BBox {
     if (X > maxX) maxX = X;
     if (Y > maxY) maxY = Y;
   }
-
-  return { x: minX, y: minY, width: maxX - minX, height: maxY - minY };
+  return new DOMRect(minX, minY, maxX - minX, maxY - minY);
 }

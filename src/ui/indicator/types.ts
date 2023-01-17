@@ -1,6 +1,6 @@
 import type { PathStyleProps, TextStyleProps, GroupStyleProps } from '@antv/g';
 import type { ExtendDisplayObject, PrefixedStyle } from '../../types';
-import type { Padding } from '../../util';
+import type { SeriesAttr } from '../../util';
 
 export type Position = 'top' | 'right' | 'bottom' | 'left';
 
@@ -9,7 +9,7 @@ export type IndicatorCfg<T = any> = {
   value?: T;
   /** position of indicator related to pointer  */
   position?: Position;
-  padding?: Padding;
+  padding?: SeriesAttr;
   formatter?: (val: T) => ExtendDisplayObject;
 };
 

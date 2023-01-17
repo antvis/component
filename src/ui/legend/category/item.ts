@@ -16,8 +16,8 @@ import {
   ellipsisIt,
   subObject,
   ifShow,
-  normalPadding,
-  Padding,
+  normalSeriesAttr,
+  SeriesAttr,
   renderExtDo,
   select,
   Selection,
@@ -42,10 +42,10 @@ export type CategoryItemStyle = {
 
 export type CategoryItemCfg = GroupStyleProps & {
   /** spacing between marker, label and value */
-  spacing?: Padding;
+  spacing?: SeriesAttr;
   // if width and height not specific, set it to actual space occurred
   width?: number;
-  span?: Padding;
+  span?: SeriesAttr;
 };
 
 export type CategoryItemStyleProps = CategoryItemStyle & CategoryItemCfg & CategoryItemData;
@@ -124,7 +124,7 @@ export class CategoryItem extends GUI<CategoryItemStyleProps> {
     const { attributes } = this;
     if (!('span' in attributes)) return [1, 1];
     const { span } = attributes;
-    const [span1, innerSpan] = normalPadding(span!);
+    const [span1, innerSpan] = normalSeriesAttr(span!);
     const span2 = this.showValue ? innerSpan : 0;
     const basis = span1 + span2;
     return [span1 / basis, span2 / basis];
@@ -150,7 +150,7 @@ export class CategoryItem extends GUI<CategoryItemStyleProps> {
   private get spacing() {
     const { spacing } = this.attributes;
     if (!spacing) return [0, 0];
-    const [spacing1, spacing2] = normalPadding(spacing);
+    const [spacing1, spacing2] = normalSeriesAttr(spacing);
     if (this.showValue) return [spacing1, spacing2];
     return [spacing1, 0];
   }

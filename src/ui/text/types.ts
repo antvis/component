@@ -3,8 +3,8 @@ import type { TextProps, ShapeAttrs, DisplayObjectConfig } from '../../types';
 export const decorationType = ['overline', 'line-through', 'underline'] as const;
 export const decorationShape = ['solid', 'wavy', 'double', 'dashed', 'dotted'] as const;
 
-export type DecorationLine = typeof decorationType[number];
-export type DecorationShape = typeof decorationShape[number];
+export type DecorationLine = (typeof decorationType)[number];
+export type DecorationShape = (typeof decorationShape)[number];
 
 export interface DecorationCfg extends ShapeAttrs {
   width: number;
