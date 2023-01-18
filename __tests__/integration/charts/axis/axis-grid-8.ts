@@ -3,7 +3,12 @@ import { Axis } from '../../../../src/ui/axis';
 import { data } from '../../utils';
 
 export const AxisGrid8 = () => {
-  const group = new Group();
+  const group = new Group({
+    style: {
+      width: 450,
+      height: 500,
+    },
+  });
 
   group.appendChild(
     new Axis({

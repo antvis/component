@@ -2,7 +2,12 @@ import { Group, Text, Rect } from '@antv/g';
 import { Navigator } from '../../../../src/ui/navigator';
 
 export const NavigatorDemo = () => {
-  const group = new Group();
+  const group = new Group({
+    style: {
+      width: 810,
+      height: 350,
+    },
+  });
 
   const createPageViews = (count: number, [w, h]: [number, number], formatter = (str: any) => `page - ${str}`) => {
     return new Array(count).fill(0).map((_, index) => {

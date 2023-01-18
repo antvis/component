@@ -2,7 +2,12 @@ import { Group } from '@antv/g';
 import { axisWarper, data } from '../../utils';
 
 export const AxisLinearLabelOverlapMultiple = () => {
-  const group = new Group({});
+  const group = new Group({
+    style: {
+      width: 1000,
+      height: 550,
+    },
+  });
 
   const createAxis = axisWarper(group, {
     type: 'linear',

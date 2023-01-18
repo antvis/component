@@ -3,7 +3,12 @@ import { mockData } from '../../utils/mock-data';
 import { Axis } from '../../../../src/ui/axis';
 
 export const AxisLinearBasis4 = () => {
-  const group = new Group();
+  const group = new Group({
+    style: {
+      width: 650,
+      height: 550,
+    },
+  });
 
   group.appendChild(
     new Axis({

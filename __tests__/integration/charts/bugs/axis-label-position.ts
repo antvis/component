@@ -2,7 +2,12 @@ import { Group } from '@antv/g';
 import { Axis } from '../../../../src/ui/axis';
 
 export const BugAxisLabelPosition = () => {
-  const group = new Group({});
+  const group = new Group({
+    style: {
+      width: 800,
+      height: 800,
+    },
+  });
 
   group.appendChild(
     new Axis({

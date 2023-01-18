@@ -3,7 +3,12 @@ import { Quantize } from '@antv/scale';
 import { Ribbon } from '../../../../src/ui/legend/continuous/ribbon';
 
 export const RibbonDemo = () => {
-  const group = new Group({});
+  const group = new Group({
+    style: {
+      width: 750,
+      height: 400,
+    },
+  });
 
   const createRibbon = (args: any = {}) => {
     return group.appendChild(

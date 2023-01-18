@@ -8,15 +8,23 @@ import { fetch } from './fetch';
 global.fetch = fetch;
 
 describe('integration', () => {
-  for (const [name, generateOptions] of Object.entries(tests)) {
+  const onlyTests = Object.entries(tests).filter(
     // @ts-ignore
-    if (!generateOptions.skip) {
+    ([, { only = false }]) => only
+  );
+
+  const finalTests = onlyTests.length === 0 ? tests : Object.fromEntries(onlyTests);
+
+  for (const [name, target] of Object.entries(finalTests)) {
+    // @ts-ignore
+    if (!target.skip) {
       it(`[Canvas]: ${name}`, async () => {
         let canvas;
         try {
-          const actualPath = `${__dirname}/snapshots/${name}-diff.png`;
+          const actualPath = `${__dirname}/snapshots/${name}-actual.png`;
           const expectedPath = `${__dirname}/snapshots/${name}.png`;
-          const options = await generateOptions();
+          const diffPath = `${__dirname}/snapshots/${name}-diff.png`;
+          const options = await target();
 
           // Generate golden png if not exists.
           if (!fs.existsSync(expectedPath)) {
@@ -25,8 +33,8 @@ describe('integration', () => {
           } else {
             canvas = await renderCanvas(options, actualPath);
             // @ts-ignore
-            const maxError = generateOptions.maxError || 0;
-            expect(diff(actualPath, expectedPath)).toBeLessThanOrEqual(maxError);
+            const maxError = target.maxError || 0;
+            expect(diff(actualPath, expectedPath, diffPath, maxError)).toBeLessThanOrEqual(maxError);
 
             // Persevere the diff image if do not pass the test.
             fs.unlinkSync(actualPath);

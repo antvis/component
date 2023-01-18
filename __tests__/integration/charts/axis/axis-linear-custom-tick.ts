@@ -5,6 +5,10 @@ import { mockData } from '../../utils';
 export const AxisLinearCustomTick = () => {
   const group = new Group({
     name: '笛卡尔坐标系-刻度线-自定义',
+    style: {
+      width: 550,
+      height: 150,
+    },
   });
 
   group.appendChild(

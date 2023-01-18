@@ -1,9 +1,14 @@
-import { Circle, Group, Text } from '@antv/g';
-import { Continuous } from './utils';
+import { Group } from '@antv/g';
 import { data } from '../../utils';
+import { Continuous } from './utils';
 
 export const ContinuousDemo = () => {
-  const group = new Group({});
+  const group = new Group({
+    style: {
+      width: 730,
+      height: 750,
+    },
+  });
 
   const createContinuous = (args: any) => {
     return group.appendChild(

@@ -3,7 +3,12 @@ import { Category, createItemData, smooth } from './utils';
 import { colors } from './data';
 
 export const CategoryLayout7 = () => {
-  const group = new Group();
+  const group = new Group({
+    style: {
+      width: 455,
+      height: 70,
+    },
+  });
 
   group.appendChild(
     new Category({

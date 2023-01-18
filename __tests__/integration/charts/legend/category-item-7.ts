@@ -2,7 +2,12 @@ import { Group } from '@antv/g';
 import { CategoryItem } from './utils';
 
 export const CategoryItem7 = () => {
-  const group = new Group();
+  const group = new Group({
+    style: {
+      width: 100,
+      height: 20,
+    },
+  });
 
   group.appendChild(
     new CategoryItem({

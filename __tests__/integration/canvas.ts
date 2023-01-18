@@ -9,13 +9,28 @@ import { PNG } from 'pngjs';
 /**
  * diff between PNGs
  */
-export function diff(src: string, target: string) {
+export function diff(src: string, target: string, diff: string, maxError = 0, showMismatchedPixels = true) {
   const img1 = PNG.sync.read(fs.readFileSync(src));
   const img2 = PNG.sync.read(fs.readFileSync(target));
   const { width, height } = img1;
-  return pixelmatch(img1.data, img2.data, null, width, height, {
+
+  let diffPNG: PNG | null = null;
+  let output: Buffer | null = null;
+  if (showMismatchedPixels) {
+    diffPNG = new PNG({ width, height });
+    output = diffPNG.data;
+  }
+
+  // @see https://github.com/mapbox/pixelmatch#pixelmatchimg1-img2-output-width-height-options
+  const mismatch = pixelmatch(img1.data, img2.data, output, width, height, {
     threshold: 0.1,
   });
+
+  if (showMismatchedPixels && mismatch > maxError && diffPNG) {
+    fs.writeFileSync(diff, PNG.sync.write(diffPNG));
+  }
+
+  return mismatch;
 }
 
 export function createGCanvas(width: number, height: number) {
@@ -56,8 +71,12 @@ export function writePNG(nodeCanvas: any, path: string) {
   });
 }
 
-export async function renderCanvas(gshape: DisplayObject, filename: string, defaultWidth = 1000, defaultHeight = 1000) {
-  const [canvas, nodeCanvas] = createGCanvas(defaultWidth, defaultHeight);
+export async function renderCanvas(gshape: DisplayObject, filename: string) {
+  const bbox = gshape.getBBox();
+  const width = gshape.attributes.width || bbox.x + bbox.width || 400;
+  const height = gshape.attributes.height || bbox.y + bbox.height || 300;
+
+  const [canvas, nodeCanvas] = createGCanvas(width, height);
   return new Promise<Canvas>((resolve) => {
     canvas.addEventListener(CanvasEvent.READY, async () => {
       canvas.appendChild(gshape);

@@ -1,23 +1,14 @@
 import {
   ElementEvent,
-  FederatedEvent,
   Group,
   type DisplayObject,
   type DisplayObjectConfig,
-  type GroupStyleProps,
+  type FederatedEvent,
   type INode,
 } from '@antv/g';
-import { calcLayout, type LayoutElementConfig } from '../../util/layout';
-import { NormalSeriesAttr, normalSeriesAttr, SeriesAttr } from '../../util/series';
-
-export type BoxStyleProps = GroupStyleProps &
-  LayoutElementConfig & {
-    width: number;
-    height: number;
-    margin?: SeriesAttr;
-    border?: SeriesAttr;
-    padding?: SeriesAttr;
-  };
+import { calcLayout } from '../../util/layout';
+import { normalSeriesAttr, type NormalSeriesAttr, type SeriesAttr } from '../../util/series';
+import type { LayoutStyleProps } from './types';
 
 export class Layout extends Group {
   private layoutEvents: ElementEvent[] = [ElementEvent.BOUNDS_CHANGED, ElementEvent.INSERTED, ElementEvent.REMOVED];
@@ -71,7 +62,7 @@ export class Layout extends Group {
     );
   }
 
-  constructor(cfg: DisplayObjectConfig<BoxStyleProps>) {
+  constructor(cfg: DisplayObjectConfig<LayoutStyleProps>) {
     super(cfg);
     const { margin = 0, padding = 0 } = cfg.style || {};
     this.margin = margin;

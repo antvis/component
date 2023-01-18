@@ -4,6 +4,10 @@ import { CategoryItem } from './utils';
 export const CategoryItem8 = () => {
   const group = new Group({
     name: '分类图例-图例项-比例划分-span 1:2',
+    style: {
+      width: 100,
+      height: 20,
+    },
   });
 
   group.appendChild(

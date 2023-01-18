@@ -3,7 +3,12 @@ import { Axis } from '../../../../src/ui/axis';
 import { data } from '../../utils';
 
 export const AxisLinearLabel = () => {
-  const group = new Group();
+  const group = new Group({
+    style: {
+      width: 600,
+      height: 150,
+    },
+  });
 
   group.appendChild(
     new Axis({

@@ -3,7 +3,12 @@ import { Layout } from '../../../../src/ui/layout';
 import { createGrid } from '../../utils';
 
 export const LayoutFlexUpdateLayout = () => {
-  const group = new Group();
+  const group = new Group({
+    style: {
+      width: 600,
+      height: 300,
+    },
+  });
 
   createGrid(group, 600);
 

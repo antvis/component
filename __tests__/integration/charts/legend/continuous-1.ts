@@ -2,7 +2,12 @@ import { Group } from '@antv/g';
 import { Continuous } from './utils';
 
 export const Continuous1 = () => {
-  const group = new Group({});
+  const group = new Group({
+    style: {
+      width: 500,
+      height: 150,
+    },
+  });
 
   group.appendChild(
     new Continuous({

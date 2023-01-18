@@ -1,6 +1,5 @@
 import { Group, Text } from '@antv/g';
 import { axisWarper } from '../../utils';
-import { Axis } from '../../../../src/ui/axis';
 
 export const AxisLinearVertical = () => {
   const data = [
@@ -35,7 +34,12 @@ export const AxisLinearVertical = () => {
     };
   });
 
-  const group = new Group({});
+  const group = new Group({
+    style: {
+      width: 600,
+      height: 550,
+    },
+  });
 
   const createAxis = axisWarper(group, {
     type: 'linear',

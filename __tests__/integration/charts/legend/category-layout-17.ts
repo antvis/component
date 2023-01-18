@@ -3,7 +3,12 @@ import { colors, flowItemData } from './data';
 import { Category } from './utils';
 
 export const CategoryLayout17 = () => {
-  const group = new Group();
+  const group = new Group({
+    style: {
+      width: 210,
+      height: 110,
+    },
+  });
 
   group.appendChild(
     new Category({

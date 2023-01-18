@@ -52,4 +52,6 @@ export { Checkbox } from './checkbox';
 export type { CheckboxOptions } from './checkbox';
 export { Poptip } from './poptip';
 export type { PoptipCfg, PoptipOptions } from './poptip/types';
+export { Layout } from './layout';
+export type { LayoutOptions } from './layout/types';
 // to be continued...

@@ -4,7 +4,10 @@ import { data } from '../../utils';
 
 export const AxisLinearLabelAlign4 = () => {
   const group = new Group({
-    name: '',
+    style: {
+      width: 150,
+      height: 550,
+    },
   });
 
   group.appendChild(
