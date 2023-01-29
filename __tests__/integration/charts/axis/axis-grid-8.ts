@@ -26,7 +26,7 @@ export const AxisGrid8 = () => {
         gridCenter: [200, 250],
         gridClosed: false,
         gridLineWidth: 0,
-        gridControlAngles: [90, 180, 270],
+        gridControlAngles: [0, 90, 180, 270],
 
         tickLength: 10,
         labelSpacing: 10,

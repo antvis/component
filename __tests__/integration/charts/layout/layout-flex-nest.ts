@@ -86,8 +86,6 @@ export const LayoutFlexNest = () => {
     );
   });
 
-  console.log(box2.getAvailableSpace(), box2.getBBox());
-
   box1.appendChild(box2);
 
   return group;

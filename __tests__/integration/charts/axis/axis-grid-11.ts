@@ -25,7 +25,7 @@ export const AxisGrid11 = () => {
         gridLineWidth: 1,
         gridStroke: 'rgba(0,0,0,0.5)',
         gridCenter: [150, 200],
-        gridControlAngles: [30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330, 360],
+        gridControlAngles: [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330, 360],
 
         tickLength: 10,
         labelSpacing: 10,

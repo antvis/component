@@ -22,7 +22,7 @@ export const AxisGrid9 = () => {
         gridAreaFill: ['#f2cea5', '#f8dea3', '#c6cf93', '#95b5c0'],
         gridCenter: [200, 200],
         gridLineWidth: 0,
-        gridControlAngles: [45, 90, 135, 180, 225, 270, 315],
+        gridControlAngles: [0, 45, 90, 135, 180, 225, 270, 315],
 
         tickLength: 10,
         labelSpacing: 10,

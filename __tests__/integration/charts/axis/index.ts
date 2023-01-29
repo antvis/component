@@ -23,6 +23,8 @@ export { AxisLinearLabelRotate } from './axis-linear-label-rotate';
 export { AxisLinearLabelOverlap } from './axis-linear-label-overlap';
 export { AxisLinearLabelOverlapMultiple } from './axis-linear-label-overlap-multiple';
 export { AxisLinearTitle } from './axis-linear-title';
+export { AxisLinearTitleStart } from './axis-linear-title-start';
+export { AxisLinearTitleEnd } from './axis-linear-title-end';
 export { AxisArc } from './axis-arc';
 export { AxisArcBasis1 } from './axis-arc-basis-1';
 export { AxisArcBasis2 } from './axis-arc-basis-2';

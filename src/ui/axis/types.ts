@@ -73,8 +73,9 @@ export type AxisTitleCfg = {
   /**
    * the position of title relative to axis
    * 'inner' can only be used in polar coordinates
+   * addition position of start and end only for linear axis
    */
-  titlePosition?: TitleStyleProps['position'];
+  titlePosition?: TitleStyleProps['position'] | 'start' | 'end';
 };
 export type AxisLineStyle = PrefixedStyle<LineStyleProps, 'line'>;
 export type AxisLineCfg = {

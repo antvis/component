@@ -43,7 +43,7 @@ function renderSurround(data: AxisDatum[], cfg: AxisStyleProps, style: any) {
   return data.map(({ value }) => {
     const [sx, sy] = getValuePos(value, cfg);
     const [dx, dy] = [sx - cx, sy - cy];
-    const points: Point[] = [[sx, sy]];
+    const points: Point[] = [];
     controlAngles.forEach((angle: number) => {
       const angleInRad = degToRad(angle);
       const [cosa, sina] = [Math.cos(angleInRad), Math.sin(angleInRad)];

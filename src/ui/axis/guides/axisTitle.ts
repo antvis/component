@@ -1,5 +1,7 @@
+import { vec2 } from '@antv/matrix-util';
 import { renderExtDo, styleSeparator, percentTransform, type Selection } from '../../../util';
 import { parsePosition } from '../../title';
+import type { TitleCfg } from '../../title/types';
 import { CLASS_NAMES } from '../constant';
 import type { AxisStyleProps } from '../types';
 
@@ -12,13 +14,21 @@ function getTitlePosition(
   y: number;
 } {
   const { titlePosition: position = 'lb', titleSpacing: spacing = 0 } = cfg;
-
-  const pos = parsePosition(position);
+  const pos = parsePosition(position as Required<TitleCfg>['position']);
   const { x: ax, y: ay } = mainGroup.node().getBBox();
   const [aHw, aHh] = mainGroup.node().getBounds().halfExtents;
   const [tHw, tHh] = titleGroup.node().getBounds().halfExtents;
   const [lcx, lcy] = [ax + aHw, ay + aHh];
   let [x, y] = [lcx, lcy];
+
+  if (['start', 'end'].includes(position) && cfg.type === 'linear') {
+    const { startPos, endPos } = cfg;
+    // todo did not consider the truncate case
+    const [from, to] = position === 'start' ? [startPos, endPos] : [endPos, startPos];
+    const direction = vec2.normalize([0, 0], [-to[0] + from[0], -to[1] + from[1]]);
+    const [dx, dy] = vec2.scale([0, 0], direction, spacing);
+    return { x: from[0] + dx, y: from[1] + dy };
+  }
 
   if (pos.includes('l')) x -= aHw + tHw + spacing;
   if (pos.includes('r')) x += aHw + tHw + spacing;
