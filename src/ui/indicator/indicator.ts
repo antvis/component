@@ -32,6 +32,7 @@ export class Indicator<T = any> extends GUI<IndicatorStyleProps<T>> {
   constructor(options: DisplayObjectConfig<IndicatorStyleProps<T>> = {}) {
     super(deepAssign({}, { style: { visibility: 'hidden', ...DEFAULT_INDICATOR_CFG } }, options));
     this.group = this.appendChild(new Group({}));
+    this.isMutationObserved = true;
   }
 
   private group: Group;
@@ -43,6 +44,7 @@ export class Indicator<T = any> extends GUI<IndicatorStyleProps<T>> {
   private point: Point = [0, 0];
 
   private renderBackground() {
+    if (!this.label) return;
     const { position, padding } = this.style as RT;
     const [t, r, b, l] = normalSeriesAttr(padding);
     const { min, max } = this.label.node().getLocalBounds();

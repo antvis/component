@@ -6,6 +6,7 @@ import type {
   GroupStyleProps,
   RectStyleProps,
   TextStyleProps,
+  PathStyleProps,
 } from '@antv/g';
 import { isNumber, isString } from '@antv/util';
 import { GUI } from '../../../core/gui';
@@ -25,6 +26,7 @@ import {
 } from '../../../util';
 import { circle } from '../../marker/symbol';
 
+type ItemMarkerStyle = { size?: number } & PathStyleProps;
 type ItemTextStyle = Omit<TextStyleProps, 'text'>;
 type ItemBackgroundStyle = Omit<RectStyleProps, 'width' | 'height'>;
 
@@ -32,11 +34,8 @@ export interface CategoryItemData {
   label?: ExtendDisplayObject;
   value?: ExtendDisplayObject;
 }
-export type CategoryItemStyle = {
-  marker?: string | (() => DisplayObject);
-  markerSize?: number;
-  [key: `marker${string}`]: any;
-} & PrefixedStyle<ItemTextStyle, 'label'> &
+export type CategoryItemStyle = { marker?: string | (() => DisplayObject) } & PrefixedStyle<ItemMarkerStyle, 'marker'> &
+  PrefixedStyle<ItemTextStyle, 'label'> &
   PrefixedStyle<ItemTextStyle, 'value'> &
   PrefixedStyle<ItemBackgroundStyle, 'background'>;
 

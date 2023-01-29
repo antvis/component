@@ -2,6 +2,7 @@ import type { TextStyleProps } from '@antv/g';
 import { clone, deepMix, get } from '@antv/util';
 import { STATE_LIST } from '../constant';
 import type { MixAttrs, StyleState } from '../types';
+import { filterTransform } from './filter-transform';
 
 /**
  * 以下属性都是可继承的，这意味着没有显式定义（值为 unset）时，是需要从未来的祖先节点中计算得到的。
@@ -102,17 +103,24 @@ export function applyStyleSheet(element: HTMLElement, style: { [key: string]: Ob
  * @param style
  * @param prefix
  * @param invert get the reset style
+ * @param transform enable filter transform
  * @returns
  */
-export function subObject(style: { [keys: string]: any }, prefix: string, invert: boolean = false) {
+export function subObject(
+  style: { [keys: string]: any },
+  prefix: string,
+  invert: boolean = false,
+  transform: boolean = true
+) {
+  const internalStyle = transform ? filterTransform(style) : style;
   const startsWith = (str: string, prefix: string) => new RegExp(`^${prefix}[A-Z].*`).test(str);
   const capitalizeFirstLetter = (str: string) => {
     return str.charAt(0).toLowerCase() + str.slice(1);
   };
-  return Object.keys(style).reduce((acc, curr) => {
+  return Object.keys(internalStyle).reduce((acc, curr) => {
     if (startsWith(curr, prefix) !== invert) {
-      if (invert) acc[curr] = style[curr];
-      else acc[capitalizeFirstLetter(curr.slice(prefix.length))] = style[curr];
+      if (invert) acc[curr] = internalStyle[curr];
+      else acc[capitalizeFirstLetter(curr.slice(prefix.length))] = internalStyle[curr];
     }
     return acc;
   }, {} as typeof style);
@@ -136,7 +144,7 @@ export function subObjects(style: any, prefix: string[]) {
  * @param style
  * @param prefix
  */
-export function prefixStyle(style: any, prefix: string) {
+export function superObject(style: any, prefix: string) {
   const capitalizeFirstLetter = (str: string) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };

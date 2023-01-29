@@ -1,31 +1,50 @@
-import { Group } from '@antv/g';
+import { Group, Rect } from '@antv/g';
 import { Continuous } from './utils';
 
 export const Continuous3 = () => {
   const group = new Group({
     style: {
-      width: 500,
-      height: 150,
+      width: 400,
+      height: 190,
     },
   });
 
-  group.appendChild(
-    new Continuous({
-      style: {
-        x: 10,
-        y: 50,
-        type: 'size',
-        block: true,
-        data: new Array(10).fill(0).map((d, i) => ({ value: i * 100 })),
-        ribbonLen: 400,
-        ribbonSize: 30,
-        showLabel: false,
-        handleMarkerSize: 30,
-        handleFormatter: (str: any) => `${str}°C`,
-        ribbonTrackFill: 'pink',
-      },
-    })
-  );
+  const shape = {
+    width: 400,
+    height: 60,
+  };
+
+  const conditions = [{ titleText: 'title' }, {}, { showHandle: false }];
+
+  conditions.forEach((con, i) => {
+    const y = i * (shape.height + 5);
+    group.appendChild(
+      new Rect({
+        style: {
+          y,
+          ...shape,
+          stroke: 'red',
+        },
+      })
+    );
+    group.appendChild(
+      new Continuous({
+        style: {
+          x: 0,
+          y,
+          ...shape,
+          ...con,
+          type: 'size',
+          block: true,
+          data: new Array(10).fill(0).map((d, i) => ({ value: i * 100 })),
+          showLabel: false,
+          handleMarkerSize: 20,
+          handleFormatter: (str: any) => `${str}°C`,
+          ribbonTrackFill: 'pink',
+        },
+      })
+    );
+  });
 
   return group;
 };

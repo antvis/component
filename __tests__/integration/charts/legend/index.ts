@@ -57,5 +57,7 @@ export { Continuous1 } from './continuous-1';
 export { Continuous2 } from './continuous-2';
 export { Continuous3 } from './continuous-3';
 export { Continuous4 } from './continuous-4';
+export { Continuous5 } from './continuous-5';
+export { ContinuousD3ColorLegend } from './continuous-d3-color-legend';
 export { RibbonDemo } from './ribbon';
 export { HandleDemo } from './handle';

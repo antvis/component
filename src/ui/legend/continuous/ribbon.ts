@@ -19,8 +19,8 @@ export type RibbonCfg = {
   /** select area, 0~1 */
   range?: [number, number];
   block?: boolean;
-  /** block count */
-  blocks?: number;
+  /** partition of the block ,the length of it is the block count */
+  partition?: number[];
 };
 
 export type RibbonStyleProps = GroupStyleProps & RibbonStyle & RibbonCfg;
@@ -43,7 +43,7 @@ const DEFAULT_RIBBON_CFG: RibbonStyleProps = {
   range: [0, 1],
   len: 200,
   block: false,
-  blocks: 0,
+  partition: [],
   color: ['#fff', '#000'],
   trackFill: '#e5e5e5',
 };
@@ -68,7 +68,7 @@ function getSelectionPath(cfg: RibbonStyleProps) {
 }
 
 function getColor(cfg: RibbonStyleProps) {
-  const { orient, color, block, blocks } = cfg as Required<RibbonStyleProps>;
+  const { orient, color, block, partition } = cfg as Required<RibbonStyleProps>;
   let colors: string[];
   if (isFunction(color)) {
     const len = 20;
@@ -78,7 +78,7 @@ function getColor(cfg: RibbonStyleProps) {
   const count = colors.length;
 
   if (!count) return '';
-  if (block) return getBlockColor(blocks, colors, orient);
+  if (block) return getBlockColor(partition, colors, orient);
   return colors.reduce((r, c, idx) => (r += ` ${idx / (count - 1)}:${c}`), `l(${ifHorizontal(orient, '0', '270')})`);
 }
 

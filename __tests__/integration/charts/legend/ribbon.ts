@@ -57,6 +57,8 @@ export const RibbonDemo = () => {
 
   createRibbon({ x: 150, y: 200, type: 'size', orient: 'vertical', range: [0.2, 0.8], color: interpolate });
 
+  const createPartition = (num: number) => new Array(num).fill(0).map((n, i, arr) => i / (arr.length - 1));
+
   createRibbon({
     x: 300,
     y: 200,
@@ -65,22 +67,30 @@ export const RibbonDemo = () => {
     range: [0.2, 0.8],
     color: color.slice(4),
     block: true,
-    blocks: 5,
+    partition: createPartition(6),
   });
 
-  const ribbon = createRibbon({ x: 350, y: 150, type: 'color', color, block: true, blocks: 10 });
+  createRibbon({ x: 350, y: 100, type: 'color', color, partition: createPartition(10), len: 400 });
+
+  createRibbon({ x: 350, y: 150, type: 'color', color, block: true, partition: createPartition(11), len: 400 });
+
+  createRibbon({ x: 350, y: 200, type: 'size', color, partition: createPartition(10), len: 400 });
+
+  createRibbon({ x: 350, y: 250, type: 'size', color, block: true, partition: createPartition(11), len: 400 });
+
+  createRibbon({ x: 350, y: 300, type: 'color', color, partition: createPartition(10), len: 400, range: [0.2, 0.8] });
+
+  const ribbon = createRibbon({
+    x: 350,
+    y: 350,
+    type: 'color',
+    color,
+    block: true,
+    len: 400,
+    partition: createPartition(10),
+  });
 
   ribbon.style.range = [0.4, 0.8];
-
-  createRibbon({ x: 350, y: 100, type: 'color', color, blocks: 10, len: 400 });
-
-  createRibbon({ x: 350, y: 150, type: 'color', color, block: true, blocks: 10, len: 400 });
-
-  createRibbon({ x: 350, y: 200, type: 'size', color, blocks: 10, len: 400 });
-
-  createRibbon({ x: 350, y: 250, type: 'size', color, block: true, blocks: 10, len: 400 });
-
-  createRibbon({ x: 350, y: 300, type: 'color', color, blocks: 10, len: 400, range: [0.2, 0.8] });
 
   return group;
 };

@@ -1,7 +1,7 @@
 import type { DisplayObjectConfig, Group } from '@antv/g';
 import { GUI } from '../../core/gui';
-import { ifShow, deepAssign, subObject, subObjects, select, Selection, styleSeparator } from '../../util';
-import { Title, type TitleStyleProps } from '../title';
+import { deepAssign, ifShow, select, Selection, styleSeparator, subObject, subObjects } from '../../util';
+import { getBBox, Title, type TitleStyleProps } from '../title';
 import { CategoryItems } from './category/items';
 import { CATEGORY_DEFAULT_OPTIONS, CLASS_NAMES } from './constant';
 import type { CategoryOptions, CategoryStyleProps } from './types';
@@ -17,6 +17,8 @@ export class Category extends GUI<CategoryStyleProps> {
 
   private itemsGroup!: Selection;
 
+  private items!: Selection<CategoryItems>;
+
   private renderTitle(container: Selection, width: number, height: number) {
     const { showTitle } = this.attributes;
     const style = subObject(this.attributes, 'title') as TitleStyleProps;
@@ -31,15 +33,18 @@ export class Category extends GUI<CategoryStyleProps> {
     });
   }
 
-  private renderItems(container: Selection, width: number, height: number) {
+  private renderItems(container: Selection, bbox: DOMRect) {
+    const { x, y, width, height } = bbox;
     const [, style] = subObjects(this.attributes, ['title']);
     const [partialItemStyle, groupStyle] = styleSeparator(style);
 
     // rewrite width and height to available space
     const itemStyle = { ...partialItemStyle, width, height };
 
-    this.itemsGroup = container.maybeAppendByClassName<Group>(CLASS_NAMES.itemsGroup, 'g').styles(groupStyle);
-    this.itemsGroup
+    this.itemsGroup = container
+      .maybeAppendByClassName<Group>(CLASS_NAMES.itemsGroup, 'g')
+      .styles({ x, y, ...groupStyle });
+    this.items = this.itemsGroup
       .maybeAppendByClassName(
         CLASS_NAMES.items,
         () =>
@@ -49,7 +54,7 @@ export class Category extends GUI<CategoryStyleProps> {
             },
           })
       )
-      .update(itemStyle);
+      .update(itemStyle) as Selection<CategoryItems>;
 
     // cuz itemsStyle has callbackable parameters, so it can not passed by call applyStyle
     Object.entries(itemStyle).forEach(([k, v]) => this.itemsGroup.attr(k, v));
@@ -63,13 +68,14 @@ export class Category extends GUI<CategoryStyleProps> {
     }
   }
 
-  private get availableSpace(): [number, number] {
+  private get availableSpace(): DOMRect {
     const { showTitle, width, height } = this.attributes;
-    if (!showTitle) return [width!, height!];
-    const { width: availableWidth, height: availableHeight } = (
-      this.titleGroup.select(CLASS_NAMES.title.class).node() as Title
-    ).getAvailableSpace();
-    return [availableWidth, availableHeight];
+    if (!showTitle) return new DOMRect(0, 0, width!, height!);
+    return (this.titleGroup.select(CLASS_NAMES.title.class).node() as Title).getAvailableSpace();
+  }
+
+  public getBBox(): DOMRect {
+    return getBBox(this.querySelector(CLASS_NAMES.title.class) as Title, this.items.node());
   }
 
   render(attributes: CategoryStyleProps, container: Group) {
@@ -78,7 +84,7 @@ export class Category extends GUI<CategoryStyleProps> {
 
     this.renderTitle(ctn, width!, height!);
 
-    this.renderItems(ctn, ...this.availableSpace);
+    this.renderItems(ctn, this.availableSpace);
 
     this.adjustLayout();
   }

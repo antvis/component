@@ -1,31 +1,31 @@
 import { Group } from '@antv/g';
 import { isFunction } from '@antv/util';
-import { maybeAppend } from '../../util';
 import { GUI } from '../../core/gui';
-import { parseMarker } from './utils';
+import { select, ifShow } from '../../util';
 import {
-  circle,
-  square,
-  diamond,
-  triangleDown,
-  triangle,
-  cross,
-  point,
-  hexagon,
   bowtie,
-  hyphen,
-  tick,
-  plus,
-  line,
-  dot,
+  circle,
+  cross,
   dash,
-  smooth,
+  diamond,
+  dot,
+  hexagon,
   hv,
-  vh,
   hvh,
+  hyphen,
+  line,
+  plus,
+  point,
+  smooth,
+  square,
+  tick,
+  triangle,
+  triangleDown,
+  vh,
   vhv,
 } from './symbol';
-import type { MarkerStyleProps, MarkerOptions, FunctionalSymbol } from './types';
+import type { FunctionalSymbol, MarkerOptions, MarkerStyleProps } from './types';
+import { parseMarker } from './utils';
 
 export type { MarkerStyleProps, MarkerOptions, FunctionalSymbol };
 
@@ -44,37 +44,32 @@ function getType(symbol: MarkerStyleProps['symbol']): string | null {
 
 export class Marker extends GUI<MarkerStyleProps> {
   public render(attributes: MarkerStyleProps, container: Group) {
-    const { x, y, symbol, size = 16, ...style } = attributes as Required<MarkerStyleProps>;
+    const { x, y, symbol, size = 16, class: className, ...style } = attributes as Required<MarkerStyleProps>;
     const type = getType(symbol);
 
-    if (!type) {
-      const shape = this.querySelector('.marker');
-      shape?.remove();
-      this.removeChildren();
-
-      return;
-    }
-
-    maybeAppend(container, `.${type}-marker`, type)
-      .attr('className', `marker ${type}-marker`)
-      .call((selection) => {
-        if (type === 'image') {
-          // todo 大小和 path symbol 保持一致
-          const r = (size as number) * 2;
-          selection.styles({
-            img: symbol,
-            width: r,
-            height: r,
-            x: -size,
-            y: -size,
-          });
-        } else {
-          const r = (size as number) / 2;
-          const symbolFn = isFunction(symbol) ? symbol : Marker.getSymbol(symbol);
-          // @ts-ignore
-          selection.styles({ path: symbolFn?.(x, y, r), ...style });
-        }
-      });
+    ifShow(!!type, select(container), (group) => {
+      group
+        .maybeAppendByClassName(`marker`, type!)
+        .addClassName(`${type}-marker`)
+        .call((selection) => {
+          if (type === 'image') {
+            // todo 大小和 path symbol 保持一致
+            const r = (size as number) * 2;
+            selection.styles({
+              img: symbol,
+              width: r,
+              height: r,
+              x: -size,
+              y: -size,
+            });
+          } else {
+            const r = (size as number) / 2;
+            const symbolFn = isFunction(symbol) ? symbol : Marker.getSymbol(symbol);
+            // @ts-ignore
+            selection.styles({ path: symbolFn?.(x, y, r), ...style });
+          }
+        });
+    });
   }
 
   private static MARKER_SYMBOL_MAP = new Map<string, FunctionalSymbol>();

@@ -5,7 +5,7 @@ import {
   getEventPos,
   ifShow,
   normalSeriesAttr,
-  prefixStyle,
+  superObject,
   select,
   subObject,
   TEXT_INHERITABLE_PROPS,
@@ -47,9 +47,9 @@ export class Slider extends GUI<SliderStyleProps> {
       showLabel: true,
       handleSpacing: 2,
       formatter: (val: string) => val,
-      ...prefixStyle(HANDLE_DEFAULT_CFG, 'handle'),
-      ...prefixStyle(HANDLE_ICON_DEFAULT_CFG, 'handleIcon'),
-      ...prefixStyle(HANDLE_LABEL_DEFAULT_CFG, 'handleLabel'),
+      ...superObject(HANDLE_DEFAULT_CFG, 'handle'),
+      ...superObject(HANDLE_ICON_DEFAULT_CFG, 'handleIcon'),
+      ...superObject(HANDLE_LABEL_DEFAULT_CFG, 'handleLabel'),
     } as SliderStyleProps,
   };
 
@@ -383,8 +383,8 @@ export class Slider extends GUI<SliderStyleProps> {
       zIndex: 3,
       showLabel,
       visibility: showHandle ? 'visible' : 'hidden',
-      ...prefixStyle(this.getHandleIconShapeCfg(), 'icon'),
-      ...prefixStyle({ ...this.getHandleLabelShapeCfg(handleType), ...textCfg }, 'label'),
+      ...superObject(this.getHandleIconShapeCfg(), 'icon'),
+      ...superObject({ ...this.getHandleLabelShapeCfg(handleType), ...textCfg }, 'label'),
       x,
       y,
     };

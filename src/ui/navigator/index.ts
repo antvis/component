@@ -87,6 +87,11 @@ export class Navigator extends GUI<NavigatorStyleProps> {
     return this.playWindow.children as Group[];
   }
 
+  // todo fixme
+  private get controllerShape() {
+    return this.totalPages > 1 ? { width: 55, height: 0 } : { width: 0, height: 0 };
+  }
+
   private get pageShape() {
     const { pageViews } = this;
     const [maxWidth, maxHeight] = transpose(
@@ -105,6 +110,10 @@ export class Navigator extends GUI<NavigatorStyleProps> {
     return this.playWindow;
   }
 
+  public get totalPages() {
+    return this.pageViews.length;
+  }
+
   public get currPage() {
     return this.innerCurrPage;
   }
@@ -120,6 +129,13 @@ export class Navigator extends GUI<NavigatorStyleProps> {
     }
     if (this.playState === 'idle') this.resolveFinishedPromise?.();
     return this.finishedPromise;
+  }
+
+  public getBBox(): DOMRect {
+    const { x, y } = super.getBBox();
+    const controllerShape = this.controllerShape;
+    const { pageWidth, pageHeight } = this.pageShape;
+    return new DOMRect(x, y, pageWidth + controllerShape.width, pageHeight);
   }
 
   public goTo(pageNum: number) {

@@ -73,21 +73,22 @@ export class Layout extends Group {
   }
 
   layout() {
-    if (!this.attributes.display) return;
-    // this.children.forEach((child) => {
-    //   (child as Layout).layout?.();
-    // });
+    if (!this.attributes.display || !this.isConnected) return;
+    if (this.children.some((child) => !child.isConnected)) return;
+    try {
+      const bboxes = calcLayout(
+        this.getAvailableSpace(),
+        this.children.map((child) => (child as DisplayObject).getBBox()),
+        this.attributes
+      );
 
-    const bboxes = calcLayout(
-      this.getAvailableSpace(),
-      this.children.map((child) => (child as DisplayObject).getBBox()),
-      this.attributes
-    );
-
-    this.children.forEach((child, index) => {
-      const { x, y } = bboxes[index];
-      (child as DisplayObject).attr({ x, y });
-    });
+      this.children.forEach((child, index) => {
+        const { x, y } = bboxes[index];
+        (child as DisplayObject).attr({ x, y });
+      });
+    } catch (e) {
+      // do nothing
+    }
   }
 
   bindEvents() {

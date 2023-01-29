@@ -1,34 +1,32 @@
-import { CustomEvent, Group } from '@antv/g';
+import { CustomEvent, Group, type DisplayObject, type TextStyleProps } from '@antv/g';
 import { Linear } from '@antv/scale';
 import { clamp, isUndefined, memoize } from '@antv/util';
 import { GUI } from '../../core/gui';
 import { Point } from '../../types';
-import { Indicator } from '../indicator';
+import { CLASS_NAMES as AXIS_CLASS_NAMES } from '../axis/constant';
 import {
-  deepAssign,
   capitalize,
+  deepAssign,
   getEventPos,
-  subObject,
-  subObjects,
   ifShow,
   select,
   Selection,
+  subObject,
+  subObjects,
   throttle,
   toPrecision,
-  filterTransform,
 } from '../../util';
 import { Axis, type AxisStyleProps } from '../axis';
-import { Title } from '../title';
+import { Indicator } from '../indicator';
+import { getBBox, Title } from '../title';
 import { CLASS_NAMES, CONTINUOUS_DEFAULT_OPTIONS, STEP_RATIO } from './constant';
-import { Handle } from './continuous/handle';
+import { Handle, type HandleType } from './continuous/handle';
 import { Ribbon } from './continuous/ribbon';
 import { getNextTickValue } from './continuous/utils';
 import { ContinuousDatum, ContinuousOptions, ContinuousStyleProps } from './types';
 import { getSafetySelections, getStepValueByValue, ifHorizontal } from './utils';
 
 export type { ContinuousOptions };
-
-type RT = Required<ContinuousStyleProps>;
 
 const getMinMax = memoize(
   (data: ContinuousDatum[]) => {
@@ -49,9 +47,17 @@ export class Continuous extends GUI<ContinuousStyleProps> {
 
   protected innerRibbonScale = new Linear({});
 
+  protected title!: Selection<Title>;
+
+  protected label!: Selection<typeof Axis>;
+
   protected ribbon!: Selection;
 
   protected indicator!: Selection;
+
+  protected get handleOffsetRatio() {
+    return this.ifHorizontal(0.7, 0.9);
+  }
 
   protected handlesGroup!: Selection;
 
@@ -59,56 +65,48 @@ export class Continuous extends GUI<ContinuousStyleProps> {
 
   protected endHandle!: Selection;
 
+  public getBBox(): DOMRect {
+    return getBBox(this.title.node(), this.querySelector(CLASS_NAMES.contentGroup.class) as DisplayObject);
+  }
+
   public render(attributes: ContinuousStyleProps, container: Group) {
-    const {
-      data,
-      width,
-      height,
-      orient,
-      defaultValue = [0, 1],
-      color,
-      block,
-      type,
-      slidable,
-      step,
-      showTitle,
-      showHandle,
-      showLabel,
-      showIndicator,
-    } = attributes as RT;
+    // 渲染顺序
+    // 1. 绘制 title, 获得可用空间
+    // 2. 绘制 label, handle
+    // 3. 基于可用空间、label高度、handle 宽高，计算 ribbon 宽高
+    // 4. 绘制 ribbon
+    // 5. 调整 label、handle 位置
 
-    const [titleStyle, labelStyle, indicatorStyle, ribbonStyle, handleStyle] = subObjects(filterTransform(attributes), [
-      'title',
-      'label',
-      'indicator',
-      'ribbon',
-      'handle',
-    ]);
+    /** title */
+    this.renderTitle(select(container));
 
-    const titleEl = select(container).maybeAppendByClassName(
-      CLASS_NAMES.title,
-      () => new Title({ style: { width, height, ...titleStyle } })
-    );
-    ifShow(showTitle, select(container), (group) => {});
+    const { x, y } = (this.title.node() as Title).getAvailableSpace();
 
-    // @ts-ignore
-    const { x, y, width: w, height: h } = titleEl.node().getAvailableSpace();
+    /** label */
+    const { showLabel } = attributes;
 
+    /** content */
     const contentGroup = select(container).maybeAppendByClassName(CLASS_NAMES.contentGroup, 'g').styles({ x, y });
 
-    const ribbonGroup = contentGroup.maybeAppendByClassName(CLASS_NAMES.ribbonGroup, 'g');
-    this.renderRibbon(ribbonGroup, ribbonStyle);
-
-    this.handlesGroup = ribbonGroup.maybeAppendByClassName(CLASS_NAMES.handlesGroup, 'g');
-    this.renderHandles();
-
-    this.renderIndicator(contentGroup, indicatorStyle);
-
-    const labelGroup = select(container).maybeAppendByClassName(CLASS_NAMES.labelGroup, 'g').styles({ x, y });
-
-    ifShow(showLabel, labelGroup, (group) => {
+    const labelGroup = contentGroup.maybeAppendByClassName(CLASS_NAMES.labelGroup, 'g').styles({ zIndex: 1 });
+    ifShow(!!showLabel, labelGroup, (group) => {
       this.renderLabel(group);
     });
+
+    const ribbonGroup = contentGroup.maybeAppendByClassName(CLASS_NAMES.ribbonGroup, 'g');
+
+    /** handle */
+    this.handlesGroup = contentGroup.maybeAppendByClassName(CLASS_NAMES.handlesGroup, 'g').styles({ zIndex: 2 });
+    this.renderHandles();
+
+    /** ribbon */
+    this.renderRibbon(ribbonGroup);
+
+    this.renderIndicator(contentGroup);
+
+    /** adjust */
+    this.adjustLabel();
+    this.adjustHandles();
   }
 
   private get range() {
@@ -137,91 +135,229 @@ export class Continuous extends GUI<ContinuousStyleProps> {
     return [start, end] as [number, number];
   }
 
-  protected ifHorizontal<T>(a: T, b: T) {
+  protected ifHorizontal<T>(a: T, b: T): T {
     return ifHorizontal(this.style.orient, typeof a === 'function' ? a() : a, typeof b === 'function' ? b() : b);
   }
 
-  private renderRibbon(group: Selection, style: any) {
+  private renderTitle(container: Selection) {
+    const { showTitle, titleText = '', width, height } = this.attributes;
+    const style = subObject(this.attributes, 'title') as TextStyleProps;
+
+    const finalTitleStyle = { width, height, ...style, text: showTitle ? titleText : '' };
+    this.title = container
+      .maybeAppendByClassName(CLASS_NAMES.title, () => new Title({ style: finalTitleStyle }))
+      .update(finalTitleStyle) as Selection<Title>;
+  }
+
+  private get labelFixedSpacing() {
+    const { labelShowTick } = this.attributes;
+    return labelShowTick ? 5 : 0;
+  }
+
+  private get labelPosition() {
+    const { orient, labelDirection } = this.attributes as Required<ContinuousStyleProps>;
+    const positions = {
+      vertical: { positive: 'left', negative: 'right' },
+      horizontal: { positive: 'bottom', negative: 'top' },
+    } as const;
+    return positions[orient][labelDirection];
+  }
+
+  private cacheLabelBBox: DOMRect | null = null;
+
+  private get labelBBox() {
+    const { showLabel } = this.attributes;
+    if (!showLabel) return { width: 0, height: 0 };
+    if (this.cacheLabelBBox) return this.cacheLabelBBox;
+    const { width, height } = (
+      this.label.select(AXIS_CLASS_NAMES.labelGroup.class).node().children.slice(-1)[0] as DisplayObject
+    ).getBBox();
+    this.cacheLabelBBox = new DOMRect(0, 0, width, height);
+    return this.cacheLabelBBox;
+  }
+
+  private get labelShape() {
+    const { showLabel, labelSpacing = 0 } = this.attributes;
+    if (!showLabel) return { width: 0, height: 0, size: 0, len: 0 };
+    const { width, height } = this.labelBBox;
+    const size = this.ifHorizontal(height, width) + labelSpacing + this.labelFixedSpacing;
+    const len = this.ifHorizontal(width, height);
+    return { width, height, size, len };
+  }
+
+  private get ribbonBBox(): DOMRect {
+    const { showHandle } = this.attributes;
+    const { width: availableWidth, height: availableHeight } = (this.title.node() as Title).getAvailableSpace();
+
+    const { size: labelSize, len: labelLength } = this.labelShape;
+
+    const [availableSize, availableLength] = this.ifHorizontal(
+      [availableHeight, availableWidth],
+      [availableWidth, availableHeight]
+    );
+    const { size: handleSize, len: handleLength } = showHandle ? this.handleShape : { size: 0, len: 0 };
+    // const handleMarkerSize = showHandle ? this.attributes.handleMarkerSize || 0 : 0;
+    const handleRatio = this.handleOffsetRatio;
+
+    let ribbonSize = 0;
+    const labelPosition = this.labelPosition;
+    if (['bottom', 'right'].includes(labelPosition)) {
+      ribbonSize = Math.min(availableSize - labelSize, (availableSize - handleSize) / handleRatio);
+    } else if (availableSize * (1 - handleRatio) > handleSize) {
+      ribbonSize = Math.max(availableSize - labelSize, 0);
+    } else ribbonSize = Math.max((availableSize - labelSize - handleSize) / handleRatio, 0);
+
+    const edgeLength = Math.max(handleLength, labelLength);
+    const ribbonLength = availableLength - edgeLength;
+
+    const [width, height] = this.ifHorizontal([ribbonLength, ribbonSize], [ribbonSize, ribbonLength]);
+
+    // 需要考虑 handle 的占用空间
+    // todo 为了防止因为 handle 文本变化导致的 ribbon 位置变化，handle size 取最大值
+    const finalLabelOccupy = ['top', 'left'].includes(labelPosition) ? labelSize : 0;
+
+    const [x, y] = this.ifHorizontal([edgeLength / 2, finalLabelOccupy], [finalLabelOccupy, edgeLength / 2]);
+
+    return new DOMRect(x, y, width, height);
+  }
+
+  private get ribbonShape() {
+    const { width, height } = this.ribbonBBox;
+    return this.ifHorizontal({ size: height, len: width }, { size: width, len: height });
+  }
+
+  private renderRibbon(container: Selection) {
     const { type, orient, color, block, data } = this.attributes;
-    this.ribbon = group
+    const style = subObject(this.attributes, 'ribbon');
+    const { min, max } = this.range;
+    const { x, y } = this.ribbonBBox;
+    const { len, size } = this.ribbonShape;
+    this.ribbon = container
       .maybeAppendByClassName(CLASS_NAMES.ribbon, () => new Ribbon({}))
       .update({
+        x,
+        y,
+        len,
+        size,
         type,
         orient,
         color,
         block,
-        blocks: data.length - 1,
+        partition: data.map((d) => (d.value - min) / (max - min)),
         range: this.ribbonRange,
         ...style,
       });
   }
 
-  private renderHandles() {
-    const { showHandle, slidable } = this.attributes;
-    const [min, max] = this.selection;
-    this.startHandle = this.renderHandle('start', min);
-    this.endHandle = this.renderHandle('end', max);
-    if (!showHandle || !slidable) this.handlesGroup.style('visibility', 'hidden');
-    else this.handlesGroup.style('visibility', 'visible');
-  }
-
-  private renderHandle(type: string, value: number) {
-    const { orient } = this.attributes;
-    const { formatter, ...handleStyle } = subObject(this.attributes, 'handle');
-    const handle = this.handlesGroup
-      // @ts-ignore
-      .maybeAppendByClassName(CLASS_NAMES.prefix(`${type}-handle`), () => new Handle({}))
-      .styles({ orient, labelText: value, ...handleStyle });
-    this.setHandlePosition(type, value);
-    return handle;
-  }
-
-  private setHandlePosition(type: string, value: number) {
-    const { ribbonSize, handleFormatter } = this.attributes;
-    const offset = this.getOffset(value);
-    const [x, y] = this.ifHorizontal([offset, ribbonSize * 0.7], [ribbonSize / 2, offset]);
+  private getHandleClassName(type: HandleType) {
     // @ts-ignore
-    const handle = this.handlesGroup.select(`.${CLASS_NAMES.prefix(`${type}-handle`)}`).node();
-    handle?.attr('formatter', handleFormatter);
-    const [prevX, prevY] = handle.getLocalPosition();
+    return `${CLASS_NAMES.prefix(`${type}-handle`)}`;
+  }
 
-    if (Math.abs(x + y - prevX - prevY) < 100) handle?.setLocalPosition(x, y);
-    else
-      handle?.animate(
-        [
-          {
-            transform: `translate(${handle.getLocalPosition().slice(0, 2).join(',')})`,
-          },
-          {
-            transform: `translate(${x}, ${y})`,
-          },
-        ],
-        { duration: 200, fill: 'both' }
+  private renderHandles() {
+    const { showHandle, orient } = this.attributes;
+    const { formatter, ...handleStyle } = subObject(this.attributes, 'handle');
+    const [min, max] = this.selection;
+    const style = { orient, ...handleStyle };
+    const that = this;
+    this.handlesGroup
+      .selectAll(CLASS_NAMES.handle.class)
+      .data(
+        showHandle
+          ? [
+              { value: min, type: 'start' },
+              { value: max, type: 'end' },
+            ]
+          : [],
+        (d) => d.type
+      )
+      .join(
+        (enter) =>
+          enter
+            .append(() => new Handle({}))
+            .attr('className', (d: any) => `${CLASS_NAMES.handle} ${this.getHandleClassName(d.type)}`)
+            .styles(style)
+            .style('labelText', (d: any) => d.value)
+            .each(function (d) {
+              const handle = select(this);
+              if (d.type === 'start') that.startHandle = handle;
+              else that.endHandle = handle;
+            }),
+        (update) => update.styles(style).style('labelText', (d: any) => d.value),
+        (exit) => exit.remove()
       );
   }
 
-  private renderIndicator(group: Selection, style: any) {
-    this.indicator = group.maybeAppendByClassName(CLASS_NAMES.indicator, () => new Indicator({ style })).update(style);
+  private adjustHandles() {
+    const [min, max] = this.selection;
+    this.setHandlePosition('start', min);
+    this.setHandlePosition('end', max);
+  }
+
+  private cacheHandleBBox: DOMRect | null = null;
+
+  private get handleBBox() {
+    if (this.cacheHandleBBox) return this.cacheHandleBBox;
+    const { width: startHandleWidth, height: startHandleHeight } = this.startHandle.node().getBBox();
+    const { width: endHandleWidth, height: endHandleHeight } = this.endHandle.node().getBBox();
+    const [width, height] = [Math.max(startHandleWidth, endHandleWidth), Math.max(startHandleHeight, endHandleHeight)];
+    this.cacheHandleBBox = new DOMRect(0, 0, width, height);
+    return this.cacheHandleBBox;
+  }
+
+  /**
+   *  因为 handle label 的宽高是动态的，所以 handle bbox 是第一次渲染时的 bbox
+   */
+  private get handleShape() {
+    const { width, height } = this.handleBBox;
+    const [size, len] = this.ifHorizontal([height, width], [width, height]);
+    return { width, height, size, len };
+  }
+
+  private setHandlePosition(type: HandleType, value: number) {
+    const { handleFormatter } = this.attributes;
+    const { x: ribbonX, y: ribbonY } = this.ribbonBBox;
+    const { size: ribbonSize } = this.ribbonShape;
+    const offset = this.getOffset(value);
+    const [x, y] = this.ifHorizontal(
+      [ribbonX + offset, ribbonY + ribbonSize * this.handleOffsetRatio],
+      [ribbonX + ribbonSize * this.handleOffsetRatio, ribbonY + offset]
+    );
+    // @ts-ignore
+    const handle = this.handlesGroup.select(`.${this.getHandleClassName(type)}`).node();
+    handle?.attr('formatter', handleFormatter);
+    // const [prevX, prevY] = handle.getLocalPosition();
+    handle?.setLocalPosition(x, y);
+  }
+
+  private renderIndicator(container: Selection) {
+    const style = subObject(this.attributes, 'indicator');
+    this.indicator = container
+      .maybeAppendByClassName(CLASS_NAMES.indicator, () => new Indicator({ style }))
+      .update(style);
   }
 
   private get labelData(): ContinuousDatum[] {
-    const { data, labelAlign } = this.attributes;
+    const { data } = this.attributes;
     return data.reduce((acc, curr, index, arr) => {
       const id = curr?.id ?? index.toString();
-      if (labelAlign === 'value')
-        acc.push({
-          ...curr,
-          id,
-          label: curr?.label ?? curr.value.toString(),
-          value: this.ribbonScale.map(curr.value),
-        });
-      else if (index < arr.length - 1) {
+      acc.push({
+        ...curr,
+        id,
+        index,
+        type: 'value',
+        label: curr?.label ?? curr.value.toString(),
+        value: this.ribbonScale.map(curr.value),
+      });
+      if (index < arr.length - 1) {
         const next = arr[index + 1];
         const [cr, nx] = [curr.value, next.value];
         const midVal = (cr + nx) / 2;
         acc.push({
           ...curr,
           id,
+          index,
+          type: 'range',
           range: [cr, nx],
           label: [cr, nx].join('~'),
           value: this.ribbonScale.map(midVal),
@@ -232,53 +368,124 @@ export class Continuous extends GUI<ContinuousStyleProps> {
   }
 
   private get labelStyle() {
-    const { orient, labelDirection = 'positive' } = this.attributes;
     let [labelTextAlign, labelTextBaseline] = ['center', 'middle'];
-    if (orient === 'horizontal') {
-      if (labelDirection === 'positive') labelTextBaseline = 'top';
-      else labelTextBaseline = 'bottom';
-    } else if (labelDirection === 'positive') labelTextAlign = 'end';
-    else labelTextAlign = 'start';
+
+    const labelPosition = this.labelPosition;
+    if (labelPosition === 'top') labelTextBaseline = 'bottom';
+    else if (labelPosition === 'bottom') labelTextBaseline = 'top';
+    else if (labelPosition === 'left') labelTextAlign = 'end';
+    else if (labelPosition === 'right') labelTextAlign = 'start';
+
     return {
       labelTextAlign,
       labelTextBaseline,
     };
   }
 
-  private renderLabel(group: Selection) {
-    const { ribbonSize, ribbonLen } = this.attributes;
-    const { spacing, align, formatter, filter, ...labelStyle } = subObject(this.attributes, 'label');
-    const [startPos, endPos] = this.ifHorizontal(
-      [
-        [0, ribbonSize / 2],
-        [ribbonLen, ribbonSize / 2],
-      ],
-      [
-        [ribbonSize / 2, 0],
-        [ribbonSize / 2, ribbonLen],
-      ]
-    );
+  private renderLabel(container: Selection) {
+    const {
+      formatter,
+      filtrate,
+      filter,
+      align,
+      labelDirection,
+      tickLength,
+      showTick = false,
+      ...restStyle
+    } = subObject(this.attributes, 'label');
+
+    const [tickStyle, labelStyle] = subObjects(restStyle, ['tick']);
 
     const style = {
       type: 'linear',
-      startPos,
-      endPos,
+      startPos: [0, 0],
+      endPos: [0, 0],
       data: this.labelData,
       showLine: false,
       showGrid: false,
-      showTick: false,
-      labelSpacing: spacing + ribbonSize / 2,
+      showTick,
+      tickDirection: labelDirection,
       labelTransform: 'rotate(0)',
       ...this.labelStyle,
+      ...Object.fromEntries(Object.entries(tickStyle).map(([k, v]) => [`tick${capitalize(k)}`, v])),
       ...Object.fromEntries(Object.entries(labelStyle).map(([k, v]) => [`label${capitalize(k)}`, v])),
     } as AxisStyleProps;
 
-    const axis = group
+    this.label = container
       .maybeAppendByClassName(CLASS_NAMES.label, () => new Axis({ style }))
-      .styles(style)
-      .node();
-    axis.attr('labelFormatter', formatter);
-    axis.attr('labelFilter', filter);
+      .styles(style) as Selection;
+    this.label.node().attr({
+      tickFilter: (datum: ContinuousDatum, index: number, data: ContinuousDatum[]) => {
+        if (datum?.type !== 'value') return false;
+        if (filtrate) return filtrate(datum, datum.index, data);
+        return true;
+      },
+      labelFilter: (datum: ContinuousDatum, index: number, data: ContinuousDatum[]) => {
+        if (datum?.type !== align) return false;
+        if (filtrate) return filtrate(datum, datum.index, data);
+        return true;
+      },
+      labelFormatter: formatter,
+    });
+  }
+
+  private get labelAxisCfg() {
+    const { labelDirection, labelShowTick, labelSpacing } = this.attributes as Required<ContinuousStyleProps>;
+    const { size: ribbonSize } = this.ribbonShape;
+    const labelPosition = this.labelPosition;
+    const labelFixedSpacing = this.labelFixedSpacing;
+    let [offset, spacing, tickLength] = [0, 0, 0];
+
+    const internalVal = ribbonSize + labelFixedSpacing;
+
+    if (labelShowTick) {
+      tickLength = ribbonSize + labelSpacing;
+      spacing = labelFixedSpacing;
+
+      if (labelDirection === 'positive') {
+        if (labelPosition === 'left') {
+          offset = -labelFixedSpacing;
+          tickLength = ribbonSize + labelFixedSpacing;
+        } else if (labelPosition === 'bottom') offset = tickLength;
+      } else if (labelDirection === 'negative') {
+        if (labelPosition === 'top') offset = ribbonSize;
+      }
+    } else if (labelDirection === 'positive') {
+      if (labelPosition === 'left') spacing = labelSpacing;
+      else if (labelPosition === 'bottom') {
+        offset = internalVal;
+        spacing = labelSpacing;
+      }
+    } else if (labelDirection === 'negative') {
+      if (labelPosition === 'right') spacing = ribbonSize + labelSpacing;
+      else if (labelPosition === 'top') spacing = labelSpacing;
+    }
+
+    return { offset, spacing, tickLength };
+  }
+
+  private adjustLabel() {
+    const { showLabel } = this.attributes as Required<ContinuousStyleProps>;
+    if (!showLabel) return;
+    const { x, y, width, height } = this.ribbonBBox;
+    const { offset: axisOffset, spacing: axisSpacing, tickLength: axisTickLength } = this.labelAxisCfg;
+    const [startPos, endPos] = this.ifHorizontal(
+      [
+        [x, y + axisOffset],
+        [x + width, y + axisOffset],
+      ],
+      [
+        [x + axisOffset, y],
+        [x + axisOffset, y + height],
+      ]
+    );
+
+    this.label.styles({
+      startPos,
+      endPos,
+      tickLength: axisTickLength,
+      labelSpacing: axisSpacing,
+    });
   }
 
   /** 当前交互的对象 */
@@ -324,15 +531,16 @@ export class Continuous extends GUI<ContinuousStyleProps> {
   };
 
   public showIndicator(value: number, text = `${value}`) {
-    const { orient, showIndicator } = this.attributes;
+    const { showIndicator } = this.attributes;
     if (!showIndicator || typeof value !== 'number') {
       this.hideIndicator();
       return;
     }
     const { min, max } = this.range;
+    const { x, y } = this.ribbonBBox;
     const safeValue = clamp(value, min, max);
-    const pos: Point = [this.getOffset(safeValue), 0];
-    if (orient === 'vertical') pos.reverse();
+    const offset = this.getOffset(safeValue);
+    const pos: Point = this.ifHorizontal([offset + x, y], [x, offset + y]);
     this.indicator.update({
       visibility: 'visible',
       position: this.ifHorizontal('top', 'left'),
@@ -436,14 +644,14 @@ export class Continuous extends GUI<ContinuousStyleProps> {
     const startPos = this.ifHorizontal(x, y);
     const currValue = this.ifHorizontal(...getEventPos(e));
     const offset = currValue - startPos;
-    const value = clamp(this.getOffset(offset, true) + min, min, max);
+    const value = clamp(this.getOffset(offset, true), min, max);
     return value;
   }
 
   /** reverse: 屏幕偏移量 -> 值 */
   private getOffset(value: number, reverse = false) {
     const { min, max } = this.range;
-    const { ribbonLen } = this.attributes;
+    const { len: ribbonLen } = this.ribbonShape;
     const scale = this.eventToOffsetScale;
     scale.update({ domain: [min, max], range: [0, ribbonLen] });
     if (reverse) return scale.invert(value);

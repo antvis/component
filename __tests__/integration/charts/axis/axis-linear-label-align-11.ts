@@ -9,7 +9,7 @@ export const AxisLinearLabelAlign11 = () => {
       height: 100,
     },
   });
-  group.appendChild(
+  const axis = group.appendChild(
     new Axis({
       style: {
         type: 'linear',

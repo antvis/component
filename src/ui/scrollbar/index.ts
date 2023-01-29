@@ -1,7 +1,7 @@
 import { CustomEvent, Group } from '@antv/g';
 import { clamp, deepMix } from '@antv/util';
 import { GUI } from '../../core/gui';
-import { normalSeriesAttr, prefixStyle, select, subObjects, getEventPos } from '../../util';
+import { normalSeriesAttr, superObject, select, subObjects, getEventPos } from '../../util';
 import { Slider, type SliderStyleProps } from '../slider';
 import type { ScrollbarOptions, ScrollbarStyleProps } from './types';
 
@@ -104,8 +104,8 @@ export class Scrollbar extends GUI<Required<ScrollbarStyleProps>> {
       trackLength: this.trackLength,
       trackRadius: this.trackRadius,
       selectionRadius: this.thumbRadius,
-      ...prefixStyle(trackStyle, 'track'),
-      ...prefixStyle(selectionStyle, 'selection'),
+      ...superObject(trackStyle, 'track'),
+      ...superObject(selectionStyle, 'selection'),
     };
     this.slider = select(container)
       .maybeAppendByClassName('scrollbar', () => new Slider({ style }))

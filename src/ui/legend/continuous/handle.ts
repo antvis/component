@@ -1,6 +1,16 @@
-import { Group, TextStyleProps, type GroupStyleProps } from '@antv/g';
+import { Group, type DisplayObjectConfig, type GroupStyleProps, type TextStyleProps } from '@antv/g';
+import { GUI } from '../../../core/gui';
 import type { PrefixedStyle } from '../../../types';
-import { createComponent, subObjects, select, classNames, ifShow } from '../../../util';
+import {
+  classNames,
+  deepAssign,
+  ifShow,
+  select,
+  subObject,
+  superObject,
+  TEXT_INHERITABLE_PROPS,
+  type Selection,
+} from '../../../util';
 import { Marker, MarkerStyleProps } from '../../marker';
 import { ifHorizontal } from '../utils';
 
@@ -14,16 +24,21 @@ export type HandleStyleProps<T = any> = GroupStyleProps &
     formatter?: (val: T) => string;
   };
 
+export type HandleType = 'start' | 'end';
+
 const CLASS_NAMES = classNames(
   {
+    markerGroup: 'marker-group',
     marker: 'marker',
-    labelGroup: 'labelGroup',
+    labelGroup: 'label-group',
     label: 'label',
   } as const,
   'handle'
 );
 
-const DEFAULT_HANDLE_CFG: HandleStyleProps = {
+// todo @xiaoiver, 配置 TEXT_INHERITABLE_PROPS 后文本包围盒依旧不准确
+export const DEFAULT_HANDLE_CFG: HandleStyleProps = {
+  ...superObject(TEXT_INHERITABLE_PROPS, 'label'),
   markerSize: 25,
   markerStroke: '#c5c5c5',
   markerFill: '#fff',
@@ -34,52 +49,54 @@ const DEFAULT_HANDLE_CFG: HandleStyleProps = {
   orient: 'vertical',
   spacing: 0,
   showLabel: true,
-  formatter: (val) => val.toString(),
+  formatter: (val: any) => val.toString(),
 };
 
-export const Handle = createComponent<HandleStyleProps>(
-  {
-    render(attribute: HandleStyleProps, container: Group) {
-      const {
-        orient,
-        visibility,
-        spacing = 0,
-        showLabel,
-        formatter,
-        markerSymbol = ifHorizontal(orient, 'horizontalHandle', 'verticalHandle'),
-      } = attribute as Required<HandleStyleProps>;
-      const [{ text, ...labelStyle }, handleStyle] = subObjects(attribute, ['label', 'marker']);
-      if (!markerSymbol || visibility === 'hidden') {
-        container.querySelector(CLASS_NAMES.marker.class)?.remove();
-        container.querySelector(CLASS_NAMES.label.class)?.remove();
-        return;
-      }
-
-      const style = { symbol: markerSymbol, ...handleStyle };
-      const marker = select(container)
-        // .maybeAppendByClassName(CLASS_NAMES.marker, () => new Marker({ style }))
-        .maybeAppend(CLASS_NAMES.marker.name, () => new Marker({}))
-        .update(style);
-
-      const labelGroup = select(container).maybeAppendByClassName(CLASS_NAMES.labelGroup, 'g');
-      ifShow(showLabel, labelGroup, (group) => {
-        const label = group
-          .maybeAppendByClassName(CLASS_NAMES.label, 'text')
-          .styles({ text: formatter(text).toString(), ...labelStyle });
-
-        // adjust layout
-        const { width, height } = marker.node().getBBox();
-        const [x, y, textAlign, textBaseline] = ifHorizontal(
-          orient,
-          [0, height + spacing, 'center', 'top'],
-          [width + spacing, 0, 'start', 'middle']
-        );
-        label.node().setLocalPosition(x, y);
-        label.style('textAlign', textAlign).style('textBaseline', textBaseline);
-      });
-    },
-  },
-  {
-    ...DEFAULT_HANDLE_CFG,
+export class Handle extends GUI<HandleStyleProps> {
+  constructor(config: DisplayObjectConfig<HandleStyleProps>) {
+    super(deepAssign({}, { style: DEFAULT_HANDLE_CFG }, config));
   }
-);
+
+  private marker!: Selection;
+
+  render(attributes: HandleStyleProps, container: Group) {
+    const markerGroup = select(container).maybeAppendByClassName(CLASS_NAMES.markerGroup, 'g');
+    this.renderMarker(markerGroup);
+
+    const labelGroup = select(container).maybeAppendByClassName(CLASS_NAMES.labelGroup, 'g');
+    this.renderLabel(labelGroup);
+  }
+
+  attributeChangedCallback() {
+    this.render(this.attributes, this);
+  }
+
+  private renderMarker(container: Selection) {
+    const { orient, markerSymbol = ifHorizontal(orient, 'horizontalHandle', 'verticalHandle') } = this
+      .attributes as Required<HandleStyleProps>;
+
+    ifShow(!!markerSymbol, container, (group) => {
+      const handleStyle = subObject(this.attributes, 'marker');
+      const markerStyle = { symbol: markerSymbol, ...handleStyle };
+      this.marker = group.maybeAppendByClassName(CLASS_NAMES.marker, () => new Marker({})).update(markerStyle);
+    });
+  }
+
+  private renderLabel(container: Selection) {
+    const { orient, spacing = 0, showLabel, formatter } = this.attributes as Required<HandleStyleProps>;
+    ifShow(showLabel, container, (group) => {
+      const { text, ...labelStyle } = subObject(this.attributes, 'label');
+      // adjust layout
+      const { width = 0, height = 0 } = group.select(CLASS_NAMES.marker.class)?.node().getBBox() || {};
+      const [x, y, textAlign, textBaseline] = ifHorizontal(
+        orient,
+        [0, height + spacing, 'center', 'top'],
+        [width + spacing, 0, 'start', 'middle']
+      );
+
+      group
+        .maybeAppendByClassName(CLASS_NAMES.label, 'text')
+        .styles({ ...labelStyle, x, y, text: formatter(text).toString(), textAlign, textBaseline });
+    });
+  }
+}

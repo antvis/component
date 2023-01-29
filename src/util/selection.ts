@@ -154,7 +154,7 @@ export class Selection<T = any> {
   maybeAppendByClassName<T = DisplayObject>(className: any, node: string | (() => _Element)) {
     const cls: string = className.toString();
     const element = this.#maybeAppend<T>(cls.startsWith('.') ? cls : `.${cls}`, node);
-    element.attr('className', cls);
+    element.addClassName(cls);
     return element;
   }
 
@@ -162,6 +162,16 @@ export class Selection<T = any> {
     const element = this.#maybeAppend<T>(`[name="${name}"]`, node);
     element.attr('name', name);
     return element;
+  }
+
+  addClassName(name: string) {
+    for (const element of this._elements) {
+      const currCls = element.attr('class') || undefined;
+      const currClassSet = new Set(currCls?.split(' ') || []);
+      name.split(' ').forEach((cls) => currClassSet.add(cls));
+      element.attr('class', Array.from(currClassSet).join(' '));
+    }
+    return this;
   }
 
   /**

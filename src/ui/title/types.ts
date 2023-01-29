@@ -3,29 +3,27 @@ import type { SeriesAttr } from '../../util';
 
 export interface TitleStyle extends GroupStyleProps, TextStyleProps {}
 
+export type PositionAbbr = 't' | 'r' | 'l' | 'b' | 'lt' | 'tl' | 'rt' | 'tr' | 'lb' | 'bl' | 'rb' | 'br' | 'i';
+
 export interface TitleCfg {
   /** bbox of target to add titled */
   spacing?: SeriesAttr;
   inset?: SeriesAttr;
   position?:
-    | 't'
+    | PositionAbbr
     | 'top'
-    | 'b'
     | 'bottom'
-    | 'l'
     | 'left'
-    | 'r'
     | 'right'
-    | 'lt'
     | 'left-top'
-    | 'lb'
+    | 'top-left'
     | 'left-bottom'
-    | 'rt'
+    | 'bottom-left'
     | 'right-top'
-    | 'rb'
+    | 'top-right'
     | 'right-bottom'
-    | 'inner'
-    | 'i';
+    | 'bottom-right'
+    | 'inner';
 }
 
 export type TitleStyleProps = TitleStyle & TitleCfg;

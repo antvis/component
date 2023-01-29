@@ -1,5 +1,6 @@
 import { deepMix } from '@antv/util';
-import { classNames } from '../../util';
+import { classNames, superObject } from '../../util';
+import { DEFAULT_HANDLE_CFG } from './continuous/handle';
 import type { LegendBaseOptions } from './types';
 
 export const LEGEND_BASE_DEFAULT_OPTIONS: Partial<LegendBaseOptions> = {
@@ -10,7 +11,7 @@ export const LEGEND_BASE_DEFAULT_OPTIONS: Partial<LegendBaseOptions> = {
     titleText: '',
     showTitle: true,
     titleSpacing: 4,
-    titlePosition: 'left-top',
+    titlePosition: 'top-left',
     titleFill: '#2C3542',
     titleFontWeight: 'bold',
     titleFontFamily: 'sans-serif',
@@ -38,31 +39,38 @@ export const CATEGORY_DEFAULT_OPTIONS = deepMix({}, LEGEND_BASE_DEFAULT_OPTIONS,
   },
 });
 
-export const CONTINUOUS_DEFAULT_OPTIONS = deepMix({}, LEGEND_BASE_DEFAULT_OPTIONS, {
-  style: {
-    type: 'continuous',
-    color: [
-      '#d0e3fa',
-      '#acc7f6',
-      '#8daaf2',
-      '#6d8eea',
-      '#4d73cd',
-      '#325bb1',
-      '#5a3e75',
-      '#8c3c79',
-      '#e23455',
-      '#e7655b',
-    ],
-    slidable: true,
-    showHandle: true,
-    showLabel: true,
-    showIndicator: true,
-    labelSpacing: 5,
-    indicatorLabelFill: 'white',
-    indicatorLabelFontSize: 12,
-    indicatorBackgroundFill: '#262626',
-  },
-});
+export const CONTINUOUS_DEFAULT_OPTIONS = deepMix(
+  {},
+  LEGEND_BASE_DEFAULT_OPTIONS,
+  superObject(DEFAULT_HANDLE_CFG, 'handle'),
+  {
+    style: {
+      type: 'continuous',
+      color: [
+        '#d0e3fa',
+        '#acc7f6',
+        '#8daaf2',
+        '#6d8eea',
+        '#4d73cd',
+        '#325bb1',
+        '#5a3e75',
+        '#8c3c79',
+        '#e23455',
+        '#e7655b',
+      ],
+      slidable: true,
+      showHandle: true,
+      showLabel: true,
+      showIndicator: true,
+      labelSpacing: 5,
+      labelAlign: 'value',
+      labelDirection: 'positive',
+      indicatorLabelFill: 'white',
+      indicatorLabelFontSize: 12,
+      indicatorBackgroundFill: '#262626',
+    },
+  }
+);
 
 // 连续图例步长比例
 export const STEP_RATIO = 0.01;
@@ -80,6 +88,7 @@ export const CLASS_NAMES = classNames(
     ribbonGroup: 'ribbon-group',
     ribbon: 'ribbon',
     handlesGroup: 'handles-group',
+    handle: 'handle',
     startHandle: 'start-handle',
     endHandle: 'end-handle',
     labelGroup: 'label-group',
