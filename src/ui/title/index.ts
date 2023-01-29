@@ -1,7 +1,7 @@
 import type { DisplayObjectConfig, Group, Text } from '@antv/g';
 import { DisplayObject } from '@antv/g';
 import { GUI } from '../../core/gui';
-import { classNames, deepAssign, ifShow, normalSeriesAttr, select, Selection, styleSeparator } from '../../util';
+import { BBox, classNames, deepAssign, ifShow, normalSeriesAttr, select, Selection, styleSeparator } from '../../util';
 import type { TitleStyleProps } from './types';
 
 export type { TitleStyleProps };
@@ -56,7 +56,7 @@ export function getBBox(title: Title, content: DisplayObject): DOMRect {
   // 只基于第一个 pos 进行判断
   // 如果在左边或者上边，直接包围盒相加再加上间距
   if (pos[0] === 'l') {
-    return new DOMRect(
+    return new BBox(
       titleBBox.x,
       titleBBox.y,
       contentBBox.width + titleBBox.width + spacingWidth + insetWidth,
@@ -64,7 +64,7 @@ export function getBBox(title: Title, content: DisplayObject): DOMRect {
     );
   }
   if (pos[0] === 't') {
-    return new DOMRect(
+    return new BBox(
       titleBBox.x,
       titleBBox.y,
       Math.max(contentBBox.width + insetWidth, titleBBox.width),
@@ -77,7 +77,7 @@ export function getBBox(title: Title, content: DisplayObject): DOMRect {
     content.attributes.width || contentBBox.width,
     content.attributes.height || contentBBox.height,
   ];
-  return new DOMRect(
+  return new BBox(
     contentBBox.x,
     contentBBox.y,
     contentWidth + titleBBox.width + spacingWidth + insetWidth,
@@ -126,14 +126,14 @@ export class Title extends GUI<TitleStyleProps> {
       inset,
     } = this.attributes as Required<TitleStyleProps>;
     const title = container.querySelector<DisplayObject>(CLASS_NAMES.text.class);
-    if (!title) return new DOMRect(0, 0, +containerWidth, +containerHeight);
+    if (!title) return new BBox(0, 0, +containerWidth, +containerHeight);
     const { width: titleWidth, height: titleHeight } = title.getBBox();
     const [spacingTop, spacingRight, spacingBottom, spacingLeft] = normalSeriesAttr(spacing);
 
     let [x, y, width, height] = [0, 0, +containerWidth, +containerHeight];
     const pos = parsePosition(position);
 
-    if (pos.includes('i')) return new DOMRect(x, y, width, height);
+    if (pos.includes('i')) return new BBox(x, y, width, height);
 
     pos.forEach((p, i) => {
       if (p === 't')
@@ -150,12 +150,12 @@ export class Title extends GUI<TitleStyleProps> {
 
     const [insetTop, insetRight, insetBottom, insetLeft] = normalSeriesAttr(inset);
     const [insetWidth, insetHeight] = [insetLeft + insetRight, insetTop + insetBottom];
-    return new DOMRect(x + insetLeft, y + insetTop, width - insetWidth, height - insetHeight);
+    return new BBox(x + insetLeft, y + insetTop, width - insetWidth, height - insetHeight);
   }
 
   public getBBox(): DOMRect {
     if (this.title) return this.title.getBBox();
-    return new DOMRect(0, 0, 0, 0);
+    return new BBox(0, 0, 0, 0);
   }
 
   public render(attributes: TitleStyleProps, container: Group) {

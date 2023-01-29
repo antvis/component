@@ -3,6 +3,7 @@ import { clamp, debounce } from '@antv/util';
 import { GUI } from '../../core/gui';
 import type { Vector2 } from '../../types';
 import {
+  BBox,
   classNames,
   deepAssign,
   scaleToPixel,
@@ -135,7 +136,7 @@ export class Navigator extends GUI<NavigatorStyleProps> {
     const { x, y } = super.getBBox();
     const controllerShape = this.controllerShape;
     const { pageWidth, pageHeight } = this.pageShape;
-    return new DOMRect(x, y, pageWidth + controllerShape.width, pageHeight);
+    return new BBox(x, y, pageWidth + controllerShape.width, pageHeight);
   }
 
   public goTo(pageNum: number) {

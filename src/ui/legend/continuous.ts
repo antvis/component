@@ -3,8 +3,8 @@ import { Linear } from '@antv/scale';
 import { clamp, isUndefined, memoize } from '@antv/util';
 import { GUI } from '../../core/gui';
 import { Point } from '../../types';
-import { CLASS_NAMES as AXIS_CLASS_NAMES } from '../axis/constant';
 import {
+  BBox,
   capitalize,
   deepAssign,
   getEventPos,
@@ -17,8 +17,9 @@ import {
   toPrecision,
 } from '../../util';
 import { Axis, type AxisStyleProps } from '../axis';
+import { CLASS_NAMES as AXIS_CLASS_NAMES } from '../axis/constant';
 import { Indicator } from '../indicator';
-import { getBBox, Title } from '../title';
+import { Title } from '../title';
 import { CLASS_NAMES, CONTINUOUS_DEFAULT_OPTIONS, STEP_RATIO } from './constant';
 import { Handle, type HandleType } from './continuous/handle';
 import { Ribbon } from './continuous/ribbon';
@@ -66,7 +67,8 @@ export class Continuous extends GUI<ContinuousStyleProps> {
   protected endHandle!: Selection;
 
   public getBBox(): DOMRect {
-    return getBBox(this.title.node(), this.querySelector(CLASS_NAMES.contentGroup.class) as DisplayObject);
+    const { width, height } = this.attributes;
+    return new BBox(0, 0, width, height);
   }
 
   public render(attributes: ContinuousStyleProps, container: Group) {
@@ -167,12 +169,12 @@ export class Continuous extends GUI<ContinuousStyleProps> {
 
   private get labelBBox() {
     const { showLabel } = this.attributes;
-    if (!showLabel) return { width: 0, height: 0 };
+    if (!showLabel) return new BBox(0, 0, 0, 0);
     if (this.cacheLabelBBox) return this.cacheLabelBBox;
     const { width, height } = (
       this.label.select(AXIS_CLASS_NAMES.labelGroup.class).node().children.slice(-1)[0] as DisplayObject
     ).getBBox();
-    this.cacheLabelBBox = new DOMRect(0, 0, width, height);
+    this.cacheLabelBBox = new BBox(0, 0, width, height);
     return this.cacheLabelBBox;
   }
 
@@ -218,7 +220,7 @@ export class Continuous extends GUI<ContinuousStyleProps> {
 
     const [x, y] = this.ifHorizontal([edgeLength / 2, finalLabelOccupy], [finalLabelOccupy, edgeLength / 2]);
 
-    return new DOMRect(x, y, width, height);
+    return new BBox(x, y, width, height);
   }
 
   private get ribbonShape() {
@@ -298,10 +300,11 @@ export class Continuous extends GUI<ContinuousStyleProps> {
 
   private get handleBBox() {
     if (this.cacheHandleBBox) return this.cacheHandleBBox;
+    if (!this.attributes.showHandle) return new BBox(0, 0, 0, 0);
     const { width: startHandleWidth, height: startHandleHeight } = this.startHandle.node().getBBox();
     const { width: endHandleWidth, height: endHandleHeight } = this.endHandle.node().getBBox();
     const [width, height] = [Math.max(startHandleWidth, endHandleWidth), Math.max(startHandleHeight, endHandleHeight)];
-    this.cacheHandleBBox = new DOMRect(0, 0, width, height);
+    this.cacheHandleBBox = new BBox(0, 0, width, height);
     return this.cacheHandleBBox;
   }
 

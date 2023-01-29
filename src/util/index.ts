@@ -30,3 +30,4 @@ export * from './layout';
 export * from './transpose';
 export * from './scale-to-pixel';
 export * from './transition';
+export * from './bbox';

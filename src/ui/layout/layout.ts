@@ -6,6 +6,7 @@ import {
   type FederatedEvent,
   type INode,
 } from '@antv/g';
+import { BBox } from '../../util';
 import { calcLayout } from '../../util/layout';
 import { normalSeriesAttr, type NormalSeriesAttr, type SeriesAttr } from '../../util/series';
 import type { LayoutStyleProps } from './types';
@@ -36,12 +37,7 @@ export class Layout extends Group {
   public getBBox() {
     const { x = 0, y = 0, width, height } = this.attributes;
     const [marginTop, marginRight, marginBottom, marginLeft] = this.$margin;
-    return new DOMRect(
-      x - marginLeft,
-      y - marginTop,
-      width + marginLeft + marginRight,
-      height + marginTop + marginBottom
-    );
+    return new BBox(x - marginLeft, y - marginTop, width + marginLeft + marginRight, height + marginTop + marginBottom);
   }
 
   public appendChild<T extends INode>(child: T, index?: number): T {
@@ -54,7 +50,7 @@ export class Layout extends Group {
     const { width, height } = this.attributes;
     const [paddingTop, paddingRight, paddingBottom, paddingLeft] = this.$padding;
     const [marginTop, , , marginLeft] = this.$margin;
-    return new DOMRect(
+    return new BBox(
       paddingLeft + marginLeft,
       paddingTop + marginTop,
       width - paddingLeft - paddingRight,

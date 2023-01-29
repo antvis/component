@@ -1,6 +1,6 @@
 import type { DisplayObjectConfig, Group } from '@antv/g';
 import { GUI } from '../../core/gui';
-import { deepAssign, ifShow, select, Selection, styleSeparator, subObject, subObjects } from '../../util';
+import { BBox, deepAssign, select, Selection, styleSeparator, subObject, subObjects } from '../../util';
 import { getBBox, Title, type TitleStyleProps } from '../title';
 import { CategoryItems } from './category/items';
 import { CATEGORY_DEFAULT_OPTIONS, CLASS_NAMES } from './constant';
@@ -15,22 +15,22 @@ export class Category extends GUI<CategoryStyleProps> {
 
   private titleGroup!: Selection;
 
+  private title!: Selection<Title>;
+
   private itemsGroup!: Selection;
 
   private items!: Selection<CategoryItems>;
 
   private renderTitle(container: Selection, width: number, height: number) {
-    const { showTitle } = this.attributes;
+    const { showTitle, titleText } = this.attributes;
     const style = subObject(this.attributes, 'title') as TitleStyleProps;
     const [titleStyle, groupStyle] = styleSeparator(style);
     this.titleGroup = container.maybeAppendByClassName<Group>(CLASS_NAMES.titleGroup, 'g').styles(groupStyle);
 
-    ifShow(!!showTitle, this.titleGroup, (group) => {
-      const finalTitleStyle = { width, height, ...titleStyle };
-      group
-        .maybeAppendByClassName(CLASS_NAMES.title, () => new Title({ style: finalTitleStyle as TitleStyleProps }))
-        .update(finalTitleStyle);
-    });
+    const finalTitleStyle = { width, height, ...titleStyle, text: showTitle ? titleText : '' };
+    this.title = this.titleGroup
+      .maybeAppendByClassName(CLASS_NAMES.title, () => new Title({ style: finalTitleStyle as TitleStyleProps }))
+      .update(finalTitleStyle) as Selection<Title>;
   }
 
   private renderItems(container: Selection, bbox: DOMRect) {
@@ -63,19 +63,19 @@ export class Category extends GUI<CategoryStyleProps> {
   private adjustLayout() {
     const { showTitle } = this.attributes;
     if (showTitle) {
-      const { x, y } = this.titleGroup.select(CLASS_NAMES.title.class).node<Title>().getAvailableSpace();
+      const { x, y } = this.title.node<Title>().getAvailableSpace();
       this.itemsGroup.node().setLocalPosition(x, y);
     }
   }
 
   private get availableSpace(): DOMRect {
     const { showTitle, width, height } = this.attributes;
-    if (!showTitle) return new DOMRect(0, 0, width!, height!);
-    return (this.titleGroup.select(CLASS_NAMES.title.class).node() as Title).getAvailableSpace();
+    if (!showTitle) return new BBox(0, 0, width!, height!);
+    return (this.title.node() as Title).getAvailableSpace();
   }
 
   public getBBox(): DOMRect {
-    return getBBox(this.querySelector(CLASS_NAMES.title.class) as Title, this.items.node());
+    return getBBox(this.title.node(), this.items.node());
   }
 
   render(attributes: CategoryStyleProps, container: Group) {

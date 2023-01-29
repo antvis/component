@@ -27,7 +27,6 @@ export { LayoutLegend6 } from './layout-legend-6';
 export { LayoutLegend7 } from './layout-legend-7';
 export { LayoutLegend8 } from './layout-legend-8';
 export { LayoutLegend9 } from './layout-legend-9';
-export { LayoutLegend10 } from './layout-legend-10';
 export { LayoutContinuous1 } from './layout-continuous-1';
 export { LayoutContinuous2 } from './layout-continuous-2';
 export { LayoutContinuous3 } from './layout-continuous-3';
