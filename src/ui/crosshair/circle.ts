@@ -2,12 +2,12 @@ import { CrosshairBase } from './base';
 import { circle } from '../marker/symbol';
 import { deepAssign, throttle } from '../../util';
 import { CIRCLE_CROSSHAIR_DEFAULT_STYLE } from './constant';
-import { CircleCrosshairCfg, CircleCrosshairOptions } from './types';
+import { CircleCrosshairStyleProps, CircleCrosshairOptions } from './types';
 import type { Point } from '../../types';
 
-export type { CircleCrosshairCfg, CircleCrosshairOptions };
+export type { CircleCrosshairStyleProps, CircleCrosshairOptions };
 
-export class CircleCrosshair extends CrosshairBase<CircleCrosshairCfg> {
+export class CircleCrosshair extends CrosshairBase<CircleCrosshairStyleProps> {
   public static tag = 'circle-crosshair';
 
   protected static defaultOptions = {
@@ -22,7 +22,7 @@ export class CircleCrosshair extends CrosshairBase<CircleCrosshairCfg> {
     super(deepAssign({}, CircleCrosshair.defaultOptions, options));
   }
 
-  public update(cfg: CircleCrosshairCfg) {
+  public update(cfg: CircleCrosshairStyleProps) {
     super.update(cfg);
   }
 

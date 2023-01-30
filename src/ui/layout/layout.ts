@@ -9,7 +9,9 @@ import {
 import { BBox } from '../../util';
 import { calcLayout } from '../../util/layout';
 import { normalSeriesAttr, type NormalSeriesAttr, type SeriesAttr } from '../../util/series';
-import type { LayoutStyleProps } from './types';
+import type { LayoutOptions, LayoutStyleProps } from './types';
+
+export type { LayoutOptions, LayoutStyleProps };
 
 export class Layout extends Group {
   private layoutEvents: ElementEvent[] = [ElementEvent.BOUNDS_CHANGED, ElementEvent.INSERTED, ElementEvent.REMOVED];

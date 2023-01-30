@@ -1,20 +1,22 @@
-import { DisplayObjectConfig, ElementEvent, Group } from '@antv/g';
+import { ElementEvent, Group } from '@antv/g';
 import { GUI } from '../../core/gui';
 import type { Point } from '../../types';
 import {
+  classNames,
   deepAssign,
-  subObject,
   isHorizontal,
   normalSeriesAttr,
   renderExtDo,
   select,
   Selection,
   styleSeparator,
+  subObject,
   TEXT_INHERITABLE_PROPS,
-  classNames,
 } from '../../util';
 import { DEFAULT_INDICATOR_CFG } from './constant';
-import type { IndicatorStyleProps, Position } from './types';
+import type { IndicatorOptions, IndicatorStyleProps, Position } from './types';
+
+export { IndicatorOptions, IndicatorStyleProps };
 
 type Edge = [Point, Point];
 
@@ -29,7 +31,7 @@ const CLASS_NAMES = classNames(
   'indicator'
 );
 export class Indicator<T = any> extends GUI<IndicatorStyleProps<T>> {
-  constructor(options: DisplayObjectConfig<IndicatorStyleProps<T>> = {}) {
+  constructor(options: IndicatorOptions) {
     super(deepAssign({}, { style: { visibility: 'hidden', ...DEFAULT_INDICATOR_CFG } }, options));
     this.group = this.appendChild(new Group({}));
     this.isMutationObserved = true;

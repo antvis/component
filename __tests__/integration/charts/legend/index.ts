@@ -52,6 +52,7 @@ export { CategoryLayout34 } from './category-layout-34';
 export { CategoryPosition1 } from './category-position-1';
 export { CategoryPosition2 } from './category-position-2';
 export { CategoryPosition3 } from './category-position-3';
+export { CategoryItemMarker1 } from './category-item-marker-1';
 export { ContinuousDemo } from './continuous';
 export { Continuous1 } from './continuous-1';
 export { Continuous2 } from './continuous-2';

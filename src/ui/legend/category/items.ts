@@ -107,16 +107,12 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
 
   private navigatorShape: [number, number] = [0, 0];
 
-  private get attrs() {
-    return filterTransform(this.attributes) as CategoryItemsStyleProps;
-  }
-
   private get pageViews() {
     return this.navigator.getContainer();
   }
 
   private get grid(): [number, number] {
-    const { gridRow, gridCol, data } = this.attrs;
+    const { gridRow, gridCol, data } = this.attributes;
     if (!gridRow && !gridCol) throw new Error('gridRow and gridCol can not be set null at the same time');
     if (!!gridRow && !!gridCol) return [gridRow, gridCol];
     if (gridRow) return [gridRow, data.length];
@@ -124,8 +120,9 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
   }
 
   private get renderData() {
-    const { data, layout } = this.attrs;
-    const style = subObject(this.attrs, 'item');
+    const { data, layout } = this.attributes;
+    const style = subObject(this.attributes, 'item');
+
     const d = data.map((datum, index) => {
       const { id = index as number, label, value } = datum;
       return {
@@ -145,7 +142,7 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
   }
 
   private getGridLayout() {
-    const { orient, width, rowPadding, colPadding } = this.attrs as Required<CategoryItemsStyleProps>;
+    const { orient, width, rowPadding, colPadding } = this.attributes as Required<CategoryItemsStyleProps>;
     const [navWidth] = this.navigatorShape;
     const [gridRow, gridCol] = this.grid;
     const pageSize = gridCol * gridRow;
@@ -183,7 +180,7 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
       height: maxHeight,
       rowPadding,
       colPadding: cP,
-    } = this.attrs as Required<CategoryItemsStyleProps>;
+    } = this.attributes as Required<CategoryItemsStyleProps>;
     const [navWidth] = this.navigatorShape;
     const [gridRow, gridCol] = this.grid;
 
@@ -228,7 +225,7 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
   }
 
   private ifHorizontal<T>(a: T, b: T): T {
-    const { orient } = this.attrs;
+    const { orient } = this.attributes;
     return ifHorizontal(orient, a, b);
   }
 
@@ -243,7 +240,7 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
   }
 
   private renderItems(container: Group) {
-    const { click, mouseenter, mouseleave } = this.attrs;
+    const { click, mouseenter, mouseleave } = this.attributes;
     this.flattenPage(container);
     const dispatchCustomEvent = this.dispatchCustomEvent.bind(this);
     select(container)
@@ -275,7 +272,7 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
   }
 
   private relayoutNavigator() {
-    const { layout, width } = this.attrs;
+    const { layout, width } = this.attributes;
     const height = (this.pageViews.children[0] as Group)?.getBBox().height || 0;
     const [navWidth, navHeight] = this.navigatorShape;
     this.navigator.update({
@@ -305,8 +302,8 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
   }
 
   private renderNavigator(container: Selection) {
-    const { orient } = this.attrs;
-    const navStyle = subObject(this.attrs, 'nav');
+    const { orient } = this.attributes;
+    const navStyle = subObject(this.attributes, 'nav');
     const style = {
       ...navStyle,
       orient,

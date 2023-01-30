@@ -3,7 +3,7 @@ import type { Point } from '../../types';
 
 export type GridStyle = LineStyleProps;
 
-export type GridCfg = GridStyle & {
+export type GridStyleProps = GridStyle & {
   items: Array<{ id: string | number; points: Point[] }>;
   /** the connect way of two lines, if arc, center is necessary */
   type?: 'segment' | 'surround';
@@ -16,4 +16,4 @@ export type GridCfg = GridStyle & {
   areaFill?: string | string[] | null;
 };
 
-export type GridOptions = DisplayObjectConfig<GridCfg>;
+export type GridOptions = DisplayObjectConfig<GridStyleProps>;

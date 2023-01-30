@@ -1,13 +1,13 @@
 import { vec2 } from '@antv/matrix-util';
 import { CrosshairBase } from './base';
 import { POLYGON_CROSSHAIR_DEFAULT_STYLE } from './constant';
-import { PolygonCrosshairCfg, PolygonCrosshairOptions } from './types';
+import { PolygonCrosshairStyleProps, PolygonCrosshairOptions } from './types';
 import { deepAssign, intersection, lineLen, throttle } from '../../util';
 import type { Point } from '../../types';
 
-export type { PolygonCrosshairCfg, PolygonCrosshairOptions };
+export type { PolygonCrosshairStyleProps, PolygonCrosshairOptions };
 
-export class PolygonCrosshair extends CrosshairBase<PolygonCrosshairCfg> {
+export class PolygonCrosshair extends CrosshairBase<PolygonCrosshairStyleProps> {
   public static tag = 'polygon-crosshair';
 
   protected static defaultOptions = {
@@ -22,7 +22,7 @@ export class PolygonCrosshair extends CrosshairBase<PolygonCrosshairCfg> {
     super(deepAssign({}, PolygonCrosshair.defaultOptions, options));
   }
 
-  public update(cfg: Partial<PolygonCrosshairCfg>) {
+  public update(cfg: Partial<PolygonCrosshairStyleProps>) {
     super.update(cfg);
   }
 

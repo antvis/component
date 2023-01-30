@@ -1,4 +1,4 @@
-import type { DisplayObject, LineStyleProps, TextStyleProps, GroupStyleProps } from '@antv/g';
+import type { DisplayObject, LineStyleProps, TextStyleProps, GroupStyleProps, DisplayObjectConfig } from '@antv/g';
 import type {
   Callbackable,
   CallbackableObject,
@@ -8,7 +8,7 @@ import type {
   Vector2,
 } from '../../types';
 import type { TitleStyleProps } from '../title';
-import type { GridCfg } from '../grid/types';
+import type { GridStyleProps } from '../grid/types';
 
 export type AxisType = 'linear' | 'arc' | 'helix';
 
@@ -148,7 +148,7 @@ export type AxisLabelCfg = {
    */
   labelTransforms?: LabelOverlapCfg[];
 };
-export type AxisGridStyle = PrefixedStyle<GridCfg, 'grid'>;
+export type AxisGridStyle = PrefixedStyle<GridStyleProps, 'grid'>;
 export type AxisGridCfg = {
   showGrid?: boolean;
   gridFilter?: (...params: AxisDatumCP) => boolean;
@@ -216,3 +216,7 @@ export interface ArcAxisStyleProps extends AxisBaseStyleProps {
 }
 
 export type AxisStyleProps = LinearAxisStyleProps | ArcAxisStyleProps;
+
+export type LinearAxisOptions = DisplayObjectConfig<LinearAxisStyleProps>;
+export type ArcAxisOptions = DisplayObjectConfig<ArcAxisStyleProps>;
+export type AxisOptions = DisplayObjectConfig<AxisBaseStyleProps>;

@@ -1,12 +1,12 @@
 import { CrosshairBase } from './base';
 import { LINE_CROSSHAIR_DEFAULT_STYLE } from './constant';
 import { deepAssign, getShapeSpace, throttle } from '../../util';
-import type { LineCrosshairCfg, LineCrosshairOptions } from './types';
+import type { LineCrosshairStyleProps, LineCrosshairOptions } from './types';
 import type { Point } from '../../types';
 
-export type { LineCrosshairCfg, LineCrosshairOptions };
+export type { LineCrosshairStyleProps, LineCrosshairOptions };
 
-export class LineCrosshair extends CrosshairBase<LineCrosshairCfg> {
+export class LineCrosshair extends CrosshairBase<LineCrosshairStyleProps> {
   static tag = 'line-crosshair';
 
   protected static defaultOptions = {
@@ -49,7 +49,7 @@ export class LineCrosshair extends CrosshairBase<LineCrosshairCfg> {
     super(deepAssign({}, LineCrosshair.defaultOptions, options));
   }
 
-  public update(cfg: Partial<LineCrosshairCfg>) {
+  public update(cfg: Partial<LineCrosshairStyleProps>) {
     super.update(cfg);
   }
 

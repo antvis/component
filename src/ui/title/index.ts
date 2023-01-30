@@ -1,10 +1,10 @@
-import type { DisplayObjectConfig, Group, Text } from '@antv/g';
+import type { Group, Text } from '@antv/g';
 import { DisplayObject } from '@antv/g';
 import { GUI } from '../../core/gui';
 import { BBox, classNames, deepAssign, ifShow, normalSeriesAttr, select, Selection, styleSeparator } from '../../util';
-import type { TitleStyleProps } from './types';
+import type { TitleOptions, TitleStyleProps } from './types';
 
-export type { TitleStyleProps };
+export type { TitleOptions, TitleStyleProps };
 
 const DEFAULT_TITLE_CFG: Partial<TitleStyleProps> = {
   text: '',
@@ -112,7 +112,7 @@ function getTitleLayout(cfg: TitleStyleProps) {
 export class Title extends GUI<TitleStyleProps> {
   private title!: Text;
 
-  constructor(options: DisplayObjectConfig<TitleStyleProps> = {}) {
+  constructor(options: TitleOptions = {}) {
     super(deepAssign({}, { style: DEFAULT_TITLE_CFG }, options));
   }
 

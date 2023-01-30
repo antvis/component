@@ -1,7 +1,7 @@
 import { CustomEvent, Group } from '@antv/g';
 import { clamp, deepMix } from '@antv/util';
 import { GUI } from '../../core/gui';
-import { normalSeriesAttr, superObject, select, subObjects, getEventPos } from '../../util';
+import { getEventPos, normalSeriesAttr, select, subObjects, superObject } from '../../util';
 import { Slider, type SliderStyleProps } from '../slider';
 import type { ScrollbarOptions, ScrollbarStyleProps } from './types';
 

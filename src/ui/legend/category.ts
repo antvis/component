@@ -6,7 +6,7 @@ import { CategoryItems } from './category/items';
 import { CATEGORY_DEFAULT_OPTIONS, CLASS_NAMES } from './constant';
 import type { CategoryOptions, CategoryStyleProps } from './types';
 
-export type { CategoryOptions };
+export type { CategoryOptions, CategoryStyleProps };
 
 export class Category extends GUI<CategoryStyleProps> {
   constructor(config: DisplayObjectConfig<CategoryStyleProps>) {
@@ -40,24 +40,20 @@ export class Category extends GUI<CategoryStyleProps> {
 
     // rewrite width and height to available space
     const itemStyle = { ...partialItemStyle, width, height };
-
     this.itemsGroup = container
       .maybeAppendByClassName<Group>(CLASS_NAMES.itemsGroup, 'g')
       .styles({ x, y, ...groupStyle });
-    this.items = this.itemsGroup
-      .maybeAppendByClassName(
-        CLASS_NAMES.items,
-        () =>
-          new CategoryItems({
-            style: {
-              data: [],
-            },
-          })
-      )
-      .update(itemStyle) as Selection<CategoryItems>;
-
-    // cuz itemsStyle has callbackable parameters, so it can not passed by call applyStyle
-    Object.entries(itemStyle).forEach(([k, v]) => this.itemsGroup.attr(k, v));
+    this.items = this.itemsGroup.maybeAppendByClassName(
+      CLASS_NAMES.items,
+      () =>
+        new CategoryItems({
+          style: {
+            data: [],
+          },
+        })
+    ) as Selection<CategoryItems>;
+    (this.items.node() as CategoryItems).update(itemStyle);
+    this.itemsGroup.node().attr(itemStyle);
   }
 
   private adjustLayout() {

@@ -27,7 +27,7 @@ import { getNextTickValue } from './continuous/utils';
 import { ContinuousDatum, ContinuousOptions, ContinuousStyleProps } from './types';
 import { getSafetySelections, getStepValueByValue, ifHorizontal } from './utils';
 
-export type { ContinuousOptions };
+export type { ContinuousOptions, ContinuousStyleProps };
 
 const getMinMax = memoize(
   (data: ContinuousDatum[]) => {

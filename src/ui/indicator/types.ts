@@ -1,4 +1,4 @@
-import type { PathStyleProps, TextStyleProps, GroupStyleProps } from '@antv/g';
+import type { PathStyleProps, TextStyleProps, GroupStyleProps, DisplayObjectConfig } from '@antv/g';
 import type { ExtendDisplayObject, PrefixedStyle } from '../../types';
 import type { SeriesAttr } from '../../util';
 
@@ -14,3 +14,5 @@ export type IndicatorCfg<T = any> = {
 };
 
 export type IndicatorStyleProps<T = any> = GroupStyleProps & IndicatorStyle & IndicatorCfg<T>;
+
+export type IndicatorOptions = DisplayObjectConfig<IndicatorStyleProps>;

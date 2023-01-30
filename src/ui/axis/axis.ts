@@ -1,5 +1,4 @@
-import { DisplayObjectConfig } from '@antv/g';
-import { subObjects, ifShow, sampling, select, filterTransform, createComponent } from '../../util';
+import { createComponent, filterTransform, ifShow, sampling, select, subObjects } from '../../util';
 import { AXIS_BASE_DEFAULT_CFG, CLASS_NAMES } from './constant';
 import { renderGrid } from './guides/axisGrid';
 import { renderLabels } from './guides/axisLabels';
@@ -8,7 +7,14 @@ import { renderTicks } from './guides/axisTicks';
 import { renderTitle } from './guides/axisTitle';
 import type { ArcAxisStyleProps, AxisStyleProps, LinearAxisStyleProps } from './types';
 
-export type AxisOptions = DisplayObjectConfig<AxisStyleProps>;
+export type {
+  ArcAxisOptions,
+  ArcAxisStyleProps,
+  AxisOptions,
+  AxisStyleProps,
+  LinearAxisOptions,
+  LinearAxisStyleProps,
+} from './types';
 
 type RA = Required<AxisStyleProps>;
 

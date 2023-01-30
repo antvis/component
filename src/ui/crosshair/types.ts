@@ -2,7 +2,7 @@ import { LineStyleProps } from '@antv/g';
 import type { TagStyleProps } from '../tag';
 import type { DisplayObjectConfig, LineProps, Point, ShapeAttrs, PrefixedStyle } from '../../types';
 
-export interface CrosshairBaseCfg
+export interface CrosshairBaseStyleProps
   extends ShapeAttrs,
     PrefixedStyle<LineStyleProps, 'line'>,
     Partial<PrefixedStyle<TagStyleProps, 'tag'>> {
@@ -10,20 +10,20 @@ export interface CrosshairBaseCfg
   tagPosition?: 'start' | 'end';
 }
 
-export interface LineCrosshairCfg extends CrosshairBaseCfg {
+export interface LineCrosshairStyleProps extends CrosshairBaseStyleProps {
   type?: 'line';
   startPos: Point;
   endPos: Point;
 }
 
-export interface CircleCrosshairCfg extends CrosshairBaseCfg {
+export interface CircleCrosshairStyleProps extends CrosshairBaseStyleProps {
   type?: 'circle';
   center: Point;
   // 初始化半径
   defaultRadius?: number;
 }
 
-export interface PolygonCrosshairCfg extends CrosshairBaseCfg {
+export interface PolygonCrosshairStyleProps extends CrosshairBaseStyleProps {
   type?: 'polygon';
   center: Point;
   // 初始化半径
@@ -34,7 +34,7 @@ export interface PolygonCrosshairCfg extends CrosshairBaseCfg {
   startAngle?: number;
 }
 
-export type CrosshairBaseOptions = DisplayObjectConfig<CrosshairBaseCfg>;
-export type LineCrosshairOptions = DisplayObjectConfig<LineCrosshairCfg>;
-export type CircleCrosshairOptions = DisplayObjectConfig<CircleCrosshairCfg>;
-export type PolygonCrosshairOptions = DisplayObjectConfig<PolygonCrosshairCfg>;
+export type CrosshairBaseOptions = DisplayObjectConfig<CrosshairBaseStyleProps>;
+export type LineCrosshairOptions = DisplayObjectConfig<LineCrosshairStyleProps>;
+export type CircleCrosshairOptions = DisplayObjectConfig<CircleCrosshairStyleProps>;
+export type PolygonCrosshairOptions = DisplayObjectConfig<PolygonCrosshairStyleProps>;

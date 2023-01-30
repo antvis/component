@@ -4,10 +4,10 @@ import { GUI } from '../../core/gui';
 import { select, subObject } from '../../util';
 import { Tag } from '../tag';
 import { CROSSHAIR_BASE_DEFAULT_STYLE } from './constant';
-import type { CrosshairBaseCfg, CrosshairBaseOptions } from './types';
+import type { CrosshairBaseStyleProps, CrosshairBaseOptions } from './types';
 import type { Point } from '../../types';
 
-export abstract class CrosshairBase<T extends CrosshairBaseCfg> extends GUI<Required<T>> {
+export abstract class CrosshairBase<T extends CrosshairBaseStyleProps> extends GUI<Required<T>> {
   public static tag = 'crosshair-base';
 
   protected static defaultOptions = {
@@ -72,7 +72,7 @@ export abstract class CrosshairBase<T extends CrosshairBaseCfg> extends GUI<Requ
     this.adjustLayout();
   }
 
-  public update(cfg: Partial<CrosshairBaseCfg> = {}) {
+  public update(cfg: Partial<CrosshairBaseStyleProps> = {}) {
     this.attr(deepMix({}, this.attributes, cfg));
     this.render(this.attributes, this);
   }

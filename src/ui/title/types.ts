@@ -1,4 +1,4 @@
-import type { GroupStyleProps, TextStyleProps } from '@antv/g';
+import type { DisplayObjectConfig, GroupStyleProps, TextStyleProps } from '@antv/g';
 import type { SeriesAttr } from '../../util';
 
 export interface TitleStyle extends GroupStyleProps, TextStyleProps {}
@@ -27,3 +27,5 @@ export interface TitleCfg {
 }
 
 export type TitleStyleProps = TitleStyle & TitleCfg;
+
+export type TitleOptions = DisplayObjectConfig<TitleStyleProps>;
