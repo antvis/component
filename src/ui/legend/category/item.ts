@@ -1,12 +1,13 @@
-import type {
-  Text,
+import {
+  Circle,
   DisplayObject,
   DisplayObjectConfig,
   Group,
   GroupStyleProps,
-  RectStyleProps,
-  TextStyleProps,
   PathStyleProps,
+  RectStyleProps,
+  Text,
+  TextStyleProps,
 } from '@antv/g';
 import { isNumber, isString } from '@antv/util';
 import { GUI } from '../../../core/gui';
@@ -15,16 +16,15 @@ import {
   classNames,
   deepAssign,
   ellipsisIt,
-  subObject,
   ifShow,
   normalSeriesAttr,
-  SeriesAttr,
   renderExtDo,
+  scaleToPixel,
   select,
   Selection,
-  scaleToPixel,
+  SeriesAttr,
+  subObject,
 } from '../../../util';
-import { circle } from '../../marker/symbol';
 
 type ItemMarkerStyle = { size?: number } & PathStyleProps;
 type ItemTextStyle = Omit<TextStyleProps, 'text'>;
@@ -68,8 +68,7 @@ const CLASS_NAMES = classNames(
 
 const DEFAULT_ITEM_CFG: Partial<CategoryItemStyleProps> = {
   span: [1, 1],
-  marker: 'path',
-  markerD: circle(6, 6, 6),
+  marker: () => new Circle({ style: { r: 6 } }),
   markerFill: '#d3d2d3',
   markerSize: 10,
   labelFill: '#646464',
@@ -172,7 +171,7 @@ export class CategoryItem extends GUI<CategoryItemStyleProps> {
     const style = subObject(this.attributes, 'marker');
     this.markerGroup = container.maybeAppendByClassName(CLASS_NAMES.markerGroup, 'g');
     ifShow(!!marker, this.markerGroup, () => {
-      this.markerGroup.maybeAppendByClassName(CLASS_NAMES.marker, marker!).styles({ anchor: '0.5 0.5', ...style });
+      this.markerGroup.maybeAppendByClassName(CLASS_NAMES.marker, marker!).styles(style).node();
       scaleToPixel(this.markerGroup.node(), markerSize!, true);
     });
   }

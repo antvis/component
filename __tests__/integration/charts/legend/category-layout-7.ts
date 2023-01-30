@@ -1,4 +1,4 @@
-import { Group } from '@antv/g';
+import { Group, Path } from '@antv/g';
 import { Category, createItemData, smooth } from './utils';
 import { colors } from './data';
 
@@ -25,7 +25,12 @@ export const CategoryLayout7 = () => {
         itemMarkerLineWidth: 3,
         itemMarkerFill: 'transparent',
         itemValue: '',
-        itemMarkerD: smooth(6, 3, 6),
+        itemMarker: () => () =>
+          new Path({
+            style: {
+              path: smooth(0, 0, 6),
+            },
+          }),
       },
     })
   );

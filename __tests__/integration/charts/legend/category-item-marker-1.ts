@@ -23,6 +23,8 @@ export const CategoryItemMarker1 = () => {
             ? () =>
                 new Rect({
                   style: {
+                    x: -5,
+                    y: -5,
                     width: 10,
                     height: 10,
                     transformOrigin: 'center',

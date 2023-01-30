@@ -27,6 +27,8 @@ export const CategoryItems4 = () => {
         itemMarker: (_: any) => () =>
           new Image({
             style: {
+              x: -8,
+              y: -8,
               width: 16,
               height: 16,
               src: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
