@@ -9,14 +9,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2.3.4
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 7
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.1.5
         with:
           node-version: '14'
+          cache: 'pnpm'
       - name: Run ci
         run: |
-          npm install
+          pnpm install
           npm run ci
       - name: coverall
         if: success()

@@ -26,6 +26,6 @@ module.exports = {
     '!**/breadcrumb/**',
     '!**/(countdown|statistic|link|toolbox)/**',
   ], // Transform esm to cjs.
-  transformIgnorePatterns: [`<rootDir>/node_modules/(?!(${esm}))`],
+  transformIgnorePatterns: [`<rootDir>/node_modules/(?!(?:.pnpm/)?(${esm}))`],
   testPathIgnorePatterns: ['/__tests__/integration/', '/__tests__/bugs/'],
 };

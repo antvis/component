@@ -55,9 +55,9 @@ $ git clone git@github.com:antvis/gui.git
 
 $ cd gui
 
-$ npm i
+$ pnpm i
 
-$ npm t
+$ tnpm t
 ```
 
 Then send a pull request after coding.

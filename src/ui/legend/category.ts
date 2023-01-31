@@ -53,7 +53,6 @@ export class Category extends GUI<CategoryStyleProps> {
         })
     ) as Selection<CategoryItems>;
     (this.items.node() as CategoryItems).update(itemStyle);
-    this.itemsGroup.node().attr(itemStyle);
   }
 
   private adjustLayout() {

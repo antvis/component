@@ -1,5 +1,5 @@
-import { Group, Rect, Circle, Path } from '@antv/g';
-import { colors, flowItemData } from './data';
+import { Group, Path } from '@antv/g';
+import { colors } from './data';
 import { Category } from './utils';
 
 export const CategoryItemMarker2 = () => {

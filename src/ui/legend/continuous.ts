@@ -420,12 +420,22 @@ export class Continuous extends GUI<ContinuousStyleProps> {
     this.label.node().attr({
       tickFilter: (datum: ContinuousDatum, index: number, data: ContinuousDatum[]) => {
         if (datum?.type !== 'value') return false;
-        if (filtrate) return filtrate(datum, datum.index, data);
+        if (filtrate)
+          return filtrate(
+            datum,
+            datum.index,
+            data.filter((d) => d.type !== 'value')
+          );
         return true;
       },
       labelFilter: (datum: ContinuousDatum, index: number, data: ContinuousDatum[]) => {
         if (datum?.type !== align) return false;
-        if (filtrate) return filtrate(datum, datum.index, data);
+        if (filtrate)
+          return filtrate(
+            datum,
+            datum.index,
+            data.filter((d) => d.type === align)
+          );
         return true;
       },
       labelFormatter: formatter,

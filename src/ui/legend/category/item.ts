@@ -171,7 +171,7 @@ export class CategoryItem extends GUI<CategoryItemStyleProps> {
     const style = subObject(this.attributes, 'marker');
     this.markerGroup = container.maybeAppendByClassName(CLASS_NAMES.markerGroup, 'g');
     ifShow(!!marker, this.markerGroup, () => {
-      this.markerGroup.maybeAppendByClassName(CLASS_NAMES.marker, marker!).styles(style).node();
+      this.markerGroup.maybeAppendByClassName(CLASS_NAMES.marker, marker!).styles(style);
       scaleToPixel(this.markerGroup.node(), markerSize!, true);
     });
   }
