@@ -159,7 +159,7 @@ export class Continuous extends GUI<ContinuousStyleProps> {
   private get labelPosition() {
     const { orient, labelDirection } = this.attributes as Required<ContinuousStyleProps>;
     const positions = {
-      vertical: { positive: 'left', negative: 'right' },
+      vertical: { positive: 'right', negative: 'left' },
       horizontal: { positive: 'bottom', negative: 'top' },
     } as const;
     return positions[orient][labelDirection];
@@ -449,28 +449,28 @@ export class Continuous extends GUI<ContinuousStyleProps> {
     const labelFixedSpacing = this.labelFixedSpacing;
     let [offset, spacing, tickLength] = [0, 0, 0];
 
-    const internalVal = ribbonSize + labelFixedSpacing;
+    const internalVal = ribbonSize + labelSpacing;
 
     if (labelShowTick) {
-      tickLength = ribbonSize + labelSpacing;
+      tickLength = internalVal;
       spacing = labelFixedSpacing;
-
       if (labelDirection === 'positive') {
-        if (labelPosition === 'left') {
-          offset = -labelFixedSpacing;
-          tickLength = ribbonSize + labelFixedSpacing;
+        if (labelPosition === 'right') {
+          offset = internalVal;
+          tickLength = internalVal;
         } else if (labelPosition === 'bottom') offset = tickLength;
       } else if (labelDirection === 'negative') {
         if (labelPosition === 'top') offset = ribbonSize;
+        else if (labelPosition === 'left') offset = ribbonSize;
       }
     } else if (labelDirection === 'positive') {
-      if (labelPosition === 'left') spacing = labelSpacing;
+      if (labelPosition === 'right') spacing = internalVal;
       else if (labelPosition === 'bottom') {
-        offset = internalVal;
+        offset = ribbonSize + labelFixedSpacing;
         spacing = labelSpacing;
       }
     } else if (labelDirection === 'negative') {
-      if (labelPosition === 'right') spacing = ribbonSize + labelSpacing;
+      if (labelPosition === 'left') spacing = labelSpacing;
       else if (labelPosition === 'top') spacing = labelSpacing;
     }
 
@@ -488,8 +488,8 @@ export class Continuous extends GUI<ContinuousStyleProps> {
         [x + width, y + axisOffset],
       ],
       [
-        [x + axisOffset, y],
         [x + axisOffset, y + height],
+        [x + axisOffset, y],
       ]
     );
 

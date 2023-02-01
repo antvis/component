@@ -62,4 +62,5 @@ export { Continuous4 } from './continuous-4';
 export { Continuous5 } from './continuous-5';
 export { ContinuousD3ColorLegend } from './continuous-d3-color-legend';
 export { RibbonDemo } from './ribbon';
+export { RibbonColor } from './ribbon-color';
 export { HandleDemo } from './handle';

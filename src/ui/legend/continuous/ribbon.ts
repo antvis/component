@@ -1,4 +1,4 @@
-import { Group, GroupStyleProps, PathStyleProps, RectStyleProps } from '@antv/g';
+import { Group, parseColor, type GroupStyleProps, type PathStyleProps, type RectStyleProps } from '@antv/g';
 import { isFunction } from '@antv/util';
 import type { PrefixedStyle } from '../../../types';
 import { classNames, createComponent, select, Selection, subObjects } from '../../../util';
@@ -78,8 +78,12 @@ function getColor(cfg: RibbonStyleProps) {
   const count = colors.length;
 
   if (!count) return '';
+  if (count === 1) return colors[0];
   if (block) return getBlockColor(partition, colors, orient);
-  return colors.reduce((r, c, idx) => (r += ` ${idx / (count - 1)}:${c}`), `l(${ifHorizontal(orient, '0', '270')})`);
+  return colors.reduce(
+    (r, c, idx) => (r += ` ${idx / (count - 1)}:${parseColor(c)}`),
+    `l(${ifHorizontal(orient, '0', '270')})`
+  );
 }
 
 function getClipPath(cfg: RibbonStyleProps): any[] {
@@ -100,6 +104,7 @@ function renderTrack(container: Selection, cfg: RibbonStyleProps, style: any) {
 
 function renderSelection(container: Selection, cfg: RibbonStyleProps, style: any) {
   const fill = getColor(cfg);
+
   const ribbon = container
     .maybeAppendByClassName(CLASS_NAMES.selection, 'path')
     .styles({ path: getSelectionPath(cfg), fill, ...style });
