@@ -1,5 +1,6 @@
-import { IGroup } from '@antv/g-base';
+import { Event, IGroup } from '@antv/g-base';
 import { Event as GraphEvent } from '@antv/g-base';
+import { get } from '@antv/util';
 import { LooseObject } from '../types';
 
 /**
@@ -21,4 +22,16 @@ export function propagationDelegate(group: IGroup, eventName: string, eventObjec
     event.propagationPath.push(parent);
     parent = parent.getParent() as IGroup;
   }
+}
+
+/**
+ *
+ * @param e 事件对象
+ */
+export function getCurrentPoint(e: Event) {
+  const event = e.originalEvent as MouseEvent;
+  return {
+    x: get(event, 'touches.0.pageX', event.pageX),
+    y: get(event, 'touches.0.pageY', event.pageY),
+  };
 }

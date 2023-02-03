@@ -1,5 +1,5 @@
-import { Event, IGroup, IShape } from '@antv/g-base';
-import { clamp, deepMix, each, get, isArray, isNil, size } from '@antv/util';
+import { Event, IGroup, IShape, Point } from '@antv/g-base';
+import { clamp, deepMix, each, get, isArray, isNil, isNumber, size } from '@antv/util';
 import GroupComponent from '../abstract/group-component';
 import { ISlider } from '../interfaces';
 import { Trend } from '../trend/trend';
@@ -13,6 +13,8 @@ import {
   SLIDER_CHANGE,
   TEXT_STYLE,
 } from './constant';
+import { createMask, getRectMaskAttrs, updateMask } from '../util/mask';
+import { getCurrentPoint } from '../util/event';
 
 export interface TrendCfg {
   // 数据
@@ -66,6 +68,13 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
   private currentTarget: string;
   private prevX: number;
   private prevY: number;
+
+  // Brush 起始点坐标记录
+  private brushPrevX: number = null;
+  // 标识开始和结束 brush 操作
+  private enableBrush: boolean = false;
+  // Brush 框样式Shape
+  private brushMaskShape: IShape = null;
 
   public setRange(min: number, max: number) {
     this.set('minLimit', min);
@@ -156,6 +165,7 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
 
     this.updateUI(
       this.getElementByLocalId('foreground'),
+      this.getElementByLocalId('foreground-brush'),
       this.getElementByLocalId('minText'),
       this.getElementByLocalId('maxText')
     );
@@ -202,6 +212,7 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
         y: 0,
         width,
         height,
+        cursor: 'crosshair',
         ...backgroundStyle,
       },
     });
@@ -219,7 +230,6 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
         ...textStyle,
       },
     });
-
     const maxTextShape = this.addShape(group, {
       id: this.getElementId('maxText'),
       type: 'text',
@@ -244,6 +254,19 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
         // width: 0,
         height,
         ...foregroundStyle,
+      },
+    });
+    // 背景框 框选区域
+    this.addShape(group, {
+      id: this.getElementId('foreground-brush'),
+      name: 'foreground-brush',
+      type: 'rect',
+      attrs: {
+        y: 0,
+        height: (height * 3) / 5,
+        cursor: 'crosshair',
+        ...foregroundStyle,
+        opacity: 0,
       },
     });
 
@@ -288,7 +311,7 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
     this.bindEvents();
   }
 
-  private updateUI(foregroundShape: IShape, minTextShape: IShape, maxTextShape: IShape) {
+  private updateUI(foregroundShape: IShape, foregroundBrushShape: IShape, minTextShape: IShape, maxTextShape: IShape) {
     const { start, end, width, minText, maxText, handlerStyle, height } = this.cfg as SliderCfg;
     const min = start * width;
     const max = end * width;
@@ -306,6 +329,10 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
     // 1. foreground
     foregroundShape.attr('x', min);
     foregroundShape.attr('width', max - min);
+
+    // foreground-brush
+    foregroundBrushShape.attr('x', min);
+    foregroundBrushShape.attr('width', max - min);
 
     // 滑块相关的大小信息
     const handlerWidth = get(handlerStyle, 'width', DEFAULT_HANDLER_WIDTH);
@@ -352,6 +379,14 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
     const foreground = group.findById(this.getElementId('foreground'));
     foreground.on('mousedown', this.onMouseDown('foreground'));
     foreground.on('touchstart', this.onMouseDown('foreground'));
+
+    // 4. 背景区域框选
+    const background = group.findById(this.getElementId('background'));
+    background.on('mousedown', this.onMouseDown('background'));
+
+    // 5. 前景选中区域框选
+    const foregroundBrush = group.findById(this.getElementId('foreground-brush'));
+    foregroundBrush.on('mousedown', this.onMouseDown('foreground-brush'));
   }
 
   private onMouseDown = (target: string) => (e: Event) => {
@@ -367,9 +402,20 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
     this.prevX = get(event, 'touches.0.pageX', event.pageX);
     this.prevY = get(event, 'touches.0.pageY', event.pageY);
 
-    // 3. 开始滑动的时候，绑定 move 和 up 事件
     const containerDOM = this.getContainerDOM();
 
+    // 框选事件
+    if (['background', 'foreground-brush'].includes(target)) {
+      this.brushPrevX = event.offsetX;
+      this.enableBrush = true;
+      // 绑定框选事件
+      containerDOM.addEventListener('mousemove', this.onBrushMouseMove);
+      containerDOM.addEventListener('mouseup', this.onBrushMouseUp);
+      containerDOM.addEventListener('mouseleave', this.onBrushMouseUp);
+      return;
+    }
+
+    // 3. 开始滑动的时候，绑定 move 和 up 事件
     containerDOM.addEventListener('mousemove', this.onMouseMove);
     containerDOM.addEventListener('mouseup', this.onMouseUp);
     containerDOM.addEventListener('mouseleave', this.onMouseUp);
@@ -400,6 +446,7 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
     // 更新 ui
     this.updateUI(
       this.getElementByLocalId('foreground'),
+      this.getElementByLocalId('foreground-brush'),
       this.getElementByLocalId('minText'),
       this.getElementByLocalId('maxText')
     );
@@ -457,6 +504,7 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
 
         return Math.min(max, Math.max(min, offsetRange));
       }
+      case 'foreground-brush':
       case 'foreground': {
         const min = 0 - start;
         const max = 1 - end;
@@ -476,7 +524,9 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
       case 'maxHandler':
         end += offsetRange;
         break;
+
       case 'foreground':
+      case 'foreground-brush':
         start += offsetRange;
         end += offsetRange;
         break;
@@ -536,6 +586,71 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
 
     return canvas && canvas.get('container');
   }
+
+  private onBrushMouseMove = (event: MouseEvent) => {
+    if (!this.enableBrush) return;
+
+    const { x } = this.getBBox();
+    const curX = get(event, 'touches.0.pageX', event.offsetX);
+    // 绘制 brush mask
+    if (!isNumber(this.brushPrevX)) {
+      this.brushPrevX = curX;
+    }
+    const maskAttrs = getRectMaskAttrs(
+      {
+        x: this.brushPrevX - x,
+        y: 0,
+      },
+      {
+        x: curX - x,
+        y: this.cfg.height,
+      }
+    );
+
+    if (!this.brushMaskShape) {
+      // 新建 brush mask
+      this.brushMaskShape = createMask(this.get('group'), 'rect', maskAttrs);
+    } else {
+      // 更新 brush mask
+      updateMask(this.brushMaskShape, maskAttrs);
+    }
+  };
+
+  private onBrushMouseUp = (event: MouseEvent) => {
+    if (!this.enableBrush) return;
+
+    const originValue = [this.get('start'), this.get('end')];
+    const { x } = this.getBBox();
+    const { width } = this.cfg;
+    const curX = get(event, 'touches.0.pageX', event.offsetX);
+    const start = (Math.min(curX, this.brushPrevX) - x) / width;
+    const end = (Math.max(curX, this.brushPrevX) - x) / width;
+
+    // 更新 start end
+    this.set('start', start);
+    this.set('end', end);
+    // 更新 ui
+    this.updateUI(
+      this.getElementByLocalId('foreground'),
+      this.getElementByLocalId('foreground-brush'),
+      this.getElementByLocalId('minText'),
+      this.getElementByLocalId('maxText')
+    );
+    this.draw();
+    this.emit(SLIDER_CHANGE, [this.get('start'), this.get('end')].sort());
+    this.delegateEmit('valuechanged', {
+      originValue,
+      value: [this.get('start'), this.get('end')],
+    });
+
+    // 销毁当前 brush mask 图形
+    if (this.brushMaskShape) {
+      this.brushMaskShape.remove();
+      this.brushMaskShape = null;
+    }
+    this.enableBrush = false;
+    this.brushMaskShape = null;
+  };
 }
 
 export default Slider;

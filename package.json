@@ -5,7 +5,7 @@
   "author": "https://github.com/orgs/antvis/people",
   "license": "MIT",
   "main": "lib/index.js",
-  "module": "esm/index.js",
+  "module": "src/index.ts",
   "types": "lib/index.d.ts",
   "files": [
     "src",
