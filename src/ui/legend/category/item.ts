@@ -104,17 +104,16 @@ export class CategoryItem extends GUI<CategoryItemStyleProps> {
   }
 
   private get actualSpace() {
-    const marker = this.markerGroup;
     const label = this.labelGroup;
     const value = this.valueGroup;
-    const { width: markerWidth, height: markerHeight } = marker.node().getBBox();
+    const { markerSize = 0 } = this.attributes;
     const { width: labelWidth, height: labelHeight } = label.node().getBBox();
     const { width: valueWidth, height: valueHeight } = value.node().getBBox();
     return {
-      markerWidth,
+      markerWidth: markerSize,
       labelWidth,
       valueWidth,
-      height: Math.max(markerHeight, labelHeight, valueHeight),
+      height: Math.max(markerSize, labelHeight, valueHeight),
     };
   }
 
