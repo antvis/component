@@ -15,6 +15,7 @@ export const BugCategoryUpdate3 = () => {
         gridCol: 3,
         data: flowItemData,
         titleText: 'Legend Title',
+        itemMarkerFill: '#d3d2d3',
       },
     })
   );

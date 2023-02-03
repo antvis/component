@@ -27,6 +27,7 @@ export const BugCategoryWithShape2 = () => {
         height,
         gridCol: 10,
         gridRow: 10,
+        itemMarkerFill: '#d3d2d3',
         data: new Array(20).fill(0).map((d, i) => ({
           label: `label-${i}`,
           value: `value-${i}`,

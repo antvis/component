@@ -69,7 +69,6 @@ const CLASS_NAMES = classNames(
 const DEFAULT_ITEM_CFG: Partial<CategoryItemStyleProps> = {
   span: [1, 1],
   marker: () => new Circle({ style: { r: 6 } }),
-  markerFill: '#d3d2d3',
   markerSize: 10,
   labelFill: '#646464',
   valueFill: '#646464',

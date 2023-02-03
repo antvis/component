@@ -14,6 +14,7 @@ export const BugCategoryItemsUpdate2 = () => {
         gridCol: 3,
         layout: 'grid',
         data: flowItemData,
+        itemMarkerFill: '#d3d2d3',
         itemLabelFill: 'green',
         itemValueFill: 'green',
         colPadding: 10,

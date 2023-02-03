@@ -13,6 +13,7 @@ export const BugCategoryWithShape3 = () => {
         height: 300,
         gridRow: undefined,
         gridCol: 1,
+        itemMarkerFill: '#d3d2d3',
         data: [
           { label: 'Under 5 Years' },
           { label: '5 to 13 Years' },
