@@ -570,22 +570,29 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     let pageWidth = 0;
     let maxItemWidth = 0;
     const itemMarginBottom = this.get('itemMarginBottom');
+
+    /**  判断当前 item 是否溢出当前页。是的话，需要换行 */
+    function shouldWrap(item, currentPoint) {
+      const bbox = item.getBBox();
+      const width = itemWidth || bbox.width;
+      const newItemXPos = currentPoint.x + width + itemSpacing + navigationBBox.width;
+      return newItemXPos > maxWidth;
+    }
+
     if (layout === 'horizontal') {
       const maxRow = this.get('maxRow') || 1;
       const maxRowHeight = itemHeight + (maxRow === 1 ? 0 : itemMarginBottom);
+      // 分页器一直靠右上角
+      const navigationX = maxWidth - itemSpacing - navigationBBox.width - navigationBBox.minX; // 理论上不需要减 navigationBBox.minX
       this.pageHeight = maxRowHeight * maxRow;
+      this.pageWidth = navigationX;
       each(subGroups, (item) => {
         const bbox = item.getBBox();
         const width = itemWidth || bbox.width;
-        if (
-          (widthLimit && widthLimit < currentPoint.x + width + itemSpacing) ||
-          maxWidth < currentPoint.x + width + itemSpacing + navigationBBox.width
-        ) {
+        if ((widthLimit && widthLimit < currentPoint.x + width + itemSpacing) ||
+        shouldWrap(item, currentPoint)) {
           if (pages === 1) {
             widthLimit = currentPoint.x + itemSpacing;
-            // pageWidth 分页宽度，不应该为 第一个分页的 legend-item 的宽度，应该为 navigation 的 x
-            const navigationX = maxWidth - itemSpacing - navigationBBox.width - navigationBBox.minX;
-            this.pageWidth = navigationX;
             this.moveElementTo(navigation, {
               x: navigationX,
               y: currentPoint.y + itemHeight / 2 - navigationBBox.height / 2 - navigationBBox.minY,
@@ -802,13 +809,13 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
     const translate =
       layout === 'horizontal'
         ? {
-            x: 0,
-            y: pageHeight * (1 - currentPageIndex),
-          }
+          x: 0,
+          y: pageHeight * (1 - currentPageIndex),
+        }
         : {
-            x: pageWidth * (1 - currentPageIndex),
-            y: 0,
-          };
+          x: pageWidth * (1 - currentPageIndex),
+          y: 0,
+        };
 
     return getMatrixByTranslate(translate);
   }
