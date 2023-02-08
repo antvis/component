@@ -583,9 +583,11 @@ class Category extends LegendBase<CategoryLegendCfg> implements IList {
         ) {
           if (pages === 1) {
             widthLimit = currentPoint.x + itemSpacing;
-            this.pageWidth = widthLimit;
+            // pageWidth 分页宽度，不应该为 第一个分页的 legend-item 的宽度，应该为 navigation 的 x
+            const navigationX = maxWidth - itemSpacing - navigationBBox.width - navigationBBox.minX;
+            this.pageWidth = navigationX;
             this.moveElementTo(navigation, {
-              x: maxWidth - itemSpacing - navigationBBox.width - navigationBBox.minX,
+              x: navigationX,
               y: currentPoint.y + itemHeight / 2 - navigationBBox.height / 2 - navigationBBox.minY,
             });
           }
