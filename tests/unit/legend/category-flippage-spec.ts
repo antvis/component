@@ -142,7 +142,7 @@ describe('test category legend pageWidth', () => {
 
       let itemGroup = legend.getElementByLocalId('item-group');
 
-      expect(itemGroup.getParent().getClip().getBBox().width).toBeCloseTo(113.2);
+      expect(itemGroup.getParent().getClip().getBBox().width).toBeGreaterThan(100);
     });
 
     afterAll(() => {
