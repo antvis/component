@@ -3,7 +3,9 @@ import { Axis } from '../../../../src/ui/axis';
 import { data } from '../../utils';
 
 export const AxisGrid5 = () => {
-  const group = new Group();
+  const group = new Group({
+    style: { width: 400, height: 300 },
+  });
 
   group.appendChild(
     new Axis({
@@ -13,9 +15,10 @@ export const AxisGrid5 = () => {
         angleRange: [0, 360],
         center: [200, 150],
         radius: 100,
-        labelFormatter: '',
+        showLabel: false,
         lineLineWidth: 1,
         tickLineWidth: 0,
+
         gridDirection: 'negative',
         gridLength: 20,
         gridType: 'segment',

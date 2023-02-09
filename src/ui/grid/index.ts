@@ -1,11 +1,21 @@
 import type { Group } from '@antv/g';
+import { fadeOut } from '../../animation';
 import { GUI } from '../../core/gui';
 import type { Point } from '../../types';
-import { distance, select } from '../../util';
-import { applyStyle } from '../axis/guides/utils';
+import { classNames, distance, getCallbackValue, select, transition, type Selection } from '../../util';
 import type { GridOptions, GridStyle, GridStyleProps } from './types';
 
 export type { GridStyleProps, GridOptions };
+
+const CLASS_NAMES = classNames(
+  {
+    lineGroup: 'line-group',
+    line: 'line',
+    regionGroup: 'region-group',
+    region: 'region',
+  },
+  'grid'
+);
 
 function renderStraight(points: Point[]) {
   return points.reduce((acc, curr, idx) => `${acc}${idx === 0 ? 'M' : ' L'}${curr[0]},${curr[1]}`, '');
@@ -45,37 +55,49 @@ function connectPaths(from: Point[], to: Point[], cfg: GridStyleProps) {
   );
 }
 
-function renderGridLine(container: Group, items: GridStyleProps['items'], cfg: GridStyleProps, style: GridStyle) {
+function renderGridLine(
+  container: Selection<Group>,
+  items: GridStyleProps['items'],
+  cfg: GridStyleProps,
+  style: GridStyle
+) {
+  const { animate } = cfg;
   const lines = items.map((item, idx) => ({
     id: item.id || `grid-line-${idx}`,
     path: getLinePath(item.points, cfg),
   }));
-  select(container)
-    .selectAll('.grid-line')
+  container
+    .selectAll(CLASS_NAMES.line.class)
     .data(lines, (d) => d.id)
     .join(
       (enter) =>
         enter
           .append('path')
+          .attr('className', CLASS_NAMES.line.name)
           .styles({
             stroke: '#D9D9D9',
             lineWidth: 1,
             lineDash: [4, 4],
           })
-          .each(function ({ path }, idx) {
-            applyStyle(this, idx, lines, { path, ...style });
-          })
-          .attr('className', 'grid-line'),
+          .each(function (datum, index) {
+            const lineStyle = getCallbackValue({ path: datum.path, ...style }, [datum, index, lines]);
+            this.attr(lineStyle);
+          }),
       (update) =>
-        update.each(function (style, idx) {
-          applyStyle(this, idx, lines, style);
+        update.each(function (datum, index) {
+          const lineStyle = getCallbackValue({ path: datum.path, ...style }, [datum, index, lines]);
+          transition(this, lineStyle, animate.update);
         }),
-      (exit) => exit.remove()
+      (exit) =>
+        exit.each(async function () {
+          await fadeOut(this, animate.exit)?.finished;
+          this.remove();
+        })
     );
 }
 
-function renderAlternateRegion(container: Group, items: GridStyleProps['items'], cfg: GridStyleProps) {
-  const { type, center, connect, areaFill, closed } = cfg;
+function renderAlternateRegion(container: Selection<Group>, items: GridStyleProps['items'], cfg: GridStyleProps) {
+  const { animate, type, center, connect, areaFill, closed } = cfg;
   if (items.length < 2 || !areaFill || !connect) return;
   const colors: string[] = Array.isArray(areaFill) ? areaFill : [areaFill, 'transparent'];
   const getColor = (idx: number) => colors[idx % colors.length];
@@ -87,22 +109,28 @@ function renderAlternateRegion(container: Group, items: GridStyleProps['items'],
     regions.push({ path, fill: getColor(idx) });
   }
 
-  select(container)
-    .selectAll('.grid-region')
+  container
+    .selectAll(CLASS_NAMES.region.class)
     .data(regions, (_, i) => i)
     .join(
       (enter) =>
         enter
           .append('path')
-          .each(function (style, idx) {
-            applyStyle(this, idx, regions, style);
+          .each(function (datum, index) {
+            const regionStyle = getCallbackValue(datum, [datum, index, regions]);
+            this.attr(regionStyle);
           })
-          .attr('className', 'grid-region'),
+          .attr('className', CLASS_NAMES.region.name),
       (update) =>
-        update.each(function (style, idx) {
-          applyStyle(this, idx, regions, style);
+        update.each(function (datum, index) {
+          const regionStyle = getCallbackValue(datum, [datum, index, regions]);
+          transition(this, regionStyle, animate.update);
         }),
-      (exit) => exit.remove()
+      (exit) =>
+        exit.each(async function () {
+          await fadeOut(this, animate.exit);
+          this.remove();
+        })
     );
 }
 
@@ -119,9 +147,11 @@ function dataFormatter(data: GridStyleProps['items'], cfg: GridStyleProps) {
 export class Grid extends GUI<GridStyleProps> {
   render(attributes: GridStyleProps, container: Group) {
     // @ts-ignore do no passBy className
-    const { className, items = [], type, center, areaFill, closed, ...style } = attributes;
+    const { class: className, items = [], animate, type, center, areaFill, closed, ...style } = attributes;
     const data = dataFormatter(items, attributes);
-    renderGridLine(container, data, attributes, style);
-    renderAlternateRegion(container, data, attributes);
+    const lineGroup = select(container).maybeAppendByClassName(CLASS_NAMES.lineGroup, 'g');
+    const regionGroup = select(container).maybeAppendByClassName(CLASS_NAMES.regionGroup, 'g');
+    renderGridLine(lineGroup, data, attributes, style);
+    renderAlternateRegion(regionGroup, data, attributes);
   }
 }

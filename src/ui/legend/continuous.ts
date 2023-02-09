@@ -16,7 +16,7 @@ import {
   throttle,
   toPrecision,
 } from '../../util';
-import { Axis, type AxisStyleProps } from '../axis';
+import { Axis, type LinearAxisStyleProps } from '../axis';
 import { CLASS_NAMES as AXIS_CLASS_NAMES } from '../axis/constant';
 import { Indicator } from '../indicator';
 import { Title } from '../title';
@@ -50,7 +50,7 @@ export class Continuous extends GUI<ContinuousStyleProps> {
 
   protected title!: Selection<Title>;
 
-  protected label!: Selection<typeof Axis>;
+  protected label!: Axis;
 
   protected ribbon!: Selection;
 
@@ -172,7 +172,7 @@ export class Continuous extends GUI<ContinuousStyleProps> {
     if (!showLabel) return new BBox(0, 0, 0, 0);
     if (this.cacheLabelBBox) return this.cacheLabelBBox;
     const { width, height } = (
-      this.label.select(AXIS_CLASS_NAMES.labelGroup.class).node().children.slice(-1)[0] as DisplayObject
+      this.label.querySelector(AXIS_CLASS_NAMES.labelGroup.class)?.children.slice(-1)[0] as DisplayObject
     ).getBBox();
     this.cacheLabelBBox = new BBox(0, 0, width, height);
     return this.cacheLabelBBox;
@@ -412,12 +412,9 @@ export class Continuous extends GUI<ContinuousStyleProps> {
       ...this.labelStyle,
       ...Object.fromEntries(Object.entries(tickStyle).map(([k, v]) => [`tick${capitalize(k)}`, v])),
       ...Object.fromEntries(Object.entries(labelStyle).map(([k, v]) => [`label${capitalize(k)}`, v])),
-    } as AxisStyleProps;
+    } as LinearAxisStyleProps;
 
-    this.label = container
-      .maybeAppendByClassName(CLASS_NAMES.label, () => new Axis({ style }))
-      .styles(style) as Selection;
-    this.label.node().attr({
+    const functionStyle = {
       tickFilter: (datum: ContinuousDatum, index: number, data: ContinuousDatum[]) => {
         if (datum?.type !== 'value') return false;
         if (filtrate)
@@ -439,7 +436,11 @@ export class Continuous extends GUI<ContinuousStyleProps> {
         return true;
       },
       labelFormatter: formatter,
-    });
+    };
+
+    const finalLabelStyle = { ...style, ...functionStyle } as LinearAxisStyleProps;
+    this.label = container.maybeAppendByClassName(CLASS_NAMES.label, () => new Axis({ style: finalLabelStyle })).node();
+    this.label.update(finalLabelStyle, false);
   }
 
   private get labelAxisCfg() {
@@ -482,7 +483,7 @@ export class Continuous extends GUI<ContinuousStyleProps> {
     if (!showLabel) return;
     const { x, y, width, height } = this.ribbonBBox;
     const { offset: axisOffset, spacing: axisSpacing, tickLength: axisTickLength } = this.labelAxisCfg;
-    const [startPos, endPos] = this.ifHorizontal(
+    const [startPos, endPos]: [[number, number], [number, number]] = this.ifHorizontal(
       [
         [x, y + axisOffset],
         [x + width, y + axisOffset],
@@ -493,12 +494,15 @@ export class Continuous extends GUI<ContinuousStyleProps> {
       ]
     );
 
-    this.label.styles({
-      startPos,
-      endPos,
-      tickLength: axisTickLength,
-      labelSpacing: axisSpacing,
-    });
+    this.label.update(
+      {
+        startPos,
+        endPos,
+        tickLength: axisTickLength,
+        labelSpacing: axisSpacing,
+      },
+      false
+    );
   }
 
   /** 当前交互的对象 */

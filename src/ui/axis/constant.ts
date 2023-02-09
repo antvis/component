@@ -6,6 +6,11 @@ import type { AxisBaseStyleProps } from './types';
 export const AXIS_BASE_DEFAULT_CFG: DisplayObjectConfig<Partial<AxisBaseStyleProps>> = {
   style: {
     data: [],
+    animate: {
+      duration: 100,
+      easing: 'ease-in-out-sine',
+      fill: 'both',
+    },
     dataThreshold: 100,
     showTitle: true,
     titlePosition: 'lb',
@@ -17,6 +22,7 @@ export const AXIS_BASE_DEFAULT_CFG: DisplayObjectConfig<Partial<AxisBaseStylePro
     showLine: true,
     lineLineWidth: 1,
     lineStroke: 'black',
+    showArrow: true,
     lineArrow: new Path({
       style: {
         path: 'M 10,10 L -10,0 L 10,-10 L0,0 L10,10Z',

@@ -2,7 +2,7 @@ import { Group, Text } from '@antv/g';
 import { deepMix, get, isUndefined } from '@antv/util';
 import { GUI } from '../../core/gui';
 import type { RectProps, TextProps } from '../../types';
-import { deepAssign, getEllipsisText, getStateStyle, maybeAppend, normalSeriesAttr, select } from '../../util';
+import { deepAssign, getStateStyle, maybeAppend, normalSeriesAttr, select } from '../../util';
 import { Marker } from '../marker';
 import { DISABLED_STYLE, SIZE_STYLE, TYPE_STYLE } from './constant';
 import type { ButtonCfg, ButtonOptions, IMarkerCfg } from './types';
@@ -56,19 +56,6 @@ export class Button extends GUI<ButtonCfg> {
     const markerStyle = this.getStyle('markerStyle');
     const markerSize = !markerSymbol ? 0 : markerStyle?.size || 2;
     return markerSize;
-  }
-
-  /**
-   * 获得 button 文本
-   */
-  private get text(): string {
-    const { text } = this.attributes;
-    if (text === '') {
-      return text;
-    }
-    /* 可用宽度 */
-    const width = this.textAvailableWidth;
-    return getEllipsisText(text, width);
   }
 
   /* 获得文本可用宽度 */
@@ -127,7 +114,7 @@ export class Button extends GUI<ButtonCfg> {
 
   // @todo 处理 markerAlign='right' 的场景. 方案: left marker & right marker 处理为两个 shape, 互相不干扰
   public render(attributes: ButtonCfg, container: Group) {
-    const { padding = 0, marker: markerSymbol, markerSpacing = 0 } = attributes;
+    const { text = '', padding = 0, marker: markerSymbol, markerSpacing = 0 } = attributes;
     container.attr('cursor', this.state === 'disabled' ? 'not-allowed' : 'pointer');
     const [pt, pr, pb, pl] = normalSeriesAttr(padding);
     const height = this.buttonHeight;
@@ -152,18 +139,20 @@ export class Button extends GUI<ButtonCfg> {
 
     const bounds = markerShape.getLocalBounds();
 
-    const { text = '' } = this;
     const textStyle = this.getStyle('textStyle');
     this.textShape = maybeAppend(container, '.text', 'text')
       .attr('className', 'text')
       .styles({
         x: markerSize ? bounds.max[0] + markerSpacing : pl,
         y: height / 2,
-        // @ts-ignore
+        ...textStyle,
         text,
         textAlign: 'left',
         textBaseline: 'middle',
-        ...textStyle,
+        wordWrap: true,
+        wordWrapWidth: this.textAvailableWidth,
+        maxLines: 1,
+        textOverflow: '...',
       })
       .node() as Text;
 

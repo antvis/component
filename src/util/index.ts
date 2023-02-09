@@ -31,3 +31,8 @@ export * from './transpose';
 export * from './scale-to-pixel';
 export * from './transition';
 export * from './bbox';
+export * from './interpolate';
+export * from './keyframe-interpolate';
+export * from './visibility';
+export * from './traverse';
+export * from './offscreen';

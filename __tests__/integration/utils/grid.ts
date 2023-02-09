@@ -20,6 +20,7 @@ export const createGrid = (group: Group, len = 400, args = {}) => {
     labelDirection: 'positive',
     labelFormatter: (_: any, i: number) => i * 2,
     gridLength: len,
+    showArrow: false,
     lineLineWidth: 0,
     labelSpacing: 10,
     showTick: false,

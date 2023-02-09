@@ -163,9 +163,10 @@ export class Slider extends GUI<SliderStyleProps> {
   /** 不触发重绘 */
   public setValues(values: SliderStyleProps['values'] = [0, 0], animate: boolean = false) {
     this.attr('values', values);
-    transition(this.selectionShape.node(), this.selectionCfg, this.animation, animate);
-    transition(this.startHandle.node(), this.getHandleShapeCfg('start'), this.animation, animate);
-    transition(this.endHandle.node(), this.getHandleShapeCfg('end'), this.animation, animate);
+    const animation = animate === false ? false : this.animation;
+    transition(this.selectionShape.node(), this.selectionCfg, animation);
+    transition(this.startHandle.node(), this.getHandleShapeCfg('start'), animation);
+    transition(this.endHandle.node(), this.getHandleShapeCfg('end'), animation);
   }
 
   private innerSetValues(values: SliderStyleProps['values'] = [0, 0], trigger: boolean = false) {

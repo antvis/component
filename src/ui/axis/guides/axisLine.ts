@@ -1,10 +1,16 @@
 import { ext, vec2 } from '@antv/matrix-util';
-import { memoize } from '@antv/util';
-import type { Point, Vector2 } from '../../../types';
-import { degToRad, renderExtDo, scaleToPixel, Selection } from '../../../util';
+import { memoize, get } from '@antv/util';
+import type { StandardAnimationOption, AnimationResult } from '../../../animation';
+import type { DisplayObject, Point, Vector2 } from '../../../types';
+import { degToRad, keyframeInterpolate, renderExtDo, scaleToPixel, Selection, transition } from '../../../util';
 import { CLASS_NAMES } from '../constant';
 import type { ArcAxisStyleProps, AxisLineCfg, AxisStyleProps, Direction, LinearAxisStyleProps } from '../types';
 import { baseDependencies } from './utils';
+
+type LineDatum = {
+  line: [Vector2, Vector2];
+  className: string;
+};
 
 export const getLineAngle = memoize(
   (value: number, cfg: ArcAxisStyleProps) => {
@@ -78,41 +84,81 @@ export function isAxisVertical(cfg: LinearAxisStyleProps): boolean {
   return getLineTangentVector(0, cfg)[0] === 0;
 }
 
-function renderArc(container: Selection, cfg: ArcAxisStyleProps, style: any) {
-  const {
-    angleRange: [startAngle, endAngle],
-    center: [cx, cy],
-    radius,
-  } = cfg;
-  console.assert(endAngle > startAngle, 'end angle should be greater than start angle');
+function isCircle(startAngle: number, endAngle: number) {
+  return endAngle - startAngle === 360;
+}
+
+function getArcPath(startAngle: number, endAngle: number, cx: number, cy: number, radius: number) {
   const diffAngle = endAngle - startAngle;
-  if (diffAngle === 360) {
-    container.maybeAppendByClassName(CLASS_NAMES.line, 'circle').styles({
-      cx,
-      cy,
-      r: radius,
-      ...style,
-    });
-    return;
-  }
   const [rx, ry] = [radius, radius];
-  const [startAngleRadians, endAngleRadians] = [(startAngle * Math.PI) / 180.0, (endAngle * Math.PI) / 180.0];
-  const [x1, y1] = [cx + radius * Math.cos(startAngleRadians), cy + radius * Math.sin(startAngleRadians)];
-  const [x2, y2] = [cx + radius * Math.cos(endAngleRadians), cy + radius * Math.sin(endAngleRadians)];
+  const [startAngleRadians, endAngleRadians] = [degToRad(startAngle), degToRad(endAngle)];
+  const getPosByAngle = (angle: number) => [cx + radius * Math.cos(angle), cy + radius * Math.sin(angle)];
+
+  const [x1, y1] = getPosByAngle(startAngleRadians);
+  const [x2, y2] = getPosByAngle(endAngleRadians);
+
+  if (isCircle(startAngle, endAngle)) {
+    const middleAngleRadians = (endAngleRadians + startAngleRadians) / 2;
+    const [xm, ym] = getPosByAngle(middleAngleRadians);
+    return `M${x1},${y1} A ${rx},${ry} 0 1,0 ${xm}, ${ym} A ${rx},${ry} 0 1,0 ${x2}, ${y2}`;
+  }
+
   // 大小弧
   const large = diffAngle > 180 ? 1 : 0;
   // 1-顺时针 0-逆时针
   const sweep = startAngle > endAngle ? 0 : 1;
   const isClosePath = false;
-  const path = isClosePath
+
+  return isClosePath
     ? `M${cx},${cy},L${x1},${y1},A${rx},${ry},0,${large},${sweep},${x2},${y2},L${cx},${cy}`
     : `M${x1},${y1},A${rx},${ry},0,${large},${sweep},${x2},${y2}`;
-  container.maybeAppendByClassName(CLASS_NAMES.line, 'path').styles({ path, ...style });
+}
+
+function getArcAttr(arc: DisplayObject) {
+  const { angleRange, center, radius } = arc.attributes;
+  return [...angleRange, ...center, radius] as [number, number, number, number, number];
+}
+
+function renderArc(container: Selection, cfg: ArcAxisStyleProps, style: any, animate: StandardAnimationOption) {
+  const { angleRange, center, radius } = cfg;
+  return container
+    .selectAll(CLASS_NAMES.line.class)
+    .data([{ path: getArcPath(...angleRange, ...center, radius) }], (d, i) => i)
+    .join(
+      (enter) =>
+        enter
+          .append('path')
+          .attr('className', CLASS_NAMES.line.name)
+          .styles({ angleRange, center, radius, ...style })
+          .style('path', (d: any) => d.path),
+      (update) =>
+        update
+          .styles(style)
+          .transition(function () {
+            const animation = keyframeInterpolate(
+              this,
+              getArcAttr(this),
+              [...angleRange, ...center, radius] as ReturnType<typeof getArcAttr>,
+              animate.update
+            );
+            if (animation) {
+              const layout = () => {
+                const data = get(this.style, '__keyframe_data__') as Parameters<typeof getArcPath>;
+                this.style.path = getArcPath(...data);
+              };
+              animation.onframe = layout;
+              animation.onfinish = layout;
+            }
+            return animation;
+          })
+          .styles({ angleRange, center, radius }),
+      (exit) => exit.remove()
+    )
+    .styles(style)
+    .transitions();
 }
 
 function renderTruncation<T>(container: Selection, { truncRange, truncShape, lineExtension }: AxisLineCfg, style: any) {
-  const firstLine = container.select(CLASS_NAMES.lineFirst.class).node();
-  const secondLine = container.select(CLASS_NAMES.lineSecond.class).node();
   // TODO
 }
 
@@ -124,59 +170,99 @@ function extendLine(startPos: Point, endPos: Point, range: [number, number] = [0
   return [s1 * x, s1 * y, s2 * x, s2 * y];
 }
 
-function renderLinear(container: Selection, cfg: LinearAxisStyleProps, style: any) {
+function getLinePath(points: [Vector2, Vector2]) {
+  const [[x1, y1], [x2, y2]] = points;
+  return { x1, y1, x2, y2 };
+}
+
+function renderLinear(container: Selection, cfg: LinearAxisStyleProps, style: any, animate: StandardAnimationOption) {
   const { startPos, endPos, truncRange, lineExtension } = cfg;
   const [[x1, y1], [x2, y2]] = [startPos, endPos];
   const [ox1, oy1, ox2, oy2] = lineExtension ? extendLine(startPos, endPos, lineExtension) : new Array(4).fill(0);
-  container.node().removeChildren();
 
-  const renderLine = (className: string, [[a, b], [c, d]]: [Vector2, Vector2]) => {
-    container
-      .maybeAppendByClassName(className, 'line')
-      .attr('className', `${CLASS_NAMES.line.name} ${className}`)
-      .styles({ ...style, x1: a, y1: b, x2: c, y2: d });
+  const renderLine = (data: LineDatum[]) => {
+    return container
+      .selectAll(CLASS_NAMES.line.class)
+      .data(data, (d, i) => i)
+      .join(
+        (enter) =>
+          enter
+            .append('line')
+            .attr('className', (d: LineDatum) => `${CLASS_NAMES.line.name} ${d.className}`)
+            .styles(style)
+            .transition(function ({ line }: LineDatum) {
+              return transition(this, getLinePath(line), false);
+            }),
+        (update) =>
+          update.styles(style).transition(function ({ line }: LineDatum) {
+            return transition(this, getLinePath(line), animate.update);
+          }),
+        (exit) => exit.remove()
+      )
+      .transitions();
   };
   if (!truncRange) {
-    renderLine('axis-line', [
-      [x1 + ox1, y1 + oy1],
-      [x2 + ox2, y2 + oy2],
+    return renderLine([
+      {
+        line: [
+          [x1 + ox1, y1 + oy1],
+          [x2 + ox2, y2 + oy2],
+        ],
+        className: CLASS_NAMES.line.name,
+      },
     ]);
-    return;
   }
   const [r1, r2] = truncRange;
   const [x3, y3] = [x1 + (x2 - x1) * r1, y1 + (y2 - y1) * r1];
   const [x4, y4] = [x1 + (x2 - x1) * r2, y1 + (y2 - y1) * r2];
-  renderLine(CLASS_NAMES.lineFirst.name, [
-    [x1 + ox1, y1 + oy1],
-    [x3, y3],
-  ]);
-  renderLine(CLASS_NAMES.lineSecond.name, [
-    [x4, y4],
-    [x2 + ox2, y2 + oy2],
+  const animation = renderLine([
+    {
+      line: [
+        [x1 + ox1, y1 + oy1],
+        [x3, y3],
+      ],
+      className: CLASS_NAMES.lineFirst.name,
+    },
+    {
+      line: [
+        [x4, y4],
+        [x2 + ox2, y2 + oy2],
+      ],
+      className: CLASS_NAMES.lineSecond.name,
+    },
   ]);
   renderTruncation(container, cfg, style);
+  return animation;
 }
 
-function renderAxisArrow(
-  container: Selection,
-  type: 'linear' | 'arc',
-  { lineArrow, truncRange, lineArrowOffset = 0, lineArrowSize }: AxisStyleProps,
-  style: any
-) {
-  if (!lineArrow) return;
-  const arrow = renderExtDo(lineArrow);
-  arrow.attr(style);
-  scaleToPixel(arrow, lineArrowSize!, true);
+function renderAxisArrow(container: Selection, type: 'linear' | 'arc', cfg: AxisStyleProps, style: any) {
+  const { showArrow, lineArrow, truncRange, lineArrowOffset = 0, lineArrowSize } = cfg;
+
   let shapeToAddArrow: Selection;
   if (type === 'arc') shapeToAddArrow = container.select(CLASS_NAMES.line.class);
   else if (truncRange) shapeToAddArrow = container.select(CLASS_NAMES.lineSecond.class);
   else shapeToAddArrow = container.select(CLASS_NAMES.line.class);
+  if (!showArrow || !lineArrow || (cfg.type === 'arc' && isCircle(...cfg.angleRange))) {
+    shapeToAddArrow.style('markerEnd', null);
+    return;
+  }
+  const arrow = renderExtDo(lineArrow);
+  arrow.attr(style);
+  scaleToPixel(arrow, lineArrowSize!, true);
+
   shapeToAddArrow.style('markerEnd', arrow).style('markerEndOffset', -lineArrowOffset);
 }
 
-export function renderAxisLine<T>(container: Selection, cfg: AxisStyleProps, style: any) {
+export function renderAxisLine<T>(
+  container: Selection,
+  cfg: AxisStyleProps,
+  style: any,
+  animate: StandardAnimationOption
+) {
   const { type } = cfg;
-  if (type === 'linear') renderLinear(container, cfg, style);
-  else renderArc(container, cfg, style);
+  let animation: AnimationResult[];
+  if (type === 'linear') animation = renderLinear(container, cfg, style, animate);
+  else animation = renderArc(container, cfg, style, animate);
   renderAxisArrow(container, type, cfg, style);
+  return animation;
 }

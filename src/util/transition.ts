@@ -1,5 +1,6 @@
 import type { DisplayObject } from '@antv/g';
 import { isNil } from '@antv/util';
+import type { GenericAnimation } from '../animation';
 import type { GUI } from '../core/gui';
 
 /**
@@ -10,42 +11,28 @@ import type { GUI } from '../core/gui';
  * @param target target properties
  * @param options transition options
  * @param animate whether to animate
- * @param threshold threshold to determine whether to animate
  * @returns transition instance
  */
-export function transition(
-  el: DisplayObject | GUI<any>,
-  target: { [key: string]: any },
-  options: any = {},
-  animate: boolean = true,
-  threshold: number = 50
-): Promise<any> {
+export function transition(el: DisplayObject | GUI<any>, target: { [key: string]: any }, options: GenericAnimation) {
   const from: typeof target = {};
   const to: typeof target = {};
-  const supportProperties = ['x', 'y', 'width', 'height', 'opacity', 'radius'];
   Object.entries(target).forEach(([key, tarStyle]) => {
     const currStyle = el.attr(key);
-    if (
-      supportProperties.includes(key) &&
-      !isNil(tarStyle) &&
-      !isNil(currStyle) &&
-      currStyle !== tarStyle &&
-      Math.abs(+currStyle - +tarStyle) >= threshold
-    ) {
+    if (!isNil(tarStyle) && !isNil(currStyle) && currStyle !== tarStyle) {
       from[key] = currStyle;
       to[key] = tarStyle;
     }
   });
 
-  const applyStyle = () => {
+  if (!options) {
     if ('update' in el) el.update(target);
     else el.attr(target);
-    return Promise.resolve();
-  };
+    return null;
+  }
 
-  if (!animate) return applyStyle();
-  if (Object.keys(from).length > 0)
-    return el.animate([from, to], { fill: 'both', ...options })?.finished.then(applyStyle) || Promise.resolve();
+  if (Object.keys(from).length > 0) {
+    return el.animate([from, to], { fill: 'both', ...options });
+  }
 
-  return Promise.resolve();
+  return null;
 }

@@ -1,11 +1,12 @@
 import { DisplayObject, type Group } from '@antv/g';
 import { isFunction, memoize } from '@antv/util';
 import type { Vector2 } from '../../../types';
-import { getCallbackValue, select, Selection, styleSeparator } from '../../../util';
+import { getCallbackValue, select, Selection, styleSeparator, transition } from '../../../util';
 import { CLASS_NAMES } from '../constant';
 import type { AxisDatum, AxisStyleProps } from '../types';
 import { getDirectionVector, getValuePos } from './axisLine';
 import { filterExec, getCallbackStyle } from './utils';
+import { fadeOut, type StandardAnimationOption, type GenericAnimation } from '../../../animation';
 
 export function getTickVector(value: number, cfg: AxisStyleProps): Vector2 {
   return getDirectionVector(value, cfg.tickDirection!, cfg);
@@ -30,9 +31,8 @@ function getTickLineLayout(
   cfg: AxisStyleProps
 ) {
   const { tickLength } = cfg;
-  const [ox, oy] = getValuePos(datum.value, cfg);
   const [[x1, y1], [x2, y2]] = getTickPoints(tickVector, getCallbackValue(tickLength, [datum, index, data]));
-  return { x: ox, y: oy, x1, x2, y1, y2 };
+  return { x1, x2, y1, y2 };
 }
 
 function createTickEl(container: Selection, datum: AxisDatum, index: number, data: AxisDatum[], cfg: AxisStyleProps) {
@@ -54,33 +54,57 @@ function applyTickStyle(
   style: any
 ) {
   const tickVector = getTickVector(datum.value, cfg);
-  const { x1, x2, y1, y2, x, y } = getTickLineLayout(datum, index, data, tickVector, cfg);
+  const { x1, x2, y1, y2 } = getTickLineLayout(datum, index, data, tickVector, cfg);
   const [tickStyle, groupStyle] = styleSeparator(getCallbackStyle(style, [datum, index, data]));
   tick.node().nodeName === 'line' && tick.styles({ x1, x2, y1, y2, ...tickStyle });
-  group.attr({ x, y, ...groupStyle });
+  group.attr(groupStyle);
   tick.styles(tickStyle);
 }
 
-export function renderTicks(container: Selection, data: AxisDatum[], cfg: AxisStyleProps, callbackableStyle: any) {
-  const finalData = filterExec(data, cfg.tickFilter);
-  container
-    .selectAll('.axis-tick')
-    .data(finalData)
+function createTick(
+  datum: AxisDatum,
+  index: number,
+  data: AxisDatum[],
+  cfg: AxisStyleProps,
+  style: any,
+  animate: GenericAnimation
+) {
+  const tick = createTickEl(select(this), datum, index, data, cfg);
+  applyTickStyle(datum, index, data, tick, this, cfg, style);
+  const [x, y] = getValuePos(datum.value, cfg);
+  return transition(this, { x, y }, animate);
+}
+
+export function renderTicks(
+  container: Selection,
+  axisData: AxisDatum[],
+  cfg: AxisStyleProps,
+  callbackableStyle: any,
+  animate: StandardAnimationOption
+) {
+  const finalData = filterExec(axisData, cfg.tickFilter);
+
+  return container
+    .selectAll(CLASS_NAMES.tick.class)
+    .data(finalData, (d) => d.id || d.label)
     .join(
       (enter) =>
         enter
           .append('g')
           .attr('className', CLASS_NAMES.tick.name)
-          .each(function (...args) {
-            const tick = createTickEl(select(this), ...args, finalData, cfg);
-            applyTickStyle(...args, finalData, tick, this, cfg, callbackableStyle);
+          .transition(function (datum: AxisDatum, index: number) {
+            createTick.call(this, datum, index, finalData, cfg, callbackableStyle, false);
           }),
       (update) =>
-        update.each(function (...args) {
+        update.transition(function (datum: AxisDatum, index: number) {
           this.removeChildren();
-          const tick = createTickEl(select(this), ...args, finalData, cfg);
-          applyTickStyle(...args, finalData, tick, this, cfg, callbackableStyle);
+          return createTick.call(this, datum, index, finalData, cfg, callbackableStyle, animate.update);
         }),
-      (exit) => exit.remove()
-    );
+      (exit) =>
+        exit.each(async function () {
+          await fadeOut(this, animate.exit)?.finished;
+          this.remove();
+        })
+    )
+    .transitions();
 }

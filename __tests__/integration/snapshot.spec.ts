@@ -35,7 +35,7 @@ describe('integration', () => {
             // @ts-ignore
             const maxError = target.maxError || 0;
             expect(diff(actualPath, expectedPath, diffPath, maxError)).toBeLessThanOrEqual(maxError);
-
+            if (fs.existsSync(diffPath)) fs.unlinkSync(diffPath);
             // Persevere the diff image if do not pass the test.
             fs.unlinkSync(actualPath);
           }

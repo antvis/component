@@ -1,5 +1,6 @@
 import { vec2 } from '@antv/matrix-util';
 import { isFunction } from '@antv/util';
+import { StandardAnimationOption } from '../../../animation';
 import type { Point } from '../../../types';
 import { degToRad, getCallbackValue, Selection } from '../../../util';
 import { Grid } from '../../grid';
@@ -56,7 +57,13 @@ function renderSurround(data: AxisDatum[], cfg: AxisStyleProps, style: any) {
   });
 }
 
-export function renderGrid(container: Selection, data: AxisDatum[], cfg: AxisStyleProps, style: any) {
+export function renderGrid(
+  container: Selection,
+  data: AxisDatum[],
+  cfg: AxisStyleProps,
+  style: any,
+  animate: StandardAnimationOption
+) {
   const { type, closed, areaFill, connect } = style;
   const center = getGridCenter(cfg);
   const finalData = filterExec(data, cfg.gridFilter);
@@ -65,6 +72,7 @@ export function renderGrid(container: Selection, data: AxisDatum[], cfg: AxisSty
     .maybeAppendByClassName(CLASS_NAMES.grid, () => new Grid({}))
     .update({
       type,
+      animate,
       connect,
       closed,
       center,

@@ -3,7 +3,9 @@ import { Axis } from '../../../../src/ui/axis';
 import { data } from '../../utils';
 
 export const AxisArcBasis1 = () => {
-  const group = new Group();
+  const group = new Group({
+    style: { width: 400, height: 300 },
+  });
 
   group.appendChild(
     new Axis({
@@ -12,7 +14,7 @@ export const AxisArcBasis1 = () => {
         type: 'arc',
         angleRange: [-135, 135],
         center: [150, 150],
-        lineArrow: '',
+        showArrow: false,
         lineStroke: 'red',
         tickStroke: 'red',
         radius: 80,

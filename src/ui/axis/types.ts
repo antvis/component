@@ -9,6 +9,7 @@ import type {
 } from '../../types';
 import type { TitleStyleProps } from '../title';
 import type { GridStyleProps } from '../grid/types';
+import type { AnimationOption } from '../../animation/types';
 
 export type AxisType = 'linear' | 'arc' | 'helix';
 
@@ -97,6 +98,7 @@ export type AxisLineCfg = {
    * extend lenth on the head and tail of axis line
    */
   lineExtension?: [number, number];
+  showArrow?: boolean;
   /**
    * line arrow shape
    * When string is passed, use the build-in arrow shape
@@ -189,7 +191,7 @@ export type AxisBaseStyleProps = GroupStyleProps &
     /**
      * the animation effect when axis is rendered
      */
-    animation?: string;
+    animate?: AnimationOption;
     /**
      * a datum corresponding to a tick and label
      */
@@ -219,4 +221,4 @@ export type AxisStyleProps = LinearAxisStyleProps | ArcAxisStyleProps;
 
 export type LinearAxisOptions = DisplayObjectConfig<LinearAxisStyleProps>;
 export type ArcAxisOptions = DisplayObjectConfig<ArcAxisStyleProps>;
-export type AxisOptions = DisplayObjectConfig<AxisBaseStyleProps>;
+export type AxisOptions = LinearAxisOptions | ArcAxisOptions;

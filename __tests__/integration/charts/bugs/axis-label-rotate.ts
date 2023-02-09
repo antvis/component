@@ -2,7 +2,9 @@ import { Group } from '@antv/g';
 import { Axis } from '../../../../src/ui/axis';
 
 export const BugAxisLabelRotate = () => {
-  const group = new Group({});
+  const group = new Group({
+    style: { width: 400, height: 300 },
+  });
 
   group.appendChild(
     new Axis({
