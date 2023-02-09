@@ -100,3 +100,53 @@ describe('test category legend', () => {
     })
   });
 });
+
+describe('test category legend pageWidth', () => {
+  const dom = document.createElement('div');
+  document.body.appendChild(dom);
+  dom.id = 'clc2';
+  const canvas = new Canvas({
+    container: 'clc2',
+    width: 500,
+    height: 500,
+  });
+
+  const marker = { symbol: 'circle', style: { r: 4, stroke: 'red', fill: 'white' } };
+  const items = [
+    { id: '1', name: '11111', value: '1', marker },
+    { id: '2', name: '33333333333333333333333333333333333333333333', value: '3', marker },
+    { id: '3', name: '33333333333333333333333333333333333333333333', value: '3', marker },
+    { id: '4', name: '33333333333333333333333333333333333333333333', value: '3', marker },
+    { id: '5', name: '33333333333333333333333333333333333333333333', value: '3', marker },
+    { id: '6', name: '2222', value: '2', marker },
+  ];
+
+  describe('test horizontal legend clipWidth', () => {
+    const container = canvas.addGroup();
+    const legend = new CategroyLegend({
+      id: 'c',
+      container,
+      x: 100,
+      y: 100,
+      items: items,
+      updateAutoRender: true,
+      itemBackground: null,
+      maxRow: 4,
+      maxWidth: 200,
+    });
+    legend.init();
+    legend.render();
+
+    it('clipWidth', () => {
+      legend.update({ flipPage: true });
+
+      let itemGroup = legend.getElementByLocalId('item-group');
+
+      expect(itemGroup.getParent().getClip().getBBox().width).toBeGreaterThan(100);
+    });
+
+    afterAll(() => {
+      legend.destroy();
+    })
+  });
+});
