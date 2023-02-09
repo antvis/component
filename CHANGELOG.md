@@ -4,11 +4,6 @@
 
 - **category:** 分页图例，分页宽度获取错误，导致部分图例被剪切 ([#288](https://github.com/antvis/component/pull/288)) ([d6f26b1d](https://github.com/antvis/component/commit/d6f26b1d309100e5164934a9b3fc86f0df30742d))
 
-##### Other Changes
-
-- v0.8.32 & changelog ([#284](https://github.com/antvis/component/pull/284))" ([#287](https://github.com/antvis/component/pull/287)) ([64aabda4](https://github.com/antvis/component/commit/64aabda49c55dae85faadb7fe592781bd32a7793))
-- **tooltip:** 修复 tooltip transition 不生效以及线上兼容问题 ([#282](https://github.com/antvis/component/pull/282))" ([#286](https://github.com/antvis/component/pull/286)) ([891a6639](https://github.com/antvis/component/commit/891a66393e45499dd08a119a60a052b0e692382d))
-
 #### 0.8.31 (2022-08-29)
 
 ##### Revert
