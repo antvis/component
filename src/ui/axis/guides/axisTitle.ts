@@ -95,7 +95,7 @@ export function renderTitle(
     animateResult.onframe = () => apply();
     // title animation is independent of axis animation
     Promise.all(animateResults.map((a) => a?.finished)).then(() => {
-      apply({ duration: 100 });
+      apply({ duration: 50 });
     });
   } else apply();
 }

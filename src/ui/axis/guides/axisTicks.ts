@@ -93,7 +93,7 @@ export function renderTicks(
           .append('g')
           .attr('className', CLASS_NAMES.tick.name)
           .transition(function (datum: AxisDatum, index: number) {
-            createTick.call(this, datum, index, finalData, cfg, callbackableStyle, false);
+            return createTick.call(this, datum, index, finalData, cfg, callbackableStyle, false);
           }),
       (update) =>
         update.transition(function (datum: AxisDatum, index: number) {
@@ -101,9 +101,10 @@ export function renderTicks(
           return createTick.call(this, datum, index, finalData, cfg, callbackableStyle, animate.update);
         }),
       (exit) =>
-        exit.each(async function () {
-          await fadeOut(this, animate.exit)?.finished;
-          this.remove();
+        exit.transition(function () {
+          const animation = fadeOut(this, animate.exit);
+          animation?.finished.then(() => this.remove());
+          return animation;
         })
     )
     .transitions();

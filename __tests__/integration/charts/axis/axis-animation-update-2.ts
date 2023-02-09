@@ -3,7 +3,7 @@ import { mockData } from '../../utils/mock-data';
 import { Axis } from '../../../../src/ui/axis';
 import { Button } from '../../../../src/ui/button';
 
-export const AxisAnimationEnter2 = () => {
+export const AxisAnimationUpdate2 = () => {
   const group = new Group({
     style: {
       width: 650,
@@ -69,4 +69,4 @@ export const AxisAnimationEnter2 = () => {
   return group;
 };
 
-AxisAnimationEnter2.tags = ['坐标轴', '动画', '入场'];
+AxisAnimationUpdate2.tags = ['坐标轴', '动画', '更新'];

@@ -206,11 +206,13 @@ function createLabels(
   data: any[],
   cfg: AxisStyleProps,
   style: any,
-  options: GenericAnimation
+  animate: GenericAnimation
 ) {
   const elements = get(element, '_elements') as _Element[];
+  if (elements.length === 0) return null;
   const transitions = get(element, '_transitions');
-  const animations = elements.map((el: any) => createLabel.call(el, el.__data__, 0, data, cfg, style, options));
+  const animations = elements.map((el: any) => createLabel.call(el, el.__data__, 0, data, cfg, style, animate));
+
   animations.forEach((a, i) => (transitions[i] = a));
   // to avoid async manipulations
   if (animations.filter((a) => !!a).length === 0) overlapHandler.call(container, cfg);
@@ -254,9 +256,12 @@ export function renderLabels(
             createLabels(container, element, finalData, cfg, style, animate.update);
           }),
       (exit) =>
-        exit.each(async function (datum) {
-          await fadeOut(this, animate.exit)?.finished;
-          select(this).remove();
+        exit.transition(function (datum: AxisDatum) {
+          const animation = fadeOut(this, animate.exit);
+          animation?.finished.then(() => {
+            select(this).remove();
+          });
+          return animation;
         })
     )
     .transitions();
