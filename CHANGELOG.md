@@ -1,3 +1,9 @@
+#### 0.8.32 (2023-02-09)
+
+##### Bug Fixes
+
+- **category:** 分页图例，分页宽度获取错误，导致部分图例被剪切 ([#288](https://github.com/antvis/component/pull/288)) ([d6f26b1d](https://github.com/antvis/component/commit/d6f26b1d309100e5164934a9b3fc86f0df30742d))
+
 #### 0.8.31 (2022-08-29)
 
 ##### Revert
