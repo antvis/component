@@ -1,10 +1,10 @@
 import { vec2 } from '@antv/matrix-util';
-import { renderExtDo, styleSeparator, percentTransform, type Selection, transition } from '../../../util';
+import { onAnimateFinished, type AnimationResult, type GenericAnimation } from '../../../animation';
+import { percentTransform, renderExtDo, styleSeparator, transition, type Selection } from '../../../util';
 import { parsePosition } from '../../title';
 import type { TitleCfg } from '../../title/types';
 import { CLASS_NAMES } from '../constant';
 import type { AxisStyleProps } from '../types';
-import type { AnimationOption, AnimationResult, GenericAnimation, StandardAnimationOption } from '../../../animation';
 
 function getTitlePosition(
   mainGroup: Selection,
@@ -62,22 +62,17 @@ function applyTitleStyle(
   axis: Selection,
   cfg: AxisStyleProps,
   style: any,
-  animation: GenericAnimation = false
+  animate: GenericAnimation = false
 ) {
   const [titleStyle, { transform = '', ...groupStyle }] = styleSeparator(style);
   title.styles(titleStyle);
   group.styles(groupStyle);
   const { x, y } = getTitleLayout(axis, group, cfg);
-  const animate = transition(group.node(), { x, y }, animation);
-  if (animate) {
-    animate.finished.then(() => {
-      group.node().setPosition(x, y);
-      percentTransform(title, transform);
-    });
-  } else {
+  const animation = transition(group.node(), { x, y }, animate);
+  onAnimateFinished(animation, () => {
     group.node().setPosition(x, y);
     percentTransform(title, transform);
-  }
+  });
 }
 
 export function renderTitle(

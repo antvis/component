@@ -76,12 +76,12 @@ function getColor(cfg: RibbonStyleProps) {
   } else colors = color;
 
   const count = colors.length;
-
+  const genericColor = colors.map((c) => parseColor(c).toString());
   if (!count) return '';
-  if (count === 1) return colors[0];
-  if (block) return getBlockColor(partition, colors, orient);
-  return colors.reduce(
-    (r, c, idx) => (r += ` ${idx / (count - 1)}:${parseColor(c)}`),
+  if (count === 1) return genericColor[0];
+  if (block) return getBlockColor(partition, genericColor, orient);
+  return genericColor.reduce(
+    (r, c, idx) => (r += ` ${idx / (count - 1)}:${c}`),
     `l(${ifHorizontal(orient, '0', '270')})`
   );
 }
@@ -104,7 +104,6 @@ function renderTrack(container: Selection, cfg: RibbonStyleProps, style: any) {
 
 function renderSelection(container: Selection, cfg: RibbonStyleProps, style: any) {
   const fill = getColor(cfg);
-
   const ribbon = container
     .maybeAppendByClassName(CLASS_NAMES.selection, 'path')
     .styles({ path: getSelectionPath(cfg), fill, ...style });

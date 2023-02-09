@@ -1,8 +1,7 @@
 import type { DisplayObject, Text } from '@antv/g';
 import { vec2 } from '@antv/matrix-util';
 import { get, isFunction, memoize } from '@antv/util';
-import { fadeOut } from '../../../animation';
-import type { GenericAnimation, StandardAnimationOption } from '../../../animation/types';
+import { fadeOut, onAnimateFinished, type GenericAnimation, type StandardAnimationOption } from '../../../animation';
 import type { Vector2 } from '../../../types';
 import {
   ellipsisIt,
@@ -137,11 +136,11 @@ function getLabelPos(datum: AxisDatum, index: number, data: AxisDatum[], cfg: Ax
 
 function formatter(datum: AxisDatum, index: number, data: AxisDatum[], cfg: AxisStyleProps) {
   const { labelFormatter } = cfg;
-  const el = isFunction(labelFormatter)
+  const element = isFunction(labelFormatter)
     ? () => renderExtDo(getCallbackValue(labelFormatter, [datum, index, data, getLabelVector(datum.value, cfg)]))
     : () => renderExtDo(datum.label || '');
 
-  return el;
+  return element;
 }
 
 function overlapHandler(cfg: AxisStyleProps) {
@@ -185,6 +184,7 @@ function createLabel(
       textBaseline: 'middle',
       ...labelStyle,
     });
+
   this.attr(groupStyle);
   const animation = transition(this, getLabelPos(datum, index, data, cfg), animate);
 
@@ -193,10 +193,7 @@ function createLabel(
     const rotate = getLabelRotation(datum, this, cfg);
     setRotateAndAdjustLabelAlign(rotate, this, cfg);
   };
-
-  if (animation) {
-    animation.finished.then(layout);
-  } else layout();
+  onAnimateFinished(animation, layout);
   return animation;
 }
 
@@ -238,7 +235,7 @@ export function renderLabels(
 
   return container
     .selectAll(CLASS_NAMES.label.class)
-    .data(finalData, (d) => `${d.value}-${d.label}`)
+    .data(finalData, (d, i) => `${d.value}-${d.label}`)
     .join(
       (enter) =>
         enter
@@ -249,16 +246,16 @@ export function renderLabels(
           }),
       (update) =>
         update
-          .each(async function () {
+          .each(function () {
             select(this).node().removeChildren();
           })
           .call((element) => {
             createLabels(container, element, finalData, cfg, style, animate.update);
           }),
       (exit) =>
-        exit.transition(function (datum: AxisDatum) {
+        exit.transition(function () {
           const animation = fadeOut(this, animate.exit);
-          animation?.finished.then(() => {
+          onAnimateFinished(animation, () => {
             select(this).remove();
           });
           return animation;

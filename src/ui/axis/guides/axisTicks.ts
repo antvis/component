@@ -1,12 +1,12 @@
 import { DisplayObject, type Group } from '@antv/g';
 import { isFunction, memoize } from '@antv/util';
+import { fadeOut, onAnimateFinished, type GenericAnimation, type StandardAnimationOption } from '../../../animation';
 import type { Vector2 } from '../../../types';
 import { getCallbackValue, select, Selection, styleSeparator, transition } from '../../../util';
 import { CLASS_NAMES } from '../constant';
 import type { AxisDatum, AxisStyleProps } from '../types';
 import { getDirectionVector, getValuePos } from './axisLine';
 import { filterExec, getCallbackStyle } from './utils';
-import { fadeOut, type StandardAnimationOption, type GenericAnimation } from '../../../animation';
 
 export function getTickVector(value: number, cfg: AxisStyleProps): Vector2 {
   return getDirectionVector(value, cfg.tickDirection!, cfg);
@@ -103,7 +103,7 @@ export function renderTicks(
       (exit) =>
         exit.transition(function () {
           const animation = fadeOut(this, animate.exit);
-          animation?.finished.then(() => this.remove());
+          onAnimateFinished(animation, () => this.remove());
           return animation;
         })
     )

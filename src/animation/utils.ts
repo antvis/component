@@ -1,4 +1,4 @@
-import type { AnimationOption, StandardAnimationOption } from './types';
+import type { AnimationOption, StandardAnimationOption, AnimationResult } from './types';
 
 export function parseAnimationOption(option: AnimationOption): StandardAnimationOption {
   if (!option)
@@ -17,4 +17,9 @@ export function parseAnimationOption(option: AnimationOption): StandardAnimation
     update: option,
     exit: option,
   };
+}
+
+export function onAnimateFinished(animation: AnimationResult, callback: () => void) {
+  if (!animation) callback();
+  else animation.finished.then(callback);
 }
