@@ -7,7 +7,7 @@ import { renderGrid } from './guides/axisGrid';
 import { renderLabels } from './guides/axisLabels';
 import { renderAxisLine } from './guides/axisLine';
 import { renderTicks } from './guides/axisTicks';
-import { renderTitle, adjustTitleLayout } from './guides/axisTitle';
+import { renderTitle } from './guides/axisTitle';
 import type { ArcAxisStyleProps, AxisOptions, AxisStyleProps, LinearAxisStyleProps } from './types';
 
 export type {
@@ -117,10 +117,10 @@ export class Axis extends GUI<AxisStyleProps> {
 
     /** title */
     const axisTitleGroup = select(container).maybeAppendByClassName(CLASS_NAMES.titleGroup, 'g');
-    ifShow(showTitle, axisTitleGroup, (group) => {
-      renderTitle(group, select(container), attributes, titleStyle, labelTransitions);
+    const titleTransition = ifShow(showTitle, axisTitleGroup, (group) => {
+      return renderTitle(group, select(container), attributes, titleStyle, finalAnimation);
     });
 
-    return [...lineTransitions, ...tickTransitions, ...labelTransitions].filter((t) => !!t);
+    return [...lineTransitions, ...tickTransitions, ...labelTransitions, titleTransition].filter((t) => !!t);
   }
 }
