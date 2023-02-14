@@ -29,8 +29,8 @@
     "lint-fix": "run-s lint-fix:*",
     "lint-fix:prettier": "prettier --write 'src/**/*.ts'",
     "lint-fix:tslint": "tslint -c tslint.json --fix 'src/**/*.ts' 'tests/**/*'",
-    "coverage": "jest --coverage",
-    "test": "jest",
+    "coverage": "jest -w 16 --coverage",
+    "test": "jest -w 16",
     "test-live": "DEBUG_MODE=1 jest --watch tests",
     "ci": "run-s build test coverage",
     "changelog": "generate-changelog",
@@ -47,13 +47,13 @@
     "conventional-changelog-cli": "^2.1.1",
     "generate-changelog": "^1.8.0",
     "husky": "^3.0.4",
-    "jest": "^24.9.0",
-    "jest-electron": "^0.1.6",
+    "jest": "^26.0.1",
+    "jest-electron": "^0.1.7",
     "lint-staged": "^9.2.3",
     "npm-run-all": "^4.1.5",
     "prettier": "^1.18.2",
     "rimraf": "^3.0.0",
-    "ts-jest": "^24.1.0",
+    "ts-jest": "^26.0.0",
     "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.5.3"
@@ -79,17 +79,5 @@
       "prettier --write",
       "git add"
     ]
-  },
-  "jest": {
-    "runner": "jest-electron/runner",
-    "testEnvironment": "jest-electron/environment",
-    "preset": "ts-jest",
-    "collectCoverage": false,
-    "collectCoverageFrom": [
-      "src/**/*.{ts,js}",
-      "!**/node_modules/**",
-      "!**/vendor/**"
-    ],
-    "testRegex": "/tests/.*spec\\.ts?$"
   }
 }
