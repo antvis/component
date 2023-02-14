@@ -1,5 +1,5 @@
-import { IElement, IGroup } from '@antv/g-base';
-import { each, isArray, isNil, isNumber } from '@antv/util';
+import { getOffScreenContext, IElement, IGroup } from '@antv/g-base';
+import { each, isArray, isNil, isNumber, isString } from '@antv/util';
 import { BBox, Point, Region } from '../types';
 
 export function formatPadding(padding: number | number[]): number[] {
@@ -234,4 +234,66 @@ export function getTextPoint(start: Point, end: Point, position: string, offset:
     x: getValueByPercent(start.x, end.x, percent),
     y: getValueByPercent(start.y, end.y, percent),
   };
+}
+
+/**
+ * 获取字体宽度
+ * @param text 文本
+ * @param font 字体
+ */
+export function getTextWidth(text: string, font: string) {
+  const context = getOffScreenContext(); // 获取离屏的 ctx 进行计算
+  let width = 0;
+  // null 或者 undefined 时，宽度为 0
+  if (isNil(text) || text === '') {
+    return width;
+  }
+  context.save();
+  context.font = font;
+  if (isString(text) && text.includes('\n')) {
+    const textArr = text.split('\n');
+    each(textArr, (subText) => {
+      const measureWidth = context.measureText(subText).width;
+      if (width < measureWidth) {
+        width = measureWidth;
+      }
+    });
+  } else {
+    width = context.measureText(text).width;
+  }
+  context.restore();
+  return width;
+}
+
+export function clipText(str: string, maxWidth: number, font: string) {
+  // 日期字段根据空格拆为两组：'2022-10-12 08:23' => ['2022-10-12', '08:23']
+  if (Date.parse(str)) {
+    return str.split(' ').join('\n');
+  }
+
+  function mapStr(str: string, callback: (i: number) => void) {
+    for (let i = 0; i < str.length; i++) {
+      const curStr = str.slice(0, i + 1);
+      const curWidth = getTextWidth(curStr, '12');
+      if (curWidth > maxWidth) {
+        callback(i);
+        return;
+      }
+    }
+  }
+
+  let firstStr = '';
+  let secondStr = '';
+  // 文字拆分为两组
+  mapStr(str, (i: number) => {
+    firstStr = str.slice(0, i);
+    secondStr = str.slice(i);
+  });
+
+  // 第二行超出宽度时加省略号
+  mapStr(secondStr, (i: number) => {
+    secondStr = secondStr.slice(0, i - 1) + '...';
+  });
+
+  return firstStr + '\n' + secondStr;
 }
