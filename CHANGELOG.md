@@ -1,3 +1,26 @@
+
+#### 0.9.1 (2023-02-14)
+
+##### New Features
+
+- **slider:**
+  - update foreground ui ([ae677014](https://github.com/antvis/component/commit/ae6770147a11eb6061751a13560b1a2d3bd9cd80))
+  - add brush interaction ([997cd883](https://github.com/antvis/component/commit/997cd883a228d2b73c572aa08e64574d73b18241))
+
+##### Chores
+
+- v0.8.32 & changelog ([#289](https://github.com/antvis/component/pull/289)) ([c57b8a58](https://github.com/antvis/component/commit/c57b8a5855a367eecbbd8e28640c7c087b553e9a))
+
+##### Bug Fixes
+
+- test ci error ([#291](https://github.com/antvis/component/pull/291)) ([799abf08](https://github.com/antvis/component/commit/799abf08510c346fd1d4b5d90c216d66859289fe))
+- **category:** 分页图例，分页宽度获取错误，导致部分图例被剪切 ([#288](https://github.com/antvis/component/pull/288)) ([d6f26b1d](https://github.com/antvis/component/commit/d6f26b1d309100e5164934a9b3fc86f0df30742d))
+
+##### Other Changes
+
+- v0.8.32 & changelog ([#284](https://github.com/antvis/component/pull/284))" ([#287](https://github.com/antvis/component/pull/287)) ([64aabda4](https://github.com/antvis/component/commit/64aabda49c55dae85faadb7fe592781bd32a7793))
+- **tooltip:** 修复 tooltip transition 不生效以及线上兼容问题 ([#282](https://github.com/antvis/component/pull/282))" ([#286](https://github.com/antvis/component/pull/286)) ([891a6639](https://github.com/antvis/component/commit/891a66393e45499dd08a119a60a052b0e692382d))
+
 #### 0.8.33 (2023-04-03)
 
 ##### New Features
