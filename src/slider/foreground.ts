@@ -1,13 +1,8 @@
 import { IGroup, LooseObject } from '@antv/g-base';
+import { omit } from '@antv/util';
 import GroupComponent from '../abstract/group-component';
 import { GroupComponentCfg } from '../types';
-import {
-  FOREGROUND_STYLE,
-  SLICER_BAR_LINE_STYLE,
-  SLIDER_BAR_HEIGHT,
-  SLIDER_BAR_LINE_GAP,
-  SLIDER_BAR_STYLE,
-} from './constant';
+import { BAR_STYLE, FOREGROUND_STYLE, SLIDER_BAR_LINE_GAP } from './constant';
 
 interface IStyle {
   fill?: string;
@@ -34,17 +29,15 @@ export class Foreground extends GroupComponent<ForegroundCfg> {
     return {
       ...cfg,
       name: 'foreground',
-      // x: 0,
-      // y: 0,
       width: 100,
       height: 16,
-      style: FOREGROUND_STYLE,
-      barStyle: SLIDER_BAR_STYLE,
+      foregroundStyle: FOREGROUND_STYLE,
+      barStyle: BAR_STYLE,
     };
   }
 
   protected renderInner(group: IGroup) {
-    const { x, height, width, style, barStyle } = this.cfg;
+    const { x, height, width, foregroundStyle, barStyle } = this.cfg;
 
     // 上方brush区域
     this.addShape(group, {
@@ -57,7 +50,7 @@ export class Foreground extends GroupComponent<ForegroundCfg> {
         width,
         height: (height * 3) / 5,
         cursor: 'crosshair',
-        ...style,
+        ...omit(foregroundStyle, ['stroke']),
       },
     });
 
@@ -72,7 +65,7 @@ export class Foreground extends GroupComponent<ForegroundCfg> {
         width,
         height: (height * 2) / 5,
         cursor: 'move',
-        ...style,
+        ...omit(foregroundStyle, ['stroke']),
       },
     });
 
@@ -90,7 +83,7 @@ export class Foreground extends GroupComponent<ForegroundCfg> {
         x,
         y: height,
         width,
-        height: SLIDER_BAR_HEIGHT,
+        height: barStyle.height,
         cursor: 'move',
         ...barStyle,
       },
@@ -99,12 +92,12 @@ export class Foreground extends GroupComponent<ForegroundCfg> {
     const centerX = width / 2 + x;
     const leftX = centerX - SLIDER_BAR_LINE_GAP;
     const rightX = centerX + SLIDER_BAR_LINE_GAP;
-    const y1 = height + (1 / 5) * 6;
-    const y2 = height + (4 / 5) * 6;
+    const y1 = height + (1 / 4) * barStyle.height;
+    const y2 = height + (3 / 4) * barStyle.height;
     const publicAttrs = {
       y1,
       y2,
-      ...SLICER_BAR_LINE_STYLE,
+      ...barStyle,
     };
     [leftX, centerX, rightX].forEach((x) => {
       this.drawBarLine(group, x, publicAttrs);
@@ -119,9 +112,9 @@ export class Foreground extends GroupComponent<ForegroundCfg> {
         y: 0,
         width,
         height,
-        stroke: '#4E83CD',
-        opacity: 0.3,
-        lineWidth: 0.8,
+        stroke: foregroundStyle?.stroke,
+        opacity: foregroundStyle?.strokeOpacity,
+        lineWidth: foregroundStyle?.lineWidth,
       },
     });
   }

@@ -6,8 +6,8 @@ import { Trend } from '../trend/trend';
 import { Handler, HandlerCfg } from './handler';
 import { GroupComponentCfg, Range } from '../types';
 import {
-  ACTIVE_TREND_STYLE,
   BACKGROUND_STYLE,
+  BAR_STYLE,
   DEFAULT_HANDLER_HEIGHT,
   DEFAULT_HANDLER_WIDTH,
   DEFAULT_TREND_STYLE,
@@ -20,8 +20,9 @@ import {
   TEXT_STYLE,
 } from './constant';
 import { createMask, getRectMaskAttrs, updateMask } from '../util/mask';
-import { clipText, getTextWidth } from '../util/util';
+import { clipTextTwoLines, getTextWidth } from '../util/util';
 import { Foreground } from './foreground';
+import { getCurrentPoint } from '../util/event';
 
 export interface TrendCfg {
   // 数据
@@ -32,6 +33,7 @@ export interface TrendCfg {
   readonly backgroundStyle?: object;
   readonly lineStyle?: object;
   readonly areaStyle?: object;
+  readonly barStyle?: object;
 }
 
 /**
@@ -138,11 +140,13 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
       foregroundStyle: {},
       handlerStyle: {},
       textStyle: {},
+      barStyle: {},
       defaultCfg: {
         backgroundStyle: BACKGROUND_STYLE,
         foregroundStyle: FOREGROUND_STYLE,
         handlerStyle: HANDLER_STYLE,
         textStyle: TEXT_STYLE,
+        barStyle: BAR_STYLE,
       },
     };
   }
@@ -187,9 +191,8 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
       backgroundStyle = {},
       foregroundStyle = {},
       textStyle = {},
+      barStyle = {},
     } = this.cfg;
-
-    const handlerStyle = deepMix({}, HANDLER_STYLE, this.cfg.handlerStyle);
 
     const min = start * width;
     const max = end * width;
@@ -228,7 +231,8 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
       id: this.getElementId('foreground'),
       name: 'foreground',
       height,
-      style: foregroundStyle,
+      foregroundStyle,
+      barStyle,
     });
 
     // 3. 左右文字
@@ -258,6 +262,7 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
     });
 
     // 滑块相关的大小信息
+    const handlerStyle = deepMix({}, HANDLER_STYLE, this.cfg.handlerStyle);
     const handlerWidth = get(handlerStyle, 'width', DEFAULT_HANDLER_WIDTH);
     const handlerHeight = get(handlerStyle, 'height', DEFAULT_HANDLER_HEIGHT);
 
@@ -374,6 +379,8 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
     group.on('foreground-bar:mousedown', this.onMouseDown('foreground'));
     // 选中区域框选
     group.on('foreground-brush:mousedown', this.onMouseDown('foreground-brush'));
+    // 移动端：只允许拖拽
+    group.on('foreground:touchstart', this.onMouseDown('foreground'));
   }
 
   private onMouseDown = (target: string) => (e: Event) => {
@@ -386,8 +393,9 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
     event.preventDefault();
 
     // 兼容移动端获取数据
-    this.prevX = get(event, 'touches.0.pageX', event.pageX);
-    this.prevY = get(event, 'touches.0.pageY', event.pageY);
+    const { x, y } = getCurrentPoint(event);
+    this.prevX = x;
+    this.prevY = y;
 
     const containerDOM = this.getContainerDOM();
 
@@ -420,8 +428,7 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
     event.stopPropagation();
     event.preventDefault();
 
-    const x = get(event, 'touches.0.pageX', event.pageX);
-    const y = get(event, 'touches.0.pageY', event.pageY);
+    const { x, y } = getCurrentPoint(event);
 
     // 横向的 slider 只处理 x
     const offsetX = x - this.prevX;
@@ -543,7 +550,8 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
 
     // 两端文字存在安全间距为4px, 如果小于该距离则两端均不显示文字
     const gap = this.cfg.width - handlerWidth * 2 - TEXT_PADDING * 2 - minTextWidth - maxTextWidth;
-    if (gap < TEXT_SAFE_WIDTH) {
+    if (gap <= TEXT_SAFE_WIDTH) {
+      // text: '' 不显示文字
       const newMinAttrs = { ...minAttrs, text: '' };
       const newMaxAttrs = { ...maxAttrs, text: '' };
       return !sorted ? [newMinAttrs, newMaxAttrs] : [newMaxAttrs, newMinAttrs];
@@ -552,19 +560,17 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
     // 一侧不滑动(文字仍显示在中间)，另一侧滑动的情况下。
     // 检测中间宽度是否能展示当前不滑动文字的文本，如果距离不够，则隐藏不滑动一侧的文字。
     if (minAttrs.textAlign === 'left' || maxAttrs.textAlign === 'right') {
+      const foregroundWidth = this.foreground?.get('width');
+      const gap = foregroundWidth - handlerWidth - TEXT_PADDING * 2;
       if (minAttrs.textAlign === 'left') {
-        const foregroundWidth = this.foreground?.get('width');
-        const gap = foregroundWidth - TEXT_PADDING;
-        if (gap < minTextWidth) {
+        if (gap <= minTextWidth) {
           return !sorted ? [{ ...minAttrs, text: '' }, { ...maxAttrs }] : [{ ...maxAttrs }, { ...minAttrs, text: '' }];
         } else {
           return !sorted ? [minAttrs, maxAttrs] : [maxAttrs, minAttrs];
         }
       }
       if (maxAttrs.textAlign === 'right') {
-        const foregroundWidth = this.foreground?.get('width');
-        const gap = foregroundWidth - TEXT_PADDING;
-        if (gap < maxTextWidth) {
+        if (gap <= maxTextWidth) {
           return !sorted ? [{ ...minAttrs }, { ...maxAttrs, text: '' }] : [{ ...maxAttrs, text: '' }, { ...minAttrs }];
         } else {
           return !sorted ? [minAttrs, maxAttrs] : [maxAttrs, minAttrs];
@@ -589,53 +595,68 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
     textWidth: number;
   } {
     const handlerWidth = get(this.cfg.handlerStyle, 'width', DEFAULT_HANDLER_WIDTH);
+    const gapWidth = handlerWidth / 2 + TEXT_PADDING;
     const [min, max] = range;
     const { width } = bbox;
     const text = textShape.attr('text');
     const font = textShape.attr('font');
     let textWidth = 0;
     let attrs = {};
+    // 字体长度>最大长度，换行处理
     if (width > MAX_TEXT_WIDTH) {
       textWidth = MAX_TEXT_WIDTH;
       if (direction === 'min') {
         attrs =
-          width / 2 > min - TEXT_PADDING
+          // 如果 最大单行宽度 > 左侧能塞下的宽度，则放在左侧
+          MAX_TEXT_WIDTH > min - gapWidth
             ? {
-                x: min + handlerWidth / 2 + TEXT_PADDING,
+                x: min + gapWidth,
                 textAlign: 'left',
-                text: clipText(text, MAX_TEXT_WIDTH, font),
+                text: clipTextTwoLines(text, MAX_TEXT_WIDTH, font),
               }
             : {
-                x: min - handlerWidth / 2 - TEXT_PADDING,
+                x: min - gapWidth,
                 textAlign: 'right',
-                text: clipText(text, MAX_TEXT_WIDTH, font),
+                text: clipTextTwoLines(text, MAX_TEXT_WIDTH, font),
               };
       } else {
         attrs =
-          width / 2 > this.cfg.width - max - TEXT_PADDING
+          MAX_TEXT_WIDTH > this.cfg.width - max - gapWidth
             ? {
-                x: max - handlerWidth / 2 + TEXT_PADDING,
+                x: max - gapWidth,
                 textAlign: 'right',
-                text: clipText(text, MAX_TEXT_WIDTH, font),
+                text: clipTextTwoLines(text, MAX_TEXT_WIDTH, font),
               }
             : {
-                x: max + handlerWidth / 2 - TEXT_PADDING,
+                x: max + gapWidth,
                 textAlign: 'left',
-                text: clipText(text, MAX_TEXT_WIDTH, font),
+                text: clipTextTwoLines(text, MAX_TEXT_WIDTH, font),
               };
       }
     } else {
-      textWidth = getTextWidth(text, font);
+      textWidth = width;
       if (direction === 'min') {
         attrs =
-          width > min - TEXT_PADDING
-            ? { x: min + handlerWidth / 2 + TEXT_PADDING, textAlign: 'left' }
-            : { x: min - handlerWidth / 2 - TEXT_PADDING, textAlign: 'right' };
+          width > min - gapWidth
+            ? {
+                x: min + gapWidth,
+                textAlign: 'left',
+              }
+            : {
+                x: min - gapWidth,
+                textAlign: 'right',
+              };
       } else {
         attrs =
-          width > this.cfg.width - max - TEXT_PADDING
-            ? { x: max - handlerWidth / 2 - TEXT_PADDING, textAlign: 'right' }
-            : { x: max + handlerWidth / 2 + TEXT_PADDING, textAlign: 'left' };
+          width > this.cfg.width - max - gapWidth
+            ? {
+                x: max - gapWidth,
+                textAlign: 'right',
+              }
+            : {
+                x: max + gapWidth,
+                textAlign: 'left',
+              };
       }
     }
 
@@ -664,7 +685,7 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
     if (!this.enableBrush) return;
 
     const { x } = this.getBBox();
-    const curX = get(event, 'touches.0.pageX', event.offsetX);
+    const curX = event.offsetX;
     // 绘制 brush mask
     if (!isNumber(this.brushPrevX)) {
       this.brushPrevX = curX;
@@ -693,7 +714,7 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
     if (!this.enableBrush) return;
 
     // 没有拖动偏移量时，取消框选操作
-    const curX = get(event, 'touches.0.pageX', event.offsetX);
+    const curX = event.offsetX;
     if (this.brushPrevX === curX) {
       this.cancelBrush();
       return;

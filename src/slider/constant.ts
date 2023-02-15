@@ -34,22 +34,21 @@ export const BACKGROUND_STYLE = {
 export const FOREGROUND_STYLE = {
   fill: '#3485F8',
   opacity: 0.06,
+  stroke: '#4E83CD',
+  strokeOpacity: 0.3,
+  lineWidth: 0.8,
 };
 
-export const SLIDER_BAR_STYLE = {
+export const SLIDER_BAR_LINE_GAP = 4;
+export const SLIDER_BAR_HEIGHT = 6;
+export const BAR_STYLE = {
   fill: '#DEE6F2',
+  height: SLIDER_BAR_HEIGHT,
   highLightFill: '#CBDEF8',
-};
-
-export const SLICER_BAR_LINE_STYLE = {
   stroke: '#FFF',
   lineWidth: 1.2,
   cursor: 'move',
 };
-
-export const SLIDER_BAR_LINE_GAP = 4;
-
-export const SLIDER_BAR_HEIGHT = 6;
 
 export const DEFAULT_HANDLER_WIDTH = 6;
 export const DEFAULT_HANDLER_HEIGHT = 12;
