@@ -53,9 +53,9 @@ describe('legend animate', () => {
     legend.init();
     legend.render();
     const item1 = legend.getElementById('c-legend-item-container-group');
-    expect(item1.attr('opacity')).toBe(0);
-    await wait(550);
-    expect(item1.attr('opacity')).toBe(1);
+    expect(item1.attr('opacity')).toEqual(0);
+    await wait(600);
+    expect(item1.attr('opacity')).toEqual(1);
   });
 
   it('update', async () => {

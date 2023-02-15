@@ -1,6 +1,7 @@
 import { IGroup } from '@antv/g-base';
 import GroupComponent from '../abstract/group-component';
 import { GroupComponentCfg } from '../types';
+import { DEFAULT_HANDLER_HEIGHT, DEFAULT_HANDLER_WIDTH, HANDLER_STYLE } from './constant';
 
 interface IStyle {
   fill?: string;
@@ -21,16 +22,6 @@ export interface HandlerCfg extends GroupComponentCfg {
   readonly style?: IStyle;
 }
 
-export const DEFAULT_HANDLER_STYLE = {
-  fill: '#F7F7F7',
-  stroke: '#BFBFBF',
-  radius: 2,
-  opacity: 1,
-  cursor: 'ew-resize',
-  // 高亮的颜色
-  highLightFill: '#FFF',
-};
-
 export class Handler extends GroupComponent<HandlerCfg> {
   public getDefaultCfg() {
     const cfg = super.getDefaultCfg();
@@ -39,9 +30,9 @@ export class Handler extends GroupComponent<HandlerCfg> {
       name: 'handler',
       x: 0,
       y: 0,
-      width: 10,
-      height: 24,
-      style: DEFAULT_HANDLER_STYLE,
+      width: DEFAULT_HANDLER_WIDTH,
+      height: DEFAULT_HANDLER_HEIGHT,
+      style: HANDLER_STYLE,
     };
   }
   protected renderInner(group: IGroup) {
@@ -58,7 +49,6 @@ export class Handler extends GroupComponent<HandlerCfg> {
         width,
         height,
         fill,
-        stroke,
         radius,
         opacity,
         cursor,
@@ -112,16 +102,16 @@ export class Handler extends GroupComponent<HandlerCfg> {
 
   private bindEvents() {
     this.get('group').on('mouseenter', () => {
-      const { highLightFill } = this.get('style');
-      this.getElementByLocalId('background').attr('fill', highLightFill);
-
+      const { highLightStroke } = this.get('style');
+      this.getElementByLocalId('line-left').attr('stroke', highLightStroke);
+      this.getElementByLocalId('line-right').attr('stroke', highLightStroke);
       this.draw();
     });
 
     this.get('group').on('mouseleave', () => {
-      const { fill } = this.get('style');
-      this.getElementByLocalId('background').attr('fill', fill);
-
+      const { stroke } = this.get('style');
+      this.getElementByLocalId('line-left').attr('stroke', stroke);
+      this.getElementByLocalId('line-right').attr('stroke', stroke);
       this.draw();
     });
   }

@@ -120,7 +120,7 @@ describe('slider', () => {
       slider.off('sliderchange');
     });
 
-    slider.getElementByLocalId('foreground').emit('mousedown', {
+    slider.emit('foreground-scroll:mousedown', {
       originalEvent: {
         pageX: 70,
         pageY: 70,
@@ -207,9 +207,9 @@ describe('slider', () => {
     // @ts-ignore
     expect(slider.trend.get('height')).toBe(32);
     // @ts-ignore
-    expect(slider.minHandler.get('y')).toBe(4);
+    expect(slider.minHandler.get('y')).toBe(10);
     // @ts-ignore
-    expect(slider.maxHandler.get('y')).toBe(4);
+    expect(slider.maxHandler.get('y')).toBe(10);
   });
 
   it('update handlerStyle', () => {

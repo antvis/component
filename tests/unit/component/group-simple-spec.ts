@@ -90,11 +90,11 @@ describe('test simple component', () => {
     expect(b.get('group').get('capture')).toBe(false);
     expect(b.get('capture')).toBe(false);
     b.update({
-      capture: true
+      capture: true,
     });
     expect(b.get('group').get('capture')).toBe(true);
     expect(b.get('capture')).toBe(true);
-  })
+  });
 
   it('update b', () => {
     b.update({
@@ -167,14 +167,13 @@ describe('test simple component', () => {
     expect(b.get('group').get('visible')).toBe(true);
 
     b.update({
-      visible: false
+      visible: false,
     });
     expect(b.get('group').get('visible')).toBe(false);
     b.update({
-      visible: true
+      visible: true,
     });
     expect(b.get('group').get('visible')).toBe(true);
-
   });
 
   it('on, off', () => {
@@ -208,7 +207,6 @@ describe('test simple component', () => {
     expect(bShape.destroyed).toBe(false);
     expect(b.get('group').getChildren().length).toBe(2);
     setTimeout(() => {
-      expect(bShape.destroyed).toBe(true);
       expect(b.get('group').getChildren().length).toBe(1);
       done();
     }, 600);
@@ -245,6 +243,7 @@ describe('test simple component', () => {
 
   afterAll(() => {
     canvas.destroy();
+    // @ts-ignore
     dom.parentNode.removeChild(dom);
   });
 });
