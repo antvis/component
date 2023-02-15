@@ -39,8 +39,8 @@ describe('handler', () => {
     // background
     const background = handler.getElementByLocalId('background');
     const backgroundBBox = background.getBBox();
-    expect(backgroundBBox.width).toBe(8 + 1); // 1px for stroke width
-    expect(backgroundBBox.height).toBe(30 + 1);
+    expect(backgroundBBox.width).toBe(8);
+    expect(backgroundBBox.height).toBe(30);
 
     // left line
     const leftLine = handler.getElementByLocalId('line-left');
@@ -57,12 +57,12 @@ describe('handler', () => {
 
   it('event', () => {
     const group = handler.get('group');
-    const background = handler.getElementByLocalId('background');
-    expect(background.attr('fill')).toBe('#F7F7F7');
+    const background = handler.getElementByLocalId('line-left');
+    expect(background.attr('stroke')).toBe('#A6BDE1');
     group.emit('mouseenter');
-    expect(background.attr('fill')).toBe('#FFF');
+    expect(background.attr('stroke')).toBe('#3485F8');
     group.emit('mouseleave');
-    expect(background.attr('fill')).toBe('#F7F7F7');
+    expect(background.attr('stroke')).toBe('#A6BDE1');
   });
 
   it('style', () => {
