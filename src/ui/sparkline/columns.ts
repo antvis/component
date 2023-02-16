@@ -3,19 +3,19 @@ import { deepMix } from '@antv/util';
 import type { ShapeAttrs } from '../../types';
 import { select } from '../../util';
 
-export interface IColumnCfg extends ShapeAttrs {
+export interface ColumnStyleProps extends ShapeAttrs {
   width: number;
   height: number;
 }
 
-export interface IColumnsCfg extends BaseStyleProps {
-  columns: IColumnCfg[][];
+export interface ColumnsStyleProps extends BaseStyleProps {
+  columns: ColumnStyleProps[][];
 }
 
-export class Columns extends DisplayObject<IColumnsCfg> {
+export class Columns extends DisplayObject<ColumnsStyleProps> {
   columnsGroup: Group;
 
-  constructor({ style, ...rest }: Partial<DisplayObject<IColumnsCfg>>) {
+  constructor({ style, ...rest }: Partial<DisplayObject<ColumnsStyleProps>>) {
     super(deepMix({}, { type: 'column', style: { width: 0, height: 0 } }, { style, ...rest }));
     this.columnsGroup = new Group({
       name: 'columns',
@@ -43,7 +43,7 @@ export class Columns extends DisplayObject<IColumnsCfg> {
       );
   }
 
-  public update(cfg: Partial<IColumnsCfg>): void {
+  public update(cfg: Partial<ColumnsStyleProps>): void {
     this.attr(deepMix({}, this.attributes, cfg));
     const { columns } = cfg;
     if (columns) {

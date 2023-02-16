@@ -38,13 +38,15 @@ export const LayoutContinuous6 = () => {
     group.appendChild(
       new Continuous({
         style: {
-          width: 300,
-          height: 50,
           data: [{ value: 0 }, { value: 1000 }],
-          showLabel: false,
-          handleMarkerSize: 30,
           handleFormatter: (str: any) => `${str}°C`,
-          ribbonTrackFill: 'pink',
+          showLabel: false,
+          style: {
+            width: 300,
+            height: 50,
+            handleMarkerSize: 30,
+            ribbonTrackFill: 'pink',
+          },
         },
       })
     )

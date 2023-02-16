@@ -10,3 +10,7 @@ export * from './sparkline';
 export * from './scrollbar';
 export * from './tooltip';
 export * from './layout';
+export * from './button';
+export * from './checkbox';
+export * from './switch';
+export * from './marker';

@@ -3,7 +3,7 @@
 // import { deepMix } from '@antv/util';
 // import { Axis, AxisOptions } from '../axis';
 // import { applyStyle, maybeAppend, select } from '../../util';
-// import { GUI } from '../../core/gui';
+// import { GUI } from '../../core';
 // import {
 //   AxisBase,
 //   AxisStyleProps,
@@ -159,7 +159,7 @@
 //     const y = verticalFactor === -1 ? -2 : style.spacing + cellSize + 2;
 //     let startPos: any = [style.spacing, y];
 //     let endPos: any = [spacing + axisLength, y];
-//     if (this.orient === 'vertical') {
+//     if (this.orientation === 'vertical') {
 //       startPos = [startPos[1], startPos[0]];
 //       endPos = [endPos[1], endPos[0]];
 //     }

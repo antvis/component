@@ -1,40 +1,56 @@
 import { LineStyleProps } from '@antv/g';
+import type { ComponentOptions, PrefixStyleProps } from '../../core';
+import type { Merge, Point, PrefixObject, ShapeAttrs } from '../../types';
 import type { TagStyleProps } from '../tag';
-import type { DisplayObjectConfig, LineProps, Point, ShapeAttrs, PrefixedStyle } from '../../types';
 
-export interface CrosshairBaseStyleProps
-  extends ShapeAttrs,
-    PrefixedStyle<LineStyleProps, 'line'>,
-    Partial<PrefixedStyle<TagStyleProps, 'tag'>> {
-  type?: 'line' | 'circle' | 'polygon';
-  tagPosition?: 'start' | 'end';
-}
+export type CrosshairBaseStyleProps = Merge<
+  Partial<PrefixStyleProps<TagStyleProps, 'tag'>>,
+  {
+    style: ShapeAttrs &
+      PrefixObject<LineStyleProps, 'line'> & {
+        type?: 'line' | 'circle' | 'polygon';
+        tagPosition?: 'start' | 'end';
+      };
+  }
+>;
 
-export interface LineCrosshairStyleProps extends CrosshairBaseStyleProps {
-  type?: 'line';
-  startPos: Point;
-  endPos: Point;
-}
+export type LineCrosshairStyleProps = Merge<
+  CrosshairBaseStyleProps,
+  {
+    style: {
+      type?: 'line';
+      startPos: Point;
+      endPos: Point;
+    };
+  }
+>;
 
-export interface CircleCrosshairStyleProps extends CrosshairBaseStyleProps {
-  type?: 'circle';
-  center: Point;
-  // 初始化半径
-  defaultRadius?: number;
-}
+export type CircleCrosshairStyleProps = Merge<
+  CrosshairBaseStyleProps,
+  {
+    style: {
+      type?: 'circle';
+      center: Point;
+      defaultRadius?: number;
+    };
+  }
+>;
 
-export interface PolygonCrosshairStyleProps extends CrosshairBaseStyleProps {
-  type?: 'polygon';
-  center: Point;
-  // 初始化半径
-  defaultRadius?: number;
-  // 边数
-  sides: number;
-  // 初始角度
-  startAngle?: number;
-}
+export type PolygonCrosshairStyleProps = Merge<
+  CrosshairBaseStyleProps,
+  {
+    style: {
+      type?: 'polygon';
+      center: Point;
+      defaultRadius?: number;
+      // 边数
+      sides: number;
+      startAngle?: number;
+    };
+  }
+>;
 
-export type CrosshairBaseOptions = DisplayObjectConfig<CrosshairBaseStyleProps>;
-export type LineCrosshairOptions = DisplayObjectConfig<LineCrosshairStyleProps>;
-export type CircleCrosshairOptions = DisplayObjectConfig<CircleCrosshairStyleProps>;
-export type PolygonCrosshairOptions = DisplayObjectConfig<PolygonCrosshairStyleProps>;
+export type CrosshairBaseOptions = ComponentOptions<CrosshairBaseStyleProps>;
+export type LineCrosshairOptions = ComponentOptions<LineCrosshairStyleProps>;
+export type CircleCrosshairOptions = ComponentOptions<CircleCrosshairStyleProps>;
+export type PolygonCrosshairOptions = ComponentOptions<PolygonCrosshairStyleProps>;

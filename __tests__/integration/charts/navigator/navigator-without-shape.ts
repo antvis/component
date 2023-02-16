@@ -38,8 +38,10 @@ export const NavigatorWithoutShape = () => {
   const createNav = (args = {}, size = 5) => {
     const nav = new Navigator({
       style: {
-        loop: true,
-        ...args,
+        style: {
+          loop: true,
+          ...args,
+        },
       },
     });
     createPageViews(size, [100, 100]).forEach((page) => {
@@ -66,8 +68,12 @@ export const NavigatorWithoutShape = () => {
     y: 230,
   });
 
-  nav3.style.pageWidth = 100;
-  nav3.style.pageHeight = 100;
+  nav3.update({
+    style: {
+      pageWidth: 100,
+      pageHeight: 100,
+    },
+  });
 
   return group;
 };

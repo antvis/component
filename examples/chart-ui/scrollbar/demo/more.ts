@@ -17,7 +17,7 @@ function createScrollbar(x, y, trackStyle, thumbStyle, furtherOptions = {}) {
       style: {
         x,
         y,
-        orient: 'vertical',
+        orientation: 'vertical',
         value: 0,
         width: 10,
         height: 200,

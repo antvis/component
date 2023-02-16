@@ -8,19 +8,21 @@ export const CategoryLayout8 = () => {
   group.appendChild(
     new Category({
       style: {
-        layout: 'grid',
         data: createItemData(20),
-        orient: 'vertical',
-        width: 120,
-        height: 128,
-        navLoop: true,
-        gridRow: 8,
-        gridCol: 1,
-        itemSpacing: 5,
-        itemMarkerStroke: (_: any, i: number) => colors[i % colors.length],
-        itemMarkerLineWidth: 3,
-        itemMarkerFill: 'transparent',
-        itemValue: '',
+        style: {
+          layout: 'grid',
+          orientation: 'vertical',
+          width: 120,
+          height: 128,
+          navLoop: true,
+          gridRow: 8,
+          gridCol: 1,
+          itemSpacing: 5,
+          itemMarkerStroke: (_: any, i: number) => colors[i % colors.length],
+          itemMarkerLineWidth: 3,
+          itemMarkerFill: 'transparent',
+          itemValue: '',
+        },
       },
     })
   );

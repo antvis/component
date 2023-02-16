@@ -1,4 +1,5 @@
 import { Group, Rect } from '@antv/g';
+import { deepAssign } from '../../../../src/util';
 import { Continuous } from './utils';
 
 export const Continuous2 = () => {
@@ -14,7 +15,7 @@ export const Continuous2 = () => {
     height: 60,
   };
 
-  const conditions = [{ titleText: 'title' }, {}, { showHandle: false }];
+  const conditions = [{ style: { titleText: 'title' } }, {}, { showHandle: false }];
 
   conditions.forEach((con, i) => {
     const y = i * (shape.height + 5);
@@ -29,18 +30,22 @@ export const Continuous2 = () => {
     );
     group.appendChild(
       new Continuous({
-        style: {
-          x: 0,
-          y,
-          ...shape,
-          ...con,
-          type: 'size',
-          data: [{ value: 0 }, { value: 1000 }],
-          showLabel: false,
-          handleMarkerSize: 20,
-          handleFormatter: (str: any) => `${str}°C`,
-          ribbonTrackFill: 'pink',
-        },
+        style: deepAssign(
+          {
+            showLabel: false,
+            handleFormatter: (str: any) => `${str}°C`,
+            data: [{ value: 0 }, { value: 1000 }],
+            style: {
+              x: 0,
+              y,
+              ...shape,
+              type: 'size',
+              handleMarkerSize: 20,
+              ribbonTrackFill: 'pink',
+            },
+          },
+          con
+        ),
       })
     );
   });

@@ -8,16 +8,18 @@ export const CategoryPosition3 = () => {
   group.appendChild(
     new Category({
       style: {
-        x: 100,
-        y: 100,
-        layout: 'grid',
         data: createItemData(20),
-        titleText: 'Legend Title',
-        width: 455,
-        height: 50,
-        gridCol: 4,
-        gridRow: 1,
-        itemMarkerFill: (_: any, i: number) => colors[i % colors.length],
+        style: {
+          x: 100,
+          y: 100,
+          layout: 'grid',
+          titleText: 'Legend Title',
+          width: 455,
+          height: 50,
+          gridCol: 4,
+          gridRow: 1,
+          itemMarkerFill: (_: any, i: number) => colors[i % colors.length],
+        },
       },
     })
   );

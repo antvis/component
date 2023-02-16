@@ -1,11 +1,10 @@
 import type { Group, Rect } from '@antv/g';
 import { deepMix, get, isEqual } from '@antv/util';
-import { GUI } from '../../core/gui';
-import { Tag } from '../tag';
-import type { GUIOption } from '../../types';
-import { SIZE_STYLE } from './constant';
+import { GUI, type RequiredStyleProps } from '../../core';
 import { select } from '../../util';
-import type { SwitchStyleProps, SwitchOptions } from './types';
+import { Tag } from '../tag';
+import { SIZE_STYLE } from './constant';
+import type { SwitchOptions, SwitchStyleProps } from './types';
 
 export type { SwitchStyleProps, SwitchOptions };
 
@@ -33,10 +32,12 @@ function getTagShapeStyle(
   checked: boolean = true
 ) {
   return {
-    x: checked
-      ? Number(backgroundStyle.x) + spacing
-      : Number(backgroundStyle.width) + Number(backgroundStyle.x) - width,
-    y: Number(backgroundStyle.y) + (Number(backgroundStyle.height) - height) / 2,
+    style: {
+      x: checked
+        ? Number(backgroundStyle.x) + spacing
+        : Number(backgroundStyle.width) + Number(backgroundStyle.x) - width,
+      y: Number(backgroundStyle.y) + (Number(backgroundStyle.height) - height) / 2,
+    },
   };
 }
 
@@ -51,25 +52,23 @@ export class Switch extends GUI<Required<SwitchStyleProps>> {
    */
   private checked!: boolean;
 
-  /**
-   * 默认配置项
-   */
-  public static defaultOptions: GUIOption<SwitchStyleProps> = {
-    style: {
-      x: 0,
-      y: 0,
-      spacing: 2,
-      checked: true,
-      disabled: false,
-    },
-  };
-
   constructor(options: SwitchOptions) {
-    super(deepMix({}, Switch.defaultOptions, options));
+    super(options, {
+      style: {
+        x: 0,
+        y: 0,
+        size: 'default',
+        spacing: 2,
+        checked: true,
+        disabled: false,
+      },
+    });
   }
 
-  public render(attributes: SwitchStyleProps, container: Group) {
-    const { size = 'default', spacing, disabled, checked, unCheckedChildren, checkedChildren } = attributes;
+  public render(attributes: RequiredStyleProps<SwitchStyleProps>, container: Group) {
+    const {
+      style: { size, spacing, disabled, checked, unCheckedChildren, checkedChildren },
+    } = attributes;
 
     const group = select(container).maybeAppendByClassName('switch-content', 'g').node();
     const bounds = group.getLocalBounds();

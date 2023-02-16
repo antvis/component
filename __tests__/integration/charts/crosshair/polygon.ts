@@ -8,9 +8,11 @@ export const CrosshairPolygon = () => {
   const polygon = group.appendChild(
     new PolygonCrosshair({
       style: {
-        center: [200, 200],
-        sides: 8,
-        defaultRadius: 50,
+        style: {
+          center: [200, 200],
+          sides: 8,
+          defaultRadius: 50,
+        },
       },
     })
   );

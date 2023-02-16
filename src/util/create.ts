@@ -8,6 +8,7 @@ type Descriptor<T> = {
   bindEvents?: (attributes: T, container: CustomElement<T>) => void;
 };
 
+// @todo replace it with core.GUI.
 export abstract class GUI<T> extends CustomElement<T> {
   abstract update(cfg?: Partial<T>, animate?: GenericAnimation): void;
 }

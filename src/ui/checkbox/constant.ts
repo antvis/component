@@ -1,16 +1,19 @@
 import { RectStyleProps } from '@antv/g';
-import { TEXT_INHERITABLE_PROPS } from '../../util';
-import { LabelProps } from '../../types';
+
+import { TEXT_INHERITABLE_PROPS, superObject } from '../../util';
 
 // 默认文本样式
-export const LABEL_TEXT_STYLE = {
-  ...TEXT_INHERITABLE_PROPS,
-  fill: 'rgba(0,0,0,0.45)',
-  fontSize: 10,
-  textAlign: 'start',
-  textBaseline: 'middle',
-  overflow: 'clip',
-} as LabelProps['textStyle'];
+export const LABEL_TEXT_STYLE = superObject(
+  {
+    ...TEXT_INHERITABLE_PROPS,
+    fill: 'rgba(0,0,0,0.45)',
+    fontSize: 10,
+    textAlign: 'start',
+    textBaseline: 'middle',
+    overflow: 'clip',
+  },
+  'label'
+);
 
 export const CHECKBOX_RECT_STYLE = {
   default: {

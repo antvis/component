@@ -13,14 +13,7 @@ export const AxisLinearBasis2 = () => {
   group.appendChild(
     new Axis({
       style: {
-        startPos: [50, 50],
-        endPos: [50, 500],
         data: mockData,
-        labelSpacing: 5,
-        labelDirection: 'negative',
-        labelTransform: 'rotate(0)',
-        lineStroke: 'green',
-        tickLength: 10,
         labelFormatter: ({ label }: any) =>
           new Text({
             style: {
@@ -30,11 +23,19 @@ export const AxisLinearBasis2 = () => {
               textBaseline: 'middle',
             },
           }),
-
-        type: 'linear',
-        lineLineWidth: 5,
-        tickLineWidth: 5,
-        tickStroke: 'green',
+        style: {
+          startPos: [50, 50],
+          endPos: [50, 500],
+          labelSpacing: 5,
+          labelDirection: 'negative',
+          labelTransform: 'rotate(0)',
+          lineStroke: 'green',
+          tickLength: 10,
+          type: 'linear',
+          lineLineWidth: 5,
+          tickLineWidth: 5,
+          tickStroke: 'green',
+        },
       },
     })
   );

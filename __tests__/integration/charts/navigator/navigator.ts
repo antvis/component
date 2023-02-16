@@ -38,10 +38,12 @@ export const NavigatorDemo = () => {
   const createNav = (args = {}, size = 5) => {
     const nav = new Navigator({
       style: {
-        pageWidth: 100,
-        pageHeight: 100,
-        loop: true,
-        ...args,
+        style: {
+          pageWidth: 100,
+          pageHeight: 100,
+          loop: true,
+          ...args,
+        },
       },
     });
     createPageViews(size, [100, 100]).forEach((page) => {
@@ -51,42 +53,50 @@ export const NavigatorDemo = () => {
     return nav;
   };
 
-  const nav1 = createNav({ x: 100, y: 100 });
-  // setInterval(() => {
-  //   nav1.next();
-  // }, 1000);
+  const interval = (cb: Function, time: number) => {
+    if (process.env.NODE_ENV !== 'test') setInterval(cb, time);
+  };
 
-  const nav2 = createNav({ x: 300, y: 100, orient: 'vertical', duration: 1000 });
-  // setInterval(() => {
-  //   nav2.prev();
-  // }, 1000);
+  const timeout = (cb: Function, time: number) => {
+    if (process.env.NODE_ENV !== 'test') setTimeout(cb, time);
+  };
+
+  const nav1 = createNav({ x: 100, y: 100 });
+  interval(() => {
+    nav1.next();
+  }, 1000);
+
+  const nav2 = createNav({ x: 300, y: 100, orientation: 'vertical', duration: 1000 });
+  interval(() => {
+    nav2.prev();
+  }, 1000);
 
   const nav3 = createNav({ x: 450, y: 100, duration: 1000, effect: 'in-quart' });
-  // setInterval(() => {
-  //   nav3.next();
-  // }, 1000);
+  interval(() => {
+    nav3.next();
+  }, 1000);
 
-  const nav4 = createNav({ x: 650, y: 100, initPage: 3, orient: 'vertical' });
+  const nav4 = createNav({ x: 650, y: 100, initPage: 3, orientation: 'vertical' });
 
-  // setTimeout(() => {
-  //   nav4.next().finished.then(() => {
-  //     setTimeout(() => {
-  //       nav4.update({ initPage: 2 });
-  //     }, 1000);
-  //   });
-  // }, 1000);
+  timeout(() => {
+    nav4.next()?.finished.then(() => {
+      setTimeout(() => {
+        nav4.update({ style: { initPage: 2 } });
+      }, 1000);
+    });
+  }, 1000);
 
   const nav5 = createNav({ x: 100, y: 250, initPage: 3 });
 
-  // setTimeout(() => {
-  //   nav5.getContainer().destroyChildren();
-  //   createPageViews(10, [100, 100], (str) => `nav5-${str}`).forEach((page) => {
-  //     nav5.getContainer().appendChild(page);
-  //   });
-  //   setInterval(() => {
-  //     nav5.next();
-  //   }, 1000);
-  // }, 1000);
+  timeout(() => {
+    nav5.getContainer().destroyChildren();
+    createPageViews(10, [100, 100], (str) => `nav5-${str}`).forEach((page) => {
+      nav5.getContainer().appendChild(page);
+    });
+    setInterval(() => {
+      nav5.next();
+    }, 1000);
+  }, 1000);
 
   createNav({ x: 300, y: 250, initPage: 3, buttonTransform: 'scale(0.8)', pageNumFontSize: 14 }, 20);
   createNav({ x: 500, y: 250 }, 1);

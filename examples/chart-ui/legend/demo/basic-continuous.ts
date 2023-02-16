@@ -46,7 +46,7 @@ window.ConfigPanel([continuous], '样式', {
   'rail.size': { label: '滑轨大小', value: 24, type: 'number', step: 2, range: [12, 32] },
   'rail.length': { label: '滑轨长度', value: 120, type: 'number', step: 10, range: [100, 200] },
   padding: { label: '图例内边距', value: 12, type: 'number', step: 1, range: [10, 20] },
-  orient: {
+  orientation: {
     label: '图例方向',
     value: 'horizontal',
     options: [

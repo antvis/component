@@ -10,14 +10,16 @@ export const CategoryPosition1 = () => {
   g1.appendChild(
     new Category({
       style: {
-        layout: 'grid',
         data: createItemData(20),
-        titleText: 'Legend Title',
-        width: 455,
-        height: 50,
-        gridCol: 4,
-        gridRow: 1,
-        itemMarkerFill: (_: any, i: number) => colors[i % colors.length],
+        style: {
+          layout: 'grid',
+          titleText: 'Legend Title',
+          width: 455,
+          height: 50,
+          gridCol: 4,
+          gridRow: 1,
+          itemMarkerFill: (_: any, i: number) => colors[i % colors.length],
+        },
       },
     })
   );

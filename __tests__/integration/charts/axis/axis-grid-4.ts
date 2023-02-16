@@ -13,18 +13,19 @@ export const AxisGrid4 = () => {
   group.appendChild(
     new Axis({
       style: {
-        type: 'linear',
-        startPos: [50, 50],
-        endPos: [50, 350],
         data: data(6),
-        tickDirection: 'positive',
-        gridLength: 200,
-        gridDirection: 'negative',
-        gridAreaFill: ['#f2cea5', '#f8dea3', '#c6cf93', '#95b5c0'],
-
-        lineLineWidth: 1,
-        tickLength: 10,
-        labelSpacing: 10,
+        style: {
+          type: 'linear',
+          startPos: [50, 50],
+          endPos: [50, 350],
+          tickDirection: 'positive',
+          gridLength: 200,
+          gridDirection: 'negative',
+          gridAreaFill: ['#f2cea5', '#f8dea3', '#c6cf93', '#95b5c0'],
+          lineLineWidth: 1,
+          tickLength: 10,
+          labelSpacing: 10,
+        },
       },
     })
   );

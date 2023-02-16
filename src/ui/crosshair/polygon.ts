@@ -4,10 +4,11 @@ import { POLYGON_CROSSHAIR_DEFAULT_STYLE } from './constant';
 import { PolygonCrosshairStyleProps, PolygonCrosshairOptions } from './types';
 import { deepAssign, intersection, lineLen, throttle } from '../../util';
 import type { Point } from '../../types';
+import type { RequiredStyleProps } from '../../core';
 
 export type { PolygonCrosshairStyleProps, PolygonCrosshairOptions };
 
-export class PolygonCrosshair extends CrosshairBase<PolygonCrosshairStyleProps> {
+export class PolygonCrosshair extends CrosshairBase<RequiredStyleProps<PolygonCrosshairStyleProps>> {
   public static tag = 'polygon-crosshair';
 
   protected static defaultOptions = {
@@ -30,7 +31,9 @@ export class PolygonCrosshair extends CrosshairBase<PolygonCrosshairStyleProps> 
    * 得到从中心出发，各个点方向的单位向量
    */
   private get points() {
-    const { startAngle, sides } = this.attributes;
+    const {
+      style: { startAngle, sides },
+    } = this.attributes;
     const a = (Math.PI * 2) / sides;
     // 单位向量
     const unit: [number, number] = [1, 0];
@@ -50,7 +53,9 @@ export class PolygonCrosshair extends CrosshairBase<PolygonCrosshairStyleProps> 
   public setPointer([x, y]: Point) {
     super.setPointer([x, y]);
     const [lx, ly] = this.localPointer;
-    const { center } = this.attributes;
+    const {
+      style: { center },
+    } = this.attributes;
     // 求交点
     const [ix, iy] = this.intersection([lx, ly]);
     if (!ix || !iy) return;
@@ -60,13 +65,15 @@ export class PolygonCrosshair extends CrosshairBase<PolygonCrosshairStyleProps> 
   }
 
   protected adjustLayout() {
-    this.tagShape.hide();
+    this.tagShape.attr('visibility', 'hidden');
   }
 
   private createPolygonPath(radius?: number) {
     const {
-      defaultRadius,
-      center: [cx, cy],
+      style: {
+        defaultRadius,
+        center: [cx, cy],
+      },
     } = this.attributes;
     const path = this.points.map(([x, y], index) => {
       const [tx, ty] = vec2.scale([0, 0], [x, y], radius || defaultRadius);
@@ -82,7 +89,9 @@ export class PolygonCrosshair extends CrosshairBase<PolygonCrosshairStyleProps> 
   private intersection([x, y]: Point) {
     const { points } = this;
     const {
-      center: [cx, cy],
+      style: {
+        center: [cx, cy],
+      },
     } = this.attributes;
     let ix: number;
     let iy: number;

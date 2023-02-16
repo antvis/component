@@ -1,15 +1,15 @@
-import { deepMix } from '@antv/util';
-import { classNames, superObject } from '../../util';
+import { classNames, superStyleProps, deepAssign } from '../../util';
 import { DEFAULT_HANDLE_CFG } from './continuous/handle';
-import type { LegendBaseOptions } from './types';
+import type { PartialStyleProps } from '../../core';
+import type { LegendBaseStyleProps } from './types';
 
-export const LEGEND_BASE_DEFAULT_OPTIONS: Partial<LegendBaseOptions> = {
+export const LEGEND_BASE_DEFAULT_OPTIONS: PartialStyleProps<LegendBaseStyleProps> = {
+  showTitle: true,
   style: {
     padding: 0,
-    orient: 'horizontal',
+    orientation: 'horizontal',
     backgroundFill: 'transparent',
     titleText: '',
-    showTitle: true,
     titleSpacing: 4,
     titlePosition: 'top-left',
     titleFill: '#2C3542',
@@ -19,7 +19,7 @@ export const LEGEND_BASE_DEFAULT_OPTIONS: Partial<LegendBaseOptions> = {
   },
 };
 
-export const CATEGORY_DEFAULT_OPTIONS = deepMix({}, LEGEND_BASE_DEFAULT_OPTIONS, {
+export const CATEGORY_DEFAULT_OPTIONS = deepAssign({}, LEGEND_BASE_DEFAULT_OPTIONS, {
   style: {
     type: 'category',
     items: [],
@@ -39,11 +39,14 @@ export const CATEGORY_DEFAULT_OPTIONS = deepMix({}, LEGEND_BASE_DEFAULT_OPTIONS,
   },
 });
 
-export const CONTINUOUS_DEFAULT_OPTIONS = deepMix(
+export const CONTINUOUS_DEFAULT_OPTIONS = deepAssign(
   {},
   LEGEND_BASE_DEFAULT_OPTIONS,
-  superObject(DEFAULT_HANDLE_CFG, 'handle'),
+  superStyleProps(DEFAULT_HANDLE_CFG, 'handle'),
   {
+    showHandle: true,
+    showLabel: true,
+    showIndicator: true,
     style: {
       type: 'continuous',
       color: [
@@ -59,9 +62,6 @@ export const CONTINUOUS_DEFAULT_OPTIONS = deepMix(
         '#e7655b',
       ],
       slidable: true,
-      showHandle: true,
-      showLabel: true,
-      showIndicator: true,
       labelSpacing: 5,
       labelAlign: 'value',
       labelDirection: 'positive',

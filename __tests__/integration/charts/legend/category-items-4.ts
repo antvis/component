@@ -12,42 +12,47 @@ export const CategoryItems4 = () => {
   group.appendChild(
     new CategoryItems({
       style: {
-        layout: 'grid',
         data: createItemData(20),
-        itemLabelFill: 'red',
-        itemValueFill: 'green',
-        gridCol: 4,
-        gridRow: 1,
-        width: 555,
-        height: 30,
-        navDuration: 1000,
-        navLoop: true,
-        colPadding: 10,
-        // 注意这里是一个高阶函数
-        itemMarker: (_: any) => () =>
-          new Image({
-            style: {
-              x: -8,
-              y: -8,
-              width: 16,
-              height: 16,
-              src: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
-            },
-          }),
         navFormatter: (curr: number, total: number) => `第${curr}页(共${total}页)`,
-        navButtonFill: 'blue',
-        navButtonTransform: 'scale(0.8)',
-        navControllerSpacing: 10,
-        navPageNumFill: 'red',
-        click: (el: any) => {
-          alert(`you clicked item: ${el.attr('label')} - ${el.attr('value')}`);
+        animate: {
+          navDuration: 1000,
         },
-        mouseenter: (el: any) => {
-          console.log('mouseenter item: ', el.attr('label'), el.attr('value'));
-          el.querySelector('.legend-category-item-background').attr('fill', '#f4bb51');
+        events: {
+          click: (el: any) => {
+            alert(`you clicked item: ${el.attributes.style.label} - ${el.attributes.style.value}`);
+          },
+          mouseenter: (el: any) => {
+            el.querySelector('.legend-category-item-background').attr('fill', '#f4bb51');
+          },
+          mouseleave: (el: any) => {
+            el.querySelector('.legend-category-item-background').attr('fill', 'white');
+          },
         },
-        mouseleave: (el: any) => {
-          el.querySelector('.legend-category-item-background').attr('fill', 'white');
+        style: {
+          layout: 'grid',
+          itemLabelFill: 'red',
+          itemValueFill: 'green',
+          gridCol: 4,
+          gridRow: 1,
+          width: 555,
+          height: 30,
+          navLoop: true,
+          colPadding: 10,
+          // 注意这里是一个高阶函数
+          itemMarker: (_: any) => () =>
+            new Image({
+              style: {
+                x: -8,
+                y: -8,
+                width: 16,
+                height: 16,
+                src: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
+              },
+            }),
+          navButtonFill: 'blue',
+          navButtonTransform: 'scale(0.8)',
+          navControllerSpacing: 10,
+          navPageNumFill: 'red',
         },
       },
     })

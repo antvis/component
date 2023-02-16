@@ -8,9 +8,11 @@ export const CrosshairLine = () => {
   const line = group.appendChild(
     new LineCrosshair({
       style: {
-        startPos: [50, 50],
-        endPos: [50, 400],
-        tagText: 'tag',
+        style: {
+          startPos: [50, 50],
+          endPos: [50, 400],
+          tagText: 'tag',
+        },
       },
     })
   );

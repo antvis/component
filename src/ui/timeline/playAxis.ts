@@ -8,7 +8,7 @@
 //   y?: number;
 //   data: TimeData[];
 //   length?: number;
-//   orient?: string;
+//   orientation?: string;
 //   singleMode?: boolean;
 //   playInterval?: number; // ms
 //   tag?: string;
@@ -21,7 +21,7 @@
 //     y: 0,
 //     data: [],
 //     length: 120,
-//     orient: 'horizontal',
+//     orientation: 'horizontal',
 //     selection: 0,
 //     selectionStyle: {
 //       fill: '#5B8FF9',
@@ -164,12 +164,12 @@
 
 //   protected abstract setSelection(newSelection: { start?: number; end?: number }): void;
 
-//   protected get orient() {
-//     return this.style.orient || 'horizontal';
+//   protected get orientation() {
+//     return this.style.orientation || 'horizontal';
 //   }
 
 //   protected ifH<T>(a: T, b: T) {
-//     if (this.orient === 'horizontal') {
+//     if (this.orientation === 'horizontal') {
 //       return typeof a === 'function' ? a() : a;
 //     }
 //     return typeof b === 'function' ? b() : b;

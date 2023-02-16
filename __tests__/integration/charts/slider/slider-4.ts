@@ -7,10 +7,12 @@ export const Slider4 = () => {
   const slider = group.appendChild(
     new Slider({
       style: {
-        x: 10,
-        y: 10,
-        trackLength: 300,
-        trackSize: 50,
+        style: {
+          x: 10,
+          y: 10,
+          trackLength: 300,
+          trackSize: 50,
+        },
       },
     })
   );

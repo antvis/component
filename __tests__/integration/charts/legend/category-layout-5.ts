@@ -8,15 +8,17 @@ export const CategoryLayout5 = () => {
   group.appendChild(
     new Category({
       style: {
-        layout: 'grid',
-        titleText: 'Legend Title',
-        width: 455,
-        height: 50,
-        gridCol: 6,
-        gridRow: 1,
         data: createItemData(6),
-        itemMarkerFill: (_: any, i: number) => colors[i % colors.length],
-        itemValue: '',
+        style: {
+          layout: 'grid',
+          titleText: 'Legend Title',
+          width: 455,
+          height: 50,
+          gridCol: 6,
+          gridRow: 1,
+          itemMarkerFill: (_: any, i: number) => colors[i % colors.length],
+          itemValue: '',
+        },
       },
     })
   );

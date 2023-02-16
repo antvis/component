@@ -71,7 +71,7 @@ export function writePNG(nodeCanvas: any, path: string) {
   });
 }
 
-export async function renderCanvas(gshape: DisplayObject, filename: string) {
+export async function renderCanvas(gshape: DisplayObject, filename: string, wait = 500) {
   const bbox = gshape.getBBox();
   const width = gshape.attributes.width || bbox.x + bbox.width || 400;
   const height = gshape.attributes.height || bbox.y + bbox.height || 300;
@@ -82,7 +82,7 @@ export async function renderCanvas(gshape: DisplayObject, filename: string) {
       canvas.appendChild(gshape);
 
       // Wait for the next tick.
-      await sleep(500);
+      await sleep(wait);
       await writePNG(nodeCanvas, filename);
       resolve(canvas);
     });

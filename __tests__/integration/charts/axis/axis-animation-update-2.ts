@@ -14,39 +14,44 @@ export const AxisAnimationUpdate2 = () => {
   const axis = group.appendChild(
     new Axis({
       style: {
-        startPos: [50, 50],
-        endPos: [600, 50],
-        data: mockData,
-        lineExtension: [10, 10],
-        truncRange: [0.4, 0.6],
-        tickLength: 5,
-        type: 'linear',
-        labelFormatter: (d, i) => `${i}`,
-        labelSpacing: 5,
-        showGrid: true,
-        gridStroke: 'red',
-        gridLength: 40,
-        gridAreaFill: 'lightgreen',
         animate: { duration: process.env.NODE_ENV === 'test' ? 100 : 1000 },
+        data: mockData,
+        labelFormatter: (d: any, i: number) => `${i}`,
+        showGrid: true,
+        showTrunc: true,
+        style: {
+          endPos: [600, 50],
+          gridAreaFill: 'lightgreen',
+          gridLength: 40,
+          gridStroke: 'red',
+          labelSpacing: 5,
+          lineExtension: [10, 10],
+          startPos: [50, 50],
+          tickLength: 5,
+          truncRange: [0.4, 0.6],
+          type: 'linear',
+        },
       },
     })
   );
 
   function update() {
-    axis.update({ startPos: [200, 50], endPos: [500, 50] });
+    axis.update({ style: { startPos: [200, 50], endPos: [500, 50] } });
   }
 
   function reset() {
-    axis.update({ startPos: [50, 50], endPos: [600, 50] });
+    axis.update({ style: { startPos: [50, 50], endPos: [600, 50] } });
   }
 
   group.appendChild(
     new Button({
       style: {
-        x: 50,
-        y: 100,
-        text: 'update',
-        onClick: update,
+        style: {
+          x: 50,
+          y: 100,
+          text: 'update',
+          onClick: update,
+        },
       },
     })
   );
@@ -54,10 +59,12 @@ export const AxisAnimationUpdate2 = () => {
   group.appendChild(
     new Button({
       style: {
-        x: 150,
-        y: 100,
-        text: 'reset',
-        onClick: reset,
+        style: {
+          x: 150,
+          y: 100,
+          text: 'reset',
+          onClick: reset,
+        },
       },
     })
   );

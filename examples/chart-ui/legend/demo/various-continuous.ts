@@ -69,21 +69,21 @@ createContinuousLegend({
 // 垂直
 createContinuousLegend({
   x: 180,
-  orient: 'vertical',
+  orientation: 'vertical',
   label: { spacing: 2, style: { textAlign: 'center' } },
   rail: { size: 16, height: 80 },
 });
 createContinuousLegend({
   x: 180,
   y: 130,
-  orient: 'vertical',
+  orientation: 'vertical',
   label: { spacing: 2, align: 'end' },
   rail: { size: 16, length: 80 },
 });
 createContinuousLegend({
   x: 180,
   y: 260,
-  orient: 'vertical',
+  orientation: 'vertical',
   rail: { size: 16, length: 80 },
   label: { spacing: 2, align: 'start' },
   title: { content: 'label 在左侧', spacing: 4 },
@@ -91,7 +91,7 @@ createContinuousLegend({
 createContinuousLegend({
   x: 180,
   y: 420,
-  orient: 'vertical',
+  orientation: 'vertical',
   rail: { size: 16, length: 80, ticks: [350, 600, 850] },
   label: { align: 'end', flush: false, spacing: 4 },
   title: { content: '自定义滑轨 tick 标签', spacing: 12 },
@@ -100,7 +100,7 @@ createContinuousLegend({
 // 垂直带手柄
 createContinuousLegend({
   x: 340,
-  orient: 'vertical',
+  orientation: 'vertical',
   rail: { size: 16, length: 80 },
   handle: {},
 });
@@ -108,7 +108,7 @@ createContinuousLegend({
 createContinuousLegend({
   x: 340,
   y: 130,
-  orient: 'vertical',
+  orientation: 'vertical',
   rail: { size: 16, length: 80 },
   handle: {},
   label: { align: 'start', spacing: 4 },
@@ -117,7 +117,7 @@ createContinuousLegend({
 createContinuousLegend({
   x: 340,
   y: 280,
-  orient: 'vertical',
+  orientation: 'vertical',
   rail: { size: 16, length: 80, chunked: true, ticks: [350, 600, 850] },
   handle: {},
   label: { spacing: 4 },
@@ -126,7 +126,7 @@ createContinuousLegend({
 createContinuousLegend({
   x: 340,
   y: 420,
-  orient: 'vertical',
+  orientation: 'vertical',
   rail: { size: 16, length: 80, chunked: true, ticks: [350, 600, 850] },
   label: { align: 'end', flush: false, spacing: 4 },
   title: { content: '自定义滑轨 tick 标签', spacing: 12 },

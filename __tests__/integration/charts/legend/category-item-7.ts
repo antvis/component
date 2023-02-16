@@ -12,14 +12,16 @@ export const CategoryItem7 = () => {
   group.appendChild(
     new CategoryItem({
       style: {
-        label: 'this is a long label text',
-        value: 'this is a long value text',
-        width: 100,
-        spacing: [5, 5],
-        markerFill: 'orange',
-        labelFill: 'red',
-        valueFill: 'green',
-        backgroundFill: '#f7f7f7',
+        style: {
+          label: 'this is a long label text',
+          value: 'this is a long value text',
+          width: 100,
+          spacing: [5, 5],
+          markerFill: 'orange',
+          labelFill: 'red',
+          valueFill: 'green',
+          backgroundFill: '#f7f7f7',
+        },
       },
     })
   );

@@ -89,7 +89,7 @@
 //   width?: number;
 //   height?: number;
 //   padding?: number | number[];
-//   orient?: 'horizontal' | 'vertical';
+//   orientation?: 'horizontal' | 'vertical';
 //   selection?: number | [number, number];
 //   type?: 'slider' | 'cell';
 //   singleMode?: boolean;

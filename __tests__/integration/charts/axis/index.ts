@@ -87,4 +87,5 @@ export { AxisAnimationUpdate8 } from './axis-animation-update-8';
 export { AxisAnimationUpdate9 } from './axis-animation-update-9';
 export { AxisAnimationUpdate10 } from './axis-animation-update-10';
 export { AxisAnimationUpdate11 } from './axis-animation-update-11';
+export { AxisAnimationUpdate12 } from './axis-animation-update-12';
 export { AxisAnimationDisable } from './axis-animation-disable';

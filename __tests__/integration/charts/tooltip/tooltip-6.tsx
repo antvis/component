@@ -19,18 +19,20 @@ export const Tooltip6 = () => {
   const tooltip = group.appendChild(
     new Tooltip({
       style: {
-        title: 'Tooltip',
-        x: 100,
-        y: 100,
-        offset: [20, 20],
-        enterable: true,
-        autoPosition: false,
-        container: { x: 28, y: 80 },
-        bounding: {
-          x: 0,
-          y: 0,
-          width: len,
-          height: len,
+        style: {
+          title: 'Tooltip',
+          x: 100,
+          y: 100,
+          offset: [20, 20],
+          enterable: true,
+          autoPosition: false,
+          container: { x: 28, y: 80 },
+          bounding: {
+            x: 0,
+            y: 0,
+            width: len,
+            height: len,
+          },
         },
       },
     })

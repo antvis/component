@@ -13,18 +13,19 @@ export const AxisLinearBasis4 = () => {
   group.appendChild(
     new Axis({
       style: {
-        startPos: [550, 500],
-        endPos: [100, 50],
         data: mockData,
-        lineLineWidth: 5,
-        lineStroke: 'blue',
-        tickStroke: 'blue',
-        tickLength: 10,
-        labelSpacing: 5,
-        labelTransform: 'rotate(-45)',
-
-        type: 'linear',
-        tickLineWidth: 5,
+        style: {
+          startPos: [550, 500],
+          endPos: [100, 50],
+          lineLineWidth: 5,
+          lineStroke: 'blue',
+          tickStroke: 'blue',
+          tickLength: 10,
+          labelSpacing: 5,
+          labelTransform: 'rotate(-45)',
+          type: 'linear',
+          tickLineWidth: 5,
+        },
       },
     })
   );

@@ -1,6 +1,6 @@
 import { deepMix, isString, isElement, assign, get } from '@antv/util';
 import { DisplayObject, Group } from '@antv/g';
-import { GUI } from '../../core/gui';
+import { GUI } from '../../core';
 import { deepAssign } from '../../util';
 import { CLASS_NAME, POPTIP_ID, POPTIP_STYLE } from './constant';
 import { getPositionXY, getSingleTonElement } from './utils';

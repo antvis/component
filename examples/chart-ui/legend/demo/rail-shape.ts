@@ -11,9 +11,9 @@ const canvas = new Canvas({
   renderer,
 });
 
-const createContinuous = (x, y, railType, orient, chunked, title) => {
+const createContinuous = (x, y, railType, orientation, chunked, title) => {
   const shape =
-    orient === 'horizontal'
+    orientation === 'horizontal'
       ? {
           width: 300,
           height: 30,
@@ -30,7 +30,7 @@ const createContinuous = (x, y, railType, orient, chunked, title) => {
         title: {
           content: title,
         },
-        orient,
+        orientation,
         label: false,
         rail: {
           chunked,

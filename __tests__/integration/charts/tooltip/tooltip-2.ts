@@ -17,17 +17,7 @@ export const Tooltip2 = () => {
   const tooltip = group.appendChild(
     new Tooltip({
       style: {
-        title: '标题',
-        x: 100,
-        y: 100,
-        offset: [20, 20],
-        enterable: true,
-        autoPosition: false,
-        container: {
-          x: 28,
-          y: 80,
-        },
-        items: [
+        data: [
           {
             value: 1231230,
             name: '第三项',
@@ -47,11 +37,23 @@ export const Tooltip2 = () => {
             color: 'blue',
           },
         ],
-        bounding: {
-          x: 0,
-          y: 0,
-          width: len,
-          height: len,
+        style: {
+          title: '标题',
+          x: 100,
+          y: 100,
+          offset: [20, 20],
+          enterable: true,
+          autoPosition: false,
+          container: {
+            x: 28,
+            y: 80,
+          },
+          bounding: {
+            x: 0,
+            y: 0,
+            width: len,
+            height: len,
+          },
         },
       },
     })

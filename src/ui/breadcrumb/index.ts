@@ -1,7 +1,7 @@
 import { Group, Text } from '@antv/g';
 import { deepMix, isNil, pick } from '@antv/util';
-import { GUI } from '../../core/gui';
-import { maybeAppend, normalSeriesAttr, TEXT_INHERITABLE_PROPS } from '../../util';
+import { GUI } from '../../core';
+import { maybeAppend, parseSeriesAttr, TEXT_INHERITABLE_PROPS } from '../../util';
 import { Tag } from '../tag';
 import type { BreadcrumbCfg, BreadcrumbOptions, BreadcrumbItem } from './type';
 
@@ -51,7 +51,7 @@ export class Breadcrumb extends GUI<Required<BreadcrumbCfg>> {
 
   public render(attributes: BreadcrumbCfg, container: Group) {
     const { x, y, items, textStyle, padding = 0, width, separator } = attributes;
-    const [top, right, left] = normalSeriesAttr(padding);
+    const [top, right, left] = parseSeriesAttr(padding);
 
     const selection = maybeAppend(container, '.container', 'g').styles({
       className: 'container',

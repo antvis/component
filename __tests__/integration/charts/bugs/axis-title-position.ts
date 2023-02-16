@@ -9,12 +9,14 @@ export const BugAxisTitlePosition = () => {
     },
   });
 
-  const axis = group.appendChild(
+  group.appendChild(
     new Axis({
       style: {
-        type: 'linear',
-        startPos: [145, 30],
-        endPos: [145, 450],
+        showLine: true,
+        showLabel: true,
+        showGrid: false,
+        showTick: true,
+        labelTransform: [],
         data: [
           {
             value: 0.8724832214765101,
@@ -52,27 +54,27 @@ export const BugAxisTitlePosition = () => {
             id: '6',
           },
         ],
-        title: 'unemployment',
-        titlePosition: 'l',
-        titleFontWeight: 'bold',
-        titleSpacing: 10,
-        titleTextBaseline: 'middle',
-        titleTransformOrigin: 'center',
-        titleAnchor: '0.5 0.5',
-        titleTransform: 'translate(50%, 0)  rotate(-90)',
-        showLabel: true,
-        labelAlign: 'horizontal',
-        labelSpacing: 4,
-        labelDirection: 'positive',
-        labelTransforms: [],
-        showLine: true,
-        lineArrow: undefined,
-        showGrid: true,
-        gridLength: 565,
-        gridDirection: 'negative',
-        showTick: true,
-        tickDirection: 'positive',
-        lineOpacity: 1,
+        style: {
+          type: 'linear',
+          startPos: [145, 30],
+          endPos: [145, 450],
+          titleText: 'unemployment',
+          titlePosition: 'l',
+          titleFontWeight: 'bold',
+          titleSpacing: 10,
+          titleTextBaseline: 'middle',
+          titleTransformOrigin: 'center',
+          titleAnchor: '0.5 0.5',
+          titleTransform: 'translate(50%, 0)  rotate(-90)',
+          labelAlign: 'horizontal',
+          labelSpacing: 4,
+          labelDirection: 'positive',
+          lineArrow: undefined,
+          gridLength: 565,
+          gridDirection: 'negative',
+          tickDirection: 'positive',
+          lineOpacity: 1,
+        },
       },
     })
   );

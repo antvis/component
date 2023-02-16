@@ -13,23 +13,23 @@ export const AxisGrid8 = () => {
   group.appendChild(
     new Axis({
       style: {
-        type: 'linear',
-        startPos: [200, 50],
-        endPos: [200, 250],
         data: data(6),
-        tickDirection: 'positive',
-        gridDirection: 'negative',
-        gridType: 'surround',
-        gridConnect: 'arc',
-        // @ts-ignore
-        gridAreaFill: (datum: any, index: number) => (index % 2 === 0 ? 'pink' : 'transparent'),
-        gridCenter: [200, 250],
-        gridClosed: false,
-        gridLineWidth: 0,
-        gridControlAngles: [0, 90, 180, 270],
-
-        tickLength: 10,
-        labelSpacing: 10,
+        style: {
+          type: 'linear',
+          startPos: [200, 50],
+          endPos: [200, 250],
+          tickDirection: 'positive',
+          gridDirection: 'negative',
+          gridType: 'surround',
+          gridConnect: 'arc',
+          gridAreaFill: (datum: any, index: number) => (index % 2 === 0 ? 'pink' : 'transparent'),
+          gridCenter: [200, 250],
+          gridClosed: false,
+          gridLineWidth: 0,
+          gridControlAngles: [0, 90, 180, 270],
+          tickLength: 10,
+          labelSpacing: 10,
+        },
       },
     })
   );

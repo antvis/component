@@ -10,17 +10,20 @@ export const AxisArcBasis3 = () => {
   group.appendChild(
     new Axis({
       style: {
-        type: 'arc',
-        angleRange: [-135, 135],
-        center: [150, 150],
-        tickDirection: 'negative',
-        labelDirection: 'negative',
-        lineStroke: 'green',
-        radius: 80,
-        lineLineWidth: 5,
-        tickLength: 10,
-        labelSpacing: 10,
         data: data(12),
+        style: {
+          type: 'arc',
+          startAngle: -135,
+          endAngle: 135,
+          center: [150, 150],
+          tickDirection: 'negative',
+          labelDirection: 'negative',
+          lineStroke: 'green',
+          radius: 80,
+          lineLineWidth: 5,
+          tickLength: 10,
+          labelSpacing: 10,
+        },
       },
     })
   );

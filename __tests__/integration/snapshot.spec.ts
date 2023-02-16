@@ -25,13 +25,14 @@ describe('integration', () => {
           const expectedPath = `${__dirname}/snapshots/${name}.png`;
           const diffPath = `${__dirname}/snapshots/${name}-diff.png`;
           const options = await target();
-
+          // @ts-ignore
+          const wait = target.wait;
           // Generate golden png if not exists.
           if (!fs.existsSync(expectedPath)) {
             console.warn(`! generate ${name}`);
-            canvas = await renderCanvas(options, expectedPath);
+            canvas = await renderCanvas(options, expectedPath, wait);
           } else {
-            canvas = await renderCanvas(options, actualPath);
+            canvas = await renderCanvas(options, actualPath, wait);
             // @ts-ignore
             const maxError = target.maxError || 0;
             expect(diff(actualPath, expectedPath, diffPath, maxError)).toBeLessThanOrEqual(maxError);

@@ -8,7 +8,7 @@ import {
 } from '@antv/g';
 import { BBox } from '../../util';
 import { calcLayout } from '../../util/layout';
-import { normalSeriesAttr, type NormalSeriesAttr, type SeriesAttr } from '../../util/series';
+import { parseSeriesAttr, type StandardSeriesAttr, type SeriesAttr } from '../../util/series';
 import type { LayoutOptions, LayoutStyleProps } from './types';
 
 export type { LayoutOptions, LayoutStyleProps };
@@ -16,12 +16,12 @@ export type { LayoutOptions, LayoutStyleProps };
 export class Layout extends Group {
   private layoutEvents: ElementEvent[] = [ElementEvent.BOUNDS_CHANGED, ElementEvent.INSERTED, ElementEvent.REMOVED];
 
-  private $margin: NormalSeriesAttr = normalSeriesAttr(0);
+  private $margin: StandardSeriesAttr = parseSeriesAttr(0);
 
-  private $padding: NormalSeriesAttr = normalSeriesAttr(0);
+  private $padding: StandardSeriesAttr = parseSeriesAttr(0);
 
   public set margin(value: SeriesAttr) {
-    this.$margin = normalSeriesAttr(value);
+    this.$margin = parseSeriesAttr(value);
   }
 
   public get margin() {
@@ -29,7 +29,7 @@ export class Layout extends Group {
   }
 
   public set padding(value: SeriesAttr) {
-    this.$padding = normalSeriesAttr(value);
+    this.$padding = parseSeriesAttr(value);
   }
 
   public get padding() {

@@ -2,7 +2,8 @@ import type { TextStyleProps } from '@antv/g';
 import { clone, deepMix, get } from '@antv/util';
 import { STATE_LIST } from '../constant';
 import type { MixAttrs, StyleState } from '../types';
-import { filterTransform } from './filter-transform';
+import type { PrefixStyleProps } from '../core';
+import { toUppercaseFirstLetter, toLowercaseFirstLetter, addPrefix, removePrefix } from './string';
 
 /**
  * 以下属性都是可继承的，这意味着没有显式定义（值为 unset）时，是需要从未来的祖先节点中计算得到的。
@@ -28,48 +29,6 @@ export const TEXT_INHERITABLE_PROPS: Pick<
   textAlign: 'start',
   textBaseline: 'alphabetic',
 };
-
-/**
- * 从带状态样式中返回移除了状态样式的默认样式
- */
-// @ts-ignore
-export function getDefaultStyle<T>(style: MixAttrs<T> | undefined): T | undefined {
-  if (style === undefined) ({}) as T;
-  if (style) {
-    return style?.default;
-  }
-  const duplicateStyle = clone(style) || {};
-  // 移除其他带状态的样式得到默认样式
-  STATE_LIST.forEach((state) => {
-    if (state in duplicateStyle) delete duplicateStyle[state];
-  });
-  return duplicateStyle as T;
-}
-
-/**
- * 对于格式为:
- * style: ShapeAttrs & {
- *  [state: string]?: ShapeAttrs,
- * }
- * 的带状态样式，根据状态提取出样式
- * 默认返回默认样式
- * @param style 混合样式
- * @param state 状态
- * @param isMerge 是否将状态样式与默认样式合并
- */
-// @ts-ignore
-export function getStateStyle<T>(style?: MixAttrs<T>, state?: StyleState, isMerge: boolean = false): Partial<T> {
-  if (!state) {
-    const temp = getDefaultStyle(style);
-    if (temp) return temp;
-    return {};
-  }
-  const stateStyle = get(style, state) as T;
-  if (isMerge) {
-    return deepMix({}, getDefaultStyle(style), stateStyle);
-  }
-  return stateStyle;
-}
 
 /**
  * 对给定HTML对象应用给定样式
@@ -98,6 +57,8 @@ export function applyStyleSheet(element: HTMLElement, style: { [key: string]: Ob
   });
 }
 
+const reserveProperty = ['data', 'layout', 'events', 'style', 'animation', 'interactions'];
+
 /**
  *
  * @param style
@@ -106,24 +67,49 @@ export function applyStyleSheet(element: HTMLElement, style: { [key: string]: Ob
  * @param transform enable filter transform
  * @returns
  */
-export function subObject(
-  style: { [keys: string]: any },
-  prefix: string,
-  invert: boolean = false,
-  transform: boolean = true
-) {
-  const internalStyle = transform ? filterTransform(style) : style;
-  const startsWith = (str: string, prefix: string) => new RegExp(`^${prefix}[A-Z].*`).test(str);
-  const capitalizeFirstLetter = (str: string) => {
-    return str.charAt(0).toLowerCase() + str.slice(1);
-  };
-  return Object.keys(internalStyle).reduce((acc, curr) => {
-    if (startsWith(curr, prefix) !== invert) {
-      if (invert) acc[curr] = internalStyle[curr];
-      else acc[capitalizeFirstLetter(curr.slice(prefix.length))] = internalStyle[curr];
+export function subObject(style: Record<string, any>, prefix: string, invert: boolean = false) {
+  return Object.keys(style).reduce((acc, curr) => {
+    if (curr.startsWith(prefix) !== invert) {
+      if (invert) acc[curr] = style[curr];
+      else acc[removePrefix(curr, prefix)] = style[curr];
     }
     return acc;
   }, {} as typeof style);
+}
+
+export function subStyleProps<T = Record<string, any>>(
+  style: Record<string, any>,
+  prefix: string,
+  invert: boolean = false
+) {
+  const result: Record<string, any> = {};
+  Object.entries(style).forEach(([key, value]) => {
+    // never tranfer class property
+    if (key === 'class') {
+      // do nothing
+    }
+    // @example style: { labelStroke: 'red' } -> style: { stroke: 'red }
+    else if (reserveProperty.includes(key)) {
+      if (typeof value === 'object' && !Array.isArray(value)) {
+        const object = subObject(value, prefix, invert);
+        // @example data: { sparklineData: [] } -> data: []
+        //                                 ⬇️------------⬆️
+        if (key === 'data' && Object.keys(object).length === 1 && (Object.keys(object)[0] === 'data') !== invert)
+          result[key] = object.data;
+        else result[key] = object;
+      } else result[key] = value;
+    }
+    // @example showHandle -> showHandle, showHandleLabel -> showLabel
+    else if (key.startsWith(addPrefix(prefix, 'show')) !== invert) {
+      if (key === addPrefix(prefix, 'show')) result[key] = value;
+      else result[key.replace(new RegExp(toUppercaseFirstLetter(prefix)), '')] = value;
+    }
+    // @example navFormatter -> formatter
+    else if (key.startsWith(prefix) !== invert) {
+      result[removePrefix(key, prefix)] = value;
+    }
+  });
+  return result as T;
 }
 
 export function subObjects(style: any, prefix: string[]) {
@@ -131,8 +117,8 @@ export function subObjects(style: any, prefix: string[]) {
   const finalStyle = Object.keys(style).reduce((acc, curr, index) => {
     if (index >= prefix.length) return acc;
     const pre = prefix[index];
-    acc.push(subObject(internalStyle, pre));
-    internalStyle = subObject(internalStyle, pre, true);
+    acc.push(subStyleProps(internalStyle, pre));
+    internalStyle = subStyleProps(internalStyle, pre, true);
     return acc;
   }, [] as (typeof style)[]);
   finalStyle.push(internalStyle);
@@ -144,14 +130,23 @@ export function subObjects(style: any, prefix: string[]) {
  * @param style
  * @param prefix
  */
-export function superObject(style: any, prefix: string) {
-  const capitalizeFirstLetter = (str: string) => {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  };
+export function superObject(style: Record<string, any>, prefix: string) {
   return Object.keys(style).reduce((acc, curr) => {
-    acc[`${prefix}${capitalizeFirstLetter(curr)}`] = style[curr];
+    acc[addPrefix(curr, prefix)] = style[curr];
     return acc;
   }, {} as typeof style);
+}
+
+export function superStyleProps<T extends Record<string, any>, P extends string>(
+  style: T,
+  prefix: P
+): PrefixStyleProps<T, P> {
+  const result: Record<string, any> = {};
+  Object.entries(style).forEach(([key, value]) => {
+    if (key.startsWith('show')) result[key] = value;
+    else if (reserveProperty.includes(key)) result[key] = superObject(value, prefix);
+  });
+  return result as PrefixStyleProps<T, P>;
 }
 
 /**

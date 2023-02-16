@@ -13,24 +13,26 @@ export const CategoryLayout7 = () => {
   group.appendChild(
     new Category({
       style: {
-        layout: 'grid',
         data: createItemData(20),
-        titleText: 'Legend Title',
-        orient: 'vertical',
-        width: 455,
-        height: 50,
-        gridCol: 6,
-        gridRow: 2,
-        itemMarkerStroke: (_: any, i: number) => colors[i % colors.length],
-        itemMarkerLineWidth: 3,
-        itemMarkerFill: 'transparent',
-        itemValue: '',
-        itemMarker: () => () =>
-          new Path({
-            style: {
-              path: smooth(0, 0, 6),
-            },
-          }),
+        style: {
+          layout: 'grid',
+          titleText: 'Legend Title',
+          orientation: 'vertical',
+          width: 455,
+          height: 50,
+          gridCol: 6,
+          gridRow: 2,
+          itemMarkerStroke: (_: any, i: number) => colors[i % colors.length],
+          itemMarkerLineWidth: 3,
+          itemMarkerFill: 'transparent',
+          itemValue: '',
+          itemMarker: () => () =>
+            new Path({
+              style: {
+                path: smooth(0, 0, 6),
+              },
+            }),
+        },
       },
     })
   );

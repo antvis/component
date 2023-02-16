@@ -1,8 +1,9 @@
 import type { DisplayObject } from '@antv/g';
-import { defined, getLocalBBox } from '../../../util';
+import { RequiredStyleProps } from '../../../core';
 import { intersect } from '../../../layout/intersect';
-import type { HideOverlapCfg, AxisStyleProps } from '../types';
-import { isAxisHorizontal, isAxisVertical } from '../guides/axisLine';
+import { defined, getLocalBBox } from '../../../util';
+import { isAxisHorizontal, isAxisVertical } from '../guides/line';
+import type { AxisStyleProps, HideOverlapCfg } from '../types';
 import { boundTest } from '../utils/helper';
 
 type Hide = (item: DisplayObject) => void;
@@ -19,7 +20,7 @@ const filterDefined = (arr: any[]) => arr.filter((d) => defined(d));
 export default function equidistance(
   labels: DisplayObject[],
   overlapCfg: HideOverlapCfg,
-  cfg: AxisStyleProps,
+  attr: RequiredStyleProps<AxisStyleProps>,
   utils: Utils
 ) {
   const count = labels.length;
@@ -38,7 +39,8 @@ export default function equidistance(
   const now = Date.now();
 
   const minLabelWidth = Math.min(1, ...labels.map((d) => d.getBBox().width));
-  if (cfg.type === 'linear' && (isAxisHorizontal(cfg) || isAxisVertical(cfg))) {
+  // @ts-ignore
+  if (attr.style!.type === 'linear' && (isAxisHorizontal(attr) || isAxisVertical(attr))) {
     const minX = getLocalBBox(labels[0]).left;
     const maxX = getLocalBBox(labels[count - 1]).right;
     const distance = Math.abs(maxX - minX) || 1;

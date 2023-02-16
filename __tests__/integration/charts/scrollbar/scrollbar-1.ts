@@ -7,11 +7,7 @@ export const Scrollbar1 = () => {
   group.appendChild(
     new Scrollbar({
       style: {
-        x: 20,
-        y: 20,
-        value: 0.5,
-        contentLength: 1000,
-        viewportLength: 300,
+        style: { x: 20, y: 20, value: 0.5, contentLength: 1000, viewportLength: 300 },
       },
     })
   );

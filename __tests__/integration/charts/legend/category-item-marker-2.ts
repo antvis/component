@@ -74,21 +74,23 @@ export const CategoryItemMarker2 = () => {
   group.appendChild(
     new Category({
       style: {
-        layout: 'grid',
-        gridCol: 10,
-        height: 40,
         data: paths.map((path: any, i: number) => ({ label: i, color: 'red' })),
-        titleText: 'Legend Title',
-        width: 500,
-        itemMarker: (d: any, i: number) => () =>
-          new Path({
-            style: {
-              path: paths[i],
-            },
-          }),
-        itemMarkerStroke: 'red',
-        itemMarkerFill: (_: any, i: number) => colors[i % colors.length],
-        itemValue: '',
+        style: {
+          layout: 'grid',
+          gridCol: 10,
+          height: 40,
+          titleText: 'Legend Title',
+          width: 500,
+          itemMarker: (d: any, i: number) => () =>
+            new Path({
+              style: {
+                path: paths[i],
+              },
+            }),
+          itemMarkerStroke: 'red',
+          itemMarkerFill: (_: any, i: number) => colors[i % colors.length],
+          itemValue: '',
+        },
       },
     })
   );

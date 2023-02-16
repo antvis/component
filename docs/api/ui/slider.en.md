@@ -17,7 +17,7 @@ import { Slider } from '@antv/gui';
 
 | **Property**    | **Description** | **Type**                                                  | **Default**  |
 | --------------- | --------------- | --------------------------------------------------------- | ------------ |
-| orient          | Slider 朝向     | <code>horizontal &#124; vertical </code>                  | `horizontal` |
+| orientation          | Slider 朝向     | <code>horizontal &#124; vertical </code>                  | `horizontal` |
 | width           | 宽度            | <code>number</code>                                       | `200`        |
 | height          | 高度            | <code>number<code>                                        | `20`         |
 | values          | 缩略轴范围      | <code>[number, number]<code>                              | `[0, 1]`     |

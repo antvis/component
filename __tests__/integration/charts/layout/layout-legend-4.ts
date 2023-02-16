@@ -38,14 +38,16 @@ export const LayoutLegend4 = () => {
   layout.appendChild(
     new Category({
       style: {
-        layout: 'flex',
-        titleText: `${justifyContent}\n${alignItems}`,
         data: ageData,
-        gridCol: 2,
-        colPadding: 5,
-        width: 400,
-        height: 300,
-        itemMarkerFill: (d, i) => ageData[i].color,
+        style: {
+          layout: 'flex',
+          titleText: `${justifyContent}\n${alignItems}`,
+          gridCol: 2,
+          colPadding: 5,
+          width: 400,
+          height: 300,
+          itemMarkerFill: (d: any, i: number) => ageData[i].color,
+        },
       },
     })
   );

@@ -112,7 +112,7 @@ describe.skip('Category legend', () => {
     let [item0, item1] = legendItems;
     expect(item0.getBBox().right + 4).toBe(item1.getBBox().left);
 
-    category.update({ orient: 'vertical' });
+    category.update({ orientation: 'vertical' });
     [item0, item1] = category.querySelectorAll('.legend-item') as any[];
     expect(item0.getBBox().bottom + 4).toBe(item1.getBBox().top);
     category.destroy();
@@ -185,7 +185,7 @@ describe.skip('Category legend', () => {
       new Category({
         style: {
           y: 50,
-          orient: 'vertical',
+          orientation: 'vertical',
           items,
           itemWidth: 120,
           itemValue: {
@@ -261,10 +261,10 @@ describe.skip('Category legend', () => {
     [item0, item1, item2] = category.querySelectorAll('.legend-item') as any[];
     expect(item2.getBBox().x).toBe(0);
 
-    category.update({ orient: 'vertical' });
+    category.update({ orientation: 'vertical' });
     expect(category.querySelector('.page-button-group')!.style.visibility).toBe('hidden');
 
-    category.update({ orient: 'vertical', maxHeight: 78 });
+    category.update({ orientation: 'vertical', maxHeight: 78 });
     expect(category.querySelector('.page-button-group')!.style.visibility).toBe('visible');
 
     category.destroy();

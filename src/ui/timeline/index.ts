@@ -55,7 +55,7 @@
 //   const singleControlWidth = singleModeControl === null ? 0 : singleModeControl?.width!;
 //   const singleControlSize = singleModeControl === null ? 0 : singleModeControl?.size! + 2; /** lineWidth of stroke. */
 
-//   if (cfg.orient === 'vertical') {
+//   if (cfg.orientation === 'vertical') {
 //     // Remain 30px for placing axis label.
 //     const centerX = axisPl + (axisLabelPosition === -1 ? 30 : 0);
 //     const axisX = centerX + (type === 'cell' ? 0 : axisSize / 2);
@@ -185,7 +185,7 @@ export class Timeline {}
 //       .style('y', pt)
 //       .node();
 
-//     const length = this.style.orient! === 'vertical' ? height - (pt + pb) : width - (pl + pr);
+//     const length = this.style.orientation! === 'vertical' ? height - (pt + pb) : width - (pl + pr);
 //     const layout = layoutControl(controlPosition, length, this.styles);
 
 //     this.renderAxis(container, layout);
@@ -241,14 +241,14 @@ export class Timeline {}
 //           length: layout.axis.length,
 //           data: timeData,
 //           selection: this.selection,
-//           orient: this.style.orient!,
+//           orientation: this.style.orientation!,
 //           playInterval: this.style.playInterval! / this.speed,
 //           singleMode: this.singleMode,
 //           ...(this.style.playAxis || {}),
 //         });
 //         (selection.node() as PlayAxis).update({
 //           handleStyle: {
-//             cursor: this.style.orient === 'vertical' ? 'ns-resize' : 'ew-resize',
+//             cursor: this.style.orientation === 'vertical' ? 'ns-resize' : 'ew-resize',
 //           },
 //         });
 //       })
@@ -277,7 +277,7 @@ export class Timeline {}
 //         (selection.node() as Button).update({
 //           markerStyle: {
 //             transformOrigin: 'center',
-//             transform: this.style.orient === 'vertical' ? 'rotate(90deg)' : '',
+//             transform: this.style.orientation === 'vertical' ? 'rotate(90deg)' : '',
 //           },
 //         });
 //       });
@@ -318,7 +318,7 @@ export class Timeline {}
 //         (selection.node() as Button).update({
 //           markerStyle: {
 //             transformOrigin: 'center',
-//             transform: this.style.orient === 'vertical' ? 'rotate(90deg)' : '',
+//             transform: this.style.orientation === 'vertical' ? 'rotate(90deg)' : '',
 //           },
 //         });
 //       });

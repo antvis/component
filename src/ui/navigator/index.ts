@@ -1,42 +1,23 @@
-import { ElementEvent, Group, Rect, Text, type DisplayObjectConfig } from '@antv/g';
+import { ElementEvent, Group, Rect, Text } from '@antv/g';
 import { clamp, debounce } from '@antv/util';
-import { GUI } from '../../core/gui';
+import { animate, onAnimateFinished } from '../../animation';
+import { GUI, type RequiredStyleProps } from '../../core';
 import type { Vector2 } from '../../types';
 import {
   BBox,
   classNames,
-  deepAssign,
   scaleToPixel,
   select,
   styleSeparator,
-  subObjects,
+  subStyleProps,
   TEXT_INHERITABLE_PROPS,
   transpose,
   type Selection,
 } from '../../util';
 import { button } from '../marker/symbol';
-import type { NavigatorStyleProps } from './types';
+import type { NavigatorOptions, NavigatorStyleProps } from './types';
 
 export type { NavigatorOptions, NavigatorStyleProps } from './types';
-
-const NAVIGATOR_DEFAULT_CFG: NavigatorStyleProps = {
-  effect: 'linear',
-  duration: 200,
-  orient: 'horizontal',
-  initPage: 0,
-  loop: false,
-  buttonPath: button(0, 0, 6),
-  buttonFill: 'black',
-  buttonSize: 12,
-  buttonCursor: 'pointer',
-  formatter: (curr, total) => `${curr}/${total}`,
-  pageNumFontSize: 12,
-  pageNumFill: 'black',
-  pageNumTextAlign: 'start',
-  pageNumTextBaseline: 'middle',
-  controllerPadding: 5,
-  controllerSpacing: 5,
-};
 
 const CLASS_NAMES = classNames(
   {
@@ -54,14 +35,32 @@ const CLASS_NAMES = classNames(
   'navigator'
 );
 
-export class Navigator extends GUI<NavigatorStyleProps> {
-  constructor(options: DisplayObjectConfig<NavigatorStyleProps>) {
-    super(deepAssign({}, { style: NAVIGATOR_DEFAULT_CFG }, options));
+export class Navigator extends GUI<RequiredStyleProps<NavigatorStyleProps>> {
+  constructor(options: NavigatorOptions) {
+    super(options, {
+      formatter: (curr, total) => `${curr}/${total}`,
+      animate: {
+        easing: 'linear',
+        duration: 200,
+        fill: 'both',
+      },
+      style: {
+        orientation: 'horizontal',
+        initPage: 0,
+        loop: false,
+        buttonPath: button(0, 0, 6),
+        buttonFill: 'black',
+        buttonSize: 12,
+        buttonCursor: 'pointer',
+        pageNumFontSize: 12,
+        pageNumFill: 'black',
+        pageNumTextAlign: 'start',
+        pageNumTextBaseline: 'middle',
+        controllerPadding: 5,
+        controllerSpacing: 5,
+      },
+    });
   }
-
-  private finishedPromise: Promise<number> | null = null;
-
-  private resolveFinishedPromise: Function | null = null;
 
   private playState: 'idle' | 'running' = 'idle';
 
@@ -70,7 +69,9 @@ export class Navigator extends GUI<NavigatorStyleProps> {
   private playWindow = this.contentGroup.appendChild(new Group({ class: CLASS_NAMES.playWindow.name }));
 
   private get defaultPage() {
-    const { initPage = 0 } = this.attributes;
+    const {
+      style: { initPage },
+    } = this.attributes;
     return clamp(initPage, 0, Math.max(this.pageViews.length - 1, 0));
   }
 
@@ -102,7 +103,9 @@ export class Navigator extends GUI<NavigatorStyleProps> {
       })
     ).map((arr) => Math.max(...arr));
 
-    const { pageWidth = maxWidth, pageHeight = maxHeight } = this.attributes;
+    const {
+      style: { pageWidth = maxWidth, pageHeight = maxHeight },
+    } = this.attributes;
 
     return { pageWidth, pageHeight };
   }
@@ -119,19 +122,6 @@ export class Navigator extends GUI<NavigatorStyleProps> {
     return this.innerCurrPage;
   }
 
-  public get finished() {
-    if (!this.finishedPromise) {
-      this.finishedPromise = new Promise((resolve) => {
-        this.resolveFinishedPromise = () => {
-          this.finishedPromise = null;
-          resolve(this.currPage);
-        };
-      });
-    }
-    if (this.playState === 'idle') this.resolveFinishedPromise?.();
-    return this.finishedPromise;
-  }
-
   public getBBox(): DOMRect {
     const { x, y } = super.getBBox();
     const controllerShape = this.controllerShape;
@@ -140,44 +130,48 @@ export class Navigator extends GUI<NavigatorStyleProps> {
   }
 
   public goTo(pageNum: number) {
-    const { duration, effect } = this.attributes;
-    const { currPage, playState, finished, playWindow, pageViews } = this;
-    if (playState !== 'idle' || pageNum < 0 || pageViews.length <= 0 || pageNum >= pageViews.length)
-      return { finished: this.finished };
+    const { animate: animateOptions } = this.attributes;
+    const { currPage, playState, playWindow, pageViews } = this;
+    if (playState !== 'idle' || pageNum < 0 || pageViews.length <= 0 || pageNum >= pageViews.length) return null;
     pageViews[currPage].setLocalPosition(0, 0);
     this.prepareFollowingPage(pageNum);
-    const animateCfg = { duration, easing: effect, fill: 'both' } as const;
     const [dx, dy] = this.getFollowingPageDiff(pageNum);
     this.playState = 'running';
-    Promise.all(
-      [
-        playWindow.animate([{ transform: `translate(0, 0)` }, { transform: `translate(${-dx}, ${-dy})` }], animateCfg),
-      ].map((ani) => ani?.finished)
-    ).then(() => {
+
+    const animation = animate(
+      playWindow,
+      [{ transform: `translate(0, 0)` }, { transform: `translate(${-dx}, ${-dy})` }],
+      animateOptions
+    );
+
+    onAnimateFinished(animation, () => {
       this.innerCurrPage = pageNum;
       this.playState = 'idle';
       this.setVisiblePages([pageNum]);
       this.updatePageInfo();
-      this.resolveFinishedPromise?.();
     });
 
-    return { finished: this.finished };
+    return animation;
   }
 
   public prev() {
-    const { loop } = this.attributes;
+    const {
+      style: { loop },
+    } = this.attributes;
     const pages = this.pageViews.length;
     const page = this.currPage;
-    if (!loop && page <= 0) return { finished: this.finished };
+    if (!loop && page <= 0) return null;
     const following = loop ? (page - 1 + pages) % pages : clamp(page - 1, 0, pages);
     return this.goTo(following);
   }
 
   public next() {
-    const { loop } = this.attributes;
+    const {
+      style: { loop },
+    } = this.attributes;
     const pages = this.pageViews.length;
     const page = this.currPage;
-    if (!loop && page >= pages - 1) return { finished: this.finished };
+    if (!loop && page >= pages - 1) return null;
     const following = loop ? (page + 1) % pages : clamp(page + 1, 0, pages);
     return this.goTo(following);
   }
@@ -201,10 +195,12 @@ export class Navigator extends GUI<NavigatorStyleProps> {
 
   private adjustControllerLayout() {
     const { prevBtnGroup: prevBtn, nextBtnGroup: nextBtn, pageInfoGroup: pageNum } = this;
-    const { orient, controllerPadding: padding } = this.attributes as Required<NavigatorStyleProps>;
+    const {
+      style: { orientation, controllerPadding: padding },
+    } = this.attributes;
     const { width: pW, height: pH } = pageNum.getBBox();
 
-    const [r1, r2] = orient === 'horizontal' ? [-180, 0] : [-90, 90];
+    const [r1, r2] = orientation === 'horizontal' ? [-180, 0] : [-90, 90];
     prevBtn.setLocalEulerAngles(r1);
     nextBtn.setLocalEulerAngles(r2);
 
@@ -220,7 +216,7 @@ export class Navigator extends GUI<NavigatorStyleProps> {
       offset: [Vector2, Vector2, Vector2];
       textAlign: string;
     } =
-      orient === 'horizontal'
+      orientation === 'horizontal'
         ? {
             offset: [
               [0, 0],
@@ -263,10 +259,12 @@ export class Navigator extends GUI<NavigatorStyleProps> {
   private getFollowingPageDiff(pageNum: number) {
     const { currPage } = this;
     if (currPage === pageNum) return [0, 0];
-    const { orient } = this.attributes;
+    const {
+      style: { orientation },
+    } = this.attributes;
     const { pageWidth, pageHeight } = this.pageShape;
     const sign = pageNum < currPage ? -1 : 1;
-    return orient === 'horizontal' ? [sign * pageWidth, 0] : [0, sign * pageHeight];
+    return orientation === 'horizontal' ? [sign * pageWidth, 0] : [0, sign * pageHeight];
   }
 
   private prepareFollowingPage(pageNum: number) {
@@ -279,7 +277,9 @@ export class Navigator extends GUI<NavigatorStyleProps> {
   }
 
   private renderController(container: Selection) {
-    const { controllerSpacing: spacing } = this.attributes as Required<NavigatorStyleProps>;
+    const {
+      style: { controllerSpacing: spacing },
+    } = this.attributes;
     const { pageWidth, pageHeight } = this.pageShape;
     const visible = this.pageViews.length >= 2;
 
@@ -289,8 +289,11 @@ export class Navigator extends GUI<NavigatorStyleProps> {
 
     if (!visible) return;
 
-    const [style, textStyle] = subObjects(this.attributes, ['button', 'pageNum']);
+    const { style } = subStyleProps(this.attributes, 'button');
+    const { style: textStyle } = subStyleProps(this.attributes, 'pageNum');
     const [{ size, ...pathStyle }, groupStyle] = styleSeparator(style);
+
+    const whetherToAddEventListener = !group.select(CLASS_NAMES.prevBtnGroup.class).node();
 
     const prevBtnGroup = group.maybeAppendByClassName(CLASS_NAMES.prevBtnGroup, 'g').styles(groupStyle);
     this.prevBtnGroup = prevBtnGroup.node();
@@ -315,13 +318,14 @@ export class Navigator extends GUI<NavigatorStyleProps> {
 
     // put it on the right side of the container
     group.node().setLocalPosition(pageWidth + spacing, pageHeight / 2);
-    // add event
-    prevBtnGroup.on('click', () => {
-      this.prev();
-    });
-    nextBtnGroup.on('click', () => {
-      this.next();
-    });
+    if (whetherToAddEventListener) {
+      this.prevBtnGroup.addEventListener('click', () => {
+        this.prev();
+      });
+      this.nextBtnGroup.addEventListener('click', () => {
+        this.next();
+      });
+    }
   }
 
   render(attributes: NavigatorStyleProps, container: Group) {

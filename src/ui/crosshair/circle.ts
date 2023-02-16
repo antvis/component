@@ -4,10 +4,11 @@ import { deepAssign, throttle } from '../../util';
 import { CIRCLE_CROSSHAIR_DEFAULT_STYLE } from './constant';
 import { CircleCrosshairStyleProps, CircleCrosshairOptions } from './types';
 import type { Point } from '../../types';
+import { RequiredStyleProps } from '../../core';
 
 export type { CircleCrosshairStyleProps, CircleCrosshairOptions };
 
-export class CircleCrosshair extends CrosshairBase<CircleCrosshairStyleProps> {
+export class CircleCrosshair extends CrosshairBase<RequiredStyleProps<CircleCrosshairStyleProps>> {
   public static tag = 'circle-crosshair';
 
   protected static defaultOptions = {
@@ -31,20 +32,25 @@ export class CircleCrosshair extends CrosshairBase<CircleCrosshairStyleProps> {
     super.setPointer([x, y]);
     const [lx, ly] = this.localPointer;
     const {
-      center: [cx, cy],
+      style: {
+        center: [cx, cy],
+      },
     } = this.attributes;
+
     const path = this.createCirclePath(((lx - cx) ** 2 + (ly - cy) ** 2) ** 0.5) as any;
     this.crosshairShape.attr({ path });
   }
 
   protected adjustLayout() {
-    this.tagShape.hide();
+    this.tagShape.attr('visibility', 'hidden');
   }
 
   private createCirclePath(radius?: number) {
     const {
-      center: [x, y],
-      defaultRadius,
+      style: {
+        center: [x, y],
+        defaultRadius,
+      },
     } = this.attributes;
     return circle(x, y, radius || defaultRadius) as any[];
   }

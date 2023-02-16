@@ -7,11 +7,7 @@ export const Slider2 = () => {
   group.appendChild(
     new Slider({
       style: {
-        x: 10,
-        y: 10,
-        trackLength: 300,
-        trackSize: 50,
-        orient: 'vertical',
+        style: { x: 10, y: 10, trackLength: 300, trackSize: 50, orientation: 'vertical' },
       },
     })
   );

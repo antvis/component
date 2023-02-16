@@ -1,29 +1,30 @@
 import { Group, parseColor, type GroupStyleProps, type PathStyleProps, type RectStyleProps } from '@antv/g';
 import { isFunction } from '@antv/util';
-import type { PrefixedStyle } from '../../../types';
-import { classNames, createComponent, select, Selection, subObjects } from '../../../util';
+import type { PrefixObject } from '../../../types';
+import { GUI, type RequiredStyleProps } from '../../../core';
+import { classNames, createComponent, select, Selection, subObjects, subStyleProps } from '../../../util';
 import { ifHorizontal } from '../utils';
 import { getBlockColor } from './utils';
 
 export type Interpolate<T = string> = (val: number) => T;
 
-export type RibbonStyle = PrefixedStyle<PathStyleProps, 'selection'> &
-  PrefixedStyle<RectStyleProps, 'track'> & {
-    size: number;
-    len: number;
-  };
-export type RibbonCfg = {
-  type?: 'size' | 'color';
-  orient?: 'horizontal' | 'vertical';
-  color: string[] | Interpolate;
-  /** select area, 0~1 */
-  range?: [number, number];
-  block?: boolean;
-  /** partition of the block ,the length of it is the block count */
-  partition?: number[];
+export type RibbonStyleProps = {
+  style: GroupStyleProps &
+    PrefixObject<PathStyleProps, 'selection'> &
+    PrefixObject<RectStyleProps, 'track'> & {
+      size: number;
+      length: number;
+    } & {
+      type?: 'size' | 'color';
+      orientation?: 'horizontal' | 'vertical';
+      color: string[] | Interpolate;
+      /** select area, 0~1 */
+      range?: [number, number];
+      block?: boolean;
+      /** partition of the block ,the length of it is the block count */
+      partition?: number[];
+    };
 };
-
-export type RibbonStyleProps = GroupStyleProps & RibbonStyle & RibbonCfg;
 
 const CLASS_NAMES = classNames(
   {
@@ -36,26 +37,18 @@ const CLASS_NAMES = classNames(
   'ribbon'
 );
 
-const DEFAULT_RIBBON_CFG: RibbonStyleProps = {
-  type: 'color',
-  orient: 'horizontal',
-  size: 30,
-  range: [0, 1],
-  len: 200,
-  block: false,
-  partition: [],
-  color: ['#fff', '#000'],
-  trackFill: '#e5e5e5',
-};
-
-function getShape(cfg: RibbonStyleProps) {
-  const { orient, size, len } = cfg;
-  return ifHorizontal(orient, [len, size], [size, len]);
+function getShape(attr: RequiredStyleProps<RibbonStyleProps>) {
+  const {
+    style: { orientation, size, length },
+  } = attr;
+  return ifHorizontal(orientation, [length, size], [size, length]);
 }
 
-function getTrackPath(cfg: RibbonStyleProps) {
-  const { type } = cfg;
-  const [cw, ch] = getShape(cfg);
+function getTrackPath(attr: RequiredStyleProps<RibbonStyleProps>) {
+  const {
+    style: { type },
+  } = attr;
+  const [cw, ch] = getShape(attr);
 
   if (type === 'size') {
     return [['M', 0, ch], ['L', 0 + cw, 0], ['L', 0 + cw, ch], ['Z']] as any[];
@@ -63,12 +56,14 @@ function getTrackPath(cfg: RibbonStyleProps) {
   return [['M', 0, ch], ['L', 0, 0], ['L', 0 + cw, 0], ['L', 0 + cw, ch], ['Z']] as any[];
 }
 
-function getSelectionPath(cfg: RibbonStyleProps) {
-  return getTrackPath(cfg);
+function getSelectionPath(attr: RequiredStyleProps<RibbonStyleProps>) {
+  return getTrackPath(attr);
 }
 
-function getColor(cfg: RibbonStyleProps) {
-  const { orient, color, block, partition } = cfg as Required<RibbonStyleProps>;
+function getColor(attr: RequiredStyleProps<RibbonStyleProps>) {
+  const {
+    style: { orientation, color, block, partition },
+  } = attr;
   let colors: string[];
   if (isFunction(color)) {
     const len = 20;
@@ -79,58 +74,73 @@ function getColor(cfg: RibbonStyleProps) {
   const genericColor = colors.map((c) => parseColor(c).toString());
   if (!count) return '';
   if (count === 1) return genericColor[0];
-  if (block) return getBlockColor(partition, genericColor, orient);
+  if (block) return getBlockColor(partition, genericColor, orientation);
   return genericColor.reduce(
     (r, c, idx) => (r += ` ${idx / (count - 1)}:${c}`),
-    `l(${ifHorizontal(orient, '0', '270')})`
+    `l(${ifHorizontal(orientation, '0', '270')})`
   );
 }
 
-function getClipPath(cfg: RibbonStyleProps): any[] {
-  const { orient, range } = cfg;
+function getClipPath(attr: RequiredStyleProps<RibbonStyleProps>): any[] {
+  const {
+    style: { orientation, range },
+  } = attr;
   if (!range) return [];
-  const [width, height] = getShape(cfg);
+  const [width, height] = getShape(attr);
   const [st, et] = range;
-  const x = ifHorizontal(orient, st * width, 0);
-  const y = ifHorizontal(orient, 0, st * height);
-  const w = ifHorizontal(orient, et * width, width);
-  const h = ifHorizontal(orient, height, et * height);
+  const x = ifHorizontal(orientation, st * width, 0);
+  const y = ifHorizontal(orientation, 0, st * height);
+  const w = ifHorizontal(orientation, et * width, width);
+  const h = ifHorizontal(orientation, height, et * height);
   return [['M', x, y], ['L', x, h], ['L', w, h], ['L', w, y], ['Z']];
 }
 
-function renderTrack(container: Selection, cfg: RibbonStyleProps, style: any) {
-  container.maybeAppendByClassName(CLASS_NAMES.track, 'path').styles({ path: getTrackPath(cfg), ...style });
+function renderTrack(container: Selection, attr: RequiredStyleProps<RibbonStyleProps>) {
+  const { style } = subStyleProps(attr, 'track');
+  container.maybeAppendByClassName(CLASS_NAMES.track, 'path').styles({ path: getTrackPath(attr), ...style });
 }
 
-function renderSelection(container: Selection, cfg: RibbonStyleProps, style: any) {
-  const fill = getColor(cfg);
+function renderSelection(container: Selection, attr: RequiredStyleProps<RibbonStyleProps>) {
+  const style = subStyleProps(attr, 'selection');
+  const fill = getColor(attr);
+
   const ribbon = container
     .maybeAppendByClassName(CLASS_NAMES.selection, 'path')
-    .styles({ path: getSelectionPath(cfg), fill, ...style });
+    .styles({ path: getSelectionPath(attr), fill, ...style });
   const clipPath = ribbon
     .maybeAppendByClassName(CLASS_NAMES.clipPath, 'path')
-    .styles({ path: getClipPath(cfg) })
+    .styles({ path: getClipPath(attr) })
     .node();
   ribbon.style('clip-path', clipPath);
 }
 
-export const Ribbon = createComponent<RibbonStyleProps>(
-  {
-    render(attribute: RibbonStyleProps, container: Group) {
-      const [selectionStyle, trackStyle] = subObjects(attribute, ['selection', 'track']);
-      const trackGroup = select(container).maybeAppendByClassName(CLASS_NAMES.trackGroup, 'g');
-      renderTrack(trackGroup, attribute, trackStyle);
-
-      /**
-       * - ribbon group
-       *  |- ribbon
-       * - clip path
-       */
-      const ribbonGroup = select(container).maybeAppendByClassName(CLASS_NAMES.selectionGroup, 'g');
-      renderSelection(ribbonGroup, attribute, selectionStyle);
-    },
-  },
-  {
-    ...DEFAULT_RIBBON_CFG,
+export class Ribbon extends GUI<RibbonStyleProps> {
+  constructor(options: RibbonStyleProps) {
+    super(options, {
+      style: {
+        type: 'color',
+        orientation: 'horizontal',
+        size: 30,
+        range: [0, 1],
+        length: 200,
+        block: false,
+        partition: [],
+        color: ['#fff', '#000'],
+        trackFill: '#e5e5e5',
+      },
+    });
   }
-);
+
+  render(attribute: RequiredStyleProps<RibbonStyleProps>, container: Group) {
+    const trackGroup = select(container).maybeAppendByClassName(CLASS_NAMES.trackGroup, 'g');
+    renderTrack(trackGroup, attribute);
+
+    /**
+     * - ribbon group
+     *  |- ribbon
+     * - clip path
+     */
+    const ribbonGroup = select(container).maybeAppendByClassName(CLASS_NAMES.selectionGroup, 'g');
+    renderSelection(ribbonGroup, attribute);
+  }
+}

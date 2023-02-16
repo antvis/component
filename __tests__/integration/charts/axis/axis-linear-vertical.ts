@@ -42,12 +42,7 @@ export const AxisLinearVertical = () => {
   });
 
   const createAxis = axisWarper(group, {
-    type: 'linear',
     data: tickData,
-    lineLineWidth: 5,
-    lineStroke: 'purple',
-    labelSpacing: 10,
-    labelAlign: 'horizontal',
     labelFormatter: ({ label }: any) =>
       new Text({
         style: {
@@ -57,16 +52,24 @@ export const AxisLinearVertical = () => {
           textBaseline: 'middle',
         },
       }),
+    style: {
+      type: 'linear',
+      lineLineWidth: 5,
+      lineStroke: 'purple',
+      labelSpacing: 10,
+      labelAlign: 'horizontal',
+    },
   });
 
   createAxis({
-    startPos: [220, 500],
-    endPos: [220, 50],
+    style: { startPos: [220, 500], endPos: [220, 50] },
   });
 
   createAxis({
-    startPos: [550, 50],
-    endPos: [550, 500],
+    style: {
+      startPos: [550, 50],
+      endPos: [550, 500],
+    },
   });
 
   return group;

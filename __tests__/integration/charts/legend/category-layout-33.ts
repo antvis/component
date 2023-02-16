@@ -8,14 +8,16 @@ export const CategoryLayout33 = () => {
   group.appendChild(
     new Category({
       style: {
-        layout: 'flex',
-        gridRow: 2,
-        gridCol: 4,
-        height: 100,
-        width: 500,
         data: flowItemData,
-        titleText: 'Legend Title',
-        itemMarkerFill: (_: any, i: number) => colors[i % colors.length],
+        style: {
+          layout: 'flex',
+          gridRow: 2,
+          gridCol: 4,
+          height: 100,
+          width: 500,
+          titleText: 'Legend Title',
+          itemMarkerFill: (_: any, i: number) => colors[i % colors.length],
+        },
       },
     })
   );

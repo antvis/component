@@ -1,7 +1,7 @@
 import { Group } from '@antv/g';
 import { deepMix, isNil } from '@antv/util';
-import { GUI } from '../../core/gui';
-import { normalSeriesAttr, maybeAppend, select } from '../../util';
+import { GUI, type RequiredStyleProps } from '../../core';
+import { parseSeriesAttr, maybeAppend, select, subStyleProps } from '../../util';
 import { Marker } from '../marker';
 import type { TagStyleProps, TagOptions } from './types';
 
@@ -42,28 +42,27 @@ export class Tag extends GUI<Required<TagStyleProps>> {
    */
   public static tag = 'tag';
 
-  public static defaultOptions = {
-    style: {
-      padding: 4,
-      spacing: 4,
-    },
-  };
-
   constructor(options: TagOptions) {
-    super(deepMix({}, Tag.defaultOptions, options));
+    super(options, {
+      style: { padding: 4, spacing: 4 },
+    });
   }
 
-  public render(attributes: TagStyleProps, container: Group) {
-    const { padding = 0, marker, text, textStyle, radius, backgroundStyle, spacing, align, verticalAlign } = attributes;
-    const [pt, pr, pb, pl] = normalSeriesAttr(padding);
+  public render(attributes: RequiredStyleProps<TagStyleProps>, container: Group) {
+    const { padding = 0, marker, text, radius, spacing, align, verticalAlign } = attributes.style;
+    const labelStyle = subStyleProps(attributes, 'label').style;
+    const backgroundStyle = subStyleProps(attributes, 'background').style;
+    const [pt, pr, pb, pl] = parseSeriesAttr(padding);
 
     const group = maybeAppend(container, '.tag-content', 'g').attr('className', 'tag-content').node();
-    const markerShape = maybeAppend(group, '.tag-marker', () => new Marker({}))
+    const style = marker ? { style: { marker } } : { style: { symbol: 'triangle', size: 0 } };
+    // @ts-ignore
+    const markerShape = maybeAppend(group, '.tag-marker', () => new Marker({ style }))
       .attr('className', 'tag-marker')
       .call((selection) => {
         (selection.node() as Marker).clear();
-        (selection.node() as Marker).update(marker || { symbol: 'triangle', size: 0, x: 0 });
       })
+      .update(style)
       .node() as Marker;
 
     const { x, y } = getTextPosition(markerShape, spacing);
@@ -75,7 +74,7 @@ export class Tag extends GUI<Required<TagStyleProps>> {
         text: isNil(text) ? '' : `${text}`,
         x,
         y,
-        ...textStyle,
+        ...labelStyle,
         textBaseline: 'middle',
       })
       .call((selection) => {

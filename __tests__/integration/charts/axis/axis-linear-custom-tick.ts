@@ -14,23 +14,25 @@ export const AxisLinearCustomTick = () => {
   group.appendChild(
     new Axis({
       style: {
-        type: 'linear',
-        startPos: [50, 50],
-        endPos: [500, 50],
         data: mockData,
-        lineLineWidth: 5,
         labelFormatter: () => '',
-        tickStroke: (datum: any, index: number) => (index % 2 === 0 ? 'blue' : 'green'),
         tickFormatter: (datum: any, index: number, data: any, [cx, cy]: any) => {
           if (index === 3) return new Rect({ style: { width: 20, height: 20, fill: 'green', anchor: '0.5 0.5' } });
           return index % 5 === 0
             ? new Circle({ style: { r: index % 10 === 0 ? 10 : 5 } })
             : new Line({ style: { x1: 0, x2: 0, y1: 50 * cx, y2: 10 * cy } });
         },
-        tickLength: (datum: any, index: number) => index * 5,
-        tickFill: (datum: any, index: number) => (index % 5 === 0 ? 'pink' : 'white'),
-        tickLineWidth: (datum: any, index: number) => (index % 5 === 0 ? 5 : 3),
-        labelSpacing: 10,
+        style: {
+          type: 'linear',
+          startPos: [50, 50],
+          endPos: [500, 50],
+          lineLineWidth: 5,
+          tickStroke: (datum: any, index: number) => (index % 2 === 0 ? 'blue' : 'green'),
+          tickLength: (datum: any, index: number) => index * 5,
+          tickFill: (datum: any, index: number) => (index % 5 === 0 ? 'pink' : 'white'),
+          tickLineWidth: (datum: any, index: number) => (index % 5 === 0 ? 5 : 3),
+          labelSpacing: 10,
+        },
       },
     })
   );

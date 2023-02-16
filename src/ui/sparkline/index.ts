@@ -1,13 +1,13 @@
 import { Group, Rect } from '@antv/g';
 import { clone, deepMix, isNumber, isArray, isFunction } from '@antv/util';
 import { Linear, Band } from '@antv/scale';
-import { GUI } from '../../core/gui';
-import { maybeAppend, subObject } from '../../util';
+import { GUI, type RequiredStyleProps } from '../../core';
+import { maybeAppend, subStyleProps } from '../../util';
 import { Lines } from './lines';
 import { Columns } from './columns';
 import { getRange, getStackedData } from './utils';
 import type { ILinesCfg } from './lines';
-import type { IColumnCfg, IColumnsCfg } from './columns';
+import type { ColumnStyleProps, ColumnsStyleProps } from './columns';
 import type { Data, SparklineStyleProps, SparklineOptions } from './types';
 import {
   dataToLines,
@@ -20,27 +20,8 @@ import {
 
 export type { SparklineStyleProps, SparklineOptions };
 
-export class Sparkline extends GUI<SparklineStyleProps> {
+export class Sparkline extends GUI<RequiredStyleProps<SparklineStyleProps>> {
   public static tag = 'sparkline';
-
-  private static defaultOptions = {
-    style: {
-      type: 'line',
-      width: 200,
-      height: 20,
-      // data: [],
-      isStack: false,
-      nice: true,
-      color: ['#83daad', '#edbf45', '#d2cef9', '#e290b3', '#6f63f4'],
-      smooth: true,
-      lineLineWidth: 1,
-      areaOpacity: 0,
-      isGroup: false,
-      columnLineWidth: 1,
-      columnStroke: '#fff',
-      columnPadding: 0.1,
-    },
-  };
 
   // sparkline容器
   private containerShape!: Rect;
@@ -61,8 +42,7 @@ export class Sparkline extends GUI<SparklineStyleProps> {
   }
 
   private get data(): Data {
-    if (this.attributes.isStack) return getStackedData(this.rawData);
-
+    if (this.attributes.style?.isStack) return getStackedData(this.rawData);
     return this.rawData;
   }
 
@@ -84,15 +64,19 @@ export class Sparkline extends GUI<SparklineStyleProps> {
   }
 
   private get containerCfg() {
-    const { width, height } = this.attributes;
+    const {
+      style: { width, height },
+    } = this.attributes;
     return { width, height } as { width: number; height: number };
   }
 
   private get linesCfg(): ILinesCfg {
-    if (this.attributes.type !== 'line') throw new Error('linesCfg can only be used in line type');
-    const { isStack, smooth } = this.attributes;
-    const areaStyle = subObject(this.attributes, 'area');
-    const lineStyle = subObject(this.attributes, 'line');
+    const {
+      style: { type, isStack, smooth },
+    } = this.attributes;
+    if (type !== 'line') throw new Error('linesCfg can only be used in line type');
+    const { style: areaStyle } = subStyleProps(this.attributes, 'area');
+    const { style: lineStyle } = subStyleProps(this.attributes, 'line');
     const { width } = this.containerCfg;
     const { data } = this;
     if (data[0].length === 0) return { lines: [], areas: [] };
@@ -130,10 +114,12 @@ export class Sparkline extends GUI<SparklineStyleProps> {
     };
   }
 
-  private get columnsCfg(): IColumnsCfg {
-    if (this.attributes.type !== 'column') throw new Error('columnsCfg can only be used in column type');
-    const columnStyle = subObject(this.attributes, 'column');
-    const { isStack } = this.attributes;
+  private get columnsCfg(): ColumnsStyleProps {
+    const { style: columnStyle } = subStyleProps(this.attributes, 'column');
+    const {
+      style: { isStack, type },
+    } = this.attributes;
+    if (type !== 'column') throw new Error('columnsCfg can only be used in column type');
     const { height } = this.containerCfg;
     let { rawData: data } = this;
     if (!data) return { columns: [] };
@@ -167,20 +153,36 @@ export class Sparkline extends GUI<SparklineStyleProps> {
                   width: barWidth,
                   height: heightScale.map(Math.abs(val)),
                 }),
-          } as IColumnCfg;
+          } as ColumnStyleProps;
         });
       }),
     };
   }
 
   constructor(options: SparklineOptions) {
-    super(deepMix({}, Sparkline.defaultOptions, options));
+    super(options, {
+      style: {
+        type: 'line',
+        width: 200,
+        height: 20,
+        isStack: false,
+        color: ['#83daad', '#edbf45', '#d2cef9', '#e290b3', '#6f63f4'],
+        smooth: true,
+        lineLineWidth: 1,
+        areaOpacity: 0,
+        isGroup: false,
+        columnLineWidth: 1,
+        columnStroke: '#fff',
+      },
+    });
   }
 
-  public render(attributes: SparklineStyleProps, container: Group) {
+  public render(attributes: RequiredStyleProps<SparklineStyleProps>, container: Group) {
     this.containerShape = maybeAppend(container, '.container', 'rect').attr('className', 'container').node();
 
-    const { type } = attributes;
+    const {
+      style: { type },
+    } = attributes;
     const className = `spark${type}`;
     const cfg: any = type === 'line' ? this.linesCfg : this.columnsCfg;
     this.sparkShape = maybeAppend(container, `.${className}`, () => {
@@ -189,14 +191,6 @@ export class Sparkline extends GUI<SparklineStyleProps> {
     })
       .styles(cfg)
       .node() as any;
-  }
-
-  /**
-   * 组件的更新
-   */
-  public update(cfg: Partial<SparklineStyleProps>) {
-    this.attr(deepMix({}, this.attributes, cfg));
-    this.render(this.attributes, this);
   }
 
   /**
@@ -212,7 +206,9 @@ export class Sparkline extends GUI<SparklineStyleProps> {
    * 根据数据索引获取color
    */
   private getColor(index: number) {
-    const { color } = this.attributes;
+    const {
+      style: { color },
+    } = this.attributes;
     if (isArray(color)) {
       return color[index % color.length];
     }
@@ -226,7 +222,9 @@ export class Sparkline extends GUI<SparklineStyleProps> {
    * 根据数据生成scale
    */
   private createScales(data: number[][]) {
-    const { type, range = [] } = this.attributes;
+    const {
+      style: { type, range = [], isGroup, spacing },
+    } = this.attributes;
     const { width, height } = this.containerCfg;
     const [minVal, maxVal] = getRange(data);
 
@@ -246,7 +244,6 @@ export class Sparkline extends GUI<SparklineStyleProps> {
       };
     }
 
-    const { isGroup, spacing } = this.attributes;
     return {
       type,
       x: new Band({

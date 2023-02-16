@@ -10,44 +10,54 @@ export const AxisLinearTitlePosition = () => {
   });
 
   const createAxis = axisWarper(group, {
-    type: 'linear',
     data: new Array(10).fill(0).map((_, i, arr) => ({ value: i / (arr.length - 1), label: '' })),
-    lineLineWidth: 5,
-    tickLineWidth: 5,
-    title: 'title',
-    titleFill: 'red',
-    titleFontSize: 20,
-    titleFontWeight: 'bold',
     labelFormatter: () => '',
+    style: {
+      type: 'linear',
+      lineLineWidth: 5,
+      tickLineWidth: 5,
+      titleText: 'title',
+      titleFill: 'red',
+      titleFontSize: 20,
+      titleFontWeight: 'bold',
+    },
   });
 
   createAxis({
-    startPos: [50, 50],
-    endPos: [500, 50],
-    titleText: 'top',
-    titlePosition: 'top',
+    style: {
+      startPos: [50, 50],
+      endPos: [500, 50],
+      titleText: 'top',
+      titlePosition: 'top',
+    },
   });
   createAxis({
-    startPos: [50, 100],
-    endPos: [50, 450],
-    titleText: 'left',
-    titlePosition: 'l',
-    titleSpacing: 10,
-    titleTransform: 'translate(50%, 0) rotate(-90)',
+    style: {
+      startPos: [50, 100],
+      endPos: [50, 450],
+      titleText: 'left',
+      titlePosition: 'l',
+      titleSpacing: 10,
+      titleTransform: 'translate(50%, 0) rotate(-90)',
+    },
   });
   createAxis({
-    startPos: [50, 500],
-    endPos: [500, 500],
-    titleText: 'bottom',
-    titlePosition: 'b',
+    style: {
+      startPos: [50, 500],
+      endPos: [500, 500],
+      titleText: 'bottom',
+      titlePosition: 'b',
+    },
   });
   createAxis({
-    startPos: [550, 50],
-    endPos: [550, 500],
-    titleText: 'right',
-    titlePosition: 'r',
-    titleSpacing: 10,
-    titleTransform: 'translate(-50%, 0) rotate(-90)',
+    style: {
+      startPos: [550, 50],
+      endPos: [550, 500],
+      titleText: 'right',
+      titlePosition: 'r',
+      titleSpacing: 10,
+      titleTransform: 'translate(-50%, 0) rotate(-90)',
+    },
   });
 
   const g1 = group.appendChild(
@@ -58,12 +68,14 @@ export const AxisLinearTitlePosition = () => {
 
   g1.appendChild(
     createAxis({
-      startPos: [650, 50],
-      endPos: [650, 500],
-      titleText: 'right',
-      titlePosition: 'r',
-      titleSpacing: 10,
-      titleTransform: 'translate(-50%, 0) rotate(-90)',
+      style: {
+        startPos: [650, 50],
+        endPos: [650, 500],
+        titleText: 'right',
+        titlePosition: 'r',
+        titleSpacing: 10,
+        titleTransform: 'translate(-50%, 0) rotate(-90)',
+      },
     })
   );
 
@@ -78,12 +90,14 @@ export const AxisLinearTitlePosition = () => {
 
   g2.appendChild(
     createAxis({
-      startPos: [650, 50],
-      endPos: [650, 500],
-      titleText: 'right',
-      titlePosition: 'r',
-      titleSpacing: 10,
-      titleTransform: 'translate(-50%, 0) rotate(-90)',
+      style: {
+        startPos: [650, 50],
+        endPos: [650, 500],
+        titleText: 'right',
+        titlePosition: 'r',
+        titleSpacing: 10,
+        titleTransform: 'translate(-50%, 0) rotate(-90)',
+      },
     })
   );
 

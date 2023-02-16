@@ -13,19 +13,20 @@ export const AxisLinearLabelAlign10 = () => {
   group.appendChild(
     new Axis({
       style: {
-        type: 'linear',
         data: data(12),
-        lineLineWidth: 5,
-        tickLineWidth: 5,
-        labelSpacing: 5,
         labelFormatter: (_: any, index: number) => 'ABC',
-        tickLength: 10,
-
-        startPos: [950, 500],
-        endPos: [550, 100],
-        tickDirection: 'negative',
-        labelDirection: 'positive',
-        labelAlign: 'horizontal',
+        style: {
+          type: 'linear',
+          lineLineWidth: 5,
+          tickLineWidth: 5,
+          labelSpacing: 5,
+          tickLength: 10,
+          startPos: [950, 500],
+          endPos: [550, 100],
+          tickDirection: 'negative',
+          labelDirection: 'positive',
+          labelAlign: 'horizontal',
+        },
       },
     })
   );

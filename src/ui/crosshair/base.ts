@@ -1,18 +1,13 @@
-import { Path, Group } from '@antv/g';
-import { deepMix } from '@antv/util';
-import { GUI } from '../../core/gui';
-import { select, subObject } from '../../util';
+import { Group, Path } from '@antv/g';
+import { GUI, PartialStyleProps } from '../../core';
+import type { Point } from '../../types';
+import { select, subStyleProps } from '../../util';
 import { Tag } from '../tag';
 import { CROSSHAIR_BASE_DEFAULT_STYLE } from './constant';
-import type { CrosshairBaseStyleProps, CrosshairBaseOptions } from './types';
-import type { Point } from '../../types';
+import type { CrosshairBaseOptions, CrosshairBaseStyleProps } from './types';
 
-export abstract class CrosshairBase<T extends CrosshairBaseStyleProps> extends GUI<Required<T>> {
+export abstract class CrosshairBase<T extends CrosshairBaseStyleProps> extends GUI<T> {
   public static tag = 'crosshair-base';
-
-  protected static defaultOptions = {
-    style: CROSSHAIR_BASE_DEFAULT_STYLE,
-  };
 
   /**
    * 指针位置
@@ -39,42 +34,36 @@ export abstract class CrosshairBase<T extends CrosshairBaseStyleProps> extends G
    */
   protected abstract get crosshairPath(): any[];
 
-  private get tagCfg() {
-    const tagStyle = subObject(this.attributes, 'tag');
-    const { position, ...rest } = tagStyle;
-    return rest;
+  private get tagStyle() {
+    const style = subStyleProps(this.attributes, 'tag');
+    return style;
   }
 
-  private get crosshairCfg() {
-    const lineStyle = subObject(this.attributes, 'line');
+  private get crosshairStyle() {
+    const { style } = subStyleProps(this.attributes, 'line');
     return {
-      ...lineStyle,
+      ...style,
       path: this.crosshairPath,
     };
   }
 
   constructor(options: CrosshairBaseOptions) {
-    super(deepMix({}, CrosshairBase.defaultOptions, options));
+    super(options, CROSSHAIR_BASE_DEFAULT_STYLE as PartialStyleProps<T>);
   }
 
-  public render(attributes: T, container: Group) {
+  public render(attributes: CrosshairBaseStyleProps, container: Group) {
     const group = select(container).maybeAppendByClassName('.crosshair-group', 'g').node();
     this.shapesGroup = group;
 
+    const tagStyle = this.tagStyle;
+    const crosshairStyle = this.crosshairStyle;
     this.tagShape = select(group)
-      .maybeAppend('.crosshair-tag', () => new Tag({ className: 'crosshair-tag', style: this.tagCfg }))
-      .node() as Tag;
-    this.crosshairShape = select(group)
-      .maybeAppendByClassName('.crosshair-path', 'path')
-      .node()
-      .attr(this.crosshairCfg) as Path;
+      .maybeAppendByClassName('crosshair-tag', () => new Tag({ style: tagStyle }))
+      .styles(tagStyle)
+      .node();
+    this.crosshairShape = select(group).maybeAppendByClassName('.crosshair-path', 'path').styles(crosshairStyle).node();
 
     this.adjustLayout();
-  }
-
-  public update(cfg: Partial<CrosshairBaseStyleProps> = {}) {
-    this.attr(deepMix({}, this.attributes, cfg));
-    this.render(this.attributes, this);
   }
 
   /**

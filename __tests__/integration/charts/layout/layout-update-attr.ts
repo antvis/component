@@ -19,7 +19,7 @@ export const LayoutUpdateAttr = () => {
   );
 
   const colors = ['red', 'green', 'blue', 'yellow', 'pink'];
-  new Array(5).fill(0).forEach((d, i) =>
+  new Array(5).fill(0).forEach((d: any, i: number) =>
     box.appendChild(
       new Rect({
         style: {

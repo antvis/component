@@ -12,20 +12,22 @@ export const BugCategoryItemUpdate1 = () => {
   const item = group.appendChild(
     new CategoryItem({
       style: {
-        label: 'label',
-        value: 'value',
-        spacing: [5, 5],
-        markerFill: 'green',
-        labelFill: 'green',
-        valueFill: 'green',
-        backgroundFill: '#f7f7f7',
+        style: {
+          label: 'label',
+          value: 'value',
+          spacing: [5, 5],
+          markerFill: 'green',
+          labelFill: 'green',
+          valueFill: 'green',
+          backgroundFill: '#f7f7f7',
+        },
       },
     })
   );
 
   setTimeout(() => {
     // 期望变成红色
-    item.update({ markerFill: 'red', labelFill: 'red', valueFill: 'red' });
+    item.update({ style: { markerFill: 'red', labelFill: 'red', valueFill: 'red' } });
   }, 1000);
 
   return group;

@@ -14,8 +14,6 @@ export { Breadcrumb } from './breadcrumb';
 export type { BreadcrumbOptions } from './breadcrumb';
 
 /** Others */
-export { Arrow } from './arrow';
-export type { ArrowOptions } from './arrow';
 // author by [Aarebecca](https://github.com/Aarebecca)
 export { Sparkline } from './sparkline';
 export type { SparklineOptions } from './sparkline';
@@ -46,8 +44,6 @@ export { Navigator } from './navigator';
 export type { NavigatorOptions } from './navigator';
 export { LineCrosshair, CircleCrosshair, PolygonCrosshair } from './crosshair';
 export type { LineCrosshairOptions, CircleCrosshairOptions, PolygonCrosshairOptions } from './crosshair';
-export { Text } from './text';
-export type { TextCfg, TextOptions } from './text';
 export { Checkbox } from './checkbox';
 export type { CheckboxOptions } from './checkbox';
 export { Poptip } from './poptip';

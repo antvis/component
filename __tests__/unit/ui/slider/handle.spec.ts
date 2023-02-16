@@ -13,7 +13,7 @@ describe('Handle of slider', () => {
         y: 30,
         zIndex: 2,
         type: 'start',
-        orient: 'vertical',
+        orientation: 'vertical',
         labelText: '',
       },
     });
@@ -28,7 +28,7 @@ describe('Handle of slider', () => {
         y: 30,
         zIndex: 2,
         type: 'start',
-        orient: 'horizontal',
+        orientation: 'horizontal',
         labelText: 'Hello',
         labelTextAlign: 'left',
         labelDx: 8,
@@ -48,7 +48,7 @@ describe('Handle of slider', () => {
         y: 80,
         zIndex: 2,
         type: 'start',
-        orient: 'horizontal',
+        orientation: 'horizontal',
         labelText: '',
       },
     });

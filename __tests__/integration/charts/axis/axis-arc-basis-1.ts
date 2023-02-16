@@ -11,17 +11,20 @@ export const AxisArcBasis1 = () => {
     new Axis({
       class: 'axis-class',
       style: {
-        type: 'arc',
-        angleRange: [-135, 135],
-        center: [150, 150],
-        showArrow: false,
-        lineStroke: 'red',
-        tickStroke: 'red',
-        radius: 80,
-        lineLineWidth: 5,
-        tickLength: 10,
-        labelSpacing: 10,
         data: data(12),
+        showArrow: false,
+        style: {
+          center: [150, 150],
+          endAngle: 135,
+          labelSpacing: 10,
+          lineLineWidth: 5,
+          lineStroke: 'red',
+          radius: 80,
+          startAngle: -135,
+          tickLength: 10,
+          tickStroke: 'red',
+          type: 'arc',
+        },
       },
     })
   );

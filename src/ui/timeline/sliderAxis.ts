@@ -2,7 +2,7 @@
 // import type { DisplayObjectConfig } from '@antv/g';
 // import { clamp, deepMix } from '@antv/util';
 // import { Point as PointScale } from '@antv/scale';
-// import { GUI } from '../../core/gui';
+// import { GUI } from '../../core';
 // import { applyStyle, maybeAppend, select, Selection } from '../../util';
 // import { Axis, AxisStyleProps as AxisOptions } from '../axis';
 // import {
@@ -252,7 +252,7 @@
 //         const shape = select(this).select(`.slider-${type}-handle`).node();
 //         const offset = this.ifH(event.x - lastPosition[0], event.y - lastPosition[1]);
 //         const position = shape.getLocalPosition();
-//         if (this.orient === 'vertical') {
+//         if (this.orientation === 'vertical') {
 //           shape.style.cy = clamp(position[1] + offset, 0, length);
 //         } else {
 //           shape.style.cx = clamp(position[0] + offset, 0, length);
@@ -310,7 +310,7 @@
 //         const offset = this.ifH(event.x - lastPosition[0], event.y - lastPosition[1]);
 //         const [cx0, cy0] = startHandle.getLocalPosition();
 //         const [cx1, cy1] = endHandle.getLocalPosition();
-//         if (this.orient === 'vertical') {
+//         if (this.orientation === 'vertical') {
 //           const height = cy1 - cy0;
 //           startHandle.style.cy = clamp(cy0 + offset, 0, length - height);
 //           endHandle.style.cy = startHandle.style.cy + height;

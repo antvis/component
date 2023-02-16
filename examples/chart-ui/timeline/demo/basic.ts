@@ -105,7 +105,7 @@ canvas.appendChild(new Rect({ style: { ...rectStyle, height: 320, width: 80, x: 
   new Timeline({
     style: {
       x: 14,
-      orient: 'vertical',
+      orientation: 'vertical',
       width: 40,
       height: 320,
       data: TIME_DATA(),
@@ -180,7 +180,7 @@ canvas.appendChild(new Rect({ style: { ...rectStyle, height: 400, width: 80, x: 
   new Timeline({
     style: {
       x: 14,
-      orient: 'vertical',
+      orientation: 'vertical',
       width: 40,
       height: 400,
       data: TIME_DATA(20),

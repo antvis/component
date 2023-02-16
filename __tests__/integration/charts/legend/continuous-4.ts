@@ -1,4 +1,5 @@
 import { Group, Rect } from '@antv/g';
+import { deepAssign } from '../../../../src/util';
 import { Continuous } from './utils';
 
 export const Continuous4 = () => {
@@ -15,18 +16,18 @@ export const Continuous4 = () => {
   };
 
   const conditions = [
-    { labelDirection: 'positive' },
-    { labelDirection: 'negative' },
-    { labelDirection: 'positive', titleText: 'title' },
-    { labelDirection: 'negative', titleText: 'title' },
-    { labelDirection: 'positive', showHandle: false },
-    { labelDirection: 'negative', showHandle: false },
-    { labelDirection: 'positive', labelShowTick: true },
-    { labelDirection: 'negative', labelShowTick: true },
-    { labelDirection: 'positive', titleText: 'title', labelShowTick: true },
-    { labelDirection: 'negative', titleText: 'title', labelShowTick: true },
-    { labelDirection: 'positive', showHandle: false, labelShowTick: true },
-    { labelDirection: 'negative', showHandle: false, labelShowTick: true },
+    { style: { labelDirection: 'positive' } },
+    { style: { labelDirection: 'negative' } },
+    { style: { labelDirection: 'positive', titleText: 'title' } },
+    { style: { labelDirection: 'negative', titleText: 'title' } },
+    { style: { labelDirection: 'positive' }, showHandle: false },
+    { style: { labelDirection: 'negative' }, showHandle: false },
+    { style: { labelDirection: 'positive' }, showTick: true },
+    { style: { labelDirection: 'negative' }, showTick: true },
+    { style: { labelDirection: 'positive', titleText: 'title' }, showTick: true },
+    { style: { labelDirection: 'negative', titleText: 'title' }, showTick: true },
+    { style: { labelDirection: 'positive' }, showHandle: false, showTick: true },
+    { style: { labelDirection: 'negative' }, showHandle: false, showTick: true },
   ];
 
   conditions.forEach((con, i) => {
@@ -44,20 +45,23 @@ export const Continuous4 = () => {
     );
     group.appendChild(
       new Continuous({
-        style: {
-          x,
-          y,
-          block: true,
-          data: new Array(10).fill(0).map((d, i) => ({ value: i * 100 })),
-          labelSpacing: 10,
-          labelFontSize: 10,
-          labelTickLength: 30,
-          labelTickStroke: 'red',
-          handleMarkerSize: 20,
-          handleFormatter: (str: any) => `${str}°C`,
-          ...shape,
-          ...con,
-        },
+        style: deepAssign(
+          {
+            data: new Array(10).fill(0).map((d: any, i: number) => ({ value: i * 100 })),
+            handleFormatter: (str: any) => `${str}°C`,
+            style: {
+              x,
+              y,
+              block: true,
+              labelSpacing: 10,
+              labelFontSize: 10,
+              labelTickStroke: 'red',
+              handleMarkerSize: 20,
+              ...shape,
+            },
+          },
+          con
+        ),
       })
     );
   });

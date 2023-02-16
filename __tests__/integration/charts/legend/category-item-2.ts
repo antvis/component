@@ -12,13 +12,15 @@ export const CategoryItem2 = () => {
   group.appendChild(
     new CategoryItem({
       style: {
-        width: 80,
-        label: 'label',
-        value: 'value',
-        markerFill: 'red',
-        labelFill: 'red',
-        valueFill: 'green',
-        backgroundFill: '#f7f7f7',
+        style: {
+          label: 'label',
+          value: 'value',
+          width: 80,
+          markerFill: 'red',
+          labelFill: 'red',
+          valueFill: 'green',
+          backgroundFill: '#f7f7f7',
+        },
       },
     })
   );

@@ -13,20 +13,22 @@ export const CategoryLayout34 = () => {
   group.appendChild(
     new Category({
       style: {
-        layout: 'flex',
-        height: 40,
         data: flowItemData,
-        titleText: 'Legend Title',
-        orient: 'vertical',
-        width: 600,
-        rowPadding: 10,
-        colPadding: 10,
-        itemSpacing: 5,
-        itemMarkerStroke: (_: any, i: number) => colors[i % colors.length],
-        itemMarkerLineWidth: 3,
-        itemMarkerFill: 'transparent',
-        itemValue: '',
-        navButtonFillOpacity: 0.5,
+        style: {
+          layout: 'flex',
+          height: 40,
+          titleText: 'Legend Title',
+          orientation: 'vertical',
+          width: 600,
+          rowPadding: 10,
+          colPadding: 10,
+          itemSpacing: 5,
+          itemMarkerStroke: (_: any, i: number) => colors[i % colors.length],
+          itemMarkerLineWidth: 3,
+          itemMarkerFill: 'transparent',
+          itemValue: '',
+          navButtonFillOpacity: 0.5,
+        },
       },
     })
   );

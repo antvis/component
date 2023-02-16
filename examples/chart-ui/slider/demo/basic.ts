@@ -31,7 +31,7 @@ const verticalSlider = new Slider({
     y: 50,
     width: 20,
     height: 400,
-    orient: 'vertical',
+    orientation: 'vertical',
     values: [0.3, 0.7],
     names: ['2020-08-25', '2020-09-12'],
   },

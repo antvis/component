@@ -1,4 +1,5 @@
 import { Text, type DisplayObject } from '@antv/g';
+import type { RequiredStyleProps } from '../../../core';
 import type { AxisStyleProps, LabelOverlapCfg } from '../types';
 import ellipsis, { type Utils as EllipsisUtils } from './autoEllipsis';
 import hide, { type Utils as HideUtils } from './autoHide';
@@ -14,19 +15,27 @@ export const OverlapUtils = new Map<string, any>([
   ['ellipsis', ellipsis],
 ]);
 
-export function canProcessOverlap(labels: DisplayObject[], cfg: AxisStyleProps, type: LabelOverlapCfg['type']) {
-  if (!cfg.labelTransforms) return false;
+export function canProcessOverlap(
+  labels: DisplayObject[],
+  attr: RequiredStyleProps<AxisStyleProps>,
+  type: LabelOverlapCfg['type']
+) {
+  if (!attr.labelTransform) return false;
   // if (type === 'rotate') return !labels.some((label) => hasSetRotate(label.attr('transform')));
   if (type === 'ellipsis') return labels.map((item) => item.querySelector('text')).length > 1;
   return true;
 }
 
-export function processOverlap(labels: DisplayObject[], cfg: AxisStyleProps, utils: OverlapUtilsType) {
-  const { labelTransforms: overlapOrder = [] } = cfg;
+export function processOverlap(
+  labels: DisplayObject[],
+  attr: RequiredStyleProps<AxisStyleProps>,
+  utils: OverlapUtilsType
+) {
+  const { labelTransform: overlapOrder = [] } = attr;
   if (!overlapOrder.length) return;
   overlapOrder.forEach((overlapCfg) => {
     const { type } = overlapCfg;
     const util = OverlapUtils.get(type);
-    if (canProcessOverlap(labels, cfg, type)) util?.(labels as any[], overlapCfg, cfg, utils);
+    if (canProcessOverlap(labels, attr, type)) util?.(labels as any[], overlapCfg, attr, utils);
   });
 }

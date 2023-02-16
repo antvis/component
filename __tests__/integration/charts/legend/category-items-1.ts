@@ -13,17 +13,19 @@ export const CategoryItems1 = () => {
   group.appendChild(
     new CategoryItems({
       style: {
-        width,
-        height,
-        gridRow,
-        gridCol,
-        layout: 'grid',
         data: createItemData(20),
-        itemLabelFill: 'red',
-        itemValueFill: 'green',
-        colPadding: 10,
-        rowPadding: 5,
-        itemMarkerFill: (_: any, index: number) => colors[index % colors.length],
+        style: {
+          width,
+          height,
+          gridRow,
+          gridCol,
+          layout: 'grid',
+          itemLabelFill: 'red',
+          itemValueFill: 'green',
+          colPadding: 10,
+          rowPadding: 5,
+          itemMarkerFill: (_: any, index: number) => colors[index % colors.length],
+        },
       },
     })
   );

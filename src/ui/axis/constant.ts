@@ -1,69 +1,75 @@
-import { Path, type DisplayObjectConfig } from '@antv/g';
+import { Path } from '@antv/g';
 import { deepMix } from '@antv/util';
 import { classNames } from '../../util';
 import type { AxisBaseStyleProps } from './types';
 
-export const AXIS_BASE_DEFAULT_CFG: DisplayObjectConfig<Partial<AxisBaseStyleProps>> = {
-  style: {
-    data: [],
-    animate: {
+export const AXIS_BASE_DEFAULT_ATTR: Partial<AxisBaseStyleProps> = {
+  data: [],
+  animate: {
+    enter: false,
+    update: {
       duration: 100,
       easing: 'ease-in-out-sine',
       fill: 'both',
     },
+    exit: false,
+  },
+  style: {
     dataThreshold: 100,
-    showTitle: true,
-    titlePosition: 'lb',
-    titleFill: 'black',
-    titleFontSize: 12,
-    titleTextAlign: 'center',
-    titleSpacing: 0,
-    titleTextBaseline: 'middle',
-    showLine: true,
     lineLineWidth: 1,
     lineStroke: 'black',
-    showArrow: true,
-    lineArrow: new Path({
-      style: {
-        path: 'M 10,10 L -10,0 L 10,-10 L0,0 L10,10Z',
-        anchor: '0.5 0.5',
-        fill: 'black',
-        transformOrigin: 'center',
-      },
-    }),
-    lineArrowOffset: 15,
-    lineArrowSize: 10,
-    showTick: true,
-    tickDirection: 'positive',
-    tickStroke: 'black',
-    tickLength: 5,
-    tickLineWidth: 1,
-    tickStrokeOpacity: 0.65,
-    showLabel: true,
-    labelSpacing: 0,
-    labelDirection: 'positive',
+    titleFill: 'black',
+    titleFontSize: 12,
+    titlePosition: 'lb',
+    titleSpacing: 0,
+    titleTextAlign: 'center',
+    titleTextBaseline: 'middle',
+    lineArrow: () =>
+      new Path({
+        style: {
+          path: 'M 10,10 L -10,0 L 10,-10 L0,0 L10,10Z',
+          anchor: '0.5 0.5',
+          fill: 'black',
+          transformOrigin: 'center',
+        },
+      }),
     labelAlign: 'parallel',
-    labelTransforms: [
-      // { type: 'rotate', optionalAngles: [0, 45, 90] },
-      // { type: 'ellipsis', suffix: '...', minLength: 14, maxLength: 160 },
-      // { type: 'hide' },
-    ],
-    showGrid: true,
-    gridType: 'segment',
+    labelDirection: 'positive',
+    labelSpacing: 0,
     gridConnect: 'line',
+    gridControlAngles: [],
     gridDirection: 'positive',
     gridLength: 0,
-    gridControlAngles: [],
+    gridType: 'segment',
+    lineArrowOffset: 15,
+    lineArrowSize: 10,
+    tickDirection: 'positive',
+    tickLength: 5,
+    tickLineWidth: 1,
+    tickStroke: 'black',
+    tickStrokeOpacity: 0.65,
   },
+  showArrow: true,
+  showGrid: true,
+  showLabel: true,
+  showLine: true,
+  showTick: true,
+  showTitle: true,
+  showTrunc: false,
+  labelTransform: [
+    // { type: 'rotate', optionalAngles: [0, 45, 90] },
+    // { type: 'ellipsis', suffix: '...', minLength: 14, maxLength: 160 },
+    // { type: 'hide' },
+  ],
 };
 
-export const ARC_DEFAULT_OPTIONS = deepMix({}, AXIS_BASE_DEFAULT_CFG, {
+export const ARC_DEFAULT_OPTIONS = deepMix({}, AXIS_BASE_DEFAULT_ATTR, {
   style: {
-    type: 'arc',
+    style: { type: 'arc' },
   },
 });
 
-export const HELIX_DEFAULT_OPTIONS = deepMix({}, AXIS_BASE_DEFAULT_CFG, {
+export const HELIX_DEFAULT_OPTIONS = deepMix({}, AXIS_BASE_DEFAULT_ATTR, {
   style: {},
 });
 

@@ -1,15 +1,9 @@
-import type { DisplayObject, LineStyleProps, TextStyleProps, GroupStyleProps, DisplayObjectConfig } from '@antv/g';
-import type {
-  Callbackable,
-  CallbackableObject,
-  CallbackParameter,
-  ExtendDisplayObject,
-  PrefixedStyle,
-  Vector2,
-} from '../../types';
-import type { TitleStyleProps } from '../title';
-import type { GridStyleProps } from '../grid/types';
+import { DisplayObject, GroupStyleProps, LineStyleProps, TextStyleProps } from '@antv/g';
 import type { AnimationOption } from '../../animation/types';
+import type { ComponentOptions, PrefixStyleProps } from '../../core/types';
+import type { Callbackable, CallbackParameter, ExtendDisplayObject, Merge, MergeMultiple, Vector2 } from '../../types';
+import type { GridStyleProps } from '../grid/types';
+import type { TitleStyleProps } from '../title';
 
 export type AxisType = 'linear' | 'arc' | 'helix';
 
@@ -64,161 +58,169 @@ export type LabelOverlapCfg =
   | WrapOverlapCfg
   | CustomOverlapCfg;
 
-export type AxisTitleStyle = PrefixedStyle<TextStyleProps, 'title'>;
-export type AxisTitleCfg = {
-  title?: ExtendDisplayObject;
-  /**
-   * distance between axis body (line with ticks and labels)
-   */
-  titleSpacing?: number;
-  /**
-   * the position of title relative to axis
-   * 'inner' can only be used in polar coordinates
-   * addition position of start and end only for linear axis
-   */
-  titlePosition?: TitleStyleProps['position'] | 'start' | 'end';
+export type AxisTitleStyleProps = Merge<
+  Omit<TitleStyleProps, 'style'>,
+  {
+    showTitle?: boolean;
+    style: Omit<TitleStyleProps['style'], 'position'> & {
+      position: TitleStyleProps['style']['position'] | 'start' | 'end';
+    };
+  }
+>;
+
+export type AxisTruncateStyleProps = {
+  showTrunc?: boolean;
+  style?: {
+    /** truncate range in the axis line */
+    range?: [number, number];
+    /**
+     * the shape of truncate point or area
+     * when using a callback form, the argument will additional returns the position of two points
+     * we will provide several default shapes
+     */
+    shape?: Callbackable<
+      ExtendDisplayObject | [ExtendDisplayObject, ExtendDisplayObject],
+      CallbackParameter<AxisDatum, [Vector2, Vector2]>
+    >;
+  };
 };
-export type AxisLineStyle = PrefixedStyle<LineStyleProps, 'line'>;
-export type AxisLineCfg = {
-  showLine?: boolean;
-  /**
-   * truncate range in the axis line
-   */
-  truncRange?: [number, number];
-  /**
-   * the shape of truncate point or area
-   * when using a callback form, the argument will additional returns the position of two points
-   * we will provide several default shapes
-   */
-  truncShape?: Callbackable<
-    ExtendDisplayObject | [ExtendDisplayObject, ExtendDisplayObject],
-    CallbackParameter<AxisDatum, [Vector2, Vector2]>
-  >;
-  /**
-   * extend lenth on the head and tail of axis line
-   */
-  lineExtension?: [number, number];
-  showArrow?: boolean;
-  /**
-   * line arrow shape
-   * When string is passed, use the build-in arrow shape
-   */
-  lineArrow?: ExtendDisplayObject;
-  /** line arrow offset, -20 ~ 20 is safety */
-  lineArrowOffset?: number;
-  /** size of line arrow */
-  lineArrowSize?: number;
+
+export type AxisLineStyleProps = {
+  showLine: boolean;
+  showArrow: boolean;
+  style: Omit<LineStyleProps, 'x1' | 'x2' | 'y1' | 'y2'> & {
+    /**
+     * extend lenth on the head and tail of axis line
+     */
+    extension?: [number, number];
+    /**
+     * line arrow shape
+     * When string is passed, use the build-in arrow shape
+     */
+    arrow?: ExtendDisplayObject;
+    /** line arrow offset, -20 ~ 20 is safety */
+    arrowOffset?: number;
+    /** size of line arrow */
+    arrowSize?: number;
+  };
 };
-export type AxisTickStyle = CallbackableObject<PrefixedStyle<LineStyleProps, 'tick'>, AxisDatumCP>;
-export type AxisTickCfg = {
-  showTick?: boolean;
-  /**
-   * the position of ticks
-   * @description `negative` means ticks is opposite to the direction of cross axis
-   * @description `positive` means ticks have same direction of cross axis
-   */
-  tickDirection?: Direction;
-  tickLength?: Callbackable<number, AxisDatumCP>;
-  tickFilter?: (...params: AxisDatumCP) => boolean;
+
+export type AxisTickStyleProps = {
+  showTick: boolean;
+  style: {
+    [key in keyof LineStyleProps]?: Callbackable<LineStyleProps[key], AxisDatumCP>;
+  } & {
+    length?: Callbackable<number, AxisDatumCP>;
+    /**
+     * the position of ticks
+     * @description `negative` means ticks is opposite to the direction of cross axis
+     * @description `positive` means ticks have same direction of cross axis
+     */
+    direction?: Direction;
+  };
+  filter: (...params: AxisDatumCP) => boolean;
   /**
    * tick formatter
    * the callback will additionally return the tick direction
    */
-  tickFormatter?: Callbackable<ExtendDisplayObject, CallbackParameter<AxisDatum, [Vector2]>>;
-  /**
-   * @description `horizontal` means the labels are always horizontal
-   * @description `parallel` means the labels are parallel to the axis line
-   * @description `perpendicular` means the labels are perpendicular to the axis line
-   */
+  formatter: Callbackable<ExtendDisplayObject, CallbackParameter<AxisDatum, [Vector2]>>;
 };
-export type AxisLabelStyle = CallbackableObject<PrefixedStyle<TextStyleProps, 'label'>, AxisDatumCP>;
-export type AxisLabelCfg = {
-  showLabel?: boolean;
-  labelAlign?: 'horizontal' | 'parallel' | 'perpendicular';
-  labelDirection?: Direction;
-  /**
-   * spacing between label and it's tick
-   */
-  labelSpacing?: Callbackable<number | `${number}%`, AxisDatumCP>;
-  labelFilter?: (...params: AxisDatumCP) => boolean;
+
+export type AxisLabelStyleProps = {
+  showLabel: boolean;
+  style: {
+    [key in keyof TextStyleProps]?: Callbackable<TextStyleProps[key], AxisDatumCP>;
+  } & {
+    direction?: Direction;
+    /**
+     * @description `horizontal` means the labels are always horizontal
+     * @description `parallel` means the labels are parallel to the axis line
+     * @description `perpendicular` means the labels are perpendicular to the axis line
+     */
+    align?: 'horizontal' | 'parallel' | 'perpendicular';
+    /**
+     * spacing between label and it's tick
+     */
+    spacing?: Callbackable<number | `${number}%`, AxisDatumCP>;
+  };
+  filter: (...params: AxisDatumCP) => boolean;
   /**
    * formatter for labels, if string, return directly. you can even format it as a g shape
    */
-  labelFormatter?: Callbackable<ExtendDisplayObject, AxisDatumCP>;
+  formatter: Callbackable<ExtendDisplayObject, AxisDatumCP>;
   /**
    * transform label by using ellipsis, hide and rotate to avoid overlap
    */
-  labelTransforms?: LabelOverlapCfg[];
+  transform: LabelOverlapCfg[];
 };
-export type AxisGridStyle = PrefixedStyle<GridStyleProps, 'grid'>;
-export type AxisGridCfg = {
-  showGrid?: boolean;
-  gridFilter?: (...params: AxisDatumCP) => boolean;
-  gridDirection?: Direction;
-  /**
-   * the grid line length
-   */
-  gridLength?: number;
-  gridType?: 'segment' | 'surround';
-  gridConnect?: 'line' | 'arc';
-  /**
-   * by using grid controller, you can set the grid line in polar coordinates
-   * each value is the rotate angle(degree), the grid points are obtained by rotating tick position around the center
-   */
-  gridControlAngles?: number[];
-  /**
-   * the area fill color between adjacent grid line
-   * when string array is passed, it will be used interchangeably
-   * when callback function is passed, it will provide the area index, previous and next grid datum
-   */
-  gridAreaFill?: string | string[] | Callbackable<string, AxisDatumCP>;
-};
-export type AxisBaseStyleProps = GroupStyleProps &
-  AxisTitleStyle &
-  AxisTitleCfg &
-  AxisLineStyle &
-  AxisLineCfg &
-  AxisTickStyle &
-  AxisTickCfg &
-  AxisLabelStyle &
-  AxisLabelCfg &
-  AxisGridStyle &
-  AxisGridCfg & {
-    /**
-     * determine whether the title is visible
-     */
-    showTitle?: boolean;
-    /**
-     * the animation effect when axis is rendered
-     */
-    animate?: AnimationOption;
-    /**
-     * a datum corresponding to a tick and label
-     */
-    data: AxisDatum[];
-    /**
-     * the maximum number of data
-     */
-    dataThreshold?: number;
-    /**
-     * the width of axis occupied in the cross direction
-     */
-    crossSize?: number;
-  };
-export interface LinearAxisStyleProps extends AxisBaseStyleProps {
-  type: 'linear';
-  startPos: Vector2;
-  endPos: Vector2;
-}
-export interface ArcAxisStyleProps extends AxisBaseStyleProps {
-  type: 'arc';
-  angleRange: [number, number];
-  radius: number;
-  center: Vector2;
-}
+
+export type AxisGridStyleProps = Merge<
+  GridStyleProps,
+  {
+    showGrid: boolean;
+    style: {
+      direction?: Direction;
+      /** the grid line length */
+      length?: number;
+      type?: 'segment' | 'surround';
+      connect?: 'line' | 'arc';
+      /**
+       * by using grid controller, you can set the grid line in polar coordinates
+       * each value is the rotate angle(degree), the grid points are obtained by rotating tick position around the center
+       */
+      controlAngles?: number[];
+      /**
+       * the area fill color between adjacent grid line
+       * when string array is passed, it will be used interchangeably
+       * when callback function is passed, it will provide the area index, previous and next grid datum
+       */
+      areaFill?: string | string[] | Callbackable<string, AxisDatumCP>;
+    };
+    filter: (...params: AxisDatumCP) => boolean;
+  }
+>;
+
+export type AxisBaseStyleProps = MergeMultiple<
+  [
+    PrefixStyleProps<AxisTitleStyleProps, 'title'>,
+    PrefixStyleProps<AxisLineStyleProps, 'line'>,
+    PrefixStyleProps<AxisTickStyleProps, 'tick'>,
+    PrefixStyleProps<AxisLabelStyleProps, 'label'>,
+    PrefixStyleProps<Omit<AxisGridStyleProps, 'animate'>, 'grid'>,
+    PrefixStyleProps<AxisTruncateStyleProps, 'trunc'>,
+    {
+      animate: AnimationOption;
+      data: AxisDatum[];
+      style: GroupStyleProps & {
+        /** the maximum number of data */
+        dataThreshold?: number;
+        /** the width of axis occupied in the cross direction */
+        crossSize?: number;
+      };
+    }
+  ]
+>;
+
+export type LinearAxisStyleProps = Merge<
+  AxisBaseStyleProps,
+  { style: { type: 'linear'; startPos: Vector2; endPos: Vector2 } }
+>;
+
+export type ArcAxisStyleProps = Merge<
+  AxisBaseStyleProps,
+  {
+    style: {
+      type: 'arc';
+      startAngle: number;
+      endAngle: number;
+      radius: number;
+      center: Vector2;
+    };
+  }
+>;
 
 export type AxisStyleProps = LinearAxisStyleProps | ArcAxisStyleProps;
 
-export type LinearAxisOptions = DisplayObjectConfig<LinearAxisStyleProps>;
-export type ArcAxisOptions = DisplayObjectConfig<ArcAxisStyleProps>;
+export type LinearAxisOptions = ComponentOptions<LinearAxisStyleProps>;
+export type ArcAxisOptions = ComponentOptions<ArcAxisStyleProps>;
 export type AxisOptions = LinearAxisOptions | ArcAxisOptions;

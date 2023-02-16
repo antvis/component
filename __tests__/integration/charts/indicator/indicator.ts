@@ -1,8 +1,7 @@
-import { Group, Circle, Text } from '@antv/g';
-import { axisWarper, data } from '../../utils';
+import { Circle, Group, Text } from '@antv/g';
 import { Indicator } from '../../../../src/ui/indicator';
 import { createGrid } from '../../utils/grid';
-import { Axis } from '../../../../src/ui/axis';
+import { deepAssign } from '../../../../src/util';
 
 export const IndicatorDemo = () => {
   const group = new Group({
@@ -15,13 +14,17 @@ export const IndicatorDemo = () => {
   createGrid(group);
 
   const createIndicator = (args: any) => {
-    const style = {
-      x: 50,
-      y: 50,
-      visibility: 'visible',
-      padding: [2, 4],
-      ...args,
-    };
+    const style = deepAssign(
+      {
+        style: {
+          x: 50,
+          y: 50,
+          visibility: 'visible',
+          padding: [2, 4],
+        },
+      },
+      args
+    );
 
     const indicator = group.appendChild(
       // @ts-ignore
@@ -31,8 +34,8 @@ export const IndicatorDemo = () => {
     group.appendChild(
       new Circle({
         style: {
-          cx: style.x,
-          cy: style.y,
+          cx: style.style.x,
+          cy: style.style.y,
           r: 2,
           fill: 'red',
         },
@@ -57,20 +60,24 @@ export const IndicatorDemo = () => {
 
   addText(0, 30, 'left');
 
-  createIndicator({ value: 0.5, position: 'left' });
-  createIndicator({ y: 80, value: 78.1, formatter: (val: any) => `${val}%`, position: 'left' });
+  createIndicator({ style: { labelText: 0.5, position: 'left' } });
+  createIndicator({ style: { y: 80, labelText: 78.1, position: 'left' }, formatter: (val: any) => `${val}%` });
   createIndicator({
-    y: 110,
-    value: 78.1,
-    labelFill: 'black',
-    backgroundFill: 'white',
+    style: {
+      y: 110,
+      labelText: 78.1,
+      labelFill: 'black',
+      backgroundFill: 'white',
+      position: 'left',
+    },
     formatter: (val: any) => `${val}%`,
-    position: 'left',
   });
   createIndicator({
-    y: 140,
-    value: 78.1,
-    position: 'left',
+    style: {
+      y: 140,
+      labelText: 78.1,
+      position: 'left',
+    },
     formatter: (val: any) => {
       const g = new Group();
       g.appendChild(
@@ -95,20 +102,20 @@ export const IndicatorDemo = () => {
 
   addText(0, 170, 'right');
 
-  createIndicator({ y: 170, value: 0.5, position: 'right' });
-  createIndicator({ y: 200, value: 78.1, formatter: (val: any) => `${val}%`, position: 'right' });
+  createIndicator({ style: { y: 170, labelText: 0.5, position: 'right' } });
+  createIndicator({ style: { y: 200, labelText: 78.1, position: 'right' }, formatter: (val: any) => `${val}%` });
   createIndicator({
-    y: 230,
-    value: 78.1,
-    labelFill: 'black',
-    backgroundFill: 'white',
+    style: {
+      y: 230,
+      labelText: 78.1,
+      labelFill: 'black',
+      backgroundFill: 'white',
+      position: 'right',
+    },
     formatter: (val: any) => `${val}%`,
-    position: 'right',
   });
   createIndicator({
-    y: 260,
-    value: 78.1,
-    position: 'right',
+    style: { y: 260, labelText: 78.1, position: 'right' },
     formatter: (val: any) => {
       const g = new Group();
       g.appendChild(
@@ -133,22 +140,14 @@ export const IndicatorDemo = () => {
 
   addText(100, 50, 'top');
 
-  createIndicator({ x: 150, value: 0.5, position: 'top' });
-  createIndicator({ x: 150, y: 80, value: 78.1, formatter: (val: any) => `${val}%`, position: 'top' });
+  createIndicator({ style: { x: 150, labelText: 0.5, position: 'top' } });
+  createIndicator({ style: { x: 150, y: 80, labelText: 78.1, position: 'top' }, formatter: (val: any) => `${val}%` });
   createIndicator({
-    x: 150,
-    y: 110,
-    value: 78.1,
-    labelFill: 'black',
-    backgroundFill: 'white',
+    style: { x: 150, y: 110, labelText: 78.1, labelFill: 'black', backgroundFill: 'white', position: 'top' },
     formatter: (val: any) => `${val}%`,
-    position: 'top',
   });
   createIndicator({
-    x: 150,
-    y: 140,
-    value: 78.1,
-    position: 'top',
+    style: { x: 150, y: 140, labelText: 78.1, position: 'top' },
     formatter: (val: any) => {
       const g = new Group();
       g.appendChild(
@@ -173,23 +172,17 @@ export const IndicatorDemo = () => {
 
   addText(200, 180, 'bottom');
 
-  createIndicator({ x: 150, y: 180, value: 0.5, position: 'bottom' });
-  createIndicator({ x: 150, y: 220, value: 78.1, formatter: (val: any) => `${val}%`, position: 'bottom' });
+  createIndicator({ style: { x: 150, y: 180, labelText: 0.5, position: 'bottom' } });
   createIndicator({
-    x: 150,
-    y: 250,
-    value: 78.1,
-    labelFill: 'black',
-    backgroundFill: 'white',
+    style: { x: 150, y: 220, labelText: 78.1, position: 'bottom' },
     formatter: (val: any) => `${val}%`,
-    position: 'bottom',
+  });
+  createIndicator({
+    style: { x: 150, y: 250, labelText: 78.1, labelFill: 'black', backgroundFill: 'white', position: 'bottom' },
+    formatter: (val: any) => `${val}%`,
   });
   const indicator = createIndicator({
-    x: 150,
-    y: 290,
-    value: 78.1,
-    position: 'bottom',
-    labelFill: 'red',
+    style: { x: 150, y: 290, labelText: 78.1, position: 'bottom', labelFill: 'red' },
     formatter: (val: any) => {
       const g = new Group();
       g.appendChild(
@@ -212,9 +205,9 @@ export const IndicatorDemo = () => {
     },
   });
 
-  indicator.attr('value', '12345678');
+  indicator.update({ style: { labelText: '12345678' } });
 
-  const mi = createIndicator({ x: 250, y: 100, value: 0.5, position: 'bottom' });
+  const mi = createIndicator({ style: { x: 250, y: 100, labelText: 0.5, position: 'bottom' } });
 
   group.addEventListener('mousemove', (e: any) => {
     console.log(e.offset, e.canvas);

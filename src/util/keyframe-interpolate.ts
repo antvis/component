@@ -9,17 +9,15 @@ export function keyframeInterpolate<T extends Interpolatable>(
   options: GenericAnimation
 ) {
   if (!options) {
-    element.attr('__keyframe_data__', from);
+    element.attr('__keyframe_data__', to);
     return null;
   }
-
   const { duration = 0 } = options;
   const int = interpolate(from, to);
   const count = Math.ceil(+duration / 16);
   const keyframes = new Array(count)
     .fill(0)
     .map((datum, index, array) => ({ __keyframe_data__: int(index / (array.length - 1)) }));
-
   // @ts-ignore
-  return element.animate(keyframes, options);
+  return element.animate(keyframes, { fill: 'both', ...options });
 }

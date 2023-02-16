@@ -1,6 +1,6 @@
 import { Group } from '@antv/g';
 import { isFunction } from '@antv/util';
-import { GUI } from '../../core/gui';
+import { GUI, type RequiredStyleProps } from '../../core';
 import { select, ifShow } from '../../util';
 import {
   bowtie,
@@ -29,7 +29,7 @@ import { parseMarker } from './utils';
 
 export type { MarkerStyleProps, MarkerOptions, FunctionalSymbol };
 
-function getType(symbol: MarkerStyleProps['symbol']): string | null {
+function getType(symbol: MarkerStyleProps['style']['symbol']): string | null {
   const markerType = parseMarker(symbol);
 
   if (['base64', 'url', 'image'].includes(markerType)) {
@@ -43,10 +43,11 @@ function getType(symbol: MarkerStyleProps['symbol']): string | null {
 }
 
 export class Marker extends GUI<MarkerStyleProps> {
-  public render(attributes: MarkerStyleProps, container: Group) {
-    const { x, y, symbol, size = 16, class: className, ...style } = attributes as Required<MarkerStyleProps>;
+  public render(attributes: RequiredStyleProps<MarkerStyleProps>, container: Group) {
+    const {
+      style: { symbol, size = 16, ...style },
+    } = attributes;
     const type = getType(symbol);
-
     ifShow(!!type, select(container), (group) => {
       group
         .maybeAppendByClassName(`marker`, type!)
@@ -65,8 +66,7 @@ export class Marker extends GUI<MarkerStyleProps> {
           } else {
             const r = (size as number) / 2;
             const symbolFn = isFunction(symbol) ? symbol : Marker.getSymbol(symbol);
-            // @ts-ignore
-            selection.styles({ path: symbolFn?.(x, y, r), ...style });
+            selection.styles({ path: symbolFn?.(0, 0, r), ...style });
           }
         });
     });

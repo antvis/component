@@ -54,7 +54,7 @@ describe('Timeline CellAxis', () => {
       style: {
         x: 30,
         y: 60,
-        orient: 'vertical',
+        orientation: 'vertical',
         data: TIME_DATA,
         backgroundStyle: {
           fill: 'pink',

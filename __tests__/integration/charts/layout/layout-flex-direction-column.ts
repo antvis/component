@@ -17,7 +17,7 @@ export const LayoutFlexDirectionColumn = () => {
   );
 
   const colors = ['red', 'green', 'blue', 'yellow', 'pink', 'orange', 'purple', 'cyan', 'magenta', 'brown'];
-  new Array(10).fill(0).forEach((d, i) =>
+  new Array(10).fill(0).forEach((d: any, i: number) =>
     box.appendChild(
       new Rect({
         style: {

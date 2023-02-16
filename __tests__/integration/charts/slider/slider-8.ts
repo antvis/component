@@ -7,20 +7,24 @@ export const Slider8 = () => {
   group.appendChild(
     new Slider({
       style: {
-        x: 10,
-        y: 10,
-        trackLength: 300,
-        trackSize: 50,
-        values: [0, 0],
         showHandle: false,
-        sparklineType: 'line',
-        sparklineSmooth: false,
-        sparklineIsStack: true,
-        sparklineData: [
-          [10, 2, 3, 4, 15, 10, 5, 0, 3, 1],
-          [5, 7, 10, 3, 10, 6, 10, 1, 5, 0],
-          [1, 3, 4, 10, 15, 13, 3, 3, 10, 12],
-        ],
+        data: {
+          sparklineData: [
+            [10, 2, 3, 4, 15, 10, 5, 0, 3, 1],
+            [5, 7, 10, 3, 10, 6, 10, 1, 5, 0],
+            [1, 3, 4, 10, 15, 13, 3, 3, 10, 12],
+          ],
+        },
+        style: {
+          x: 10,
+          y: 10,
+          trackLength: 300,
+          trackSize: 50,
+          values: [0, 0],
+          sparklineType: 'line',
+          sparklineSmooth: false,
+          sparklineIsStack: true,
+        },
       },
     })
   );

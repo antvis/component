@@ -12,16 +12,17 @@ export const AxisLinearLabelAlign11 = () => {
   const axis = group.appendChild(
     new Axis({
       style: {
-        type: 'linear',
         data: data(12),
-        lineLineWidth: 5,
-        tickLineWidth: 5,
-        labelSpacing: 5,
         labelFormatter: (_: any, index: number) => new Text({ style: { text: '666' } }),
-        tickLength: 10,
-
-        startPos: [50, 50],
-        endPos: [500, 50],
+        style: {
+          type: 'linear',
+          lineLineWidth: 5,
+          tickLineWidth: 5,
+          labelSpacing: 5,
+          tickLength: 10,
+          startPos: [50, 50],
+          endPos: [500, 50],
+        },
       },
     })
   );

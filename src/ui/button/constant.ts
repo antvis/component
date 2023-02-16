@@ -3,40 +3,22 @@
  */
 export const SIZE_STYLE = {
   small: {
-    textStyle: {
-      fontSize: 10,
-    },
-    buttonStyle: {
-      width: 40,
-      height: 20,
-    },
-    markerStyle: {
-      size: 8,
-    },
+    textFontSize: 10,
+    buttonWidth: 40,
+    buttonHeight: 20,
+    markerSize: 8,
   },
   middle: {
-    textStyle: {
-      fontSize: 12,
-    },
-    buttonStyle: {
-      width: 60,
-      height: 30,
-    },
-    markerStyle: {
-      size: 12,
-    },
+    textFontSize: 12,
+    buttonWidth: 60,
+    buttonHeight: 30,
+    markerSize: 12,
   },
   large: {
-    textStyle: {
-      fontSize: 16,
-    },
-    buttonStyle: {
-      width: 80,
-      height: 40,
-    },
-    markerStyle: {
-      size: 16,
-    },
+    textFontSize: 16,
+    buttonWidth: 80,
+    buttonHeight: 40,
+    markerSize: 16,
   },
 };
 
@@ -45,69 +27,36 @@ export const SIZE_STYLE = {
  */
 export const TYPE_STYLE = {
   primary: {
-    textStyle: {
-      default: { fill: '#fff' },
-      active: {},
+    default: { textFill: '#fff', buttonFill: '#1890ff', buttonLineWidth: 0, markerFill: '#1890ff' },
+    active: {
+      buttonFill: '#40a9ff',
+      markerFill: '#40a9ff',
     },
-    buttonStyle: {
-      default: { fill: '#1890ff', lineWidth: 0 },
-      active: { fill: '#40a9ff' },
-    },
-    markerStyle: {
-      default: { fill: '#1890ff' },
-      active: { fill: '#40a9ff' },
-    },
+    disabled: {},
   },
   dashed: {
-    textStyle: {
-      default: {},
-      active: {},
+    default: {
+      buttonFill: 'transparent',
+      buttonStroke: '#bbb',
+      buttonLineDash: [5, 5],
     },
-    buttonStyle: {
-      default: { fill: 'transparent', stroke: '#bbb', lineDash: [5, 5] },
-      active: {},
-    },
-    markerStyle: {},
+    active: {},
+    disabled: {},
   },
   link: {
-    textStyle: {
-      default: { fill: '#1890ff' },
-      active: {},
-    },
-    buttonStyle: {
-      default: { fill: 'transparent', lineWidth: 0 },
-      active: {},
-    },
-    markerStyle: {
-      default: { fill: '#1890ff' },
-    },
+    default: { textFill: '#1890ff', buttonFill: 'transparent', buttonLineWidth: 0, markerFill: '#1890ff' },
+    active: {},
+    disabled: {},
   },
   text: {
-    textStyle: {
-      default: { fill: '#000' },
-      active: {},
-    },
-    buttonStyle: {
-      default: { fill: 'transparent', lineWidth: 0 },
-      active: {},
-    },
-    markerStyle: {
-      default: { stroke: '#000' },
-    },
+    default: { textFill: '#000', buttonFill: 'transparent', buttonLineWidth: 0, markerFill: '#000' },
+    active: {},
+    disabled: {},
   },
   default: {
-    textStyle: {
-      default: { fill: '#000' },
-      active: { fill: '#1890ff' },
-    },
-    buttonStyle: {
-      default: { fill: 'transparent', stroke: '#bbb' },
-      active: { stroke: '#1890ff' },
-    },
-    markerStyle: {
-      default: { stroke: '#bbb', lineWidth: 1 },
-      active: { stroke: '#1890ff' },
-    },
+    default: { textFill: '#000', buttonFill: 'transparent', buttonStroke: '#bbb', markerFill: '#bbb' },
+    active: { textFill: '#1890ff', buttonStroke: '#1890ff', markerStroke: '#1890ff' },
+    disabled: {},
   },
 };
 
@@ -117,18 +66,9 @@ export const TYPE_STYLE = {
 export const DISABLED_STYLE = {
   // 严格需要替换的样式
   strict: {
-    textStyle: {
-      fill: '#b8b8b8',
-    },
-    buttonStyle: {},
-    markerStyle: {},
+    textFill: '#b8b8b8',
   },
-  textStyle: {},
-  buttonStyle: {
-    stroke: '#d9d9d9',
-    fill: '#f5f5f5',
-  },
-  markerStyle: {
-    stroke: '#d9d9d9',
-  },
+  buttonStroke: '#d9d9d9',
+  buttonFill: '#f5f5f5',
+  markerStroke: '#d9d9d9',
 };

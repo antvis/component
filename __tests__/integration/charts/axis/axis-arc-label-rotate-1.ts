@@ -10,14 +10,17 @@ export const AxisArcLabelRotate1 = () => {
   group.appendChild(
     new Axis({
       style: {
-        type: 'arc',
-        radius: 80,
         data: data(10),
-        lineLineWidth: 5,
-        tickLength: 10,
-        labelSpacing: 15,
-        angleRange: [-90, 270],
-        center: [150, 150],
+        style: {
+          type: 'arc',
+          radius: 80,
+          lineLineWidth: 5,
+          tickLength: 10,
+          labelSpacing: 15,
+          startAngle: -90,
+          endAngle: 270,
+          center: [150, 150],
+        },
       },
     })
   );

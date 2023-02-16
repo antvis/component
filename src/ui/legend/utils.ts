@@ -68,7 +68,7 @@ Marker.registerSymbol('hiddenHandle', hiddenHandle);
 Marker.registerSymbol('verticalHandle', verticalHandle);
 Marker.registerSymbol('horizontalHandle', horizontalHandle);
 
-export const ifH = (orient = 'horizontal', a: any, b: any) => (orient === 'horizontal' ? a : b);
+export const ifH = (orientation = 'horizontal', a: any, b: any) => (orientation === 'horizontal' ? a : b);
 
 // 具体逻辑还没看，@chushen
 export function getSafetySelections(
@@ -108,6 +108,6 @@ export function getSafetySelections(
   return [toPrecision(startVal, precision), toPrecision(endVal, precision)];
 }
 
-export function ifHorizontal<T>(orient: string = 'horizontal', a: T, b: T): T {
-  return orient === 'horizontal' ? a : b;
+export function ifHorizontal<T>(orientation: string = 'horizontal', a: T, b: T): T {
+  return orientation === 'horizontal' ? a : b;
 }

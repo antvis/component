@@ -20,7 +20,7 @@
 //   width: 500,
 //   height: 40,
 //   selection: [0, 0],
-//   orient: 'horizontal',
+//   orientation: 'horizontal',
 //   singleModeControl: {
 //     width: 56,
 //     size: 12,

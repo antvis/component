@@ -12,23 +12,25 @@ export const CategoryItem5 = () => {
   group.appendChild(
     new CategoryItem({
       style: {
-        label: 'label',
-        spacing: [5, 5],
-        markerFill: 'orange',
-        labelFill: 'red',
-        valueFill: 'green',
-        backgroundFill: '#f7f7f7',
-        marker: () =>
-          new Rect({
-            style: {
-              x: -5,
-              y: -5,
-              width: 10,
-              height: 10,
-              transformOrigin: 'center',
-              transform: 'rotate(45)',
-            },
-          }),
+        style: {
+          label: 'label',
+          spacing: [5, 5],
+          markerFill: 'orange',
+          labelFill: 'red',
+          valueFill: 'green',
+          backgroundFill: '#f7f7f7',
+          marker: () =>
+            new Rect({
+              style: {
+                x: -5,
+                y: -5,
+                width: 10,
+                height: 10,
+                transformOrigin: 'center',
+                transform: 'rotate(45)',
+              },
+            }),
+        },
       },
     })
   );

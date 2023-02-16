@@ -39,7 +39,9 @@ export const NavigatorStyle = () => {
   const nav = group.appendChild(
     new Navigator({
       style: {
-        loop: true,
+        style: {
+          loop: true,
+        },
       },
     })
   );
@@ -48,7 +50,7 @@ export const NavigatorStyle = () => {
     nav.getContainer().appendChild(page);
   });
 
-  nav.update({ buttonFillOpacity: 0.5 });
+  nav.update({ style: { buttonFillOpacity: 0.5 } });
 
   return group;
 };

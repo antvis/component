@@ -10,17 +10,20 @@ export const AxisArc = () => {
   group.appendChild(
     new Axis({
       style: {
-        type: 'arc',
-        radius: 80,
-        angleRange: [-90, 270],
-        center: [150, 150],
-        title: '极坐标系',
-        titleSpacing: 10,
         data: data(60),
-        lineLineWidth: 1,
-        tickLength: (d: any, i: number) => (i % 5 === 0 ? 10 : 5),
-        labelSpacing: 10,
         labelFormatter: (d: any, i: number) => (i % 5 === 0 ? i / 5 : ''),
+        style: {
+          type: 'arc',
+          radius: 80,
+          startAngle: -90,
+          endAngle: 270,
+          center: [150, 150],
+          titleText: '极坐标系',
+          titleSpacing: 10,
+          lineLineWidth: 1,
+          tickLength: (d: any, i: number) => (i % 5 === 0 ? 10 : 5),
+          labelSpacing: 10,
+        },
       },
     })
   );

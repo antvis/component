@@ -39,12 +39,14 @@ export const NavigatorOverPages = () => {
   const nav = group.appendChild(
     new Navigator({
       style: {
-        x: 100,
-        y: 100,
-        initPage: 3,
-        pageWidth: 100,
-        pageHeight: 100,
-        loop: true,
+        style: {
+          x: 100,
+          y: 100,
+          initPage: 3,
+          pageWidth: 100,
+          pageHeight: 100,
+          loop: true,
+        },
       },
     })
   );
@@ -55,13 +57,17 @@ export const NavigatorOverPages = () => {
 
   setTimeout(() => {
     nav.update({
-      initPage: 0,
+      style: {
+        initPage: 0,
+      },
     });
   }, 1000);
 
   setTimeout(() => {
     nav.update({
-      initPage: 4,
+      style: {
+        initPage: 4,
+      },
     });
   }, 2000);
 

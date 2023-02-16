@@ -17,7 +17,7 @@ describe.skip('CategoryItems', () => {
   it('new CategoryItems({..}) should draw a category items group.', () => {
     const group = new CategoryItems({
       style: {
-        orient: 'horizontal',
+        orientation: 'horizontal',
         items: ITEMS,
         maxWidth: 220,
         pageButtonSize: 10,
@@ -40,7 +40,7 @@ describe.skip('CategoryItems', () => {
     const group = new CategoryItems({
       style: {
         y: 50,
-        orient: 'vertical',
+        orientation: 'vertical',
         items: ITEMS,
         maxHeight: 116,
         pageTextStyle: { fill: 'red' },
@@ -59,16 +59,16 @@ describe.skip('CategoryItems', () => {
     group.update({ pageFormatter: (c: number, t: number) => `${c} // ${t}`, pageTextStyle: { fill: 'black' } });
     expect(group.querySelector('.page-info')!.style.text).toBe('1 // 3');
 
-    group.update({ orient: 'horizontal' });
+    group.update({ orientation: 'horizontal' });
     expect(buttonGroup.style.visibility).not.toBe('visible');
     group.destroy();
   });
 
-  it('new CategoryItems({..}) support autoWrap in horizontal orient.', () => {
+  it('new CategoryItems({..}) support autoWrap in horizontal orientation.', () => {
     const group = new CategoryItems({
       style: {
         y: 50,
-        orient: 'horizontal',
+        orientation: 'horizontal',
         items: ITEMS,
         maxHeight: 20,
         maxWidth: 320,
@@ -84,11 +84,11 @@ describe.skip('CategoryItems', () => {
     group.destroy();
   });
 
-  it('new CategoryItems({..}) do not support autoWrap in vertical orient.', () => {
+  it('new CategoryItems({..}) do not support autoWrap in vertical orientation.', () => {
     const group = new CategoryItems({
       style: {
         y: 140,
-        orient: 'vertical',
+        orientation: 'vertical',
         items: ITEMS,
         maxHeight: 116,
         maxWidth: 320,

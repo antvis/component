@@ -15,7 +15,7 @@ import { Scrollbar } from '@antv/gui';
 
 | **属性**   | **描述**             | **类型**                                            | **默认值** |
 | ---------- | -------------------- | --------------------------------------------------- | ---------- |
-| orient     | 方向                 | <code>horizontal &#124; vertical </code>            | `vertical` |
+| orientation     | 方向                 | <code>horizontal &#124; vertical </code>            | `vertical` |
 | width      | 宽度                 | <code>number</code>                                 | `[]`       |
 | height     | 高度                 | <code>number<code>                                  | `[]`       |
 | value      | 值                   | <code>number<code> ∈ [0, 1]                         | `0`        |

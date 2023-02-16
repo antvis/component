@@ -1,14 +1,20 @@
-import type { Group } from '@antv/g';
-import { parseAnimationOption, type GenericAnimation } from '../../animation';
-import { GUI } from '../../core/gui';
-import { deepAssign, filterTransform, ifShow, sampling, select, subObjects } from '../../util';
-import { AXIS_BASE_DEFAULT_CFG, CLASS_NAMES } from './constant';
-import { renderGrid } from './guides/axisGrid';
-import { renderLabels } from './guides/axisLabels';
-import { renderAxisLine } from './guides/axisLine';
-import { renderTicks } from './guides/axisTicks';
-import { renderTitle } from './guides/axisTitle';
-import type { ArcAxisStyleProps, AxisOptions, AxisStyleProps, LinearAxisStyleProps } from './types';
+import { Group } from '@antv/g';
+import {
+  parseAnimationOption,
+  type StandardAnimationOption,
+  type GenericAnimation,
+  type AnimationOption,
+  type AnimationResult,
+} from '../../animation';
+import { GUI, type RequiredStyleProps } from '../../core';
+import { ifShow, sampling, select, type Selection } from '../../util';
+import { AXIS_BASE_DEFAULT_ATTR, CLASS_NAMES } from './constant';
+import { renderGrid } from './guides/grid';
+import { renderLabels } from './guides/labels';
+import { renderAxisLine } from './guides/line';
+import { renderTicks } from './guides/ticks';
+import { renderTitle } from './guides/title';
+import type { AxisOptions, AxisStyleProps, AxisDatum } from './types';
 
 export type {
   ArcAxisOptions,
@@ -19,66 +25,50 @@ export type {
   LinearAxisStyleProps,
 } from './types';
 
-type RA = Required<AxisStyleProps>;
+function renderAxisMain(
+  attributes: RequiredStyleProps<AxisStyleProps>,
+  container: Selection,
+  data: AxisDatum[],
+  animation: StandardAnimationOption
+) {
+  const { showLine, showTick, showLabel } = attributes;
+  /** line */
+  const lineGroup = container.maybeAppendByClassName(CLASS_NAMES.lineGroup, 'g');
+  const lineTransitions =
+    ifShow(showLine!, lineGroup, (group) => {
+      return renderAxisLine(group, attributes, animation);
+    }) || [];
+
+  /** tick */
+  const tickGroup = container.maybeAppendByClassName(CLASS_NAMES.tickGroup, 'g');
+  const tickTransitions =
+    ifShow(showTick!, tickGroup, (group) => {
+      return renderTicks(group, data, attributes, animation);
+    }) || [];
+
+  /** label */
+  const labelGroup = container.maybeAppendByClassName(CLASS_NAMES.labelGroup, 'g');
+  const labelTransitions =
+    ifShow(showLabel!, labelGroup, (group) => {
+      return renderLabels(group, data, attributes, animation);
+    }) || [];
+
+  return [...lineTransitions, ...tickTransitions, ...labelTransitions].filter((t) => !!t);
+}
 
 export class Axis extends GUI<AxisStyleProps> {
   constructor(options: AxisOptions) {
-    super(deepAssign({}, AXIS_BASE_DEFAULT_CFG, options));
+    super(options, AXIS_BASE_DEFAULT_ATTR);
   }
 
-  render(attributes: AxisStyleProps, container: Group, specificAnimation?: GenericAnimation) {
+  render(attributes: RequiredStyleProps<AxisStyleProps>, container: Group, specificAnimation?: GenericAnimation) {
     const {
-      type,
       data,
-      class: className,
-      dataThreshold = 100,
-      crossSize,
       animate,
-      title,
       showTitle,
-      titleSpacing,
-      truncRange,
-      truncShape,
-      showLine,
-      lineExtension,
-      lineArrow,
-      lineArrowOffset,
-      lineArrowSize,
-      showTick,
-      tickDirection,
-      tickLength,
-      tickFilter,
-      tickFormatter,
-      showLabel,
-      labelAlign,
-      labelDirection,
-      labelSpacing,
-      labelFilter,
-      labelFormatter,
-      labelTransforms,
       showGrid,
-      gridFilter,
-      gridLength,
-      ...restCfg
-    } = filterTransform(attributes) as RA;
-
-    const restStyle = (() => {
-      if (type === 'linear') {
-        const { startPos, endPos, ...rest } = restCfg as LinearAxisStyleProps;
-        return rest;
-      }
-      const { angleRange, radius, center, ...rest } = restCfg as ArcAxisStyleProps;
-      return rest;
-    })();
-
-    const [titleStyle, lineStyle, tickStyle, labelStyle, gridStyle] = subObjects(restStyle, [
-      'title',
-      'line',
-      'tick',
-      'label',
-      'grid',
-    ]);
-
+      style: { dataThreshold, truncRange },
+    } = attributes;
     const sampledData = sampling(data, dataThreshold).filter(({ value }) => {
       if (truncRange && value > truncRange[0] && value < truncRange[1]) return false;
       return true;
@@ -87,40 +77,22 @@ export class Axis extends GUI<AxisStyleProps> {
     const finalAnimation = parseAnimationOption(specificAnimation === undefined ? animate : specificAnimation);
 
     /** grid */
-    const axisGridGroup = select(container).maybeAppendByClassName(CLASS_NAMES.gridGroup, 'g');
-    ifShow(showGrid!, axisGridGroup, (group) => renderGrid(group, sampledData, attributes, gridStyle, finalAnimation));
+    const gridGroup = select(container).maybeAppendByClassName(CLASS_NAMES.gridGroup, 'g');
+    ifShow(showGrid!, gridGroup, (group) => renderGrid(group, sampledData, attributes, finalAnimation));
 
     /** main group */
-    const axisMainGroup = select(container).maybeAppendByClassName(CLASS_NAMES.mainGroup, 'g');
+    const mainGroup = select(container).maybeAppendByClassName(CLASS_NAMES.mainGroup, 'g');
 
-    /** line */
-    const axisLineGroup = axisMainGroup.maybeAppendByClassName(CLASS_NAMES.lineGroup, 'g');
-    const lineTransitions =
-      ifShow(showLine!, axisLineGroup, (group) => {
-        return renderAxisLine(group, attributes, lineStyle, finalAnimation);
-      }) || [];
-
-    /** tick */
-    const axisTickGroup = axisMainGroup.maybeAppendByClassName(CLASS_NAMES.tickGroup, 'g');
-    const tickTransitions =
-      ifShow(showTick!, axisTickGroup, (group) => {
-        return renderTicks(group, sampledData, attributes, tickStyle, finalAnimation);
-      }) || [];
-
-    /** label */
-    const axisLabelGroup = axisMainGroup.maybeAppendByClassName(CLASS_NAMES.labelGroup, 'g');
-
-    const labelTransitions =
-      ifShow(showLabel!, axisLabelGroup, (group) => {
-        return renderLabels(group, sampledData, attributes, labelStyle, finalAnimation);
-      }) || [];
-
+    renderAxisMain(attributes, select(this.offscreenGroup), sampledData, parseAnimationOption(false));
+    // render
+    const mainTransitions = renderAxisMain(attributes, select(mainGroup.node()), sampledData, finalAnimation);
     /** title */
-    const axisTitleGroup = select(container).maybeAppendByClassName(CLASS_NAMES.titleGroup, 'g');
-    const titleTransition = ifShow(showTitle, axisTitleGroup, (group) => {
-      return renderTitle(group, select(container), attributes, titleStyle, finalAnimation);
-    });
+    const titleGroup = select(container).maybeAppendByClassName(CLASS_NAMES.titleGroup, 'g');
+    const titleTransitions =
+      ifShow(showTitle, titleGroup, (group) => {
+        return renderTitle(group, this, attributes, finalAnimation);
+      }) || [];
 
-    return [...lineTransitions, ...tickTransitions, ...labelTransitions, titleTransition].filter((t) => !!t);
+    return [...mainTransitions, ...titleTransitions].filter((t) => !!t);
   }
 }

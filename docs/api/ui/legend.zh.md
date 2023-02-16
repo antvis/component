@@ -19,7 +19,7 @@ import { Category, Continuous } from '@antv/gui';
 | **属性名**      | **类型**                                | **描述**       | **默认值**     |
 | --------------- | --------------------------------------- | -------------- | -------------- |
 | padding         | <code>number \| number []</code>        | 内边距         | `10`           |
-| orient          | <code>'horizontal' \| 'vertical'</code> | 横向、纵向模式 | `'horizontal'` |
+| orientation          | <code>'horizontal' \| 'vertical'</code> | 横向、纵向模式 | `'horizontal'` |
 | backgroundStyle | <code>MixAttrs</code>                   | 图例背景样式   | `[]`           |
 | title           | <code>TitleCfg</code>                   | 图例标题配置   | `[]`           |
 | type            | <code>'category' \| 'continuous'</code> | 高度           | `[]`           |

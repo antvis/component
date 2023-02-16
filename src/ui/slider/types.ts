@@ -1,32 +1,41 @@
 import { GroupStyleProps, RectStyleProps } from '@antv/g';
-import type { DisplayObjectConfig, PrefixedStyle } from '../../types';
+import type { ComponentOptions, PrefixStyleProps } from '../../core';
+import type { Merge, MergeMultiple, PrefixObject } from '../../types';
 import type { SeriesAttr } from '../../util/series';
 import type { SparklineStyleProps } from '../sparkline/types';
 import type { HandleStyleProps as HandleBaseStyleProps } from './handle';
 
-export interface HandleStyleProps extends PrefixedStyle<HandleBaseStyleProps, 'handle'> {
-  /**  是否显示Handle */
-  showHandle?: boolean;
-  /** 是否显示文本 */
-  showLabel?: boolean;
-  /** 文本格式化 */
-  formatter?: (value: number) => string;
-}
+export type HandleStyleProps = Merge<
+  PrefixStyleProps<HandleBaseStyleProps, 'handle'>,
+  {
+    /**  是否显示Handle */
+    showHandle?: boolean;
+    /** 是否显示文本 */
+    showLabel?: boolean;
+    /** 文本格式化 */
+    formatter?: (value: number) => string;
+  }
+>;
 
-export interface SliderStyleProps
-  extends GroupStyleProps,
-    PrefixedStyle<Omit<SparklineStyleProps, 'width' | 'height'> & { padding?: SeriesAttr }, 'sparkline'>,
-    PrefixedStyle<RectStyleProps, 'track'>,
-    PrefixedStyle<RectStyleProps, 'selection'>,
-    HandleStyleProps {
-  orient?: 'vertical' | 'horizontal';
-  trackLength?: number;
-  trackSize?: number;
-  slidable?: boolean;
-  brushable?: boolean;
-  scrollable?: boolean;
-  values?: [number, number];
-  padding?: SeriesAttr;
-}
+export type SliderStyleProps = MergeMultiple<
+  [
+    HandleStyleProps,
+    PrefixStyleProps<Omit<SparklineStyleProps, 'width' | 'height'> & { padding?: SeriesAttr }, 'sparkline'>,
+    {
+      style: GroupStyleProps &
+        PrefixObject<RectStyleProps, 'track'> &
+        PrefixObject<RectStyleProps, 'selection'> & {
+          orientation?: 'vertical' | 'horizontal';
+          trackLength?: number;
+          trackSize?: number;
+          slidable?: boolean;
+          brushable?: boolean;
+          scrollable?: boolean;
+          padding?: SeriesAttr;
+          values?: [number, number];
+        };
+    }
+  ]
+>;
 
-export type SliderOptions = DisplayObjectConfig<SliderStyleProps>;
+export type SliderOptions = ComponentOptions<SliderStyleProps>;

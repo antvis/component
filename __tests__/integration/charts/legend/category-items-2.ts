@@ -13,23 +13,29 @@ export const CategoryItems2 = () => {
   const items = group.appendChild(
     new CategoryItems({
       style: {
-        width,
-        height,
-        gridRow,
-        gridCol,
-        layout: 'grid',
-        orient: 'vertical',
         data: createItemData(20),
-        itemLabelFill: 'red',
-        itemValueFill: 'green',
-        colPadding: 10,
-        rowPadding: 5,
-        itemMarkerFill: (_: any, index: number) => colors[index % colors.length],
+        style: {
+          width,
+          height,
+          gridRow,
+          gridCol,
+          layout: 'grid',
+          orientation: 'vertical',
+          itemLabelFill: 'red',
+          itemValueFill: 'green',
+          colPadding: 10,
+          rowPadding: 5,
+          itemMarkerFill: (_: any, index: number) => colors[index % colors.length],
+        },
       },
     })
   );
 
-  items.attr('itemMarkerFill', (d: any, i: number) => (i % 2 === 0 ? 'pink' : 'purple'));
+  items.update({
+    style: {
+      itemMarkerFill: (d: any, i: number) => (i % 2 === 0 ? 'pink' : 'purple'),
+    },
+  });
 
   return group;
 };

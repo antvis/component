@@ -16,24 +16,26 @@ export const AxisAnimationUpdate9 = () => {
       style: {
         animate: { duration: process.env.NODE_ENV === 'test' ? 100 : 1000 },
         data: data(12),
-        endPos: [150, 50],
-        gridAreaFill: 'lightgreen',
-        gridLength: 40,
-        gridStroke: 'red',
-        labelDirection: 'negative',
-        labelSpacing: 10,
-        labelTransform: 'rotate(0)',
-        lineExtension: [10, 10],
         showGrid: true,
-        startPos: [150, 500],
-        tickLength: 5,
-        title: 'title',
-        titleFill: 'red',
-        titleFontSize: 16,
-        titleFontWeight: 'bold',
-        titlePosition: 'l',
-        titleSpacing: 10,
-        type: 'linear',
+        style: {
+          endPos: [150, 50],
+          gridAreaFill: 'lightgreen',
+          gridLength: 40,
+          gridStroke: 'red',
+          labelDirection: 'negative',
+          labelSpacing: 10,
+          labelTransform: 'rotate(0)',
+          lineExtension: [10, 10],
+          startPos: [150, 500],
+          tickLength: 5,
+          titleText: 'title',
+          titleFill: 'red',
+          titleFontSize: 16,
+          titleFontWeight: 'bold',
+          titlePosition: 'l',
+          titleSpacing: 10,
+          type: 'linear',
+        },
       },
     })
   );
@@ -49,10 +51,12 @@ export const AxisAnimationUpdate9 = () => {
   group.appendChild(
     new Button({
       style: {
-        x: 250,
-        y: 100,
-        text: 'update',
-        onClick: update,
+        style: {
+          x: 250,
+          y: 100,
+          text: 'update',
+          onClick: update,
+        },
       },
     })
   );
@@ -60,10 +64,12 @@ export const AxisAnimationUpdate9 = () => {
   group.appendChild(
     new Button({
       style: {
-        x: 250,
-        y: 150,
-        text: 'reset',
-        onClick: reset,
+        style: {
+          x: 250,
+          y: 150,
+          text: 'reset',
+          onClick: reset,
+        },
       },
     })
   );

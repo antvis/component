@@ -1,21 +1,24 @@
-import type { DisplayObjectConfig, LineStyleProps } from '@antv/g';
-import type { Point } from '../../types';
+import type { LineStyleProps } from '@antv/g';
 import type { StandardAnimationOption } from '../../animation';
+import type { ComponentOptions } from '../../core';
+import type { Point } from '../../types';
 
 export type GridStyle = LineStyleProps;
 
-export type GridStyleProps = GridStyle & {
+export type GridStyleProps = {
   animate: StandardAnimationOption;
-  items: Array<{ id: string | number; points: Point[] }>;
-  /** the connect way of two lines, if arc, center is necessary */
-  type?: 'segment' | 'surround';
-  connect?: 'line' | 'arc';
-  // If type is 'circle', should specify the center.
-  center?: Point;
-  // If type is 'circle', determine whether to close path.
-  closed?: boolean;
-  /** FillColors between lines. */
-  areaFill?: string | string[] | null;
+  data: { id: string | number; points: Point[] }[];
+  style: GridStyle & {
+    /** the connect way of two lines, if arc, center is necessary */
+    type?: 'segment' | 'surround';
+    connect?: 'line' | 'arc';
+    // If type is 'circle', should specify the center.
+    center?: Point;
+    // If type is 'circle', determine whether to close path.
+    closed?: boolean;
+    /** FillColors between lines. */
+    areaFill?: string | string[] | null;
+  };
 };
 
-export type GridOptions = DisplayObjectConfig<GridStyleProps>;
+export type GridOptions = ComponentOptions<GridStyleProps>;

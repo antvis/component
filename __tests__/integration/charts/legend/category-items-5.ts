@@ -7,13 +7,15 @@ export const CategoryItems5 = () => {
   group.appendChild(
     new CategoryItems({
       style: {
-        width: 555,
-        height: 50,
-        layout: 'grid',
-        orient: 'horizontal',
-        gridRow: 2,
-        gridCol: 8,
-        itemMarkerFill: '#d3d2d3',
+        style: {
+          width: 555,
+          height: 50,
+          layout: 'grid',
+          orientation: 'horizontal',
+          gridRow: 2,
+          gridCol: 8,
+          itemMarkerFill: '#d3d2d3',
+        },
         data: createItemData(20).map(({ value, ...rest }) => ({ ...rest })),
       },
     })

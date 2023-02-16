@@ -1,8 +1,8 @@
 import type { Group } from '@antv/g';
-import { fadeOut } from '../../animation';
-import { GUI } from '../../core/gui';
+import { fadeOut, transition } from '../../animation';
+import { GUI } from '../../core';
 import type { Point } from '../../types';
-import { classNames, distance, getCallbackValue, select, transition, type Selection } from '../../util';
+import { classNames, distance, getCallbackValue, select, type Selection } from '../../util';
 import type { GridOptions, GridStyle, GridStyleProps } from './types';
 
 export type { GridStyleProps, GridOptions };
@@ -21,8 +21,8 @@ function renderStraight(points: Point[]) {
   return points.reduce((acc, curr, idx) => `${acc}${idx === 0 ? 'M' : ' L'}${curr[0]},${curr[1]}`, '');
 }
 
-function renderSurround(points: Point[], cfg: GridStyleProps, reversed?: boolean) {
-  const { connect = 'line', center } = cfg;
+function renderSurround(points: Point[], attr: GridStyleProps, reversed?: boolean) {
+  const { connect = 'line', center } = attr.style;
   if (connect === 'line') return renderStraight(points);
   if (!center) return '';
   const radius = distance(points[0], center);
@@ -34,12 +34,12 @@ function renderSurround(points: Point[], cfg: GridStyleProps, reversed?: boolean
 }
 
 function getLinePath(points: Point[], cfg: GridStyleProps, reversed?: boolean) {
-  if (cfg.type === 'surround') return renderSurround(points, cfg, reversed);
+  if (cfg.style.type === 'surround') return renderSurround(points, cfg, reversed);
   return renderStraight(points);
 }
 
 function connectPaths(from: Point[], to: Point[], cfg: GridStyleProps) {
-  const { type, connect, center, closed } = cfg;
+  const { type, connect, center, closed } = cfg.style;
   const closeFlag = closed ? ' Z' : '';
   const [path1, path2] = [getLinePath(from, cfg), getLinePath(to.slice().reverse(), cfg, true)];
   const [startOfFrom, endOfTo] = [from[0], to.slice(-1)[0]];
@@ -57,14 +57,14 @@ function connectPaths(from: Point[], to: Point[], cfg: GridStyleProps) {
 
 function renderGridLine(
   container: Selection<Group>,
-  items: GridStyleProps['items'],
-  cfg: GridStyleProps,
+  data: GridStyleProps['data'],
+  attr: GridStyleProps,
   style: GridStyle
 ) {
-  const { animate } = cfg;
-  const lines = items.map((item, idx) => ({
+  const { animate } = attr;
+  const lines = data.map((item, idx) => ({
     id: item.id || `grid-line-${idx}`,
-    path: getLinePath(item.points, cfg),
+    path: getLinePath(item.points, attr),
   }));
   container
     .selectAll(CLASS_NAMES.line.class)
@@ -96,15 +96,18 @@ function renderGridLine(
     );
 }
 
-function renderAlternateRegion(container: Selection<Group>, items: GridStyleProps['items'], cfg: GridStyleProps) {
-  const { animate, type, center, connect, areaFill, closed } = cfg;
-  if (items.length < 2 || !areaFill || !connect) return;
+function renderAlternateRegion(container: Selection<Group>, data: GridStyleProps['data'], cfg: GridStyleProps) {
+  const {
+    animate,
+    style: { connect, areaFill },
+  } = cfg;
+  if (data.length < 2 || !areaFill || !connect) return;
   const colors: string[] = Array.isArray(areaFill) ? areaFill : [areaFill, 'transparent'];
   const getColor = (idx: number) => colors[idx % colors.length];
 
   const regions: any[] = [];
-  for (let idx = 0; idx < items.length - 1; idx++) {
-    const [prev, curr] = [items[idx].points, items[idx + 1].points];
+  for (let idx = 0; idx < data.length - 1; idx++) {
+    const [prev, curr] = [data[idx].points, data[idx + 1].points];
     const path = connectPaths(prev, curr, cfg);
     regions.push({ path, fill: getColor(idx) });
   }
@@ -134,12 +137,12 @@ function renderAlternateRegion(container: Selection<Group>, items: GridStyleProp
     );
 }
 
-function dataFormatter(data: GridStyleProps['items'], cfg: GridStyleProps) {
-  const { closed } = cfg;
+function dataFormatter(data: GridStyleProps['data'], cfg: GridStyleProps) {
+  const { closed } = cfg.style;
   if (!closed) return data;
   return data.map((datum) => {
     const { points } = datum;
-    const [start, ...rest] = points;
+    const [start] = points;
     return { ...datum, points: [...points, start] };
   });
 }
@@ -147,11 +150,14 @@ function dataFormatter(data: GridStyleProps['items'], cfg: GridStyleProps) {
 export class Grid extends GUI<GridStyleProps> {
   render(attributes: GridStyleProps, container: Group) {
     // @ts-ignore do no passBy className
-    const { class: className, items = [], animate, type, center, areaFill, closed, ...style } = attributes;
-    const data = dataFormatter(items, attributes);
+    const {
+      data = [],
+      style: { type, center, areaFill, closed, ...style },
+    } = attributes;
+    const finalData = dataFormatter(data, attributes);
     const lineGroup = select(container).maybeAppendByClassName(CLASS_NAMES.lineGroup, 'g');
     const regionGroup = select(container).maybeAppendByClassName(CLASS_NAMES.regionGroup, 'g');
-    renderGridLine(lineGroup, data, attributes, style);
-    renderAlternateRegion(regionGroup, data, attributes);
+    renderGridLine(lineGroup, finalData, attributes, style);
+    renderAlternateRegion(regionGroup, finalData, attributes);
   }
 }

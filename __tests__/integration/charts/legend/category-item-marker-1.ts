@@ -13,32 +13,34 @@ export const CategoryItemMarker1 = () => {
   group.appendChild(
     new Category({
       style: {
-        layout: 'flex',
-        height: 40,
         data: flowItemData,
-        titleText: 'Legend Title',
-        width: 1000,
-        itemMarker: (d, i) =>
-          i % 2 === 0
-            ? () =>
-                new Rect({
-                  style: {
-                    x: -5,
-                    y: -5,
-                    width: 10,
-                    height: 10,
-                    transformOrigin: 'center',
-                    transform: 'rotate(45)',
-                  },
-                })
-            : () =>
-                new Circle({
-                  style: {
-                    r: 5,
-                  },
-                }),
-        itemMarkerFill: (_: any, i: number) => colors[i % colors.length],
-        itemValue: '',
+        style: {
+          layout: 'flex',
+          height: 40,
+          titleText: 'Legend Title',
+          width: 1000,
+          itemMarker: (d: any, i: number) =>
+            i % 2 === 0
+              ? () =>
+                  new Rect({
+                    style: {
+                      x: -5,
+                      y: -5,
+                      width: 10,
+                      height: 10,
+                      transformOrigin: 'center',
+                      transform: 'rotate(45)',
+                    },
+                  })
+              : () =>
+                  new Circle({
+                    style: {
+                      r: 5,
+                    },
+                  }),
+          itemMarkerFill: (_: any, i: number) => colors[i % colors.length],
+          itemValue: '',
+        },
       },
     })
   );

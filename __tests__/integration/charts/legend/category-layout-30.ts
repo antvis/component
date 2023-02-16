@@ -13,14 +13,16 @@ export const CategoryLayout30 = () => {
   group.appendChild(
     new Category({
       style: {
-        layout: 'flex',
-        width: 200,
-        height: 300,
-        gridRow: 5,
-        gridCol: 1,
         data: flowItemData,
-        titleText: 'Legend Title',
-        itemMarkerFill: (_: any, i: number) => colors[i % colors.length],
+        style: {
+          layout: 'flex',
+          width: 200,
+          height: 300,
+          gridRow: 5,
+          gridCol: 1,
+          titleText: 'Legend Title',
+          itemMarkerFill: (_: any, i: number) => colors[i % colors.length],
+        },
       },
     })
   );

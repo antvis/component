@@ -1,16 +1,16 @@
 import { ElementEvent, Group } from '@antv/g';
-import { GUI } from '../../core/gui';
+import { GUI, type RequiredStyleProps } from '../../core';
 import type { Point } from '../../types';
 import {
   classNames,
   deepAssign,
   isHorizontal,
-  normalSeriesAttr,
+  parseSeriesAttr,
   renderExtDo,
   select,
   Selection,
   styleSeparator,
-  subObject,
+  subStyleProps,
   TEXT_INHERITABLE_PROPS,
 } from '../../util';
 import { DEFAULT_INDICATOR_CFG } from './constant';
@@ -20,8 +20,6 @@ export { IndicatorOptions, IndicatorStyleProps };
 
 type Edge = [Point, Point];
 
-type RT = Required<IndicatorStyleProps>;
-
 const CLASS_NAMES = classNames(
   {
     background: 'background',
@@ -30,9 +28,9 @@ const CLASS_NAMES = classNames(
   },
   'indicator'
 );
-export class Indicator<T = any> extends GUI<IndicatorStyleProps<T>> {
+export class Indicator extends GUI<RequiredStyleProps<IndicatorStyleProps>> {
   constructor(options: IndicatorOptions) {
-    super(deepAssign({}, { style: { visibility: 'hidden', ...DEFAULT_INDICATOR_CFG } }, options));
+    super(options, deepAssign({}, DEFAULT_INDICATOR_CFG, { style: { visibility: 'hidden' } }));
     this.group = this.appendChild(new Group({}));
     this.isMutationObserved = true;
   }
@@ -47,8 +45,10 @@ export class Indicator<T = any> extends GUI<IndicatorStyleProps<T>> {
 
   private renderBackground() {
     if (!this.label) return;
-    const { position, padding } = this.style as RT;
-    const [t, r, b, l] = normalSeriesAttr(padding);
+    const {
+      style: { position, padding },
+    } = this.attributes;
+    const [t, r, b, l] = parseSeriesAttr(padding);
     const { min, max } = this.label.node().getLocalBounds();
 
     const points: Edge = [
@@ -56,22 +56,29 @@ export class Indicator<T = any> extends GUI<IndicatorStyleProps<T>> {
       [max[0] + r, max[1] + b],
     ];
     const path = this.getPath(position, points);
-    const backgroundStyle = subObject(this.attributes, 'background');
+
+    const { style } = subStyleProps(this.attributes, 'background');
+
     this.background = select(this.group)
       .maybeAppendByClassName(CLASS_NAMES.background, 'path')
-      .styles({ ...backgroundStyle, path });
+      .styles({ ...style, path });
     this.group.appendChild(this.label.node());
   }
 
   private renderLabel() {
-    const { value, formatter } = this.attributes as RT;
-    const labelStyle = subObject(this.attributes, 'label');
-    const [textStyle, groupStyle] = styleSeparator(labelStyle);
+    const {
+      formatter,
+      style: { labelText },
+    } = this.attributes;
+
+    const { style } = subStyleProps(this.attributes, 'label');
+    const [{ text: rawText, ...textStyle }, groupStyle] = styleSeparator(style);
+
     this.label = select(this.group).maybeAppendByClassName(CLASS_NAMES.labelGroup, 'g').styles(groupStyle);
-    if (!value) return;
+    if (!labelText) return;
     const text = this.label
-      .maybeAppendByClassName(CLASS_NAMES.label, () => renderExtDo(formatter(value)))
-      .style('text', formatter(value).toString());
+      .maybeAppendByClassName(CLASS_NAMES.label, () => renderExtDo(formatter(labelText)))
+      .style('text', formatter(labelText).toString());
     text.selectAll('text').styles({ ...TEXT_INHERITABLE_PROPS, ...textStyle });
   }
 

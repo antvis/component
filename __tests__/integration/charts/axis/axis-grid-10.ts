@@ -13,24 +13,25 @@ export const AxisGrid10 = () => {
   group.appendChild(
     new Axis({
       style: {
-        type: 'linear',
-        startPos: [150, 50],
-        endPos: [150, 200],
         data: data(5),
         showLine: false,
         showTick: false,
         showLabel: false,
-        gridDirection: 'negative',
-        gridType: 'surround',
-        gridConnect: 'arc',
-        gridCenter: [150, 200],
-        gridClosed: false,
-        gridLineWidth: 1,
-        gridStroke: 'rgba(0,0,0,0.5)',
-        gridControlAngles: [0, 180, 270],
-
-        tickLength: 10,
-        labelSpacing: 10,
+        style: {
+          type: 'linear',
+          startPos: [150, 50],
+          endPos: [150, 200],
+          gridDirection: 'negative',
+          gridType: 'surround',
+          gridConnect: 'arc',
+          gridCenter: [150, 200],
+          gridClosed: false,
+          gridLineWidth: 1,
+          gridStroke: 'rgba(0,0,0,0.5)',
+          gridControlAngles: [0, 180, 270],
+          tickLength: 10,
+          labelSpacing: 10,
+        },
       },
     })
   );

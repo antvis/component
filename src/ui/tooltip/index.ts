@@ -1,52 +1,15 @@
-import { Group } from '@antv/g';
-import { deepMix, substitute, isString, isElement } from '@antv/util';
 import { createDom } from '@antv/dom-util';
-import { GUI } from '../../core/gui';
-import { applyStyleSheet, parseHTML, throttle, ifShow } from '../../util';
+import { Group } from '@antv/g';
+import { isElement, isString, substitute } from '@antv/util';
+import { GUI, type RequiredStyleProps } from '../../core';
+import { applyStyleSheet, parseHTML, throttle } from '../../util';
 import { CLASS_NAME, TOOLTIP_STYLE } from './constant';
-import type { TooltipCfg, TooltipOptions, TooltipItem, TooltipPosition } from './types';
+import type { TooltipItem, TooltipOptions, TooltipPosition, TooltipStyleProps } from './types';
 
-export type { TooltipCfg, TooltipOptions };
+export type { TooltipStyleProps as TooltipCfg, TooltipOptions };
 
-export class Tooltip extends GUI<Required<TooltipCfg>> {
+export class Tooltip extends GUI<RequiredStyleProps<TooltipStyleProps>> {
   public static tag = 'tooltip';
-
-  private static defaultOptions = {
-    style: {
-      x: 0,
-      y: 0,
-      visibility: 'visible',
-      title: '',
-      position: 'bottom-right',
-      offset: [5, 5],
-      follow: true,
-      enterable: false,
-      autoPosition: true,
-      items: [],
-      container: {
-        x: 0,
-        y: 0,
-      },
-      bounding: {
-        x: 0,
-        y: 0,
-        width: 0,
-        height: 0,
-      },
-      template: {
-        container: `<div class="${CLASS_NAME.CONTAINER}"></div>`,
-        title: `<div class="${CLASS_NAME.TITLE}"></div>`,
-        item: `<li class="${CLASS_NAME.LIST_ITEM}" data-index={index}>
-        <span class="${CLASS_NAME.NAME}">
-          <span class="${CLASS_NAME.MARKER}" style="background:{color}"></span>
-          <span class="${CLASS_NAME.NAME_LABEL}" title="{name}">{name}</span>
-        </span>
-        <span class="${CLASS_NAME.VALUE}" title="{value}">{value}</span>
-      </li>`,
-      },
-      style: TOOLTIP_STYLE,
-    },
-  };
 
   public get HTMLTooltipElement() {
     return this.element;
@@ -57,7 +20,8 @@ export class Tooltip extends GUI<Required<TooltipCfg>> {
   }
 
   public set position([x, y]: [number, number]) {
-    this.attr({ x, y });
+    this.attributes.style.x = x;
+    this.attributes.style.y = y;
     this.updatePosition();
   }
 
@@ -68,14 +32,16 @@ export class Tooltip extends GUI<Required<TooltipCfg>> {
   }
 
   private get items(): Required<TooltipItem[]> {
-    const { items } = this.attributes;
-    return items.map(({ name = '', value, color = 'black', index, ...rest }, idx) => {
+    const { data } = this.attributes;
+    return data.map(({ name = '', value, color = 'black', index, ...rest }, idx) => {
       return { name, value, color, index: index ?? idx, ...rest };
     });
   }
 
   private get HTMLTooltipItemsElements() {
-    const { template } = this.attributes;
+    const {
+      style: { template },
+    } = this.attributes;
     const itemsHTML: HTMLElement[] = [];
     this.items.forEach((item) => {
       itemsHTML.push(createDom(substitute(template.item!, item)) as HTMLElement);
@@ -87,7 +53,9 @@ export class Tooltip extends GUI<Required<TooltipCfg>> {
    * 解析自定义内容
    */
   private get customContent() {
-    const { customContent } = this.attributes;
+    const {
+      style: { customContent },
+    } = this.attributes;
     if (isString(customContent)) return parseHTML(customContent);
     if (isElement(customContent)) return customContent as HTMLElement;
     return undefined;
@@ -95,22 +63,49 @@ export class Tooltip extends GUI<Required<TooltipCfg>> {
 
   private element!: HTMLElement;
 
-  private visibility: 'visible' | 'hidden' = 'visible';
-
   constructor(options: TooltipOptions) {
-    super(deepMix({}, Tooltip.defaultOptions, options));
+    super(options, {
+      data: [],
+      style: {
+        x: 0,
+        y: 0,
+        visibility: 'visible',
+        title: '',
+        position: 'bottom-right',
+        offset: [5, 5],
+        enterable: false,
+        autoPosition: true,
+        container: {
+          x: 0,
+          y: 0,
+        },
+        bounding: {
+          x: 0,
+          y: 0,
+          width: 0,
+          height: 0,
+        },
+        template: {
+          container: `<div class="${CLASS_NAME.CONTAINER}"></div>`,
+          title: `<div class="${CLASS_NAME.TITLE}"></div>`,
+          item: `<li class="${CLASS_NAME.LIST_ITEM}" data-index={index}>
+          <span class="${CLASS_NAME.NAME}">
+            <span class="${CLASS_NAME.MARKER}" style="background:{color}"></span>
+            <span class="${CLASS_NAME.NAME_LABEL}" title="{name}">{name}</span>
+          </span>
+          <span class="${CLASS_NAME.VALUE}" title="{value}">{value}</span>
+        </li>`,
+        },
+        style: TOOLTIP_STYLE,
+      },
+    });
     this.initShape();
     this.render(this.attributes, this);
   }
 
-  public render(attributes: TooltipCfg, container: Group) {
+  public render(attributes: TooltipStyleProps, container: Group) {
     this.renderHTMLTooltipElement();
     this.updatePosition();
-  }
-
-  public update(cfg: Partial<TooltipCfg>) {
-    this.attr(deepMix({}, this.attributes, cfg));
-    this.render(this.attributes, this);
   }
 
   public clear() {
@@ -124,12 +119,10 @@ export class Tooltip extends GUI<Required<TooltipCfg>> {
   }
 
   public show() {
-    this.visibility = 'visible';
     this.element.style.visibility = 'visible';
   }
 
   public hide() {
-    this.visibility = 'hidden';
     this.element.style.visibility = 'hidden';
   }
 
@@ -137,7 +130,9 @@ export class Tooltip extends GUI<Required<TooltipCfg>> {
    * 初始化容器
    */
   private initShape() {
-    const { template } = this.attributes;
+    const {
+      style: { template },
+    } = this.attributes;
     this.element = createDom(template.container!) as HTMLElement;
     if (this.id) this.element.setAttribute('id', this.id);
   }
@@ -146,7 +141,9 @@ export class Tooltip extends GUI<Required<TooltipCfg>> {
    * 更新 HTML 上的内容
    */
   private renderHTMLTooltipElement() {
-    const { title, enterable } = this.attributes;
+    const {
+      style: { template, title, enterable, style },
+    } = this.attributes;
     const container = this.element;
     const { customContent } = this;
 
@@ -155,7 +152,6 @@ export class Tooltip extends GUI<Required<TooltipCfg>> {
     this.clear();
     if (customContent) container.appendChild(customContent);
     else {
-      const { template } = this.attributes;
       if (title) {
         // 置入title
         container.innerHTML = template.title!;
@@ -173,9 +169,7 @@ export class Tooltip extends GUI<Required<TooltipCfg>> {
     }
 
     // 应用样式表
-    const { style } = this.attributes;
     applyStyleSheet(container, style);
-    this.element.style.visibility = this.visibility;
   }
 
   /**
@@ -183,7 +177,9 @@ export class Tooltip extends GUI<Required<TooltipCfg>> {
    * @param assignPosition {TooltipPosition} tooltip相对于指针的位置，不指定时使用默认参数
    */
   private getRelativeOffsetFromCursor(assignPosition?: TooltipPosition) {
-    const { position, offset } = this.attributes;
+    const {
+      style: { position, offset },
+    } = this.attributes;
     const positionName = (assignPosition || position).split('-') as ('top' | 'bottom' | 'left' | 'right')[];
     const positionScore = { left: [-1, 0], right: [1, 0], top: [0, -1], bottom: [0, 1] };
 
@@ -202,14 +198,16 @@ export class Tooltip extends GUI<Required<TooltipCfg>> {
    */
   private setOffsetPosition([offsetX, offsetY]: [number, number]) {
     const {
-      x = 0,
-      y = 0,
-      container: { x: cx, y: cy },
+      style: {
+        x = 0,
+        y = 0,
+        container: { x: cx, y: cy },
+      },
     } = this.attributes;
 
-    // // 设置属性
-    this.element.style.left = `${x + cx + offsetX}px`;
-    this.element.style.top = `${y + cy + offsetY}px`;
+    // 设置属性
+    this.element.style.left = `${+x + cx + offsetX}px`;
+    this.element.style.top = `${+y + cy + offsetY}px`;
   }
 
   /**
@@ -235,14 +233,15 @@ export class Tooltip extends GUI<Required<TooltipCfg>> {
    * @param offsetY 根据position计算的纵向偏移量
    */
   private autoPosition([offsetX, offsetY]: [number, number]): [number, number] {
-    const { x: cursorX, y: cursorY, autoPosition, bounding } = this.attributes;
+    const {
+      style: { x: cursorX, y: cursorY, autoPosition, bounding, position },
+    } = this.attributes;
     if (!autoPosition) return [offsetX, offsetY];
     // 更新前的位置和宽度
     const { offsetWidth, offsetHeight } = this.element;
     // 预期放置的位置
-    const [expectLeft, expectTop] = [cursorX + offsetX, cursorY + offsetY];
+    const [expectLeft, expectTop] = [+cursorX + offsetX, +cursorY + offsetY];
 
-    const { position } = this.attributes;
     // 反方向
     const inversion = {
       left: 'right',

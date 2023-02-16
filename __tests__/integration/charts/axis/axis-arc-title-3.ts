@@ -10,21 +10,24 @@ export const AxisArcTitle3 = () => {
   group.appendChild(
     new Axis({
       style: {
-        type: 'arc',
-        radius: 80,
         data: data(8),
-        title: 'title',
-        lineLineWidth: 5,
-        titleFill: 'red',
-        titleFontSize: 16,
-        titleFontWeight: 'bold',
-        titleSpacing: 10,
-        tickLength: 10,
-        labelSpacing: 15,
-        angleRange: [-90, 270],
-        center: [150, 150],
-        titlePosition: 'rb',
-        titleTransform: 'translate(-100%, 0)',
+        style: {
+          type: 'arc',
+          radius: 80,
+          titleText: 'title',
+          lineLineWidth: 5,
+          titleFill: 'red',
+          titleFontSize: 16,
+          titleFontWeight: 'bold',
+          titleSpacing: 10,
+          tickLength: 10,
+          labelSpacing: 15,
+          startAngle: -90,
+          endAngle: 270,
+          center: [150, 150],
+          titlePosition: 'rb',
+          titleTransform: 'translate(-100%, 0)',
+        },
       },
     })
   );

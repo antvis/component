@@ -15,7 +15,7 @@ const horizontalScrollbar = new Scrollbar({
   style: {
     x: 5,
     y: 5,
-    orient: 'horizontal',
+    orientation: 'horizontal',
     value: 0.5,
     width: 200,
     height: 10,
@@ -27,7 +27,7 @@ const verticalScrollbar = new Scrollbar({
   style: {
     x: 5,
     y: 20,
-    orient: 'vertical',
+    orientation: 'vertical',
     value: 0.5,
     width: 10,
     height: 200,

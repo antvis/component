@@ -60,7 +60,7 @@ const pageNavigator = new PageNavigator({
     pageWidth,
     pageHeight,
     initPageNum: 1,
-    orient: 'vertical',
+    orientation: 'vertical',
     loop: true,
     button: {
       position: 'bottom',

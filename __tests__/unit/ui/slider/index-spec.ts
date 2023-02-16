@@ -53,7 +53,7 @@ describe('slider', () => {
       y: 50,
       width: 40,
       height: 400,
-      orient: 'vertical',
+      orientation: 'vertical',
       values: [0.3, 0.7],
     });
   });
@@ -76,7 +76,7 @@ describe('slider', () => {
       y: 50,
       width: 40,
       height: 400,
-      orient: 'vertical',
+      orientation: 'vertical',
       values: [0.3, 0.7],
     });
   });

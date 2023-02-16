@@ -10,14 +10,16 @@ export const AxisLinearTitleEnd = () => {
   });
 
   const createAxis = axisWarper(group, {
-    type: 'linear',
     data: new Array(5).fill(0).map((_, i, arr) => ({ value: i / (arr.length - 1), label: '' })),
-    title: 'title',
-    titleFill: 'red',
-    titleFontSize: 20,
-    titleFontWeight: 'bold',
-    titlePosition: 'end',
     showTick: false,
+    style: {
+      type: 'linear',
+      titleText: 'title',
+      titleFill: 'red',
+      titleFontSize: 20,
+      titleFontWeight: 'bold',
+      titlePosition: 'end',
+    },
   });
 
   const center = [200, 200];
@@ -26,7 +28,7 @@ export const AxisLinearTitleEnd = () => {
     const angle = (i * Math.PI) / 6;
     const x = center[0] + Math.cos(angle) * 100;
     const y = center[1] + Math.sin(angle) * 100;
-    createAxis({ startPos: center, endPos: [x, y], titleSpacing: 40 });
+    createAxis({ style: { startPos: center, endPos: [x, y], titleSpacing: 40 } });
   }
 
   return group;

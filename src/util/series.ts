@@ -2,12 +2,12 @@ import { isNumber, isArray } from '@antv/util';
 
 export type SeriesAttr = number | number[];
 
-export type NormalSeriesAttr = [number, number, number, number];
+export type StandardSeriesAttr = [number, number, number, number];
 
 /**
  * 规范化padding
  */
-export function normalSeriesAttr(series: SeriesAttr): NormalSeriesAttr {
+export function parseSeriesAttr(series: SeriesAttr): StandardSeriesAttr {
   if (isNumber(series)) {
     return [series, series, series, series];
   }
@@ -24,7 +24,7 @@ export function normalSeriesAttr(series: SeriesAttr): NormalSeriesAttr {
       return [series[0], series[1], series[2], series[1]];
     }
     if (len === 4) {
-      return series as NormalSeriesAttr;
+      return series as StandardSeriesAttr;
     }
   }
   return [0, 0, 0, 0];

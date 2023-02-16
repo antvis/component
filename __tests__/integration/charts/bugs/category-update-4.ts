@@ -8,14 +8,16 @@ export const BugCategoryUpdate4 = () => {
   const category = group.appendChild(
     new Category({
       style: {
-        layout: 'grid',
-        height: 100,
-        width: 400,
-        gridRow: 1,
-        gridCol: 3,
         data: flowItemData,
-        titleText: 'Legend Title',
-        itemMarkerFill: '#d3d2d3',
+        style: {
+          layout: 'grid',
+          height: 100,
+          width: 400,
+          gridRow: 1,
+          gridCol: 3,
+          titleText: 'Legend Title',
+          itemMarkerFill: '#d3d2d3',
+        },
       },
     })
   );

@@ -10,22 +10,24 @@ export const AxisGrid3 = () => {
   group.appendChild(
     new Axis({
       style: {
-        type: 'arc',
-        data: data(12),
-        angleRange: [0, 360],
-        center: [200, 150],
-        radius: 100,
-        lineLineWidth: 1,
         showLabel: false,
         showTick: false,
-        gridLength: 100,
-        gridType: 'segment',
-        gridConnect: 'arc',
-        gridLineWidth: 1,
-        gridStroke: 'rgba(0,0,0,0.5)',
-
-        tickLength: 10,
-        labelSpacing: 10,
+        data: data(12),
+        style: {
+          type: 'arc',
+          startAngle: 0,
+          endAngle: 360,
+          center: [200, 150],
+          radius: 100,
+          lineLineWidth: 1,
+          gridLength: 100,
+          gridType: 'segment',
+          gridConnect: 'arc',
+          gridLineWidth: 1,
+          gridStroke: 'rgba(0,0,0,0.5)',
+          tickLength: 10,
+          labelSpacing: 10,
+        },
       },
     })
   );

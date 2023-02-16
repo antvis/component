@@ -19,7 +19,7 @@ export const LayoutFlexAlignItemsFlexCenter = () => {
   );
 
   const colors = ['red', 'green', 'blue', 'yellow', 'pink', 'orange', 'purple', 'cyan', 'magenta', 'brown'];
-  new Array(5).fill(0).forEach((d, i) =>
+  new Array(5).fill(0).forEach((d: any, i: number) =>
     box.appendChild(
       new Rect({
         style: {

@@ -53,7 +53,7 @@ describe.skip('vertical page navigator', () => {
         pageWidth,
         pageHeight,
         initPage: 1,
-        orient: 'vertical',
+        orientation: 'vertical',
         loop: true,
         buttonFill: '#000',
       },

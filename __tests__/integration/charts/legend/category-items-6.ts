@@ -10,13 +10,15 @@ export const CategoryItems6 = () => {
   group.appendChild(
     new CategoryItems({
       style: {
-        layout: 'flex',
         data: flowItemData,
-        itemLabelFill: 'red',
-        itemValueFill: 'green',
-        width: 1000,
-        height: 100,
-        itemMarkerFill: (_: any, index: number) => colors[index % colors.length],
+        style: {
+          layout: 'flex',
+          itemLabelFill: 'red',
+          itemValueFill: 'green',
+          width: 1000,
+          height: 100,
+          itemMarkerFill: (_: any, index: number) => colors[index % colors.length],
+        },
       },
     })
   );

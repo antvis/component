@@ -102,7 +102,7 @@ describe('scrollbar', () => {
       thumbLen,
       x: 10,
       y: 50,
-      orient: 'horizontal',
+      orientation: 'horizontal',
       height: 20,
       value: 0.5,
     });

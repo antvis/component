@@ -1,10 +1,11 @@
 import { ext, vec2 } from '@antv/matrix-util';
-import { memoize, get } from '@antv/util';
-import type { StandardAnimationOption, AnimationResult } from '../../../animation';
+import { get, memoize } from '@antv/util';
+import { transition, type AnimationResult, type StandardAnimationOption } from '../../../animation';
+import type { RequiredStyleProps } from '../../../core';
 import type { DisplayObject, Point, Vector2 } from '../../../types';
-import { degToRad, keyframeInterpolate, renderExtDo, scaleToPixel, Selection, transition } from '../../../util';
+import { degToRad, keyframeInterpolate, renderExtDo, scaleToPixel, Selection, subStyleProps } from '../../../util';
 import { CLASS_NAMES } from '../constant';
-import type { ArcAxisStyleProps, AxisLineCfg, AxisStyleProps, Direction, LinearAxisStyleProps } from '../types';
+import type { ArcAxisStyleProps, AxisLineStyleProps, AxisStyleProps, Direction, LinearAxisStyleProps } from '../types';
 import { baseDependencies } from './utils';
 
 type LineDatum = {
@@ -13,75 +14,83 @@ type LineDatum = {
 };
 
 export const getLineAngle = memoize(
-  (value: number, cfg: ArcAxisStyleProps) => {
-    const {
-      angleRange: [startAngle, endAngle],
-    } = cfg;
+  (value: number, attr: RequiredStyleProps<ArcAxisStyleProps>) => {
+    const { startAngle, endAngle } = attr.style;
     return (endAngle - startAngle) * value + startAngle;
   },
-  (value, cfg) => [value, ...cfg.angleRange].join()
+  (value, attr) => [value, attr.style.startAngle, attr.style.endAngle].join()
 );
 
 export const getLineTangentVector = memoize(
-  (value: number, cfg: AxisStyleProps) => {
-    if (cfg.type === 'linear') {
+  (value: number, attr: RequiredStyleProps<AxisStyleProps>) => {
+    if (attr.style.type === 'linear') {
       const {
         startPos: [startX, startY],
         endPos: [endX, endY],
-      } = cfg;
+      } = attr.style;
       const [dx, dy] = [endX - startX, endY - startY];
       return vec2.normalize([0, 0], [dx, dy]) as Vector2;
     }
-    const angle = degToRad(getLineAngle(value, cfg));
+
+    const angle = degToRad(getLineAngle(value, attr));
     return [-Math.sin(angle), Math.cos(angle)] as Vector2;
   },
-  (value, cfg) => {
-    const dependencies = baseDependencies(cfg);
-    cfg.type === 'arc' && dependencies.push(value);
+  (value, attr: RequiredStyleProps<AxisStyleProps>) => {
+    const dependencies = baseDependencies(attr);
+    attr.style.type === 'arc' && dependencies.push(value);
     return dependencies.join();
   }
 );
 
-export function getDirectionVector(value: number, direction: Direction, cfg: AxisStyleProps): Vector2 {
-  const tangentVector = getLineTangentVector(value, cfg);
+export function getDirectionVector(
+  value: number,
+  direction: Direction,
+  attr: RequiredStyleProps<AxisStyleProps>
+): Vector2 {
+  const tangentVector = getLineTangentVector(value, attr);
   return ext.vertical([], tangentVector, direction !== 'positive') as Vector2;
 }
 
 export const getLinearValuePos = memoize(
-  (value: number, cfg: LinearAxisStyleProps): Vector2 => {
+  (value: number, attr: RequiredStyleProps<LinearAxisStyleProps>): Vector2 => {
     const {
       startPos: [sx, sy],
       endPos: [ex, ey],
-    } = cfg;
+    } = attr.style;
     const [dx, dy] = [ex - sx, ey - sy];
     return [sx + dx * value, sy + dy * value];
   },
-  (value, cfg) => [value, ...cfg.startPos, ...cfg.endPos].join()
+  (value, attr) => [value, ...attr.style.startPos, ...attr.style.endPos].join()
 );
 
 export const getArcValuePos = memoize(
-  (value: number, cfg: ArcAxisStyleProps): Vector2 => {
+  (value: number, attr: RequiredStyleProps<ArcAxisStyleProps>): Vector2 => {
     const {
       radius,
       center: [cx, cy],
-    } = cfg;
-    const angle = degToRad(getLineAngle(value, cfg));
+    } = attr.style;
+    const angle = degToRad(getLineAngle(value, attr));
     return [cx + radius * Math.cos(angle), cy + radius * Math.sin(angle)];
   },
-  (value, cfg) => [value, ...cfg.angleRange, cfg.radius, ...cfg.center].join()
+  (value, attr: RequiredStyleProps<ArcAxisStyleProps>) => {
+    const {
+      style: { startAngle, endAngle, radius, center },
+    } = attr;
+    return [value, startAngle, endAngle, radius, ...center].join();
+  }
 );
 
-export function getValuePos(value: number, cfg: AxisStyleProps) {
-  if (cfg.type === 'linear') return getLinearValuePos(value, cfg);
-  return getArcValuePos(value, cfg);
+export function getValuePos(value: number, attr: RequiredStyleProps<AxisStyleProps>) {
+  if (attr.style.type === 'linear') return getLinearValuePos(value, attr);
+  return getArcValuePos(value, attr);
 }
 
-export function isAxisHorizontal(cfg: LinearAxisStyleProps): boolean {
-  return getLineTangentVector(0, cfg)[1] === 0;
+export function isAxisHorizontal(attr: RequiredStyleProps<LinearAxisStyleProps>): boolean {
+  return getLineTangentVector(0, attr)[1] === 0;
 }
 
-export function isAxisVertical(cfg: LinearAxisStyleProps): boolean {
-  return getLineTangentVector(0, cfg)[0] === 0;
+export function isAxisVertical(attr: RequiredStyleProps<LinearAxisStyleProps>): boolean {
+  return getLineTangentVector(0, attr)[0] === 0;
 }
 
 function isCircle(startAngle: number, endAngle: number) {
@@ -115,35 +124,40 @@ function getArcPath(startAngle: number, endAngle: number, cx: number, cy: number
 }
 
 function getArcAttr(arc: DisplayObject) {
-  const { angleRange, center, radius } = arc.attributes;
-  return [...angleRange, ...center, radius] as [number, number, number, number, number];
+  const { startAngle, endAngle, center, radius } = arc.attributes;
+  return [startAngle, endAngle, ...center, radius];
 }
 
-function renderArc(container: Selection, cfg: ArcAxisStyleProps, style: any, animate: StandardAnimationOption) {
-  const { angleRange, center, radius } = cfg;
+function renderArc(
+  container: Selection,
+  attr: RequiredStyleProps<ArcAxisStyleProps>,
+  style: RequiredStyleProps<ArcAxisStyleProps>['style'],
+  animate: StandardAnimationOption
+) {
+  const { startAngle, endAngle, center, radius } = attr.style;
+
   return container
     .selectAll(CLASS_NAMES.line.class)
-    .data([{ path: getArcPath(...angleRange, ...center, radius) }], (d, i) => i)
+    .data([{ path: getArcPath(startAngle, endAngle, ...center, radius) }], (d, i) => i)
     .join(
       (enter) =>
         enter
           .append('path')
           .attr('className', CLASS_NAMES.line.name)
-          .styles({ angleRange, center, radius, ...style })
-          .style('path', (d: any) => d.path),
+          .styles(attr.style)
+          .styles({ path: (d: any) => d.path }),
       (update) =>
         update
-          .styles(style)
           .transition(function () {
             const animation = keyframeInterpolate(
               this,
               getArcAttr(this),
-              [...angleRange, ...center, radius] as ReturnType<typeof getArcAttr>,
+              [startAngle, endAngle, ...center, radius],
               animate.update
             );
             if (animation) {
               const layout = () => {
-                const data = get(this.style, '__keyframe_data__') as Parameters<typeof getArcPath>;
+                const data = get(this.attributes, '__keyframe_data__') as Parameters<typeof getArcPath>;
                 this.style.path = getArcPath(...data);
               };
               animation.onframe = layout;
@@ -151,14 +165,17 @@ function renderArc(container: Selection, cfg: ArcAxisStyleProps, style: any, ani
             }
             return animation;
           })
-          .styles({ angleRange, center, radius }),
+          .styles(attr.style),
       (exit) => exit.remove()
     )
     .styles(style)
     .transitions();
 }
 
-function renderTruncation<T>(container: Selection, { truncRange, truncShape, lineExtension }: AxisLineCfg, style: any) {
+function renderTruncation<T>(
+  container: Selection,
+  { style: { truncRange, truncShape, lineExtension } }: RequiredStyleProps<AxisStyleProps>
+) {
   // TODO
 }
 
@@ -175,8 +192,16 @@ function getLinePath(points: [Vector2, Vector2]) {
   return { x1, y1, x2, y2 };
 }
 
-function renderLinear(container: Selection, cfg: LinearAxisStyleProps, style: any, animate: StandardAnimationOption) {
-  const { startPos, endPos, truncRange, lineExtension } = cfg;
+function renderLinear(
+  container: Selection,
+  attr: RequiredStyleProps<LinearAxisStyleProps>,
+  style: RequiredStyleProps<LinearAxisStyleProps>['style'],
+  animate: StandardAnimationOption
+) {
+  const {
+    showTrunc,
+    style: { startPos, endPos, truncRange, lineExtension },
+  } = attr;
   const [[x1, y1], [x2, y2]] = [startPos, endPos];
   const [ox1, oy1, ox2, oy2] = lineExtension ? extendLine(startPos, endPos, lineExtension) : new Array(4).fill(0);
 
@@ -201,7 +226,8 @@ function renderLinear(container: Selection, cfg: LinearAxisStyleProps, style: an
       )
       .transitions();
   };
-  if (!truncRange) {
+
+  if (!showTrunc || !truncRange) {
     return renderLine([
       {
         line: [
@@ -231,38 +257,58 @@ function renderLinear(container: Selection, cfg: LinearAxisStyleProps, style: an
       className: CLASS_NAMES.lineSecond.name,
     },
   ]);
-  renderTruncation(container, cfg, style);
+  renderTruncation(container, attr);
   return animation;
 }
 
-function renderAxisArrow(container: Selection, type: 'linear' | 'arc', cfg: AxisStyleProps, style: any) {
-  const { showArrow, lineArrow, truncRange, lineArrowOffset = 0, lineArrowSize } = cfg;
+function renderAxisArrow(
+  container: Selection,
+  type: 'linear' | 'arc',
+  attr: RequiredStyleProps<AxisStyleProps>,
+  style: AxisLineStyleProps['style']
+) {
+  const {
+    showArrow,
+    showTrunc,
+    style: { lineArrow, lineArrowOffset, lineArrowSize },
+  } = attr;
 
   let shapeToAddArrow: Selection;
   if (type === 'arc') shapeToAddArrow = container.select(CLASS_NAMES.line.class);
-  else if (truncRange) shapeToAddArrow = container.select(CLASS_NAMES.lineSecond.class);
+  else if (showTrunc) shapeToAddArrow = container.select(CLASS_NAMES.lineSecond.class);
   else shapeToAddArrow = container.select(CLASS_NAMES.line.class);
-  if (!showArrow || !lineArrow || (cfg.type === 'arc' && isCircle(...cfg.angleRange))) {
+  if (!showArrow || !lineArrow || (attr.style.type === 'arc' && isCircle(attr.style.startAngle, attr.style.endAngle))) {
     shapeToAddArrow.style('markerEnd', null);
     return;
   }
   const arrow = renderExtDo(lineArrow);
   arrow.attr(style);
   scaleToPixel(arrow, lineArrowSize!, true);
-
   shapeToAddArrow.style('markerEnd', arrow).style('markerEndOffset', -lineArrowOffset);
 }
 
-export function renderAxisLine<T>(
+export function renderAxisLine(
   container: Selection,
-  cfg: AxisStyleProps,
-  style: any,
+  attr: RequiredStyleProps<AxisStyleProps>,
   animate: StandardAnimationOption
 ) {
-  const { type } = cfg;
+  const { type } = attr.style;
   let animation: AnimationResult[];
-  if (type === 'linear') animation = renderLinear(container, cfg, style, animate);
-  else animation = renderArc(container, cfg, style, animate);
-  renderAxisArrow(container, type, cfg, style);
+  const { style } = subStyleProps<RequiredStyleProps<AxisStyleProps>>(attr, 'line');
+  if (type === 'linear')
+    animation = renderLinear(
+      container,
+      attr as RequiredStyleProps<LinearAxisStyleProps>,
+      style as RequiredStyleProps<LinearAxisStyleProps>['style'],
+      animate
+    );
+  else
+    animation = renderArc(
+      container,
+      attr as RequiredStyleProps<ArcAxisStyleProps>,
+      style as RequiredStyleProps<ArcAxisStyleProps>['style'],
+      animate
+    );
+  renderAxisArrow(container, type, attr, style);
   return animation;
 }

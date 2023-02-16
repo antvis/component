@@ -7,24 +7,27 @@ export const CategoryItems3 = () => {
   group.appendChild(
     new CategoryItems({
       style: {
-        gridCol: 1,
-        gridRow: 5,
-        width: 155,
-        height: 210,
-        rowPadding: 10,
-        orient: 'vertical',
-        navDuration: 10000,
-        itemMarker: (_: any, index: number) =>
-          index % 2 === 0
-            ? () => new Rect({ style: { x: -8, y: -8, width: 16, height: 16, fill: 'red' } })
-            : () => new Circle({ style: { cx: 0, cy: 0, r: 8, fill: 'red' } }),
-        itemMarkerFill: (_: any, index: number) => (index % 2 === 0 ? 'red' : 'green'),
-
-        layout: 'grid',
         data: createItemData(20),
-        itemLabelFill: 'red',
-        itemValueFill: 'green',
-        colPadding: 10,
+        animate: {
+          navDuration: 10000,
+        },
+        style: {
+          gridCol: 1,
+          gridRow: 5,
+          width: 155,
+          height: 210,
+          rowPadding: 10,
+          orientation: 'vertical',
+          itemMarker: (_: any, index: number) =>
+            index % 2 === 0
+              ? () => new Rect({ style: { x: -8, y: -8, width: 16, height: 16, fill: 'red' } })
+              : () => new Circle({ style: { cx: 0, cy: 0, r: 8, fill: 'red' } }),
+          itemMarkerFill: (_: any, index: number) => (index % 2 === 0 ? 'red' : 'green'),
+          layout: 'grid',
+          itemLabelFill: 'red',
+          itemValueFill: 'green',
+          colPadding: 10,
+        },
       },
     })
   );

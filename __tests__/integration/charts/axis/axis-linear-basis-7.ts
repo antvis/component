@@ -13,16 +13,8 @@ export const AxisLinearBasis7 = () => {
   group.appendChild(
     new Axis({
       style: {
-        startPos: [50, 50],
-        endPos: [500, 50],
         data: mockData,
-        truncRange: [0.1, 0.3],
-        lineLineWidth: 2,
-        lineStroke: 'black',
-        tickLineWidth: 2,
-        tickStroke: 'black',
-        labelTransform: 'rotate(90)',
-        labelTransforms: [
+        labelTransform: [
           {
             type: 'ellipsis',
             minLength: 50,
@@ -30,8 +22,18 @@ export const AxisLinearBasis7 = () => {
             suffix: '...',
           },
         ],
-
-        type: 'linear',
+        showTrunc: true,
+        style: {
+          startPos: [50, 50],
+          endPos: [500, 50],
+          truncRange: [0.1, 0.3],
+          lineLineWidth: 2,
+          lineStroke: 'black',
+          tickLineWidth: 2,
+          tickStroke: 'black',
+          labelTransform: 'rotate(90)',
+          type: 'linear',
+        },
       },
     })
   );

@@ -34,11 +34,13 @@ export const NavigatorSingle = () => {
   const nav = group.appendChild(
     new Navigator({
       style: {
-        x: 100,
-        y: 100,
-        pageWidth: 100,
-        pageHeight: 100,
-        loop: true,
+        style: {
+          x: 100,
+          y: 100,
+          pageWidth: 100,
+          pageHeight: 100,
+          loop: true,
+        },
       },
     })
   );

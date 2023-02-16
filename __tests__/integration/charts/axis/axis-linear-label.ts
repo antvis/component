@@ -13,14 +13,8 @@ export const AxisLinearLabel = () => {
   group.appendChild(
     new Axis({
       style: {
-        type: 'linear',
-        startPos: [50, 50],
-        endPos: [500, 50],
-        lineLineWidth: 5,
-        lineExtension: [30, 30],
         showTick: false,
         showGrid: false,
-        labelSpacing: 20,
         labelFormatter: (datum: any, index: number) => {
           if (index > 2) return `第${index + 1}名`;
           return createLabel(
@@ -29,6 +23,14 @@ export const AxisLinearLabel = () => {
           );
         },
         data: data(10, 1),
+        style: {
+          type: 'linear',
+          startPos: [50, 50],
+          endPos: [500, 50],
+          lineLineWidth: 5,
+          lineExtension: [30, 30],
+          labelSpacing: 20,
+        },
       },
     })
   );

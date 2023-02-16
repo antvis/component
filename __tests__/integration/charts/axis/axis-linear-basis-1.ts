@@ -13,20 +13,22 @@ export const AxisLinearBasis1 = () => {
   group.appendChild(
     new Axis({
       style: {
-        startPos: [50, 50],
-        endPos: [600, 50],
         data: mockData,
-        lineStroke: 'red',
-        truncRange: [0.4, 0.6],
-        lineExtension: [10, 10],
-        tickLength: 10,
+        showTrunc: true,
         labelFormatter: () => '123',
-
-        type: 'linear',
-        lineLineWidth: 5,
-        tickLineWidth: 5,
-        tickStroke: 'green',
-        labelSpacing: 10,
+        style: {
+          startPos: [50, 50],
+          endPos: [600, 50],
+          lineStroke: 'red',
+          truncRange: [0.4, 0.6],
+          lineExtension: [10, 10],
+          tickLength: 10,
+          type: 'linear',
+          lineLineWidth: 5,
+          tickLineWidth: 5,
+          tickStroke: 'green',
+          labelSpacing: 10,
+        },
       },
     })
   );

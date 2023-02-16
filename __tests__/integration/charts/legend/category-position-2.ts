@@ -17,17 +17,19 @@ export const CategoryPosition2 = () => {
   g.appendChild(
     new Category({
       style: {
-        x: 50,
-        y: 50,
-        layout: 'grid',
         showTitle: false,
         data: createItemData(20),
-        titleText: 'Legend Title',
-        width: 455,
-        height: 50,
-        gridCol: 4,
-        gridRow: 1,
-        itemMarkerFill: (_: any, i: number) => colors[i % colors.length],
+        style: {
+          x: 50,
+          y: 50,
+          layout: 'grid',
+          titleText: 'Legend Title',
+          width: 455,
+          height: 50,
+          gridCol: 4,
+          gridRow: 1,
+          itemMarkerFill: (_: any, i: number) => colors[i % colors.length],
+        },
       },
     })
   );

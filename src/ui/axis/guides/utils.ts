@@ -1,5 +1,6 @@
 import { DisplayObject } from '@antv/g';
 import { isFunction } from '@antv/util';
+import { RequiredStyleProps } from '../../../core';
 import type { CallbackableObject } from '../../../types';
 import { getCallbackValue } from '../../../util';
 import type { AxisStyleProps, AxisDatumCP } from '../types';
@@ -15,9 +16,13 @@ export function getCallbackStyle<T extends { [keys: string]: any }>(
   );
 }
 
-export function baseDependencies(cfg: AxisStyleProps): any[] {
-  if (cfg.type === 'linear') return [...cfg.startPos, ...cfg.endPos];
-  return [...cfg.angleRange, ...cfg.center, cfg.radius];
+export function baseDependencies(attr: RequiredStyleProps<AxisStyleProps>): any[] {
+  if (attr.style.type === 'linear') {
+    const { startPos, endPos } = attr.style;
+    return [...startPos, ...endPos];
+  }
+  const { startAngle, endAngle, center, radius } = attr.style;
+  return [startAngle, endAngle, ...center, radius];
 }
 
 export function filterExec<T>(data: T[], filter?: (...args: any) => boolean): T[] {

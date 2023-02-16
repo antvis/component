@@ -35,7 +35,7 @@ const category = new Category({
     spacing: [10, 4],
     maxItemWidth: 160,
     maxHeight: 100,
-    orient: 'vertical',
+    orientation: 'vertical',
   },
 });
 
@@ -58,7 +58,7 @@ layoutFolder
   .add(layoutCfg, '布局', ['单行', '单列', '单行分页', '单列分页', '多行', '多列', '多行分页', '多列分页'])
   .onChange((layout) => {
     const row = {
-      orient: 'horizontal',
+      orientation: 'horizontal',
       itemWidth: undefined,
       maxItemWidth: 160,
       autoWrap: false,
@@ -82,7 +82,7 @@ layoutFolder
     };
 
     const col = {
-      orient: 'vertical',
+      orientation: 'vertical',
       itemWidth: 140,
       autoWrap: false,
       maxItemWidth: 160,

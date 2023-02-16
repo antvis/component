@@ -7,7 +7,7 @@ export type BreadcrumbItem = {
   /** 展示的文案 */
   text: string;
   /** 图标 */
-  marker?: TagStyleProps['marker'];
+  marker?: TagStyleProps['style']['marker'];
 };
 
 export type BreadcrumbCfg = {
