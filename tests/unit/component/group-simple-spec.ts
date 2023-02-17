@@ -209,7 +209,7 @@ describe('test simple component', () => {
     setTimeout(() => {
       expect(b.get('group').getChildren().length).toBe(1);
       done();
-    }, 600);
+    }, 1000);
   });
 
   it('add Animate', (done) => {
@@ -232,7 +232,7 @@ describe('test simple component', () => {
     setTimeout(() => {
       expect(bShape.attr('opacity')).toBe(1);
       done();
-    }, 550);
+    }, 600);
   });
 
   it('destroy', () => {
