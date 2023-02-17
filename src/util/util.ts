@@ -265,7 +265,10 @@ export function getTextWidth(text: string, font: string) {
   return width;
 }
 
-export function clipText(str: string, maxWidth: number, font: string) {
+/**
+ * @description 文字超出最大宽度时，换行处理
+ */
+export function clipTextTwoLines(str: string, maxWidth: number, font: string) {
   // 日期字段根据空格拆为两组：'2022-10-12 08:23' => ['2022-10-12', '08:23']
   if (Date.parse(str)) {
     return str.split(' ').join('\n');
@@ -274,7 +277,7 @@ export function clipText(str: string, maxWidth: number, font: string) {
   function mapStr(str: string, callback: (i: number) => void) {
     for (let i = 0; i < str.length; i++) {
       const curStr = str.slice(0, i + 1);
-      const curWidth = getTextWidth(curStr, '12');
+      const curWidth = getTextWidth(curStr, font);
       if (curWidth > maxWidth) {
         callback(i);
         return;
