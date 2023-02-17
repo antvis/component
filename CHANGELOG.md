@@ -1,3 +1,9 @@
+#### 0.9.2 (2023-02-17)
+
+##### Bug Fixes
+
+- **slider:** move interaction does not work in mobile ([#293](https://github.com/antvis/component/pull/293)) ([fdb663fa](https://github.com/antvis/component/commit/fdb663fa7c5d990a3d9a81606407498e937b585f))
+
 #### 0.9.1 (2023-02-14)
 
 ##### New Features
