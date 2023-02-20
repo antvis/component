@@ -4,7 +4,10 @@ import { Renderer as SVGRenderer } from '@antv/g-svg';
 import { Select, Tag } from 'antd';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
-import * as cases from './charts';
+import * as staticCases from './charts';
+import * as animationCases from './animation';
+
+const cases = { ...staticCases, ...animationCases };
 
 const { Option } = Select;
 

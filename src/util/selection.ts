@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { Circle, Ellipse, Group, HTML, IDocument, Image, Line, Path, Polygon, Polyline, Rect, Text } from '@antv/g';
-import type { BaseStyleProps as BP, DisplayObject } from '@antv/g';
+import type { BaseStyleProps as BP, DisplayObject, IAnimation } from '@antv/g';
 import { group } from 'd3-array';
 import type { AnimationResult } from '../animation';
 
@@ -359,8 +359,7 @@ export class Selection<T = any> {
     });
   }
 
-  transition(value: any): Selection<T> {
-    const callback = typeof value !== 'function' ? () => value : value;
+  transition(callback?: (datum: T, index: number) => (null | IAnimation) | (null | IAnimation)[]): Selection<T> {
     const { _transitions: T } = this;
     return this.each(function (d, i) {
       T[i] = callback.call(this, d, i);
@@ -388,7 +387,7 @@ export class Selection<T = any> {
   }
 
   transitions() {
-    return this._transitions;
+    return this._transitions.filter((t) => !!t);
   }
 
   parent(): DisplayObject {

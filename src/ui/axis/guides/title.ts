@@ -70,7 +70,7 @@ function applyTitleStyle(
 
   const { x, y } = getTitlePosition(select(get(axis, 'offscreenGroup')), group, attr);
   const animation = transition(group.node(), { x, y }, animate);
-  percentTransform(title, transform);
+  percentTransform(title.node(), transform);
   return animation;
 }
 

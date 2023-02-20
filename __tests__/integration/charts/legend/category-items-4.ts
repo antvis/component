@@ -17,17 +17,6 @@ export const CategoryItems4 = () => {
         animate: {
           navDuration: 1000,
         },
-        events: {
-          click: (el: any) => {
-            alert(`you clicked item: ${el.attributes.style.label} - ${el.attributes.style.value}`);
-          },
-          mouseenter: (el: any) => {
-            el.querySelector('.legend-category-item-background').attr('fill', '#f4bb51');
-          },
-          mouseleave: (el: any) => {
-            el.querySelector('.legend-category-item-background').attr('fill', 'white');
-          },
-        },
         style: {
           layout: 'grid',
           itemLabelFill: 'red',
@@ -53,6 +42,15 @@ export const CategoryItems4 = () => {
           navButtonTransform: 'scale(0.8)',
           navControllerSpacing: 10,
           navPageNumFill: 'red',
+          click: (el: any) => {
+            alert(`you clicked item: ${el.attributes.style.label} - ${el.attributes.style.value}`);
+          },
+          mouseenter: (el: any) => {
+            el.querySelector('.legend-category-item-background').attr('fill', '#f4bb51');
+          },
+          mouseleave: (el: any) => {
+            el.querySelector('.legend-category-item-background').attr('fill', 'white');
+          },
         },
       },
     })

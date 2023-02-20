@@ -97,3 +97,5 @@ export const AxisLinearLabelOverlapMultiple = () => {
   });
   return group;
 };
+
+AxisLinearLabelOverlapMultiple.wait = 1000;

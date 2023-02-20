@@ -2,31 +2,34 @@
 import type { DisplayObject } from '@antv/g';
 import { isNil } from '@antv/util';
 import type { GUI } from '../core';
+import { visibility } from '../util';
 import type { AnimationOption, AnimationResult, GenericAnimation, StandardAnimationOption } from './types';
 
+function isStandardAnimationOption(option: AnimationOption): option is StandardAnimationOption {
+  if (typeof option === 'boolean') return false;
+  return 'enter' in option && 'update' in option && 'exit' in option;
+}
+
 export function parseAnimationOption(option: AnimationOption): StandardAnimationOption {
-  if (!option)
-    return {
-      enter: false,
-      update: false,
-      exit: false,
-    };
+  // option is false => all animation is false
+  // option is { enter: {}, update: {}, exit: {}, ...baseOption } =>
+  //    { enter: { ...enter, ...baseOption }, update: { ...update, ...baseOption }, exit: { ...exit, ...baseOption } }
+  // option is { enter: {}, update: {}, exit: {} } => option
 
-  if ('enter' in option || 'update' in option || 'exit' in option) {
-    if (Object.keys(option).length > 3) {
-      const inferOption = Object.fromEntries(
-        Object.entries(option).filter(([k, v]) => !['enter', 'update', 'exit'].includes(k))
-      );
-      return { enter: false, update: inferOption, exit: false };
-    }
-    return option as StandardAnimationOption;
-  }
+  if (!option) return { enter: false, update: false, exit: false };
 
-  return {
-    enter: option,
-    update: option,
-    exit: option,
-  };
+  const keys = ['enter', 'update', 'exit'] as const;
+  const baseOption = Object.fromEntries(Object.entries(option).filter(([k]) => !keys.includes(k as any)));
+
+  return Object.fromEntries(
+    keys.map((k) => {
+      if (isStandardAnimationOption(option)) {
+        if (option[k] === false) return [k, false];
+        return [k, { ...option[k], ...baseOption }];
+      }
+      return [k, baseOption];
+    })
+  );
 }
 
 export function onAnimateFinished(animation: AnimationResult, callback: () => void) {
@@ -47,6 +50,73 @@ export function animate(target: DisplayObject | GUI<any>, keyframes: Keyframe[],
     return null;
   }
   return target.animate(keyframes, options);
+}
+
+/**
+ * transition source shape to target shape
+ * @param source
+ * @param target
+ * @param options
+ * @param after destroy or hide source shape after transition
+ */
+export function transitionShape(
+  source: DisplayObject,
+  target: DisplayObject,
+  options: GenericAnimation,
+  after: 'destroy' | 'hide' = 'destroy'
+) {
+  const afterTransition = () => {
+    if (after === 'destroy') source.destroy();
+    else if (after === 'hide') visibility(source, false);
+    visibility(target, true);
+  };
+  if (!options) {
+    afterTransition();
+    return [null];
+  }
+  const { duration = 0, delay = 0 } = options;
+  const middle = Math.ceil(+duration / 2);
+  const offset = +duration / 4;
+
+  const getPosition = (shape: DisplayObject) => {
+    if (shape.nodeName === 'circle') {
+      const [cx, cy] = shape.getLocalPosition();
+      const r = shape.attr('r');
+      return [cx - r, cy - r];
+    }
+    return shape.getLocalPosition();
+  };
+
+  const [sx, sy] = getPosition(source);
+  const [ex, ey] = getPosition(target);
+  const [mx, my] = [(sx + ex) / 2 - sx, (sy + ey) / 2 - sy];
+
+  const sourceAnimation = source.animate(
+    [
+      { opacity: 1, transform: 'translate(0, 0)' },
+      { opacity: 0, transform: `translate(${mx}, ${my})` },
+    ],
+    {
+      fill: 'both',
+      ...options,
+      duration: delay + middle + offset,
+    }
+  );
+  const targetAnimation = target.animate(
+    [
+      { opacity: 0, transform: `translate(${-mx}, ${-my})`, offset: 0.01 },
+      { opacity: 1, transform: 'translate(0, 0)' },
+    ],
+    {
+      fill: 'both',
+      ...options,
+      duration: middle + offset,
+      delay: delay + middle - offset,
+    }
+  );
+
+  onAnimateFinished(targetAnimation, afterTransition);
+  return [sourceAnimation, targetAnimation];
 }
 
 /**

@@ -37,10 +37,8 @@ export type IndicatorStyleProps<T = any> = {
   style: PathStyleProps &
     TextStyleProps & {
       padding: SeriesAttr;
+      onIndicate: (val: T) => void;
     };
-  events: {
-    onIndicate: (val: T) => void;
-  };
 };
 
 export type LegendBaseStyleProps = Merge<

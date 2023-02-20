@@ -92,7 +92,6 @@ export class Axis extends GUI<AxisStyleProps> {
       ifShow(showTitle, titleGroup, (group) => {
         return renderTitle(group, this, attributes, finalAnimation);
       }) || [];
-
-    return [...mainTransitions, ...titleTransitions].filter((t) => !!t);
+    return [...mainTransitions, ...titleTransitions].flat().filter((t) => !!t);
   }
 }

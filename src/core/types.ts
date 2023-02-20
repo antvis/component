@@ -17,7 +17,7 @@ export interface ComponentOptions<T extends Record<string, any>> extends Display
   attrs?: ComponentStyleProps<T>;
 }
 
-type ReserveProperty = 'layout' | 'events' | 'style' | 'animate' | 'interactions';
+type ReserveProperty = 'layout' | 'data' | 'events' | 'style' | 'animate' | 'interactions';
 
 /** add prefix for object property key  */
 export type PrefixStyleProps<T extends Record<string, any>, P extends string> = {

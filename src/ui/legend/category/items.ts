@@ -37,11 +37,6 @@ export type CategoryItemsStyleProps = MergeMultiple<
     PrefixStyleProps<NavigatorStyleProps, 'nav'>,
     {
       data: CategoryItemsDatum[];
-      events: {
-        click?: (el: Selection) => void;
-        mouseenter?: (el: Selection) => void;
-        mouseleave?: (el: Selection) => void;
-      };
       style: GroupStyleProps & {
         orientation?: 'horizontal' | 'vertical';
         layout?: 'flex' | 'grid';
@@ -53,6 +48,9 @@ export type CategoryItemsStyleProps = MergeMultiple<
         padding?: SeriesAttr;
         rowPadding?: number;
         colPadding?: number;
+        click?: (el: Selection) => void;
+        mouseenter?: (el: Selection) => void;
+        mouseleave?: (el: Selection) => void;
       };
     }
   ]
@@ -106,8 +104,6 @@ export class CategoryItems extends GUI<RequiredStyleProps<CategoryItemsStyleProp
         colPadding: 0,
         layout: 'flex',
         orientation: 'horizontal',
-      },
-      events: {
         click: noop,
         mouseenter: noop,
         mouseleave: noop,
@@ -262,7 +258,7 @@ export class CategoryItems extends GUI<RequiredStyleProps<CategoryItemsStyleProp
 
   private renderItems(container: Group) {
     const {
-      events: { click, mouseenter, mouseleave },
+      style: { click, mouseenter, mouseleave },
     } = this.attributes;
     this.flattenPage(container);
     const dispatchCustomEvent = this.dispatchCustomEvent.bind(this);
