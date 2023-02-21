@@ -304,7 +304,7 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
   }
 
   private updateUI(minTextShape: IShape, maxTextShape: IShape) {
-    const { start, end, width, minText, maxText, handlerStyle, height } = this.cfg as SliderCfg;
+    const { start, end, width, minText, maxText, handlerStyle, height, barStyle } = this.cfg;
     const min = start * width;
     const max = end * width;
 
@@ -319,27 +319,37 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
     }
 
     if (this.foreground) {
+      const newBarStyle = ['foreground-bar', 'foreground'].includes(this.currentTarget)
+        ? { ...barStyle, fill: barStyle.highLightFill }
+        : barStyle;
       this.foreground.update({
         x: min,
         width: max - min,
+        barStyle: newBarStyle,
       });
       if (!this.get('updateAutoRender')) {
         this.foreground.render();
       }
     }
-
     // 滑块相关的大小信息
     const handlerWidth = get(handlerStyle, 'width', DEFAULT_HANDLER_WIDTH);
 
     // 设置文本
     minTextShape.attr('text', minText);
     maxTextShape.attr('text', maxText);
-
     const [minAttrs, maxAttrs] = this._dodgeText([min, max], minTextShape, maxTextShape);
     // 2. 左侧滑块和文字位置
     if (this.minHandler) {
+      const newStyle =
+        this.currentTarget === 'minHandler'
+          ? {
+              ...handlerStyle,
+              stroke: handlerStyle.highLightStroke,
+            }
+          : handlerStyle;
       this.minHandler.update({
         x: min - handlerWidth / 2,
+        style: newStyle,
       });
       if (!this.get('updateAutoRender')) {
         this.minHandler.render();
@@ -349,8 +359,16 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
 
     // 3. 右侧滑块和文字位置
     if (this.maxHandler) {
+      const newStyle =
+        this.currentTarget === 'maxHandler'
+          ? {
+              ...handlerStyle,
+              stroke: handlerStyle.highLightStroke,
+            }
+          : handlerStyle;
       this.maxHandler.update({
         x: max - handlerWidth / 2,
+        style: newStyle,
       });
       if (!this.get('updateAutoRender')) {
         this.maxHandler.render();
@@ -457,6 +475,25 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
     // 结束之后，取消绑定的事件
     if (this.currentTarget) {
       this.currentTarget = undefined;
+    }
+
+    // 清空handler的高亮状态
+    const { handlerStyle } = this.cfg;
+    if (this.minHandler && this.minHandler.cfg.style.stroke === handlerStyle.highLightStroke) {
+      this.minHandler.update({
+        style: handlerStyle,
+      });
+      if (!this.get('updateAutoRender')) {
+        this.minHandler.render();
+      }
+    }
+    if (this.maxHandler && this.maxHandler.cfg.style.stroke === handlerStyle.highLightStroke) {
+      this.maxHandler.update({
+        style: handlerStyle,
+      });
+      if (!this.get('updateAutoRender')) {
+        this.maxHandler.render();
+      }
     }
 
     const containerDOM = this.getContainerDOM();
