@@ -42,17 +42,17 @@ export const FOREGROUND_STYLE = {
 export const SLIDER_BAR_LINE_GAP = 4;
 export const SLIDER_BAR_HEIGHT = 6;
 export const BAR_STYLE = {
-  fill: '#DEE6F2',
   height: SLIDER_BAR_HEIGHT,
+  fill: '#DEE6F2',
   highLightFill: '#CBDEF8',
   stroke: '#FFF',
   lineWidth: 1.2,
   cursor: 'move',
+  radius: [2, 2, 0, 0],
 };
 
 export const DEFAULT_HANDLER_WIDTH = 6;
 export const DEFAULT_HANDLER_HEIGHT = 12;
-
 export const HANDLER_STYLE = {
   width: DEFAULT_HANDLER_WIDTH,
   height: DEFAULT_HANDLER_HEIGHT,

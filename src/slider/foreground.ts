@@ -39,29 +39,14 @@ export class Foreground extends GroupComponent<ForegroundCfg> {
   protected renderInner(group: IGroup) {
     const { x, height, width, foregroundStyle, barStyle } = this.cfg;
 
-    // 上方brush区域
-    this.addShape(group, {
-      id: this.getElementId('foreground-brush'),
-      name: 'foreground-brush',
-      type: 'rect',
-      attrs: {
-        x,
-        y: 0,
-        width,
-        height: (height * 3) / 5,
-        cursor: 'crosshair',
-        ...omit(foregroundStyle, ['stroke']),
-      },
-    });
-
-    // 下方移动区域
+    // 上方移动区域
     this.addShape(group, {
       id: this.getElementId('foreground-scroll'),
       name: 'foreground-scroll',
       type: 'rect',
       attrs: {
         x,
-        y: (height * 3) / 5,
+        y: 0,
         width,
         height: (height * 2) / 5,
         cursor: 'move',
@@ -69,7 +54,22 @@ export class Foreground extends GroupComponent<ForegroundCfg> {
       },
     });
 
-    // 下方Bar区域
+    // 下方brush区域
+    this.addShape(group, {
+      id: this.getElementId('foreground-brush'),
+      name: 'foreground-brush',
+      type: 'rect',
+      attrs: {
+        x,
+        y: (height * 2) / 5,
+        width,
+        height: (height * 3) / 5,
+        cursor: 'crosshair',
+        ...omit(foregroundStyle, ['stroke']),
+      },
+    });
+
+    // 上方Bar区域
     const barGroup = this.addGroup(group, {
       id: this.getElementId('foreground-bar'),
       name: 'foreground-bar',
@@ -81,19 +81,19 @@ export class Foreground extends GroupComponent<ForegroundCfg> {
       type: 'rect',
       attrs: {
         x,
-        y: height,
+        y: -barStyle.height,
         width,
         height: barStyle.height,
         cursor: 'move',
-        ...barStyle,
+        ...omit(barStyle, ['stroke']),
       },
     });
     // 三条小竖线
     const centerX = width / 2 + x;
     const leftX = centerX - SLIDER_BAR_LINE_GAP;
     const rightX = centerX + SLIDER_BAR_LINE_GAP;
-    const y1 = height + (1 / 4) * barStyle.height;
-    const y2 = height + (3 / 4) * barStyle.height;
+    const y1 = -(1 / 4) * barStyle.height;
+    const y2 = -(3 / 4) * barStyle.height;
     const publicAttrs = {
       y1,
       y2,
@@ -103,6 +103,7 @@ export class Foreground extends GroupComponent<ForegroundCfg> {
       this.drawBarLine(group, x, publicAttrs);
     });
 
+    // 背景边框
     this.addShape(group, {
       id: this.getElementId('foreground-border'),
       name: 'foreground-border',
@@ -122,7 +123,7 @@ export class Foreground extends GroupComponent<ForegroundCfg> {
   private drawBarLine(group: IGroup, x: number, attrs: LooseObject) {
     this.addShape(group, {
       id: this.getElementId(`line-${x}`),
-      name: `line-${x}`,
+      name: `foreground-line`,
       type: 'line',
       attrs: {
         x1: x,
@@ -143,7 +144,15 @@ export class Foreground extends GroupComponent<ForegroundCfg> {
       barRectShape.attr('fill', highLightFill);
       this.draw();
     });
+    this.get('group').on('foreground-scroll:mouseenter', () => {
+      barRectShape.attr('fill', highLightFill);
+      this.draw();
+    });
     this.get('group').on('foreground-bar:mouseleave', () => {
+      barRectShape.attr('fill', fill);
+      this.draw();
+    });
+    this.get('group').on('foreground-scroll:mouseleave', () => {
       barRectShape.attr('fill', fill);
       this.draw();
     });
