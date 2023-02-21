@@ -10,6 +10,7 @@ interface IStyle {
   opacity?: number;
   cursor?: string;
   highLightFill?: string;
+  highLightStroke?: string;
 }
 
 export interface HandlerCfg extends GroupComponentCfg {
@@ -64,6 +65,7 @@ export class Handler extends GroupComponent<HandlerCfg> {
 
     this.addShape(group, {
       id: this.getElementId('line-left'),
+      name: 'handler-line',
       type: 'line',
       attrs: {
         x1,
@@ -77,6 +79,7 @@ export class Handler extends GroupComponent<HandlerCfg> {
 
     this.addShape(group, {
       id: this.getElementId('line-right'),
+      name: 'handler-line',
       type: 'line',
       attrs: {
         x1: x2,
