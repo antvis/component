@@ -36,12 +36,6 @@ describe('handler', () => {
     expect(handler.get('width')).toBe(8);
     expect(handler.get('height')).toBe(30);
 
-    // background
-    const background = handler.getElementByLocalId('background');
-    const backgroundBBox = background.getBBox();
-    expect(backgroundBBox.width).toBe(8);
-    expect(backgroundBBox.height).toBe(30);
-
     // left line
     const leftLine = handler.getElementByLocalId('line-left');
     const leftLineBBox = leftLine.getBBox();

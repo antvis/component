@@ -15,12 +15,11 @@ import {
   HANDLER_STYLE,
   MAX_TEXT_WIDTH,
   SLIDER_CHANGE,
-  TEXT_PADDING,
   TEXT_SAFE_WIDTH,
   TEXT_STYLE,
 } from './constant';
 import { createMask, getRectMaskAttrs, updateMask } from '../util/mask';
-import { clipTextTwoLines, getTextWidth } from '../util/util';
+import { clipTextTwoLines } from '../util/util';
 import { Foreground } from './foreground';
 import { getCurrentPoint } from '../util/event';
 
@@ -277,6 +276,7 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
       height: handlerHeight,
       cursor: 'ew-resize',
       style: handlerStyle,
+      sliderHeight: height,
     });
 
     this.maxHandler = this.addComponent(group, {
@@ -289,6 +289,7 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
       height: handlerHeight,
       cursor: 'ew-resize',
       style: handlerStyle,
+      sliderHeight: height,
     });
   }
 
@@ -567,7 +568,13 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
    * @param range
    */
   private _dodgeText(range: [number, number], minTextShape: IShape, maxTextShape: IShape): [object, object] {
+    const dodgeText = get(this.cfg.textStyle, 'dodgeText', null);
+    if (dodgeText) {
+      return dodgeText(this.cfg, range, minTextShape, maxTextShape);
+    }
+
     const handlerWidth = get(this.cfg.handlerStyle, 'width', DEFAULT_HANDLER_WIDTH);
+    const textPadding = get(this.cfg.textStyle, 'padding');
     let [min, max] = range;
     let sorted = false;
 
@@ -586,7 +593,7 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
     const { attrs: maxAttrs, textWidth: maxTextWidth } = this.setTextAttrs(maxBBox, maxTextShape, [min, max], 'max');
 
     // 两端文字存在安全间距为4px, 如果小于该距离则两端均不显示文字
-    const gap = this.cfg.width - handlerWidth * 2 - TEXT_PADDING * 2 - minTextWidth - maxTextWidth;
+    const gap = this.cfg.width - handlerWidth * 2 - textPadding * 2 - minTextWidth - maxTextWidth;
     if (gap <= TEXT_SAFE_WIDTH) {
       // text: '' 不显示文字
       const newMinAttrs = { ...minAttrs, text: '' };
@@ -598,7 +605,7 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
     // 检测中间宽度是否能展示当前不滑动文字的文本，如果距离不够，则隐藏不滑动一侧的文字。
     if (minAttrs.textAlign === 'left' || maxAttrs.textAlign === 'right') {
       const foregroundWidth = this.foreground?.get('width');
-      const gap = foregroundWidth - handlerWidth - TEXT_PADDING * 2;
+      const gap = foregroundWidth - handlerWidth - textPadding * 2;
       if (minAttrs.textAlign === 'left') {
         if (gap <= minTextWidth) {
           return !sorted ? [{ ...minAttrs, text: '' }, { ...maxAttrs }] : [{ ...maxAttrs }, { ...minAttrs, text: '' }];
@@ -632,7 +639,8 @@ export class Slider extends GroupComponent<SliderCfg> implements ISlider {
     textWidth: number;
   } {
     const handlerWidth = get(this.cfg.handlerStyle, 'width', DEFAULT_HANDLER_WIDTH);
-    const gapWidth = handlerWidth / 2 + TEXT_PADDING;
+    const textPadding = get(this.cfg.textStyle, 'padding');
+    const gapWidth = handlerWidth / 2 + textPadding;
     const [min, max] = range;
     const { width } = bbox;
     const text = textShape.attr('text');
