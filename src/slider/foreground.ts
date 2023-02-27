@@ -11,6 +11,8 @@ interface IStyle {
   opacity?: number;
   cursor?: string;
   highLightFill?: string;
+  /** 框选占比 */
+  brushRatio?: number;
 }
 
 export interface ForegroundCfg extends GroupComponentCfg {
@@ -38,6 +40,7 @@ export class Foreground extends GroupComponent<ForegroundCfg> {
 
   protected renderInner(group: IGroup) {
     const { x, height, width, foregroundStyle, barStyle } = this.cfg;
+    const { brushRatio } = foregroundStyle;
 
     // 上方移动区域
     this.addShape(group, {
@@ -48,7 +51,7 @@ export class Foreground extends GroupComponent<ForegroundCfg> {
         x,
         y: 0,
         width,
-        height: (height * 2) / 5,
+        height: height * (1 - brushRatio),
         cursor: 'move',
         ...omit(foregroundStyle, ['stroke']),
       },
@@ -61,9 +64,9 @@ export class Foreground extends GroupComponent<ForegroundCfg> {
       type: 'rect',
       attrs: {
         x,
-        y: (height * 2) / 5,
+        y: height * (1 - brushRatio),
         width,
-        height: (height * 3) / 5,
+        height: height * brushRatio,
         cursor: 'crosshair',
         ...omit(foregroundStyle, ['stroke']),
       },

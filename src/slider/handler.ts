@@ -1,4 +1,5 @@
 import { IGroup } from '@antv/g-base';
+import { omit } from '@antv/util';
 import GroupComponent from '../abstract/group-component';
 import { GroupComponentCfg } from '../types';
 import { DEFAULT_HANDLER_HEIGHT, DEFAULT_HANDLER_WIDTH, HANDLER_STYLE } from './constant';
@@ -21,6 +22,7 @@ export interface HandlerCfg extends GroupComponentCfg {
   readonly height: number;
   // style
   readonly style?: IStyle;
+  readonly sliderHeight?: number;
 }
 
 export class Handler extends GroupComponent<HandlerCfg> {
@@ -37,10 +39,23 @@ export class Handler extends GroupComponent<HandlerCfg> {
     };
   }
   protected renderInner(group: IGroup) {
-    const { width, height, style } = this.cfg as HandlerCfg;
-    const { fill, stroke, radius, opacity, cursor } = style;
+    const { width, height, style, sliderHeight } = this.cfg;
+    const { stroke, cursor } = style;
 
-    // 按钮框框
+    // 滑块柄竖线
+    this.addShape(group, {
+      type: 'line',
+      id: this.getElementId('background-line'),
+      attrs: {
+        x1: (1 / 2) * width,
+        y1: -(sliderHeight - height) / 2,
+        x2: (1 / 2) * width,
+        y2: (height + sliderHeight) / 2,
+        stroke,
+      },
+    });
+
+    // 滑块柄框框
     this.addShape(group, {
       type: 'rect',
       id: this.getElementId('background'),
@@ -49,10 +64,7 @@ export class Handler extends GroupComponent<HandlerCfg> {
         y: 0,
         width,
         height,
-        fill,
-        radius,
-        opacity,
-        cursor,
+        ...omit(style, ['stroke']),
       },
     });
 
@@ -106,6 +118,7 @@ export class Handler extends GroupComponent<HandlerCfg> {
   private bindEvents() {
     this.get('group').on('mouseenter', () => {
       const { highLightStroke } = this.get('style');
+      this.getElementByLocalId('background-line').attr('stroke', highLightStroke);
       this.getElementByLocalId('line-left').attr('stroke', highLightStroke);
       this.getElementByLocalId('line-right').attr('stroke', highLightStroke);
       this.draw();
@@ -113,6 +126,7 @@ export class Handler extends GroupComponent<HandlerCfg> {
 
     this.get('group').on('mouseleave', () => {
       const { stroke } = this.get('style');
+      this.getElementByLocalId('background-line').attr('stroke', stroke);
       this.getElementByLocalId('line-left').attr('stroke', stroke);
       this.getElementByLocalId('line-right').attr('stroke', stroke);
       this.draw();
