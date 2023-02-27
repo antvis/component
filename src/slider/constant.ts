@@ -37,6 +37,7 @@ export const FOREGROUND_STYLE = {
   stroke: '#4E83CD',
   strokeOpacity: 0.3,
   lineWidth: 0.8,
+  brushRatio: 3 / 4,
 };
 
 export const SLIDER_BAR_LINE_GAP = 4;
@@ -70,10 +71,10 @@ export const TEXT_STYLE = {
   textBaseline: 'middle',
   fill: '#000',
   opacity: 0.45,
+  padding: 2,
 };
 
 export const SLIDER_CHANGE = 'sliderchange';
 
 export const MAX_TEXT_WIDTH = 60;
-export const TEXT_PADDING = 2;
 export const TEXT_SAFE_WIDTH = 4;
