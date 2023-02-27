@@ -1,5 +1,6 @@
-import { DisplayObject, Text, TextStyleProps } from '@antv/g';
+import { DisplayObject, TextStyleProps } from '@antv/g';
 import { Point } from '../types';
+import type { Text } from '../ui/text';
 import { select } from './selection';
 
 /**
@@ -31,14 +32,6 @@ export function createTempText(group: DisplayObject, attrs: TextStyleProps): Tex
   textNode.attr({ ...attrs, visibility: 'hidden' });
 
   return textNode;
-}
-
-export function distance(p1: Point, p2: Point): number {
-  const [x1, y1] = p1;
-  const [x2, y2] = p2;
-  const dx = x2 - x1;
-  const dy = y2 - y1;
-  return Math.sqrt(dx * dx + dy * dy);
 }
 
 export function isHorizontal(p1: Point, p2: Point): boolean {

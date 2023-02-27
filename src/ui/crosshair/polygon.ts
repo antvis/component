@@ -1,10 +1,9 @@
-import { vec2 } from '@antv/matrix-util';
+import type { RequiredStyleProps } from '../../core';
+import type { Point } from '../../types';
+import { deepAssign, intersection, lineLen, rotate, scale, throttle } from '../../util';
 import { CrosshairBase } from './base';
 import { POLYGON_CROSSHAIR_DEFAULT_STYLE } from './constant';
-import { PolygonCrosshairStyleProps, PolygonCrosshairOptions } from './types';
-import { deepAssign, intersection, lineLen, throttle } from '../../util';
-import type { Point } from '../../types';
-import type { RequiredStyleProps } from '../../core';
+import { PolygonCrosshairOptions, PolygonCrosshairStyleProps } from './types';
 
 export type { PolygonCrosshairStyleProps, PolygonCrosshairOptions };
 
@@ -39,7 +38,7 @@ export class PolygonCrosshair extends CrosshairBase<RequiredStyleProps<PolygonCr
     const unit: [number, number] = [1, 0];
     const points = [];
     for (let i = 0; i < sides; i += 1) {
-      points.push(vec2.rotate([0, 0], unit, [0, 0], (startAngle / 180) * Math.PI + a * i));
+      points.push(rotate(unit, [0, 0], (startAngle / 180) * Math.PI + a * i));
     }
     return points as Point[];
   }
@@ -76,7 +75,7 @@ export class PolygonCrosshair extends CrosshairBase<RequiredStyleProps<PolygonCr
       },
     } = this.attributes;
     const path = this.points.map(([x, y], index) => {
-      const [tx, ty] = vec2.scale([0, 0], [x, y], radius || defaultRadius);
+      const [tx, ty] = scale([x, y], radius || defaultRadius);
       return [index === 0 ? 'M' : 'L', cx + tx, cy + ty];
     });
     path.push(['Z']);

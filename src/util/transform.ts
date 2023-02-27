@@ -1,5 +1,4 @@
 import { DisplayObject } from '@antv/g';
-import type { Selection } from './selection';
 
 /** get attr value in transform */
 export function getTransform(node: DisplayObject, attr: string): number[] | undefined {

@@ -98,10 +98,6 @@ export class Layout extends Group {
     });
   }
 
-  destroy() {
-    this.removeAllEventListeners();
-  }
-
   attributeChangedCallback(name: string, value: any, oldValue: any) {
     if (name === 'margin') this.margin = value;
     else if (name === 'padding') this.padding = value;

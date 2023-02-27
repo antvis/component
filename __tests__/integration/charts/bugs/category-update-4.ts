@@ -1,5 +1,6 @@
 import { Group, DisplayObject } from '@antv/g';
 import { Category } from '../../../../src/ui/legend';
+import { timeout } from '../../utils';
 import { flowItemData } from '../legend/data';
 
 export const BugCategoryUpdate4 = () => {
@@ -25,12 +26,12 @@ export const BugCategoryUpdate4 = () => {
   let item1: DisplayObject;
   let item2: DisplayObject;
 
-  setTimeout(() => {
+  timeout(() => {
     item1 = category.querySelectorAll('.items-item')[0] as DisplayObject;
     category.update({
       data: flowItemData.slice(0, 2),
     });
-    setTimeout(() => {
+    timeout(() => {
       item2 = category.querySelectorAll('.items-item')[0] as DisplayObject;
       console.assert(item1 === item2, 'item1 should be equal to item2');
       if (item1 !== item2) {

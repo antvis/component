@@ -1,9 +1,17 @@
-import { ext, vec2 } from '@antv/matrix-util';
 import { get, memoize } from '@antv/util';
 import { transition, type AnimationResult, type StandardAnimationOption } from '../../../animation';
 import type { RequiredStyleProps } from '../../../core';
 import type { DisplayObject, Point, Vector2 } from '../../../types';
-import { degToRad, keyframeInterpolate, renderExtDo, scaleToPixel, Selection, subStyleProps } from '../../../util';
+import {
+  degToRad,
+  keyframeInterpolate,
+  normalize,
+  renderExtDo,
+  scaleToPixel,
+  Selection,
+  subStyleProps,
+  vertical,
+} from '../../../util';
 import { CLASS_NAMES } from '../constant';
 import type { ArcAxisStyleProps, AxisLineStyleProps, AxisStyleProps, Direction, LinearAxisStyleProps } from '../types';
 import { baseDependencies } from './utils';
@@ -29,7 +37,7 @@ export const getLineTangentVector = memoize(
         endPos: [endX, endY],
       } = attr.style;
       const [dx, dy] = [endX - startX, endY - startY];
-      return vec2.normalize([0, 0], [dx, dy]) as Vector2;
+      return normalize([dx, dy]);
     }
 
     const angle = degToRad(getLineAngle(value, attr));
@@ -48,7 +56,7 @@ export function getDirectionVector(
   attr: RequiredStyleProps<AxisStyleProps>
 ): Vector2 {
   const tangentVector = getLineTangentVector(value, attr);
-  return ext.vertical([], tangentVector, direction !== 'positive') as Vector2;
+  return vertical(tangentVector, direction !== 'positive') as Vector2;
 }
 
 export const getLinearValuePos = memoize(

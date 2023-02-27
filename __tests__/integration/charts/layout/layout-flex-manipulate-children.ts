@@ -1,6 +1,6 @@
 import { Group, Rect } from '@antv/g';
 import { Layout } from '../../../../src/ui/layout';
-import { createGrid } from '../../utils';
+import { timeout, createGrid } from '../../utils';
 
 export const LayoutFlexManipulateChildren = () => {
   const group = new Group();
@@ -48,7 +48,7 @@ export const LayoutFlexManipulateChildren = () => {
     })
   );
 
-  setTimeout(() => {
+  timeout(() => {
     rect.style.x = 30;
     rect.style.width = 20;
     rect.style.height = 40;

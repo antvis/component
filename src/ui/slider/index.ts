@@ -1,4 +1,4 @@
-import { CustomEvent, Group, Rect, Text, type Cursor } from '@antv/g';
+import { CustomEvent, Group, Rect, type Cursor } from '@antv/g';
 import { transition } from '../../animation';
 import { GUI, RequiredStyleProps } from '../../core';
 import {
@@ -14,8 +14,9 @@ import {
   type Selection,
 } from '../../util';
 import { Sparkline, type SparklineStyleProps } from '../sparkline';
+import { Text } from '../text';
 import { HANDLE_DEFAULT_CFG, HANDLE_ICON_DEFAULT_CFG, HANDLE_LABEL_DEFAULT_CFG } from './constant';
-import { Handle, type HandleStyleProps, type IconStyleProps, type LabelStyleProps } from './handle';
+import { Handle, type IconStyleProps, type LabelStyleProps } from './handle';
 import type { SliderOptions, SliderStyleProps } from './types';
 
 export type { SliderStyleProps, SliderOptions };

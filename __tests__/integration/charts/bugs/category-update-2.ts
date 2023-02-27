@@ -1,5 +1,6 @@
 import { Group } from '@antv/g';
 import { Category } from '../../../../src/ui/legend';
+import { timeout } from '../../utils';
 import { flowItemData, colors } from '../legend/data';
 
 export const BugCategoryUpdate2 = () => {
@@ -22,11 +23,11 @@ export const BugCategoryUpdate2 = () => {
     })
   );
 
-  setTimeout(() => {
+  timeout(() => {
     category.update({ style: { width: 300 } });
   }, 1000);
 
-  // setTimeout(() => {
+  // timeout(() => {
   //   category.update({ width: 600 });
   // }, 2000);
 

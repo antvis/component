@@ -1,9 +1,10 @@
-import { Group, Text } from '@antv/g';
+import { Group } from '@antv/g';
 import { deepMix, isUndefined } from '@antv/util';
 import { GUI, PartialStyleProps, RequiredStyleProps } from '../../core';
 import type { RectProps } from '../../types';
 import { maybeAppend, parseSeriesAttr, select, subObject } from '../../util';
 import { Marker } from '../marker';
+import { Text } from '../text';
 import { DISABLED_STYLE, SIZE_STYLE, TYPE_STYLE } from './constant';
 import type { ButtonOptions, ButtonStyleProps } from './types';
 

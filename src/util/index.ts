@@ -34,3 +34,5 @@ export * from './visibility';
 export * from './traverse';
 export * from './offscreen';
 export * from './string';
+export * from './matrix';
+export * from './path';

@@ -1,8 +1,9 @@
 // @ts-nocheck
-import { Circle, Ellipse, Group, HTML, IDocument, Image, Line, Path, Polygon, Polyline, Rect, Text } from '@antv/g';
 import type { BaseStyleProps as BP, DisplayObject, IAnimation } from '@antv/g';
+import { Circle, Ellipse, Group, HTML, IDocument, Image, Line, Path, Polygon, Polyline, Rect } from '@antv/g';
 import { group } from 'd3-array';
 import type { AnimationResult } from '../animation';
+import { Text } from '../ui/text';
 
 export type _Element = DisplayObject & {
   // Data for this element.

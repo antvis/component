@@ -1,4 +1,4 @@
-import { Text } from '@antv/g';
+import { Text } from '../ui/text';
 import type { Selection } from './selection';
 
 export function ellipsisIt(el: Text | Selection<Text>, w: number, suffix = '...') {

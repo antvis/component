@@ -1,9 +1,9 @@
 import { Group } from '@antv/g';
-import { deepMix, isNil } from '@antv/util';
+import { isNil } from '@antv/util';
 import { GUI, type RequiredStyleProps } from '../../core';
-import { parseSeriesAttr, maybeAppend, select, subStyleProps } from '../../util';
+import { maybeAppend, parseSeriesAttr, select, subStyleProps } from '../../util';
 import { Marker } from '../marker';
-import type { TagStyleProps, TagOptions } from './types';
+import type { TagOptions, TagStyleProps } from './types';
 
 export type { TagStyleProps, TagOptions };
 

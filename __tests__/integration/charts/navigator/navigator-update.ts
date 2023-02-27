@@ -1,5 +1,6 @@
-import { Group, Text, Rect } from '@antv/g';
+import { Group, Rect, Text } from '@antv/g';
 import { Navigator } from '../../../../src/ui/navigator';
+import { timeout } from '../../utils';
 
 export const NavigatorUpdate = () => {
   const group = new Group();
@@ -38,7 +39,7 @@ export const NavigatorUpdate = () => {
   );
 
   // update page views
-  setTimeout(() => {
+  timeout(() => {
     nav.update({
       style: {
         x: 100,
@@ -52,7 +53,7 @@ export const NavigatorUpdate = () => {
   }, 1000);
 
   // update page size
-  setTimeout(() => {
+  timeout(() => {
     nav.update({
       style: {
         pageWidth: 200,
@@ -66,7 +67,7 @@ export const NavigatorUpdate = () => {
   }, 2000);
 
   // set page num
-  setTimeout(() => {
+  timeout(() => {
     nav.update({
       style: {
         initPage: 4,
@@ -74,7 +75,7 @@ export const NavigatorUpdate = () => {
     });
   }, 3000);
 
-  setTimeout(() => {
+  timeout(() => {
     nav.update({
       style: {
         pageWidth: 100,

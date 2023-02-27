@@ -1,5 +1,6 @@
-import { Group, Text, Rect } from '@antv/g';
+import { Group, Rect, Text } from '@antv/g';
 import { Navigator } from '../../../../src/ui/navigator';
+import { timeout } from '../../utils';
 
 export const NavigatorNull = () => {
   const group = new Group();
@@ -41,7 +42,7 @@ export const NavigatorNull = () => {
     })
   );
 
-  setTimeout(() => {
+  timeout(() => {
     createPageViews(2, [100, 100]).forEach((page) => {
       nav.getContainer().appendChild(page);
     });

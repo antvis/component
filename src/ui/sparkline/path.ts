@@ -1,5 +1,5 @@
 import { clone, isEqual, clamp } from '@antv/util';
-import { catmullRom2Bezier } from '@antv/path-util';
+import { catmullRom2Bezier } from '../../util';
 import type { Data, Line, Point, Scales } from './types';
 
 /**

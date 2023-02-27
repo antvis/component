@@ -1,5 +1,6 @@
-import { Group, DisplayObject, HTML, Text } from '@antv/g';
+import { DisplayObject, Group, HTML } from '@antv/g';
 import { maybeAppend, select } from '../../util';
+import { Text } from '../text';
 
 export function getTitleShapeBBox(titleShape?: DisplayObject): {
   top: number;

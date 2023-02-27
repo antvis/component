@@ -143,6 +143,7 @@ export class Poptip extends GUI<Required<PoptipCfg>> {
     [...this.map.keys()].forEach((ele) => this.unbind(ele));
 
     this.container?.remove();
+    super.destroy();
   }
 
   /**

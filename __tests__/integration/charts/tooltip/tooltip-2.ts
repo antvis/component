@@ -1,5 +1,6 @@
 import { Group, Rect } from '@antv/g';
 import { Tooltip } from '../../../../src/ui/tooltip';
+import { timeout } from '../../utils';
 
 export const Tooltip2 = () => {
   const group = new Group();
@@ -75,7 +76,7 @@ export const Tooltip2 = () => {
     tooltip.show();
   });
   group.addEventListener('mouseleave', () => {
-    setTimeout(() => {
+    timeout(() => {
       if (!isPointerInTooltip) {
         tooltip.hide();
       }

@@ -55,7 +55,7 @@ $ git clone git@github.com:antvis/gui.git
 
 $ cd gui
 
-$ pnpm i
+$ tnpm i
 
 $ tnpm t
 ```

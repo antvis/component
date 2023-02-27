@@ -29,6 +29,7 @@ module.exports = {
     'no-shadow': 'off',
     'no-console': 'off',
     'arrow-body-style': 'off',
+    'import/no-unresolved': 'off',
     'no-useless-constructor': 'off',
     'no-unused-expressions': 'off',
     'no-dupe-class-members': 'off',
@@ -37,7 +38,7 @@ module.exports = {
     'no-compare-neg-zero': 'off',
     '@typescript-eslint/no-dupe-class-members': ['error'],
     '@typescript-eslint/no-unused-vars': ['warn'],
-    "no-use-before-define": "off",
+    'no-use-before-define': 'off',
   },
   settings: {
     'import/parsers': {

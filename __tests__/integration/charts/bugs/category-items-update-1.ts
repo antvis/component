@@ -1,6 +1,7 @@
 import { Group } from '@antv/g';
 import { CategoryItems } from '../../../../src/ui/legend/category/items';
-import { flowItemData, colors } from '../legend/data';
+import { timeout } from '../../utils';
+import { colors, flowItemData } from '../legend/data';
 
 export const BugCategoryItemsUpdate1 = () => {
   const group = new Group();
@@ -24,7 +25,7 @@ export const BugCategoryItemsUpdate1 = () => {
     })
   );
 
-  setTimeout(() => {
+  timeout(() => {
     // 期望变成红色
     items.update({
       style: {

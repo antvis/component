@@ -1,11 +1,12 @@
-import { vec2 } from '@antv/matrix-util';
 import { get } from '@antv/util';
-import { onAnimateFinished, transition, type GenericAnimation, type StandardAnimationOption } from '../../../animation';
+import { transition, type GenericAnimation, type StandardAnimationOption } from '../../../animation';
 import type { GUI, RequiredStyleProps } from '../../../core';
 import {
+  normalize,
   parseSeriesAttr,
   percentTransform,
   renderExtDo,
+  scale,
   select,
   styleSeparator,
   subStyleProps,
@@ -42,8 +43,8 @@ function getTitlePosition(
     const { startPos, endPos } = attr.style;
     // todo did not consider the truncate case
     const [from, to] = position === 'start' ? [startPos, endPos] : [endPos, startPos];
-    const direction = vec2.normalize([0, 0], [-to[0] + from[0], -to[1] + from[1]]);
-    const [dx, dy] = vec2.scale([0, 0], direction, spacingTop);
+    const direction = normalize([-to[0] + from[0], -to[1] + from[1]]);
+    const [dx, dy] = scale(direction, spacingTop);
     return { x: from[0] + dx, y: from[1] + dy };
   }
 

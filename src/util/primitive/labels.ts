@@ -1,7 +1,8 @@
-import { Group, DisplayObject, Text } from '@antv/g';
-import { getFont, parseLength, getEllipsisText } from '../text';
-import { select } from '../selection';
+import { DisplayObject, Group } from '@antv/g';
+import { Text } from '../../ui/text';
 import { defined } from '../defined';
+import { select } from '../selection';
+import { getEllipsisText, getFont, parseLength } from '../text';
 
 export type LabelAttrs = {
   id: string;

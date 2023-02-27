@@ -1,6 +1,7 @@
-export const scale = ['year', 'month', 'day', 'hour', 'minute', 'second'] as const;
+const scale = ['year', 'month', 'day', 'hour', 'minute', 'second'] as const;
 const masks = ['YYYY', 'MM', 'DD', 'hh', 'mm', 'ss'];
-export type TimeScale = (typeof scale)[number];
+type TimeScale = (typeof scale)[number];
+
 export function parseDate(date: Date | string) {
   return date instanceof Date ? date : new Date(date);
 }

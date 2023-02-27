@@ -1,12 +1,11 @@
-import { vec2 } from '@antv/matrix-util';
 import { isFunction } from '@antv/util';
 import { StandardAnimationOption } from '../../../animation';
-import type { Point } from '../../../types';
 import type { RequiredStyleProps } from '../../../core';
-import { degToRad, getCallbackValue, Selection, subStyleProps } from '../../../util';
+import type { Point } from '../../../types';
+import { degToRad, getCallbackValue, scale, Selection, subStyleProps } from '../../../util';
 import { Grid } from '../../grid';
 import { CLASS_NAMES } from '../constant';
-import type { AxisDatum, AxisStyleProps, AxisGridStyleProps } from '../types';
+import type { AxisDatum, AxisGridStyleProps, AxisStyleProps } from '../types';
 import { getDirectionVector, getValuePos } from './line';
 import { filterExec } from './utils';
 
@@ -24,7 +23,7 @@ function renderStraight(data: AxisDatum[], attr: RequiredStyleProps<AxisStylePro
   const { gridLength } = attr.style;
   return data.map(({ value }) => {
     const [x, y] = getValuePos(value, attr);
-    const [dx, dy] = vec2.scale([0, 0], getGridVector(value, attr), gridLength);
+    const [dx, dy] = scale(getGridVector(value, attr), gridLength);
     return {
       points: [
         [x, y],

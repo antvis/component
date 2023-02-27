@@ -1,13 +1,4 @@
-import {
-  Circle,
-  DisplayObject,
-  Group,
-  GroupStyleProps,
-  PathStyleProps,
-  RectStyleProps,
-  Text,
-  TextStyleProps,
-} from '@antv/g';
+import { Circle, DisplayObject, Group, GroupStyleProps, PathStyleProps, RectStyleProps, TextStyleProps } from '@antv/g';
 import { GUI, type ComponentOptions, type RequiredStyleProps } from '../../../core';
 import { ExtendDisplayObject, PrefixObject } from '../../../types';
 import {
@@ -22,6 +13,7 @@ import {
   SeriesAttr,
   subStyleProps,
 } from '../../../util';
+import { Text } from '../../text';
 
 type ItemMarkerStyle = { size?: number } & PathStyleProps;
 type ItemTextStyle = Omit<TextStyleProps, 'text'>;

@@ -1,5 +1,6 @@
-import { Text, type DisplayObject } from '@antv/g';
+import type { DisplayObject } from '@antv/g';
 import type { RequiredStyleProps } from '../../../core';
+import type { Text } from '../../text';
 import type { AxisStyleProps, LabelOverlapCfg } from '../types';
 import ellipsis, { type Utils as EllipsisUtils } from './autoEllipsis';
 import hide, { type Utils as HideUtils } from './autoHide';

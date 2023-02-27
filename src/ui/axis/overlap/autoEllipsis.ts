@@ -1,5 +1,6 @@
-import type { DisplayObject, Text } from '@antv/g';
+import type { DisplayObject } from '@antv/g';
 import { isNil } from '@antv/util';
+import type { Text } from '../../text';
 import { getFont, parseLength } from '../../../util';
 import { AxisStyleProps, EllipsisOverlapCfg } from '../types';
 import { boundTest } from '../utils/helper';

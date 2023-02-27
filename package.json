@@ -46,12 +46,10 @@
   ],
   "dependencies": {
     "@antv/dom-util": "^2.0.3",
-    "@antv/matrix-util": "^3.0.4",
-    "@antv/path-util": "^2.0.15",
+    "@antv/g": "^5.15.15",
     "@antv/scale": "^0.4.3",
     "@antv/util": "^3.3.1",
     "d3-array": "^3.2.0",
-    "fecha": "^4.2.1",
     "svg-path-parser": "^1.1.0"
   },
   "peerDependencies": {
@@ -62,7 +60,6 @@
     "@antv/g-canvas": "^1.9.18",
     "@antv/g-svg": "^1.8.27",
     "@antv/gatsby-theme-antv": "^1.1.8",
-    "@antv/scale": "^0.4.6",
     "@babel/plugin-proposal-decorators": "^7.20.5",
     "@babel/plugin-transform-runtime": "^7.17.0",
     "@babel/preset-env": "^7.16.11",

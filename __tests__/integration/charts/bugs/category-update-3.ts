@@ -1,5 +1,6 @@
 import { Group } from '@antv/g';
 import { Category } from '../../../../src/ui/legend';
+import { timeout } from '../../utils';
 import { flowItemData } from '../legend/data';
 
 export const BugCategoryUpdate3 = () => {
@@ -22,15 +23,15 @@ export const BugCategoryUpdate3 = () => {
     })
   );
 
-  setTimeout(() => {
+  timeout(() => {
     category.update({ style: { gridRow: 2 } });
   }, 1000);
 
-  setTimeout(() => {
+  timeout(() => {
     category.update({ style: { gridCol: 4 } });
   }, 2000);
 
-  setTimeout(() => {
+  timeout(() => {
     category.update({ style: { gridRow: 1, gridCol: 3 } });
   }, 3000);
 

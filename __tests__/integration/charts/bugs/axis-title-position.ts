@@ -80,7 +80,7 @@ export const BugAxisTitlePosition = () => {
   );
 
   // let angle = 0;
-  // setInterval(() => {
+  // interval(() => {
   //   axis.style.titleTransform = `rotate(-${angle})`;
   //   angle += 5;
   // }, 200);

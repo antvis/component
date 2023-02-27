@@ -1,5 +1,6 @@
 import { Group } from '@antv/g';
 import { CategoryItem } from '../../../../src/ui/legend/category/item';
+import { timeout } from '../../utils';
 
 export const BugCategoryItemUpdate1 = () => {
   const group = new Group({
@@ -25,7 +26,7 @@ export const BugCategoryItemUpdate1 = () => {
     })
   );
 
-  setTimeout(() => {
+  timeout(() => {
     // 期望变成红色
     item.update({ style: { markerFill: 'red', labelFill: 'red', valueFill: 'red' } });
   }, 1000);

@@ -1,8 +1,8 @@
-import type { Group, Text } from '@antv/g';
+import type { Group } from '@antv/g';
 import { DisplayObject } from '@antv/g';
-import type { RequiredStyleProps } from '../../core';
-import { GUI } from '../../core';
+import { GUI, type RequiredStyleProps } from '../../core';
 import { BBox, classNames, ifShow, parseSeriesAttr, select, Selection, styleSeparator } from '../../util';
+import { Text } from '../text';
 import type { TitleOptions, TitleStyleProps } from './types';
 
 export type { TitleOptions, TitleStyleProps };

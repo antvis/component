@@ -1,9 +1,10 @@
-import { Group, Text } from '@antv/g';
+import { Group } from '@antv/g';
 import { deepMix, isNil, pick } from '@antv/util';
 import { GUI } from '../../core';
 import { maybeAppend, parseSeriesAttr, TEXT_INHERITABLE_PROPS } from '../../util';
 import { Tag } from '../tag';
-import type { BreadcrumbCfg, BreadcrumbOptions, BreadcrumbItem } from './type';
+import { Text } from '../text';
+import type { BreadcrumbCfg, BreadcrumbItem, BreadcrumbOptions } from './type';
 
 export type { BreadcrumbCfg, BreadcrumbOptions };
 

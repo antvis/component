@@ -1,6 +1,6 @@
-import { CustomElement, DisplayObject, Group } from '@antv/g';
+import { CustomElement, Group } from '@antv/g';
 import type { GenericAnimation } from '../animation';
-import { deepAssign, createOffscreenGroup } from '../util';
+import { createOffscreenGroup, deepAssign } from '../util';
 import { getPrimitiveAttributes } from './constant';
 import type { ComponentOptions, PartialStyleProps, RequiredStyleProps } from './types';
 
@@ -29,6 +29,10 @@ export abstract class GUI<T extends Record<string, any>> extends CustomElement<T
     this.bindEvents(this.attributes, this);
   }
 
+  disconnectedCallback(): void {
+    this._offscreen.destroy();
+  }
+
   public update(attr: PartialStyleProps<T> = {}, animate?: GenericAnimation) {
     this.attr(deepAssign({}, this.attributes, attr));
     this.attr(getPrimitiveAttributes(this.attributes.style) as any);
@@ -37,12 +41,6 @@ export abstract class GUI<T extends Record<string, any>> extends CustomElement<T
 
   public clear() {
     this.removeChildren();
-  }
-
-  public destroy() {
-    this.removeAllEventListeners();
-    this.removeChildren();
-    this.remove();
   }
 
   attributeChangedCallback() {}

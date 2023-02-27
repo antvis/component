@@ -1,4 +1,4 @@
-import { ElementEvent, Group, Rect, Text } from '@antv/g';
+import { ElementEvent, Group, Rect } from '@antv/g';
 import { clamp, debounce } from '@antv/util';
 import { animate, onAnimateFinished } from '../../animation';
 import { GUI, type RequiredStyleProps } from '../../core';
@@ -15,6 +15,7 @@ import {
   type Selection,
 } from '../../util';
 import { button } from '../marker/symbol';
+import { Text } from '../text';
 import type { NavigatorOptions, NavigatorStyleProps } from './types';
 
 export type { NavigatorOptions, NavigatorStyleProps } from './types';

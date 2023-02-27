@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GUI Performance</title>
+    <style>
+      #console {
+        display: flex;
+        gap: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="console">
+      <div id="commit-id"></div>
+      <div>
+        <div>
+          <input type="checkbox" id="preview" name="preview" />
+          <label for="preview">预览</label>
+        </div>
+      </div>
+      <button id="launch">启动</button>
+    </div>
+    <div id="container"></div>
+    <script type="module" src="./scripts/main.ts"></script>
+    <script src="https://unpkg.com/@antv/g2@5.0.0-beta.11/dist/g2.min.js"></script>
+  </body>
+</html>

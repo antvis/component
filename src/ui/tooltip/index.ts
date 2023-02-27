@@ -116,6 +116,7 @@ export class Tooltip extends GUI<RequiredStyleProps<TooltipStyleProps>> {
   public destroy() {
     this.element?.remove();
     this.customContent?.remove();
+    super.destroy();
   }
 
   public show() {

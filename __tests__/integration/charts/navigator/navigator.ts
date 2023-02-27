@@ -1,4 +1,5 @@
 import { Group, Text, Rect } from '@antv/g';
+import { interval, timeout } from '../../utils';
 import { Navigator } from '../../../../src/ui/navigator';
 
 export const NavigatorDemo = () => {
@@ -53,14 +54,6 @@ export const NavigatorDemo = () => {
     return nav;
   };
 
-  const interval = (cb: Function, time: number) => {
-    if (process.env.NODE_ENV !== 'test') setInterval(cb, time);
-  };
-
-  const timeout = (cb: Function, time: number) => {
-    if (process.env.NODE_ENV !== 'test') setTimeout(cb, time);
-  };
-
   const nav1 = createNav({ x: 100, y: 100 });
   interval(() => {
     nav1.next();
@@ -80,7 +73,7 @@ export const NavigatorDemo = () => {
 
   timeout(() => {
     nav4.next()?.finished.then(() => {
-      setTimeout(() => {
+      timeout(() => {
         nav4.update({ style: { initPage: 2 } });
       }, 1000);
     });
@@ -93,7 +86,7 @@ export const NavigatorDemo = () => {
     createPageViews(10, [100, 100], (str) => `nav5-${str}`).forEach((page) => {
       nav5.getContainer().appendChild(page);
     });
-    setInterval(() => {
+    interval(() => {
       nav5.next();
     }, 1000);
   }, 1000);

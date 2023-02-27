@@ -1,5 +1,6 @@
-import { Group, Text, Rect } from '@antv/g';
+import { Group, Rect, Text } from '@antv/g';
 import { Navigator } from '../../../../src/ui/navigator';
+import { timeout } from '../../utils';
 
 export const NavigatorOverPages = () => {
   const group = new Group({
@@ -55,7 +56,7 @@ export const NavigatorOverPages = () => {
     nav.getContainer().appendChild(page);
   });
 
-  setTimeout(() => {
+  timeout(() => {
     nav.update({
       style: {
         initPage: 0,
@@ -63,7 +64,7 @@ export const NavigatorOverPages = () => {
     });
   }, 1000);
 
-  setTimeout(() => {
+  timeout(() => {
     nav.update({
       style: {
         initPage: 4,
