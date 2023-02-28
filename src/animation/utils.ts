@@ -2,7 +2,7 @@
 import type { DisplayObject } from '@antv/g';
 import { isNil } from '@antv/util';
 import type { GUI } from '../core';
-import { visibility } from '../util';
+import { show, hide } from '../util';
 import type { AnimationOption, AnimationResult, GenericAnimation, StandardAnimationOption } from './types';
 
 function isStandardAnimationOption(option: AnimationOption): option is StandardAnimationOption {
@@ -67,8 +67,8 @@ export function transitionShape(
 ) {
   const afterTransition = () => {
     if (after === 'destroy') source.destroy();
-    else if (after === 'hide') visibility(source, false);
-    visibility(target, true);
+    else if (after === 'hide') hide(source);
+    if (target.isVisible()) show(target);
   };
   if (!options) {
     afterTransition();

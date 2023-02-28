@@ -212,10 +212,10 @@ export class CategoryItem extends GUI<RequiredStyleProps<CategoryItemStyleProps>
     this.markerGroup.styles({ x: markerX, y: halfHeight });
     this.labelGroup.styles({ x: labelX, y: halfHeight });
 
-    ellipsisIt(this.labelGroup.select(CLASS_NAMES.label.class) as Selection<Text>, labelWidth);
+    ellipsisIt(this.labelGroup.select(CLASS_NAMES.label.class).node(), labelWidth);
     if (this.showValue) {
       this.valueGroup.styles({ x: valueX, y: halfHeight });
-      ellipsisIt(this.valueGroup.select(CLASS_NAMES.value.class) as Selection<Text>, valueWidth);
+      ellipsisIt(this.valueGroup.select(CLASS_NAMES.value.class).node(), valueWidth);
     }
   }
 

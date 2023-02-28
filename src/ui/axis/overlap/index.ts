@@ -2,6 +2,7 @@ import type { DisplayObject } from '@antv/g';
 import type { RequiredStyleProps } from '../../../core';
 import type { Text } from '../../text';
 import type { AxisStyleProps, LabelOverlapCfg } from '../types';
+import { isInOffscreenGroup } from '../../../util';
 import ellipsis, { type Utils as EllipsisUtils } from './autoEllipsis';
 import hide, { type Utils as HideUtils } from './autoHide';
 import rotate, { type Utils as RotateUtils } from './autoRotate';
@@ -22,6 +23,7 @@ export function canProcessOverlap(
   type: LabelOverlapCfg['type']
 ) {
   if (!attr.labelTransform) return false;
+  if (type === 'hide' && isInOffscreenGroup(labels[0])) return false;
   // if (type === 'rotate') return !labels.some((label) => hasSetRotate(label.attr('transform')));
   if (type === 'ellipsis') return labels.map((item) => item.querySelector('text')).length > 1;
   return true;

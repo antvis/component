@@ -1,6 +1,6 @@
 import { CrosshairBase } from './base';
 import { LINE_CROSSHAIR_DEFAULT_STYLE } from './constant';
-import { deepAssign, getShapeSpace, throttle } from '../../util';
+import { deepAssign, getShapeSpace, throttle, show, hide } from '../../util';
 import type { LineCrosshairStyleProps, LineCrosshairOptions } from './types';
 import type { Point } from '../../types';
 import { RequiredStyleProps } from '../../core';
@@ -105,10 +105,10 @@ export class LineCrosshair extends CrosshairBase<RequiredStyleProps<LineCrosshai
     } = this.attributes;
 
     if (!tagText || tagText === '') {
-      this.tagShape.attr('visibility', 'hidden');
+      hide(this.tagShape);
       return;
     }
-    this.tagShape.attr('visibility', 'visible');
+    show(this.tagShape);
 
     const { width, height } = this.tagShapeSpace;
     // 偏移量

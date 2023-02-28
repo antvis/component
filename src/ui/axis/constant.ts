@@ -12,7 +12,9 @@ export const AXIS_BASE_DEFAULT_ATTR: Partial<AxisBaseStyleProps> = {
       easing: 'ease-in-out-sine',
       fill: 'both',
     },
-    exit: false,
+    exit: {
+      duration: 100,
+    },
   },
   style: {
     dataThreshold: 100,
@@ -35,6 +37,7 @@ export const AXIS_BASE_DEFAULT_ATTR: Partial<AxisBaseStyleProps> = {
       }),
     labelAlign: 'parallel',
     labelDirection: 'positive',
+    labelFontSize: 12,
     labelSpacing: 0,
     gridConnect: 'line',
     gridControlAngles: [],

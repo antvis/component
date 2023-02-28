@@ -1,9 +1,8 @@
-import { DisplayObject } from '@antv/g';
 import { isFunction } from '@antv/util';
 import { RequiredStyleProps } from '../../../core';
 import type { CallbackableObject } from '../../../types';
 import { getCallbackValue } from '../../../util';
-import type { AxisStyleProps, AxisDatumCP } from '../types';
+import type { AxisDatumCP, AxisStyleProps } from '../types';
 
 export function getCallbackStyle<T extends { [keys: string]: any }>(
   style: CallbackableObject<T, AxisDatumCP>,

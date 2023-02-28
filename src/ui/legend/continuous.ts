@@ -10,6 +10,8 @@ import {
   ifShow,
   select,
   Selection,
+  show,
+  hide,
   subStyleProps,
   superStyleProps,
   throttle,
@@ -594,18 +596,17 @@ export class Continuous extends GUI<RequiredStyleProps<ContinuousStyleProps>> {
     const pos: Point = this.ifHorizontal([offset + x, y], [x, offset + y]);
     this.indicator.update({
       style: {
-        visibility: 'visible',
         position: this.ifHorizontal('top', 'left'),
         labelText: text,
       },
     });
-    // this.indicator.node().setLocalPosition(...pos);
+    show(this.indicator.node());
     this.indicator.node().attributes.style.x = pos[0];
     this.indicator.node().attributes.style.y = pos[1];
   }
 
   private hideIndicator() {
-    this.indicator?.style('visibility', 'hidden');
+    hide(this.indicator.node());
   }
 
   private onDragStart = (target: string) => (e: any) => {

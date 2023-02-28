@@ -24,7 +24,7 @@ export const AxisAnimationUpdate9 = () => {
           gridStroke: 'red',
           labelDirection: 'negative',
           labelSpacing: 10,
-          labelTransform: 'rotate(0)',
+          labelAlign: 'horizontal',
           lineExtension: [10, 10],
           startPos: [150, 500],
           tickLength: 5,

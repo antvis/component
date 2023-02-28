@@ -7,9 +7,10 @@ import type { ComponentOptions, PartialStyleProps, RequiredStyleProps } from './
 export abstract class GUI<T extends Record<string, any>> extends CustomElement<T> {
   protected _defaultOptions: PartialStyleProps<T>;
 
-  private _offscreen: Group;
+  private _offscreen!: Group;
 
   protected get offscreenGroup() {
+    if (!this._offscreen) this._offscreen = createOffscreenGroup(this);
     return this._offscreen;
   }
 
@@ -20,7 +21,6 @@ export abstract class GUI<T extends Record<string, any>> extends CustomElement<T
   constructor(options: ComponentOptions<T>, defaultStyleProps: PartialStyleProps<T> = {}) {
     super(deepAssign({}, { style: defaultStyleProps }, options));
     this._defaultOptions = defaultStyleProps;
-    this._offscreen = createOffscreenGroup(this);
     this.attr(getPrimitiveAttributes(this.attributes.style) as any);
   }
 
@@ -30,7 +30,7 @@ export abstract class GUI<T extends Record<string, any>> extends CustomElement<T
   }
 
   disconnectedCallback(): void {
-    this._offscreen.destroy();
+    this._offscreen?.destroy();
   }
 
   public update(attr: PartialStyleProps<T> = {}, animate?: GenericAnimation) {

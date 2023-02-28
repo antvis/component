@@ -29,6 +29,7 @@ export function distance(vec1: Vector2, vec2: Vector2): number {
 }
 
 export function normalize(vec: Vector2): Vector2 {
+  if (vec[0] === 0 && vec[1] === 0) return [0, 0];
   const len = Math.sqrt(vec[0] ** 2 + vec[1] ** 2);
   return [vec[0] / len, vec[1] / len];
 }

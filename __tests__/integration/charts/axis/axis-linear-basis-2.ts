@@ -28,7 +28,7 @@ export const AxisLinearBasis2 = () => {
           endPos: [50, 500],
           labelSpacing: 5,
           labelDirection: 'negative',
-          labelTransform: 'rotate(0)',
+          labelAlign: 'horizontal',
           lineStroke: 'green',
           tickLength: 10,
           type: 'linear',

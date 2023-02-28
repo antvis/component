@@ -1,6 +1,6 @@
 import { CrosshairBase } from './base';
 import { circle } from '../marker/symbol';
-import { deepAssign, throttle } from '../../util';
+import { deepAssign, throttle, hide } from '../../util';
 import { CIRCLE_CROSSHAIR_DEFAULT_STYLE } from './constant';
 import { CircleCrosshairStyleProps, CircleCrosshairOptions } from './types';
 import type { Point } from '../../types';
@@ -42,7 +42,7 @@ export class CircleCrosshair extends CrosshairBase<RequiredStyleProps<CircleCros
   }
 
   protected adjustLayout() {
-    this.tagShape.attr('visibility', 'hidden');
+    hide(this.tagShape);
   }
 
   private createCirclePath(radius?: number) {

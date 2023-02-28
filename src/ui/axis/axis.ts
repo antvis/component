@@ -1,11 +1,5 @@
 import { Group } from '@antv/g';
-import {
-  parseAnimationOption,
-  type StandardAnimationOption,
-  type GenericAnimation,
-  type AnimationOption,
-  type AnimationResult,
-} from '../../animation';
+import { parseAnimationOption, type GenericAnimation, type StandardAnimationOption } from '../../animation';
 import { GUI, type RequiredStyleProps } from '../../core';
 import { ifShow, sampling, select, type Selection } from '../../util';
 import { AXIS_BASE_DEFAULT_ATTR, CLASS_NAMES } from './constant';
@@ -14,7 +8,7 @@ import { renderLabels } from './guides/labels';
 import { renderAxisLine } from './guides/line';
 import { renderTicks } from './guides/ticks';
 import { renderTitle } from './guides/title';
-import type { AxisOptions, AxisStyleProps, AxisDatum } from './types';
+import type { AxisDatum, AxisOptions, AxisStyleProps } from './types';
 
 export type {
   ArcAxisOptions,

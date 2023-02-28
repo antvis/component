@@ -8,10 +8,13 @@ import {
   classNames,
   scaleToPixel,
   select,
+  show,
+  hide,
   styleSeparator,
   subStyleProps,
   TEXT_INHERITABLE_PROPS,
   transpose,
+  visibility,
   type Selection,
 } from '../../util';
 import { button } from '../marker/symbol';
@@ -189,8 +192,8 @@ export class Navigator extends GUI<RequiredStyleProps<NavigatorStyleProps>> {
 
   private setVisiblePages(pages: number[]) {
     (this.playWindow.children as Group[]).forEach((page, index) => {
-      if (pages.includes(index)) page.attr('visibility', 'visible');
-      else page.attr('visibility', 'hidden');
+      if (pages.includes(index)) show(page);
+      else hide(page);
     });
   }
 
@@ -284,9 +287,8 @@ export class Navigator extends GUI<RequiredStyleProps<NavigatorStyleProps>> {
     const { pageWidth, pageHeight } = this.pageShape;
     const visible = this.pageViews.length >= 2;
 
-    const group = container
-      .maybeAppendByClassName(CLASS_NAMES.controller, 'g')
-      .style('visibility', visible ? 'visible' : 'hidden');
+    const group = container.maybeAppendByClassName(CLASS_NAMES.controller, 'g');
+    visibility(group.node(), visible);
 
     if (!visible) return;
 

@@ -1,18 +1,5 @@
 import { DisplayObject } from '@antv/g';
 
-/** get attr value in transform */
-export function getTransform(node: DisplayObject, attr: string): number[] | undefined {
-  const transform = node.computedStyleMap().get('transform') as any;
-  if (!transform || transform.value === 'unset') return undefined;
-  return (transform as { t: string; d: { value: number }[] }[])
-    ?.find(({ t }) => t === attr)
-    ?.d.map(({ value }) => value);
-}
-
-export function hasSetRotate(node: DisplayObject): boolean {
-  return !!getTransform(node, 'rotate');
-}
-
 export function getTranslate(node: DisplayObject, x: string, y: string) {
   const { width, height } = node.getBBox();
   const [tx, ty] = [x, y].map((v, i) => {
@@ -21,11 +8,6 @@ export function getTranslate(node: DisplayObject, x: string, y: string) {
       : v;
   });
   return [tx, ty];
-}
-
-export function translate(node: DisplayObject, x: string, y: string) {
-  const [tx, ty] = getTranslate(node, x, y);
-  node.attr('transform', `translate(${tx}, ${ty})`);
 }
 
 /**

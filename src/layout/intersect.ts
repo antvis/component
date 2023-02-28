@@ -42,19 +42,16 @@ function intersectBoxLine(box: number[] /** 八个顶点 */, line: number[]): bo
   return lines.some((boxLine) => lineToLine(line, boxLine));
 }
 
-function bound(bounds: Bounds, item: DisplayObject<any>, margin = [0, 0, 0, 0]) {
+function getBounds(item: DisplayObject<any>, margin = [0, 0, 0, 0]) {
   const angle = item.getEulerAngles() || 0;
   item.setEulerAngles(0);
   // get dimensions
-  const { min, max, halfExtents } = item.getLocalBounds();
+  const {
+    min: [x, y],
+    max: [right, bottom],
+  } = item.getLocalBounds();
+  const { width: w, height: h } = item.getBBox();
 
-  const left = min[0];
-  const w = halfExtents[0] * 2;
-  const h = halfExtents[1] * 2;
-  const x = left;
-  const y = min[1];
-  const right = max[0];
-  const bottom = max[1];
   let height = h;
   let dx = 0;
   let dy = 0;
@@ -86,16 +83,17 @@ function bound(bounds: Bounds, item: DisplayObject<any>, margin = [0, 0, 0, 0]) 
   }
 
   const [t = 0, r = 0, b = t, l = r] = margin;
+  const bounds = new Bounds();
   bounds.set((dx += x) - l, (dy += y) - t, dx + w + r, dy + height + b);
   item.setEulerAngles(angle);
   return bounds.rotatedPoints(degToRad(angle), anchorX, anchorY);
 }
 
-export const IntersectUtils = { lineToLine, intersectBoxLine, bound };
+export const IntersectUtils = { lineToLine, intersectBoxLine, getBounds };
 
 export function intersect(a: DisplayObject<any>, b: DisplayObject<any>, margin?: number[]) {
-  const p = bound(new Bounds(), a, margin);
-  const q = bound(new Bounds(), b, margin);
+  const p = getBounds(a, margin);
+  const q = getBounds(b, margin);
   const result =
     intersectBoxLine(q, [p[0], p[1], p[2], p[3]]) ||
     intersectBoxLine(q, [p[0], p[1], p[4], p[5]]) ||

@@ -1,6 +1,5 @@
 import type { DisplayObject } from '@antv/g';
 import { isArray, isNil } from '@antv/util';
-import { getTransform } from '../../../util';
 import { AxisStyleProps, RotateOverlapCfg } from '../types';
 import { boundTest } from '../utils/helper';
 
@@ -17,14 +16,17 @@ export default function adjustAngle(
   utils: Utils
 ) {
   const { optionalAngles = [0, 45, 90], margin, recoverWhenFailed = true } = overlapCfg;
-  const defaultAngles = labels.map((label) => +(getTransform(label, 'rotate') || 0));
-  const runAndPassed = () => boundTest(labels, margin).length < 1;
+  const defaultAngles = labels.map((label) => label.getLocalEulerAngles());
+  const runAndPassed = () => {
+    const res = boundTest(labels, margin).length < 1;
+    return res;
+  };
   const setLabelsRotate = (angle: RotateType | RotateType[]) =>
     labels.forEach((label, index) => {
       const rotate = isArray(angle) ? angle[index] : angle;
-      !isNil(rotate) && utils.rotate(label, rotate);
+      utils.rotate(label, +rotate);
     });
-  if (runAndPassed()) return;
+
   for (let i = 0; i < optionalAngles.length; i++) {
     setLabelsRotate(optionalAngles[i]);
     if (runAndPassed()) return;

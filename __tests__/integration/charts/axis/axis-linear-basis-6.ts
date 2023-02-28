@@ -21,7 +21,7 @@ export const AxisLinearBasis6 = () => {
           lineStroke: 'purple',
           tickLength: 10,
           labelSpacing: 5,
-          labelTransform: 'rotate(0)',
+          labelAlign: 'horizontal',
           type: 'linear',
           tickLineWidth: 5,
         },

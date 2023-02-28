@@ -41,6 +41,7 @@ function getShape(attr: RequiredStyleProps<RibbonStyleProps>) {
   const {
     style: { orientation, size, length },
   } = attr;
+
   return ifHorizontal(orientation, [length, size], [size, length]);
 }
 

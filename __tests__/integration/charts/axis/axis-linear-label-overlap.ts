@@ -2,7 +2,12 @@ import { Group } from '@antv/g';
 import { axisWarper, data } from '../../utils';
 
 export const AxisLinearLabelOverlap = () => {
-  const group = new Group({});
+  const group = new Group({
+    style: {
+      width: 1000,
+      height: 550,
+    },
+  });
 
   const createAxis = axisWarper(group, {
     data: data(12),
@@ -50,7 +55,6 @@ export const AxisLinearLabelOverlap = () => {
     style: { startPos: [500, 500], endPos: [50, 500] },
     labelTransform: [{ ...transforms.ellipsis, suffix: '!!' }],
   });
-  // createAxis({ startPos: [500, 450], endPos: [50, 450], labelTransform: 'rotate(90)' });
 
   createAxis({ style: { startPos: [575, 50], endPos: [575, 450] } });
   createAxis({ style: { startPos: [650, 50], endPos: [650, 450] }, labelTransform: [transforms.rotate] });
@@ -63,5 +67,3 @@ export const AxisLinearLabelOverlap = () => {
 
   return group;
 };
-
-AxisLinearLabelOverlap.skip = true;

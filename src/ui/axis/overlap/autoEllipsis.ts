@@ -1,14 +1,20 @@
 import type { DisplayObject } from '@antv/g';
 import { isNil } from '@antv/util';
-import type { Text } from '../../text';
-import { getFont, parseLength } from '../../../util';
+import { getFont, measureTextWidth } from '../../../util';
+import { Text } from '../../text';
 import { AxisStyleProps, EllipsisOverlapCfg } from '../types';
 import { boundTest } from '../utils/helper';
 
 export type Utils = {
-  ellipsis: (text: Text, len?: number, suffix?: string) => void;
+  ellipsis: (text: Text, len: number, suffix?: string) => void;
   getTextShape: (el: DisplayObject) => Text;
 };
+
+function parseLengthString(str: number | string, font = {}): number {
+  if (isNil(str)) return 0;
+  if (typeof str === 'number') return str;
+  return Math.floor(measureTextWidth(str, font));
+}
 
 export default function ellipseLabels(
   labels: DisplayObject[],
@@ -17,13 +23,18 @@ export default function ellipseLabels(
   utils: Utils
 ) {
   if (labels.length <= 1) return;
-  const { suffix = '...', minLength, maxLength, step: ellipsisStep, margin = [0, 0, 0, 0] } = overlapCfg;
+  const {
+    suffix = '...',
+    minLength,
+    maxLength = Infinity,
+    step: ellipsisStep = ' ',
+    margin = [0, 0, 0, 0],
+  } = overlapCfg;
 
   const font = getFont(utils.getTextShape(labels[0]));
-  const step = parseLength(ellipsisStep!, font) || 1;
-  const min = parseLength(minLength!, font) || 1;
-  let max = parseLength(maxLength!, font);
-
+  const step = parseLengthString(ellipsisStep, font);
+  const min = parseLengthString(minLength, font);
+  let max = parseLengthString(maxLength, font);
   // Enable to ellipsis label when overlap.
   if (isNil(max) || max === Infinity) {
     max = Math.max.apply(
@@ -32,8 +43,6 @@ export default function ellipseLabels(
     );
   }
   // Generally, 100 ticks cost less than 300ms. If cost time exceed, means ticks count is too large to see.
-  const timeout = 300;
-  const now = Date.now();
   let source = labels.slice();
   const [top = 0, right = 0, bottom = top, left = right] = margin as number[];
   for (let allowedLength = max; allowedLength > min + step; allowedLength -= step) {
@@ -44,7 +53,5 @@ export default function ellipseLabels(
     source = boundTest(labels, margin);
     // 碰撞检测
     if (source.length < 1) return;
-    // layout time exceeded;
-    if (Date.now() - now > timeout) return;
   }
 }

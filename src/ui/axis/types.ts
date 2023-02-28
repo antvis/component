@@ -128,6 +128,11 @@ export type AxisTickStyleProps = {
 
 export type AxisLabelStyleProps = {
   showLabel: boolean;
+  filter: (...params: AxisDatumCP) => boolean;
+  /**
+   * formatter for labels, if string, return directly. you can even format it as a g shape
+   */
+  formatter: Callbackable<ExtendDisplayObject, AxisDatumCP>;
   style: {
     [key in keyof TextStyleProps]?: Callbackable<TextStyleProps[key], AxisDatumCP>;
   } & {
@@ -143,11 +148,6 @@ export type AxisLabelStyleProps = {
      */
     spacing?: Callbackable<number | `${number}%`, AxisDatumCP>;
   };
-  filter: (...params: AxisDatumCP) => boolean;
-  /**
-   * formatter for labels, if string, return directly. you can even format it as a g shape
-   */
-  formatter: Callbackable<ExtendDisplayObject, AxisDatumCP>;
   /**
    * transform label by using ellipsis, hide and rotate to avoid overlap
    */

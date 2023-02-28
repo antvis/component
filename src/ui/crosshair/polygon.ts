@@ -1,6 +1,6 @@
 import type { RequiredStyleProps } from '../../core';
 import type { Point } from '../../types';
-import { deepAssign, intersection, lineLen, rotate, scale, throttle } from '../../util';
+import { deepAssign, intersection, lineLen, rotate, scale, throttle, hide } from '../../util';
 import { CrosshairBase } from './base';
 import { POLYGON_CROSSHAIR_DEFAULT_STYLE } from './constant';
 import { PolygonCrosshairOptions, PolygonCrosshairStyleProps } from './types';
@@ -64,7 +64,7 @@ export class PolygonCrosshair extends CrosshairBase<RequiredStyleProps<PolygonCr
   }
 
   protected adjustLayout() {
-    this.tagShape.attr('visibility', 'hidden');
+    hide(this.tagShape);
   }
 
   private createPolygonPath(radius?: number) {
