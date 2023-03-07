@@ -1,17 +1,18 @@
-import { CustomEvent, Group, type DisplayObject, type TextStyleProps } from '@antv/g';
+import { CustomEvent } from '@antv/g';
 import { Linear } from '@antv/scale';
 import { clamp, isUndefined, memoize } from '@antv/util';
-import { GUI, type RequiredStyleProps } from '../../core';
+import { GUI } from '../../core';
+import { Group, type DisplayObject, type TextStyleProps } from '../../shapes';
 import { Point } from '../../types';
 import {
   BBox,
   deepAssign,
   getEventPos,
+  hide,
   ifShow,
   select,
   Selection,
   show,
-  hide,
   subStyleProps,
   superStyleProps,
   throttle,
@@ -19,11 +20,11 @@ import {
 } from '../../util';
 import { Axis, type LinearAxisStyleProps } from '../axis';
 import { CLASS_NAMES as AXIS_CLASS_NAMES } from '../axis/constant';
-import { Indicator } from '../indicator';
+import { Indicator, type IndicatorStyleProps } from '../indicator';
 import { Title } from '../title';
 import { CLASS_NAMES, CONTINUOUS_DEFAULT_OPTIONS, STEP_RATIO } from './constant';
-import { Handle, type HandleType } from './continuous/handle';
-import { Ribbon } from './continuous/ribbon';
+import { Handle, type HandleType, type HandleStyleProps } from './continuous/handle';
+import { Ribbon, type RibbonStyleProps } from './continuous/ribbon';
 import { getNextTickValue } from './continuous/utils';
 import { ContinuousDatum, ContinuousOptions, ContinuousStyleProps, LabelStyleProps } from './types';
 import { getSafetySelections, getStepValueByValue, ifHorizontal } from './utils';
@@ -40,7 +41,7 @@ const getMinMax = memoize(
   (data) => data.map((d: any) => d.id)
 );
 
-export class Continuous extends GUI<RequiredStyleProps<ContinuousStyleProps>> {
+export class Continuous extends GUI<ContinuousStyleProps> {
   constructor(options: ContinuousOptions) {
     super(options, CONTINUOUS_DEFAULT_OPTIONS);
   }
@@ -63,18 +64,16 @@ export class Continuous extends GUI<RequiredStyleProps<ContinuousStyleProps>> {
 
   protected handlesGroup!: Selection;
 
-  protected startHandle!: Selection;
+  protected startHandle?: Handle;
 
-  protected endHandle!: Selection;
+  protected endHandle?: Handle;
 
   public getBBox(): DOMRect {
-    const {
-      style: { width, height },
-    } = this.attributes;
+    const { width, height } = this.attributes;
     return new BBox(0, 0, width, height);
   }
 
-  public render(attributes: RequiredStyleProps<ContinuousStyleProps>, container: Group) {
+  public render(attributes: Required<ContinuousStyleProps>, container: Group) {
     // 渲染顺序
     // 1. 绘制 title, 获得可用空间
     // 2. 绘制 label, handle
@@ -136,28 +135,23 @@ export class Continuous extends GUI<RequiredStyleProps<ContinuousStyleProps>> {
 
   public get selection() {
     const { min, max } = this.range;
-    const {
-      style: { defaultValue: [start, end] = [min, max] },
-    } = this.attributes;
+    const { defaultValue: [start, end] = [min, max] } = this.attributes;
     return [start, end] as [number, number];
   }
 
   protected ifHorizontal<T>(a: T, b: T): T {
     return ifHorizontal(
-      this.attributes.style!.orientation,
+      this.attributes.orientation,
       typeof a === 'function' ? a() : a,
       typeof b === 'function' ? b() : b
     );
   }
 
   private renderTitle(container: Selection) {
-    const {
-      showTitle,
-      style: { titleText = '', width, height },
-    } = this.attributes;
+    const { showTitle, titleText = '', width, height } = this.attributes;
     const style = subStyleProps<TextStyleProps>(this.attributes, 'title');
 
-    const finalTitleStyle = deepAssign({ style: { width, height, text: showTitle ? titleText : '' } }, style);
+    const finalTitleStyle = deepAssign({ width, height, text: showTitle ? titleText : '' }, style);
     this.title = container
       .maybeAppendByClassName(CLASS_NAMES.title, () => new Title({ style: finalTitleStyle }))
       .update(finalTitleStyle) as Selection<Title>;
@@ -169,9 +163,7 @@ export class Continuous extends GUI<RequiredStyleProps<ContinuousStyleProps>> {
   }
 
   private get labelPosition() {
-    const {
-      style: { orientation, labelDirection },
-    } = this.attributes;
+    const { orientation, labelDirection } = this.attributes;
     const positions = {
       vertical: { positive: 'right', negative: 'left' },
       horizontal: { positive: 'bottom', negative: 'top' },
@@ -193,10 +185,7 @@ export class Continuous extends GUI<RequiredStyleProps<ContinuousStyleProps>> {
   }
 
   private get labelShape() {
-    const {
-      showLabel,
-      style: { labelSpacing = 0 },
-    } = this.attributes;
+    const { showLabel, labelSpacing = 0 } = this.attributes;
     if (!showLabel) return { width: 0, height: 0, size: 0, length: 0 };
     const { width, height } = this.labelBBox;
     const size = this.ifHorizontal(height, width) + labelSpacing + this.labelFixedSpacing;
@@ -215,7 +204,6 @@ export class Continuous extends GUI<RequiredStyleProps<ContinuousStyleProps>> {
       [availableWidth, availableHeight]
     );
     const { size: handleSize, length: handleLength } = showHandle ? this.handleShape : { size: 0, length: 0 };
-    // const handleMarkerSize = showHandle ? this.attributes.handleMarkerSize || 0 : 0;
     const handleRatio = this.handleOffsetRatio;
 
     let ribbonSize = 0;
@@ -246,28 +234,23 @@ export class Continuous extends GUI<RequiredStyleProps<ContinuousStyleProps>> {
   }
 
   private renderRibbon(container: Selection) {
-    const {
-      data,
-      style: { type, orientation, color, block },
-    } = this.attributes;
+    const { data, type, orientation, color, block } = this.attributes;
     const ribbonStyle = subStyleProps(this.attributes, 'ribbon');
     const { min, max } = this.range;
     const { x, y } = this.ribbonBBox;
     const { length, size } = this.ribbonShape;
-    const style = deepAssign(
+    const style: Required<RibbonStyleProps> = deepAssign(
       {
-        style: {
-          x,
-          y,
-          length,
-          size,
-          type,
-          orientation,
-          color,
-          block,
-          partition: data.map((d) => (d.value - min) / (max - min)),
-          range: this.ribbonRange,
-        },
+        x,
+        y,
+        length,
+        size,
+        type,
+        orientation,
+        color,
+        block,
+        partition: data.map((d) => (d.value - min) / (max - min)),
+        range: this.ribbonRange,
       },
       ribbonStyle
     );
@@ -281,13 +264,10 @@ export class Continuous extends GUI<RequiredStyleProps<ContinuousStyleProps>> {
   }
 
   private renderHandles() {
-    const {
-      showHandle,
-      style: { orientation },
-    } = this.attributes;
-    const handleStyle = subStyleProps(this.attributes, 'handle');
+    const { showHandle, orientation } = this.attributes;
+    const handleStyle = subStyleProps<HandleStyleProps>(this.attributes, 'handle');
     const [min, max] = this.selection;
-    const style = deepAssign(handleStyle, { style: { orientation } });
+    const style = { ...handleStyle, orientation };
 
     const that = this;
     this.handlesGroup
@@ -304,20 +284,28 @@ export class Continuous extends GUI<RequiredStyleProps<ContinuousStyleProps>> {
       .join(
         (enter) =>
           enter
-            .append(() => new Handle(style))
-            .attr('className', (d: any) => `${CLASS_NAMES.handle} ${this.getHandleClassName(d.type)}`)
-            .update(style)
-            .each(function (d) {
-              const handle = select(this);
-              this.update({ style: { labelText: d.value } });
-              if (d.type === 'start') that.startHandle = handle;
-              else that.endHandle = handle;
+            .append(() => new Handle({ style }))
+            .attr(
+              'className',
+              ({ type }: any) => `${CLASS_NAMES.handle} ${that.getHandleClassName(type as HandleType)}`
+            )
+            .each(function ({ type, value: labelText }) {
+              this.update({ labelText });
+              const name = `${type}Handle` as `${HandleType}Handle`;
+              that[name] = this;
+              this.addEventListener('pointerdown', that.onDragStart(type));
             }),
         (update) =>
-          update.update(style).each(function (d) {
-            this.update({ style: { labelText: d.value } });
+          update.update(style).each(function ({ value: labelText }) {
+            this.update({ labelText });
           }),
-        (exit) => exit.remove()
+        (exit) =>
+          exit
+            .each(({ type }) => {
+              const name = `${type}Handle` as `${HandleType}Handle`;
+              that[name] = undefined;
+            })
+            .remove()
       );
   }
 
@@ -332,8 +320,8 @@ export class Continuous extends GUI<RequiredStyleProps<ContinuousStyleProps>> {
   private get handleBBox() {
     if (this.cacheHandleBBox) return this.cacheHandleBBox;
     if (!this.attributes.showHandle) return new BBox(0, 0, 0, 0);
-    const { width: startHandleWidth, height: startHandleHeight } = this.startHandle.node().getBBox();
-    const { width: endHandleWidth, height: endHandleHeight } = this.endHandle.node().getBBox();
+    const { width: startHandleWidth, height: startHandleHeight } = this.startHandle!.getBBox();
+    const { width: endHandleWidth, height: endHandleHeight } = this.endHandle!.getBBox();
     const [width, height] = [Math.max(startHandleWidth, endHandleWidth), Math.max(startHandleHeight, endHandleHeight)];
     this.cacheHandleBBox = new BBox(0, 0, width, height);
     return this.cacheHandleBBox;
@@ -358,14 +346,13 @@ export class Continuous extends GUI<RequiredStyleProps<ContinuousStyleProps>> {
       [ribbonX + ribbonSize * this.handleOffsetRatio, ribbonY + offset]
     );
     const handle: Handle = this.handlesGroup.select(`.${this.getHandleClassName(type)}`).node();
-    handle?.update({ formatter: handleFormatter, style: { x, y } });
+    handle?.update({ x, y, formatter: handleFormatter });
   }
 
   private renderIndicator(container: Selection) {
-    const style = subStyleProps(this.attributes, 'indicator');
-    this.indicator = container
-      .maybeAppendByClassName(CLASS_NAMES.indicator, () => new Indicator({ style }))
-      .update(style);
+    const style = subStyleProps<IndicatorStyleProps>(this.attributes, 'indicator');
+    this.indicator = container.maybeAppendByClassName(CLASS_NAMES.indicator, () => new Indicator({})).update(style);
+    // this.hideIndicator();
   }
 
   private get labelData(): ContinuousDatum[] {
@@ -416,9 +403,7 @@ export class Continuous extends GUI<RequiredStyleProps<ContinuousStyleProps>> {
   private renderLabel(container: Selection) {
     const { showTick = false, labelFilter, labelFormatter } = this.attributes;
     const labelAndTickStyle = subStyleProps<LabelStyleProps>(this.attributes, 'label');
-    const {
-      style: { align },
-    } = labelAndTickStyle;
+    const { align } = labelAndTickStyle;
     const tickStyle = subStyleProps(labelAndTickStyle, 'tick');
     const labelStyle = subStyleProps(labelAndTickStyle, 'tick', true);
 
@@ -427,14 +412,12 @@ export class Continuous extends GUI<RequiredStyleProps<ContinuousStyleProps>> {
         showLine: false,
         showGrid: false,
         showTick,
-        style: {
-          type: 'linear',
-          startPos: [0, 0],
-          endPos: [0, 0],
-          tickDirection: 'negative',
-          labelTransform: 'rotate(0)',
-          ...this.labelStyle,
-        },
+        type: 'linear',
+        startPos: [0, 0],
+        endPos: [0, 0],
+        tickDirection: 'negative',
+        labelTransform: 'rotate(0)',
+        ...this.labelStyle,
       },
       superStyleProps(tickStyle, 'tick'),
       superStyleProps(labelStyle, 'label'),
@@ -470,11 +453,8 @@ export class Continuous extends GUI<RequiredStyleProps<ContinuousStyleProps>> {
     this.label.update(finalLabelStyle, false);
   }
 
-  private get labelAxisCfg() {
-    const {
-      showTick,
-      style: { labelDirection, labelSpacing },
-    } = this.attributes;
+  private get labelAxisStyle() {
+    const { showTick, labelDirection, labelSpacing } = this.attributes;
 
     const { size: ribbonSize } = this.ribbonShape;
     const labelPosition = this.labelPosition;
@@ -513,7 +493,7 @@ export class Continuous extends GUI<RequiredStyleProps<ContinuousStyleProps>> {
     const { showLabel } = this.attributes as Required<ContinuousStyleProps>;
     if (!showLabel) return;
     const { x, y, width, height } = this.ribbonBBox;
-    const { offset: axisOffset, spacing: axisSpacing, tickLength: axisTickLength } = this.labelAxisCfg;
+    const { offset: axisOffset, spacing: axisSpacing, tickLength: axisTickLength } = this.labelAxisStyle;
     const [startPos, endPos]: [[number, number], [number, number]] = this.ifHorizontal(
       [
         [x, y + axisOffset],
@@ -527,12 +507,10 @@ export class Continuous extends GUI<RequiredStyleProps<ContinuousStyleProps>> {
 
     this.label.update(
       {
-        style: {
-          startPos,
-          endPos,
-          tickLength: axisTickLength,
-          labelSpacing: axisSpacing,
-        },
+        startPos,
+        endPos,
+        tickLength: axisTickLength,
+        labelSpacing: axisSpacing,
       },
       false
     );
@@ -545,28 +523,14 @@ export class Continuous extends GUI<RequiredStyleProps<ContinuousStyleProps>> {
   private prevValue!: number;
 
   public bindEvents() {
-    // 如果！slidable，则不绑定事件或者事件响应不生效
-    // 放置需要绑定drag事件的对象
-    const dragObject = new Map<string, Selection>();
-    dragObject.set('ribbon', this.ribbon);
-    dragObject.set('start', this.startHandle);
-    dragObject.set('end', this.endHandle);
     // 绑定 drag 开始事件
-    dragObject.forEach((obj, key) => {
-      obj?.on('mousedown', this.onDragStart(key));
-      obj?.on('touchstart', this.onDragStart(key));
-    });
-    this.startHandle?.on('mouseover', () => this.updateMouse());
-    this.endHandle?.on('mouseover', () => this.updateMouse());
-    this.ribbon.on('mousemove', this.onHovering);
-    this.addEventListener('mouseout', this.hideIndicator);
+    this.ribbon.on('pointerdown', this.onDragStart('ribbon'));
+    this.ribbon.on('pointermove', this.onHovering);
+    this.addEventListener('pointerout', this.hideIndicator);
   }
 
   private onHovering = (e: any) => {
-    const {
-      data,
-      style: { block },
-    } = this.attributes;
+    const { data, block } = this.attributes;
     e.stopPropagation();
     const value = this.getValueByCanvasPoint(e);
     if (block) {
@@ -595,14 +559,12 @@ export class Continuous extends GUI<RequiredStyleProps<ContinuousStyleProps>> {
     const offset = this.getOffset(safeValue);
     const pos: Point = this.ifHorizontal([offset + x, y], [x, offset + y]);
     this.indicator.update({
-      style: {
-        position: this.ifHorizontal('top', 'left'),
-        labelText: text,
-      },
+      x: pos[0],
+      y: pos[1],
+      position: this.ifHorizontal('top', 'left'),
+      labelText: text,
     });
     show(this.indicator.node());
-    this.indicator.node().attributes.style.x = pos[0];
-    this.indicator.node().attributes.style.y = pos[1];
   }
 
   private hideIndicator() {
@@ -613,7 +575,7 @@ export class Continuous extends GUI<RequiredStyleProps<ContinuousStyleProps>> {
     e.stopPropagation();
 
     // 关闭滑动
-    if (!this.attributes.style!.slidable) return;
+    if (!this.attributes.slidable) return;
     this.target = target;
 
     this.prevValue = this.getTickValue(this.getValueByCanvasPoint(e));
@@ -649,7 +611,7 @@ export class Continuous extends GUI<RequiredStyleProps<ContinuousStyleProps>> {
   };
 
   private updateMouse() {
-    if (this.attributes.style!.slidable) this.style.cursor = 'grabbing';
+    if (this.attributes.slidable) this.style.cursor = 'grabbing';
   }
 
   public setSelection(start: number, end: number) {
@@ -668,24 +630,19 @@ export class Continuous extends GUI<RequiredStyleProps<ContinuousStyleProps>> {
     // 值校验
     const { min, max } = this.range;
     [start, end] = getSafetySelections([min, max], [start, end], this.selection);
-    this.update({ style: { defaultValue: [start, end] } });
+    this.update({ defaultValue: [start, end] });
     this.dispatchSelection();
   }
 
   private get step(): number {
-    const {
-      style: { step = 1 },
-    } = this.attributes;
+    const { step = 1 } = this.attributes;
     const { min, max } = this.range;
     if (isUndefined(step)) return toPrecision((max - min) * STEP_RATIO, 0);
     return step;
   }
 
   private getTickValue(value: number): number {
-    const {
-      data,
-      style: { block },
-    } = this.attributes;
+    const { data, block } = this.attributes;
     const { min } = this.range;
     if (block)
       return getNextTickValue(

@@ -1,9 +1,9 @@
 // @ts-nocheck
-import type { BaseStyleProps as BP, DisplayObject, IAnimation } from '@antv/g';
-import { Circle, Ellipse, Group, HTML, IDocument, Image, Line, Path, Polygon, Polyline, Rect } from '@antv/g';
+import type { IDocument } from '@antv/g';
 import { group } from 'd3-array';
 import type { AnimationResult } from '../animation';
-import { Text } from '../ui/text';
+import type { BaseStyleProps as BP, DisplayObject, IAnimation } from '../shapes';
+import { Circle, Ellipse, Group, HTML, Image, Line, Path, Polygon, Polyline, Rect, Text } from '../shapes';
 
 export type _Element = DisplayObject & {
   // Data for this element.
@@ -168,10 +168,10 @@ export class Selection<T = any> {
 
   addClassName(name: string) {
     for (const element of this._elements) {
-      const currCls = element.attr('class') || undefined;
+      const currCls = element.className || undefined;
       const currClassSet = new Set(currCls?.split(' ') || []);
       name.split(' ').forEach((cls) => currClassSet.add(cls));
-      element.attr('class', Array.from(currClassSet).join(' '));
+      element.className = Array.from(currClassSet).join(' ');
     }
     return this;
   }
@@ -342,7 +342,7 @@ export class Selection<T = any> {
     });
   }
 
-  styles(style: Record<string, any>, callbackable: boolean = true): Selection<T> {
+  styles(style: Record<string, any> = {}, callbackable: boolean = true): Selection<T> {
     return this.each(function (d, i) {
       const finalStyle = Object.entries(style).reduce((acc, [key, value]) => {
         const callback = typeof value !== 'function' || !callbackable ? () => value : value;

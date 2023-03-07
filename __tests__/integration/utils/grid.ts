@@ -19,25 +19,27 @@ export const createGrid = (group: Group, len = 400, args = {}) => {
     labelFormatter: (_: any, i: number) => i * 2,
     showTick: false,
     showGrid: true,
-    style: {
-      type: 'linear',
-      labelDirection: 'positive',
-      gridLength: len,
-      showArrow: false,
-      lineLineWidth: 0,
-      labelSpacing: 10,
-      gridStroke: 'lightgray',
-      gridDirection: 'negative',
-      ...args,
-    },
+    type: 'linear',
+    labelDirection: 'positive',
+    gridLength: len,
+    showArrow: false,
+    lineLineWidth: 0,
+    labelSpacing: 10,
+    gridStroke: 'lightgray',
+    gridDirection: 'negative',
+    ...args,
   });
 
   createAxis({
-    style: { startPos: [0, 0], endPos: [0, len] },
+    startPos: [0, 0],
+    endPos: [0, len],
   });
 
   createAxis({
-    style: { startPos: [0, 0], endPos: [len, 0], labelDirection: 'negative', gridDirection: 'positive' },
+    startPos: [0, 0],
+    endPos: [len, 0],
+    labelDirection: 'negative',
+    gridDirection: 'positive',
   });
 
   return g;

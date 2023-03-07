@@ -1,4 +1,6 @@
-import { Group, type DisplayObject, ElementEvent } from '@antv/g';
+import { ElementEvent } from '@antv/g';
+import { Group } from '../shapes/Group';
+import type { DisplayObject } from '../shapes/DisplayObject';
 import { hide } from './visibility';
 
 class OffscreenGroup extends Group {

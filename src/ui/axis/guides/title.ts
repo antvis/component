@@ -1,6 +1,6 @@
 import { get } from '@antv/util';
 import { transition, type GenericAnimation, type StandardAnimationOption } from '../../../animation';
-import type { GUI, RequiredStyleProps } from '../../../core';
+import type { DisplayObject } from '../../../shapes';
 import {
   normalize,
   parseSeriesAttr,
@@ -8,23 +8,23 @@ import {
   renderExtDo,
   scale,
   select,
-  styleSeparator,
+  splitStyle,
   subStyleProps,
   type Selection,
 } from '../../../util';
 import { parsePosition } from '../../title';
 import { CLASS_NAMES } from '../constant';
-import type { AxisStyleProps } from '../types';
+import type { RequiredAxisStyleProps } from '../types';
 
 function getTitlePosition(
   mainGroup: Selection,
   titleGroup: Selection,
-  attr: RequiredStyleProps<AxisStyleProps>
+  attr: RequiredAxisStyleProps
 ): {
   x: number;
   y: number;
 } {
-  const { titlePosition: position = 'lb', titleSpacing: spacing } = attr.style;
+  const { titlePosition: position = 'lb', titleSpacing: spacing } = attr;
   const pos = parsePosition(position);
 
   const {
@@ -39,8 +39,8 @@ function getTitlePosition(
 
   const [spacingTop, spacingRight, spacingBottom, spacingLeft] = parseSeriesAttr(spacing);
 
-  if (['start', 'end'].includes(position) && attr.style.type === 'linear') {
-    const { startPos, endPos } = attr.style;
+  if (['start', 'end'].includes(position) && attr.type === 'linear') {
+    const { startPos, endPos } = attr;
     // todo did not consider the truncate case
     const [from, to] = position === 'start' ? [startPos, endPos] : [endPos, startPos];
     const direction = normalize([-to[0] + from[0], -to[1] + from[1]]);
@@ -59,12 +59,12 @@ function getTitlePosition(
 function applyTitleStyle(
   title: Selection,
   group: Selection,
-  axis: GUI<any>,
-  attr: RequiredStyleProps<AxisStyleProps>,
+  axis: DisplayObject,
+  attr: RequiredAxisStyleProps,
   animate: GenericAnimation
 ) {
-  const { style } = subStyleProps(attr, 'title');
-  const [titleStyle, { transform = '', ...groupStyle }] = styleSeparator(style);
+  const style = subStyleProps(attr, 'title');
+  const [titleStyle, { transform = '', ...groupStyle }] = splitStyle(style);
 
   title.styles(titleStyle);
   group.styles(groupStyle);
@@ -77,12 +77,12 @@ function applyTitleStyle(
 
 export function renderTitle(
   container: Selection,
-  axis: GUI<any>,
-  attr: RequiredStyleProps<AxisStyleProps>,
+  axis: DisplayObject,
+  attr: RequiredAxisStyleProps,
   animate: StandardAnimationOption
 ) {
-  if (!attr.style.titleText) return null;
-  const { titleText } = attr.style;
+  if (!attr.titleText) return null;
+  const { titleText } = attr;
   return container
     .selectAll(CLASS_NAMES.title.class)
     .data([{ title: titleText }], (d, i) => d.title)

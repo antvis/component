@@ -1,30 +1,31 @@
-import { Group, parseColor, type GroupStyleProps, type PathStyleProps, type RectStyleProps } from '@antv/g';
+import { parseColor } from '@antv/g';
 import { isFunction } from '@antv/util';
-import type { PrefixObject } from '../../../types';
-import { GUI, type RequiredStyleProps } from '../../../core';
-import { classNames, createComponent, select, Selection, subObjects, subStyleProps } from '../../../util';
+import { GUI, type ComponentOptions, type PrefixStyleProps } from '../../../core';
+import { Group, type GroupStyleProps, type PathStyleProps, type RectStyleProps } from '../../../shapes';
+import { classNames, select, Selection, subStyleProps } from '../../../util';
 import { ifHorizontal } from '../utils';
 import { getBlockColor } from './utils';
 
 export type Interpolate<T = string> = (val: number) => T;
 
-export type RibbonStyleProps = {
-  style: GroupStyleProps &
-    PrefixObject<PathStyleProps, 'selection'> &
-    PrefixObject<RectStyleProps, 'track'> & {
-      size: number;
-      length: number;
-    } & {
-      type?: 'size' | 'color';
-      orientation?: 'horizontal' | 'vertical';
-      color: string[] | Interpolate;
-      /** select area, 0~1 */
-      range?: [number, number];
-      block?: boolean;
-      /** partition of the block ,the length of it is the block count */
-      partition?: number[];
-    };
-};
+export type RibbonStyleProps = GroupStyleProps &
+  PrefixStyleProps<PathStyleProps, 'selection'> &
+  PrefixStyleProps<RectStyleProps, 'track'> & {
+    block?: boolean;
+    color: string[] | Interpolate;
+    length: number;
+    orientation?: 'horizontal' | 'vertical';
+    /** partition of the block ,the length of it is the block count */
+    partition?: number[];
+    /** select area, 0~1 */
+    range?: [number, number];
+    size: number;
+    type?: 'size' | 'color';
+  };
+
+export type RibbonOptions = ComponentOptions<RibbonStyleProps>;
+
+type RequiredRibbonStyleProps = Required<RibbonStyleProps>;
 
 const CLASS_NAMES = classNames(
   {
@@ -37,18 +38,14 @@ const CLASS_NAMES = classNames(
   'ribbon'
 );
 
-function getShape(attr: RequiredStyleProps<RibbonStyleProps>) {
-  const {
-    style: { orientation, size, length },
-  } = attr;
+function getShape(attr: RequiredRibbonStyleProps) {
+  const { orientation, size, length } = attr;
 
   return ifHorizontal(orientation, [length, size], [size, length]);
 }
 
-function getTrackPath(attr: RequiredStyleProps<RibbonStyleProps>) {
-  const {
-    style: { type },
-  } = attr;
+function getTrackPath(attr: RequiredRibbonStyleProps) {
+  const { type } = attr;
   const [cw, ch] = getShape(attr);
 
   if (type === 'size') {
@@ -57,14 +54,12 @@ function getTrackPath(attr: RequiredStyleProps<RibbonStyleProps>) {
   return [['M', 0, ch], ['L', 0, 0], ['L', 0 + cw, 0], ['L', 0 + cw, ch], ['Z']] as any[];
 }
 
-function getSelectionPath(attr: RequiredStyleProps<RibbonStyleProps>) {
+function getSelectionPath(attr: RequiredRibbonStyleProps) {
   return getTrackPath(attr);
 }
 
-function getColor(attr: RequiredStyleProps<RibbonStyleProps>) {
-  const {
-    style: { orientation, color, block, partition },
-  } = attr;
+function getColor(attr: RequiredRibbonStyleProps) {
+  const { orientation, color, block, partition } = attr;
   let colors: string[];
   if (isFunction(color)) {
     const len = 20;
@@ -82,10 +77,8 @@ function getColor(attr: RequiredStyleProps<RibbonStyleProps>) {
   );
 }
 
-function getClipPath(attr: RequiredStyleProps<RibbonStyleProps>): any[] {
-  const {
-    style: { orientation, range },
-  } = attr;
+function getClipPath(attr: RequiredRibbonStyleProps): any[] {
+  const { orientation, range } = attr;
   if (!range) return [];
   const [width, height] = getShape(attr);
   const [st, et] = range;
@@ -96,12 +89,12 @@ function getClipPath(attr: RequiredStyleProps<RibbonStyleProps>): any[] {
   return [['M', x, y], ['L', x, h], ['L', w, h], ['L', w, y], ['Z']];
 }
 
-function renderTrack(container: Selection, attr: RequiredStyleProps<RibbonStyleProps>) {
-  const { style } = subStyleProps(attr, 'track');
+function renderTrack(container: Selection, attr: RequiredRibbonStyleProps) {
+  const style = subStyleProps(attr, 'track');
   container.maybeAppendByClassName(CLASS_NAMES.track, 'path').styles({ path: getTrackPath(attr), ...style });
 }
 
-function renderSelection(container: Selection, attr: RequiredStyleProps<RibbonStyleProps>) {
+function renderSelection(container: Selection, attr: RequiredRibbonStyleProps) {
   const style = subStyleProps(attr, 'selection');
   const fill = getColor(attr);
 
@@ -116,23 +109,21 @@ function renderSelection(container: Selection, attr: RequiredStyleProps<RibbonSt
 }
 
 export class Ribbon extends GUI<RibbonStyleProps> {
-  constructor(options: RibbonStyleProps) {
+  constructor(options: RibbonOptions) {
     super(options, {
-      style: {
-        type: 'color',
-        orientation: 'horizontal',
-        size: 30,
-        range: [0, 1],
-        length: 200,
-        block: false,
-        partition: [],
-        color: ['#fff', '#000'],
-        trackFill: '#e5e5e5',
-      },
+      type: 'color',
+      orientation: 'horizontal',
+      size: 30,
+      range: [0, 1],
+      length: 200,
+      block: false,
+      partition: [],
+      color: ['#fff', '#000'],
+      trackFill: '#e5e5e5',
     });
   }
 
-  render(attribute: RequiredStyleProps<RibbonStyleProps>, container: Group) {
+  render(attribute: RequiredRibbonStyleProps, container: Group) {
     const trackGroup = select(container).maybeAppendByClassName(CLASS_NAMES.trackGroup, 'g');
     renderTrack(trackGroup, attribute);
 

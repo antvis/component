@@ -1,4 +1,4 @@
-// import { CustomElement, CustomEvent } from '@antv/g';
+// import { CustomElement, CustomEvent } from '../../shapes';
 // import { deepMix, isNil } from '@antv/util';
 // import { DEFAULT_TIMELINE_STYLE } from './constants';
 // import { PlayAxisStyleProps, TimeData } from './types';

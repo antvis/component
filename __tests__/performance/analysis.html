@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GUI Component Performance Analysis</title>
+  </head>
+  <body>
+    <div><select title="cases" id="select"></select></div>
+    <div id="container"></div>
+    <script type="module">
+      import * as Cases from '../integration/charts';
+      import { Canvas, CanvasEvent, Circle, ElementEvent, Path, Rect, Text } from '@antv/g';
+      import { Renderer } from '@antv/g-canvas';
+
+      let resolveReady;
+      let ready = new Promise((resolve) => (resolveReady = resolve));
+      let currentCase;
+      let canvas;
+
+      window.onload = async () => {
+        const select = document.getElementById('select');
+        for (const key in Cases) {
+          const option = document.createElement('option');
+          option.value = key;
+          option.text = key;
+          select.appendChild(option);
+        }
+
+        select.onchange = () => {
+          currentCase = Cases[select.value];
+          localStorage.setItem('selectedCase', select.value);
+          render();
+        };
+
+        const restore = localStorage.getItem('selectedCase');
+        if (restore) {
+          select.value = restore;
+          select.dispatchEvent(new Event('change'));
+        }
+
+        canvas = new Canvas({
+          container: document.body,
+          width: 800,
+          height: 600,
+          renderer: new Renderer(),
+        });
+        await canvas.ready;
+        resolveReady();
+      };
+
+      function render() {
+        if (canvas && currentCase) {
+          canvas.destroyChildren();
+          canvas.appendChild(currentCase());
+        }
+      }
+
+      ready.then(() => {
+        render();
+      });
+    </script>
+  </body>
+</html>

@@ -1,4 +1,3 @@
-import { DisplayObject, type Group } from '@antv/g';
 import { isFunction, memoize } from '@antv/util';
 import {
   fadeOut,
@@ -7,16 +6,18 @@ import {
   type GenericAnimation,
   type StandardAnimationOption,
 } from '../../../animation';
-import { RequiredStyleProps } from '../../../core';
+import { type Group } from '../../../shapes';
 import type { Vector2 } from '../../../types';
-import { getCallbackValue, select, Selection, styleSeparator, subStyleProps } from '../../../util';
+import { getCallbackValue, select, Selection, splitStyle, subStyleProps } from '../../../util';
 import { CLASS_NAMES } from '../constant';
-import type { AxisDatum, AxisStyleProps, AxisTickStyleProps } from '../types';
+import type { AxisDatum, AxisTickStyleProps, RequiredAxisStyleProps } from '../types';
 import { getDirectionVector, getValuePos } from './line';
 import { filterExec, getCallbackStyle } from './utils';
 
-export function getTickVector(value: number, attr: RequiredStyleProps<AxisStyleProps>): Vector2 {
-  return getDirectionVector(value, attr.style.tickDirection, attr);
+type RequiredAxisTickStyleProps = Required<AxisTickStyleProps>;
+
+export function getTickVector(value: number, attr: RequiredAxisStyleProps): Vector2 {
+  return getDirectionVector(value, attr.tickDirection, attr);
 }
 
 export const getTickPoints = memoize(
@@ -35,9 +36,9 @@ function getTickLineLayout(
   index: number,
   data: AxisDatum[],
   tickVector: Vector2,
-  attr: RequiredStyleProps<AxisStyleProps>
+  attr: RequiredAxisStyleProps
 ) {
-  const { tickLength } = attr.style;
+  const { tickLength } = attr;
   const [[x1, y1], [x2, y2]] = getTickPoints(tickVector, getCallbackValue(tickLength, [datum, index, data]));
   return { x1, x2, y1, y2 };
 }
@@ -47,13 +48,12 @@ function createTickEl(
   datum: AxisDatum,
   index: number,
   data: AxisDatum[],
-  attr: RequiredStyleProps<AxisStyleProps>
+  attr: RequiredAxisStyleProps
 ) {
   const { tickFormatter: formatter } = attr;
   const tickVector = getTickVector(datum.value, attr);
   let el: any = 'line';
-  if (formatter instanceof DisplayObject) el = () => formatter;
-  else if (isFunction(formatter)) el = () => getCallbackValue(formatter, [datum, index, data, tickVector]);
+  if (isFunction(formatter)) el = () => getCallbackValue(formatter, [datum, index, data, tickVector]);
   return container.append(el).attr('className', CLASS_NAMES.tickItem.name);
 }
 
@@ -63,12 +63,12 @@ function applyTickStyle(
   data: AxisDatum[],
   tick: Selection,
   group: Group,
-  attr: RequiredStyleProps<AxisStyleProps>,
-  style: RequiredStyleProps<AxisTickStyleProps>
+  attr: RequiredAxisStyleProps,
+  style: AxisTickStyleProps
 ) {
   const tickVector = getTickVector(datum.value, attr);
   const { x1, x2, y1, y2 } = getTickLineLayout(datum, index, data, tickVector, attr);
-  const [tickStyle, groupStyle] = styleSeparator(getCallbackStyle(style.style, [datum, index, data]));
+  const [tickStyle, groupStyle] = splitStyle(getCallbackStyle(style, [datum, index, data, tickVector]));
   tick.node().nodeName === 'line' && tick.styles({ x1, x2, y1, y2, ...tickStyle });
   group.attr(groupStyle);
   tick.styles(tickStyle);
@@ -78,8 +78,8 @@ function createTick(
   datum: AxisDatum,
   index: number,
   data: AxisDatum[],
-  attr: RequiredStyleProps<AxisStyleProps>,
-  tickAttr: RequiredStyleProps<AxisTickStyleProps>,
+  attr: RequiredAxisStyleProps,
+  tickAttr: RequiredAxisTickStyleProps,
   animate: GenericAnimation
 ) {
   const tick = createTickEl(select(this), datum, index, data, attr);
@@ -91,11 +91,11 @@ function createTick(
 export function renderTicks(
   container: Selection,
   axisData: AxisDatum[],
-  attr: RequiredStyleProps<AxisStyleProps>,
+  attr: RequiredAxisStyleProps,
   animate: StandardAnimationOption
 ) {
   const finalData = filterExec(axisData, attr.tickFilter);
-  const tickAttr = subStyleProps<RequiredStyleProps<AxisTickStyleProps>>(attr, 'tick');
+  const tickAttr = subStyleProps<RequiredAxisTickStyleProps>(attr, 'tick');
   return container
     .selectAll(CLASS_NAMES.tick.class)
     .data(finalData, (d) => d.id || d.label)

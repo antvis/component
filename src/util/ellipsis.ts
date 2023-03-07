@@ -1,4 +1,4 @@
-import { Text } from '../ui/text';
+import { Text } from '../shapes';
 
 export function ellipsisIt(node: Text, w: number, suffix = '...') {
   if (node.nodeName === 'text') {

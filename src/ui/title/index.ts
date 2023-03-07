@@ -1,8 +1,6 @@
-import type { Group } from '@antv/g';
-import { DisplayObject } from '@antv/g';
-import { GUI, type RequiredStyleProps } from '../../core';
-import { BBox, classNames, ifShow, parseSeriesAttr, select, Selection, styleSeparator } from '../../util';
-import { Text } from '../text';
+import { GUI } from '../../core';
+import { DisplayObject, Text, type Group } from '../../shapes';
+import { BBox, classNames, ifShow, parseSeriesAttr, select, Selection, splitStyle } from '../../util';
 import type { TitleOptions, TitleStyleProps } from './types';
 
 export type { TitleOptions, TitleStyleProps };
@@ -32,9 +30,7 @@ export function parsePosition(position: string): string[] {
  * @example a legend with width x, height y, but the real bbox is x1 < x, y1 < y
  */
 export function getBBox(title: Title, content: DisplayObject): DOMRect {
-  const {
-    style: { position, spacing, inset, text },
-  } = title.attributes as RequiredStyleProps<TitleStyleProps>;
+  const { position, spacing, inset, text } = title.attributes as Required<TitleStyleProps>;
   const titleBBox = title.getBBox();
   const contentBBox = content.getBBox();
   const pos = parsePosition(position);
@@ -86,9 +82,7 @@ function mayApplyStyle(el: Selection, style: any) {
 }
 
 function getTitleLayout(cfg: TitleStyleProps) {
-  const {
-    style: { width, height, position },
-  } = cfg as RequiredStyleProps<TitleStyleProps>;
+  const { width, height, position } = cfg as Required<TitleStyleProps>;
   const [hW, hH] = [+width / 2, +height / 2];
   let [x, y, textAlign, textBaseline] = [+hW, +hH, 'center', 'middle'];
   const pos = parsePosition(position);
@@ -104,28 +98,30 @@ function getTitleLayout(cfg: TitleStyleProps) {
 export class Title extends GUI<TitleStyleProps> {
   private title!: Text;
 
-  constructor(options: TitleOptions = {}) {
+  constructor(options: TitleOptions) {
     super(options, {
-      style: {
-        text: '',
-        width: 0,
-        height: 0,
-        fill: '#4a505a',
-        fontWeight: 'bold',
-        fontSize: 12,
-        fontFamily: 'sans-serif',
-        inset: 0,
-        spacing: 0,
-        position: 'top-left',
-      },
+      text: '',
+      width: 0,
+      height: 0,
+      fill: '#4a505a',
+      fontWeight: 'bold',
+      fontSize: 12,
+      fontFamily: 'sans-serif',
+      inset: 0,
+      spacing: 0,
+      position: 'top-left',
     });
   }
 
   public getAvailableSpace(): DOMRect {
     const container = this;
     const {
-      style: { width: containerWidth, height: containerHeight, position, spacing, inset },
-    } = this.attributes as RequiredStyleProps<TitleStyleProps>;
+      width: containerWidth,
+      height: containerHeight,
+      position,
+      spacing,
+      inset,
+    } = this.attributes as Required<TitleStyleProps>;
     const title = container.querySelector<DisplayObject>(CLASS_NAMES.text.class);
     if (!title) return new BBox(0, 0, +containerWidth, +containerHeight);
     const { width: titleWidth, height: titleHeight } = title.getBBox();
@@ -159,12 +155,10 @@ export class Title extends GUI<TitleStyleProps> {
     return new BBox(0, 0, 0, 0);
   }
 
-  public render(attributes: RequiredStyleProps<TitleStyleProps>, container: Group) {
-    const {
-      style: { width, height, position, spacing, ...restStyle },
-    } = attributes;
+  public render(attributes: Required<TitleStyleProps>, container: Group) {
+    const { width, height, position, spacing, ...restStyle } = attributes;
 
-    const [titleStyle] = styleSeparator(restStyle);
+    const [titleStyle] = splitStyle(restStyle);
     const { x, y, textAlign, textBaseline } = getTitleLayout(attributes);
 
     ifShow(!!restStyle.text, container, (group) => {

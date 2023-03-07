@@ -1,6 +1,6 @@
-import type { GroupStyleProps, LineStyleProps, PathStyleProps, RectStyleProps, TextStyleProps } from '@antv/g';
 import type { ComponentOptions, PrefixStyleProps } from '../../core';
-import type { ExtendDisplayObject, Merge, MergeMultiple, PrefixObject } from '../../types';
+import type { GroupStyleProps, LineStyleProps, PathStyleProps, RectStyleProps, TextStyleProps } from '../../shapes';
+import type { ExtendDisplayObject } from '../../types';
 import type { SeriesAttr } from '../../util';
 import type { TitleStyleProps } from '../title';
 import type { CategoryItemsStyleProps } from './category/items';
@@ -17,67 +17,56 @@ export interface ContinuousDatum extends ContinuousBaseDatum {
   value: number;
 }
 
-export type LabelStyleProps<T = any> = {
-  showLabel?: boolean;
-  showTick?: boolean;
-  formatter?: (val: T, index: number, arr: T[]) => string;
-  filter?: (val: T, index: number, arr: T[]) => boolean;
-  style: TextStyleProps &
-    PrefixObject<LineStyleProps, 'tick'> & {
-      direction?: 'positive' | 'negative';
-      /** spacing between label and legend item */
-      spacing?: number;
-      align?: 'value' | 'range';
-    };
-};
+export type LabelStyleProps<T = any> = TextStyleProps &
+  PrefixStyleProps<LineStyleProps, 'tick'> & {
+    align?: 'value' | 'range';
+    direction?: 'positive' | 'negative';
+    filter?: (val: T, index: number, arr: T[]) => boolean;
+    formatter?: (val: T, index: number, arr: T[]) => string;
+    /** spacing between label and legend item */
+    spacing?: number;
+  };
 
-export type IndicatorStyleProps<T = any> = {
-  showIndicator?: boolean;
-  formatter: (val: T) => ExtendDisplayObject;
-  style: PathStyleProps &
-    TextStyleProps & {
-      padding: SeriesAttr;
-      onIndicate: (val: T) => void;
-    };
-};
+export type IndicatorStyleProps<T = any> = PathStyleProps &
+  TextStyleProps & {
+    formatter: (val: T) => ExtendDisplayObject;
+    onIndicate: (val: T) => void;
+    padding: SeriesAttr;
+  };
 
-export type LegendBaseStyleProps = Merge<
-  PrefixStyleProps<TitleStyleProps, 'title'>,
-  {
+export type LegendBaseStyleProps = GroupStyleProps &
+  PrefixStyleProps<Omit<RectStyleProps, 'width' | 'height'>, 'background'> &
+  PrefixStyleProps<Partial<TitleStyleProps>, 'title'> & {
+    orientation?: 'horizontal' | 'vertical';
+    padding?: SeriesAttr;
     showTitle?: boolean;
-    style: GroupStyleProps &
-      PrefixObject<RectStyleProps, 'background'> & {
-        padding?: SeriesAttr;
-        orientation?: 'horizontal' | 'vertical';
-        type?: 'category' | 'continuous';
-      };
-  }
->;
+    // type?: 'category' | 'continuous';
+  };
 
 export type LegendBaseOptions = ComponentOptions<LegendBaseStyleProps>;
 
-export type ContinuousStyleProps = MergeMultiple<
-  [
-    LegendBaseStyleProps,
-    PrefixStyleProps<HandleStyleProps, 'handle'>,
-    PrefixStyleProps<IndicatorStyleProps, 'indicator'>,
-    PrefixStyleProps<LabelStyleProps, 'label'>,
-    {
-      showHandle?: boolean;
-      data: ContinuousDatum[];
-      style: Omit<RibbonStyleProps['style'], 'orientation' | 'range' | 'partition' | 'size' | 'len'> &
-        Omit<RibbonStyleProps, 'style'> & {
-          defaultValue?: [number, number];
-          slidable?: boolean;
-          step?: number;
-          width: number;
-          height: number;
-        };
-    }
-  ]
->;
+export type ContinuousStyleProps = LegendBaseStyleProps &
+  PrefixStyleProps<Partial<Omit<HandleStyleProps, 'orientation'>>, 'handle'> &
+  PrefixStyleProps<Partial<Omit<IndicatorStyleProps, 'text'>>, 'indicator'> &
+  PrefixStyleProps<Partial<Omit<LabelStyleProps, 'text'>>, 'label'> &
+  PrefixStyleProps<
+    Partial<Omit<RibbonStyleProps, 'orientation' | 'range' | 'partition' | 'size' | 'length'>>,
+    'ribbon'
+  > &
+  Partial<Pick<RibbonStyleProps, 'color' | 'block' | 'type'>> & {
+    data: ContinuousDatum[];
+    defaultValue?: [number, number];
+    height: number;
+    showHandle?: boolean;
+    showIndicator?: boolean;
+    showLabel?: boolean;
+    showTick?: boolean;
+    slidable?: boolean;
+    step?: number;
+    width: number;
+  };
 
 export type ContinuousOptions = ComponentOptions<ContinuousStyleProps>;
 
-export type CategoryStyleProps = Merge<LegendBaseStyleProps, CategoryItemsStyleProps>;
+export type CategoryStyleProps = LegendBaseStyleProps & CategoryItemsStyleProps;
 export type CategoryOptions = ComponentOptions<CategoryStyleProps>;

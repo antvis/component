@@ -1,11 +1,14 @@
-import { CustomElement, Group } from '@antv/g';
-import type { GenericAnimation } from '../animation';
-import { createOffscreenGroup, deepAssign } from '../util';
-import { getPrimitiveAttributes } from './constant';
-import type { ComponentOptions, PartialStyleProps, RequiredStyleProps } from './types';
+import { CustomElement, Group } from '../shapes';
+import type { GenericAnimation, AnimationResult } from '../animation';
+import { createOffscreenGroup, deepAssign, visibility } from '../util';
+import type { ComponentOptions } from './types';
 
-export abstract class GUI<T extends Record<string, any>> extends CustomElement<T> {
-  protected _defaultOptions: PartialStyleProps<T>;
+function applyVisibility() {
+  visibility(this, this.attributes.visibility !== 'hidden');
+}
+
+export abstract class GUI<T extends Record<string, any>> extends CustomElement<Required<T>> {
+  protected _defaultOptions: Partial<T>;
 
   private _offscreen!: Group;
 
@@ -18,24 +21,29 @@ export abstract class GUI<T extends Record<string, any>> extends CustomElement<T
     return this._defaultOptions;
   }
 
-  constructor(options: ComponentOptions<T>, defaultStyleProps: PartialStyleProps<T> = {}) {
+  constructor(options: ComponentOptions<Partial<T>>, defaultStyleProps: Partial<T> = {}) {
     super(deepAssign({}, { style: defaultStyleProps }, options));
     this._defaultOptions = defaultStyleProps;
-    this.attr(getPrimitiveAttributes(this.attributes.style) as any);
   }
 
   connectedCallback() {
     this.render(this.attributes as Required<T>, this);
     this.bindEvents(this.attributes, this);
+    // applyVisibility.call(this);
   }
 
   disconnectedCallback(): void {
     this._offscreen?.destroy();
   }
 
-  public update(attr: PartialStyleProps<T> = {}, animate?: GenericAnimation) {
+  attributeChangedCallback<Key extends keyof T>(name: Key): void {
+    if (name === 'visibility') {
+      applyVisibility.call(this);
+    }
+  }
+
+  public update(attr: Partial<T> = {}, animate?: GenericAnimation) {
     this.attr(deepAssign({}, this.attributes, attr));
-    this.attr(getPrimitiveAttributes(this.attributes.style) as any);
     return this.render?.(this.attributes as Required<T>, this, animate);
   }
 
@@ -43,9 +51,11 @@ export abstract class GUI<T extends Record<string, any>> extends CustomElement<T
     this.removeChildren();
   }
 
-  attributeChangedCallback() {}
-
-  public abstract render(attributes: RequiredStyleProps<T>, container: Group, animate?: GenericAnimation): any;
+  public abstract render(
+    attributes: Required<T>,
+    container: Group,
+    animate?: GenericAnimation
+  ): void | AnimationResult[];
 
   public bindEvents(attributes: T, container: Group): void {}
 }

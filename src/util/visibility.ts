@@ -1,4 +1,4 @@
-import type { DisplayObject } from '@antv/g';
+import { DisplayObject } from '../shapes/DisplayObject';
 import { traverse } from './traverse';
 
 export function show(element: DisplayObject) {

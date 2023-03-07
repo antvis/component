@@ -1,7 +1,7 @@
-import { Group } from '@antv/g';
 import { isFunction } from '@antv/util';
-import { GUI, type RequiredStyleProps } from '../../core';
-import { select, ifShow } from '../../util';
+import { GUI } from '../../core';
+import { Group } from '../../shapes';
+import { ifShow, select } from '../../util';
 import {
   bowtie,
   circle,
@@ -29,7 +29,7 @@ import { parseMarker } from './utils';
 
 export type { MarkerStyleProps, MarkerOptions, FunctionalSymbol };
 
-function getType(symbol: MarkerStyleProps['style']['symbol']): string | null {
+function getType(symbol: MarkerStyleProps['symbol']): string | null {
   const markerType = parseMarker(symbol);
 
   if (['base64', 'url', 'image'].includes(markerType)) {
@@ -43,10 +43,8 @@ function getType(symbol: MarkerStyleProps['style']['symbol']): string | null {
 }
 
 export class Marker extends GUI<MarkerStyleProps> {
-  public render(attributes: RequiredStyleProps<MarkerStyleProps>, container: Group) {
-    const {
-      style: { symbol, size = 16, ...style },
-    } = attributes;
+  public render(attributes: Required<MarkerStyleProps>, container: Group) {
+    const { symbol, size = 16, ...style } = attributes;
     const type = getType(symbol);
     ifShow(!!type, select(container), (group) => {
       group

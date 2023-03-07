@@ -6,5 +6,4 @@ export {
   type ArcAxisOptions,
   type ArcAxisStyleProps,
 } from './axis';
-export { Helix } from './helix';
 export type { AxisStyleProps } from './types';

@@ -1,4 +1,4 @@
-import type { DisplayObject } from '@antv/g';
+import type { DisplayObject } from '../shapes';
 
 /**
  * scale a shape to a given size

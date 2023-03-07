@@ -1,17 +1,16 @@
 import type { IndicatorStyleProps } from './types';
 
-export const DEFAULT_INDICATOR_CFG: Partial<IndicatorStyleProps> = {
-  formatter: (val) => val,
-  style: {
-    padding: [2, 4],
-    position: 'right',
-    labelFill: '#fff',
-    labelFontSize: 12,
-    labelTextBaseline: 'middle',
-    backgroundZIndex: -1,
-    backgroundFill: '#262626',
-    backgroundLineCap: 'round',
-    backgroundLineWidth: 1,
-    backgroundStroke: '#333',
-  },
+export const DEFAULT_INDICATOR_STYLE_PROPS: Partial<IndicatorStyleProps> = {
+  backgroundFill: '#262626',
+  backgroundLineCap: 'round',
+  backgroundLineWidth: 1,
+  backgroundStroke: '#333',
+  backgroundZIndex: -1,
+  formatter: (val) => val.toString(),
+  labelFill: '#fff',
+  labelFontSize: 12,
+  labelTextBaseline: 'middle',
+  padding: [2, 4],
+  position: 'right',
+  zIndex: 999,
 };

@@ -1,22 +1,19 @@
-import { classNames, superStyleProps, deepAssign } from '../../util';
+import { classNames, deepAssign, superStyleProps } from '../../util';
 import { DEFAULT_HANDLE_CFG } from './continuous/handle';
-import type { PartialStyleProps } from '../../core';
 import type { LegendBaseStyleProps } from './types';
 
-export const LEGEND_BASE_DEFAULT_OPTIONS: PartialStyleProps<LegendBaseStyleProps> = {
+export const LEGEND_BASE_DEFAULT_OPTIONS: Partial<LegendBaseStyleProps> = {
   showTitle: true,
-  style: {
-    padding: 0,
-    orientation: 'horizontal',
-    backgroundFill: 'transparent',
-    titleText: '',
-    titleSpacing: 4,
-    titlePosition: 'top-left',
-    titleFill: '#2C3542',
-    titleFontWeight: 'bold',
-    titleFontFamily: 'sans-serif',
-    titleFontSize: 12,
-  },
+  padding: 0,
+  orientation: 'horizontal',
+  backgroundFill: 'transparent',
+  titleText: '',
+  titleSpacing: 4,
+  titlePosition: 'top-left',
+  titleFill: '#2C3542',
+  titleFontWeight: 'bold',
+  titleFontFamily: 'sans-serif',
+  titleFontSize: 12,
 };
 
 export const CATEGORY_DEFAULT_OPTIONS = deepAssign({}, LEGEND_BASE_DEFAULT_OPTIONS, {
@@ -44,31 +41,30 @@ export const CONTINUOUS_DEFAULT_OPTIONS = deepAssign(
   LEGEND_BASE_DEFAULT_OPTIONS,
   superStyleProps(DEFAULT_HANDLE_CFG, 'handle'),
   {
+    color: [
+      '#d0e3fa',
+      '#acc7f6',
+      '#8daaf2',
+      '#6d8eea',
+      '#4d73cd',
+      '#325bb1',
+      '#5a3e75',
+      '#8c3c79',
+      '#e23455',
+      '#e7655b',
+    ],
+    indicatorBackgroundFill: '#262626',
+    indicatorLabelFill: 'white',
+    indicatorLabelFontSize: 12,
+    indicatorVisibility: 'hidden',
+    labelAlign: 'value',
+    labelDirection: 'positive',
+    labelSpacing: 5,
     showHandle: true,
-    showLabel: true,
     showIndicator: true,
-    style: {
-      type: 'continuous',
-      color: [
-        '#d0e3fa',
-        '#acc7f6',
-        '#8daaf2',
-        '#6d8eea',
-        '#4d73cd',
-        '#325bb1',
-        '#5a3e75',
-        '#8c3c79',
-        '#e23455',
-        '#e7655b',
-      ],
-      slidable: true,
-      labelSpacing: 5,
-      labelAlign: 'value',
-      labelDirection: 'positive',
-      indicatorLabelFill: 'white',
-      indicatorLabelFontSize: 12,
-      indicatorBackgroundFill: '#262626',
-    },
+    showLabel: true,
+    slidable: true,
+    type: 'continuous',
   }
 );
 

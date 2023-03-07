@@ -1,5 +1,5 @@
-import type { DisplayObject } from '@antv/g';
 import { isArray, isNil } from '@antv/util';
+import type { DisplayObject } from '../../../shapes';
 import { AxisStyleProps, RotateOverlapCfg } from '../types';
 import { boundTest } from '../utils/helper';
 

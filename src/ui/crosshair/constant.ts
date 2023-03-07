@@ -5,50 +5,41 @@ import type {
   CircleCrosshairStyleProps,
   PolygonCrosshairStyleProps,
 } from './types';
-import type { PartialStyleProps } from '../../core';
 
-export const CROSSHAIR_BASE_DEFAULT_STYLE: PartialStyleProps<CrosshairBaseStyleProps> = {
-  style: {
-    tagText: '',
-    lineStroke: '#416180',
-    lineStrokeOpacity: 0.45,
-    lineLineWidth: 1,
-    lineLineDash: [5, 5],
-  },
+export const CROSSHAIR_BASE_DEFAULT_STYLE: Partial<CrosshairBaseStyleProps> = {
+  tagText: '',
+  lineStroke: '#416180',
+  lineStrokeOpacity: 0.45,
+  lineLineWidth: 1,
+  lineLineDash: [5, 5],
 };
 
-export const LINE_CROSSHAIR_DEFAULT_STYLE: PartialStyleProps<LineCrosshairStyleProps> = deepAssign(
+export const LINE_CROSSHAIR_DEFAULT_STYLE: Partial<LineCrosshairStyleProps> = deepAssign(
   {},
   CROSSHAIR_BASE_DEFAULT_STYLE,
   {
-    style: {
-      type: 'line',
-      tagPosition: 'start',
-      tagAlign: 'center',
-      tagVerticalAlign: 'bottom',
-    },
+    type: 'line',
+    tagPosition: 'start',
+    tagAlign: 'center',
+    tagVerticalAlign: 'bottom',
   }
 );
 
-export const CIRCLE_CROSSHAIR_DEFAULT_STYLE: PartialStyleProps<CircleCrosshairStyleProps> = deepAssign(
+export const CIRCLE_CROSSHAIR_DEFAULT_STYLE: Partial<CircleCrosshairStyleProps> = deepAssign(
   {},
   CROSSHAIR_BASE_DEFAULT_STYLE,
   {
-    style: {
-      type: 'circle',
-      defaultRadius: 0,
-    },
+    type: 'circle',
+    defaultRadius: 0,
   }
 );
 
-export const POLYGON_CROSSHAIR_DEFAULT_STYLE: PartialStyleProps<PolygonCrosshairStyleProps> = deepAssign(
+export const POLYGON_CROSSHAIR_DEFAULT_STYLE: Partial<PolygonCrosshairStyleProps> = deepAssign(
   {},
   CROSSHAIR_BASE_DEFAULT_STYLE,
   {
-    style: {
-      type: 'polygon',
-      defaultRadius: 0,
-      startAngle: 0,
-    },
+    type: 'polygon',
+    defaultRadius: 0,
+    startAngle: 0,
   }
 );

@@ -1,27 +1,26 @@
-import { ElementEvent, Group, Rect } from '@antv/g';
+import { ElementEvent } from '@antv/g';
 import { clamp, debounce } from '@antv/util';
 import { animate, onAnimateFinished } from '../../animation';
-import { GUI, type RequiredStyleProps } from '../../core';
+import { GUI } from '../../core';
+import { Group, Rect, Text } from '../../shapes';
 import type { Vector2 } from '../../types';
 import {
   BBox,
   classNames,
+  hide,
   scaleToPixel,
   select,
   show,
-  hide,
-  styleSeparator,
+  splitStyle,
   subStyleProps,
-  TEXT_INHERITABLE_PROPS,
   transpose,
   visibility,
   type Selection,
 } from '../../util';
 import { button } from '../marker/symbol';
-import { Text } from '../text';
 import type { NavigatorOptions, NavigatorStyleProps } from './types';
 
-export type { NavigatorOptions, NavigatorStyleProps } from './types';
+export type { NavigatorOptions, NavigatorStyleProps };
 
 const CLASS_NAMES = classNames(
   {
@@ -39,30 +38,28 @@ const CLASS_NAMES = classNames(
   'navigator'
 );
 
-export class Navigator extends GUI<RequiredStyleProps<NavigatorStyleProps>> {
+export class Navigator extends GUI<NavigatorStyleProps> {
   constructor(options: NavigatorOptions) {
     super(options, {
-      formatter: (curr, total) => `${curr}/${total}`,
       animate: {
         easing: 'linear',
         duration: 200,
         fill: 'both',
       },
-      style: {
-        orientation: 'horizontal',
-        initPage: 0,
-        loop: false,
-        buttonPath: button(0, 0, 6),
-        buttonFill: 'black',
-        buttonSize: 12,
-        buttonCursor: 'pointer',
-        pageNumFontSize: 12,
-        pageNumFill: 'black',
-        pageNumTextAlign: 'start',
-        pageNumTextBaseline: 'middle',
-        controllerPadding: 5,
-        controllerSpacing: 5,
-      },
+      buttonCursor: 'pointer',
+      buttonFill: 'black',
+      buttonPath: button(0, 0, 6),
+      buttonSize: 12,
+      controllerPadding: 5,
+      controllerSpacing: 5,
+      formatter: (curr, total) => `${curr}/${total}`,
+      initPage: 0,
+      loop: false,
+      orientation: 'horizontal',
+      pageNumFill: 'black',
+      pageNumFontSize: 12,
+      pageNumTextAlign: 'start',
+      pageNumTextBaseline: 'middle',
     });
   }
 
@@ -73,9 +70,7 @@ export class Navigator extends GUI<RequiredStyleProps<NavigatorStyleProps>> {
   private playWindow = this.contentGroup.appendChild(new Group({ class: CLASS_NAMES.playWindow.name }));
 
   private get defaultPage() {
-    const {
-      style: { initPage },
-    } = this.attributes;
+    const { initPage } = this.attributes;
     return clamp(initPage, 0, Math.max(this.pageViews.length - 1, 0));
   }
 
@@ -107,9 +102,7 @@ export class Navigator extends GUI<RequiredStyleProps<NavigatorStyleProps>> {
       })
     ).map((arr) => Math.max(...arr));
 
-    const {
-      style: { pageWidth = maxWidth, pageHeight = maxHeight },
-    } = this.attributes;
+    const { pageWidth = maxWidth, pageHeight = maxHeight } = this.attributes;
 
     return { pageWidth, pageHeight };
   }
@@ -159,9 +152,7 @@ export class Navigator extends GUI<RequiredStyleProps<NavigatorStyleProps>> {
   }
 
   public prev() {
-    const {
-      style: { loop },
-    } = this.attributes;
+    const { loop } = this.attributes;
     const pages = this.pageViews.length;
     const page = this.currPage;
     if (!loop && page <= 0) return null;
@@ -170,9 +161,7 @@ export class Navigator extends GUI<RequiredStyleProps<NavigatorStyleProps>> {
   }
 
   public next() {
-    const {
-      style: { loop },
-    } = this.attributes;
+    const { loop } = this.attributes;
     const pages = this.pageViews.length;
     const page = this.currPage;
     if (!loop && page >= pages - 1) return null;
@@ -199,9 +188,7 @@ export class Navigator extends GUI<RequiredStyleProps<NavigatorStyleProps>> {
 
   private adjustControllerLayout() {
     const { prevBtnGroup: prevBtn, nextBtnGroup: nextBtn, pageInfoGroup: pageNum } = this;
-    const {
-      style: { orientation, controllerPadding: padding },
-    } = this.attributes;
+    const { orientation, controllerPadding: padding } = this.attributes;
     const { width: pW, height: pH } = pageNum.getBBox();
 
     const [r1, r2] = orientation === 'horizontal' ? [-180, 0] : [-90, 90];
@@ -263,9 +250,7 @@ export class Navigator extends GUI<RequiredStyleProps<NavigatorStyleProps>> {
   private getFollowingPageDiff(pageNum: number) {
     const { currPage } = this;
     if (currPage === pageNum) return [0, 0];
-    const {
-      style: { orientation },
-    } = this.attributes;
+    const { orientation } = this.attributes;
     const { pageWidth, pageHeight } = this.pageShape;
     const sign = pageNum < currPage ? -1 : 1;
     return orientation === 'horizontal' ? [sign * pageWidth, 0] : [0, sign * pageHeight];
@@ -281,9 +266,7 @@ export class Navigator extends GUI<RequiredStyleProps<NavigatorStyleProps>> {
   }
 
   private renderController(container: Selection) {
-    const {
-      style: { controllerSpacing: spacing },
-    } = this.attributes;
+    const { controllerSpacing: spacing } = this.attributes;
     const { pageWidth, pageHeight } = this.pageShape;
     const visible = this.pageViews.length >= 2;
 
@@ -292,9 +275,9 @@ export class Navigator extends GUI<RequiredStyleProps<NavigatorStyleProps>> {
 
     if (!visible) return;
 
-    const { style } = subStyleProps(this.attributes, 'button');
-    const { style: textStyle } = subStyleProps(this.attributes, 'pageNum');
-    const [{ size, ...pathStyle }, groupStyle] = styleSeparator(style);
+    const style = subStyleProps(this.attributes, 'button');
+    const textStyle = subStyleProps(this.attributes, 'pageNum');
+    const [{ size, ...pathStyle }, groupStyle] = splitStyle(style);
 
     const whetherToAddEventListener = !group.select(CLASS_NAMES.prevBtnGroup.class).node();
 
@@ -313,9 +296,8 @@ export class Navigator extends GUI<RequiredStyleProps<NavigatorStyleProps>> {
 
     const pageInfoGroup = group.maybeAppendByClassName(CLASS_NAMES.pageInfoGroup, 'g');
     this.pageInfoGroup = pageInfoGroup.node();
-    pageInfoGroup
-      .maybeAppendByClassName(CLASS_NAMES.pageInfo, 'text')
-      .styles({ ...TEXT_INHERITABLE_PROPS, ...textStyle });
+
+    pageInfoGroup.maybeAppendByClassName(CLASS_NAMES.pageInfo, 'text').styles(textStyle);
 
     this.updatePageInfo();
 

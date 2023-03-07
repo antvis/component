@@ -1,7 +1,5 @@
 import { DisplayObject } from '@antv/g';
 
-export type { MixAttrs, StyleState } from './styles';
-
 export type Point = [number, number];
 
 export type Vector2 = [number, number];
@@ -16,6 +14,5 @@ export type CallbackableObject<T extends { [keys: string]: any }, P extends any[
   [K in keyof T]: Callbackable<T[K], P>;
 };
 
-export * from './dependency';
-export * from './merge';
 export * from './prefix';
+export * from './styles';

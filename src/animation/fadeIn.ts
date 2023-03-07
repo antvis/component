@@ -1,11 +1,8 @@
-import type { DisplayObject } from '@antv/g';
+import type { DisplayObject } from '../shapes';
+import { transition } from './utils';
 import type { GenericAnimation } from '.';
 
 export default function (element: DisplayObject, options: GenericAnimation) {
-  const opacity = element.attr('opacity') || 1;
-  if (!options) {
-    element.attr('opacity', 0);
-    return null;
-  }
-  return element.animate([{ opacity: 0 }, { opacity }], options);
+  if (!element.style.opacity) element.style.opacity = 0;
+  return transition(element, { opacity: 1 }, options);
 }

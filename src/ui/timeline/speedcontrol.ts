@@ -1,4 +1,4 @@
-// import { CustomElement, CustomEvent, DisplayObjectConfig } from '@antv/g';
+// import { CustomElement, CustomEvent, DisplayObjectConfig } from '../../shapes';
 // import { deepMix } from '@antv/util';
 // import { applyStyle, maybeAppend, select } from '../../util';
 // import { DEFAULT_TIMELINE_STYLE } from './constants';
@@ -32,11 +32,6 @@
 
 //   constructor(options: DisplayObjectConfig<StyleProps>) {
 //     super(deepMix({}, SpeedControl.defaultOptions, options));
-//   }
-
-//   connectedCallback(): void {
-//     this.render();
-//     this.bindEvents();
 //   }
 
 //   public update(cfg: Partial<StyleProps> = {}): void {

@@ -1,4 +1,4 @@
-// import { CustomElement, DisplayObjectConfig, CustomEvent } from '@antv/g';
+// import { CustomElement, DisplayObjectConfig, CustomEvent } from '../../shapes';
 // import { deepMix, isNil } from '@antv/util';
 // import { applyStyle, maybeAppend, select } from '../../util';
 // import { CheckboxStyleProps } from './types';
@@ -54,11 +54,6 @@
 //   constructor(options: DisplayObjectConfig<StyleProps>) {
 //     super(deepMix({}, Checkbox.defaultOptions, options));
 //     this.active = this.style.active || false;
-//   }
-
-//   connectedCallback() {
-//     this.render();
-//     this.bindEvents();
 //   }
 
 //   private get styles(): Required<StyleProps> {

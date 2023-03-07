@@ -1,7 +1,6 @@
-import type { DisplayObject } from '@antv/g';
 import { isNil } from '@antv/util';
+import { type DisplayObject, Text } from '../../../shapes';
 import { getFont, measureTextWidth } from '../../../util';
-import { Text } from '../../text';
 import { AxisStyleProps, EllipsisOverlapCfg } from '../types';
 import { boundTest } from '../utils/helper';
 
@@ -33,7 +32,7 @@ export default function ellipseLabels(
 
   const font = getFont(utils.getTextShape(labels[0]));
   const step = parseLengthString(ellipsisStep, font);
-  const min = parseLengthString(minLength, font);
+  const min = minLength ? parseLengthString(minLength, font) : step;
   let max = parseLengthString(maxLength, font);
   // Enable to ellipsis label when overlap.
   if (isNil(max) || max === Infinity) {

@@ -1,6 +1,6 @@
-import { Group } from '@antv/g';
 import { parseAnimationOption, type GenericAnimation, type StandardAnimationOption } from '../../animation';
-import { GUI, type RequiredStyleProps } from '../../core';
+import { GUI } from '../../core';
+import { Group } from '../../shapes';
 import { ifShow, sampling, select, type Selection } from '../../util';
 import { AXIS_BASE_DEFAULT_ATTR, CLASS_NAMES } from './constant';
 import { renderGrid } from './guides/grid';
@@ -8,7 +8,7 @@ import { renderLabels } from './guides/labels';
 import { renderAxisLine } from './guides/line';
 import { renderTicks } from './guides/ticks';
 import { renderTitle } from './guides/title';
-import type { AxisDatum, AxisOptions, AxisStyleProps } from './types';
+import type { AxisDatum, AxisOptions, AxisStyleProps, RequiredAxisStyleProps } from './types';
 
 export type {
   ArcAxisOptions,
@@ -20,7 +20,7 @@ export type {
 } from './types';
 
 function renderAxisMain(
-  attributes: RequiredStyleProps<AxisStyleProps>,
+  attributes: RequiredAxisStyleProps,
   container: Selection,
   data: AxisDatum[],
   animation: StandardAnimationOption
@@ -55,14 +55,8 @@ export class Axis extends GUI<AxisStyleProps> {
     super(options, AXIS_BASE_DEFAULT_ATTR);
   }
 
-  render(attributes: RequiredStyleProps<AxisStyleProps>, container: Group, specificAnimation?: GenericAnimation) {
-    const {
-      data,
-      animate,
-      showTitle,
-      showGrid,
-      style: { dataThreshold, truncRange },
-    } = attributes;
+  render(attributes: RequiredAxisStyleProps, container: Group, specificAnimation?: GenericAnimation) {
+    const { data, animate, showTitle, showGrid, dataThreshold, truncRange } = attributes;
     const sampledData = sampling(data, dataThreshold).filter(({ value }) => {
       if (truncRange && value > truncRange[0] && value < truncRange[1]) return false;
       return true;
@@ -72,7 +66,8 @@ export class Axis extends GUI<AxisStyleProps> {
 
     /** grid */
     const gridGroup = select(container).maybeAppendByClassName(CLASS_NAMES.gridGroup, 'g');
-    ifShow(showGrid!, gridGroup, (group) => renderGrid(group, sampledData, attributes, finalAnimation));
+    const gridTransitions =
+      ifShow(showGrid!, gridGroup, (group) => renderGrid(group, sampledData, attributes, finalAnimation)) || [];
 
     /** main group */
     const mainGroup = select(container).maybeAppendByClassName(CLASS_NAMES.mainGroup, 'g');
@@ -86,6 +81,6 @@ export class Axis extends GUI<AxisStyleProps> {
       ifShow(showTitle, titleGroup, (group) => {
         return renderTitle(group, this, attributes, finalAnimation);
       }) || [];
-    return [...mainTransitions, ...titleTransitions].flat().filter((t) => !!t);
+    return [...gridTransitions, ...mainTransitions, ...titleTransitions].flat().filter((t) => !!t);
   }
 }

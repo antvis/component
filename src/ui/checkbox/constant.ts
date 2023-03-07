@@ -1,17 +1,16 @@
-import { RectStyleProps } from '@antv/g';
+import { RectStyleProps } from '../../shapes';
 
-import { TEXT_INHERITABLE_PROPS, superObject } from '../../util';
+import { superStyleProps } from '../../util';
 
 // 默认文本样式
-export const LABEL_TEXT_STYLE = superObject(
+export const LABEL_TEXT_STYLE = superStyleProps(
   {
-    ...TEXT_INHERITABLE_PROPS,
     fill: 'rgba(0,0,0,0.45)',
     fontSize: 10,
     textAlign: 'start',
     textBaseline: 'middle',
     overflow: 'clip',
-  },
+  } as const,
   'label'
 );
 

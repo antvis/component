@@ -1,6 +1,5 @@
-import { DisplayObject, TextStyleProps } from '@antv/g';
+import type { DisplayObject, Text, TextStyleProps } from '../shapes';
 import { Point } from '../types';
-import type { Text } from '../ui/text';
 import { select } from './selection';
 
 /**

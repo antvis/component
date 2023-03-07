@@ -26,10 +26,8 @@ export type { SliderOptions } from './slider';
 export { Scrollbar } from './scrollbar';
 export type { ScrollbarOptions, ScrollbarStyleProps } from './scrollbar';
 // author by [Aarebecca](https://github.com/Aarebecca)
-export { Axis, Helix } from './axis';
+export { Axis } from './axis';
 export type { AxisStyleProps } from './axis';
-export { Sheet } from './sheet';
-export type { SheetOptions } from './sheet';
 export { Timeline } from './timeline';
 export type { TimelineOptions } from './timeline';
 // author by [Aarebecca](https://github.com/Aarebecca)
@@ -47,7 +45,7 @@ export type { LineCrosshairOptions, CircleCrosshairOptions, PolygonCrosshairOpti
 export { Checkbox } from './checkbox';
 export type { CheckboxOptions } from './checkbox';
 export { Poptip } from './poptip';
-export type { PoptipCfg, PoptipOptions } from './poptip/types';
+export type { PoptipStyleProps as PoptipCfg, PoptipOptions } from './poptip/types';
 export { Layout } from './layout';
 export type { LayoutOptions } from './layout/types';
 // to be continued...

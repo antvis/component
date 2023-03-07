@@ -1,6 +1,6 @@
 import { isString, memoize } from '@antv/util';
 import type { Properties } from 'csstype';
-import type { Text } from '../ui/text';
+import type { Text } from '../shapes';
 
 type Font = Pick<Properties, 'fontFamily' | 'fontWeight' | 'fontStyle' | 'fontVariant'> & {
   fontSize?: number;

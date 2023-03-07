@@ -1,6 +1,5 @@
-import type { DisplayObject, IAnimation, TextStyleProps } from '@antv/g';
+import type { IAnimation } from '@antv/g';
 import { get, isFunction, memoize } from '@antv/util';
-import { RequiredStyleProps } from 'src/core';
 import {
   fadeOut,
   onAnimateFinished,
@@ -8,9 +7,11 @@ import {
   transitionShape,
   type StandardAnimationOption,
 } from '../../../animation';
+import { Text, type DisplayObject, type TextStyleProps } from '../../../shapes';
 import type { Vector2 } from '../../../types';
 import {
   add,
+  defined,
   ellipsisIt,
   getCallbackValue,
   hide,
@@ -20,14 +21,12 @@ import {
   renderExtDo,
   scale,
   select,
-  defined,
   show,
-  styleSeparator,
+  splitStyle,
   subStyleProps,
   type Selection,
   type _Element,
 } from '../../../util';
-import { Text } from '../../text';
 import { CLASS_NAMES } from '../constant';
 import { processOverlap } from '../overlap';
 import type { AxisDatum, AxisLabelStyleProps, AxisStyleProps } from '../types';
@@ -51,8 +50,8 @@ const getAngle = memoize(
   (v1, v2) => [...v1, ...v2].join()
 );
 
-function getLabelVector(value: number, attr: RequiredStyleProps<AxisStyleProps>) {
-  return getDirectionVector(value, attr.style.labelDirection, attr);
+function getLabelVector(value: number, attr: Required<AxisStyleProps>) {
+  return getDirectionVector(value, attr.labelDirection, attr);
 }
 
 /** to correct label rotation to avoid inverted character */
@@ -63,10 +62,10 @@ function correctLabelRotation(_rotate: number) {
 }
 
 /** get rotation from preset or layout */
-function getLabelRotation(datum: AxisDatum, label: DisplayObject, attr: RequiredStyleProps<AxisStyleProps>) {
-  const { labelAlign } = attr.style;
+function getLabelRotation(datum: AxisDatum, label: DisplayObject, attr: Required<AxisStyleProps>) {
+  const { labelAlign } = attr;
   // if label rotate is set, use it
-  const customRotate = label.style.transform.includes('rotate');
+  const customRotate = label.style.transform?.includes('rotate');
   if (customRotate) return label.getLocalEulerAngles();
   let rotate = 0;
   const labelVector = getLabelVector(datum.value, attr);
@@ -78,8 +77,8 @@ function getLabelRotation(datum: AxisDatum, label: DisplayObject, attr: Required
 }
 
 /** get the label align according to its tick and label angle  */
-function getLabelAlign(value: number, rotate: number, attr: RequiredStyleProps<AxisStyleProps>) {
-  const { type, labelAlign } = attr.style;
+function getLabelAlign(value: number, rotate: number, attr: Required<AxisStyleProps>) {
+  const { type, labelAlign } = attr;
   const labelVector = getLabelVector(value, attr);
   const labelAngle = angleNormalizer(rotate);
   const tickAngle = angleNormalizer(radToDeg(getAngle([1, 0], labelVector)));
@@ -125,7 +124,7 @@ function getLabelAlign(value: number, rotate: number, attr: RequiredStyleProps<A
   // return align[-unionFactor as VerticalFactor];
 }
 
-function setRotateAndAdjustLabelAlign(rotate: number, group: _Element, attr: RequiredStyleProps<AxisStyleProps>) {
+function setRotateAndAdjustLabelAlign(rotate: number, group: _Element, attr: Required<AxisStyleProps>) {
   group.setLocalEulerAngles(rotate);
   const { value } = group.__data__;
   const textAlign = getLabelAlign(value, rotate, attr);
@@ -133,11 +132,8 @@ function setRotateAndAdjustLabelAlign(rotate: number, group: _Element, attr: Req
   if (label) applyTextStyle(label, { textAlign });
 }
 
-function getLabelPos(datum: AxisDatum, data: AxisDatum[], attr: RequiredStyleProps<AxisStyleProps>) {
-  const {
-    showTick,
-    style: { tickLength, tickDirection, labelDirection, labelSpacing },
-  } = attr;
+function getLabelPos(datum: AxisDatum, data: AxisDatum[], attr: Required<AxisStyleProps>) {
+  const { showTick, tickLength, tickDirection, labelDirection, labelSpacing } = attr;
   const index = data.indexOf(datum);
   const finalLabelSpacing = getCallbackValue<number>(labelSpacing, [datum, index, data]);
   const [labelVector, unionFactor] = [getLabelVector(datum.value, attr), getFactor(labelDirection!, tickDirection!)];
@@ -146,7 +142,7 @@ function getLabelPos(datum: AxisDatum, data: AxisDatum[], attr: RequiredStylePro
   return { x, y };
 }
 
-function formatter(datum: AxisDatum, index: number, data: AxisDatum[], attr: RequiredStyleProps<AxisStyleProps>) {
+function formatter(datum: AxisDatum, index: number, data: AxisDatum[], attr: Required<AxisStyleProps>) {
   const { labelFormatter } = attr;
   const element = isFunction(labelFormatter)
     ? () => renderExtDo(getCallbackValue(labelFormatter, [datum, index, data, getLabelVector(datum.value, attr)]))
@@ -159,7 +155,7 @@ function applyTextStyle(node: DisplayObject, style: Partial<TextStyleProps>) {
   if (node.nodeName === 'text') node.attr(style);
 }
 
-function overlapHandler(attr: RequiredStyleProps<AxisStyleProps>) {
+function overlapHandler(attr: Required<AxisStyleProps>) {
   processOverlap(this.node().childNodes as DisplayObject[], attr, {
     hide,
     show,
@@ -173,19 +169,13 @@ function overlapHandler(attr: RequiredStyleProps<AxisStyleProps>) {
   });
 }
 
-function renderLabel(
-  container: DisplayObject,
-  datum: any,
-  data: any[],
-  style: any,
-  attr: RequiredStyleProps<AxisStyleProps>
-) {
+function renderLabel(container: DisplayObject, datum: any, data: any[], style: any, attr: Required<AxisStyleProps>) {
   const index = data.indexOf(datum);
   const label = select(container)
     .append(formatter(datum, index, data, attr))
     .attr('className', CLASS_NAMES.labelItem.name)
     .node();
-  const [labelStyle, { transform, ...groupStyle }] = styleSeparator(getCallbackStyle(style, [datum, index, data]));
+  const [labelStyle, { transform, ...groupStyle }] = splitStyle(getCallbackStyle(style, [datum, index, data]));
   percentTransform(container, transform);
 
   const rotate = getLabelRotation(datum, container, attr);
@@ -204,12 +194,11 @@ function renderLabel(
 export function renderLabels(
   container: Selection,
   data: AxisDatum[],
-  attr: RequiredStyleProps<AxisStyleProps>,
+  attr: Required<AxisStyleProps>,
   animate: StandardAnimationOption
 ) {
   const finalData = filterExec(data, attr.labelFilter);
-  const { style } = subStyleProps<AxisLabelStyleProps>(attr, 'label');
-
+  const style = subStyleProps<AxisLabelStyleProps>(attr, 'label');
   return container
     .selectAll(CLASS_NAMES.label.class)
     .data(finalData, (d, i) => i)

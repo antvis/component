@@ -2,11 +2,60 @@ import { Canvas as GCanvas, CanvasEvent, Circle, ElementEvent, Path, Rect, Text,
 import { Renderer } from '@antv/g-canvas';
 import { scheduler } from './runner';
 
-import * as Cases from '../../integration/charts';
+import * as _Cases from '../../integration/components';
+
+const Cases = {
+  ..._Cases,
+  Rect: () => {
+    return new Rect({
+      style: {
+        x: 100 * Math.random(),
+        y: 100 * Math.random(),
+        width: 100 * Math.random(),
+        height: 100 * Math.random(),
+        fill: 'red',
+      },
+    });
+  },
+  Circle: () => {
+    return new Circle({
+      style: {
+        cx: 100 * Math.random(),
+        cy: 100 * Math.random(),
+        r: 100 * Math.random(),
+        fill: 'red',
+      },
+    });
+  },
+  Text: () => {
+    return new Text({
+      style: {
+        x: 100 * Math.random(),
+        y: 100 * Math.random(),
+        text: Math.random().toString(36).substring(2, 15),
+      },
+    });
+  },
+  Path: () => {
+    return new Path({
+      style: {
+        path: [
+          ['M', 100 * Math.random(), 100 * Math.random()],
+          ['L', 100 * Math.random(), 100 * Math.random()],
+          ['L', 100 * Math.random(), 100 * Math.random()],
+          ['Z'],
+        ],
+      },
+    });
+  },
+};
+
+let casesToRun: Record<string, any> = Cases;
 
 window.onload = async () => {
   const commitId = await getCommitId();
   document.getElementById('commit-id')?.appendChild(document.createTextNode(`commitId: ${commitId}`));
+  renderSelect();
   bindEvents();
 };
 
@@ -28,6 +77,13 @@ function bindEvents() {
   document.getElementById('launch')?.addEventListener('click', async () => {
     const result = await launch(10);
     report(result);
+  });
+
+  document.getElementById('select')?.addEventListener('change', (e) => {
+    const target = e.target as HTMLSelectElement;
+    const name = target.value;
+    if (name !== '全量测试') casesToRun = { [name]: (Cases as any)[name] };
+    else casesToRun = Cases;
   });
 }
 
@@ -100,6 +156,17 @@ function sleep(ms: number) {
   });
 }
 
+function renderSelect() {
+  const select = document.getElementById('select') as HTMLSelectElement;
+  const options = ['全量测试', ...Object.keys(Cases)].map((name) => {
+    const option = document.createElement('option');
+    option.value = name;
+    option.innerText = name;
+    return option;
+  });
+  select.append(...options);
+}
+
 async function dispatcher(tasks: Record<string, () => DisplayObject>, itera: number) {
   (globalThis as any).disableInterval = true;
   const s = scheduler(itera, {
@@ -140,66 +207,13 @@ async function dispatcher(tasks: Record<string, () => DisplayObject>, itera: num
 }
 
 async function launch(itera = 1) {
-  const cases = {
-    ...Cases,
-    Rect: () => {
-      return new Rect({
-        style: {
-          x: 100 * Math.random(),
-          y: 100 * Math.random(),
-          width: 100 * Math.random(),
-          height: 100 * Math.random(),
-          fill: 'red',
-        },
-      });
-    },
-    Circle: () => {
-      return new Circle({
-        style: {
-          cx: 100 * Math.random(),
-          cy: 100 * Math.random(),
-          r: 100 * Math.random(),
-          fill: 'red',
-        },
-      });
-    },
-    Text: () => {
-      return new Text({
-        style: {
-          x: 100 * Math.random(),
-          y: 100 * Math.random(),
-          text: Math.random().toString(36).substring(2, 15),
-        },
-      });
-    },
-    Path: () => {
-      return new Path({
-        style: {
-          path: [
-            ['M', 100 * Math.random(), 100 * Math.random()],
-            ['L', 100 * Math.random(), 100 * Math.random()],
-            ['L', 100 * Math.random(), 100 * Math.random()],
-            ['Z'],
-          ],
-        },
-      });
-    },
-  };
-
-  const result = await dispatcher(Object.fromEntries(Object.entries(cases)), itera);
+  const result = await dispatcher(Object.fromEntries(Object.entries(casesToRun)), itera);
   return result;
 }
 
 function uploadReport(data: Record<string, any>) {
-  let container = document.getElementById('upload');
-  if (!container) {
-    container = document.createElement('div');
-    document.body.appendChild(container);
-  }
-  const button = document.createElement('button');
-  container.appendChild(button);
-  button.innerText = '上传结果';
-  button.addEventListener('click', async () => {
+  const button = document.getElementById('upload')!;
+  button.onclick = async () => {
     const res = await fetch('http://localhost:3000/report', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -215,7 +229,7 @@ function uploadReport(data: Record<string, any>) {
         window.open(`${window.location.origin}/report.html`, '_blank');
       }
     }
-  });
+  };
 }
 
 function visualize(result: Record<string, any>) {

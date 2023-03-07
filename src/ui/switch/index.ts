@@ -1,6 +1,6 @@
-import type { Group, Rect } from '@antv/g';
-import { deepMix, get, isEqual } from '@antv/util';
-import { GUI, type RequiredStyleProps } from '../../core';
+import { get, isEqual } from '@antv/util';
+import { GUI } from '../../core';
+import type { Group, Rect } from '../../shapes';
 import { select } from '../../util';
 import { Tag } from '../tag';
 import { SIZE_STYLE } from './constant';
@@ -32,16 +32,14 @@ function getTagShapeStyle(
   checked: boolean = true
 ) {
   return {
-    style: {
-      x: checked
-        ? Number(backgroundStyle.x) + spacing
-        : Number(backgroundStyle.width) + Number(backgroundStyle.x) - width,
-      y: Number(backgroundStyle.y) + (Number(backgroundStyle.height) - height) / 2,
-    },
+    x: checked
+      ? Number(backgroundStyle.x) + spacing
+      : Number(backgroundStyle.width) + Number(backgroundStyle.x) - width,
+    y: Number(backgroundStyle.y) + (Number(backgroundStyle.height) - height) / 2,
   };
 }
 
-export class Switch extends GUI<Required<SwitchStyleProps>> {
+export class Switch extends GUI<SwitchStyleProps> {
   /**
    * 组件 switch
    */
@@ -54,22 +52,18 @@ export class Switch extends GUI<Required<SwitchStyleProps>> {
 
   constructor(options: SwitchOptions) {
     super(options, {
-      style: {
-        x: 0,
-        y: 0,
-        size: 'default',
-        spacing: 2,
-        checked: true,
-        disabled: false,
-      },
+      x: 0,
+      y: 0,
+      size: 'default',
+      spacing: 2,
+      checked: true,
+      disabled: false,
     });
   }
 
-  public render(attributes: RequiredStyleProps<SwitchStyleProps>, container: Group) {
-    const {
-      style: { size, spacing, disabled, checked, unCheckedChildren, checkedChildren },
-    } = attributes;
-
+  public render(attributes: Required<SwitchStyleProps>, container: Group) {
+    const { size, spacing, disabled, checked, unCheckedChildren, checkedChildren } = attributes;
+    this.attributes;
     const group = select(container).maybeAppendByClassName('switch-content', 'g').node();
     const bounds = group.getLocalBounds();
 
@@ -89,18 +83,14 @@ export class Switch extends GUI<Required<SwitchStyleProps>> {
         .maybeAppendByClassName('switch-tag', () => new Tag({}))
         .call((selection) => {
           const tagShape = selection.node() as Tag;
-          tagShape.update(
-            deepMix(
-              {
-                cursor,
-                backgroundStyle: null,
-                text: false,
-                marker: false,
-              },
-              tagStyle,
-              tagCfg
-            )
-          );
+          tagShape.update({
+            cursor,
+            backgroundStyle: null,
+            text: false,
+            marker: false,
+            ...tagStyle,
+            ...tagCfg,
+          });
 
           // 增加 整体宽度 需要对 tag 提前渲染获得 width 然后通过 width 计算 x 的位置
           const { max, min } = tagShape?.getLocalBounds();

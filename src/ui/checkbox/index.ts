@@ -1,6 +1,5 @@
-import type { Group, Rect } from '@antv/g';
-import { assign } from '@antv/util';
-import { GUI, type RequiredStyleProps } from '../../core';
+import { GUI } from '../../core';
+import type { Group, Rect } from '../../shapes';
 import { maybeAppend, subStyleProps } from '../../util';
 import type { CheckboxOptions, CheckboxStyleProps } from './types';
 
@@ -31,32 +30,27 @@ export class Checkbox extends GUI<CheckboxStyleProps> {
 
   constructor(options: CheckboxOptions) {
     super(options, {
-      style: {
-        x: 0,
-        y: 0,
-        labelText: '',
-        spacing: 4,
-        checked: false,
-        ...LABEL_TEXT_STYLE,
-      },
+      x: 0,
+      y: 0,
+      labelText: '',
+      spacing: 4,
+      checked: false,
+      ...LABEL_TEXT_STYLE,
     });
   }
 
-  public render(attributes: RequiredStyleProps<CheckboxStyleProps>, container: Group) {
-    const {
-      style: { checked, spacing },
-    } = attributes;
+  public render(attributes: Required<CheckboxStyleProps>, container: Group) {
+    const { checked, spacing } = attributes;
     this.checked = !!checked;
     const group = maybeAppend(container, '.checkbox-content', 'g').attr('className', 'checkbox-content').node();
-    const { style: boxStyle } = subStyleProps(attributes, 'box');
-    const { style: checkedStyle } = subStyleProps(attributes, 'checked');
-    const { style: labelStyle } = subStyleProps(attributes, 'label');
-    const checkboxStyle = assign(
-      {},
-      this.checked ? CHECKBOX_RECT_STYLE.selected : CHECKBOX_RECT_STYLE.default,
-      boxStyle
-    );
-    const checkboxBoxCheckedStyle = assign({}, CHECKED_SHAPE_STYLE, checkedStyle);
+    const boxStyle = subStyleProps(attributes, 'box');
+    const checkedStyle = subStyleProps(attributes, 'checked');
+    const labelStyle = subStyleProps(attributes, 'label');
+    const checkboxStyle = {
+      ...(this.checked ? CHECKBOX_RECT_STYLE.selected : CHECKBOX_RECT_STYLE.default),
+      ...boxStyle,
+    };
+    const checkboxBoxCheckedStyle = { ...CHECKED_SHAPE_STYLE, ...checkedStyle };
 
     this.checkboxBoxShape = maybeAppend(group, '.checkbox-box', 'rect')
       .styles({

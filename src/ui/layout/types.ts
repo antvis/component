@@ -1,4 +1,4 @@
-import type { GroupStyleProps, DisplayObjectConfig } from '@antv/g';
+import type { GroupStyleProps, DisplayObjectConfig } from '../../shapes';
 import type { LayoutElementConfig } from '../../util/layout';
 import type { SeriesAttr } from '../../util/series';
 

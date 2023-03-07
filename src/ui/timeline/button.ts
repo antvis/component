@@ -4,7 +4,7 @@
 //   PathStyleProps,
 //   RectStyleProps,
 //   BaseCustomElementStyleProps,
-// } from '@antv/g';
+// } from '../../shapes';
 // import { deepMix, omit } from '@antv/util';
 // import { FunctionalSymbol } from '../marker/types';
 // import { applyStyle, maybeAppend, normalPadding, select } from '../../util';
@@ -56,11 +56,6 @@
 //   constructor(options: DisplayObjectConfig<ButtonStyleProps>) {
 //     super(options);
 //     this.disabled = this.style.disabled || false;
-//   }
-
-//   connectedCallback() {
-//     this.render();
-//     this.bindEvents();
 //   }
 
 //   public update(cfg: Partial<ButtonStyleProps> = {}) {

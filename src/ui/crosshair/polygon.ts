@@ -1,4 +1,3 @@
-import type { RequiredStyleProps } from '../../core';
 import type { Point } from '../../types';
 import { deepAssign, intersection, lineLen, rotate, scale, throttle, hide } from '../../util';
 import { CrosshairBase } from './base';
@@ -7,7 +6,7 @@ import { PolygonCrosshairOptions, PolygonCrosshairStyleProps } from './types';
 
 export type { PolygonCrosshairStyleProps, PolygonCrosshairOptions };
 
-export class PolygonCrosshair extends CrosshairBase<RequiredStyleProps<PolygonCrosshairStyleProps>> {
+export class PolygonCrosshair extends CrosshairBase<Required<PolygonCrosshairStyleProps>> {
   public static tag = 'polygon-crosshair';
 
   protected static defaultOptions = {
@@ -30,9 +29,7 @@ export class PolygonCrosshair extends CrosshairBase<RequiredStyleProps<PolygonCr
    * 得到从中心出发，各个点方向的单位向量
    */
   private get points() {
-    const {
-      style: { startAngle, sides },
-    } = this.attributes;
+    const { startAngle, sides } = this.attributes;
     const a = (Math.PI * 2) / sides;
     // 单位向量
     const unit: [number, number] = [1, 0];
@@ -52,9 +49,7 @@ export class PolygonCrosshair extends CrosshairBase<RequiredStyleProps<PolygonCr
   public setPointer([x, y]: Point) {
     super.setPointer([x, y]);
     const [lx, ly] = this.localPointer;
-    const {
-      style: { center },
-    } = this.attributes;
+    const { center } = this.attributes;
     // 求交点
     const [ix, iy] = this.intersection([lx, ly]);
     if (!ix || !iy) return;
@@ -69,10 +64,8 @@ export class PolygonCrosshair extends CrosshairBase<RequiredStyleProps<PolygonCr
 
   private createPolygonPath(radius?: number) {
     const {
-      style: {
-        defaultRadius,
-        center: [cx, cy],
-      },
+      defaultRadius,
+      center: [cx, cy],
     } = this.attributes;
     const path = this.points.map(([x, y], index) => {
       const [tx, ty] = scale([x, y], radius || defaultRadius);
@@ -88,9 +81,7 @@ export class PolygonCrosshair extends CrosshairBase<RequiredStyleProps<PolygonCr
   private intersection([x, y]: Point) {
     const { points } = this;
     const {
-      style: {
-        center: [cx, cy],
-      },
+      center: [cx, cy],
     } = this.attributes;
     let ix: number;
     let iy: number;

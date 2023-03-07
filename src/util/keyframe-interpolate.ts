@@ -1,4 +1,4 @@
-import type { DisplayObject } from '@antv/g';
+import type { DisplayObject } from '../shapes';
 import type { GenericAnimation } from '../animation';
 import { interpolate, type Interpolatable } from './interpolate';
 

@@ -1,5 +1,5 @@
 import { Circle, DisplayObject, Group, GroupStyleProps, PathStyleProps, RectStyleProps, TextStyleProps } from '@antv/g';
-import { GUI, type ComponentOptions, type RequiredStyleProps } from '../../../core';
+import { GUI, type ComponentOptions } from '../../../core';
 import { ExtendDisplayObject, PrefixObject } from '../../../types';
 import {
   classNames,
@@ -13,26 +13,25 @@ import {
   SeriesAttr,
   subStyleProps,
 } from '../../../util';
-import { Text } from '../../text';
 
 type ItemMarkerStyle = { size?: number } & PathStyleProps;
 type ItemTextStyle = Omit<TextStyleProps, 'text'>;
 type ItemBackgroundStyle = Omit<RectStyleProps, 'width' | 'height'>;
 
-export type CategoryItemStyleProps = {
-  style: GroupStyleProps & { marker?: string | (() => DisplayObject) } & PrefixObject<ItemMarkerStyle, 'marker'> &
-    PrefixObject<ItemTextStyle, 'label'> &
-    PrefixObject<ItemTextStyle, 'value'> &
-    PrefixObject<ItemBackgroundStyle, 'background'> & {
-      /** spacing between marker, label and value */
-      spacing?: SeriesAttr;
-      // if width and height not specific, set it to actual space occurred
-      width?: number;
-      span?: SeriesAttr;
-      label?: ExtendDisplayObject;
-      value?: ExtendDisplayObject;
-    };
-};
+export type CategoryItemStyleProps = GroupStyleProps &
+  PrefixObject<ItemMarkerStyle, 'marker'> &
+  PrefixObject<ItemTextStyle, 'label'> &
+  PrefixObject<ItemTextStyle, 'value'> &
+  PrefixObject<ItemBackgroundStyle, 'background'> & {
+    labelText?: ExtendDisplayObject;
+    marker?: string | (() => DisplayObject);
+    /** spacing between marker, label and value */
+    spacing?: SeriesAttr;
+    span?: SeriesAttr;
+    valueText?: ExtendDisplayObject;
+    // if width and height not specific, set it to actual space occurred
+    width?: number;
+  };
 
 export type CategoryItemOptions = ComponentOptions<CategoryItemStyleProps>;
 
@@ -51,24 +50,18 @@ const CLASS_NAMES = classNames(
   'legend-category-item'
 );
 
-export class CategoryItem extends GUI<RequiredStyleProps<CategoryItemStyleProps>> {
+export class CategoryItem extends GUI<CategoryItemStyleProps> {
   constructor(options: CategoryItemOptions) {
     super(options, {
-      style: {
-        span: [1, 1],
-        marker: () => new Circle({ style: { r: 6 } }),
-        markerSize: 10,
-        labelFill: '#646464',
-        valueFill: '#646464',
-        labelFontSize: 12,
-        valueFontSize: 12,
-        labelFontFamily: 'sans-serif',
-        valueFontFamily: 'sans-serif',
-        labelTextAlign: 'start',
-        valueTextAlign: 'start',
-        labelTextBaseline: 'middle',
-        valueTextBaseline: 'middle',
-      },
+      span: [1, 1],
+      marker: () => new Circle({ style: { r: 6 } }),
+      markerSize: 10,
+      labelFill: '#646464',
+      valueFill: '#646464',
+      labelFontSize: 12,
+      valueFontSize: 12,
+      labelTextBaseline: 'middle',
+      valueTextBaseline: 'middle',
     });
   }
 
@@ -81,21 +74,17 @@ export class CategoryItem extends GUI<RequiredStyleProps<CategoryItemStyleProps>
   private background!: Selection<Group>;
 
   private get showValue() {
-    const {
-      style: { value },
-    } = this.attributes;
-    if (!value) return false;
-    if (typeof value === 'string' || typeof value === 'number') return value !== '';
-    if (typeof value === 'function') return true;
-    return value.attr('text') !== '';
+    const { valueText } = this.attributes;
+    if (!valueText) return false;
+    if (typeof valueText === 'string' || typeof valueText === 'number') return valueText !== '';
+    if (typeof valueText === 'function') return true;
+    return valueText.attr('text') !== '';
   }
 
   private get actualSpace() {
     const label = this.labelGroup;
     const value = this.valueGroup;
-    const {
-      style: { markerSize },
-    } = this.attributes;
+    const { markerSize } = this.attributes;
     const { width: labelWidth, height: labelHeight } = label.node().getBBox();
     const { width: valueWidth, height: valueHeight } = value.node().getBBox();
     return {
@@ -107,9 +96,7 @@ export class CategoryItem extends GUI<RequiredStyleProps<CategoryItemStyleProps>
   }
 
   private get span() {
-    const {
-      style: { span },
-    } = this.attributes;
+    const { span } = this.attributes;
     if (!span) return [1, 1];
     const [span1, innerSpan] = parseSeriesAttr(span!);
     const span2 = this.showValue ? innerSpan : 0;
@@ -118,9 +105,7 @@ export class CategoryItem extends GUI<RequiredStyleProps<CategoryItemStyleProps>
   }
 
   private get shape() {
-    const {
-      style: { markerSize, width: fullWidth },
-    } = this.attributes;
+    const { markerSize, width: fullWidth } = this.attributes;
     const actualSpace = this.actualSpace;
     const { markerWidth, height } = actualSpace;
     let { labelWidth, valueWidth } = this.actualSpace;
@@ -137,9 +122,7 @@ export class CategoryItem extends GUI<RequiredStyleProps<CategoryItemStyleProps>
   }
 
   private get spacing() {
-    const {
-      style: { spacing },
-    } = this.attributes;
+    const { spacing } = this.attributes;
     if (!spacing) return [0, 0];
     const [spacing1, spacing2] = parseSeriesAttr(spacing);
     if (this.showValue) return [spacing1, spacing2];
@@ -160,10 +143,8 @@ export class CategoryItem extends GUI<RequiredStyleProps<CategoryItemStyleProps>
   }
 
   private renderMarker(container: Selection) {
-    const {
-      style: { marker, markerSize },
-    } = this.attributes;
-    const { style } = subStyleProps(this.attributes, 'marker');
+    const { marker, markerSize } = this.attributes;
+    const style = subStyleProps(this.attributes, 'marker');
     this.markerGroup = container.maybeAppendByClassName(CLASS_NAMES.markerGroup, 'g');
     ifShow(!!marker, this.markerGroup, () => {
       this.markerGroup.maybeAppendByClassName(CLASS_NAMES.marker, marker!).styles(style);
@@ -172,28 +153,22 @@ export class CategoryItem extends GUI<RequiredStyleProps<CategoryItemStyleProps>
   }
 
   private renderLabel(container: Selection) {
-    const {
-      style: { label },
-    } = this.attributes;
-    const { style } = subStyleProps(this.attributes, 'label');
+    const { text: label, ...style } = subStyleProps(this.attributes, 'label');
     this.labelGroup = container.maybeAppendByClassName<Group>(CLASS_NAMES.labelGroup, 'g');
-    this.labelGroup.maybeAppendByClassName(CLASS_NAMES.label, () => renderExtDo(label!)).styles(style);
+    this.labelGroup.maybeAppendByClassName(CLASS_NAMES.label, () => renderExtDo(label)).styles(style);
   }
 
   private renderValue(container: Selection) {
-    const {
-      style: { value },
-    } = this.attributes;
-    const { style } = subStyleProps(this.attributes, 'value');
+    const { text: value, ...style } = subStyleProps(this.attributes, 'value');
     this.valueGroup = container.maybeAppendByClassName(CLASS_NAMES.valueGroup, 'g');
     ifShow(this.showValue, this.valueGroup, () => {
-      this.valueGroup.maybeAppendByClassName(CLASS_NAMES.value, () => renderExtDo(value!)).styles(style);
+      this.valueGroup.maybeAppendByClassName(CLASS_NAMES.value, () => renderExtDo(value)).styles(style);
     });
   }
 
   private renderBackground(container: Selection) {
     const { width, height } = this.shape;
-    const { style } = subStyleProps(this.attributes, 'background');
+    const style = subStyleProps(this.attributes, 'background');
     this.background = container.maybeAppendByClassName(CLASS_NAMES.backgroundGroup, 'g').style('zIndex', -1);
     this.background.maybeAppendByClassName(CLASS_NAMES.background, 'rect').styles({ width, height, ...style });
   }

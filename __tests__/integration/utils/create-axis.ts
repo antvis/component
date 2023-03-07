@@ -7,7 +7,7 @@ export const axisWarper = (group: Group, baseParams: any) => {
     return group.appendChild(
       new Axis(
         deepAssign(
-          { style: { style: { radius: 80, lineLineWidth: 1, tickLength: 10, labelSpacing: 10 } } },
+          { style: { radius: 80, lineLineWidth: 1, tickLength: 10, labelSpacing: 10 } },
           { style: baseParams },
           { style: extraParams }
         )

@@ -1,4 +1,5 @@
-import type { TextProps, DisplayObjectConfig } from '../../types';
+import type { ComponentOptions } from '../../core';
+import type { TextStyleProps } from '../../shapes';
 import type { TagStyleProps } from '../tag/types';
 
 export type BreadcrumbItem = {
@@ -7,10 +8,10 @@ export type BreadcrumbItem = {
   /** 展示的文案 */
   text: string;
   /** 图标 */
-  marker?: TagStyleProps['style']['marker'];
+  marker?: TagStyleProps['marker'];
 };
 
-export type BreadcrumbCfg = {
+export type BreadcrumbStyleProps = {
   /** 起点 x 坐标位置 */
   readonly x: number;
   /** 起点 y 坐标位置 */
@@ -28,17 +29,17 @@ export type BreadcrumbCfg = {
     /** 分隔符内容, 默认: '/'. 暂不支持传入一个 group, 外部自行控制大小 */
     text?: string;
     /** 分隔符样式（不需要激活样式） */
-    style?: Partial<TextProps>;
+    style?: Partial<TextStyleProps>;
     /** 分隔符两边间距 */
     spacing?: number;
   };
 
   /** 样式 */
   /** 字体样式 */
-  readonly textStyle?: Partial<TextProps>;
+  readonly textStyle?: Partial<TextStyleProps>;
 
   /** 如果作为通用组件，给其它用户使用 */
   readonly onClick?: (id: string, item: BreadcrumbItem, items: BreadcrumbItem[]) => void;
 };
 
-export type BreadcrumbOptions = DisplayObjectConfig<BreadcrumbCfg>;
+export type BreadcrumbOptions = ComponentOptions<BreadcrumbStyleProps>;

@@ -1,4 +1,4 @@
-import { DisplayObject } from '@antv/g';
+import { DisplayObject } from '../shapes';
 
 export function getTranslate(node: DisplayObject, x: string, y: string) {
   const { width, height } = node.getBBox();

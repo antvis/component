@@ -1,38 +1,28 @@
-import type { DisplayObject, GroupStyleProps, PathStyleProps, TextStyleProps } from '@antv/g';
-import { Group } from '@antv/g';
-import { GUI, PrefixStyleProps, type ComponentOptions, type RequiredStyleProps } from '../../core';
-import type { MergeMultiple } from '../../types';
-import { classNames, ifShow, select, styleSeparator, subStyleProps, type Selection } from '../../util';
-import { createComponent } from '../../util/create';
+import { ComponentOptions, GUI, PrefixStyleProps } from '../../core';
+import type { DisplayObject, GroupStyleProps, PathStyleProps, TextStyleProps } from '../../shapes';
+import { Group } from '../../shapes';
+import { classNames, ifShow, select, splitStyle, subStyleProps, type Selection } from '../../util';
 import { HANDLE_DEFAULT_CFG, HANDLE_ICON_DEFAULT_CFG, HANDLE_LABEL_DEFAULT_CFG } from './constant';
 
-export type IconStyleProps = {
-  style: PathStyleProps & {
-    size?: number;
-    radius?: number;
-    shape?: string | (() => DisplayObject);
-    orientation?: 'horizontal' | 'vertical';
+export type IconStyleProps = PathStyleProps & {
+  size?: number;
+  radius?: number;
+  shape?: string | (() => DisplayObject);
+  orientation?: 'horizontal' | 'vertical';
+};
+
+export type LabelStyleProps = Partial<TextStyleProps>;
+
+export type HandleStyleProps = GroupStyleProps &
+  PrefixStyleProps<LabelStyleProps, 'label'> &
+  PrefixStyleProps<IconStyleProps, 'icon'> & {
+    orientation?: IconStyleProps['orientation'];
+    showLabel?: boolean;
+    spacing?: number;
+    type?: 'start' | 'end';
   };
-};
 
-export type LabelStyleProps = {
-  style: TextStyleProps;
-};
-
-export type HandleStyleProps = MergeMultiple<
-  [
-    PrefixStyleProps<LabelStyleProps, 'label'>,
-    PrefixStyleProps<IconStyleProps, 'icon'>,
-    {
-      showLabel?: boolean;
-      style: GroupStyleProps & {
-        type?: 'start' | 'end';
-        spacing?: number;
-        orientation?: IconStyleProps['style']['orientation'];
-      };
-    }
-  ]
->;
+export type HandleOptions = ComponentOptions<HandleStyleProps>;
 
 const CLASS_NAMES = classNames(
   {
@@ -45,11 +35,9 @@ const CLASS_NAMES = classNames(
   'handle'
 );
 
-const HandleIcon = createComponent<RequiredStyleProps<IconStyleProps>>({
-  render(attributes, container) {
-    const {
-      style: { size = 10, radius = size / 4, orientation, ...iconStyle },
-    } = attributes;
+class HandleIcon extends GUI<IconStyleProps> {
+  render(attributes: Required<IconStyleProps>, container: DisplayObject) {
+    const { size = 10, radius = size / 4, orientation, ...iconStyle } = attributes;
     // 默认手柄
     const width = size!;
     const height = width * 2.4;
@@ -76,28 +64,28 @@ const HandleIcon = createComponent<RequiredStyleProps<IconStyleProps>>({
     rect.node().setOrigin(width / 2, height / 2);
     if (orientation === 'vertical') container.setLocalEulerAngles(90);
     else container.setLocalEulerAngles(0);
-  },
-});
+  }
+}
 
-export class Handle extends GUI<RequiredStyleProps<HandleStyleProps>> {
+export class Handle extends GUI<HandleStyleProps> {
   private label!: Selection;
 
   private icon!: Selection;
 
-  constructor(options: ComponentOptions<HandleStyleProps>) {
+  constructor(options: HandleOptions) {
     super(options, HANDLE_DEFAULT_CFG);
   }
 
   private renderLabel(container: Group) {
     const { showLabel } = this.attributes;
-    const { style } = subStyleProps(this.attributes, 'label');
-    const [labelStyle, groupStyle] = styleSeparator(style, []);
+    const style = subStyleProps(this.attributes, 'label');
+    const [labelStyle, groupStyle] = splitStyle(style, []);
 
     const labelGroup = select(container).maybeAppendByClassName(CLASS_NAMES.labelGroup, 'g').styles(groupStyle);
     ifShow(!!showLabel, labelGroup, (group) => {
       this.label = group
         .maybeAppendByClassName(CLASS_NAMES.label, 'text')
-        .styles({ ...HANDLE_LABEL_DEFAULT_CFG.style, ...labelStyle });
+        .styles({ ...HANDLE_LABEL_DEFAULT_CFG, ...labelStyle });
 
       /** avoid trigger event on label */
       this.label.on('mousedown', (e: MouseEvent) => {
@@ -110,15 +98,13 @@ export class Handle extends GUI<RequiredStyleProps<HandleStyleProps>> {
   }
 
   private renderIcon(container: Group) {
+    const { orientation } = this.attributes;
+    const iconStyle = { orientation, ...HANDLE_ICON_DEFAULT_CFG, ...subStyleProps(this.attributes, 'icon') };
     const {
-      style: {
-        iconShape = () => {
-          return new HandleIcon({ style: { style: iconStyle } });
-        },
-        orientation,
+      iconShape = () => {
+        return new HandleIcon({ style: iconStyle });
       },
     } = this.attributes;
-    const iconStyle = { orientation, ...HANDLE_ICON_DEFAULT_CFG, ...subStyleProps(this.attributes, 'icon').style };
 
     this.icon = select(container).maybeAppendByClassName(CLASS_NAMES.icon, iconShape).update(iconStyle);
   }

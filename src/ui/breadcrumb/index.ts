@@ -1,14 +1,13 @@
-import { Group } from '@antv/g';
 import { deepMix, isNil, pick } from '@antv/util';
 import { GUI } from '../../core';
-import { maybeAppend, parseSeriesAttr, TEXT_INHERITABLE_PROPS } from '../../util';
-import { Tag } from '../tag';
-import { Text } from '../text';
-import type { BreadcrumbCfg, BreadcrumbItem, BreadcrumbOptions } from './type';
+import { Group, Text } from '../../shapes';
+import { maybeAppend, parseSeriesAttr, subStyleProps } from '../../util';
+import { Tag, TagStyleProps } from '../tag';
+import type { BreadcrumbStyleProps, BreadcrumbItem, BreadcrumbOptions } from './type';
 
-export type { BreadcrumbCfg, BreadcrumbOptions };
+export type { BreadcrumbStyleProps as BreadcrumbCfg, BreadcrumbOptions };
 
-export class Breadcrumb extends GUI<Required<BreadcrumbCfg>> {
+export class Breadcrumb extends GUI<BreadcrumbStyleProps> {
   /**
    * 标签类型
    */
@@ -29,7 +28,6 @@ export class Breadcrumb extends GUI<Required<BreadcrumbCfg>> {
       },
       textStyle: {
         default: {
-          ...TEXT_INHERITABLE_PROPS,
           fontSize: 14,
           fill: 'rgba(0, 0, 0, 0.45)',
         },
@@ -50,9 +48,11 @@ export class Breadcrumb extends GUI<Required<BreadcrumbCfg>> {
     super(deepMix({}, Breadcrumb.defaultOptions, options));
   }
 
-  public render(attributes: BreadcrumbCfg, container: Group) {
+  public render(attributes: BreadcrumbStyleProps, container: Group) {
     const { x, y, items, textStyle, padding = 0, width, separator } = attributes;
     const [top, right, left] = parseSeriesAttr(padding);
+
+    const tagStyle = subStyleProps<TagStyleProps>(attributes, 'tag');
 
     const selection = maybeAppend(container, '.container', 'g').styles({
       className: 'container',
@@ -71,12 +71,11 @@ export class Breadcrumb extends GUI<Required<BreadcrumbCfg>> {
         style: {
           x: cursorX,
           y: cursorY,
+          ...tagStyle,
           text: isNil(datum.text) ? datum.id : datum.text,
-          textStyle,
           ...pick(datum, ['marker']),
           // 强制不需要背景
           padding: 0,
-          backgroundStyle: null,
         },
       });
       selection.append(() => shape);
@@ -106,7 +105,6 @@ export class Breadcrumb extends GUI<Required<BreadcrumbCfg>> {
           className: `${Breadcrumb.tag}-separator`,
           id: `${Breadcrumb.tag}-separator-${i}`,
           style: {
-            ...TEXT_INHERITABLE_PROPS,
             x: cursorX + spacing!,
             y: cursorY + shapeH / 2,
             ...style,
@@ -126,7 +124,7 @@ export class Breadcrumb extends GUI<Required<BreadcrumbCfg>> {
    * 组件更新
    * @param cfg
    */
-  public update(cfg: Partial<BreadcrumbCfg>): void {
+  public update(cfg: Partial<BreadcrumbStyleProps>): void {
     this.attr(deepMix({}, this.attributes, cfg));
     this.render(this.attributes, this);
   }

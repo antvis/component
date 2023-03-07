@@ -1,4 +1,4 @@
-import { DisplayObject } from '@antv/g';
+import { DisplayObject } from '../shapes/DisplayObject';
 
 export function traverse(element: DisplayObject, callback: (node: DisplayObject) => void) {
   callback(element);

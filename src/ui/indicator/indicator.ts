@@ -1,5 +1,6 @@
-import { ElementEvent, Group } from '@antv/g';
-import { GUI, type RequiredStyleProps } from '../../core';
+import { ElementEvent } from '@antv/g';
+import { GUI } from '../../core';
+import { Group } from '../../shapes';
 import type { Point } from '../../types';
 import {
   classNames,
@@ -9,11 +10,10 @@ import {
   renderExtDo,
   select,
   Selection,
-  styleSeparator,
+  splitStyle,
   subStyleProps,
-  TEXT_INHERITABLE_PROPS,
 } from '../../util';
-import { DEFAULT_INDICATOR_CFG } from './constant';
+import { DEFAULT_INDICATOR_STYLE_PROPS } from './constant';
 import type { IndicatorOptions, IndicatorStyleProps, Position } from './types';
 
 export { IndicatorOptions, IndicatorStyleProps };
@@ -28,9 +28,9 @@ const CLASS_NAMES = classNames(
   },
   'indicator'
 );
-export class Indicator extends GUI<RequiredStyleProps<IndicatorStyleProps>> {
+export class Indicator extends GUI<IndicatorStyleProps> {
   constructor(options: IndicatorOptions) {
-    super(options, deepAssign({}, DEFAULT_INDICATOR_CFG, { style: { visibility: 'hidden' } }));
+    super(options, DEFAULT_INDICATOR_STYLE_PROPS);
     this.group = this.appendChild(new Group({}));
     this.isMutationObserved = true;
   }
@@ -45,9 +45,7 @@ export class Indicator extends GUI<RequiredStyleProps<IndicatorStyleProps>> {
 
   private renderBackground() {
     if (!this.label) return;
-    const {
-      style: { position, padding },
-    } = this.attributes;
+    const { position, padding } = this.attributes;
     const [t, r, b, l] = parseSeriesAttr(padding);
     const { min, max } = this.label.node().getLocalBounds();
 
@@ -57,7 +55,7 @@ export class Indicator extends GUI<RequiredStyleProps<IndicatorStyleProps>> {
     ];
     const path = this.getPath(position, points);
 
-    const { style } = subStyleProps(this.attributes, 'background');
+    const style = subStyleProps(this.attributes, 'background');
 
     this.background = select(this.group)
       .maybeAppendByClassName(CLASS_NAMES.background, 'path')
@@ -66,20 +64,17 @@ export class Indicator extends GUI<RequiredStyleProps<IndicatorStyleProps>> {
   }
 
   private renderLabel() {
-    const {
-      formatter,
-      style: { labelText },
-    } = this.attributes;
+    const { formatter, labelText } = this.attributes;
 
-    const { style } = subStyleProps(this.attributes, 'label');
-    const [{ text: rawText, ...textStyle }, groupStyle] = styleSeparator(style);
+    const style = subStyleProps(this.attributes, 'label');
+    const [{ text: rawText, ...textStyle }, groupStyle] = splitStyle(style);
 
     this.label = select(this.group).maybeAppendByClassName(CLASS_NAMES.labelGroup, 'g').styles(groupStyle);
     if (!labelText) return;
     const text = this.label
       .maybeAppendByClassName(CLASS_NAMES.label, () => renderExtDo(formatter(labelText)))
       .style('text', formatter(labelText).toString());
-    text.selectAll('text').styles({ ...TEXT_INHERITABLE_PROPS, ...textStyle });
+    text.selectAll('text').styles(textStyle);
   }
 
   private adjustLayout() {

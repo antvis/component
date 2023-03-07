@@ -1,4 +1,4 @@
-import { DisplayObject } from '@antv/g';
+import { DisplayObject } from '../shapes';
 import { degToRad } from '../util';
 import { Bounds } from './bounds';
 

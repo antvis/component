@@ -1,12 +1,11 @@
 import { isFunction } from '@antv/util';
-import { RequiredStyleProps } from '../../../core';
 import type { CallbackableObject } from '../../../types';
 import { getCallbackValue } from '../../../util';
 import type { AxisDatumCP, AxisStyleProps } from '../types';
 
-export function getCallbackStyle<T extends { [keys: string]: any }>(
-  style: CallbackableObject<T, AxisDatumCP>,
-  params: AxisDatumCP
+export function getCallbackStyle<T extends { [keys: string]: any }, P extends Array<any> = []>(
+  style: CallbackableObject<T, AxisDatumCP<P>>,
+  params: AxisDatumCP<P>
 ) {
   return Object.fromEntries(
     Object.entries(style).map(([key, val]) => {
@@ -15,12 +14,12 @@ export function getCallbackStyle<T extends { [keys: string]: any }>(
   );
 }
 
-export function baseDependencies(attr: RequiredStyleProps<AxisStyleProps>): any[] {
-  if (attr.style.type === 'linear') {
-    const { startPos, endPos } = attr.style;
+export function baseDependencies(attr: Required<AxisStyleProps>): any[] {
+  if (attr.type === 'linear') {
+    const { startPos, endPos } = attr;
     return [...startPos, ...endPos];
   }
-  const { startAngle, endAngle, center, radius } = attr.style;
+  const { startAngle, endAngle, center, radius } = attr;
   return [startAngle, endAngle, ...center, radius];
 }
 

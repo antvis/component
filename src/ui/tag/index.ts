@@ -1,6 +1,6 @@
-import { Group } from '@antv/g';
 import { isNil } from '@antv/util';
-import { GUI, type RequiredStyleProps } from '../../core';
+import { GUI } from '../../core';
+import { Group, Text } from '../../shapes';
 import { maybeAppend, parseSeriesAttr, select, subStyleProps } from '../../util';
 import { Marker } from '../marker';
 import type { TagOptions, TagStyleProps } from './types';
@@ -36,7 +36,7 @@ function getTextPosition(markerShape: Marker, spacing?: number) {
  *
  * 组成元素：Marker + Text + BackgroundRect
  */
-export class Tag extends GUI<Required<TagStyleProps>> {
+export class Tag extends GUI<TagStyleProps> {
   /**
    * 标签类型
    */
@@ -44,18 +44,19 @@ export class Tag extends GUI<Required<TagStyleProps>> {
 
   constructor(options: TagOptions) {
     super(options, {
-      style: { padding: 4, spacing: 4 },
+      padding: 4,
+      spacing: 4,
     });
   }
 
-  public render(attributes: RequiredStyleProps<TagStyleProps>, container: Group) {
-    const { padding = 0, marker, text, radius, spacing, align, verticalAlign } = attributes.style;
-    const labelStyle = subStyleProps(attributes, 'label').style;
-    const backgroundStyle = subStyleProps(attributes, 'background').style;
+  public render(attributes: Required<TagStyleProps>, container: Group) {
+    const { padding = 0, marker, text, radius, spacing, align, verticalAlign } = attributes;
+    const labelStyle = subStyleProps(attributes, 'label');
+    const backgroundStyle = subStyleProps(attributes, 'background');
     const [pt, pr, pb, pl] = parseSeriesAttr(padding);
 
     const group = maybeAppend(container, '.tag-content', 'g').attr('className', 'tag-content').node();
-    const style = marker ? { style: { marker } } : { style: { symbol: 'triangle', size: 0 } };
+    const style = marker ? { marker } : { symbol: 'triangle', size: 0 };
     // @ts-ignore
     const markerShape = maybeAppend(group, '.tag-marker', () => new Marker({ style }))
       .attr('className', 'tag-marker')
@@ -66,10 +67,10 @@ export class Tag extends GUI<Required<TagStyleProps>> {
       .node() as Marker;
 
     const { x, y } = getTextPosition(markerShape, spacing);
-    select(group)
-      .maybeAppendByClassName('tag-text', 'text')
+
+    const t = select(group)
+      .maybeAppendByClassName('tag-text', () => new Text())
       .styles({
-        fontFamily: 'sans-serif',
         fontSize: 12,
         text: isNil(text) ? '' : `${text}`,
         x,
@@ -79,10 +80,9 @@ export class Tag extends GUI<Required<TagStyleProps>> {
       })
       .call((selection) => {
         // text 为空字符串或者 false 但 textShape 依然形成了体积
-        if (!text) {
-          selection.remove();
-        }
+        if (!text) selection.remove();
       });
+
     adjust(group, pl, pt, align || 'start', verticalAlign || 'top');
 
     const bounds = group.getLocalBounds();

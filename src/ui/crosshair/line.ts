@@ -3,11 +3,10 @@ import { LINE_CROSSHAIR_DEFAULT_STYLE } from './constant';
 import { deepAssign, getShapeSpace, throttle, show, hide } from '../../util';
 import type { LineCrosshairStyleProps, LineCrosshairOptions } from './types';
 import type { Point } from '../../types';
-import { RequiredStyleProps } from '../../core';
 
 export type { LineCrosshairStyleProps, LineCrosshairOptions };
 
-export class LineCrosshair extends CrosshairBase<RequiredStyleProps<LineCrosshairStyleProps>> {
+export class LineCrosshair extends CrosshairBase<Required<LineCrosshairStyleProps>> {
   static tag = 'line-crosshair';
 
   protected static defaultOptions = {
@@ -16,10 +15,8 @@ export class LineCrosshair extends CrosshairBase<RequiredStyleProps<LineCrosshai
 
   protected get crosshairPath() {
     const {
-      style: {
-        startPos: [sx, sy],
-        endPos: [ex, ey],
-      },
+      startPos: [sx, sy],
+      endPos: [ex, ey],
     } = this.attributes;
     const path = [['M', 0, 0], ['L', ex - sx, ey - sy], ['Z']] as any[];
     return path;
@@ -29,7 +26,7 @@ export class LineCrosshair extends CrosshairBase<RequiredStyleProps<LineCrosshai
    * 获得 pointer 的相对坐标
    */
   protected get localPointer() {
-    if (!this.pointer) return this.attributes.style!.startPos;
+    if (!this.pointer) return this.attributes.startPos;
     const [bx, by] = this.getPosition();
     const [x, y] = this.pointer;
     return [x - bx, y - by];
@@ -37,10 +34,8 @@ export class LineCrosshair extends CrosshairBase<RequiredStyleProps<LineCrosshai
 
   private get isVertical() {
     const {
-      style: {
-        startPos: [x1, y1],
-        endPos: [x2, y2],
-      },
+      startPos: [x1, y1],
+      endPos: [x2, y2],
     } = this.attributes;
     return x1 === x2 && y1 !== y2;
   }
@@ -68,7 +63,7 @@ export class LineCrosshair extends CrosshairBase<RequiredStyleProps<LineCrosshai
   }
 
   public setText(text: string) {
-    this.tagShape.update({ style: { text } });
+    this.tagShape.update({ text });
     this.adjustTag();
   }
 
@@ -83,9 +78,7 @@ export class LineCrosshair extends CrosshairBase<RequiredStyleProps<LineCrosshai
   private adjustPosition() {
     const [lx, ly] = this.localPointer;
     const {
-      style: {
-        startPos: [sx, sy],
-      },
+      startPos: [sx, sy],
     } = this.attributes;
     const targetPos = this.getOrientVal<[number, number]>([sx, ly], [lx, sy]);
     this.shapesGroup.setLocalPosition(targetPos);
@@ -96,12 +89,10 @@ export class LineCrosshair extends CrosshairBase<RequiredStyleProps<LineCrosshai
    */
   private adjustTag() {
     const {
-      style: {
-        tagText,
-        tagPosition,
-        startPos: [x1, y1],
-        endPos: [x2, y2],
-      },
+      tagText,
+      tagPosition,
+      startPos: [x1, y1],
+      endPos: [x2, y2],
     } = this.attributes;
 
     if (!tagText || tagText === '') {

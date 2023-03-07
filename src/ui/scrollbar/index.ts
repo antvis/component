@@ -1,13 +1,14 @@
-import { CustomEvent, Group } from '@antv/g';
+import { CustomEvent } from '@antv/g';
 import { clamp } from '@antv/util';
-import { GUI, type RequiredStyleProps } from '../../core';
-import { getEventPos, parseSeriesAttr, select, subObjects, superObject, subStyleProps } from '../../util';
+import { GUI } from '../../core';
+import type { Group, RectStyleProps } from '../../shapes';
+import { getEventPos, parseSeriesAttr, select, subStyleProps, superStyleProps } from '../../util';
 import { Slider, type SliderStyleProps } from '../slider';
 import type { ScrollbarOptions, ScrollbarStyleProps } from './types';
 
 export type { ScrollbarOptions, ScrollbarStyleProps };
 
-export class Scrollbar extends GUI<RequiredStyleProps<ScrollbarStyleProps>> {
+export class Scrollbar extends GUI<ScrollbarStyleProps> {
   public static tag = 'scrollbar';
 
   private slider!: Slider;
@@ -15,45 +16,36 @@ export class Scrollbar extends GUI<RequiredStyleProps<ScrollbarStyleProps>> {
   private range: [number, number] = [0, 1];
 
   private get padding(): [number, number, number, number] {
-    const {
-      style: { padding },
-    } = this.attributes;
+    const { padding } = this.attributes;
     return parseSeriesAttr(padding);
   }
 
   constructor(options: ScrollbarOptions) {
     super(options, {
-      style: {
-        value: 0,
-        trackSize: 10,
-        isRound: true,
-        slidable: true,
-        scrollable: true,
-        orientation: 'vertical',
-        padding: [2, 2, 2, 2],
-      },
+      isRound: true,
+      orientation: 'vertical',
+      padding: [2, 2, 2, 2],
+      scrollable: true,
+      slidable: true,
+      thumbCursor: 'default',
+      trackSize: 10,
+      value: 0,
     });
   }
 
   private get value() {
-    const {
-      style: { value },
-    } = this.attributes;
+    const { value } = this.attributes;
     const [min, max] = this.range;
     return clamp(value, min, max);
   }
 
   private get trackLength() {
-    const {
-      style: { viewportLength, trackLength = viewportLength },
-    } = this.attributes;
+    const { viewportLength, trackLength = viewportLength } = this.attributes;
     return trackLength;
   }
 
   private get availableSpace() {
-    const {
-      style: { trackSize },
-    } = this.attributes;
+    const { trackSize } = this.attributes;
     const trackLength = this.trackLength;
     const [top, right, bottom, left] = this.padding;
     const [width, height] = this.getOrientVal([
@@ -69,17 +61,13 @@ export class Scrollbar extends GUI<RequiredStyleProps<ScrollbarStyleProps>> {
   }
 
   private get trackRadius() {
-    const {
-      style: { isRound, trackSize },
-    } = this.attributes;
+    const { isRound, trackSize } = this.attributes;
     if (!isRound) return 0;
     return trackSize / 2;
   }
 
   private get thumbRadius() {
-    const {
-      style: { isRound, thumbRadius },
-    } = this.attributes;
+    const { isRound, thumbRadius } = this.attributes;
     if (!isRound) return 0;
     const { width, height } = this.availableSpace;
     return thumbRadius || this.getOrientVal([height, width]) / 2;
@@ -89,9 +77,7 @@ export class Scrollbar extends GUI<RequiredStyleProps<ScrollbarStyleProps>> {
    * accord to thumbLen and value, calculate the values of slider
    */
   private getValues(value = this.value): [number, number] {
-    const {
-      style: { viewportLength, contentLength },
-    } = this.attributes;
+    const { viewportLength, contentLength } = this.attributes;
     const unit = viewportLength / contentLength;
     const [min, max] = this.range;
     const start = value * (max - min - unit);
@@ -103,28 +89,23 @@ export class Scrollbar extends GUI<RequiredStyleProps<ScrollbarStyleProps>> {
   }
 
   private renderSlider(container: Group) {
-    const {
-      style: { orientation, trackSize, padding, slidable },
-    } = this.attributes;
-    const { style: trackStyle } = subStyleProps(this.attributes, 'track');
-    const { style: selectionStyle } = subStyleProps(this.attributes, 'thumb');
+    const { orientation, trackSize, padding, slidable } = this.attributes;
+    const trackStyle = subStyleProps<RectStyleProps>(this.attributes, 'track');
+    const selectionStyle = subStyleProps<RectStyleProps>(this.attributes, 'thumb');
 
-    // const [trackStyle, selectionStyle] = subObjects(this.attributes, ['track', 'thumb']);
     const style: SliderStyleProps = {
+      brushable: false,
+      orientation,
+      padding,
+      selectionRadius: this.thumbRadius,
       showHandle: false,
-      style: {
-        orientation,
-        padding,
-        slidable,
-        trackSize,
-        brushable: false,
-        values: this.getValues(),
-        trackLength: this.trackLength,
-        trackRadius: this.trackRadius,
-        selectionRadius: this.thumbRadius,
-        ...superObject(trackStyle, 'track'),
-        ...superObject(selectionStyle, 'selection'),
-      },
+      slidable,
+      trackLength: this.trackLength,
+      trackRadius: this.trackRadius,
+      trackSize,
+      values: this.getValues(),
+      ...superStyleProps(trackStyle, 'track'),
+      ...superStyleProps(selectionStyle, 'selection'),
     };
 
     this.slider = select(container)
@@ -142,9 +123,7 @@ export class Scrollbar extends GUI<RequiredStyleProps<ScrollbarStyleProps>> {
    * @param value 当前位置的占比
    */
   public setValue(value: number, animate: boolean = false) {
-    const {
-      style: { value: oldValue },
-    } = this.attributes;
+    const { value: oldValue } = this.attributes;
     const [min, max] = this.range;
     this.slider.setValues(this.getValues(clamp(value, min, max)), animate);
     // 通知触发valueChange
@@ -156,9 +135,7 @@ export class Scrollbar extends GUI<RequiredStyleProps<ScrollbarStyleProps>> {
    * 值改变事件
    */
   private onValueChange = (oldValue: any) => {
-    const {
-      style: { value: newValue },
-    } = this.attributes;
+    const { value: newValue } = this.attributes;
     if (oldValue === newValue) return;
     const evtVal = {
       detail: {
@@ -183,9 +160,7 @@ export class Scrollbar extends GUI<RequiredStyleProps<ScrollbarStyleProps>> {
    * 主要用于取鼠标坐标在orient方向上的位置
    */
   private getOrientVal<T>(values: [T, T]) {
-    const {
-      style: { orientation },
-    } = this.attributes;
+    const { orientation } = this.attributes;
     return orientation === 'horizontal' ? values[0] : values[1];
   }
 
@@ -193,9 +168,7 @@ export class Scrollbar extends GUI<RequiredStyleProps<ScrollbarStyleProps>> {
    * 点击轨道事件
    */
   private onTrackClick = (e: any) => {
-    const {
-      style: { slidable },
-    } = this.attributes;
+    const { slidable } = this.attributes;
     if (!slidable) return;
     const [x, y] = this.getLocalPosition();
     const [top, , , left] = this.padding;

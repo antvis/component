@@ -1,4 +1,4 @@
-// import { CustomElement, DisplayObjectConfig, Group } from '@antv/g';
+// import { CustomElement, DisplayObjectConfig, Group } from '../../shapes';
 // import { deepMix, isNull } from '@antv/util';
 // import { maybeAppend, normalPadding, select } from '../../util';
 // import { Button } from './button';
@@ -152,11 +152,6 @@ export class Timeline {}
 //     super(deepMix({}, { style: DEFAULT_TIMELINE_STYLE }, options));
 //     this.singleMode = this.style.singleMode || false;
 //     this.selection = normalSelection(this.style.selection, this.singleMode);
-//   }
-
-//   connectedCallback() {
-//     this.render();
-//     this.bindEvents();
 //   }
 
 //   public update(cfg: Partial<TimelineStyleProps> = {}) {

@@ -1,4 +1,4 @@
-import type { DisplayObject } from '@antv/g';
+import type { DisplayObject } from '../../../shapes';
 import { intersect } from '../../../layout/intersect';
 
 const nonempty = (x: any) => x !== undefined && x != null && `${x}` !== '';

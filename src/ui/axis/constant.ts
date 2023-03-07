@@ -1,5 +1,5 @@
-import { Path } from '@antv/g';
 import { deepMix } from '@antv/util';
+import { Path } from '../../shapes';
 import { classNames } from '../../util';
 import type { AxisBaseStyleProps } from './types';
 
@@ -14,43 +14,8 @@ export const AXIS_BASE_DEFAULT_ATTR: Partial<AxisBaseStyleProps> = {
     },
     exit: {
       duration: 100,
+      fill: 'both',
     },
-  },
-  style: {
-    dataThreshold: 100,
-    lineLineWidth: 1,
-    lineStroke: 'black',
-    titleFill: 'black',
-    titleFontSize: 12,
-    titlePosition: 'lb',
-    titleSpacing: 0,
-    titleTextAlign: 'center',
-    titleTextBaseline: 'middle',
-    lineArrow: () =>
-      new Path({
-        style: {
-          path: 'M 10,10 L -10,0 L 10,-10 L0,0 L10,10Z',
-          anchor: '0.5 0.5',
-          fill: 'black',
-          transformOrigin: 'center',
-        },
-      }),
-    labelAlign: 'parallel',
-    labelDirection: 'positive',
-    labelFontSize: 12,
-    labelSpacing: 0,
-    gridConnect: 'line',
-    gridControlAngles: [],
-    gridDirection: 'positive',
-    gridLength: 0,
-    gridType: 'segment',
-    lineArrowOffset: 15,
-    lineArrowSize: 10,
-    tickDirection: 'positive',
-    tickLength: 5,
-    tickLineWidth: 1,
-    tickStroke: 'black',
-    tickStrokeOpacity: 0.65,
   },
   showArrow: true,
   showGrid: true,
@@ -59,7 +24,41 @@ export const AXIS_BASE_DEFAULT_ATTR: Partial<AxisBaseStyleProps> = {
   showTick: true,
   showTitle: true,
   showTrunc: false,
-  labelTransform: [
+  dataThreshold: 100,
+  lineLineWidth: 1,
+  lineStroke: 'black',
+  titleFill: 'black',
+  titleFontSize: 12,
+  titlePosition: 'lb',
+  titleSpacing: 0,
+  titleTextAlign: 'center',
+  titleTextBaseline: 'middle',
+  lineArrow: () =>
+    new Path({
+      style: {
+        path: [['M', 10, 10], ['L', -10, 0], ['L', 10, -10], ['L', 0, 0], ['L', 10, 10], ['Z']],
+        anchor: '0.5 0.5',
+        fill: 'black',
+        transformOrigin: 'center',
+      },
+    }),
+  labelAlign: 'parallel',
+  labelDirection: 'positive',
+  labelFontSize: 12,
+  labelSpacing: 0,
+  gridConnect: 'line',
+  gridControlAngles: [],
+  gridDirection: 'positive',
+  gridLength: 0,
+  gridType: 'segment',
+  lineArrowOffset: 15,
+  lineArrowSize: 10,
+  tickDirection: 'positive',
+  tickLength: 5,
+  tickLineWidth: 1,
+  tickStroke: 'black',
+  tickStrokeOpacity: 0.65,
+  labelOverlap: [
     // { type: 'rotate', optionalAngles: [0, 45, 90] },
     // { type: 'ellipsis', suffix: '...', minLength: 14, maxLength: 160 },
     // { type: 'hide' },
@@ -68,7 +67,7 @@ export const AXIS_BASE_DEFAULT_ATTR: Partial<AxisBaseStyleProps> = {
 
 export const ARC_DEFAULT_OPTIONS = deepMix({}, AXIS_BASE_DEFAULT_ATTR, {
   style: {
-    style: { type: 'arc' },
+    type: 'arc',
   },
 });
 

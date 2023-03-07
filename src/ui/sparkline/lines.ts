@@ -1,29 +1,27 @@
-import type { BaseStyleProps, PathStyleProps } from '@antv/g';
-import { DisplayObject, Group } from '@antv/g';
 import { deepMix } from '@antv/util';
-import { select } from '../../util';
+import type { BaseStyleProps, PathStyleProps } from '../../shapes';
+import { DisplayObject, Group } from '../../shapes';
+import { deepAssign, select } from '../../util';
 
-export interface ILinesCfg extends BaseStyleProps {
+export interface LinesStyleProps extends BaseStyleProps {
   lines: PathStyleProps[];
   areas: PathStyleProps[];
 }
 
-export class Lines extends DisplayObject<ILinesCfg> {
-  private linesGroup: Group;
+export class Lines extends DisplayObject<LinesStyleProps> {
+  private linesGroup = this.appendChild(new Group());
 
-  private areasGroup: Group;
+  private areasGroup = this.appendChild(new Group());
 
-  constructor({ style, ...rest }: Partial<DisplayObject<ILinesCfg>>) {
-    super(deepMix({}, { type: 'lines', style: { width: 0, height: 0 } }, { style, ...rest }));
-    this.linesGroup = this.appendChild(new Group({ name: 'lines' }));
-    this.areasGroup = this.appendChild(new Group({ name: 'areas' }));
+  constructor({ style, ...rest }: Partial<DisplayObject<LinesStyleProps>>) {
+    super(deepMix({}, { type: 'lines' }, { style, ...rest }));
     this.render();
   }
 
   public render(): void {
     const { lines, areas } = this.attributes;
-    if (lines) this.createLines(lines);
-    if (areas) this.createAreas(areas);
+    if (lines) this.renderLines(lines);
+    if (areas) this.renderAreas(areas);
   }
 
   public clear(): void {
@@ -31,45 +29,48 @@ export class Lines extends DisplayObject<ILinesCfg> {
     this.areasGroup.removeChildren();
   }
 
-  public update(cfg: Partial<ILinesCfg>) {
-    const { lines, areas } = cfg;
-    this.clear();
-    lines && this.setAttribute('lines', lines);
-    areas && this.setAttribute('areas', areas);
+  public update(attr: Partial<LinesStyleProps>) {
+    this.attr(deepAssign({}, this.attributes, attr));
     this.render();
   }
 
-  private createLines(lines: ILinesCfg['lines']) {
+  private renderLines(lines: LinesStyleProps['lines']) {
     select(this.linesGroup)
-      .selectAll('line')
+      .selectAll('.line')
       .data(lines)
       .join(
         (enter) =>
-          enter.append('path').each(function (cfg) {
-            select(this).styles(cfg);
-          }),
+          enter
+            .append('path')
+            .attr('className', 'line')
+            .each(function (style) {
+              this.attr(style);
+            }),
         (update) =>
-          update.each(function (cfg) {
-            select(this).styles(cfg);
+          update.each(function (style) {
+            this.attr(style);
           }),
-        (remove) => remove.remove()
+        (exit) => exit.remove()
       );
   }
 
-  private createAreas(areas: ILinesCfg['areas']) {
+  private renderAreas(areas: LinesStyleProps['areas']) {
     select(this.linesGroup)
-      .selectAll('area')
+      .selectAll('.area')
       .data(areas)
       .join(
         (enter) =>
-          enter.append('path').each(function (cfg) {
-            select(this).styles(cfg);
-          }),
+          enter
+            .append('path')
+            .attr('className', 'area')
+            .each(function (style) {
+              this.attr(style);
+            }),
         (update) =>
-          update.each(function (cfg) {
-            select(this).styles(cfg);
+          update.each(function (style) {
+            this.style(style);
           }),
-        (remove) => remove.remove()
+        (exit) => exit.remove()
       );
   }
 }

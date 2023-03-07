@@ -1,5 +1,5 @@
-// import { ElementEvent, Line, CustomEvent, IAnimation } from '@antv/g';
-// import type { DisplayObjectConfig } from '@antv/g';
+// import { ElementEvent, Line, CustomEvent, IAnimation } from '../../shapes';
+// import type { DisplayObjectConfig } from '../../shapes';
 // import { clamp, deepMix } from '@antv/util';
 // import { Point as PointScale } from '@antv/scale';
 // import { GUI } from '../../core';
@@ -66,11 +66,6 @@
 //   constructor(options: SliderAxisOptions) {
 //     super(deepMix({}, SliderAxis.defaultOptions, options));
 //     this.selection = normalSelection(this.style.selection, this.style.singleMode);
-//   }
-
-//   connectedCallback() {
-//     this.render();
-//     this.bindEvents();
 //   }
 
 //   private get styles(): Required<AxisStyleProps> {

@@ -1,4 +1,4 @@
-import { DisplayObject } from '@antv/g';
+import { DisplayObject } from '../shapes';
 import { Selection } from './selection';
 
 export function ifShow<T extends Selection | HTMLElement | DisplayObject = Selection, R = any>(

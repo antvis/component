@@ -1,6 +1,5 @@
-import type { DisplayObject } from '@antv/g';
-import { RequiredStyleProps } from '../../../core';
-import { defined, getLocalBBox, hide, show } from '../../../util';
+import type { DisplayObject } from '../../../shapes';
+import { defined, getLocalBBox, hide } from '../../../util';
 import { isAxisHorizontal, isAxisVertical } from '../guides/line';
 import type { AxisStyleProps, HideOverlapCfg } from '../types';
 import { boundTest } from '../utils/helper';
@@ -18,7 +17,7 @@ const filterDefined = (arr: any[]) => arr.filter(defined);
 export default function equidistance(
   labels: DisplayObject[],
   overlapCfg: HideOverlapCfg,
-  attr: RequiredStyleProps<AxisStyleProps>,
+  attr: Required<AxisStyleProps>,
   utils: Utils
 ) {
   const count = labels.length;
@@ -35,7 +34,7 @@ export default function equidistance(
 
   const minLabelWidth = Math.min(1, ...labels.map((d) => d.getBBox().width));
   // @ts-ignore
-  if (attr.style!.type === 'linear' && (isAxisHorizontal(attr) || isAxisVertical(attr))) {
+  if (attr.type === 'linear' && (isAxisHorizontal(attr) || isAxisVertical(attr))) {
     const minX = getLocalBBox(labels[0]).left;
     const maxX = getLocalBBox(labels[count - 1]).right;
     const distance = Math.abs(maxX - minX) || 1;

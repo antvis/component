@@ -1,4 +1,4 @@
-// import { DisplayObjectConfig, RectStyleProps, CustomEvent } from '@antv/g';
+// import { DisplayObjectConfig, RectStyleProps, CustomEvent } from '../../shapes';
 // import { Band as BandScale } from '@antv/scale';
 // import { deepMix } from '@antv/util';
 // import { Axis, AxisOptions } from '../axis';
@@ -51,11 +51,6 @@
 //   constructor(options: CellAxisOptions) {
 //     super(deepMix({}, CellAxis.defaultOptions, options));
 //     this.selection = normalSelection(this.style.selection, this.style.singleMode);
-//   }
-
-//   connectedCallback() {
-//     this.render();
-//     this.bindEvents();
 //   }
 
 //   private get styles(): Required<CellAxisStyleProps> {

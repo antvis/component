@@ -1,16 +1,14 @@
-import { Group } from '@antv/g';
 import { deepMix, isUndefined } from '@antv/util';
-import { GUI, PartialStyleProps, RequiredStyleProps } from '../../core';
-import type { RectProps } from '../../types';
-import { maybeAppend, parseSeriesAttr, select, subObject } from '../../util';
+import { GUI } from '../../core';
+import { Group, RectStyleProps, Text } from '../../shapes';
+import { maybeAppend, parseSeriesAttr, select, subStyleProps } from '../../util';
 import { Marker } from '../marker';
-import { Text } from '../text';
 import { DISABLED_STYLE, SIZE_STYLE, TYPE_STYLE } from './constant';
 import type { ButtonOptions, ButtonStyleProps } from './types';
 
 export type { ButtonStyleProps, ButtonOptions };
 
-export class Button extends GUI<RequiredStyleProps<ButtonStyleProps>> {
+export class Button extends GUI<ButtonStyleProps> {
   /**
    * 组件类型
    */
@@ -24,9 +22,7 @@ export class Button extends GUI<RequiredStyleProps<ButtonStyleProps>> {
   private state: 'default' | 'active' | 'disabled' = 'default';
 
   private get markerSize(): number {
-    const {
-      style: { markerSymbol },
-    } = this.attributes;
+    const { markerSymbol } = this.attributes;
     const markerStyle = this.getStyle('marker');
     const markerSize = !markerSymbol ? 0 : markerStyle?.size || 2;
     return markerSize;
@@ -34,41 +30,35 @@ export class Button extends GUI<RequiredStyleProps<ButtonStyleProps>> {
 
   /* 获得文本可用宽度 */
   private get textAvailableWidth(): number {
-    const {
-      style: { markerSymbol, padding, ellipsis, width: bWidth, markerSpacing: spacing },
-    } = this.attributes;
+    const { markerSymbol, padding, ellipsis, width: bWidth, markerSpacing: spacing } = this.attributes;
     if (!ellipsis) return Infinity;
     /* 按钮总宽度 */
-    const width = (isUndefined(bWidth) ? (this.getStyle('button') as RectProps).width : bWidth) as number;
+    const width = (isUndefined(bWidth) ? (this.getStyle('button') as RectStyleProps).width : bWidth) as number;
     if (markerSymbol) return width - padding! * 2 - spacing! - this.markerSize;
     return width - padding! * 2;
   }
 
   private get buttonHeight(): number {
-    const {
-      style: { height },
-    } = this.attributes;
+    const { height } = this.attributes;
     if (height) return +height;
     return +this.getStyle('button').height;
   }
 
   constructor(options: ButtonOptions) {
     super(options, {
-      style: {
-        cursor: 'pointer',
-        padding: 10,
-        size: 'middle',
-        type: 'default',
-        text: '',
-        state: 'default',
-        markerAlign: 'left',
-        markerSpacing: 5,
-        default: {
-          buttonLineWidth: 1,
-          buttonRadius: 5,
-        },
-        active: {},
+      cursor: 'pointer',
+      padding: 10,
+      size: 'middle',
+      type: 'default',
+      text: '',
+      state: 'default',
+      markerAlign: 'left',
+      markerSpacing: 5,
+      default: {
+        buttonLineWidth: 1,
+        buttonRadius: 5,
       },
+      active: {},
     });
   }
 
@@ -76,16 +66,14 @@ export class Button extends GUI<RequiredStyleProps<ButtonStyleProps>> {
    * 根据size、type属性生成实际渲染的属性
    */
   private getStyle(name: string) {
-    const {
-      style: { size, type },
-    } = this.attributes;
+    const { size, type } = this.attributes;
     const { state } = this;
     const mixedStyle = deepMix(
       {},
       SIZE_STYLE[size],
       TYPE_STYLE[type][state],
-      this.attributes.style!.default,
-      this.attributes.style![state]
+      this.attributes.default,
+      this.attributes[state]
     );
 
     if (state === 'disabled') {
@@ -100,16 +88,14 @@ export class Button extends GUI<RequiredStyleProps<ButtonStyleProps>> {
         // @ts-ignore
         mixedStyle[key] = DISABLED_STYLE.strict[key];
       });
-      deepMix(mixedStyle, this.attributes.style!.disabled || {});
+      deepMix(mixedStyle, this.attributes.disabled || {});
     }
-    return subObject(mixedStyle, name);
+    return subStyleProps(mixedStyle, name);
   }
 
   // @todo 处理 markerAlign='right' 的场景. 方案: left marker & right marker 处理为两个 shape, 互相不干扰
-  public render(attributes: RequiredStyleProps<ButtonStyleProps>, container: Group) {
-    const {
-      style: { text = '', padding = 0, markerSymbol, markerSpacing = 0 },
-    } = attributes;
+  public render(attributes: Required<ButtonStyleProps>, container: Group) {
+    const { text = '', padding = 0, markerSymbol, markerSpacing = 0 } = attributes;
     container.attr('cursor', this.state === 'disabled' ? 'not-allowed' : 'pointer');
     const [pt, pr, pb, pl] = parseSeriesAttr(padding);
     const height = this.buttonHeight;
@@ -118,7 +104,11 @@ export class Button extends GUI<RequiredStyleProps<ButtonStyleProps>> {
 
     const { markerSize } = this;
     const style = {
-      style: { ...markerStyle, symbol: markerSymbol, x: pl + markerSize / 2, y: height / 2, size: markerSize },
+      ...markerStyle,
+      symbol: markerSymbol,
+      x: pl + markerSize / 2,
+      y: height / 2,
+      size: markerSize,
     };
     const markerShape = maybeAppend(container, '.marker', () => new Marker({ className: 'marker', style }))
       .update({ style })
@@ -144,7 +134,7 @@ export class Button extends GUI<RequiredStyleProps<ButtonStyleProps>> {
       .node() as Text;
 
     const textBounds = this.textShape.getLocalBounds();
-    const buttonStyle = this.getStyle('button') as RectProps;
+    const buttonStyle = this.getStyle('button') as RectStyleProps;
 
     select(container)
       .maybeAppendByClassName('.background', 'rect')
@@ -159,11 +149,9 @@ export class Button extends GUI<RequiredStyleProps<ButtonStyleProps>> {
   /**
    * 组件的更新
    */
-  public update(attr: PartialStyleProps<ButtonStyleProps> = {}) {
+  public update(attr: Partial<ButtonStyleProps> = {}) {
     this.attr(deepMix({}, this.attributes, attr));
-    const {
-      style: { state },
-    } = this.attributes;
+    const { state } = this.attributes;
     // 更新状态
     this.state = state;
     this.render(this.attributes, this);
@@ -171,7 +159,7 @@ export class Button extends GUI<RequiredStyleProps<ButtonStyleProps>> {
 
   /** 更新状态 (不需要走 update) */
   public setState(state: 'disabled' | 'active' | 'default') {
-    this.update({ style: { state } });
+    this.update({ state });
   }
 
   public hide() {
@@ -185,17 +173,13 @@ export class Button extends GUI<RequiredStyleProps<ButtonStyleProps>> {
   }
 
   private clickEvents = () => {
-    const {
-      style: { onClick, state },
-    } = this.attributes;
+    const { onClick, state } = this.attributes;
     // 点击事件
     if (state !== 'disabled') onClick?.call(this, this);
   };
 
   private mouseenterEvent = () => {
-    const {
-      style: { state },
-    } = this.attributes;
+    const { state } = this.attributes;
     if (state !== 'disabled') {
       this.state = 'active';
       this.render(this.attributes, this);
@@ -203,9 +187,7 @@ export class Button extends GUI<RequiredStyleProps<ButtonStyleProps>> {
   };
 
   private mouseleaveEvent = () => {
-    const {
-      style: { state },
-    } = this.attributes;
+    const { state } = this.attributes;
     this.state = state;
     this.render(this.attributes, this);
   };

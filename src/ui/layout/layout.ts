@@ -1,14 +1,8 @@
-import {
-  ElementEvent,
-  Group,
-  type DisplayObject,
-  type DisplayObjectConfig,
-  type FederatedEvent,
-  type INode,
-} from '@antv/g';
+import { ElementEvent, type FederatedEvent, type INode } from '@antv/g';
+import { Group, type DisplayObject } from '../../shapes';
 import { BBox } from '../../util';
 import { calcLayout } from '../../util/layout';
-import { parseSeriesAttr, type StandardSeriesAttr, type SeriesAttr } from '../../util/series';
+import { parseSeriesAttr, type SeriesAttr, type StandardSeriesAttr } from '../../util/series';
 import type { LayoutOptions, LayoutStyleProps } from './types';
 
 export type { LayoutOptions, LayoutStyleProps };
@@ -60,9 +54,9 @@ export class Layout extends Group {
     );
   }
 
-  constructor(cfg: DisplayObjectConfig<LayoutStyleProps>) {
-    super(cfg);
-    const { margin = 0, padding = 0 } = cfg.style || {};
+  constructor(options: LayoutOptions) {
+    super(options);
+    const { margin = 0, padding = 0 } = options.style || {};
     this.margin = margin;
     this.padding = padding;
 
@@ -98,9 +92,9 @@ export class Layout extends Group {
     });
   }
 
-  attributeChangedCallback(name: string, value: any, oldValue: any) {
-    if (name === 'margin') this.margin = value;
-    else if (name === 'padding') this.padding = value;
+  attributeChangedCallback(name: string, oldValue: any, newValue: any) {
+    if (name === 'margin') this.margin = newValue;
+    else if (name === 'padding') this.padding = newValue;
     this.layout();
   }
 }

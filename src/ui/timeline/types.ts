@@ -1,4 +1,4 @@
-// import { PathStyleProps, RectStyleProps, TextStyleProps } from '@antv/g';
+// import { PathStyleProps, RectStyleProps, TextStyleProps } from '../../shapes';
 // import { AxisTickLineCfg } from '../axis/types';
 // import { ControlButtonStyleProps } from './button';
 

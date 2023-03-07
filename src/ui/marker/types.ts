@@ -1,13 +1,11 @@
 import type { ComponentOptions } from '../../core';
-import { ShapeAttrs } from '../../types';
+import type { BaseCustomElementStyleProps } from '../../shapes';
 
 export type FunctionalSymbol = (x: number, y: number, r: number) => any;
 
-export type MarkerStyleProps = {
-  style: ShapeAttrs & {
-    size?: number;
-    symbol: string | FunctionalSymbol;
-  };
+export type MarkerStyleProps = BaseCustomElementStyleProps & {
+  size?: number;
+  symbol: string | FunctionalSymbol;
 };
 
 export type MarkerOptions = ComponentOptions<MarkerStyleProps>;

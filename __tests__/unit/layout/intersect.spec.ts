@@ -166,7 +166,7 @@ describe('Utils for detect intersect', () => {
     const box1 = [30, 20, 50, 20, 50, 40, 30, 40];
     const box = Box(box1);
     box.setEulerAngles(45);
-    const points = IntersectUtils.bound(new Bounds(), box);
+    const points = IntersectUtils.getBounds(box);
     const { left, top, right, bottom } = box.getBBox();
     const r = (right - left) / 2;
     const box2Points = [left + r, top, left, top + r, left + r, bottom, right, top + r];
@@ -175,7 +175,7 @@ describe('Utils for detect intersect', () => {
 
   it('bound Text', () => {
     const text = canvas.appendChild(new Text({ style: { x: 50, y: 200, text: 'GUI', fontSize: 30, fill: 'red' } }));
-    const points = IntersectUtils.bound(new Bounds(), text);
+    const points = IntersectUtils.getBounds(text);
 
     Box(points, 'green', { fillOpacity: 0, lineWidth: 1 });
     const [topX, topY, leftX, leftY, bottomX, bottomY, rightX, rightY] = points;

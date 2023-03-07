@@ -1,10 +1,10 @@
-import { Group, Path } from '@antv/g';
-import { GUI, PartialStyleProps } from '../../core';
+import { GUI } from '../../core';
+import { Group, Path } from '../../shapes';
 import type { Point } from '../../types';
 import { select, subStyleProps } from '../../util';
 import { Tag } from '../tag';
 import { CROSSHAIR_BASE_DEFAULT_STYLE } from './constant';
-import type { CrosshairBaseOptions, CrosshairBaseStyleProps } from './types';
+import type { CrosshairBaseStyleProps, CrosshairBaseOptions } from './types';
 
 export abstract class CrosshairBase<T extends CrosshairBaseStyleProps> extends GUI<T> {
   public static tag = 'crosshair-base';
@@ -40,7 +40,7 @@ export abstract class CrosshairBase<T extends CrosshairBaseStyleProps> extends G
   }
 
   private get crosshairStyle() {
-    const { style } = subStyleProps(this.attributes, 'line');
+    const style = subStyleProps(this.attributes, 'line');
     return {
       ...style,
       path: this.crosshairPath,
@@ -48,7 +48,8 @@ export abstract class CrosshairBase<T extends CrosshairBaseStyleProps> extends G
   }
 
   constructor(options: CrosshairBaseOptions) {
-    super(options, CROSSHAIR_BASE_DEFAULT_STYLE as PartialStyleProps<T>);
+    // @ts-ignore
+    super(options, CROSSHAIR_BASE_DEFAULT_STYLE);
   }
 
   public render(attributes: CrosshairBaseStyleProps, container: Group) {

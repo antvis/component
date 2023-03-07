@@ -1,13 +1,13 @@
 import { deepMix, isString, isElement, assign, get } from '@antv/util';
-import { DisplayObject, Group } from '@antv/g';
+import { DisplayObject, Group } from '../../shapes';
 import { GUI } from '../../core';
 import { deepAssign } from '../../util';
 import { CLASS_NAME, POPTIP_ID, POPTIP_STYLE } from './constant';
 import { getPositionXY, getSingleTonElement } from './utils';
 
-import type { PoptipCfg, PoptipOptions } from './types';
+import type { PoptipStyleProps, PoptipOptions } from './types';
 
-export type { PoptipCfg, PoptipOptions };
+export type { PoptipStyleProps as PoptipCfg, PoptipOptions };
 
 // 到处方法，可以外部使用
 export { getPositionXY } from './utils';
@@ -15,9 +15,9 @@ export { getPositionXY } from './utils';
 type PoptipCallbackOptions = {
   html?: string;
   target?: HTMLElement | DisplayObject | false;
-} & Pick<PoptipCfg, 'position' | 'arrowPointAtCenter' | 'follow' | 'offset'>;
+} & Pick<PoptipStyleProps, 'position' | 'arrowPointAtCenter' | 'follow' | 'offset'>;
 
-export class Poptip extends GUI<Required<PoptipCfg>> {
+export class Poptip extends GUI<PoptipStyleProps> {
   public static tag = 'poptip';
 
   public get visible(): boolean {
@@ -59,7 +59,7 @@ export class Poptip extends GUI<Required<PoptipCfg>> {
     this.render(this.attributes, this);
   }
 
-  public render(attributes: PoptipCfg, container: Group) {
+  public render(attributes: PoptipStyleProps, container: Group) {
     this.visibility = this.style.visibility;
     this.updatePoptipElement();
   }
@@ -67,7 +67,7 @@ export class Poptip extends GUI<Required<PoptipCfg>> {
   /**
    * poptip 组件更新
    */
-  public update(cfg?: Partial<PoptipCfg>) {
+  public update(cfg?: Partial<PoptipStyleProps>) {
     this.attr(deepMix({}, this.style, cfg));
     this.render(this.attributes, this);
   }
@@ -152,7 +152,7 @@ export class Poptip extends GUI<Required<PoptipCfg>> {
    * @param y 可选 改变位置 y 方向
    * @param text 文本变化
    */
-  public showTip(x?: number, y?: number, options?: Pick<PoptipCfg, 'text' | 'position' | 'offset'>) {
+  public showTip(x?: number, y?: number, options?: Pick<PoptipStyleProps, 'text' | 'position' | 'offset'>) {
     const text = get(options, 'text');
     if (text && typeof text !== 'string') return;
 
@@ -204,7 +204,7 @@ export class Poptip extends GUI<Required<PoptipCfg>> {
     const { id } = this.style;
 
     this.container = getSingleTonElement(id);
-    this.container.setAttribute('class', this.getClassName());
+    this.container.className = this.getClassName();
 
     // 盒子添加交互
     this.container.addEventListener('mousemove', () => this.showTip());
@@ -221,7 +221,7 @@ export class Poptip extends GUI<Required<PoptipCfg>> {
     const { id, template, text } = this.style;
 
     this.container.setAttribute('id', id);
-    this.container.setAttribute('class', this.getClassName());
+    this.container.className = this.getClassName();
 
     // 增加 arrow 元素
     const arrowNode = `<span class="${CLASS_NAME.ARROW}"></span>`;

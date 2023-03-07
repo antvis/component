@@ -1,4 +1,4 @@
-import type { DisplayObjectConfig } from '../../types';
+import type { ComponentOptions } from '../../core';
 
 export type PoptipPosition =
   // x 方向跟随鼠标移动
@@ -17,7 +17,7 @@ export type PoptipPosition =
   | 'right-top'
   | 'right-bottom';
 
-export interface PoptipCfg {
+export interface PoptipStyleProps {
   /**
    * @title 唯一 ID
    * @description poptip 组件的 id。如果没有设置，则全局共享一个 poptip 组件
@@ -71,4 +71,4 @@ export interface PoptipCfg {
   };
 }
 
-export type PoptipOptions = DisplayObjectConfig<PoptipCfg>;
+export type PoptipOptions = ComponentOptions<PoptipStyleProps>;

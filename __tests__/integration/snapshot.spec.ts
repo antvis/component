@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import * as tests from './charts';
+import * as tests from './components';
 import { renderCanvas, diff } from './canvas';
 // import { renderSVG } from './svg';
 import { fetch } from './fetch';
