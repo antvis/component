@@ -55,7 +55,10 @@ export class Tag extends GUI<TagStyleProps> {
     const backgroundStyle = subStyleProps(attributes, 'background');
     const [pt, pr, pb, pl] = parseSeriesAttr(padding);
 
-    const group = maybeAppend(container, '.tag-content', 'g').attr('className', 'tag-content').node();
+    const group = maybeAppend(container, '.tag-content', 'g')
+      .attr('className', 'tag-content')
+      .style('zIndex', 0)
+      .node();
     const style = marker ? { marker } : { symbol: 'triangle', size: 0 };
     // @ts-ignore
     const markerShape = maybeAppend(group, '.tag-marker', () => new Marker({ style }))
@@ -68,7 +71,7 @@ export class Tag extends GUI<TagStyleProps> {
 
     const { x, y } = getTextPosition(markerShape, spacing);
 
-    const t = select(group)
+    select(group)
       .maybeAppendByClassName('tag-text', () => new Text())
       .styles({
         fontSize: 12,
@@ -89,7 +92,7 @@ export class Tag extends GUI<TagStyleProps> {
     select(container)
       .maybeAppendByClassName('tag-background', 'rect')
       .styles({
-        zIndex: (group.style.zIndex || 0) - 1,
+        zIndex: -1,
         y: bounds.min[1] - pt,
         x: bounds.min[0] - pl,
         width: backgroundStyle !== null ? pl + pr + bounds.halfExtents[0] * 2 : 0,

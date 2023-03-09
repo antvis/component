@@ -97,7 +97,7 @@ export class Continuous extends GUI<ContinuousStyleProps> {
       this.renderLabel(group);
     });
 
-    const ribbonGroup = contentGroup.maybeAppendByClassName(CLASS_NAMES.ribbonGroup, 'g');
+    const ribbonGroup = contentGroup.maybeAppendByClassName(CLASS_NAMES.ribbonGroup, 'g').styles({ zIndex: 0 });
 
     /** handle */
     this.handlesGroup = contentGroup.maybeAppendByClassName(CLASS_NAMES.handlesGroup, 'g').styles({ zIndex: 2 });

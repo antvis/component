@@ -145,7 +145,7 @@ export class CategoryItem extends GUI<CategoryItemStyleProps> {
   private renderMarker(container: Selection) {
     const { marker, markerSize } = this.attributes;
     const style = subStyleProps(this.attributes, 'marker');
-    this.markerGroup = container.maybeAppendByClassName(CLASS_NAMES.markerGroup, 'g');
+    this.markerGroup = container.maybeAppendByClassName(CLASS_NAMES.markerGroup, 'g').style('zIndex', 0);
     ifShow(!!marker, this.markerGroup, () => {
       this.markerGroup.maybeAppendByClassName(CLASS_NAMES.marker, marker!).styles(style);
       scaleToPixel(this.markerGroup.node(), markerSize!, true);
@@ -154,13 +154,13 @@ export class CategoryItem extends GUI<CategoryItemStyleProps> {
 
   private renderLabel(container: Selection) {
     const { text: label, ...style } = subStyleProps(this.attributes, 'label');
-    this.labelGroup = container.maybeAppendByClassName<Group>(CLASS_NAMES.labelGroup, 'g');
+    this.labelGroup = container.maybeAppendByClassName<Group>(CLASS_NAMES.labelGroup, 'g').style('zIndex', 0);
     this.labelGroup.maybeAppendByClassName(CLASS_NAMES.label, () => renderExtDo(label)).styles(style);
   }
 
   private renderValue(container: Selection) {
     const { text: value, ...style } = subStyleProps(this.attributes, 'value');
-    this.valueGroup = container.maybeAppendByClassName(CLASS_NAMES.valueGroup, 'g');
+    this.valueGroup = container.maybeAppendByClassName(CLASS_NAMES.valueGroup, 'g').style('zIndex', 0);
     ifShow(this.showValue, this.valueGroup, () => {
       this.valueGroup.maybeAppendByClassName(CLASS_NAMES.value, () => renderExtDo(value)).styles(style);
     });
