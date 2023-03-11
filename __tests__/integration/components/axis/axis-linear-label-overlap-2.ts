@@ -4,8 +4,8 @@ import { axisWarper, data } from '../../utils';
 export const AxisLinearLabelOverlap2 = () => {
   const group = new Group({
     style: {
-      width: 400,
-      height: 100,
+      width: 550,
+      height: 150,
     },
   });
 
