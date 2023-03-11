@@ -142,12 +142,13 @@ export class Tooltip extends GUI<TooltipStyleProps> {
         container.innerHTML = template.title!;
         container.getElementsByClassName(CLASS_NAME.TITLE)[0].innerHTML = title;
       } else container.getElementsByClassName(CLASS_NAME.TITLE)?.[0]?.remove();
-
       const itemsElements = this.HTMLTooltipItemsElements;
       const ul = document.createElement('ul');
       ul.className = CLASS_NAME.LIST;
       ul.replaceChildren(...itemsElements);
-      this.element.replaceChildren(ul);
+      const list = this.element.querySelector(`.${CLASS_NAME.LIST}`);
+      if (list) list.replaceWith(ul);
+      else container.appendChild(ul);
     }
 
     applyStyleSheet(container, style);
