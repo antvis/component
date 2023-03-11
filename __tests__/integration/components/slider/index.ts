@@ -9,5 +9,7 @@ export { Slider8 } from './slider-8';
 export { Slider9 } from './slider-9';
 export { Slider10 } from './slider-10';
 export { Slider11 } from './slider-11';
+export { Slider12 } from './slider-12';
 export { Handle1 } from './handle-1';
 export { Handle2 } from './handle-2';
+export { HandleUpdate } from './handle-update';

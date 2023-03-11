@@ -16,8 +16,8 @@ export const Tooltip5 = () => {
     })
   );
 
-  const customContent = document.createElement('div');
-  // ReactDOM.render(<div>自定义内容</div>, customContent);
+  const content = document.createElement('div');
+  // ReactDOM.render(<div>自定义内容</div>, content);
 
   const tooltip = group.appendChild(
     new Tooltip({
@@ -26,8 +26,6 @@ export const Tooltip5 = () => {
         x: 100,
         y: 100,
         offset: [20, 20],
-        enterable: true,
-        autoPosition: false,
         container: {
           x: 28,
           y: 80,
@@ -38,7 +36,7 @@ export const Tooltip5 = () => {
           width: len,
           height: len,
         },
-        customContent,
+        content,
       },
     })
   );

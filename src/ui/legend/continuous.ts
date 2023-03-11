@@ -15,7 +15,6 @@ import {
   show,
   subStyleProps,
   superStyleProps,
-  throttle,
   toPrecision,
 } from '../../util';
 import { Axis, type LinearAxisStyleProps } from '../axis';
@@ -676,7 +675,6 @@ export class Continuous extends GUI<ContinuousStyleProps> {
     return scale.map(value);
   }
 
-  @throttle(100)
   private dispatchSelection() {
     const evt = new CustomEvent('valuechange', {
       detail: {
@@ -686,7 +684,6 @@ export class Continuous extends GUI<ContinuousStyleProps> {
     this.dispatchEvent(evt as any);
   }
 
-  @throttle(100)
   private dispatchIndicated(value: number, range?: unknown) {
     const evt = new CustomEvent('indicate', {
       detail: { value, range },

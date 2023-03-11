@@ -21,11 +21,11 @@ export const Tooltip3 = () => {
         x: 100,
         y: 100,
         offset: [20, 20],
-        autoPosition: false,
         container: {
           x: 28,
           y: 80,
         },
+        content: 'Custom Content',
         bounding: {
           x: 0,
           y: 0,

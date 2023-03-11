@@ -43,7 +43,6 @@ export const Tooltip2 = () => {
         y: 100,
         offset: [20, 20],
         enterable: true,
-        autoPosition: false,
         container: {
           x: 28,
           y: 80,

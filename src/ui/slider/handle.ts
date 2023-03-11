@@ -28,6 +28,7 @@ const CLASS_NAMES = classNames(
   {
     labelGroup: 'label-group',
     label: 'label',
+    iconGroup: 'icon-group',
     icon: 'icon',
     iconRect: 'icon-rect',
     iconLine: 'icon-line',
@@ -100,13 +101,16 @@ export class Handle extends GUI<HandleStyleProps> {
   private renderIcon(container: Group) {
     const { orientation } = this.attributes;
     const iconStyle = { orientation, ...HANDLE_ICON_DEFAULT_CFG, ...subStyleProps(this.attributes, 'icon') };
-    const {
-      iconShape = () => {
-        return new HandleIcon({ style: iconStyle });
-      },
-    } = this.attributes;
-
-    this.icon = select(container).maybeAppendByClassName(CLASS_NAMES.icon, iconShape).update(iconStyle);
+    const { iconShape = () => new HandleIcon({ style: iconStyle }) } = this.attributes;
+    const iconGroup = select(container).maybeAppendByClassName(CLASS_NAMES.iconGroup, 'g');
+    iconGroup
+      .selectAll(CLASS_NAMES.icon.class)
+      .data([iconShape])
+      .join(
+        (enter) => enter.append(iconShape).attr('className', CLASS_NAMES.icon.name),
+        (update) => update.update(iconStyle),
+        (exit) => exit.remove()
+      );
   }
 
   public render(attributes: HandleStyleProps, container: Group) {

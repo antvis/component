@@ -75,7 +75,7 @@ const tooltip = new Tooltip({
         color: '#fff',
       },
     },
-    customContent: (items) => {
+    content: (items) => {
       return `<div><b>x:</b> ${items[0].x}<br /><b>y:</b> ${items[0].y}</div>`;
     },
   },

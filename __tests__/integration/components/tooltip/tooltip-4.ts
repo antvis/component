@@ -14,11 +14,11 @@ export const Tooltip4 = () => {
     })
   );
 
-  const customContent = document.createElement('iframe');
-  customContent.src = 'https://www.w3.org/';
-  customContent.style.width = '300px';
-  customContent.style.height = '200px';
-  customContent.style.margin = '-12px';
+  const content = document.createElement('iframe');
+  content.src = 'https://www.w3.org/';
+  content.style.width = '300px';
+  content.style.height = '200px';
+  content.style.margin = '-12px';
 
   const tooltip = group.appendChild(
     new Tooltip({
@@ -28,7 +28,6 @@ export const Tooltip4 = () => {
         y: 100,
         offset: [20, 20],
         enterable: true,
-        autoPosition: false,
         container: {
           x: 28,
           y: 80,
@@ -39,7 +38,7 @@ export const Tooltip4 = () => {
           width: len,
           height: len,
         },
-        customContent,
+        content,
       },
     })
   );

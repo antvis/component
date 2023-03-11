@@ -13,7 +13,7 @@ import {
   type Selection,
 } from '../../util';
 import { Sparkline, type SparklineStyleProps } from '../sparkline';
-import { HANDLE_DEFAULT_CFG, HANDLE_ICON_DEFAULT_CFG, HANDLE_LABEL_DEFAULT_CFG } from './constant';
+import { CLASS_NAMES, HANDLE_DEFAULT_CFG, HANDLE_ICON_DEFAULT_CFG, HANDLE_LABEL_DEFAULT_CFG } from './constant';
 import { Handle, type IconStyleProps, type LabelStyleProps } from './handle';
 import type { SliderOptions, SliderStyleProps } from './types';
 
@@ -162,17 +162,17 @@ export class Slider extends GUI<SliderStyleProps> {
     const style = subStyleProps(this.attributes, 'track');
 
     this.trackShape = select(container)
-      .maybeAppendByClassName('slider-track', 'rect')
+      .maybeAppendByClassName(CLASS_NAMES.track, 'rect')
       .styles({ cursor: brushable ? 'crosshair' : 'default', ...this.shape, ...style });
   }
 
   private renderSparkline(container: Group) {
     const { orientation } = this.attributes;
-    const sparklineGroup = select(container).maybeAppendByClassName('slider-sparkline-group', 'g');
+    const sparklineGroup = select(container).maybeAppendByClassName(CLASS_NAMES.sparklineGroup, 'g');
 
     ifShow(orientation === 'horizontal', sparklineGroup, (group) => {
       const style = this.sparklineStyle!;
-      group.maybeAppendByClassName('slider-sparkline', () => new Sparkline({ style })).update(style);
+      group.maybeAppendByClassName(CLASS_NAMES.sparkline, () => new Sparkline({ style })).update(style);
     });
   }
 
@@ -187,17 +187,16 @@ export class Slider extends GUI<SliderStyleProps> {
   private renderHandles() {
     const { showHandle } = this.attributes;
     const data = (showHandle ? (['start', 'end'] as HandleType[]) : []).map((type) => ({ type }));
-
     const that = this;
     this.foregroundGroup
-      ?.selectAll('.handle')
+      ?.selectAll(CLASS_NAMES.handle.class)
       .data(data, (d) => d.type)
       .join(
         (enter) =>
           enter
             .append(({ type }) => new Handle({ style: this.getHandleStyle(type) }))
             .each(function ({ type }) {
-              this.attr('class', `handle ${type}-handle`);
+              this.attr('class', `${CLASS_NAMES.handle.name} ${type}-handle`);
               const name = `${type}Handle` as `${HandleType}Handle`;
               that[name] = this;
               this.addEventListener('pointerdown', (e: any) => {
@@ -219,10 +218,10 @@ export class Slider extends GUI<SliderStyleProps> {
   }
 
   private renderSelection(container: Group) {
-    this.foregroundGroup = select(container).maybeAppendByClassName('slider-foreground', 'g');
+    this.foregroundGroup = select(container).maybeAppendByClassName(CLASS_NAMES.foreground, 'g');
 
     this.selectionShape = this.foregroundGroup
-      .maybeAppendByClassName('slider-selection', 'rect')
+      .maybeAppendByClassName(CLASS_NAMES.selection, 'rect')
       .styles(this.selectionStyle);
 
     this.renderHandles();

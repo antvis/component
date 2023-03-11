@@ -147,7 +147,6 @@ function formatter(datum: AxisDatum, index: number, data: AxisDatum[], attr: Req
   const element = isFunction(labelFormatter)
     ? () => renderExtDo(getCallbackValue(labelFormatter, [datum, index, data, getLabelVector(datum.value, attr)]))
     : () => renderExtDo(datum.label || '');
-
   return element;
 }
 

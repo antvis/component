@@ -1,5 +1,5 @@
 import type { Point } from '../../types';
-import { deepAssign, hide, throttle } from '../../util';
+import { deepAssign, hide } from '../../util';
 import { circle } from '../marker/symbol';
 import { CrosshairBase } from './base';
 import { CIRCLE_CROSSHAIR_DEFAULT_STYLE } from './constant';
@@ -26,7 +26,6 @@ export class CircleCrosshair extends CrosshairBase<Required<CircleCrosshairStyle
     super.update(cfg);
   }
 
-  @throttle(20)
   public setPointer([x, y]: Point) {
     super.setPointer([x, y]);
     const [lx, ly] = this.localPointer;

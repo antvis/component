@@ -1,8 +1,8 @@
+import type { Point } from '../../types';
+import { deepAssign, getShapeSpace, hide, show } from '../../util';
 import { CrosshairBase } from './base';
 import { LINE_CROSSHAIR_DEFAULT_STYLE } from './constant';
-import { deepAssign, getShapeSpace, throttle, show, hide } from '../../util';
-import type { LineCrosshairStyleProps, LineCrosshairOptions } from './types';
-import type { Point } from '../../types';
+import type { LineCrosshairOptions, LineCrosshairStyleProps } from './types';
 
 export type { LineCrosshairStyleProps, LineCrosshairOptions };
 
@@ -56,7 +56,6 @@ export class LineCrosshair extends CrosshairBase<Required<LineCrosshairStyleProp
   /**
    * 将线移动至对应位置
    */
-  @throttle(20)
   public setPointer(pointer: Point) {
     super.setPointer(pointer);
     this.adjustPosition();

@@ -23,8 +23,7 @@ export const Tooltip6 = () => {
         x: 100,
         y: 100,
         offset: [20, 20],
-        enterable: true,
-        autoPosition: false,
+        position: 'auto',
         container: { x: 28, y: 80 },
         bounding: {
           x: 0,
@@ -49,8 +48,8 @@ export const Tooltip6 = () => {
     // );
     /** 2: 通过原生DOM渲染Tooltip节点 */
     // tooltip.getContainer().innerText = `x: ${e.offsetX.toFixed(0)} y: ${e.offsetY.toFixed(0)}`;
-    /** 3. 通过创建新的 customContent 来更新节点 */
-    // tooltip.update({ customContent: `x: ${e.offsetX.toFixed(0)} y: ${e.offsetY.toFixed(0)}` });
+    /** 3. 通过创建新的 content 来更新节点 */
+    // tooltip.update({ content: `x: ${e.offsetX.toFixed(0)} y: ${e.offsetY.toFixed(0)}` });
   });
   group.addEventListener('mouseenter', () => {
     tooltip.show();

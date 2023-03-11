@@ -21,8 +21,8 @@ export function canProcessOverlap(
   type: LabelOverlapCfg['type']
 ) {
   if (attr.labelOverlap.length < 1) return false;
-  if (type === 'hide' && isInOffscreenGroup(labels[0])) return false;
-  // if (type === 'rotate') return !labels.some((label) => hasSetRotate(label.attr('transform')));
+  if (type === 'hide') return !isInOffscreenGroup(labels[0]);
+  if (type === 'rotate') return !labels.some((label) => !!label.attr('transform')?.includes('rotate'));
   if (type === 'ellipsis') return labels.map((item) => item.querySelector('text')).length > 1;
   return true;
 }

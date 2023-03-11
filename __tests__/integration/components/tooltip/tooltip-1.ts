@@ -22,7 +22,7 @@ export const Tooltip1 = () => {
         x: 100,
         y: 100,
         offset: [20, 20],
-        autoPosition: true,
+        position: 'auto',
         container: {
           x: 28,
           y: 80,
@@ -33,7 +33,7 @@ export const Tooltip1 = () => {
           width: len,
           height: len,
         },
-        customContent: '<span id="pos">Tooltip内容</span>',
+        content: '<span id="pos">Tooltip内容</span>',
       },
     })
   );
@@ -42,8 +42,8 @@ export const Tooltip1 = () => {
   group.addEventListener('mousemove', (e: any) => {
     tooltip.position = [e.offsetX, e.offsetY];
   });
-  group.addEventListener('mouseenter', () => {
-    tooltip.show();
+  group.addEventListener('mouseenter', (e: any) => {
+    tooltip.show(e.offsetX, e.offsetY);
   });
   group.addEventListener('mouseleave', () => {
     tooltip.hide();
@@ -52,4 +52,4 @@ export const Tooltip1 = () => {
   return group;
 };
 
-Tooltip1.tags = ['提示窗口'];
+Tooltip1.tags = ['提示窗口', '自动位置'];

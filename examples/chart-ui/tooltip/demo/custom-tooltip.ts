@@ -99,7 +99,7 @@ const tooltip = new Tooltip({
         'border-radius': '5px',
       },
     },
-    customContent: () => {
+    content: () => {
       return customElement;
     },
   },

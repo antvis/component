@@ -1,8 +1,6 @@
 import type { GroupStyleProps } from '../../shapes';
 import type { ComponentOptions } from '../../core';
 
-type CustomElement = string | HTMLElement;
-
 export type TooltipPosition =
   | 'top'
   | 'bottom'
@@ -27,11 +25,10 @@ export type TooltipStyleProps = GroupStyleProps & {
   /** 标题 */
   title?: string;
   /* tooltip 位置 */
-  position?: TooltipPosition;
+  position?: TooltipPosition | 'auto';
+  defaultPosition?: TooltipPosition;
   /* 在位置方向上的偏移量 */
   offset?: [number, number];
-  /* 自动调整位置，需要设置容器属性 */
-  autoPosition?: boolean;
   /** 指针是否可进入 */
   enterable?: boolean;
   /** 画布的左上角坐标 */
@@ -54,8 +51,10 @@ export type TooltipStyleProps = GroupStyleProps & {
     /* item模版 */
     item?: string;
   };
+  /** 避免 content 重复渲染 */
+  contentKey?: string;
   /* 自定义内容 */
-  customContent?: CustomElement;
+  content?: string | HTMLElement;
   /**
    * 样式
    */

@@ -1,5 +1,5 @@
 import type { Point } from '../../types';
-import { deepAssign, intersection, lineLen, rotate, scale, throttle, hide } from '../../util';
+import { deepAssign, hide, intersection, lineLen, rotate, scale } from '../../util';
 import { CrosshairBase } from './base';
 import { POLYGON_CROSSHAIR_DEFAULT_STYLE } from './constant';
 import { PolygonCrosshairOptions, PolygonCrosshairStyleProps } from './types';
@@ -45,7 +45,6 @@ export class PolygonCrosshair extends CrosshairBase<Required<PolygonCrosshairSty
    * 2. 计算中心到point的线段与所在扇区的边的交点
    * 3. 计算等效半径
    */
-  @throttle(20)
   public setPointer([x, y]: Point) {
     super.setPointer([x, y]);
     const [lx, ly] = this.localPointer;

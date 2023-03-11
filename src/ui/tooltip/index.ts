@@ -1,10 +1,10 @@
 import { createDom } from '@antv/dom-util';
-import { isElement, isString, substitute } from '@antv/util';
+import { substitute } from '@antv/util';
 import { GUI } from '../../core';
 import { Group } from '../../shapes';
-import { applyStyleSheet, parseHTML, throttle } from '../../util';
+import { applyStyleSheet, throttle } from '../../util';
 import { CLASS_NAME, TOOLTIP_STYLE } from './constant';
-import type { TooltipItem, TooltipOptions, TooltipPosition, TooltipStyleProps } from './types';
+import type { TooltipOptions, TooltipPosition, TooltipStyleProps } from './types';
 
 export type { TooltipStyleProps as TooltipCfg, TooltipOptions };
 
@@ -31,30 +31,12 @@ export class Tooltip extends GUI<TooltipStyleProps> {
     return { width, height };
   }
 
-  private get items(): Required<TooltipItem[]> {
-    const { data } = this.attributes;
-    return data.map(({ name = '', value, color = 'black', index, ...rest }, idx) => {
-      return { name, value, color, index: index ?? idx, ...rest };
-    });
-  }
-
   private get HTMLTooltipItemsElements() {
-    const { template } = this.attributes;
-    const itemsHTML: HTMLElement[] = [];
-    this.items.forEach((item) => {
-      itemsHTML.push(createDom(substitute(template.item!, item)) as HTMLElement);
+    const { data, template } = this.attributes;
+    return data.map(({ name = '', color = 'black', index, ...rest }, idx) => {
+      const datum = { name, color, index: index ?? idx, ...rest };
+      return createDom(substitute(template.item!, datum)) as HTMLElement;
     });
-    return itemsHTML;
-  }
-
-  /**
-   * 解析自定义内容
-   */
-  private get customContent() {
-    const { customContent } = this.attributes;
-    if (isString(customContent)) return parseHTML(customContent);
-    if (isElement(customContent)) return customContent as HTMLElement;
-    return undefined;
   }
 
   private element!: HTMLElement;
@@ -67,9 +49,9 @@ export class Tooltip extends GUI<TooltipStyleProps> {
       visibility: 'visible',
       title: '',
       position: 'bottom-right',
+      defaultPosition: 'bottom-right',
       offset: [5, 5],
       enterable: false,
-      autoPosition: true,
       container: {
         x: 0,
         y: 0,
@@ -102,18 +84,24 @@ export class Tooltip extends GUI<TooltipStyleProps> {
     this.updatePosition();
   }
 
-  public clear() {
-    // 清空容器内容
-    this.element.innerHTML = '';
-  }
-
   public destroy() {
     this.element?.remove();
-    this.customContent?.remove();
     super.destroy();
   }
 
-  public show() {
+  /**
+   * 如果设置了坐标值，显示过程中会立即更新位置并关闭过渡动画
+   */
+  public show(x?: number, y?: number) {
+    const disableTransition = x !== undefined && y !== undefined;
+    if (disableTransition) {
+      const transition = this.element.style.transition;
+      this.element.style.transition = 'none';
+      this.position = [x ?? +this.attributes.x, y ?? +this.attributes.y];
+      setTimeout(() => {
+        this.element.style.transition = transition;
+      }, 10);
+    }
     this.element.style.visibility = 'visible';
   }
 
@@ -130,36 +118,38 @@ export class Tooltip extends GUI<TooltipStyleProps> {
     if (this.id) this.element.setAttribute('id', this.id);
   }
 
+  private prevCustomContentKey = this.attributes.contentKey;
+
+  private renderCustomContent() {
+    if (this.prevCustomContentKey !== undefined && this.prevCustomContentKey === this.attributes.contentKey) return;
+    this.prevCustomContentKey = this.attributes.contentKey;
+    const { content } = this.attributes;
+    if (!content) return;
+    if (typeof content === 'string') this.element.innerHTML = content;
+    else this.element.replaceChildren(content);
+  }
+
   /**
    * 更新 HTML 上的内容
    */
   private renderHTMLTooltipElement() {
-    const { template, title, enterable, style } = this.attributes;
+    const { template, title, enterable, style, content } = this.attributes;
     const container = this.element;
-    const { customContent } = this;
-
     this.element.style.pointerEvents = enterable ? 'auto' : 'none';
-
-    this.clear();
-    if (customContent) container.appendChild(customContent);
+    if (content) this.renderCustomContent();
     else {
       if (title) {
-        // 置入title
         container.innerHTML = template.title!;
-        // 更新标题
         container.getElementsByClassName(CLASS_NAME.TITLE)[0].innerHTML = title;
       } else container.getElementsByClassName(CLASS_NAME.TITLE)?.[0]?.remove();
 
-      const itemsHTML = this.HTMLTooltipItemsElements;
+      const itemsElements = this.HTMLTooltipItemsElements;
       const ul = document.createElement('ul');
       ul.className = CLASS_NAME.LIST;
-      itemsHTML.forEach((item) => {
-        ul.appendChild(item);
-      });
-      this.element.appendChild(ul);
+      ul.replaceChildren(...itemsElements);
+      this.element.replaceChildren(ul);
     }
 
-    // 应用样式表
     applyStyleSheet(container, style);
   }
 
@@ -169,12 +159,17 @@ export class Tooltip extends GUI<TooltipStyleProps> {
    */
   private getRelativeOffsetFromCursor(assignPosition?: TooltipPosition) {
     const { position, offset } = this.attributes;
-    const positionName = (assignPosition || position).split('-') as ('top' | 'bottom' | 'left' | 'right')[];
+    const interPosition = assignPosition || position;
+    const finalPosition = (interPosition === 'auto' ? 'bottom-right' : interPosition).split('-') as (
+      | 'top'
+      | 'bottom'
+      | 'left'
+      | 'right'
+    )[];
     const positionScore = { left: [-1, 0], right: [1, 0], top: [0, -1], bottom: [0, 1] };
-
     const { width, height } = this.elementSize;
     let absolutelyOffset = [-width / 2, -height / 2];
-    positionName.forEach((pos) => {
+    finalPosition.forEach((pos) => {
       const [abs1, abs2] = absolutelyOffset;
       const [pos1, pos2] = positionScore[pos];
       absolutelyOffset = [abs1 + (width / 2 + offset[0]) * pos1, abs2 + (height / 2 + offset[1]) * pos2];
@@ -191,8 +186,6 @@ export class Tooltip extends GUI<TooltipStyleProps> {
       y = 0,
       container: { x: cx, y: cy },
     } = this.attributes;
-
-    // 设置属性
     this.element.style.left = `${+x + cx + offsetX}px`;
     this.element.style.top = `${+y + cy + offsetY}px`;
   }
@@ -200,7 +193,7 @@ export class Tooltip extends GUI<TooltipStyleProps> {
   /**
    * 更新tooltip的位置
    */
-  @throttle(100)
+  @throttle(100, true)
   private updatePosition() {
     // 尝试当前的位置使用默认position能否放下
     // 如果不能，则改变取溢出边的反向position
@@ -220,8 +213,8 @@ export class Tooltip extends GUI<TooltipStyleProps> {
    * @param offsetY 根据position计算的纵向偏移量
    */
   private autoPosition([offsetX, offsetY]: [number, number]): [number, number] {
-    const { x: cursorX, y: cursorY, autoPosition, bounding, position } = this.attributes;
-    if (!autoPosition) return [offsetX, offsetY];
+    const { x: cursorX, y: cursorY, bounding, position, defaultPosition } = this.attributes;
+    if (position !== 'auto') return [offsetX, offsetY];
     // 更新前的位置和宽度
     const { offsetWidth, offsetHeight } = this.element;
     // 预期放置的位置
@@ -245,7 +238,7 @@ export class Tooltip extends GUI<TooltipStyleProps> {
     // 修正的位置
     const correctivePosition: string[] = [];
     // 判断是否超出边界
-    (position.split('-') as ('top' | 'bottom' | 'left' | 'right')[]).forEach((pos) => {
+    (defaultPosition.split('-') as ('top' | 'bottom' | 'left' | 'right')[]).forEach((pos) => {
       // 如果在当前方向超出边界，则设置其反方向
       if (edgeCompare[pos]) correctivePosition.push(inversion[pos]);
       else correctivePosition.push(pos);
