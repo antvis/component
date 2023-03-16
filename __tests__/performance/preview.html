@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Preview</title>
+  </head>
+  <body>
+    <select title="cases"></select>
+    <input type="text" placeholder="filter cases" />
+    <div id="container"></div>
+    <script type="module">
+      import { Canvas, CanvasEvent } from '@antv/g';
+      import { Renderer } from '@antv/g-canvas';
+      import * as cases from '../integration/components';
+
+      let canvas;
+
+      window.onload = init();
+
+      function init() {
+        initCanvas().then(() => {
+          renderOptions();
+          bindEvents();
+        });
+      }
+
+      function initCanvas() {
+        return new Promise((resolve) => {
+          canvas = new Canvas({
+            container: 'container',
+            width: 800,
+            height: 600,
+            renderer: new Renderer(),
+          });
+          canvas.addEventListener(CanvasEvent.READY, () => {
+            resolve();
+          });
+        });
+      }
+
+      function getOption() {
+        const lastOption = localStorage.getItem('lastOption');
+        if (lastOption) return lastOption;
+        const select = document.querySelector('select');
+        const options = select.querySelectorAll('option');
+        return options[0].value;
+      }
+
+      function setOption() {
+        const option = getOption();
+        localStorage.setItem('lastOption', option);
+        const select = document.querySelector('select');
+        select.value = option;
+      }
+
+      function renderOptions(keywords = '') {
+        const select = document.querySelector('select');
+        const options = Object.keys(cases)
+          .filter((key) => key.includes(keywords))
+          .map((key) => {
+            const option = document.createElement('option');
+            option.value = key;
+            option.text = key;
+            return option;
+          });
+        select.replaceChildren(...options);
+        setOption();
+        render();
+      }
+
+      function render(name = getOption()) {
+        const caseFn = cases[name];
+        canvas.removeChildren();
+        canvas.appendChild(caseFn());
+      }
+
+      function bindEvents() {
+        const select = document.querySelector('select');
+        select.addEventListener('change', (e) => {
+          const option = e.target.value;
+          localStorage.setItem('lastOption', option);
+          document.title = option;
+          render(option);
+        });
+
+        const input = document.querySelector('input');
+        input.addEventListener('input', (e) => {
+          const keywords = e.target.value;
+          renderOptions(keywords);
+        });
+      }
+    </script>
+  </body>
+</html>

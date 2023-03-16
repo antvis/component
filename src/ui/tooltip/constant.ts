@@ -49,9 +49,8 @@ export const TOOLTIP_STYLE = {
   },
   [`.${CLASS_NAME.LIST_ITEM}`]: {
     'list-style-type': 'none',
-    'margin-top': '12px',
     display: 'flex',
-    'line-height': '1em',
+    'line-height': '2em',
     'align-items': 'center',
     'justify-content': 'space-between',
     'white-space': 'nowrap',

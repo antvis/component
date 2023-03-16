@@ -1,6 +1,6 @@
 import { Group, Rect } from '@antv/g';
 import { Layout } from '../../../../src/ui/layout';
-import { createGrid } from '../../utils';
+import { createGrid, timeout } from '../../utils';
 
 export const LayoutUpdateAttr = () => {
   const group = new Group();
@@ -31,8 +31,10 @@ export const LayoutUpdateAttr = () => {
     )
   );
 
-  box.attr('width', 200);
-  box.attr('height', 200);
+  timeout(() => {
+    box.attr('width', 200);
+    box.attr('height', 200);
+  }, 1000);
 
   return group;
 };

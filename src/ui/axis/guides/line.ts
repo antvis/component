@@ -220,8 +220,8 @@ function renderLinear(
             .append('line')
             .attr('className', (d: LineDatum) => `${CLASS_NAMES.line.name} ${d.className}`)
             .styles(style)
-            .transition(function ({ line }: LineDatum) {
-              return transition(this, getLinePath(line), false);
+            .transition(function (d: LineDatum) {
+              return transition(this, getLinePath(d.line), false);
             }),
         (update) =>
           update.styles(style).transition(function ({ line }: LineDatum) {
@@ -244,8 +244,10 @@ function renderLinear(
     ]);
   }
   const [r1, r2] = truncRange;
-  const [x3, y3] = [x1 + (x2 - x1) * r1, y1 + (y2 - y1) * r1];
-  const [x4, y4] = [x1 + (x2 - x1) * r2, y1 + (y2 - y1) * r2];
+  const dx = x2 - x1;
+  const dy = y2 - y1;
+  const [x3, y3] = [x1 + dx * r1, y1 + dy * r1];
+  const [x4, y4] = [x1 + dx * r2, y1 + dy * r2];
   const animation = renderLine([
     {
       line: [

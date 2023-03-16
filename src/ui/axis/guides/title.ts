@@ -70,7 +70,13 @@ function applyTitleStyle(
   group.styles(groupStyle);
   // the transform of g has some limitation, so we need to apply the transform to the title twice
   percentTransform(title.node(), transform);
-  const { x, y } = getTitlePosition(select(get(axis, 'offscreenGroup')), group, attr);
+
+  const { x, y } = getTitlePosition(
+    // @ts-ignore
+    select(axis._offscreen || axis.querySelector(CLASS_NAMES.mainGroup.class)),
+    group,
+    attr
+  );
   const animation = transition(group.node(), { x, y }, animate);
   percentTransform(title.node(), transform);
   return animation;

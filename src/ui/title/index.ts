@@ -161,8 +161,8 @@ export class Title extends GUI<TitleStyleProps> {
     const [titleStyle] = splitStyle(restStyle);
     const { x, y, textAlign, textBaseline } = getTitleLayout(attributes);
 
-    ifShow(!!restStyle.text, container, (group) => {
-      this.title = select(group)
+    ifShow(!!restStyle.text, select(container), (group) => {
+      this.title = group
         .maybeAppendByClassName(CLASS_NAMES.text, 'text')
         .styles(titleStyle)
         .call(mayApplyStyle, { x, y, textAlign, textBaseline })

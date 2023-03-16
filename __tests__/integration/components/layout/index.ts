@@ -18,6 +18,7 @@ export { LayoutFlexPositionCenter } from './layout-flex-position-center';
 export { LayoutFlexManipulateChildren } from './layout-flex-manipulate-children';
 export { LayoutFlexUpdateLayout } from './layout-flex-update-layout';
 export { LayoutUpdateAttr } from './layout-update-attr';
+export { LayoutUpdateAttr2 } from './layout-update-attr-2';
 export { LayoutFlexNest } from './layout-flex-nest';
 export { LayoutLegend1 } from './layout-legend-1';
 export { LayoutLegend2 } from './layout-legend-2';

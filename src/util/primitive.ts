@@ -81,5 +81,9 @@ export function isPrimitiveAttribute(key: string) {
 }
 
 export function getPrimitiveAttributes(attributes: Record<string, any>) {
-  return Object.fromEntries(Object.entries(attributes).filter(([key]) => isPrimitiveAttribute(key)));
+  const object: typeof attributes = {};
+  for (const key in attributes) {
+    if (isPrimitiveAttribute(key)) object[key] = attributes[key];
+  }
+  return object;
 }

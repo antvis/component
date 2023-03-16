@@ -92,22 +92,20 @@ function renderGridLine(
     .data(lines, (d) => d.id)
     .join(
       (enter) =>
-        enter
-          .append('path')
-          .attr('className', CLASS_NAMES.line.name)
-          .styles({
+        enter.append('path').each(function (datum, index) {
+          const lineStyle = getCallbackValue(getPrimitiveAttributes({ path: datum.path, ...style }), [
+            datum,
+            index,
+            lines,
+          ]);
+          this.attr({
+            class: CLASS_NAMES.line.name,
             stroke: '#D9D9D9',
             lineWidth: 1,
             lineDash: [4, 4],
-          })
-          .each(function (datum, index) {
-            const lineStyle = getCallbackValue(getPrimitiveAttributes({ path: datum.path, ...style }), [
-              datum,
-              index,
-              lines,
-            ]);
-            this.attr(lineStyle);
-          }),
+            ...lineStyle,
+          });
+        }),
       (update) =>
         update.each(function (datum, index) {
           const lineStyle = getCallbackValue(getPrimitiveAttributes({ path: datum.path, ...style }), [

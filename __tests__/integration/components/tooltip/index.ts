@@ -7,3 +7,4 @@ export { Tooltip6 } from './tooltip-6';
 export { Tooltip7 } from './tooltip-7';
 export { Tooltip8 } from './tooltip-8';
 export { Tooltip9 } from './tooltip-9';
+export { Tooltip10 } from './tooltip-10';

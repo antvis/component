@@ -148,15 +148,15 @@ export class Selection<T = any> {
   }
 
   maybeAppend<T = DisplayObject>(id: string, node: string | (() => _Element)) {
-    const element = this.#maybeAppend<T>(id.startsWith('#') ? id : `#${id}`, node);
+    const element = this.#maybeAppend<T>(id[0] === '#' ? id : `#${id}`, node);
     element.attr('id', id);
     return element;
   }
 
   maybeAppendByClassName<T = DisplayObject>(className: any, node: string | (() => _Element)) {
     const cls: string = className.toString();
-    const element = this.#maybeAppend<T>(cls.startsWith('.') ? cls : `.${cls}`, node);
-    element.addClassName(cls);
+    const element = this.#maybeAppend<T>(cls[0] === '.' ? cls : `.${cls}`, node);
+    element.attr('className', cls);
     return element;
   }
 
@@ -164,16 +164,6 @@ export class Selection<T = any> {
     const element = this.#maybeAppend<T>(`[name="${name}"]`, node);
     element.attr('name', name);
     return element;
-  }
-
-  addClassName(name: string) {
-    for (const element of this._elements) {
-      const currCls = element.className || undefined;
-      const currClassSet = new Set(currCls?.split(' ') || []);
-      name.split(' ').forEach((cls) => currClassSet.add(cls));
-      element.className = Array.from(currClassSet).join(' ');
-    }
-    return this;
   }
 
   /**
@@ -344,16 +334,22 @@ export class Selection<T = any> {
 
   styles(style: Record<string, any> = {}, callbackable: boolean = true): Selection<T> {
     return this.each(function (d, i) {
-      const finalStyle = Object.entries(style).reduce((acc, [key, value]) => {
+      Object.entries(style).forEach(([key, value]) => {
         const callback = typeof value !== 'function' || !callbackable ? () => value : value;
-        if (value !== undefined) acc[key] = callback.call(this, d, i);
-        return acc;
-      }, {});
-      this.attr(finalStyle);
+        if (value !== undefined) this.attr(key, callback.call(this, d, i));
+      });
     });
   }
 
   update(option: any, callbackable: boolean = true): Selection<T> {
+    const callback = typeof option !== 'function' || !callbackable ? () => option : option;
+    return this.each(function (d, i) {
+      if (option && this.update) this.update(callback.call(this, d, i));
+    });
+  }
+
+  /** if current stage is maybeAppend, skip update stage */
+  maybeUpdate(option: any, callbackable: boolean = true): Selection<T> {
     const callback = typeof option !== 'function' || !callbackable ? () => option : option;
     return this.each(function (d, i) {
       if (option && this.update) this.update(callback.call(this, d, i));

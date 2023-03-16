@@ -56,7 +56,7 @@ export class Axis extends GUI<AxisStyleProps> {
   }
 
   render(attributes: RequiredAxisStyleProps, container: Group, specificAnimation?: GenericAnimation) {
-    const { data, animate, showTitle, showGrid, dataThreshold, truncRange } = attributes;
+    const { titleText, data, animate, showTitle, showGrid, dataThreshold, truncRange } = attributes;
     const sampledData = sampling(data, dataThreshold).filter(({ value }) => {
       if (truncRange && value > truncRange[0] && value < truncRange[1]) return false;
       return true;
@@ -72,7 +72,9 @@ export class Axis extends GUI<AxisStyleProps> {
     /** main group */
     const mainGroup = select(container).maybeAppendByClassName(CLASS_NAMES.mainGroup, 'g');
 
-    renderAxisMain(attributes, select(this.offscreenGroup), sampledData, parseAnimationOption(false));
+    if (titleText && ((!this.initialized && finalAnimation.enter) || (this.initialized && finalAnimation.update))) {
+      renderAxisMain(attributes, select(this.offscreenGroup), sampledData, parseAnimationOption(false));
+    }
     // render
     const mainTransitions = renderAxisMain(attributes, select(mainGroup.node()), sampledData, finalAnimation);
     /** title */

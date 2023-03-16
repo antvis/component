@@ -17,6 +17,8 @@ export abstract class GUI<T extends Record<string, any>> extends CustomElement<R
     return this._offscreen;
   }
 
+  public initialized = false;
+
   public get defaultOptions() {
     return this._defaultOptions;
   }
@@ -30,6 +32,7 @@ export abstract class GUI<T extends Record<string, any>> extends CustomElement<R
     this.render(this.attributes as Required<T>, this);
     this.bindEvents(this.attributes, this);
     // applyVisibility.call(this);
+    this.initialized = true;
   }
 
   disconnectedCallback(): void {

@@ -49,7 +49,7 @@ export class Marker extends GUI<MarkerStyleProps> {
     ifShow(!!type, select(container), (group) => {
       group
         .maybeAppendByClassName(`marker`, type!)
-        .addClassName(`${type}-marker`)
+        .attr('className', `marker ${type}-marker`)
         .call((selection) => {
           if (type === 'image') {
             // todo 大小和 path symbol 保持一致

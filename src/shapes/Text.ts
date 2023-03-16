@@ -1,5 +1,4 @@
 import { Group, Text as GText, type DisplayObjectConfig, type TextStyleProps as GTextStyleProps } from '@antv/g';
-import { deepAssign } from '../util/deep-assign';
 import { createOffscreenGroup } from '../util/offscreen';
 import { OmitConflictStyleProps } from './types';
 
@@ -17,24 +16,22 @@ export class Text extends GText {
     this._offscreen?.destroy();
   }
 
-  constructor(options: DisplayObjectConfig<TextStyleProps> = {}) {
-    super(
-      deepAssign(
-        {
-          style: {
-            fill: 'black',
-            fontFamily: 'sans-serif',
-            fontSize: 16,
-            fontStyle: 'normal',
-            fontVariant: 'normal',
-            fontWeight: 'normal',
-            lineWidth: 1,
-            textAlign: 'start',
-            textBaseline: 'alphabetic',
-          },
-        },
-        options
-      )
-    );
+  constructor({ style, ...restOptions }: DisplayObjectConfig<TextStyleProps> = {}) {
+    super({
+      style: {
+        text: '',
+        fill: 'black',
+        fontFamily: 'sans-serif',
+        fontSize: 16,
+        fontStyle: 'normal',
+        fontVariant: 'normal',
+        fontWeight: 'normal',
+        lineWidth: 1,
+        textAlign: 'start',
+        textBaseline: 'middle',
+        ...style,
+      },
+      ...restOptions,
+    });
   }
 }

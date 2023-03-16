@@ -4,7 +4,7 @@ export function traverse(element: DisplayObject, callback: (node: DisplayObject)
   callback(element);
   if (element.children) {
     element.children.forEach((child) => {
-      if (child instanceof DisplayObject) traverse(child, callback);
+      if (child) traverse(child as DisplayObject, callback);
     });
   }
 }

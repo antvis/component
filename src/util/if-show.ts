@@ -1,15 +1,12 @@
-import { DisplayObject } from '../shapes';
 import { Selection } from './selection';
 
-export function ifShow<T extends Selection | HTMLElement | DisplayObject = Selection, R = any>(
+export function ifShow<T extends Selection, R = any>(
   show: boolean,
   container: T,
   creator: (group: T) => R,
   removeChildren: boolean = true,
   removeHandler: (group: T) => any = (g) => {
-    if (g instanceof Selection) g.node().removeChildren();
-    else if (g instanceof DisplayObject) g.removeChildren();
-    else if (g instanceof HTMLElement) g.innerHTML = '';
+    g.node().removeChildren();
   }
 ): null | R {
   if (show) {

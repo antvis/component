@@ -79,6 +79,16 @@ export function renderGrid(
     data: gridItems,
   };
 
-  const grid = container.maybeAppendByClassName(CLASS_NAMES.grid, () => new Grid({}));
-  return (grid.node() as Grid).update(style);
+  return container
+    .selectAll(CLASS_NAMES.grid.class)
+    .data([1])
+    .join(
+      (enter) => enter.append(() => new Grid({ style })).attr('className', CLASS_NAMES.grid.name),
+      (update) =>
+        update.transition(function () {
+          return this.update(style);
+        }),
+      (exit) => exit.remove()
+    )
+    .transitions();
 }

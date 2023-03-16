@@ -46,7 +46,7 @@ export const AxisAnimationUpdate12 = () => {
         lineExtension: [10, 10],
         startPos: [150, 500],
         tickLength: 5,
-        titleText: 'title',
+        // titleText: 'title',
         titleFill: 'red',
         titleFontSize: 16,
         titleFontWeight: 'bold',

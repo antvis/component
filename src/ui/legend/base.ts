@@ -29,28 +29,15 @@ export function renderTitle(container: Group, cfg?: any): any | null {
     if (shape) shape.remove();
     return null;
   }
-  const { useHTML, style } = cfg;
-  const type = useHTML ? 'html' : 'text';
-  const className = `legend-title ${type}-title`;
-  const innerHTML = `<span>${cfg?.content || ''}</span>`;
-  return maybeAppend(container, `.${className}`, () => {
-    if (useHTML) return new HTML({ className, style: { innerHTML } });
-    return new Text({ className, style });
-  })
+  const { style } = cfg;
+  const className = `legend-title`;
+  return maybeAppend(container, `.${className}`, () => new Text({ className, style }))
     .call((selection) => {
-      if (useHTML) {
-        selection.styles({
-          width: cfg.width ?? 80,
-          height: cfg.height ?? 80,
-          innerHTML,
-        });
-      } else {
-        selection.styles({
-          fontSize: 12,
-          textBaseline: 'top',
-          text: cfg.content || '',
-        });
-      }
+      selection.styles({
+        fontSize: 12,
+        textBaseline: 'top',
+        text: cfg.content,
+      });
     })
     .styles(style)
     .node();
