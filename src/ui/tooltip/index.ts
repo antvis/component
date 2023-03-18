@@ -6,7 +6,7 @@ import { applyStyleSheet, throttle } from '../../util';
 import { CLASS_NAME, TOOLTIP_STYLE } from './constant';
 import type { TooltipOptions, TooltipPosition, TooltipStyleProps } from './types';
 
-export type { TooltipStyleProps as TooltipCfg, TooltipOptions };
+export type { TooltipStyleProps, TooltipOptions };
 
 export class Tooltip extends GUI<TooltipStyleProps> {
   public static tag = 'tooltip';

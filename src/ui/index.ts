@@ -34,7 +34,7 @@ export type { TimelineOptions } from './timeline';
 export { Continuous, Category } from './legend';
 export type { ContinuousOptions, CategoryOptions } from './legend';
 export { Tooltip } from './tooltip';
-export type { TooltipCfg } from './tooltip';
+export type { TooltipStyleProps } from './tooltip';
 export { Switch } from './switch';
 export type { SwitchOptions } from './switch';
 // author by [Aarebecca](https://github.com/Aarebecca)
