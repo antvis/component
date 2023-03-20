@@ -186,7 +186,8 @@ function renderLabel(container: DisplayObject, datum: any, data: any[], style: a
     textBaseline: 'middle',
     ...labelStyle,
   });
-
+  // todo G transform 存在问题，需要二次设置
+  percentTransform(container, transform);
   container.attr(groupStyle);
   return label;
 }
