@@ -107,3 +107,5 @@ export const AxisLabelHideUpdate = () => {
 
   return group;
 };
+
+AxisLabelHideUpdate.wait = 500;

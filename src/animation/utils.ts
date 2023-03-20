@@ -37,6 +37,11 @@ export function onAnimateFinished(animation: AnimationResult, callback: () => vo
   else animation.finished.then(callback);
 }
 
+export function onAnimatesFinished(animations: AnimationResult[], callback: () => void) {
+  if (animations.length === 0) callback();
+  else Promise.all(animations.map((a) => a?.finished)).then(callback);
+}
+
 function attr(target: DisplayObject | GUI<any>, value: Record<string, any>) {
   if ('update' in target) target.update(value);
   else target.attr(value);

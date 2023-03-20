@@ -49,7 +49,7 @@ export class Continuous extends GUI<ContinuousStyleProps> {
 
   protected innerRibbonScale = new Linear({});
 
-  protected title!: Selection<Title>;
+  protected title?: Title;
 
   protected label!: Axis;
 
@@ -79,14 +79,14 @@ export class Continuous extends GUI<ContinuousStyleProps> {
     // 3. 基于可用空间、label高度、handle 宽高，计算 ribbon 宽高
     // 4. 绘制 ribbon
     // 5. 调整 label、handle 位置
+    const { showLabel } = attributes;
 
     /** title */
     this.renderTitle(select(container));
 
-    const { x, y } = (this.title.node() as Title).getAvailableSpace();
+    const { x, y } = this.availableSpace;
 
     /** label */
-    const { showLabel } = attributes;
 
     /** content */
     const contentGroup = select(container).maybeAppendByClassName(CLASS_NAMES.contentGroup, 'g').styles({ x, y });
@@ -147,13 +147,35 @@ export class Continuous extends GUI<ContinuousStyleProps> {
   }
 
   private renderTitle(container: Selection) {
-    const { showTitle, titleText = '', width, height } = this.attributes;
+    const { showTitle, titleText, width, height } = this.attributes;
     const style = subStyleProps<TextStyleProps>(this.attributes, 'title');
+    const finalTitleStyle = { ...style, width, height, text: titleText };
+    const that = this;
+    container
+      .selectAll(CLASS_NAMES.title.class)
+      .data(showTitle ? [titleText] : [])
+      .join(
+        (enter) =>
+          enter
+            .append(() => new Title({ style: finalTitleStyle }))
+            .attr('className', CLASS_NAMES.title.name)
+            .each(function () {
+              that.title = this;
+            }),
+        (update) => update.update(finalTitleStyle),
+        (exit) =>
+          exit
+            .each(() => {
+              that.title = undefined;
+            })
+            .remove()
+      );
+  }
 
-    const finalTitleStyle = deepAssign({ width, height, text: showTitle ? titleText : '' }, style);
-    this.title = container
-      .maybeAppendByClassName(CLASS_NAMES.title, () => new Title({ style: finalTitleStyle }))
-      .update(finalTitleStyle) as Selection<Title>;
+  private get availableSpace() {
+    if (this.title) return this.title.getAvailableSpace();
+    const { width, height } = this.attributes;
+    return new BBox(0, 0, width, height);
   }
 
   private get labelFixedSpacing() {
@@ -194,7 +216,7 @@ export class Continuous extends GUI<ContinuousStyleProps> {
 
   private get ribbonBBox(): DOMRect {
     const { showHandle } = this.attributes;
-    const { width: availableWidth, height: availableHeight } = (this.title.node() as Title).getAvailableSpace();
+    const { width: availableWidth, height: availableHeight } = this.availableSpace;
 
     const { size: labelSize, length: labelLength } = this.labelShape;
 

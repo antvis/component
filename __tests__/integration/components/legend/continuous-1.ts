@@ -14,7 +14,7 @@ export const Continuous1 = () => {
     height: 80,
   };
 
-  const conditions = [{ titleText: 'title' }, {}, { showHandle: false }];
+  const conditions = [{ titleText: 'title' }, { titleText: 'title', showTitle: false }, { showHandle: false }];
 
   conditions.forEach((con, i) => {
     const y = i * (shape.height + 5);

@@ -1,7 +1,6 @@
-import { Group, Rect } from '@antv/g';
+import { Group } from '@antv/g';
 import { Axis } from '../../../../src';
 import { Button } from '../../../../src/ui/button';
-import { Text } from '../../../../src/shapes';
 
 export const AxisLabelRotateUpdate = () => {
   const group = new Group({
@@ -20,6 +19,7 @@ export const AxisLabelRotateUpdate = () => {
         showGrid: false,
         showTick: true,
         showLine: true,
+        titleText: 'title',
         data: [
           { value: 0, label: 'October', id: '0' },
           { value: 0.08493150684931507, label: 'November', id: '1' },
@@ -72,8 +72,9 @@ export const AxisLabelRotateUpdate = () => {
 
   if (process.env.NODE_ENV === 'test') {
     update(false);
-    reset(false);
   }
 
   return group;
 };
+
+AxisLabelRotateUpdate.wait = 500;

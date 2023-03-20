@@ -28,14 +28,13 @@ function getTitlePosition(
   const pos = parsePosition(position);
 
   const {
-    min: [ax, ay],
-    halfExtents: [aHw, aHh],
+    min: [mainX, mainY],
+    halfExtents: [mainHalfWidth, mainHalfHeight],
   } = mainGroup.node().getLocalBounds();
 
-  const [tHw, tHh] = titleGroup.node().getLocalBounds().halfExtents;
+  const [titleHalfWidth, titleHalfHeight] = titleGroup.node().getLocalBounds().halfExtents;
 
-  const [lcx, lcy] = [ax + aHw, ay + aHh];
-  let [x, y] = [lcx, lcy];
+  let [x, y] = [mainX + mainHalfWidth, mainY + mainHalfHeight];
 
   const [spacingTop, spacingRight, spacingBottom, spacingLeft] = parseSeriesAttr(spacing);
 
@@ -48,10 +47,10 @@ function getTitlePosition(
     return { x: from[0] + dx, y: from[1] + dy };
   }
 
-  if (pos.includes('t')) y -= aHh + tHh + spacingTop;
-  if (pos.includes('r')) x += aHw + tHw + spacingRight;
-  if (pos.includes('l')) x -= aHw + tHw + spacingLeft;
-  if (pos.includes('b')) y += aHh + tHh + spacingBottom;
+  if (pos.includes('t')) y -= mainHalfHeight + titleHalfHeight + spacingTop;
+  if (pos.includes('r')) x += mainHalfWidth + titleHalfWidth + spacingRight;
+  if (pos.includes('l')) x -= mainHalfWidth + titleHalfWidth + spacingLeft;
+  if (pos.includes('b')) y += mainHalfHeight + titleHalfHeight + spacingBottom;
 
   return { x, y };
 }
@@ -77,6 +76,7 @@ function applyTitleStyle(
     group,
     attr
   );
+
   const animation = transition(group.node(), { x, y }, animate);
   percentTransform(title.node(), transform);
   return animation;

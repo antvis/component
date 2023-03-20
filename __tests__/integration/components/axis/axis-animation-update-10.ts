@@ -75,3 +75,5 @@ export const AxisAnimationUpdate10 = () => {
 };
 
 AxisAnimationUpdate10.tags = ['坐标轴', '动画', '更新', '标题'];
+
+AxisAnimationUpdate10.wait = 500;

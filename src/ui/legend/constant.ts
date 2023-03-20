@@ -64,6 +64,7 @@ export const CONTINUOUS_DEFAULT_OPTIONS = deepAssign(
     showIndicator: true,
     showLabel: true,
     slidable: true,
+    titleText: '',
     type: 'continuous',
   }
 );

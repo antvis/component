@@ -95,3 +95,5 @@ export const NavigatorDemo = () => {
 
   return group;
 };
+
+NavigatorDemo.wait = 500;

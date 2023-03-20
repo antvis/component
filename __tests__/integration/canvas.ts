@@ -71,7 +71,7 @@ export function writePNG(nodeCanvas: any, path: string) {
   });
 }
 
-export async function renderCanvas(gshape: DisplayObject, filename: string, wait = 500) {
+export async function renderCanvas(gshape: DisplayObject, filename: string, wait = 100) {
   const bbox = gshape.getBBox();
   const width = gshape.attributes.width || bbox.x + bbox.width || 400;
   const height = gshape.attributes.height || bbox.y + bbox.height || 300;

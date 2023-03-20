@@ -71,3 +71,5 @@ export const AxisAnimationUpdate2 = () => {
 };
 
 AxisAnimationUpdate2.tags = ['坐标轴', '动画', '更新'];
+
+AxisAnimationUpdate2.wait = 500;

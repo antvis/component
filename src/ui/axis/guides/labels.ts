@@ -3,6 +3,7 @@ import { get, isFunction, memoize } from '@antv/util';
 import {
   fadeOut,
   onAnimateFinished,
+  onAnimatesFinished,
   transition,
   transitionShape,
   type StandardAnimationOption,
@@ -211,9 +212,7 @@ export function renderLabels(
             this.attr(getLabelPos(datum, data, attr));
             return null;
           })
-          .call(() => {
-            overlapHandler.call(container, attr);
-          }),
+          .call(() => overlapHandler.call(container, attr)),
       (update) =>
         update
           .transition(function (datum) {
@@ -224,23 +223,13 @@ export function renderLabels(
             return [...shapeAnimation, animation];
           })
           .call((selection) => {
-            const transitions = get(selection, '_transitions') as (null | IAnimation)[];
-            const promises = transitions
-              .flat()
-              .filter(defined)
-              .map((t) => t?.finished);
-            if (promises.length) {
-              Promise.all(promises).then(() => {
-                overlapHandler.call(container, attr);
-              });
-            }
+            const transitions = get(selection, '_transitions').flat().filter(defined) as IAnimation[];
+            onAnimatesFinished(transitions, () => overlapHandler.call(container, attr));
           }),
       (exit) =>
         exit.transition(function () {
           const animation = fadeOut(this, animate.exit);
-          onAnimateFinished(animation, () => {
-            select(this).remove();
-          });
+          onAnimateFinished(animation, () => select(this).remove());
           return animation;
         })
     )

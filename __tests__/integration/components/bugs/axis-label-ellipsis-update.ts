@@ -77,3 +77,5 @@ export const AxisLabelEllipsisUpdate = () => {
 
   return group;
 };
+
+AxisLabelEllipsisUpdate.wait = 500;

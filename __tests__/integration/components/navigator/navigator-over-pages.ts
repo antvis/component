@@ -71,3 +71,5 @@ export const NavigatorOverPages = () => {
 };
 
 NavigatorOverPages.tags = ['分页器', '空页'];
+
+NavigatorOverPages.wait = 500;
