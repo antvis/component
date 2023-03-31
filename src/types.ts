@@ -1219,7 +1219,7 @@ export interface DataMarkerAnnotationCfg extends GroupComponentCfg {
   /**
    * 方向
    */
-  direction?: 'upward' | 'downward';
+  direction?: 'upward' | 'downward' | 'leftward' | 'rightward';
   /**
    * 是否自动调整
    */
