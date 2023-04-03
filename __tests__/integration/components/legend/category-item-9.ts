@@ -1,11 +1,11 @@
 import { Group } from '@antv/g';
 import { CategoryItem } from './utils';
 
-export const CategoryItem8 = () => {
+export const CategoryItem9 = () => {
   const group = new Group({
     style: {
-      width: 100,
-      height: 20,
+      width: 200,
+      height: 50,
     },
   });
 
@@ -13,14 +13,15 @@ export const CategoryItem8 = () => {
     new CategoryItem({
       style: {
         labelText: 'this is a long label text',
-        valueText: 'this is a long value text',
-        width: 100,
+        width: 200,
         spacing: [5, 5],
-        span: [1, 2],
         markerFill: 'orange',
+        markerStroke: 'green',
+        markerStrokeWidth: 2,
+        markerStrokeOpacity: 0.5,
+        markerSize: 50,
         labelFill: 'red',
-        valueFill: 'green',
-        backgroundFill: '#f7f7f7',
+        backgroundFill: 'pink',
       },
     })
   );
@@ -28,4 +29,4 @@ export const CategoryItem8 = () => {
   return group;
 };
 
-CategoryItem8.tags = ['分类图例', '图例项', '比例划分', 'span 1:2'];
+CategoryItem9.tags = ['分类图例', '图例项', '描边样式'];

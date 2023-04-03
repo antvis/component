@@ -295,12 +295,26 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
   private renderNavigator(container: Selection) {
     const { orientation } = this.attributes;
     const navStyle = subStyleProps(this.attributes, 'nav');
-
     const style = deepAssign({ orientation }, navStyle);
-    this.navigator = container
-      .maybeAppendByClassName(CLASS_NAMES.navigator, () => new Navigator({}))
-      .update(style)
-      .node();
+    const that = this;
+    container
+      .selectAll(CLASS_NAMES.navigator.class)
+      .data(['nav'])
+      .join(
+        (enter) =>
+          enter
+            .append(() => new Navigator({ style }))
+            .attr('className', CLASS_NAMES.navigator.name)
+            .each(function () {
+              that.navigator = this;
+            }),
+        (update) =>
+          update.each(function () {
+            this.update(style);
+          }),
+        (exit) => exit.remove()
+      );
+
     return this.navigator;
   }
 

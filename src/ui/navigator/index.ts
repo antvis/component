@@ -171,6 +171,10 @@ export class Navigator extends GUI<NavigatorStyleProps> {
 
   private renderClipPath(container: Selection) {
     const { pageWidth, pageHeight } = this.pageShape;
+    if (!pageWidth || !pageHeight) {
+      this.contentGroup.style.clipPath = undefined;
+      return;
+    }
     this.clipPath = container.maybeAppendByClassName(CLASS_NAMES.clipPath, 'rect').styles({
       width: pageWidth,
       height: pageHeight,

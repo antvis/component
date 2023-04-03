@@ -112,7 +112,7 @@ export class CategoryItem extends GUI<CategoryItemStyleProps> {
     const [spacing1, spacing2] = this.spacing;
 
     if (fullWidth) {
-      const width = fullWidth - markerSize! - spacing1 - spacing2;
+      const width = fullWidth - markerSize - spacing1 - spacing2;
       const [span1, span2] = this.span;
       [labelWidth, valueWidth] = [span1 * width, span2 * width];
     }
@@ -142,13 +142,22 @@ export class CategoryItem extends GUI<CategoryItemStyleProps> {
     };
   }
 
+  private get scaleSize() {
+    const { markerSize, markerStrokeWidth, markerLineWidth } = this.attributes;
+    const strokeWidth = +(markerStrokeWidth || markerLineWidth || 0);
+    const { width, height } = this.markerGroup.node().getBBox();
+    return (1 - strokeWidth / Math.max(width, height)) * markerSize;
+  }
+
   private renderMarker(container: Selection) {
     const { marker, markerSize } = this.attributes;
     const style = subStyleProps(this.attributes, 'marker');
     this.markerGroup = container.maybeAppendByClassName(CLASS_NAMES.markerGroup, 'g').style('zIndex', 0);
     ifShow(!!marker, this.markerGroup, () => {
       this.markerGroup.maybeAppendByClassName(CLASS_NAMES.marker, marker!).styles(style);
-      scaleToPixel(this.markerGroup.node(), markerSize!, true);
+      // record the scale of marker
+      this.markerGroup.node().scale(1 / this.markerGroup.node().getScale()[0]);
+      scaleToPixel(this.markerGroup.node(), this.scaleSize, true);
     });
   }
 
