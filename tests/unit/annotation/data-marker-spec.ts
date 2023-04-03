@@ -87,6 +87,56 @@ describe('annotation data-marker', () => {
     expect(textGroup.attr('y')).toBeGreaterThan(pointShape.attr('y'));
   });
 
+  it('render leftward', () => {
+    dataMarker.update({
+      direction: 'leftward',
+    });
+
+    // group matrix
+    expect(dataMarker.get('group').attr('matrix')).toEqual([1, 0, 0, 0, 1, 0, 100, 150, 1]);
+
+    // point rendered
+    const pointShape: IShape = dataMarker.getElementByLocalId('point');
+    expect(pointShape).toBeDefined();
+
+    // line rendered
+    const lineShape: IShape = dataMarker.getElementByLocalId('line');
+    expect(lineShape).toBeDefined();
+
+    // text rendered
+    const textShape: IShape = dataMarker.getElementByLocalId('text');
+    expect(textShape.attr('text')).toBe('test text');
+
+    const textGroup = dataMarker.getElementByLocalId('text-group');
+    expect(textGroup.attr('x')).toBeLessThan(pointShape.attr('x'))
+    expect(textGroup.attr('y')).toBe(pointShape.attr('y'));
+  });
+
+  it('render rightward', () => {
+    dataMarker.update({
+      direction: 'rightward',
+    });
+
+    // group matrix
+    expect(dataMarker.get('group').attr('matrix')).toEqual([1, 0, 0, 0, 1, 0, 100, 150, 1]);
+
+    // point rendered
+    const pointShape: IShape = dataMarker.getElementByLocalId('point');
+    expect(pointShape).toBeDefined();
+
+    // line rendered
+    const lineShape: IShape = dataMarker.getElementByLocalId('line');
+    expect(lineShape).toBeDefined();
+
+    // text rendered
+    const textShape: IShape = dataMarker.getElementByLocalId('text');
+    expect(textShape.attr('text')).toBe('test text');
+
+    const textGroup = dataMarker.getElementByLocalId('text-group');
+    expect(textGroup.attr('x')).toBeGreaterThan(pointShape.attr('x'))
+    expect(textGroup.attr('y')).toBe(pointShape.attr('y'));
+  });
+
   it('render styled', () => {
     dataMarker.update({
       point: {
