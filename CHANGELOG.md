@@ -1,3 +1,10 @@
+#### 0.8.33 (2023-04-03)
+
+##### New Features
+
+- add more datamarker annotation direction ([#298](https://github.com/antvis/component/pull/298)) ([b773f314](https://github.com/antvis/component/commit/b773f3143f79326c37f8ebabf1000c76fc7068d5))
+- legend radio 支持 tip 配置 & tooltip 支持 dom id 配置 ([#263](https://github.com/antvis/component/pull/263)) ([16cae8f3](https://github.com/antvis/component/commit/16cae8f330d38eb6c9c6663a94cfa16f4df040f3))
+
 #### 0.8.32 (2023-02-09)
 
 ##### Bug Fixes
