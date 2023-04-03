@@ -144,40 +144,69 @@ class DataMarkerAnnotation extends GroupComponent<DataMarkerAnnotationCfg> imple
     }
 
     if (textGroup) {
+      let translateX = textGroup.attr('x'), translateY = textGroup.attr('y');
+      let textBaseline, textAlign;
+      let xFactor = 0, yFactor = 0;
       if (x + minX <= coordinateBBox.minX) {
         // 左侧超出
-        const overflow = coordinateBBox.minX - (x + minX);
-        applyTranslate(textGroup, textGroup.attr('x') + overflow, textGroup.attr('y'));
-      }
-      if (x + maxX >= coordinateBBox.maxX) {
+        if (direction === 'leftward') {
+          textAlign = 'start';
+          xFactor = 1;
+        } else {
+          const overflow = coordinateBBox.minX - (x + minX);
+          translateX = textGroup.attr('x') + overflow;
+        }
+      } else if (x + maxX >= coordinateBBox.maxX) {
         // 右侧超出
-        const overflow = x + maxX - coordinateBBox.maxX;
-        applyTranslate(textGroup, textGroup.attr('x') - overflow, textGroup.attr('y'));
+        if (direction === 'rightward') {
+          textAlign = 'end';
+          xFactor = -1;
+        } else {
+          const overflow = x + maxX - coordinateBBox.maxX;
+          translateX = textGroup.attr('x') - overflow;
+        }
       }
-    }
-
-    if (
-      (direction === 'upward' && y + minY <= coordinateBBox.minY) ||
-      (direction !== 'upward' && y + maxY >= coordinateBBox.maxY)
-    ) {
-      // 上方或者下方超出
-      let textBaseline;
-      let factor;
-      if (direction === 'upward' && y + minY <= coordinateBBox.minY) {
-        textBaseline = 'top';
-        factor = 1;
-      } else {
-        textBaseline = 'bottom';
-        factor = -1;
+      if (!!xFactor && textAlign) {
+        textShape.attr('textAlign', textAlign);
+        if (lineShape) {
+          lineShape.attr('path', [
+            ['M', 0, 0],
+            ['L', lineLength * xFactor, 0],
+          ]);
+        }
+        translateX = (lineLength + 2) * xFactor;
       }
-      textShape.attr('textBaseline', textBaseline);
-      if (lineShape) {
-        lineShape.attr('path', [
-          ['M', 0, 0],
-          ['L', 0, lineLength * factor],
-        ]);
+      if (y + minY <= coordinateBBox.minY) {
+        // 上方超出
+        if (direction === 'upward') {
+          textBaseline = 'top';
+          yFactor = 1;
+        } else {
+          const overflow = coordinateBBox.minY - (y + minY);
+          translateY = textGroup.attr('y') + overflow;
+        }
+      } else if (y + maxY >= coordinateBBox.maxY) {
+        // 下方超出
+        if (direction === 'downward') {
+          textBaseline = 'bottom';
+          yFactor = -1;
+        } else {
+          const overflow = y + maxY - coordinateBBox.maxY;
+          translateY = textGroup.attr('y') - overflow;
+        }
       }
-      applyTranslate(textGroup, textGroup.attr('x'), (lineLength + 2) * factor)
+      if (!!yFactor && textBaseline) {
+        textShape.attr('textBaseline', textBaseline);
+        if (lineShape) {
+          lineShape.attr('path', [
+            ['M', 0, 0],
+            ['L', 0, lineLength * yFactor],
+          ]);
+        }
+        translateY = (lineLength + 2) * yFactor;
+      }
+      if (translateX !== textGroup.attr('x') || translateY !== textGroup.attr('y'))
+        applyTranslate(textGroup, translateX, translateY);
     }
   }
 
@@ -188,7 +217,27 @@ class DataMarkerAnnotation extends GroupComponent<DataMarkerAnnotationCfg> imple
     const textStyle = get(this.get('text'), 'style', {});
     const direction = this.get('direction');
     const lineLength = lineDisplay ? get(this.get('line'), 'length', 0) : 0;
-    const factor = direction === 'upward' ? -1 : 1;
+    let xFactor = 0, yFactor = 0;
+    let textBaseline = 'top',
+      textAlign = 'start';
+    switch (direction) {
+      case 'upward':
+        yFactor = -1;
+        textBaseline = 'bottom';
+        break;
+      case 'downward':
+        yFactor = 1;
+        textBaseline = 'top';
+        break;
+      case 'leftward':
+        xFactor = -1;
+        textAlign = 'end';
+        break;
+      case 'rightward':
+        xFactor = 1;
+        textAlign = 'start';
+        break;
+    }
     return {
       point: {
         x: 0,
@@ -198,15 +247,16 @@ class DataMarkerAnnotation extends GroupComponent<DataMarkerAnnotationCfg> imple
       line: {
         path: [
           ['M', 0, 0],
-          ['L', 0, lineLength * factor],
+          ['L', 0, lineLength * xFactor, lineLength * yFactor],
         ],
         ...lineStyle,
       },
       text: {
-        x: 0,
-        y: (lineLength + 2) * factor,
+        x: (lineLength + 2) * xFactor,
+        y: (lineLength + 2) * yFactor,
         text: get(this.get('text'), 'content', ''),
-        textBaseline: direction === 'upward' ? 'bottom' : 'top',
+        textBaseline,
+        textAlign,
         ...textStyle,
       },
     };
