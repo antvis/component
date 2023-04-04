@@ -144,13 +144,14 @@ export class CategoryItem extends GUI<CategoryItemStyleProps> {
 
   private get scaleSize() {
     const { markerSize, markerStrokeWidth, markerLineWidth } = this.attributes;
-    const strokeWidth = +(markerStrokeWidth || markerLineWidth || 0);
+    // empirical value
+    const strokeWidth = +(markerStrokeWidth || markerLineWidth || 0) * Math.sqrt(2);
     const { width, height } = this.markerGroup.node().getBBox();
     return (1 - strokeWidth / Math.max(width, height)) * markerSize;
   }
 
   private renderMarker(container: Selection) {
-    const { marker, markerSize } = this.attributes;
+    const { marker } = this.attributes;
     const style = subStyleProps(this.attributes, 'marker');
     this.markerGroup = container.maybeAppendByClassName(CLASS_NAMES.markerGroup, 'g').style('zIndex', 0);
     ifShow(!!marker, this.markerGroup, () => {

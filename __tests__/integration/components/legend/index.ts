@@ -7,6 +7,7 @@ export { CategoryItem6 } from './category-item-6';
 export { CategoryItem7 } from './category-item-7';
 export { CategoryItem8 } from './category-item-8';
 export { CategoryItem9 } from './category-item-9';
+export { CategoryItem10 } from './category-item-10';
 export { CategoryItems1 } from './category-items-1';
 export { CategoryItems2 } from './category-items-2';
 export { CategoryItems3 } from './category-items-3';
