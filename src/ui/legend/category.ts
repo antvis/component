@@ -36,18 +36,28 @@ export class Category extends GUI<CategoryStyleProps> {
 
   private renderItems(container: Selection, bbox: DOMRect) {
     const { x, y, width, height } = bbox;
-    const { style, ...restAttr } = subStyleProps(this.attributes, 'title', true);
+    const style = subStyleProps(this.attributes, 'title', true);
     const [partialItemStyle, groupStyle] = splitStyle(style);
     // overwrite width and height to available space
     // overwrite x and y to 0
-    const itemStyle = { ...restAttr, ...partialItemStyle, width, height, x: 0, y: 0 };
+    const itemStyle = { ...partialItemStyle, width, height, x: 0, y: 0 } as CategoryStyleProps;
     this.itemsGroup = container
       .maybeAppendByClassName<Group>(CLASS_NAMES.itemsGroup, 'g')
       .styles({ x, y, ...groupStyle });
-
-    this.items = this.itemsGroup
-      .maybeAppendByClassName(CLASS_NAMES.items, () => new CategoryItems({ style: { data: [] } }))
-      .update(itemStyle) as Selection<CategoryItems>;
+    const that = this;
+    this.itemsGroup
+      .selectAll(CLASS_NAMES.items.name)
+      .data(['items'])
+      .join(
+        (enter) =>
+          enter
+            .append(() => new CategoryItems({ style: itemStyle }))
+            .each(function () {
+              that.items = select(this);
+            }),
+        (update) => update.update(itemStyle),
+        (exit) => exit.remove()
+      );
   }
 
   private adjustLayout() {
@@ -65,7 +75,10 @@ export class Category extends GUI<CategoryStyleProps> {
   }
 
   public getBBox(): DOMRect {
-    return getBBox(this.title.node(), this.items.node());
+    const title: Title = this.title?.node();
+    const items = this.items?.node();
+    if (!title || !items) return super.getBBox();
+    return getBBox(title, items);
   }
 
   render(attributes: Required<CategoryStyleProps>, container: Group) {

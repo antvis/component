@@ -17,3 +17,4 @@ export { BugCategoryItemsUpdate1 } from './category-items-update-1';
 export { BugCategoryItemsUpdate2 } from './category-items-update-2';
 export { BugCategoryItemsUpdate3 } from './category-items-update-3';
 export { BugCategoryItemUpdate1 } from './category-item-update-1';
+export { BugCategoryMarker } from './category-marker';

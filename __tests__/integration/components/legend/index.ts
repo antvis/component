@@ -18,6 +18,8 @@ export { CategoryItems7 } from './category-items-7';
 export { CategoryItems8 } from './category-items-8';
 export { CategoryItems9 } from './category-items-9';
 export { CategoryItems10 } from './category-items-10';
+export { CategoryItems11 } from './category-items-11';
+export { CategoryItems12 } from './category-items-12';
 export { CategoryLayout1 } from './category-layout-1';
 export { CategoryLayout2 } from './category-layout-2';
 export { CategoryLayout3 } from './category-layout-3';

@@ -16,25 +16,7 @@ export const LEGEND_BASE_DEFAULT_OPTIONS: Partial<LegendBaseStyleProps> = {
   titleFontSize: 12,
 };
 
-export const CATEGORY_DEFAULT_OPTIONS = deepAssign({}, LEGEND_BASE_DEFAULT_OPTIONS, {
-  style: {
-    type: 'category',
-    items: [],
-    maxCols: undefined,
-    maxRows: undefined,
-    spacing: [8, 2],
-    itemBackground: {
-      padding: 0,
-      style: {
-        fill: 'transparent',
-        active: {
-          cursor: 'pointer',
-        },
-      },
-    },
-    reverse: false, // 倒序放置图例
-  },
-});
+export const CATEGORY_DEFAULT_OPTIONS = deepAssign({}, LEGEND_BASE_DEFAULT_OPTIONS, {});
 
 export const CONTINUOUS_DEFAULT_OPTIONS = deepAssign(
   {},

@@ -1,6 +1,5 @@
 import { Group, Rect } from '@antv/g';
 import { data } from '../../utils';
-import { deepAssign } from '../../../../src/util';
 import { Continuous } from './utils';
 
 export const ContinuousDemo = () => {

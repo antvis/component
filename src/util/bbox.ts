@@ -1,3 +1,5 @@
+import type { DisplayObject } from '../shapes';
+
 export class BBox {
   public x = 0;
 
@@ -46,4 +48,14 @@ export class BBox {
       left: this.left,
     };
   }
+}
+
+export function getRenderBBox(element: DisplayObject) {
+  const {
+    min: [minX, minY],
+    max: [maxX, maxY],
+  } = element.getRenderBounds();
+  const width = maxX - minX;
+  const height = maxY - minY;
+  return new BBox(minX, minY, width, height);
 }

@@ -40,12 +40,12 @@ export function subStyleProps<T = Record<string, any>>(
       // do nothing
     }
     // @example showHandle -> showHandle, showHandleLabel -> showLabel
-    else if (key.startsWith(addPrefix(prefix, 'show')) !== invert) {
+    else if (key.startsWith('show') && removePrefix(key, 'show').startsWith(prefix) !== invert) {
       if (key === addPrefix(prefix, 'show')) result[key] = value;
       else result[key.replace(new RegExp(toUppercaseFirstLetter(prefix)), '')] = value;
     }
     // @example navFormatter -> formatter
-    else if (key.startsWith(prefix) !== invert) {
+    else if (!key.startsWith('show') && key.startsWith(prefix) !== invert) {
       const name = removePrefix(key, prefix);
       // don't transfer filter if it represents “过滤器”
       if (name === 'filter' && typeof value === 'function') {

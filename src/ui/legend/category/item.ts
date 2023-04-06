@@ -1,4 +1,13 @@
-import { Circle, DisplayObject, Group, GroupStyleProps, PathStyleProps, RectStyleProps, TextStyleProps } from '@antv/g';
+import {
+  Circle,
+  DisplayObject,
+  Group,
+  BaseStyleProps,
+  GroupStyleProps,
+  PathStyleProps,
+  RectStyleProps,
+  TextStyleProps,
+} from '@antv/g';
 import { GUI, type ComponentOptions } from '../../../core';
 import { ExtendDisplayObject, PrefixObject } from '../../../types';
 import {
@@ -49,6 +58,12 @@ const CLASS_NAMES = classNames(
   },
   'legend-category-item'
 );
+
+function styleOfMarker(group: Group): BaseStyleProps {
+  const marker = group.querySelector(CLASS_NAMES.marker.class);
+  if (marker) return marker.style;
+  return {};
+}
 
 export class CategoryItem extends GUI<CategoryItemStyleProps> {
   constructor(options: CategoryItemOptions) {
@@ -143,9 +158,15 @@ export class CategoryItem extends GUI<CategoryItemStyleProps> {
   }
 
   private get scaleSize() {
-    const { markerSize, markerStrokeWidth, markerLineWidth } = this.attributes;
+    const markerShapeStyle = styleOfMarker(this.markerGroup.node());
+    const {
+      markerSize,
+      markerStrokeWidth = markerShapeStyle.strokeWidth,
+      markerLineWidth = markerShapeStyle.lineWidth,
+      markerStroke = markerShapeStyle.stroke,
+    } = this.attributes;
     // empirical value
-    const strokeWidth = +(markerStrokeWidth || markerLineWidth || 0) * Math.sqrt(2);
+    const strokeWidth = +(markerStrokeWidth || markerLineWidth || (markerStroke ? 1 : 0)) * Math.sqrt(2);
     const { width, height } = this.markerGroup.node().getBBox();
     return (1 - strokeWidth / Math.max(width, height)) * markerSize;
   }
@@ -192,15 +213,14 @@ export class CategoryItem extends GUI<CategoryItemStyleProps> {
         position: [markerX, labelX, valueX],
       },
     } = this;
-
     const halfHeight = height / 2;
     this.markerGroup.styles({ x: markerX, y: halfHeight });
     this.labelGroup.styles({ x: labelX, y: halfHeight });
 
-    ellipsisIt(this.labelGroup.select(CLASS_NAMES.label.class).node(), labelWidth);
+    ellipsisIt(this.labelGroup.select(CLASS_NAMES.label.class).node(), Math.ceil(labelWidth));
     if (this.showValue) {
       this.valueGroup.styles({ x: valueX, y: halfHeight });
-      ellipsisIt(this.valueGroup.select(CLASS_NAMES.value.class).node(), valueWidth);
+      ellipsisIt(this.valueGroup.select(CLASS_NAMES.value.class).node(), Math.ceil(valueWidth));
     }
   }
 

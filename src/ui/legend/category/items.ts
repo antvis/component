@@ -1,12 +1,13 @@
 import { CustomEvent } from '@antv/g';
 import { noop, set } from '@antv/util';
 import { GUI, type CallbackableStyleProps, type ComponentOptions, type PrefixStyleProps } from '../../../core';
-import { Group, type DisplayObject, type GroupStyleProps } from '../../../shapes';
+import { Group, type GroupStyleProps } from '../../../shapes';
 import type { CallbackParameter } from '../../../types';
 import {
   classNames,
   deepAssign,
   getCallbackValue,
+  getRenderBBox,
   groupBy,
   select,
   Selection,
@@ -180,7 +181,7 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
     let [x, y, page, pageIndex, col, row, prevWidth, prevHeight] = [0, 0, 0, 0, 0, 0, 0, 0];
 
     return (this.pageViews.children as CategoryItem[]).map((item, index) => {
-      const { width, height } = (item as DisplayObject).getBBox();
+      const { width, height } = getRenderBBox(item);
       const colPadding = prevWidth === 0 ? 0 : cP;
       // assume that every item has the same height
       const nextWidth = prevWidth + colPadding + width;
