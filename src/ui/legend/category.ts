@@ -46,12 +46,13 @@ export class Category extends GUI<CategoryStyleProps> {
       .styles({ x, y, ...groupStyle });
     const that = this;
     this.itemsGroup
-      .selectAll(CLASS_NAMES.items.name)
+      .selectAll(CLASS_NAMES.items.class)
       .data(['items'])
       .join(
         (enter) =>
           enter
             .append(() => new CategoryItems({ style: itemStyle }))
+            .attr('className', CLASS_NAMES.items.name)
             .each(function () {
               that.items = select(this);
             }),

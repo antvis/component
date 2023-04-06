@@ -13,6 +13,7 @@ export { BugCategoryUpdate1 } from './category-update-1';
 export { BugCategoryUpdate2 } from './category-update-2';
 export { BugCategoryUpdate3 } from './category-update-3';
 export { BugCategoryUpdate4 } from './category-update-4';
+export { BugCategoryUpdate5 } from './category-update-5';
 export { BugCategoryItemsUpdate1 } from './category-items-update-1';
 export { BugCategoryItemsUpdate2 } from './category-items-update-2';
 export { BugCategoryItemsUpdate3 } from './category-items-update-3';
