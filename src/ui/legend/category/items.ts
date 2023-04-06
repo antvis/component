@@ -157,6 +157,7 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
 
       // calc x, y and shape
       const colWidth = (width - navWidth - (gridCol - 1) * colPadding) / gridCol;
+      // const rowHeight = getRenderBBox(item).height;
       const rowHeight = item.getBBox().height;
 
       let [x, y] = [0, 0];
@@ -179,9 +180,9 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
 
     const [limitWidth, limitHeight] = [maxWidth - navWidth, maxHeight];
     let [x, y, page, pageIndex, col, row, prevWidth, prevHeight] = [0, 0, 0, 0, 0, 0, 0, 0];
-
     return (this.pageViews.children as CategoryItem[]).map((item, index) => {
-      const { width, height } = getRenderBBox(item);
+      // const { width, height } = getRenderBBox(item);
+      const { width, height } = item.getBBox();
       const colPadding = prevWidth === 0 ? 0 : cP;
       // assume that every item has the same height
       const nextWidth = prevWidth + colPadding + width;

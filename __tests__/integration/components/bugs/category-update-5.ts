@@ -24,10 +24,7 @@ export const BugCategoryUpdate5 = () => {
     })
   );
 
-  let item1: DisplayObject;
-
   timeout(() => {
-    item1 = category.querySelectorAll('.items-item')[0] as DisplayObject;
     category.update({
       itemMarkerFill: '#d3d2d3',
       itemLabelFill: '#000',
