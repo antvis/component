@@ -21,7 +21,7 @@ import { Breadcrumb } from '@antv/gui';
 | y         | 起点 y 坐标位置 | <code>number</code>                             | `-`            |
 | width     | 容器宽度        | <code>number<code>                              | `-`            |
 | height    | 容器高度        | <code>number<code>                              | `-`            |
-| padding   | 容器内边距      | <code>number \| number[]<code>                  | `[8, 8, 8, 8]` |
+| padding   | 容器内边距      | <code>number &#124; number[]<code>                  | `[8, 8, 8, 8]` |
 | items     | 面包屑 items    | <code>[BreadCrumnItems](#breadcrumnitems)<code> | `-`            |
 | separator | 面包屑分隔符    | <code>[separator](#separator)<code>             | `-`            |
 | textStyle | 自定义文本样式  | <code>StyleAttr<code>                           | `-`            |
@@ -38,6 +38,6 @@ import { Breadcrumb } from '@antv/gui';
 
 | **属性** | **描述**       | **类型**                     | **默认值** |
 | -------- | -------------- | ---------------------------- | ---------- |
-| text     | 分隔符内容     | <code>string \| Group</code> | `/`        |
+| text     | 分隔符内容     | <code>string &#124; Group</code> | `/`        |
 | style    | 分隔符样式     | <code>TextProps</code>       | `-`        |
 | spacing  | 分隔符两边间距 | <code>number</code>          | `-`        |

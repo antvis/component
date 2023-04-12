@@ -26,15 +26,22 @@ $ npm install @antv/gui
 
 ```ts
 import { Canvas } from '@antv/g';
+import { Renderer } from '@antv/g-canvas';
 import { Button } from '@antv/gui';
 
-// add `arrow` instance into canvas
+// create a canvas
 const canvas = new Canvas({
-  /* ... */
+  container: 'container',
+  width: 600,
+  height: 600,
+  renderer: new Renderer(),
 });
+
+// create a button
 const button = new Button({
   /* ... */
 });
+
 canvas.appendChild(button);
 
 // render it
@@ -45,8 +52,14 @@ canvas.render();
 
 - [API](./docs//api.md)
 - UI components
-  - [Arrow](./docs//ui/arrow.md)
-  - [Icon](./docs/ui/icon.md)
+  - [Axis](./docs//ui/axis.zh.md)
+  - [Legend](./docs/ui/legend.zh.md)
+  - [Tooltip](./docs/ui/tooltip.zh.md)
+  - [Slider](./docs/ui/slider.zh.md)
+  - [Scrollbar](./docs/ui/scrollbar.zh.md)
+  - [Button](./docs/ui/button.zh.md)
+  - [Checkbox](./docs/ui/checkbox.zh.md)
+  - [Navigator](./docs/ui/navigator.zh.md)
 
 ## 📮 Contribution
 
@@ -55,9 +68,9 @@ $ git clone git@github.com:antvis/gui.git
 
 $ cd gui
 
-$ tnpm i
+$ npm install
 
-$ tnpm t
+$ npm run dev
 ```
 
 Then send a pull request after coding.

@@ -1,10 +1,4 @@
----
-title: Slider · 缩略轴
-order: 5
----
-
-
-> 缩略轴
+缩略轴
 
 ## 引入
 
@@ -14,36 +8,18 @@ import { Slider } from '@antv/gui';
 
 ## 配置项
 
-| **属性**        | **描述**       | **类型**                                                    | **默认值**   |
-| --------------- | -------------- | ----------------------------------------------------------- | ------------ |
-| orientation          | Slider 朝向    | <code>horizontal &#124; vertical </code>                    | `horizontal` |
-| width           | 宽度           | <code>number</code>                                         | `200`        |
-| height          | 高度           | <code>number<code>                                          | `20`         |
-| values          | 缩略轴范围     | <code>[number, number]<code>                                | `[0, 1]`     |
-| names           | 手柄文本       | <code>[string, string]<code>                                | `['', '']`   |
-| min             | 最小可滚动范围 | <code>number<code>                                          | `0`          |
-| max             | 最大可滚动范围 | <code>number<code>                                          | `1`          |
-| sparkline       | 缩略图配置     | <code>SparklineOptions<code>                                | `[]`         |
-| backgroundStyle | 自定义背景样式 | <code>MixAttrs\<RectProps\><code>                           | `[]`         |
-| selectionStyle  | 自定义选区样式 | <code>MixAttrs\<RectProps\><code>                           | `[]`         |
-| handle          | 手柄配置       | <code>handleCfg \| {start: handleCfg; end: handleCfg}<code> | `[]`         |
-
-## SparklineOptions
-
-`markdown:docs/common/sparkline-options.zh.md`
-
-## handleCfg
-
-| **属性**    | **类型**                                         | **描述**                                                                         | **默认值** |
-| ----------- | ------------------------------------------------ | -------------------------------------------------------------------------------- | ---------- |
-| show        | <code>boolean</code>                             | 是否显示手柄                                                                     | `true`     |
-| size        | <code>number</code>                              | 手柄图标大小                                                                     | `10`       |
-| formatter   | <code>(name, value)=>string</code>               | 文本格式化                                                                       | `[]`       |
-| textStyle   | <code>TextProps</code>                           | 文字样式                                                                         | `[]`       |
-| spacing     | <code>number</code>                              | 文字与手柄的间隔                                                                 | `10`       |
-| handleIcon  | <code>(x,y,r)=>PathCommand \| string</code>      | 手柄图标，支持**image URL**、**data URL**、**Symbol Name**、 **Symbol Function** | `[]`       |
-| handleStyle | <code>MixAttrs\<ImageProps \| PathProps\></code> | 手柄图标样式                                                                     | `[]`       |
-
-## ShapeAttrs
-
-`markdown:docs/common/shape-attrs.zh.md`
+| **属性**           | **类型**                   | **描述**                                             | **默认值**   |
+| ------------------ | -------------------------- | ---------------------------------------------------- | ------------ |
+| orientation        | `horizontal` &#124; `vertical` | 朝向                                                 | `horizontal` |
+| trackLength        | `number`                   | 轨道长度                                             | `-`          |
+| trackSize          | `number`                   | 轨道宽度                                             | `-`          |
+| values             | `[number, number]`         | 值                                                   | `[0,1]`      |
+| brushable          | `boolean`                  | 是否支持刷选                                         | `true`       |
+| slidable           | `boolean`                  | 是否支持拖动                                         | `true`       |
+| scrollable         | `boolean`                  | 是否支持滚动                                         | `true`       |
+| padding            | `number` &#124; `number[]`     | 内边距                                               | `0`          |
+| `selection{Style}` | `StyleProps`               | 选区样式                                             | `-`          |
+| `track{Style}`     | `StyleProps`               | 轨道样式                                             | `-`          |
+| handleFormatter    | `(value: number)=>string`  | 滑动手柄文本格式化                                   | `-`          |
+| `handle{Style}`    | `StyleProps`               | 滑动手柄样式                                         | `-`          |
+| `sparkline{Style}` | `SparklineStyleProps`      | 迷你图属性，见 [SparklineStyleProps](./slider.zh.md) | `-`          |
