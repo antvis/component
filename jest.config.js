@@ -3,8 +3,6 @@
 const esm = ['internmap', 'd3-*', 'lodash-es'].map((d) => `_${d}|${d}`).join('|');
 
 module.exports = {
-  runner: 'jest-electron/runner',
-  testEnvironment: 'jest-electron/environment',
   testTimeout: 30000,
   preset: 'ts-jest/presets/js-with-ts',
   globals: {
@@ -28,4 +26,5 @@ module.exports = {
   ], // Transform esm to cjs.
   // transformIgnorePatterns: [`<rootDir>/node_modules/(?!(?:.pnpm/)?(${esm}))`],
   testPathIgnorePatterns: ['/__tests__/integration/', '/__tests__/bugs/'],
+  transformIgnorePatterns: [`<rootDir>/node_modules/(?!(${esm}))`],
 };

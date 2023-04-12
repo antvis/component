@@ -9,7 +9,7 @@ describe('scale to pixel', () => {
         height: 100,
       },
     });
-    expect(scaleToPixel(rect1, 50)).toBe(0.5);
+    expect(scaleToPixel(rect1, 50)).toBeCloseTo(0.5, 3);
 
     const rect2 = new Rect({
       style: {
@@ -17,7 +17,7 @@ describe('scale to pixel', () => {
         height: 40,
       },
     });
-    expect(scaleToPixel(rect2, 50)).toBe(1);
+    expect(scaleToPixel(rect2, 50)).toBeCloseTo(1, 3);
 
     // width: 20
     // height: 10
@@ -27,10 +27,10 @@ describe('scale to pixel', () => {
       },
     });
     const path1Bbox = path1.getBBox();
-    expect(path1Bbox.width).toBe(20);
-    expect(path1Bbox.height).toBe(10);
+    expect(path1Bbox.width).toBeCloseTo(20, 3);
+    expect(path1Bbox.height).toBeCloseTo(10, 3);
 
-    expect(scaleToPixel(path1, 50)).toBe(2.5);
+    expect(scaleToPixel(path1, 50)).toBeCloseTo(2.5, 3);
   });
 
   it('with apply', () => {
@@ -41,7 +41,7 @@ describe('scale to pixel', () => {
       },
     });
     scaleToPixel(rect1, 50, true);
-    expect(rect1.getBBox().width).toBe(50);
+    expect(rect1.getBBox().width).toBeCloseTo(50, 3);
 
     const rect2 = new Rect({
       style: {
@@ -50,7 +50,7 @@ describe('scale to pixel', () => {
       },
     });
     scaleToPixel(rect2, 50, true);
-    expect(rect2.getBBox().width).toBe(50);
+    expect(rect2.getBBox().width).toBeCloseTo(50, 3);
 
     // width: 20
     // height: 10
@@ -60,10 +60,10 @@ describe('scale to pixel', () => {
       },
     });
     const path1Bbox = path1.getBBox();
-    expect(path1Bbox.width).toBe(20);
-    expect(path1Bbox.height).toBe(10);
+    expect(path1Bbox.width).toBeCloseTo(20, 3);
+    expect(path1Bbox.height).toBeCloseTo(10, 3);
 
     scaleToPixel(path1, 11, true);
-    expect(path1.getBBox().width).toBe(11);
+    expect(path1.getBBox().width).toBeCloseTo(11, 3);
   });
 });

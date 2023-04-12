@@ -1,10 +1,5 @@
 import { isString, memoize } from '@antv/util';
-import type { Properties } from 'csstype';
 import type { Text } from '../shapes';
-
-type Font = Pick<Properties, 'fontFamily' | 'fontWeight' | 'fontStyle' | 'fontVariant'> & {
-  fontSize?: number;
-};
 
 let ctx: CanvasRenderingContext2D;
 
@@ -12,7 +7,7 @@ let ctx: CanvasRenderingContext2D;
  * 计算文本在画布中的宽度
  */
 export const measureTextWidth = memoize(
-  (text: string | Text, font?: Font): number => {
+  (text: string | Text, font?: any): number => {
     const content = isString(text) ? text : text.style.text.toString();
     const { fontSize, fontFamily, fontWeight, fontStyle, fontVariant } = font || getFont(text as Text);
     if (!ctx) {
@@ -21,7 +16,7 @@ export const measureTextWidth = memoize(
     ctx!.font = [fontStyle, fontVariant, fontWeight, `${fontSize}px`, fontFamily].join(' ');
     return ctx!.measureText(content).width;
   },
-  (text: any, font?: Font) =>
+  (text: any, font?: any) =>
     [isString(text) ? text : text.style.text.toString(), Object.values(font || getFont(text as Text)).join()].join('')
 );
 
