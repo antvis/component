@@ -49,10 +49,7 @@ export type ContinuousStyleProps = LegendBaseStyleProps &
   PrefixStyleProps<Partial<Omit<HandleStyleProps, 'orientation'>>, 'handle'> &
   PrefixStyleProps<Partial<Omit<IndicatorStyleProps, 'text'>>, 'indicator'> &
   PrefixStyleProps<Partial<Omit<LabelStyleProps, 'text'>>, 'label'> &
-  PrefixStyleProps<
-    Partial<Omit<RibbonStyleProps, 'orientation' | 'range' | 'partition' | 'size' | 'length' | 'range'>>,
-    'ribbon'
-  > &
+  PrefixStyleProps<Partial<Omit<RibbonStyleProps, 'orientation' | 'range' | 'partition' | 'length'>>, 'ribbon'> &
   Partial<Pick<RibbonStyleProps, 'color' | 'block' | 'type'>> & {
     data: ContinuousDatum[];
     defaultValue?: [number, number];

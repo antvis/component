@@ -215,7 +215,7 @@ export class Continuous extends GUI<ContinuousStyleProps> {
   }
 
   private get ribbonBBox(): DOMRect {
-    const { showHandle } = this.attributes;
+    const { showHandle, ribbonSize: userDefinedRibbonSize } = this.attributes;
     const { width: availableWidth, height: availableHeight } = this.availableSpace;
 
     const { size: labelSize, length: labelLength } = this.labelShape;
@@ -229,7 +229,9 @@ export class Continuous extends GUI<ContinuousStyleProps> {
 
     let ribbonSize = 0;
     const labelPosition = this.labelPosition;
-    if (['bottom', 'right'].includes(labelPosition)) {
+    if (userDefinedRibbonSize) {
+      ribbonSize = userDefinedRibbonSize;
+    } else if (['bottom', 'right'].includes(labelPosition)) {
       ribbonSize = Math.min(availableSize - labelSize, (availableSize - handleSize) / handleRatio);
     } else if (availableSize * (1 - handleRatio) > handleSize) {
       ribbonSize = Math.max(availableSize - labelSize, 0);

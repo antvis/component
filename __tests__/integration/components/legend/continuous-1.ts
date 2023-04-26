@@ -5,7 +5,7 @@ export const Continuous1 = () => {
   const group = new Group({
     style: {
       width: 400,
-      height: 250,
+      height: 420,
     },
   });
 
@@ -14,7 +14,13 @@ export const Continuous1 = () => {
     height: 80,
   };
 
-  const conditions = [{ titleText: 'title' }, { titleText: 'title', showTitle: false }, { showHandle: false }];
+  const conditions = [
+    { titleText: 'title' },
+    { titleText: 'title', showTitle: false },
+    { showHandle: false },
+    { ribbonSize: 20 },
+    { ribbonSize: 20, titleText: 'title' },
+  ];
 
   conditions.forEach((con, i) => {
     const y = i * (shape.height + 5);
@@ -49,3 +55,4 @@ export const Continuous1 = () => {
 };
 
 Continuous1.tags = ['图例', '连续图例'];
+Continuous1.only = true;
