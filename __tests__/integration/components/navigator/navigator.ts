@@ -68,17 +68,17 @@ export const NavigatorDemo = () => {
     nav3.next();
   }, 1000);
 
-  const nav4 = createNav({ x: 650, y: 100, initPage: 3, orientation: 'vertical' });
+  const nav4 = createNav({ x: 650, y: 100, defaultPage: 3, orientation: 'vertical' });
 
   timeout(() => {
     nav4.next()?.finished.then(() => {
       timeout(() => {
-        nav4.update({ initPage: 2 });
+        nav4.update({ defaultPage: 2 });
       }, 1000);
     });
   }, 1000);
 
-  const nav5 = createNav({ x: 100, y: 250, initPage: 3 });
+  const nav5 = createNav({ x: 100, y: 250, defaultPage: 3 });
 
   timeout(() => {
     nav5.getContainer().destroyChildren();
@@ -90,7 +90,7 @@ export const NavigatorDemo = () => {
     }, 1000);
   }, 1000);
 
-  createNav({ x: 300, y: 250, initPage: 3, buttonTransform: 'scale(0.8)', pageNumFontSize: 14 }, 20);
+  createNav({ x: 300, y: 250, defaultPage: 3, buttonTransform: 'scale(0.8)', pageNumFontSize: 14 }, 20);
   createNav({ x: 500, y: 250 }, 1);
 
   return group;

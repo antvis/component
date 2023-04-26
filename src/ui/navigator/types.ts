@@ -12,10 +12,11 @@ export type NavigatorStyleProps = Omit<RectStyleProps, 'width' | 'height'> &
     /** spacing between controller and page content */
     controllerSpacing?: number;
     formatter?: (curr: number, total: number) => string;
-    initPage?: number;
+    defaultPage?: number;
     loop?: boolean;
     orientation?: 'horizontal' | 'vertical';
-    /** once pageWidth is not provided, it will be set to bbox shape */ pageWidth?: number;
+    /** once pageWidth is not provided, it will be set to bbox shape */
+    pageWidth?: number;
     /** infer to pageWidth */
     pageHeight?: number;
   };

@@ -46,7 +46,7 @@ export const NavigatorNull = () => {
       nav.getContainer().appendChild(page);
     });
     nav.update({
-      initPage: 1,
+      defaultPage: 1,
       x: 150,
       y: 150,
       pageWidth: 100,

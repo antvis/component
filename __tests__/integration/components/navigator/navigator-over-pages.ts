@@ -43,7 +43,7 @@ export const NavigatorOverPages = () => {
       style: {
         x: 100,
         y: 100,
-        initPage: 3,
+        defaultPage: 3,
         pageWidth: 100,
         pageHeight: 100,
         loop: true,
@@ -57,13 +57,13 @@ export const NavigatorOverPages = () => {
 
   timeout(() => {
     nav.update({
-      initPage: 0,
+      defaultPage: 0,
     });
   }, 1000);
 
   timeout(() => {
     nav.update({
-      initPage: 4,
+      defaultPage: 4,
     });
   }, 2000);
 

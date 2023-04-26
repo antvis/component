@@ -53,7 +53,7 @@ export class Navigator extends GUI<NavigatorStyleProps> {
       controllerPadding: 5,
       controllerSpacing: 5,
       formatter: (curr, total) => `${curr}/${total}`,
-      initPage: 0,
+      defaultPage: 0,
       loop: false,
       orientation: 'horizontal',
       pageNumFill: 'black',
@@ -70,8 +70,8 @@ export class Navigator extends GUI<NavigatorStyleProps> {
   private playWindow = this.contentGroup.appendChild(new Group({ class: CLASS_NAMES.playWindow.name }));
 
   private get defaultPage() {
-    const { initPage } = this.attributes;
-    return clamp(initPage, 0, Math.max(this.pageViews.length - 1, 0));
+    const { defaultPage } = this.attributes;
+    return clamp(defaultPage, 0, Math.max(this.pageViews.length - 1, 0));
   }
 
   private innerCurrPage: number = this.defaultPage;

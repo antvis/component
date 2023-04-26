@@ -23,14 +23,14 @@ export type LabelStyleProps<T = any> = TextStyleProps &
     direction?: 'positive' | 'negative';
     filter?: (val: T, index: number, arr: T[]) => boolean;
     formatter?: (val: T, index: number, arr: T[]) => string;
-    /** spacing between label and legend item */
+    /** spacing between label and legend ribbon */
     spacing?: number;
   };
 
 export type IndicatorStyleProps<T = any> = PathStyleProps &
   TextStyleProps & {
     formatter: (val: T) => ExtendDisplayObject;
-    onIndicate: (val: T) => void;
+    indicate: (val: T) => void;
     padding: SeriesAttr;
   };
 
@@ -50,7 +50,7 @@ export type ContinuousStyleProps = LegendBaseStyleProps &
   PrefixStyleProps<Partial<Omit<IndicatorStyleProps, 'text'>>, 'indicator'> &
   PrefixStyleProps<Partial<Omit<LabelStyleProps, 'text'>>, 'label'> &
   PrefixStyleProps<
-    Partial<Omit<RibbonStyleProps, 'orientation' | 'range' | 'partition' | 'size' | 'length'>>,
+    Partial<Omit<RibbonStyleProps, 'orientation' | 'range' | 'partition' | 'size' | 'length' | 'range'>>,
     'ribbon'
   > &
   Partial<Pick<RibbonStyleProps, 'color' | 'block' | 'type'>> & {

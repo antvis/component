@@ -66,7 +66,7 @@ export const NavigatorUpdate = () => {
   // set page num
   timeout(() => {
     nav.update({
-      initPage: 4,
+      defaultPage: 4,
     });
   }, 3000);
 
