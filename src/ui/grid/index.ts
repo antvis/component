@@ -107,13 +107,13 @@ function renderGridLine(
           });
         }),
       (update) =>
-        update.each(function (datum, index) {
+        update.transition(function (datum, index) {
           const lineStyle = getCallbackValue(getPrimitiveAttributes({ path: datum.path, ...style }), [
             datum,
             index,
             lines,
           ]);
-          transition(this, lineStyle, animate.update);
+          return transition(this, lineStyle, animate.update);
         }),
       (exit) =>
         exit.transition(function () {
