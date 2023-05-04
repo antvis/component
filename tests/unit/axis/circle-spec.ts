@@ -76,6 +76,18 @@ describe('test line axis', () => {
     expect(label1.attr('text')).toBe('1%');
   });
 
+  it('label formatter params', () => {
+    axis.update({
+      label: {
+        formatter: (text, tick, index, ticks) => {
+          // @ts-ignore
+          expect(ticks[index]).toBe(tick);
+          return text + '%';
+        },
+      },
+    });
+  });
+
   it('update title', () => {
     expect(axis.getElementById('a-axis-title')).toBeUndefined();
     axis.update({

@@ -88,7 +88,7 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
             fill: Theme.descriptionIconFill,
             stroke: Theme.descriptionIconStroke,
           },
-          description: ''
+          description: '',
         },
         tickStates: {
           active: {
@@ -480,7 +480,7 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
     const { offset, offsetX, offsetY, rotate, formatter } = labelCfg;
     const point = this.getSidePoint(tick.point, offset);
     const vector = this.getSideVector(offset, point);
-    const text = formatter ? formatter(tick.name, tick, index) : tick.name;
+    const text = formatter ? formatter(tick.name, tick, index, ticks) : tick.name;
     let { style } = labelCfg;
     style = isFunction(style) ? get(this.get('theme'), ['label', 'style'], {}) : style;
 
@@ -583,25 +583,25 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
       type: 'text',
       id: this.getElementId('title'),
       name: 'axis-title',
-      attrs: titleAttrs
+      attrs: titleAttrs,
     });
     // description字段存在时，显示icon
-    if(this.get('title')?.description) {
-      this.drawDescriptionIcon(group, titleShape, titleAttrs.matrix)
+    if (this.get('title')?.description) {
+      this.drawDescriptionIcon(group, titleShape, titleAttrs.matrix);
     }
   }
 
   private drawDescriptionIcon(group: IGroup, titleShape: IShape, matrix: number[]) {
     const descriptionShape = this.addGroup(group, {
       name: 'axis-description',
-      id: this.getElementById('description')
-    })
+      id: this.getElementById('description'),
+    });
 
     const { maxX, maxY, height } = titleShape.getBBox();
-    const { iconStyle } = this.get('title')
+    const { iconStyle } = this.get('title');
     const spacing = 4; // 设置icon与文本之间距离
     const r = height / 2;
-    const lineWidth =  r / 6;
+    const lineWidth = r / 6;
     const startX = maxX + spacing;
     const startY = maxY - height / 2;
     // 绘制 information icon 路径
@@ -614,7 +614,7 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
     const [x4, y4] = [startX + r, startY - height / 4];
     const [x5, y5] = [x4, y4 + lineWidth];
     const [x6, y6] = [x5, y5 + lineWidth];
-    const [x7, y7] = [x6, y6 + r * 3 / 4];
+    const [x7, y7] = [x6, y6 + (r * 3) / 4];
     this.addShape(descriptionShape, {
       type: 'path',
       id: this.getElementId('title-description-icon'),
@@ -629,11 +629,11 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
           ['M', x4, y4],
           ['L', x5, y5],
           ['M', x6, y6],
-          ['L', x7, y7]
+          ['L', x7, y7],
         ],
         lineWidth,
         matrix,
-        ...iconStyle
+        ...iconStyle,
       },
     });
     // 点击热区，设置透明矩形
@@ -650,10 +650,9 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
         fill: '#000',
         opacity: 0,
         matrix,
-        cursor: 'pointer'
-      }
-    })
-
+        cursor: 'pointer',
+      },
+    });
   }
 
   private applyTickStates(tick, group) {

@@ -1,3 +1,10 @@
+#### 0.9.5 (2023-05-04)
+
+##### New Features
+
+- axis.label.formatter add more params for custom ([1a818761](https://github.com/antvis/component/commit/1a818761b86a783a605180aca4df7161dcfff313))
+- textpadding and brushRatio support receive from user ([#296](https://github.com/antvis/component/pull/296)) ([61cf820a](https://github.com/antvis/component/commit/61cf820a84afcde8e5ab292b89ba214a87740fbc))
+
 #### 0.9.2 (2023-02-17)
 
 ##### Bug Fixes
