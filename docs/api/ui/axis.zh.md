@@ -64,13 +64,13 @@ type AxisDatum = {
 
 ### 标题 AxisTitleStyleProps
 
-| **属性名**     | **类型**                                | **描述**                                                                                     | **默认值** |
-| -------------- | --------------------------------------- | -------------------------------------------------------------------------------------------- | ---------- |
-| position       | `Position`                              | 标题位置                                                                                     | `lb`       |
+| **属性名**     | **类型**                                        | **描述**                                                                                     | **默认值** |
+| -------------- | ----------------------------------------------- | -------------------------------------------------------------------------------------------- | ---------- |
+| position       | `Position`                                      | 标题位置                                                                                     | `lb`       |
 | titleText      | `string` &#124; `number` &#124; `DisplayObject` | 标题                                                                                         | `-`        |
-| titleSpacing   | `number` &#124; `numbers[]`                 | 标题到轴的距离                                                                               | `0`        |
-| titleInset     | `number` &#124; `numbers[]`                 | 标题内边距                                                                                   | `0`        |
-| `title{Style}` | `StyleProps`                            | 标题样式，见 [DisplayObjectStyleProps](https://g.antv.antgroup.com/api/basic/display-object) | `-`        |
+| titleSpacing   | `number` &#124; `numbers[]`                     | 标题到轴的距离                                                                               | `0`        |
+| titleInset     | `number` &#124; `numbers[]`                     | 标题内边距                                                                                   | `0`        |
+| `title{Style}` | `StyleProps`                                    | 标题样式，见 [DisplayObjectStyleProps](https://g.antv.antgroup.com/api/basic/display-object) | `-`        |
 
 ```ts
 type Position =
@@ -120,9 +120,8 @@ type Position =
 | tickLength    | `number`                                                                                    | 长度                                                                                           | `5`        |
 | tickFilter    | `(datum:AxisDatum, index:number, data:AxisDatum[])=>boolean`                                | 刻度线过滤                                                                                     | `-`        |
 | tickFormatter | `(datum:AxisDatum, index:number, data:AxisDatum[], vector: [number,number])=>DisplayObject` | 刻度线格式化                                                                                   | `false`    |
-| tickDirection | `position`&#124;`negative`                                                                      | 刻度线朝向                                                                                     | `positive` |
-| `tick{Style}` | `StyleProps` &#124; `(datum:AxisDatum, index:number, data:AxisDatum[])=>StyleProps`             | 刻度线样式，见 [DisplayObjectStyleProps](https://g.antv.antgroup.com/api/basic/display-object) | `-`        |
-|               | `-`                                                                                         |
+| tickDirection | `position`&#124;`negative`                                                                  | 刻度线朝向                                                                                     | `positive` |
+| `tick{Style}` | `StyleProps` &#124; `(datum:AxisDatum, index:number, data:AxisDatum[])=>StyleProps`         | 刻度线样式，见 [DisplayObjectStyleProps](https://g.antv.antgroup.com/api/basic/display-object) | `-`        |
 
 ### 刻度值 AxisLabelStyleProps
 
@@ -130,11 +129,11 @@ type Position =
 | -------------- | ------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ---------- |
 | labelFilter    | `(datum:AxisDatum, index:number, data:AxisDatum[])=>boolean`                                | 刻度值过滤                                                                  | `-`        |
 | labelFormatter | `(datum:AxisDatum, index:number, data:AxisDatum[], vector: [number,number])=>DisplayObject` | 刻度值格式化                                                                | `-`        |
-| labelDirection | `position`&#124;`negative`                                                                      | 刻度值朝向                                                                  | `positive` |
-| labelAlign     | `horizontal`&#124;`parallel`&#124;`prependicular`                                                   | 刻度值方向（保持水平、保持垂直、垂直于轴线）                                | `parallel` |
+| labelDirection | `position`&#124;`negative`                                                                  | 刻度值朝向                                                                  | `positive` |
+| labelAlign     | `horizontal`&#124;`parallel`&#124;`prependicular`                                           | 刻度值方向（保持水平、保持垂直、垂直于轴线）                                | `parallel` |
 | labelSpacing   | `number`                                                                                    | 刻度值到刻度的距离                                                          | `0`        |
 | labelOverlap   | `LabelOverlapCfg[]`                                                                         | 重叠时采取的策略                                                            | `-`        |
-| `label{Style}` | `StyleProps` &#124; `(datum:AxisDatum, index:number, data:AxisDatum[])=>StyleProps`             | 刻度值样式，见 [TextStyleProps](https://g.antv.antgroup.com/api/basic/text) | `-`        |
+| `label{Style}` | `StyleProps` &#124; `(datum:AxisDatum, index:number, data:AxisDatum[])=>StyleProps`         | 刻度值样式，见 [TextStyleProps](https://g.antv.antgroup.com/api/basic/text) | `-`        |
 
 ```ts
 interface Overlap {
@@ -175,15 +174,15 @@ export type LabelOverlapCfg = EllipsisOverlapCfg | RotateOverlapCfg | HideOverla
 
 ### 网格线 AxisGridStyleProps
 
-| **属性名**        | **类型**                                                                        | **描述**                                                                                       | **默认值** |
-| ----------------- | ------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------- |
-| gridFilter        | `(datum:AxisDatum, index:number, data:AxisDatum[])=>boolean`                    | 网格线过滤                                                                                     | `-`        |
+| **属性名**        | **类型**                                                                            | **描述**                                                                                       | **默认值** |
+| ----------------- | ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------- |
+| gridFilter        | `(datum:AxisDatum, index:number, data:AxisDatum[])=>boolean`                        | 网格线过滤                                                                                     | `-`        |
 | gridDirection     | `position`&#124;`negative`                                                          | 网格线朝向                                                                                     | -          |
-| gridLength        | `number`                                                                        | 网格线长度                                                                                     | `0`        |
+| gridLength        | `number`                                                                            | 网格线长度                                                                                     | `0`        |
 | gridType          | `segment`&#124;`surround`                                                           | 网格线类型，segment 适用于直角坐标系，surround 适用于极坐标系                                  | `segment`  |
-| gridCenter        | `[number,number]`                                                               | 网格线中心点，仅在 gridType 为 surround 时生效                                                 | `[0,0]`    |
-| gridControlAngles | `number[]`                                                                      | 网格线控制点角度，仅在 gridType 为 surround 时生效                                             | `[0,0]`    |
-| gridClosed        | `boolean`                                                                       | 是否封闭相邻网格线区域                                                                         | `false`    |
+| gridCenter        | `[number,number]`                                                                   | 网格线中心点，仅在 gridType 为 surround 时生效                                                 | `[0,0]`    |
+| gridControlAngles | `number[]`                                                                          | 网格线控制点角度，仅在 gridType 为 surround 时生效                                             | `[0,0]`    |
+| gridClosed        | `boolean`                                                                           | 是否封闭相邻网格线区域                                                                         | `false`    |
 | gridConnect       | `line`&#124;`arc`                                                                   | 网格线封闭类型，line 直线连接，arc 弧线连接                                                    | `line`     |
 | gridAreaFill      | `string`&#124;`string[]`                                                            | 网格线区域填充                                                                                 | `-`        |
 | `grid{Style}`     | `StyleProps` &#124; `(datum:AxisDatum, index:number, data:AxisDatum[])=>StyleProps` | 网格线样式，见 [DisplayObjectStyleProps](https://g.antv.antgroup.com/api/basic/display-object) | `-`        |

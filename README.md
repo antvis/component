@@ -52,14 +52,16 @@ canvas.render();
 
 - [API](./docs//api.md)
 - UI components
-  - [Axis](./docs//ui/axis.zh.md)
-  - [Legend](./docs/ui/legend.zh.md)
-  - [Tooltip](./docs/ui/tooltip.zh.md)
-  - [Slider](./docs/ui/slider.zh.md)
-  - [Scrollbar](./docs/ui/scrollbar.zh.md)
-  - [Button](./docs/ui/button.zh.md)
-  - [Checkbox](./docs/ui/checkbox.zh.md)
-  - [Navigator](./docs/ui/navigator.zh.md)
+  - [Axis](https://github.com/antvis/GUI/blob/master/docs/api/ui/axis.zh.md)
+  - [Legend](https://github.com/antvis/GUI/blob/master/docs/api/ui/legend.zh.md)
+  - [Tooltip](https://github.com/antvis/GUI/blob/master/docs/api/ui/tooltip.zh.md)
+  - [Slider](https://github.com/antvis/GUI/blob/master/docs/api/ui/slider.zh.md)
+  - [Scrollbar](https://github.com/antvis/GUI/blob/master/docs/api/ui/scrollbar.zh.md)
+  - [Button](https://github.com/antvis/GUI/blob/master/docs/api/ui/button.zh.md)
+  - [Checkbox](https://github.com/antvis/GUI/blob/master/docs/api/ui/checkbox.zh.md)
+  - [Navigator](https://github.com/antvis/GUI/blob/master/docs/api/ui/navigator.zh.md)
+  - [Breadcrumb](https://github.com/antvis/GUI/blob/master/docs/api/ui/breadcrumb.zh.md)
+  - [Sparkline](https://github.com/antvis/GUI/blob/master/docs/api/ui/sparkline.zh.md)
 
 ## 📮 Contribution
 

@@ -27,5 +27,5 @@ import { Scrollbar } from '@antv/gui';
 
 | **事件**    | **触发条件**                                       | **参数**                                |
 | ----------- | -------------------------------------------------- | --------------------------------------- |
-| scroll      | 当鼠标或键盘操作移动了滚动条时触发                 | `value: `number``                       |
-| valuechange | 在通过 scroll 事件或通过 API 更改 value 属性时发生 | `{oldValue: `number`, value: `number`}` |
+| scroll      | 当鼠标或键盘操作移动了滚动条时触发                 | `value: `number`                       |
+| valuechange | 在通过 scroll 事件或通过 API 更改 value 属性时发生 | `{oldValue: number, value: number}` |
