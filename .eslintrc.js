@@ -39,6 +39,7 @@ module.exports = {
     '@typescript-eslint/no-dupe-class-members': ['error'],
     '@typescript-eslint/no-unused-vars': ['warn'],
     'no-use-before-define': 'off',
+    'no-bitwise': 'off',
   },
   settings: {
     'import/parsers': {

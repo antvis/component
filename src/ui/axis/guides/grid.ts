@@ -5,8 +5,8 @@ import { degToRad, getCallbackValue, scale, Selection, subStyleProps } from '../
 import { Grid, GridStyleProps } from '../../grid';
 import { CLASS_NAMES } from '../constant';
 import type { AxisDatum, AxisGridStyleProps, AxisStyleProps } from '../types';
-import { getDirectionVector, getValuePos } from './line';
-import { filterExec } from './utils';
+import { getValuePos } from './line';
+import { filterExec, getDirectionVector } from './utils';
 
 function getGridVector(value: number, attr: Required<AxisStyleProps>) {
   return getDirectionVector(value, attr.gridDirection, attr);

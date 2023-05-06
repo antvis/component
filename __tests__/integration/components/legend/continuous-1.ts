@@ -55,4 +55,3 @@ export const Continuous1 = () => {
 };
 
 Continuous1.tags = ['图例', '连续图例'];
-Continuous1.only = true;

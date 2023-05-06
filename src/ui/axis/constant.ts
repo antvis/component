@@ -27,6 +27,7 @@ export const AXIS_BASE_DEFAULT_ATTR: Partial<AxisBaseStyleProps> = {
   dataThreshold: 100,
   lineLineWidth: 1,
   lineStroke: 'black',
+  crossPadding: 10,
   titleFill: 'black',
   titleFontSize: 12,
   titlePosition: 'lb',

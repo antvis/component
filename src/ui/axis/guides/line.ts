@@ -3,63 +3,22 @@ import { transition, type AnimationResult, type StandardAnimationOption } from '
 import type { DisplayObject, Line } from '../../../shapes';
 import type { Point, Vector2 } from '../../../types';
 import {
+  Selection,
   degToRad,
   keyframeInterpolate,
-  normalize,
   omit,
   renderExtDo,
   scaleToPixel,
-  Selection,
   subStyleProps,
-  vertical,
 } from '../../../util';
 import { CLASS_NAMES } from '../constant';
-import type {
-  Direction,
-  RequiredArcAxisStyleProps,
-  RequiredAxisStyleProps,
-  RequiredLinearAxisStyleProps,
-} from '../types';
-import { baseDependencies } from './utils';
+import type { RequiredArcAxisStyleProps, RequiredAxisStyleProps, RequiredLinearAxisStyleProps } from '../types';
+import { getLineAngle, getLineTangentVector } from './utils';
 
 type LineDatum = {
   line: [Vector2, Vector2];
   className: string;
 };
-
-export const getLineAngle = memoize(
-  (value: number, attr: RequiredArcAxisStyleProps) => {
-    const { startAngle, endAngle } = attr;
-    return (endAngle - startAngle) * value + startAngle;
-  },
-  (value, attr) => [value, attr.startAngle, attr.endAngle].join()
-);
-
-export const getLineTangentVector = memoize(
-  (value: number, attr: RequiredAxisStyleProps) => {
-    if (attr.type === 'linear') {
-      const {
-        startPos: [startX, startY],
-        endPos: [endX, endY],
-      } = attr;
-      const [dx, dy] = [endX - startX, endY - startY];
-      return normalize([dx, dy]);
-    }
-
-    const angle = degToRad(getLineAngle(value, attr));
-    return [-Math.sin(angle), Math.cos(angle)] as Vector2;
-  },
-  (value, attr: RequiredAxisStyleProps) => {
-    const dependencies = baseDependencies(attr);
-    attr.type === 'arc' && dependencies.push(value);
-    return dependencies.join();
-  }
-);
-
-export function getDirectionVector(value: number, direction: Direction, attr: RequiredAxisStyleProps): Vector2 {
-  const tangentVector = getLineTangentVector(value, attr);
-  return vertical(tangentVector, direction !== 'positive') as Vector2;
-}
 
 export const getLinearValuePos = memoize(
   (value: number, attr: RequiredLinearAxisStyleProps): Vector2 => {

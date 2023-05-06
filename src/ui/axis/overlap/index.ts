@@ -4,15 +4,17 @@ import { isInOffscreenGroup } from '../../../util';
 import ellipsis, { type Utils as EllipsisUtils } from './autoEllipsis';
 import hide, { type Utils as HideUtils } from './autoHide';
 import rotate, { type Utils as RotateUtils } from './autoRotate';
+import wrap, { type Utils as WrapUtils } from './autoWrap';
 
 export type OverlapCallback = (labels: Text[], overlapCfg: any, cfg: AxisStyleProps, utils: any) => any;
 
-export type OverlapUtilsType = EllipsisUtils & HideUtils & RotateUtils;
+export type OverlapUtilsType = EllipsisUtils & HideUtils & RotateUtils & WrapUtils;
 
 export const OverlapUtils = new Map<string, any>([
   ['hide', hide],
   ['rotate', rotate],
   ['ellipsis', ellipsis],
+  ['wrap', wrap],
 ]);
 
 export function canProcessOverlap(
@@ -23,7 +25,7 @@ export function canProcessOverlap(
   if (attr.labelOverlap.length < 1) return false;
   if (type === 'hide') return !isInOffscreenGroup(labels[0]);
   if (type === 'rotate') return !labels.some((label) => !!label.attr('transform')?.includes('rotate'));
-  if (type === 'ellipsis') return labels.map((item) => item.querySelector('text')).length > 1;
+  if (type === 'ellipsis' || type === 'wrap') return labels.filter((item) => item.querySelector('text')).length > 1;
   return true;
 }
 

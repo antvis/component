@@ -7,7 +7,7 @@ export type StandardSeriesAttr = [number, number, number, number];
 /**
  * 规范化padding
  */
-export function parseSeriesAttr(series: SeriesAttr): StandardSeriesAttr {
+export function parseSeriesAttr(series?: SeriesAttr): StandardSeriesAttr {
   if (isNumber(series)) {
     return [series, series, series, series];
   }

@@ -1,7 +1,7 @@
 import type { AnimationOption } from '../../animation/types';
 import type { ComponentOptions, PrefixStyleProps } from '../../core/types';
 import { DisplayObject, LineStyleProps, TextStyleProps } from '../../shapes';
-import type { Callbackable, CallbackParameter, ExtendDisplayObject, Vector2 } from '../../types';
+import type { CallbackParameter, Callbackable, ExtendDisplayObject, Vector2 } from '../../types';
 import type { GridStyleProps } from '../grid/types';
 import type { TitleStyleProps } from '../title';
 
@@ -44,8 +44,11 @@ export interface HideOverlapCfg extends Overlap {
 }
 export interface WrapOverlapCfg extends Overlap {
   type: 'wrap';
-  // TODO
+  wordWrapWidth?: number;
+  maxLines?: number;
+  recoverWhenFailed?: boolean;
 }
+
 export interface CustomOverlapCfg extends Overlap {
   type: 'custom';
   /** adjust labels position by yourself  */
@@ -163,8 +166,10 @@ export type AxisBaseStyleProps = PrefixStyleProps<Partial<AxisTitleStyleProps>, 
     data: AxisDatum[];
     /** the maximum number of data */
     dataThreshold?: number;
-    /** the width of axis occupied in the cross direction */
+    /** 刻度值在副轴方向上的可用空间 */
     crossSize?: number;
+    /** 副轴空间的 paddind 扩大可用空间，用于首尾 label 的边界情况 */
+    crossPadding?: number;
     showLine?: boolean;
     showArrow?: boolean;
     showLabel?: boolean;

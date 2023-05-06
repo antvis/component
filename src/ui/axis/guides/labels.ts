@@ -25,6 +25,7 @@ import {
   show,
   splitStyle,
   subStyleProps,
+  wrapIt,
   type Selection,
   type _Element,
 } from '../../../util';
@@ -32,8 +33,8 @@ import { CLASS_NAMES } from '../constant';
 import { processOverlap } from '../overlap';
 import type { AxisDatum, AxisLabelStyleProps, AxisStyleProps } from '../types';
 import { getFactor } from '../utils';
-import { getDirectionVector, getLineTangentVector, getValuePos } from './line';
-import { filterExec, getCallbackStyle } from './utils';
+import { getValuePos } from './line';
+import { filterExec, getCallbackStyle, getLabelVector, getLineTangentVector } from './utils';
 
 const angleNormalizer = (angle: number) => {
   let normalizedAngle = angle;
@@ -50,10 +51,6 @@ const getAngle = memoize(
   },
   (v1, v2) => [...v1, ...v2].join()
 );
-
-function getLabelVector(value: number, attr: Required<AxisStyleProps>) {
-  return getDirectionVector(value, attr.labelDirection, attr);
-}
 
 /** to correct label rotation to avoid inverted character */
 function correctLabelRotation(_rotate: number) {
@@ -164,6 +161,9 @@ function overlapHandler(attr: Required<AxisStyleProps>) {
     },
     ellipsis: (label, len = Infinity, suffix) => {
       label && ellipsisIt(label, len, suffix);
+    },
+    wrap: (label, width, lines) => {
+      label && wrapIt(label, width, lines);
     },
     getTextShape: (label) => label.querySelector<DisplayObject>('text') as Text,
   });

@@ -14,5 +14,12 @@ export type CallbackableObject<T extends { [keys: string]: any }, P extends any[
   [K in keyof T]: Callbackable<T[K], P>;
 };
 
+export type BBox = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
+
 export * from './prefix';
 export * from './styles';

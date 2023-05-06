@@ -2,7 +2,7 @@ import { isNil } from '@antv/util';
 import { type DisplayObject, Text } from '../../../shapes';
 import { getFont, measureTextWidth } from '../../../util';
 import { AxisStyleProps, EllipsisOverlapCfg } from '../types';
-import { boundTest } from '../utils/helper';
+import { boundTest } from '../utils/test';
 
 export type Utils = {
   ellipsis: (text: Text, len: number, suffix?: string) => void;
@@ -18,7 +18,7 @@ function parseLengthString(str: number | string, font = {}): number {
 export default function ellipseLabels(
   labels: DisplayObject[],
   overlapCfg: EllipsisOverlapCfg,
-  cfg: AxisStyleProps,
+  attr: AxisStyleProps,
   utils: Utils
 ) {
   if (labels.length <= 1) return;
@@ -49,7 +49,7 @@ export default function ellipseLabels(
       utils.ellipsis(utils.getTextShape(label), allowedLength, suffix);
     });
 
-    source = boundTest(labels, margin);
+    source = boundTest(labels, attr, margin);
     // 碰撞检测
     if (source.length < 1) return;
   }

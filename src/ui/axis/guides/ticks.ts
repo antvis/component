@@ -8,11 +8,11 @@ import {
 } from '../../../animation';
 import { type Group } from '../../../shapes';
 import type { Vector2 } from '../../../types';
-import { getCallbackValue, select, Selection, splitStyle, subStyleProps } from '../../../util';
+import { Selection, getCallbackValue, select, splitStyle, subStyleProps } from '../../../util';
 import { CLASS_NAMES } from '../constant';
 import type { AxisDatum, AxisTickStyleProps, RequiredAxisStyleProps } from '../types';
-import { getDirectionVector, getValuePos } from './line';
-import { filterExec, getCallbackStyle } from './utils';
+import { getValuePos } from './line';
+import { filterExec, getCallbackStyle, getDirectionVector } from './utils';
 
 type RequiredAxisTickStyleProps = Required<AxisTickStyleProps>;
 

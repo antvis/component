@@ -5,6 +5,7 @@ export * from './classnames';
 export * from './deep-assign';
 export * from './defined';
 export * from './ellipsis';
+export * from './wrap';
 export * from './event';
 export * from './extend-display-object';
 export * from './geometry';
