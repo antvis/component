@@ -104,6 +104,7 @@ export class Slider extends GUI<SliderStyleProps> {
       handleSpacing: 2,
       orientation: 'horizontal',
       padding: 0,
+      autoFitLabel: true,
       scrollable: true,
       selectionCursor: 'move',
       selectionFill: '#5B8FF9',
@@ -301,18 +302,16 @@ export class Slider extends GUI<SliderStyleProps> {
    * @returns
    */
   private calcHandleText(handleType: HandleType) {
-    const { orientation, formatter } = this.attributes;
+    const { orientation, formatter, autoFitLabel } = this.attributes;
     const handleStyle = subStyleProps(this.attributes, 'handle');
     const labelStyle = subStyleProps(handleStyle, 'label');
     const { spacing } = handleStyle;
     const size = this.getHandleSize();
     const values = this.clampValues();
 
-    // 相对于获取两端可用空间
-    const { width: iW, height: iH } = this.availableSpace;
-    const { x: fX, y: fY, width: fW, height: fH } = this.calcMask();
     const value = handleType === 'start' ? values[0] : values[1];
     const text = formatter(value);
+
     const temp = new Text({
       style: {
         ...labelStyle,
@@ -323,8 +322,16 @@ export class Slider extends GUI<SliderStyleProps> {
     const { width: textWidth, height: textHeight } = temp.getBBox();
     temp.destroy();
 
+    if (!autoFitLabel) {
+      const finaleWidth = spacing + size + (orientation === 'horizontal' ? textWidth / 2 : 0);
+      return { text, [orientation === 'horizontal' ? 'x' : 'y']: handleType === 'start' ? -finaleWidth : finaleWidth };
+    }
+
     let x = 0;
     let y = 0;
+    // 相对于获取两端可用空间
+    const { width: iW, height: iH } = this.availableSpace;
+    const { x: fX, y: fY, width: fW, height: fH } = this.calcMask();
     if (orientation === 'horizontal') {
       const totalSpacing = spacing + size;
       const finalWidth = totalSpacing + textWidth / 2;

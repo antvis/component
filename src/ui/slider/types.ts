@@ -23,6 +23,7 @@ export type SliderStyleProps = GroupStyleProps &
     scrollable?: boolean;
     showHandle?: boolean;
     showLabel?: boolean;
+    autoFitLabel?: boolean;
     slidable?: boolean;
     trackLength?: number;
     trackSize?: number;
