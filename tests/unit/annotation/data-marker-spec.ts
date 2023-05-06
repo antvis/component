@@ -294,6 +294,44 @@ describe('annotation data-marker', () => {
     expect(textGroup.getCanvasBBox().minX).toBe(0);
   });
 
+  it('render left side beyond with autoAdjust', () => {
+    dataMarker.update({
+      x: 10,
+      y: 150,
+      autoAdjust: true,
+      direction: 'upward',
+      coordinateBBox,
+      point: {},
+      line: {},
+      text: {
+        content: 'test text',
+      },
+    });
+
+    const textGroup = dataMarker.getElementByLocalId('text-group');
+    const pointShape: IShape = dataMarker.getElementByLocalId('point');
+    expect(textGroup.getCanvasBBox().x).toBeGreaterThan(pointShape.attr('x'));
+  });
+
+  it('render bottom side beyond with autoAdjust', () => {
+    dataMarker.update({
+      x: 100,
+      y: 480,
+      direction: 'downward',
+      autoAdjust: true,
+      coordinateBBox,
+      point: {},
+      line: {},
+      text: {
+        content: 'test text',
+      },
+    });
+
+    const pointShape: IShape = dataMarker.getElementByLocalId('point');
+    const textShape: IShape = dataMarker.getElementByLocalId('text');
+    expect(textShape.getCanvasBBox().y).toBeGreaterThan(pointShape.attr('y'));
+  });
+
   it('render left side beyond, with background and auto ellipsis', () => {
     dataMarker.update({
       x: 10,
