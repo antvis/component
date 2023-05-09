@@ -52,6 +52,7 @@ export default function hideLabels(
   reset(source);
 
   while (
+    seq < labels.length &&
     boundTest(filterDefined(last ? [last, ...target, first] : [first, ...target]), attr, overlapCfg?.margin).length
   ) {
     // 每两步，减一个 (不需要考虑保留 first)
