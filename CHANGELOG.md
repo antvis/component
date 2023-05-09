@@ -1,3 +1,11 @@
+#### 0.8.34 (2023-05-09)
+
+##### Bug Fixes
+
+- 修复 datamarker 自动调整下文本与文本背景偏移存在偏差 ([#301](https://github.com/antvis/component/pull/301)) ([3bef0881](https://github.com/antvis/component/commit/3bef0881de0218170e1ea135a5a4498c5d200cf1))
+
+#### 0.8.34 (2023-05-09)
+
 #### 0.8.33 (2023-04-03)
 
 ##### New Features
