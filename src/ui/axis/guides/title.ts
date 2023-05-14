@@ -88,11 +88,13 @@ export function renderTitle(
   attr: RequiredAxisStyleProps,
   animate: StandardAnimationOption
 ) {
-  if (!attr.titleText) return null;
   const { titleText } = attr;
   return container
     .selectAll(CLASS_NAMES.title.class)
-    .data([{ title: titleText }], (d, i) => d.title)
+    .data(
+      [{ title: titleText }].filter((d) => !!d.title),
+      (d, i) => d.title
+    )
     .join(
       (enter) =>
         enter

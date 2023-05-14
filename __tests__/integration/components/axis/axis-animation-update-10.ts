@@ -38,11 +38,11 @@ export const AxisAnimationUpdate10 = () => {
   );
 
   function update() {
-    axis.update({ startPos: [200, 50], endPos: [500, 50] });
+    axis.update({ startPos: [200, 50], endPos: [500, 50], titleText: '' });
   }
 
   function reset() {
-    axis.update({ startPos: [50, 50], endPos: [600, 50] });
+    axis.update({ startPos: [50, 50], endPos: [600, 50], titleText: 'title' });
   }
 
   group.appendChild(
