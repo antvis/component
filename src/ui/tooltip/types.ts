@@ -25,8 +25,7 @@ export type TooltipStyleProps = GroupStyleProps & {
   /** 标题 */
   title?: string;
   /* tooltip 位置 */
-  position?: TooltipPosition | 'auto';
-  defaultPosition?: TooltipPosition;
+  position?: TooltipPosition;
   /* 在位置方向上的偏移量 */
   offset?: [number, number];
   /** 指针是否可进入 */
@@ -37,12 +36,15 @@ export type TooltipStyleProps = GroupStyleProps & {
     y: number;
   };
   /** tooltip 在画布中的边界 */
-  bounding: {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-  };
+  bounding:
+    | {
+        x: number;
+        y: number;
+        width: number;
+        height: number;
+      }
+    | null
+    | false;
   /* 模版 */
   template?: {
     /* 容器模版 */

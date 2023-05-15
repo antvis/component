@@ -47,12 +47,7 @@ export const Tooltip2 = () => {
           x: 28,
           y: 80,
         },
-        bounding: {
-          x: 0,
-          y: 0,
-          width: len,
-          height: len,
-        },
+        bounding: false,
       },
     })
   );

@@ -23,7 +23,7 @@ export const Tooltip6 = () => {
         x: 100,
         y: 100,
         offset: [20, 20],
-        position: 'auto',
+        position: 'bottom-right',
         container: { x: 28, y: 80 },
         bounding: {
           x: 0,

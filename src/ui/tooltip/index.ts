@@ -49,19 +49,13 @@ export class Tooltip extends GUI<TooltipStyleProps> {
       visibility: 'visible',
       title: '',
       position: 'bottom-right',
-      defaultPosition: 'bottom-right',
       offset: [5, 5],
       enterable: false,
       container: {
         x: 0,
         y: 0,
       },
-      bounding: {
-        x: 0,
-        y: 0,
-        width: 0,
-        height: 0,
-      },
+      bounding: null,
       template: {
         container: `<div class="${CLASS_NAME.CONTAINER}"></div>`,
         title: `<div class="${CLASS_NAME.TITLE}"></div>`,
@@ -161,12 +155,7 @@ export class Tooltip extends GUI<TooltipStyleProps> {
   private getRelativeOffsetFromCursor(assignPosition?: TooltipPosition) {
     const { position, offset } = this.attributes;
     const interPosition = assignPosition || position;
-    const finalPosition = (interPosition === 'auto' ? 'bottom-right' : interPosition).split('-') as (
-      | 'top'
-      | 'bottom'
-      | 'left'
-      | 'right'
-    )[];
+    const finalPosition = interPosition.split('-') as ('top' | 'bottom' | 'left' | 'right')[];
     const positionScore = { left: [-1, 0], right: [1, 0], top: [0, -1], bottom: [0, 1] };
     const { width, height } = this.elementSize;
     let absolutelyOffset = [-width / 2, -height / 2];
@@ -214,8 +203,9 @@ export class Tooltip extends GUI<TooltipStyleProps> {
    * @param offsetY 根据position计算的纵向偏移量
    */
   private autoPosition([offsetX, offsetY]: [number, number]): [number, number] {
-    const { x: cursorX, y: cursorY, bounding, position, defaultPosition } = this.attributes;
-    if (position !== 'auto') return [offsetX, offsetY];
+    const { x: cursorX, y: cursorY, bounding, position } = this.attributes;
+    // 如果没有设置 bounds，那么意思就是不限制空间
+    if (!bounding) return [offsetX, offsetY];
     // 更新前的位置和宽度
     const { offsetWidth, offsetHeight } = this.element;
     // 预期放置的位置
@@ -239,7 +229,7 @@ export class Tooltip extends GUI<TooltipStyleProps> {
     // 修正的位置
     const correctivePosition: string[] = [];
     // 判断是否超出边界
-    (defaultPosition.split('-') as ('top' | 'bottom' | 'left' | 'right')[]).forEach((pos) => {
+    (position.split('-') as ('top' | 'bottom' | 'left' | 'right')[]).forEach((pos) => {
       // 如果在当前方向超出边界，则设置其反方向
       if (edgeCompare[pos]) correctivePosition.push(inversion[pos]);
       else correctivePosition.push(pos);
