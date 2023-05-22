@@ -47,6 +47,8 @@ export type TooltipStyleProps = GroupStyleProps & {
     | false;
   /* 模版 */
   template?: {
+    /** tooltip div classname 前缀 */
+    prefixCls?: string;
     /* 容器模版 */
     container?: string;
     title?: string;

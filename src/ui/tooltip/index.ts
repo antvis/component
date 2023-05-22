@@ -3,7 +3,7 @@ import { substitute } from '@antv/util';
 import { GUI } from '../../core';
 import { Group } from '../../shapes';
 import { applyStyleSheet, throttle } from '../../util';
-import { CLASS_NAME, TOOLTIP_STYLE } from './constant';
+import { getClassNames, getDefaultTooltipStyle } from './constant';
 import type { TooltipOptions, TooltipPosition, TooltipStyleProps } from './types';
 
 export type { TooltipStyleProps, TooltipOptions };
@@ -42,6 +42,8 @@ export class Tooltip extends GUI<TooltipStyleProps> {
   private element!: HTMLElement;
 
   constructor(options: TooltipOptions) {
+    const prefixCls = options.style?.template?.prefixCls;
+    const CLASS_NAME = getClassNames(prefixCls);
     super(options, {
       data: [],
       x: 0,
@@ -57,6 +59,7 @@ export class Tooltip extends GUI<TooltipStyleProps> {
       },
       bounding: null,
       template: {
+        prefixCls: '',
         container: `<div class="${CLASS_NAME.CONTAINER}"></div>`,
         title: `<div class="${CLASS_NAME.TITLE}"></div>`,
         item: `<li class="${CLASS_NAME.LIST_ITEM}" data-index={index}>
@@ -67,7 +70,7 @@ export class Tooltip extends GUI<TooltipStyleProps> {
         <span class="${CLASS_NAME.VALUE}" title="{value}">{value}</span>
       </li>`,
       },
-      style: TOOLTIP_STYLE,
+      style: getDefaultTooltipStyle(prefixCls),
     });
     this.initShape();
     this.render(this.attributes, this);
@@ -128,6 +131,7 @@ export class Tooltip extends GUI<TooltipStyleProps> {
    */
   private renderHTMLTooltipElement() {
     const { template, title, enterable, style, content } = this.attributes;
+    const CLASS_NAME = getClassNames(template.prefixCls);
     const container = this.element;
     this.element.style.pointerEvents = enterable ? 'auto' : 'none';
     if (content) this.renderCustomContent();

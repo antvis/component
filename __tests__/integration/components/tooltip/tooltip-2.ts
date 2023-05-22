@@ -48,6 +48,9 @@ export const Tooltip2 = () => {
           y: 80,
         },
         bounding: false,
+        template: {
+          prefixCls: 'g2-',
+        },
       },
     })
   );
