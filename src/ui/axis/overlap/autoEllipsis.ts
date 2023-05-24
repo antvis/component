@@ -3,6 +3,7 @@ import { type DisplayObject, Text } from '../../../shapes';
 import { getFont, measureTextWidth } from '../../../util';
 import { AxisStyleProps, EllipsisOverlapCfg } from '../types';
 import { boundTest } from '../utils/test';
+import { getBBox } from '../utils/bounds';
 
 export type Utils = {
   ellipsis: (text: Text, len: number, suffix?: string) => void;
@@ -38,7 +39,7 @@ export default function ellipseLabels(
   if (isNil(max) || max === Infinity) {
     max = Math.max.apply(
       null,
-      labels.map((d) => d.getBBox().width)
+      labels.map((d) => getBBox(d).width)
     );
   }
   // Generally, 100 ticks cost less than 300ms. If cost time exceed, means ticks count is too large to see.

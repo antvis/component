@@ -85,7 +85,7 @@ export function getBounds(item: DisplayObject<any>, margin?: SeriesAttr) {
     min: [x, y],
     max: [right, bottom],
   } = item.getLocalBounds();
-  const { width: w, height: h } = item.getBBox();
+  const { width: w, height: h } = getBBox(item);
 
   let height = h;
   let dx = 0;
@@ -122,4 +122,10 @@ export function getBounds(item: DisplayObject<any>, margin?: SeriesAttr) {
   const bounds = new Bounds((dx += x) - l, (dy += y) - t, dx + w + r, dy + height + b);
   item.setEulerAngles(angle);
   return bounds.rotatedPoints(degToRad(angle), anchorX, anchorY);
+}
+
+export function getBBox(shape: DisplayObject): DOMRect {
+  // @ts-ignore
+  if (shape.__bbox__) return shape.__bbox__;
+  return shape.getBBox();
 }

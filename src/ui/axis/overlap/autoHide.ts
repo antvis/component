@@ -3,6 +3,7 @@ import { defined, getLocalBBox, hide } from '../../../util';
 import { isAxisHorizontal, isAxisVertical } from '../guides/line';
 import type { AxisStyleProps, HideOverlapCfg } from '../types';
 import { boundTest } from '../utils/test';
+import { getBBox } from '../utils/bounds';
 
 type Hide = (item: DisplayObject) => void;
 type Show = (item: DisplayObject) => void;
@@ -31,7 +32,7 @@ export default function hideLabels(
   const source = labels.slice();
   let target = labels.slice();
 
-  const minLabelWidth = Math.min(1, ...labels.map((d) => d.getBBox().width));
+  const minLabelWidth = Math.min(1, ...labels.map((d) => getBBox(d).width));
 
   if (attr.type === 'linear' && (isAxisHorizontal(attr) || isAxisVertical(attr))) {
     const minX = getLocalBBox(labels[0]).left;

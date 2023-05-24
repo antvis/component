@@ -5,6 +5,7 @@ export { AxisLinearBasis4 } from './axis-linear-basis-4';
 export { AxisLinearBasis5 } from './axis-linear-basis-5';
 export { AxisLinearBasis6 } from './axis-linear-basis-6';
 export { AxisLinearBasis7 } from './axis-linear-basis-7';
+export { AxisLinearBasis8 } from './axis-linear-basis-8';
 export { AxisLinearCustomTick } from './axis-linear-custom-tick';
 export { AxisLinearLabel } from './axis-linear-label';
 export { AxisLinearVertical } from './axis-linear-vertical';

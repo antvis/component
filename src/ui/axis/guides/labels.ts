@@ -237,6 +237,7 @@ export function renderLabels(
           .transition(function (datum) {
             renderLabel(this, datum, data, style, attr);
             this.attr(getLabelPos(datum, data, attr));
+            this.__bbox__ = datum.bbox;
             return null;
           })
           .call(() => overlapHandler.call(container, attr)),
@@ -247,6 +248,7 @@ export function renderLabels(
             const label = renderLabel(this, datum, data, style, attr);
             const shapeAnimation = transitionShape(prevLabel, label, animate.update);
             const animation = transition(this, getLabelPos(datum, data, attr), animate.update);
+            this.__bbox__ = datum.bbox;
             return [...shapeAnimation, animation];
           })
           .call((selection) => {
