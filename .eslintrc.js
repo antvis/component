@@ -40,6 +40,7 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': ['warn'],
     'no-use-before-define': 'off',
     'no-bitwise': 'off',
+    'no-lonely-if': 'off',
   },
   settings: {
     'import/parsers': {

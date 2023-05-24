@@ -19,7 +19,7 @@ export const AxisAnimationUpdate11 = () => {
         labelFormatter: (d: any, i: number) => `${i}`,
         center: [150, 150],
         endAngle: 360,
-        labelSpacing: 10,
+        labelSpacing: 20,
         radius: 80,
         startAngle: 0,
         tickLength: 10,

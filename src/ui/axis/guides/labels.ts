@@ -75,59 +75,86 @@ function getLabelRotation(datum: AxisDatum, label: DisplayObject, attr: Required
 }
 
 /** get the label align according to its tick and label angle  */
-function getLabelAlign(value: number, rotate: number, attr: Required<AxisStyleProps>) {
+function getLabelStyle(
+  value: number,
+  rotate: number,
+  attr: Required<AxisStyleProps>
+): Pick<TextStyleProps, 'textAlign' | 'textBaseline'> {
   const { type, labelAlign } = attr;
   const labelVector = getLabelVector(value, attr);
   const labelAngle = angleNormalizer(rotate);
   const tickAngle = angleNormalizer(radToDeg(getAngle([1, 0], labelVector)));
 
-  if ([90, 270].includes(tickAngle) && !labelAngle) return 'middle';
-  if (!(tickAngle % 180) && [90, 270].includes(labelAngle)) return 'middle';
-
+  let textAlign: TextStyleProps['textAlign'] = 'center';
+  let textBaseline: TextStyleProps['textBaseline'] = 'middle';
   if (type === 'linear') {
-    if (tickAngle === 0) {
-      if (inRange(labelAngle, 0, 90, false, true)) return 'start';
-      if (inRange(labelAngle, 0, 90) || inRange(labelAngle, 270, 360)) return 'start';
+    // tick 和 label 均为水平或垂直时，做快速判断
+    if ([90, 270].includes(tickAngle) && labelAngle === 0) {
+      textAlign = 'center';
+      textBaseline = labelVector[1] === 1 ? 'top' : 'bottom';
+    } else if (!(tickAngle % 180) && [90, 270].includes(labelAngle)) {
+      textAlign = 'center';
     }
-    if (tickAngle === 90) {
-      if (inRange(labelAngle, 0, 90, false, true)) return 'start';
-      if (inRange(labelAngle, 90, 180) || inRange(labelAngle, 270, 360)) return 'end';
+    // 根据 tick 和 label 的角度，判断 label 的对齐方式
+    else if (tickAngle === 0) {
+      if (inRange(labelAngle, 0, 90, false, true)) {
+        textAlign = 'start';
+      } else if (inRange(labelAngle, 0, 90) || inRange(labelAngle, 270, 360)) {
+        textAlign = 'start';
+      }
+    } else if (tickAngle === 90) {
+      if (inRange(labelAngle, 0, 90, false, true)) {
+        textAlign = 'start';
+      } else if (inRange(labelAngle, 90, 180) || inRange(labelAngle, 270, 360)) {
+        textAlign = 'end';
+      }
+    } else if (tickAngle === 270) {
+      if (inRange(labelAngle, 0, 90, false, true)) {
+        textAlign = 'end';
+      } else if (inRange(labelAngle, 90, 180) || inRange(labelAngle, 270, 360)) {
+        textAlign = 'start';
+      }
+    } else if (tickAngle === 180) {
+      if (labelAngle === 90) {
+        textAlign = 'start';
+      } else if (inRange(labelAngle, 0, 90) || inRange(labelAngle, 270, 360)) {
+        textAlign = 'end';
+      }
     }
-    if (tickAngle === 270) {
-      if (inRange(labelAngle, 0, 90, false, true)) return 'end';
-      if (inRange(labelAngle, 90, 180) || inRange(labelAngle, 270, 360)) return 'start';
-    }
-    if (tickAngle === 180) {
-      if (labelAngle === 90) return 'start';
-      if (inRange(labelAngle, 0, 90) || inRange(labelAngle, 270, 360)) return 'end';
-    }
+    /**
+     * todo tick 倾斜时的判断逻辑，该情况下坐标轴非垂直或水平
+     */
   } else {
-    if (labelAlign === 'parallel') return 'middle';
-    if (inRange(labelAngle, 90, 270)) {
-      if (inRange(tickAngle, 90, 270)) return 'start';
-      return 'end';
+    // 弧线坐标轴 label 的对齐方式判断逻辑
+    if (labelAlign === 'parallel') {
+      if (inRange(tickAngle, 0, 180, true)) {
+        textBaseline = 'top';
+      } else {
+        textBaseline = 'bottom';
+      }
+    } else if (labelAlign === 'horizontal') {
+      if (inRange(tickAngle, 90, 270, false)) {
+        textAlign = 'end';
+      } else if (inRange(tickAngle, 270, 360, false) || inRange(tickAngle, 0, 90)) {
+        textAlign = 'start';
+      }
+    } else if (labelAlign === 'perpendicular') {
+      if (inRange(tickAngle, 90, 270)) {
+        textAlign = 'end';
+      } else {
+        textAlign = 'start';
+      }
     }
-    if (inRange(tickAngle, 90, 270)) return 'end';
-    return 'start';
   }
-  // TODO 笛卡尔坐标系倾斜状态布局
-  return 'start';
-  // const align = { '1': 'start', '-1': 'end' };
-  // if (labelAlign === 'parallel') return 'middle';
-  // if (Math.abs(tickVector[1]) === 1) {
-  //   if (labelAlign === 'perpendicular') return tickVector[1] === unionFactor ? 'end' : 'start';
-  //   else return 'middle';
-  // }
-  // if (tickVector[0] > 0) return align[unionFactor];
-  // return align[-unionFactor as VerticalFactor];
+  return { textAlign, textBaseline };
 }
 
 function setRotateAndAdjustLabelAlign(rotate: number, group: _Element, attr: Required<AxisStyleProps>) {
   group.setLocalEulerAngles(rotate);
   const { value } = group.__data__;
-  const textAlign = getLabelAlign(value, rotate, attr);
+  const textStyle = getLabelStyle(value, rotate, attr);
   const label = group.querySelector<DisplayObject>(CLASS_NAMES.labelItem.class);
-  if (label) applyTextStyle(label, { textAlign });
+  if (label) applyTextStyle(label, textStyle);
 }
 
 function getLabelPos(datum: AxisDatum, data: AxisDatum[], attr: Required<AxisStyleProps>) {
@@ -182,8 +209,7 @@ function renderLabel(container: DisplayObject, datum: any, data: any[], style: a
   container.setLocalEulerAngles(+rotate);
 
   applyTextStyle(label, {
-    textAlign: getLabelAlign(datum.value, rotate, attr),
-    textBaseline: 'middle',
+    ...getLabelStyle(datum.value, rotate, attr),
     ...labelStyle,
   });
   // todo G transform 存在问题，需要二次设置
