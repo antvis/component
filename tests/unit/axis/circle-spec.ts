@@ -79,9 +79,9 @@ describe('test line axis', () => {
   it('label formatter params', () => {
     axis.update({
       label: {
-        formatter: (text, tick, index, ticks) => {
-          // @ts-ignore
-          expect(ticks[index]).toBe(tick);
+        formatter: (text, tick, index, ticks, cfg) => {
+          expect(ticks![index]).toBe(tick);
+          expect(cfg!.start).toBe(axis.get('start'));
           return text + '%';
         },
       },
