@@ -811,7 +811,7 @@ export interface LegendItemNameCfg {
   style?: ShapeAttrs | ShapeAttrsCallback;
 }
 
-type formatterCallback = (text: string, item: ListItem, index: number, items?: ListItem[]) => any;
+type formatterCallback = (text: string, item: ListItem, index: number, items?: ListItem[], cfg?: BaseCfg) => any;
 
 export interface LegendItemValueCfg {
   /**

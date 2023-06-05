@@ -480,7 +480,7 @@ abstract class AxisBase<T extends AxisBaseCfg = AxisBaseCfg> extends GroupCompon
     const { offset, offsetX, offsetY, rotate, formatter } = labelCfg;
     const point = this.getSidePoint(tick.point, offset);
     const vector = this.getSideVector(offset, point);
-    const text = formatter ? formatter(tick.name, tick, index, ticks) : tick.name;
+    const text = formatter ? formatter(tick.name, tick, index, ticks, this.cfg) : tick.name;
     let { style } = labelCfg;
     style = isFunction(style) ? get(this.get('theme'), ['label', 'style'], {}) : style;
 
