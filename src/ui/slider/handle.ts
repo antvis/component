@@ -83,10 +83,13 @@ export class Handle extends GUI<HandleStyleProps> {
     const [labelStyle, groupStyle] = splitStyle(style, []);
 
     const labelGroup = select(container).maybeAppendByClassName(CLASS_NAMES.labelGroup, 'g').styles(groupStyle);
+    // @ts-ignore
+    const { text, ...rest } = { ...HANDLE_LABEL_DEFAULT_CFG, ...labelStyle };
     ifShow(!!showLabel, labelGroup, (group) => {
-      this.label = group
-        .maybeAppendByClassName(CLASS_NAMES.label, 'text')
-        .styles({ ...HANDLE_LABEL_DEFAULT_CFG, ...labelStyle });
+      this.label = group.maybeAppendByClassName(CLASS_NAMES.label, 'text').styles({
+        ...rest,
+        text: `${text}`,
+      });
 
       /** avoid trigger event on label */
       this.label.on('mousedown', (e: MouseEvent) => {

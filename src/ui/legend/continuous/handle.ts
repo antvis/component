@@ -13,6 +13,7 @@ export type HandleStyleProps<T = any> = GroupStyleProps &
     orientation: 'vertical' | 'horizontal';
     /** spacing between marker and label */
     spacing?: number;
+    shape?: 'basic' | 'slider';
   };
 
 export type HandleOptions = ComponentOptions<HandleStyleProps>;

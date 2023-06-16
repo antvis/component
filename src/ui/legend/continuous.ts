@@ -27,6 +27,7 @@ import { Ribbon, type RibbonStyleProps } from './continuous/ribbon';
 import { getNextTickValue } from './continuous/utils';
 import { ContinuousDatum, ContinuousOptions, ContinuousStyleProps, LabelStyleProps } from './types';
 import { getSafetySelections, getStepValueByValue, ifHorizontal } from './utils';
+import { Handle as SliderHandle } from '../slider/handle';
 
 export type { ContinuousOptions, ContinuousStyleProps };
 
@@ -58,7 +59,7 @@ export class Continuous extends GUI<ContinuousStyleProps> {
   protected indicator!: Selection;
 
   protected get handleOffsetRatio() {
-    return this.ifHorizontal(0.7, 0.9);
+    return this.ifHorizontal(0.5, 0.5);
   }
 
   protected handlesGroup!: Selection;
@@ -291,6 +292,8 @@ export class Continuous extends GUI<ContinuousStyleProps> {
     const handleStyle = subStyleProps<HandleStyleProps>(this.attributes, 'handle');
     const [min, max] = this.selection;
     const style = { ...handleStyle, orientation };
+    const { shape = 'slider' } = handleStyle;
+    const HandleCtor = shape === 'basic' ? Handle : SliderHandle;
 
     const that = this;
     this.handlesGroup
@@ -307,7 +310,7 @@ export class Continuous extends GUI<ContinuousStyleProps> {
       .join(
         (enter) =>
           enter
-            .append(() => new Handle({ style }))
+            .append(() => new HandleCtor({ style }))
             .attr(
               'className',
               ({ type }: any) => `${CLASS_NAMES.handle} ${that.getHandleClassName(type as HandleType)}`
@@ -425,10 +428,9 @@ export class Continuous extends GUI<ContinuousStyleProps> {
 
   private renderLabel(container: Selection) {
     const { showTick = false, labelFilter, labelFormatter } = this.attributes;
-    const labelAndTickStyle = subStyleProps<LabelStyleProps>(this.attributes, 'label');
-    const { align } = labelAndTickStyle;
-    const tickStyle = subStyleProps(labelAndTickStyle, 'tick');
-    const labelStyle = subStyleProps(labelAndTickStyle, 'tick', true);
+    const tickStyle = subStyleProps(this.attributes, 'tick');
+    const labelStyle = subStyleProps(this.attributes, 'label');
+    const { align } = labelStyle;
 
     const style = deepAssign(
       {
@@ -472,19 +474,21 @@ export class Continuous extends GUI<ContinuousStyleProps> {
     };
 
     const finalLabelStyle = { ...style, ...functionStyle } as LinearAxisStyleProps;
+
     this.label = container.maybeAppendByClassName(CLASS_NAMES.label, () => new Axis({ style: finalLabelStyle })).node();
     this.label.update(finalLabelStyle, false);
   }
 
   private get labelAxisStyle() {
-    const { showTick, labelDirection, labelSpacing } = this.attributes;
+    // @ts-ignore
+    const { showTick, labelDirection, labelSpacing, tickLength: definedTickLength } = this.attributes;
 
     const { size: ribbonSize } = this.ribbonShape;
     const labelPosition = this.labelPosition;
     const labelFixedSpacing = this.labelFixedSpacing;
     let [offset, spacing, tickLength] = [0, 0, 0];
 
-    const internalVal = ribbonSize + labelSpacing;
+    const internalVal = definedTickLength ?? ribbonSize;
 
     if (showTick) {
       tickLength = internalVal;
@@ -509,7 +513,7 @@ export class Continuous extends GUI<ContinuousStyleProps> {
       else if (labelPosition === 'top') spacing = labelSpacing;
     }
 
-    return { offset, spacing, tickLength };
+    return { offset, spacing: labelSpacing, tickLength };
   }
 
   private adjustLabel() {
