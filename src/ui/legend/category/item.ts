@@ -12,6 +12,7 @@ import { GUI, type ComponentOptions } from '../../../core';
 import { ExtendDisplayObject, PrefixObject } from '../../../types';
 import {
   classNames,
+  copyAttributes,
   ellipsisIt,
   ifShow,
   parseSeriesAttr,
@@ -176,7 +177,22 @@ export class CategoryItem extends GUI<CategoryItemStyleProps> {
     const style = subStyleProps(this.attributes, 'marker');
     this.markerGroup = container.maybeAppendByClassName(CLASS_NAMES.markerGroup, 'g').style('zIndex', 0);
     ifShow(!!marker, this.markerGroup, () => {
-      this.markerGroup.maybeAppendByClassName(CLASS_NAMES.marker, marker!).styles(style);
+      const parent = this.markerGroup.node();
+      const oldMarker = parent.getElementsByClassName(CLASS_NAMES.marker.name)[0] as DisplayObject;
+      const newMarker = (marker as () => DisplayObject)();
+
+      if (!oldMarker) {
+        select(newMarker).attr('className', CLASS_NAMES.marker.name).styles(style);
+        parent.appendChild(newMarker);
+      } else if (newMarker.nodeName === oldMarker.nodeName) {
+        copyAttributes(oldMarker, newMarker);
+        select(oldMarker).styles(style);
+      } else {
+        oldMarker.remove();
+        select(newMarker).attr('className', CLASS_NAMES.marker.name).styles(style);
+        parent.appendChild(newMarker);
+      }
+
       // record the scale of marker
       this.markerGroup.node().scale(1 / this.markerGroup.node().getScale()[0]);
       scaleToPixel(this.markerGroup.node(), this.scaleSize, true);
