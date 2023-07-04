@@ -57,6 +57,12 @@ export function animate(target: DisplayObject | GUI<any>, keyframes: Keyframe[],
   return target.animate(keyframes, options);
 }
 
+function identicalTextNode(source: DisplayObject, target: DisplayObject): boolean {
+  if (source.nodeName !== 'text' || target.nodeName !== 'text') return false;
+  if (source.attributes.text !== target.attributes.text) return false;
+  return true;
+}
+
 /**
  * transition source shape to target shape
  * @param source
@@ -70,6 +76,13 @@ export function transitionShape(
   options: GenericAnimation,
   after: 'destroy' | 'hide' = 'destroy'
 ) {
+  // If source and target are both text node and with same text,
+  // do not apply shape animation.
+  if (identicalTextNode(source, target)) {
+    source.remove();
+    return [null];
+  }
+
   const afterTransition = () => {
     if (after === 'destroy') source.destroy();
     else if (after === 'hide') hide(source);
