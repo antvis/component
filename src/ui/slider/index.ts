@@ -296,6 +296,14 @@ export class Slider extends GUI<SliderStyleProps> {
     };
   }
 
+  private inferTextStyle(handleType: HandleType): Record<string, any> {
+    const { orientation } = this.attributes;
+    if (orientation === 'horizontal') return {};
+    if (handleType === 'start') return { transform: 'rotate(90)', textAlign: 'start' };
+    if (handleType === 'end') return { transform: 'rotate(90)', textAlign: 'end' };
+    return {};
+  }
+
   /**
    * 计算手柄应当处于的位置
    * @param handleType start手柄还是end手柄
@@ -315,6 +323,7 @@ export class Slider extends GUI<SliderStyleProps> {
     const temp = new Text({
       style: {
         ...labelStyle,
+        ...this.inferTextStyle(handleType),
         text,
       },
     });
@@ -332,8 +341,8 @@ export class Slider extends GUI<SliderStyleProps> {
     // 相对于获取两端可用空间
     const { width: iW, height: iH } = this.availableSpace;
     const { x: fX, y: fY, width: fW, height: fH } = this.calcMask();
+    const totalSpacing = spacing + size;
     if (orientation === 'horizontal') {
-      const totalSpacing = spacing + size;
       const finalWidth = totalSpacing + textWidth / 2;
       if (handleType === 'start') {
         const left = fX - totalSpacing - textWidth;
@@ -343,11 +352,12 @@ export class Slider extends GUI<SliderStyleProps> {
         x = sign ? finalWidth : -finalWidth;
       }
     } else {
-      const finalWidth = spacing + size;
+      const positiveSize = totalSpacing;
+      const negativeSize = textHeight + totalSpacing;
       if (handleType === 'start') {
-        y = fY - size > textHeight ? -finalWidth : finalWidth;
+        y = fY - size > textHeight ? -negativeSize : positiveSize;
       } else {
-        y = iH - fY - fH - size > textHeight ? finalWidth : -finalWidth;
+        y = iH - (fY + fH) - size > textHeight ? negativeSize : -positiveSize;
       }
     }
     return { x, y, text };
@@ -360,6 +370,7 @@ export class Slider extends GUI<SliderStyleProps> {
     return {
       ...style,
       ...this.calcHandleText(handleType),
+      ...this.inferTextStyle(handleType),
     };
   }
 
