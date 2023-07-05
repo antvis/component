@@ -4,13 +4,13 @@ import type { DisplayObject } from '../../../shapes';
 import {
   normalize,
   parseSeriesAttr,
-  percentTransform,
   renderExtDo,
   scale,
   select,
   splitStyle,
   subStyleProps,
   type Selection,
+  percentTransform,
 } from '../../../util';
 import { parsePosition } from '../../title';
 import { CLASS_NAMES } from '../constant';
@@ -55,6 +55,18 @@ function getTitlePosition(
   return { x, y };
 }
 
+function inferTransform(n: DisplayObject, direction: string, position: string): string {
+  const node = n.cloneNode(true);
+  node.style.transform = 'scale(1, 1)';
+  node.style.transform = 'none';
+  const { height } = node.getBBox();
+  if (direction === 'vertical') {
+    if (position === 'left') return `rotate(-90) translate(0, ${height / 2})`;
+    if (position === 'right') return `rotate(-90) translate(0, -${height / 2})`;
+  }
+  return '';
+}
+
 function applyTitleStyle(
   title: Selection,
   group: Selection,
@@ -63,11 +75,12 @@ function applyTitleStyle(
   animate: GenericAnimation
 ) {
   const style = subStyleProps(attr, 'title');
-  const [titleStyle, { transform = '', ...groupStyle }] = splitStyle(style);
+  const [titleStyle, { transform: specified, ...groupStyle }] = splitStyle(style);
 
   title.styles(titleStyle);
   group.styles(groupStyle);
-  // the transform of g has some limitation, so we need to apply the transform to the title twice
+
+  const transform = specified || inferTransform(title.node(), titleStyle.direction, titleStyle.position);
   percentTransform(title.node(), transform);
 
   const { x, y } = getTitlePosition(

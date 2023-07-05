@@ -257,7 +257,7 @@ export function renderLabels(
           }),
       (exit) =>
         exit.transition(function () {
-          const animation = fadeOut(this, animate.exit);
+          const animation = fadeOut(this.childNodes[0], animate.exit);
           onAnimateFinished(animation, () => select(this).remove());
           return animation;
         })

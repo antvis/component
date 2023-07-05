@@ -114,7 +114,7 @@ export function renderTicks(
         }),
       (exit) =>
         exit.transition(function () {
-          const animation = fadeOut(this, animate.exit);
+          const animation = fadeOut(this.childNodes[0], animate.exit);
           onAnimateFinished(animation, () => this.remove());
           return animation;
         })

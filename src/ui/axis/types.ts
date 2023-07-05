@@ -63,6 +63,7 @@ export type LabelOverlapCfg =
 
 export type AxisTitleStyleProps = Omit<TitleStyleProps, 'position'> & {
   position: TitleStyleProps['position'] | 'start' | 'end';
+  direction: 'horizontal' | 'vertical';
 };
 
 export type AxisTruncateStyleProps = {
