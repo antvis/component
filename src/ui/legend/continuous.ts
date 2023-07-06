@@ -111,6 +111,7 @@ export class Continuous extends GUI<ContinuousStyleProps> {
     /** adjust */
     this.adjustLabel();
     this.adjustHandles();
+    // this.adjustTitle();
   }
 
   private get range() {
@@ -341,6 +342,22 @@ export class Continuous extends GUI<ContinuousStyleProps> {
     this.setHandlePosition('end', max);
   }
 
+  private adjustTitle() {
+    const { titlePosition, orientation } = this.attributes;
+    const [title] = this.getElementsByClassName(CLASS_NAMES.title.name);
+    const handle: Handle = this.handlesGroup.select(`.${this.getHandleClassName('start')}`).node();
+    if (!title || !handle) return;
+    if (titlePosition !== 'top-left' || orientation !== 'horizontal') return;
+    const {
+      min: [handleX],
+    } = handle.getLocalBounds();
+    const {
+      min: [titleX],
+    } = title.getLocalBounds();
+    const diffX = handleX - titleX;
+    title.style.x = +(this.style.x || 0) + diffX;
+  }
+
   private cacheHandleBBox: DOMRect | null = null;
 
   private get handleBBox() {
@@ -473,7 +490,7 @@ export class Continuous extends GUI<ContinuousStyleProps> {
       labelFormatter,
     };
 
-    const finalLabelStyle = { ...style, ...functionStyle } as LinearAxisStyleProps;
+    const finalLabelStyle = { ...style, ...functionStyle, labelOverlap: [{ type: 'hide' }] } as LinearAxisStyleProps;
 
     this.label = container.maybeAppendByClassName(CLASS_NAMES.label, () => new Axis({ style: finalLabelStyle })).node();
     this.label.update(finalLabelStyle, false);
