@@ -109,9 +109,11 @@ export function transitionShape(
   const [ex, ey] = getPosition(target);
   const [mx, my] = [(sx + ex) / 2 - sx, (sy + ey) / 2 - sy];
 
+  const { opacity: so = 1 } = source.style;
+  const { opacity: to = 1 } = target.style;
   const sourceAnimation = source.animate(
     [
-      { opacity: 1, transform: 'translate(0, 0)' },
+      { opacity: so, transform: 'translate(0, 0)' },
       { opacity: 0, transform: `translate(${mx}, ${my})` },
     ],
     {
@@ -123,7 +125,7 @@ export function transitionShape(
   const targetAnimation = target.animate(
     [
       { opacity: 0, transform: `translate(${-mx}, ${-my})`, offset: 0.01 },
-      { opacity: 1, transform: 'translate(0, 0)' },
+      { opacity: to, transform: 'translate(0, 0)' },
     ],
     {
       fill: 'both',

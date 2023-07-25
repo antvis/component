@@ -49,8 +49,8 @@ function getTitlePosition(
 
   if (pos.includes('t')) y -= mainHalfHeight + titleHalfHeight + spacingTop;
   if (pos.includes('r')) x += mainHalfWidth + titleHalfWidth + spacingRight;
-  if (pos.includes('l')) x -= mainHalfWidth + titleHalfWidth + spacingLeft;
-  if (pos.includes('b')) y += mainHalfHeight + titleHalfHeight + spacingBottom;
+  if (pos.includes('l')) x -= mainHalfWidth + titleHalfWidth * 2 + spacingLeft;
+  if (pos.includes('b')) y += mainHalfHeight + titleHalfHeight * 2 + spacingBottom;
 
   return { x, y };
 }

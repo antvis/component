@@ -194,7 +194,7 @@ export class CategoryItems extends GUI<CategoryItemsStyleProps> {
 
       // wrap
       [row, col, prevWidth, prevHeight] = [row + 1, 0, 0, prevHeight + height + rowPadding];
-      const nextHeight = prevHeight + rowPadding + height;
+      const nextHeight = prevHeight + height;
       if (nextHeight <= limitHeight && ifSatisfied(row, (r) => r < gridRow)) {
         [x, y, prevWidth] = [prevWidth, prevHeight, width];
         return { width, height, x, y, page, index, pageIndex: pageIndex++, row, col: col++ };

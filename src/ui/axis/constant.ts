@@ -58,7 +58,6 @@ export const AXIS_BASE_DEFAULT_ATTR: Partial<AxisBaseStyleProps> = {
   tickLength: 5,
   tickLineWidth: 1,
   tickStroke: 'black',
-  tickStrokeOpacity: 0.65,
   labelOverlap: [
     // { type: 'rotate', optionalAngles: [0, 45, 90] },
     // { type: 'ellipsis', suffix: '...', minLength: 14, maxLength: 160 },
