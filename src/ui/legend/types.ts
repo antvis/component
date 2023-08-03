@@ -52,6 +52,7 @@ export type ContinuousStyleProps = LegendBaseStyleProps &
   PrefixStyleProps<Partial<Omit<RibbonStyleProps, 'orientation' | 'range' | 'partition' | 'length'>>, 'ribbon'> &
   Partial<Pick<RibbonStyleProps, 'color' | 'block' | 'type'>> & {
     data: ContinuousDatum[];
+    domain?: [number, number];
     defaultValue?: [number, number];
     height: number;
     showHandle?: boolean;

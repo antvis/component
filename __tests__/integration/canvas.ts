@@ -1,8 +1,8 @@
+import * as fs from 'fs';
 import type { DisplayObject } from '@antv/g';
 import { Canvas, CanvasEvent } from '@antv/g';
 import { Renderer } from '@antv/g-canvas';
 import { createCanvas } from 'canvas';
-import * as fs from 'fs';
 import pixelmatch from 'pixelmatch';
 import { PNG } from 'pngjs';
 

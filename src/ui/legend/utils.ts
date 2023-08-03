@@ -1,5 +1,4 @@
 import { Marker } from '../marker';
-import { toPrecision } from '../../util';
 
 /**
  * 将值转换至步长tick上
@@ -105,7 +104,7 @@ export function getSafetySelections(
   }
 
   // 保留小数
-  return [toPrecision(startVal, precision), toPrecision(endVal, precision)];
+  return [startVal, endVal];
 }
 
 export function ifHorizontal<T>(orientation: string = 'horizontal', a: T, b: T): T {

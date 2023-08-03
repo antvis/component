@@ -2,9 +2,7 @@
  * 保留x位小数
  */
 export function toPrecision(num: number, precision: number) {
-  const result = 10 ** precision;
-  // eslint-disable-next-line
-  return ~~(num * result) / result;
+  return +num.toPrecision(precision);
 }
 
 /**

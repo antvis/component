@@ -115,8 +115,8 @@ export class Continuous extends GUI<ContinuousStyleProps> {
   }
 
   private get range() {
-    const { data } = this.attributes;
-    return getMinMax(data);
+    const { data, domain } = this.attributes;
+    return domain ? { min: domain[0], max: domain[1] } : getMinMax(data);
   }
 
   private get ribbonScale() {
