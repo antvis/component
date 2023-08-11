@@ -21,6 +21,8 @@ export const PRIMILTIVE_ATTRIBUTES = [
   'increasedLineWidthForHitTesting',
   'innerHTML',
   'isBillboard',
+  'billboardRotation',
+  'isSizeAttenuation',
   'isClosed',
   'isOverflowing',
   'leading',

@@ -82,37 +82,44 @@ function renderGridLine(
   attr: GridStyleProps,
   style: GridStyle
 ) {
-  const { animate } = attr;
-  const lines = data.map((item, idx) => ({
-    id: item.id || `grid-line-${idx}`,
-    path: getLinePath(item.points, attr),
-  }));
+  const { animate, isBillboard } = attr;
+  const lines = data.map((item, idx) => {
+    return {
+      id: item.id || `grid-line-${idx}`,
+      path: getLinePath(item.points, attr),
+    };
+  });
   return container
     .selectAll(CLASS_NAMES.line.class)
     .data(lines, (d) => d.id)
     .join(
       (enter) =>
         enter.append('path').each(function (datum, index) {
-          const lineStyle = getCallbackValue(getPrimitiveAttributes({ path: datum.path, ...style }), [
-            datum,
-            index,
-            lines,
-          ]);
+          const lineStyle = getCallbackValue(
+            getPrimitiveAttributes({
+              path: datum.path,
+              ...style,
+            }),
+            [datum, index, lines]
+          );
           this.attr({
             class: CLASS_NAMES.line.name,
             stroke: '#D9D9D9',
             lineWidth: 1,
             lineDash: [4, 4],
+            isBillboard,
             ...lineStyle,
           });
         }),
       (update) =>
         update.transition(function (datum, index) {
-          const lineStyle = getCallbackValue(getPrimitiveAttributes({ path: datum.path, ...style }), [
-            datum,
-            index,
-            lines,
-          ]);
+          const lineStyle = getCallbackValue(
+            getPrimitiveAttributes({
+              path: datum.path,
+              ...style,
+            }),
+            [datum, index, lines]
+          );
           return transition(this, lineStyle, animate.update);
         }),
       (exit) =>

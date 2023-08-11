@@ -1,6 +1,8 @@
-import { Canvas, CanvasEvent, type DisplayObject } from '@antv/g';
+import { CameraType, Canvas, CanvasEvent, type DisplayObject } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Renderer as SVGRenderer } from '@antv/g-svg';
+import { Renderer as WebGLRenderer } from '@antv/g-webgl';
+import { Plugin as ControlPlugin } from '@antv/g-plugin-control';
 import { Select, Tag } from 'antd';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
@@ -15,7 +17,9 @@ const casesName = Object.keys(cases);
 const renderers = {
   svg: new SVGRenderer(),
   canvas: new CanvasRenderer(),
+  webgl: new WebGLRenderer(),
 } as const;
+renderers.webgl.registerPlugin(new ControlPlugin());
 
 type Renderer = keyof typeof renderers;
 
@@ -109,6 +113,8 @@ const View: React.FC = () => {
     });
     canvasRef.current = canvas;
 
+    canvas.getCamera().setType(CameraType.ORBITING);
+
     connectToPlugins(canvas);
 
     window.addEventListener('keydown', onKeyDown);
@@ -145,6 +151,7 @@ const View: React.FC = () => {
       <Select value={renderer} onSelect={setRenderer} style={{ width: 140, margin: 10 }}>
         <Option value="svg">svg</Option>
         <Option value="canvas">canvas</Option>
+        <Option value="webgl">webgl</Option>
       </Select>
       <span>
         {tags.map((tag) => (

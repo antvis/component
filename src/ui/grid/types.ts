@@ -17,6 +17,7 @@ export type GridStyleProps = GridStyle & {
   closed?: boolean;
   /** FillColors between lines. */
   areaFill?: string | string[] | null;
+  isBillboard?: boolean;
 };
 
 export type GridOptions = ComponentOptions<GridStyleProps>;
