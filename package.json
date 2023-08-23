@@ -7,6 +7,13 @@
   "module": "esm/index.js",
   "unpkg": "dist/gui.min.js",
   "types": "lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "import": "./esm/index.js",
+      "require": "./lib/index.js"
+    }
+  },
   "files": [
     "src",
     "lib",
