@@ -15,3 +15,4 @@ export * from './checkbox';
 export * from './switch';
 export * from './marker';
 export * from './text';
+export * from './select';

@@ -28,6 +28,12 @@ export function applyStyleSheet(element: HTMLElement, style: { [key: string]: Ob
   });
 }
 
+const startsWith = (text: string, prefix: string) => {
+  if (!text?.startsWith(prefix)) return false;
+  const nextChart = text[prefix.length];
+  return nextChart >= 'A' && nextChart <= 'Z';
+};
+
 export function subStyleProps<T = Record<string, any>>(
   style: Record<string, any>,
   prefix: string,
@@ -40,12 +46,12 @@ export function subStyleProps<T = Record<string, any>>(
       // do nothing
     }
     // @example showHandle -> showHandle, showHandleLabel -> showLabel
-    else if (key.startsWith('show') && removePrefix(key, 'show').startsWith(prefix) !== invert) {
+    else if (startsWith(key, 'show') && startsWith(removePrefix(key, 'show'), prefix) !== invert) {
       if (key === addPrefix(prefix, 'show')) result[key] = value;
       else result[key.replace(new RegExp(toUppercaseFirstLetter(prefix)), '')] = value;
     }
     // @example navFormatter -> formatter
-    else if (!key.startsWith('show') && key.startsWith(prefix) !== invert) {
+    else if (!startsWith(key, 'show') && startsWith(key, prefix) !== invert) {
       const name = removePrefix(key, prefix);
       // don't transfer filter if it represents “过滤器”
       if (name === 'filter' && typeof value === 'function') {

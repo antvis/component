@@ -48,4 +48,6 @@ export { Poptip } from './poptip';
 export type { PoptipStyleProps as PoptipCfg, PoptipOptions } from './poptip/types';
 export { Layout } from './layout';
 export type { LayoutOptions } from './layout/types';
+export { Select } from './select';
+export type { SelectOptions, SelectStyleProps } from './select';
 // to be continued...

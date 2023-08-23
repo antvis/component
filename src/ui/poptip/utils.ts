@@ -15,7 +15,7 @@ export function getPositionXY(
   follow: boolean = false
 ): [number, number] {
   if (follow) return [clientX, clientY];
-
+  // @ts-ignore
   const { x, y, width, height } = target.getBoundingClientRect();
   switch (position) {
     case 'top':
