@@ -14,6 +14,7 @@ export const Sparkline11 = () => {
         height: 50,
         isStack: true,
         isGroup: true,
+        spacing: 0.1,
         data: [
           [10, 2, 3, 4, 15, 10, 5, 0, 3, 1],
           [5, 7, 10, 3, 10, 6, 10, 1, 5, 0],

@@ -1,10 +1,15 @@
-import { type DisplayObject, Text } from '../../../shapes';
-import type { AxisStyleProps, LabelOverlapCfg } from '../types';
+import type { DisplayObject } from '../../../shapes';
+import { Text } from '../../../shapes';
 import { isInOffscreenGroup } from '../../../util';
-import ellipsis, { type Utils as EllipsisUtils } from './autoEllipsis';
-import hide, { type Utils as HideUtils } from './autoHide';
-import rotate, { type Utils as RotateUtils } from './autoRotate';
-import wrap, { type Utils as WrapUtils } from './autoWrap';
+import type { AxisStyleProps, LabelOverlapCfg } from '../types';
+import type { Utils as EllipsisUtils } from './autoEllipsis';
+import ellipsis from './autoEllipsis';
+import type { Utils as HideUtils } from './autoHide';
+import hide from './autoHide';
+import type { Utils as RotateUtils } from './autoRotate';
+import rotate from './autoRotate';
+import type { Utils as WrapUtils } from './autoWrap';
+import wrap from './autoWrap';
 
 export type OverlapCallback = (labels: Text[], overlapCfg: any, cfg: AxisStyleProps, utils: any) => any;
 

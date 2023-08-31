@@ -1,7 +1,7 @@
 import type { AnimationOption } from '../../animation/types';
 import type { ComponentOptions, PrefixStyleProps } from '../../core/types';
 import { DisplayObject, LineStyleProps, TextStyleProps } from '../../shapes';
-import type { CallbackParameter, Callbackable, ExtendDisplayObject, Vector2 } from '../../types';
+import type { CallbackParameter, Callable, ExtendDisplayObject, Vector2 } from '../../types';
 import type { GridStyleProps } from '../grid/types';
 import type { TitleStyleProps } from '../title';
 
@@ -12,7 +12,7 @@ export type VerticalFactor = -1 | 1;
 export interface AxisDatum {
   id?: string;
   value: number;
-  label?: string;
+  label?: number | string;
   [keys: string]: any;
 }
 
@@ -74,7 +74,7 @@ export type AxisTruncateStyleProps = {
    * when using a callback form, the argument will additional returns the position of two points
    * we will provide several default shapes
    */
-  shape?: Callbackable<
+  shape?: Callable<
     ExtendDisplayObject | [ExtendDisplayObject, ExtendDisplayObject],
     CallbackParameter<AxisDatum, [Vector2, Vector2]>
   >;
@@ -82,7 +82,7 @@ export type AxisTruncateStyleProps = {
 
 export type AxisLineStyleProps = Omit<LineStyleProps, 'x1' | 'x2' | 'y1' | 'y2'> & {
   /**
-   * extend lenth on the head and tail of axis line
+   * extend length on the head and tail of axis line
    */
   extension?: [number, number];
   /**
@@ -97,7 +97,7 @@ export type AxisLineStyleProps = Omit<LineStyleProps, 'x1' | 'x2' | 'y1' | 'y2'>
 };
 
 export type AxisTickStyleProps = {
-  length?: Callbackable<number, AxisDatumCP>;
+  length?: Callable<number, AxisDatumCP>;
   /**
    * the position of ticks
    * @description `negative` means ticks is opposite to the direction of cross axis
@@ -110,14 +110,14 @@ export type AxisTickStyleProps = {
    * the callback will additionally return the tick direction
    */
   formatter: (...params: CallbackParameter<AxisDatum, [Vector2]>) => DisplayObject;
-} & { [key in keyof LineStyleProps]?: Callbackable<LineStyleProps[key], AxisDatumCP> };
+} & { [key in keyof LineStyleProps]?: Callable<LineStyleProps[key], AxisDatumCP> };
 
 export type AxisLabelStyleProps = {
   filter: (...params: AxisDatumCP) => boolean;
   /**
    * formatter for labels, if string, return directly. you can even format it as a g shape
    */
-  formatter: Callbackable<ExtendDisplayObject, AxisDatumCP>;
+  formatter: Callable<ExtendDisplayObject, AxisDatumCP>;
   direction?: Direction;
   /**
    * @description `horizontal` means the labels are always horizontal
@@ -128,13 +128,13 @@ export type AxisLabelStyleProps = {
   /**
    * spacing between label and it's tick
    */
-  spacing?: Callbackable<number | `${number}%`, AxisDatumCP>;
+  spacing?: Callable<number | `${number}%`, AxisDatumCP>;
   /**
    * transform label by using ellipsis, hide and rotate to avoid overlap
    */
   overlap: LabelOverlapCfg[];
 } & {
-  [key in keyof TextStyleProps]?: Callbackable<TextStyleProps[key], AxisDatumCP>;
+  [key in keyof TextStyleProps]?: Callable<TextStyleProps[key], AxisDatumCP>;
 };
 
 export type AxisGridStyleProps = Omit<GridStyleProps, 'data' | 'animate' | 'areaFill'> & {
@@ -153,7 +153,7 @@ export type AxisGridStyleProps = Omit<GridStyleProps, 'data' | 'animate' | 'area
    * when string array is passed, it will be used interchangeably
    * when callback function is passed, it will provide the area index, previous and next grid datum
    */
-  areaFill?: string | string[] | Callbackable<string, AxisDatumCP>;
+  areaFill?: string | string[] | Callable<string, AxisDatumCP>;
   filter?: (...params: AxisDatumCP) => boolean;
 };
 
@@ -169,7 +169,7 @@ export type AxisBaseStyleProps = PrefixStyleProps<Partial<AxisTitleStyleProps>, 
     dataThreshold?: number;
     /** 刻度值在副轴方向上的可用空间 */
     crossSize?: number;
-    /** 副轴空间的 paddind 扩大可用空间，用于首尾 label 的边界情况 */
+    /** 副轴空间的 padding 扩大可用空间，用于首尾 label 的边界情况 */
     crossPadding?: number;
     showLine?: boolean;
     showArrow?: boolean;

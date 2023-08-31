@@ -9,8 +9,8 @@ export function hide(element: DisplayObject) {
   visibility(element, false);
 }
 
-export function visibility(element: DisplayObject, visiable: boolean) {
-  const value = visiable ? 'visible' : 'hidden';
+export function visibility(element: DisplayObject, visible: boolean) {
+  const value = visible ? 'visible' : 'hidden';
   traverse(element, (node) => {
     node.attr('visibility', value);
   });

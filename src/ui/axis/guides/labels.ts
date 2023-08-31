@@ -1,15 +1,11 @@
 import type { IAnimation } from '@antv/g';
 import { get, isFunction, memoize } from '@antv/util';
-import {
-  fadeOut,
-  onAnimateFinished,
-  onAnimatesFinished,
-  transition,
-  transitionShape,
-  type StandardAnimationOption,
-} from '../../../animation';
-import { Text, type DisplayObject, type TextStyleProps } from '../../../shapes';
+import type { StandardAnimationOption } from '../../../animation';
+import { fadeOut, onAnimateFinished, onAnimatesFinished, transition, transitionShape } from '../../../animation';
+import type { DisplayObject, TextStyleProps } from '../../../shapes';
+import { Text } from '../../../shapes';
 import type { Vector2 } from '../../../types';
+import type { Selection, _Element } from '../../../util';
 import {
   add,
   defined,
@@ -26,8 +22,6 @@ import {
   splitStyle,
   subStyleProps,
   wrapIt,
-  type Selection,
-  type _Element,
 } from '../../../util';
 import { CLASS_NAMES } from '../constant';
 import { processOverlap } from '../overlap';
@@ -186,8 +180,8 @@ function overlapHandler(attr: Required<AxisStyleProps>) {
     rotate: (label, angle) => {
       setRotateAndAdjustLabelAlign(+angle, label, attr);
     },
-    ellipsis: (label, len = Infinity, suffix) => {
-      label && ellipsisIt(label, len, suffix);
+    ellipsis: (label, len, suffix) => {
+      label && ellipsisIt(label, len || Infinity, suffix);
     },
     wrap: (label, width, lines) => {
       label && wrapIt(label, width, lines);

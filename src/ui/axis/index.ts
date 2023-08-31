@@ -1,9 +1,3 @@
-export {
-  Axis,
-  type AxisOptions,
-  type LinearAxisOptions,
-  type LinearAxisStyleProps,
-  type ArcAxisOptions,
-  type ArcAxisStyleProps,
-} from './axis';
+export { Axis } from './axis';
+export type { ArcAxisOptions, ArcAxisStyleProps, AxisOptions, LinearAxisOptions, LinearAxisStyleProps } from './axis';
 export type { AxisStyleProps } from './types';

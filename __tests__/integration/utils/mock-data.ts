@@ -33,3 +33,46 @@ export const mockData = [
     id: String(idx),
   };
 });
+
+type Interval = 'half-hour' | 'hour' | 'four-hour' | 'day' | 'half-day' | 'week' | 'month' | 'season' | 'year';
+export const createTimeData = (start: string | Date, interval: Interval, count: number) => {
+  const timeData: { time: Date; value: number }[] = [];
+  const currentTime = typeof start === 'string' ? new Date(start) : start;
+
+  for (let i = 0; i < count; i++) {
+    timeData.push({ time: new Date(currentTime), value: i / count });
+    switch (interval) {
+      case 'half-hour':
+        currentTime.setMinutes(currentTime.getMinutes() + 30);
+        break;
+      case 'hour':
+        currentTime.setHours(currentTime.getHours() + 1);
+        break;
+      case 'four-hour':
+        currentTime.setHours(currentTime.getHours() + 4);
+        break;
+      case 'day':
+        currentTime.setDate(currentTime.getDate() + 1);
+        break;
+      case 'half-day':
+        currentTime.setHours(currentTime.getHours() + 12);
+        break;
+      case 'week':
+        currentTime.setDate(currentTime.getDate() + 7);
+        break;
+      case 'month':
+        currentTime.setMonth(currentTime.getMonth() + 1);
+        break;
+      case 'season':
+        currentTime.setMonth(currentTime.getMonth() + 3);
+        break;
+      case 'year':
+        currentTime.setFullYear(currentTime.getFullYear() + 1);
+        break;
+      default:
+        throw new Error(`Unsupported interval: ${interval}`);
+    }
+  }
+
+  return timeData;
+};

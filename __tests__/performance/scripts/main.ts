@@ -1,8 +1,8 @@
-import { Canvas as GCanvas, CanvasEvent, Circle, ElementEvent, Path, Rect, Text, type DisplayObject } from '@antv/g';
+import type { DisplayObject } from '@antv/g';
+import { CanvasEvent, Circle, ElementEvent, Canvas as GCanvas, Path, Rect, Text } from '@antv/g';
 import { Renderer } from '@antv/g-canvas';
+import * as _Cases from '@antv/gui/__tests__/integration/components/components';
 import { scheduler } from './runner';
-
-import * as _Cases from '../../integration/components';
 
 const Cases = {
   ..._Cases,

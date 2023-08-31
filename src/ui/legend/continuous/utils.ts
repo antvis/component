@@ -13,10 +13,13 @@ export function getBlockColor(partition: number[], color: string[], orientation:
   const colors = Array.from(color);
   const count = partition.length;
 
-  return new Array(count).fill(0).reduce((r, v, idx) => {
-    const c = colors[idx % colors.length];
-    return (r += ` ${partition[idx]}:${c}${idx < count - 1 ? ` ${partition[idx + 1]}:${c}` : ''}`);
-  }, `l(${orientation === 'horizontal' ? '0' : '270'})`);
+  return new Array(count).fill(0).reduce(
+    (r, v, idx) => {
+      const c = colors[idx % colors.length];
+      return (r += ` ${partition[idx]}:${c}${idx < count - 1 ? ` ${partition[idx + 1]}:${c}` : ''}`);
+    },
+    `l(${orientation === 'horizontal' ? '0' : '270'})`
+  );
 }
 
 export function getNextTickValue(ticks: number[], value: number) {

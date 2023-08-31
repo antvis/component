@@ -50,4 +50,6 @@ export { Layout } from './layout';
 export type { LayoutOptions } from './layout/types';
 export { Select } from './select';
 export type { SelectOptions, SelectStyleProps } from './select';
+export { Timebar } from './timebar';
+export type { TimebarStyleProps, TimebarOptions } from './timebar';
 // to be continued...

@@ -1,19 +1,12 @@
-import { fadeOut, transition, onAnimateFinished } from '../../animation';
+import { fadeOut, onAnimateFinished, transition } from '../../animation';
 import { GUI } from '../../core';
 import type { Group } from '../../shapes';
 import type { Point } from '../../types';
-import {
-  classNames,
-  distance,
-  getCallbackValue,
-  select,
-  type Selection,
-  type PathCommand,
-  getPrimitiveAttributes,
-} from '../../util';
+import type { PathCommand, Selection } from '../../util';
+import { classNames, distance, getCallbackValue, getPrimitiveAttributes, select } from '../../util';
 import type { GridOptions, GridStyle, GridStyleProps } from './types';
 
-export type { GridStyleProps, GridOptions };
+export type { GridOptions, GridStyleProps };
 
 const CLASS_NAMES = classNames(
   {

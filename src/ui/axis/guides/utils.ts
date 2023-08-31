@@ -1,5 +1,5 @@
 import { isFunction, memoize } from '@antv/util';
-import type { CallbackableObject, Vector2 } from '../../../types';
+import type { CallableObject, Vector2 } from '../../../types';
 import { degToRad, getCallbackValue, normalize, vertical } from '../../../util';
 import type {
   AxisDatumCP,
@@ -10,7 +10,7 @@ import type {
 } from '../types';
 
 export function getCallbackStyle<T extends { [keys: string]: any }, P extends Array<any> = []>(
-  style: CallbackableObject<T, AxisDatumCP<P>>,
+  style: CallableObject<T, AxisDatumCP<P>>,
   params: AxisDatumCP<P>
 ) {
   return Object.fromEntries(

@@ -1,6 +1,7 @@
-import type { DisplayObject } from '../shapes';
 import type { GenericAnimation } from '../animation';
-import { interpolate, type Interpolatable } from './interpolate';
+import type { DisplayObject } from '../shapes';
+import type { Interpolatable } from './interpolate';
+import { interpolate } from './interpolate';
 
 export function keyframeInterpolate<T extends Interpolatable>(
   element: DisplayObject,

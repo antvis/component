@@ -1,16 +1,16 @@
-import { get } from '@antv/util';
-import { transition, type GenericAnimation, type StandardAnimationOption } from '../../../animation';
+import type { GenericAnimation, StandardAnimationOption } from '../../../animation';
+import { transition } from '../../../animation';
 import type { DisplayObject } from '../../../shapes';
+import type { Selection } from '../../../util';
 import {
   normalize,
   parseSeriesAttr,
+  percentTransform,
   renderExtDo,
   scale,
   select,
   splitStyle,
   subStyleProps,
-  type Selection,
-  percentTransform,
 } from '../../../util';
 import { parsePosition } from '../../title';
 import { CLASS_NAMES } from '../constant';

@@ -43,8 +43,14 @@ export class Option extends GUI<OptionStyleProps> {
     const backgroundWidth = labelWidth + left + right;
     const backgroundHeight = labelHeight + top + bottom;
     const backgroundStyle = subStyleProps(this.attributes, 'background');
-    const { width = backgroundWidth, height = backgroundHeight, selected } = this.style;
-    this.background.attr({ ...backgroundStyle, width, height, fill: selected ? this.selectedColor : '#fff' });
+    const { width: styleWidth = 0, height: styleHeight = 0, selected } = this.style;
+
+    this.background.attr({
+      ...backgroundStyle,
+      width: Math.max(backgroundWidth, styleWidth),
+      height: Math.max(backgroundHeight, styleHeight),
+      fill: selected ? this.selectedColor : '#fff',
+    });
     // place label
     this.label.attr({ x: left, y: (backgroundHeight - labelHeight) / 2 });
   }

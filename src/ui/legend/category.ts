@@ -1,7 +1,8 @@
 import { GUI } from '../../core';
 import type { Group } from '../../shapes';
 import { BBox, select, Selection, splitStyle, subStyleProps } from '../../util';
-import { getBBox, Title, type TitleStyleProps } from '../title';
+import type { TitleStyleProps } from '../title';
+import { getBBox, Title } from '../title';
 import { CategoryItems } from './category/items';
 import { CATEGORY_DEFAULT_OPTIONS, CLASS_NAMES } from './constant';
 import type { CategoryOptions, CategoryStyleProps } from './types';

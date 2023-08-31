@@ -98,3 +98,5 @@ export { AxisAnimationUpdate12 } from './axis-animation-update-12';
 export { AxisAnimationUpdate13 } from './axis-animation-update-13';
 export { AxisAnimationDisable } from './axis-animation-disable';
 export { AxisLinearLabelSpacing } from './axis-linear-label-spacing';
+export { AxisLinearTime1 } from './axis-linear-time-1';
+export { AxisLinearTime2 } from './axis-linear-time-2';

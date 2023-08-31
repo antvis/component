@@ -1,6 +1,7 @@
 import { GUI } from '../../core';
-import { DisplayObject, Text, type Group } from '../../shapes';
-import { BBox, classNames, ifShow, parseSeriesAttr, select, Selection, splitStyle } from '../../util';
+import type { Group } from '../../shapes';
+import { DisplayObject, Text } from '../../shapes';
+import { BBox, Selection, classNames, ifShow, parseSeriesAttr, select, splitStyle } from '../../util';
 import type { TitleOptions, TitleStyleProps } from './types';
 
 export type { TitleOptions, TitleStyleProps };
@@ -72,11 +73,14 @@ export function getBBox(title: Title, content: DisplayObject): DOMRect {
 }
 
 function mayApplyStyle(el: Selection, style: any) {
-  const finalStyle = Object.entries(style).reduce((acc, [key, value]) => {
-    const currAttr = el.node().attr(key);
-    if (!currAttr) acc[key] = value;
-    return acc;
-  }, {} as Record<string, any>);
+  const finalStyle = Object.entries(style).reduce(
+    (acc, [key, value]) => {
+      const currAttr = el.node().attr(key);
+      if (!currAttr) acc[key] = value;
+      return acc;
+    },
+    {} as Record<string, any>
+  );
 
   el.styles(finalStyle);
 }

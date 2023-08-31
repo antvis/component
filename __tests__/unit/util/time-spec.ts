@@ -34,14 +34,14 @@ describe('time', () => {
     expect(formatTime(time, 'YYYY')).toBe('2021');
     expect(formatTime(time, 'YYYY-MM')).toBe('2021-08');
     expect(formatTime(time, 'YYYY-MM-DD')).toBe('2021-08-07');
-    expect(formatTime(time, 'YYYY-MM-DD hh:mm:ss')).toBe('2021-08-07 12:23:34');
-    expect(formatTime(time, 'hh:mm:ss')).toBe('12:23:34');
+    expect(formatTime(time, 'YYYY-MM-DD HH:mm:ss')).toBe('2021-08-07 12:23:34');
+    expect(formatTime(time, 'HH:mm:ss')).toBe('12:23:34');
   });
 
   test('getMask', async () => {
     expect(getMask(['year', 'day'])).toBe('YYYY-MM-DD');
-    expect(getMask(['hour', 'second'])).toBe('hh:mm:ss');
-    expect(getMask(['year', 'second'])).toBe('YYYY-MM-DD hh:mm:ss');
+    expect(getMask(['hour', 'second'])).toBe('HH:mm:ss');
+    expect(getMask(['year', 'second'])).toBe('YYYY-MM-DD HH:mm:ss');
   });
 
   test('getTimeStart', async () => {

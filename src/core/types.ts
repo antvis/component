@@ -1,14 +1,14 @@
 /* global KeyframeAnimationOptions */
 import type { GenericAnimation, StandardAnimationOption } from '../animation';
 import type { DisplayObjectConfig } from '../shapes';
-import type { Callbackable } from '../types';
+import type { Callable } from '../types';
 
 export interface ComponentStyleProps<T extends Record<string, any>> {
   layout?: T extends { layout: infer L } ? L : Record<string, any>;
   events?: T extends { events: infer E } ? E : Record<string, any>;
   style?: T extends { style: infer S } ? S : Record<string, any>;
   animation?: GenericAnimation | StandardAnimationOption;
-  interactions?: T extends { interation: infer I } ? I : Record<string, any>;
+  interactions?: T extends { interaction: infer I } ? I : Record<string, any>;
   [key: string]: any;
 }
 
@@ -23,6 +23,6 @@ export type PrefixStyleProps<T extends Record<string, any>, P extends string> = 
     : never]: T[K];
 };
 
-export type CallbackableStyleProps<T extends Record<string, any>, P extends any[]> = {
-  [K in keyof T]: Callbackable<T[K], P>;
+export type CallableStyleProps<T extends Record<string, any>, P extends any[]> = {
+  [K in keyof T]: Callable<T[K], P>;
 };

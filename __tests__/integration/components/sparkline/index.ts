@@ -10,3 +10,5 @@ export { Sparkline9 } from './sparkline-9';
 export { Sparkline10 } from './sparkline-10';
 export { Sparkline11 } from './sparkline-11';
 export { Sparkline12 } from './sparkline-12';
+export { SparklineScaleLine } from './sparkline-scale-line';
+export { SparklineScaleColumn } from './sparkline-scale-column';

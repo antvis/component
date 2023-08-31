@@ -1,4 +1,5 @@
-import { Group, Text as GText, type DisplayObjectConfig, type TextStyleProps as GTextStyleProps } from '@antv/g';
+import type { DisplayObjectConfig, TextStyleProps as GTextStyleProps } from '@antv/g';
+import { Group, Text as GText } from '@antv/g';
 import { createOffscreenGroup } from '../util/offscreen';
 import { OmitConflictStyleProps } from './types';
 

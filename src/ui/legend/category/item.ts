@@ -1,16 +1,19 @@
 import {
+  BaseStyleProps,
   Circle,
   DisplayObject,
   Group,
-  BaseStyleProps,
   GroupStyleProps,
   PathStyleProps,
   RectStyleProps,
   TextStyleProps,
 } from '@antv/g';
-import { GUI, type ComponentOptions } from '../../../core';
+import type { ComponentOptions } from '../../../core';
+import { GUI } from '../../../core';
 import { ExtendDisplayObject, PrefixObject } from '../../../types';
 import {
+  Selection,
+  SeriesAttr,
   classNames,
   copyAttributes,
   ellipsisIt,
@@ -19,8 +22,6 @@ import {
   renderExtDo,
   scaleToPixel,
   select,
-  Selection,
-  SeriesAttr,
   subStyleProps,
 } from '../../../util';
 

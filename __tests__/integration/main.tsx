@@ -1,13 +1,14 @@
-import { CameraType, Canvas, CanvasEvent, type DisplayObject } from '@antv/g';
+import type { DisplayObject } from '@antv/g';
+import { CameraType, Canvas, CanvasEvent } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
+import { Plugin as ControlPlugin } from '@antv/g-plugin-control';
 import { Renderer as SVGRenderer } from '@antv/g-svg';
 import { Renderer as WebGLRenderer } from '@antv/g-webgl';
-import { Plugin as ControlPlugin } from '@antv/g-plugin-control';
 import { Select, Tag } from 'antd';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
-import * as staticCases from './components';
 import * as animationCases from './animation';
+import * as staticCases from './components';
 
 const cases = { ...staticCases, ...animationCases };
 

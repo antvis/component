@@ -12,5 +12,6 @@ export const DEFAULT_INDICATOR_STYLE_PROPS: Partial<IndicatorStyleProps> = {
   labelTextBaseline: 'middle',
   padding: [2, 4],
   position: 'right',
+  radius: 0,
   zIndex: 999,
 };

@@ -1,12 +1,7 @@
 import { isFunction, memoize } from '@antv/util';
-import {
-  fadeOut,
-  onAnimateFinished,
-  transition,
-  type GenericAnimation,
-  type StandardAnimationOption,
-} from '../../../animation';
-import { type Group } from '../../../shapes';
+import type { GenericAnimation, StandardAnimationOption } from '../../../animation';
+import { fadeOut, onAnimateFinished, transition } from '../../../animation';
+import type { Group } from '../../../shapes';
 import type { Vector2 } from '../../../types';
 import { Selection, getCallbackValue, select, splitStyle, subStyleProps } from '../../../util';
 import { CLASS_NAMES } from '../constant';

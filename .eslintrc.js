@@ -18,6 +18,7 @@ module.exports = {
     'no-return-assign': 'off',
     'no-sequences': 'off',
     'no-plusplus': 'off',
+    'no-redeclare': 'warn',
     'no-param-reassign': 'warn',
     'no-restricted-syntax': 'warn',
     'no-nested-ternary': 'warn',

@@ -1,7 +1,9 @@
-import { parseAnimationOption, type GenericAnimation, type StandardAnimationOption } from '../../animation';
+import type { GenericAnimation, StandardAnimationOption } from '../../animation';
+import { parseAnimationOption } from '../../animation';
 import { GUI } from '../../core';
 import { Group } from '../../shapes';
-import { ifShow, sampling, select, type Selection } from '../../util';
+import type { Selection } from '../../util';
+import { ifShow, sampling, select } from '../../util';
 import { AXIS_BASE_DEFAULT_ATTR, CLASS_NAMES } from './constant';
 import { renderGrid } from './guides/grid';
 import { renderLabels } from './guides/labels';

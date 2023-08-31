@@ -31,21 +31,22 @@ export function getMask([maxUnit, minUnit]: [TimeScale, TimeScale]) {
  * 格式化时间
  */
 export function formatTime(date: Date, mask: string) {
-  type TimeMapKeys = 'YYYY' | 'MM' | 'DD' | 'hh' | 'mm' | 'ss';
+  type TimeMapKeys = 'YYYY' | 'MM' | 'DD' | 'HH' | 'mm' | 'ss';
   const timeMap: {
     [keys in TimeMapKeys]: number;
   } = {
     YYYY: date.getFullYear(),
     MM: date.getMonth() + 1,
     DD: date.getDate(),
-    hh: date.getHours(),
+    HH: date.getHours(),
     mm: date.getMinutes(),
     ss: date.getSeconds(),
   };
+
   let strftime = mask;
   (Object.keys(timeMap) as TimeMapKeys[]).forEach((key) => {
     const val = timeMap[key];
-    strftime = strftime.replace(key, key === 'YYYY' ? `${val}` : `0${val}`.slice(-2));
+    strftime = strftime.replace(key, key === 'YYYY' ? `${val}` : `${val}`.padStart(2, '0'));
   });
   return strftime;
 }

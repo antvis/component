@@ -4,6 +4,7 @@ import { animate, onAnimateFinished } from '../../animation';
 import { GUI } from '../../core';
 import { Group, Rect, Text } from '../../shapes';
 import type { Vector2 } from '../../types';
+import type { Selection } from '../../util';
 import {
   BBox,
   classNames,
@@ -15,7 +16,6 @@ import {
   subStyleProps,
   transpose,
   visibility,
-  type Selection,
 } from '../../util';
 import { button } from '../marker/symbol';
 import type { NavigatorOptions, NavigatorStyleProps } from './types';

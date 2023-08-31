@@ -33,6 +33,7 @@ export const CLASS_NAMES = classNames(
     sparkline: 'sparkline',
     sparklineGroup: 'sparkline-group',
     track: 'track',
+    brushArea: 'brush-area',
   },
   'slider'
 );

@@ -1,34 +1,37 @@
 import { CustomEvent } from '@antv/g';
 import { noop, set } from '@antv/util';
-import { GUI, type CallbackableStyleProps, type ComponentOptions, type PrefixStyleProps } from '../../../core';
-import { Group, type GroupStyleProps } from '../../../shapes';
+import type { CallableStyleProps, ComponentOptions, PrefixStyleProps } from '../../../core';
+import { GUI } from '../../../core';
+import type { GroupStyleProps } from '../../../shapes';
+import { Group } from '../../../shapes';
 import type { CallbackParameter } from '../../../types';
 import {
+  Selection,
+  SeriesAttr,
   classNames,
   deepAssign,
   getCallbackValue,
-  getRenderBBox,
   groupBy,
   select,
-  Selection,
-  SeriesAttr,
   subStyleProps,
 } from '../../../util';
-import { Navigator, type NavigatorStyleProps } from '../../navigator';
+import type { NavigatorStyleProps } from '../../navigator';
+import { Navigator } from '../../navigator';
 import { ifHorizontal } from '../utils';
-import { CategoryItem, type CategoryItemStyleProps } from './item';
+import type { CategoryItemStyleProps } from './item';
+import { CategoryItem } from './item';
 
 interface CategoryItemsDatum {
   [keys: string]: any;
 }
 
-type CallbackableItemStyle = CallbackableStyleProps<
+type CallableItemStyle = CallableStyleProps<
   Omit<CategoryItemStyleProps, 'width' | 'height'>,
   CallbackParameter<CategoryItemsDatum>
 >;
 
 export type CategoryItemsStyleProps = GroupStyleProps &
-  PrefixStyleProps<CallbackableItemStyle, 'item'> &
+  PrefixStyleProps<CallableItemStyle, 'item'> &
   PrefixStyleProps<NavigatorStyleProps, 'nav'> & {
     data: CategoryItemsDatum[];
     orientation?: 'horizontal' | 'vertical';

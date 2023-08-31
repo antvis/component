@@ -2,32 +2,37 @@ import { CustomEvent } from '@antv/g';
 import { Linear } from '@antv/scale';
 import { clamp, isUndefined, memoize } from '@antv/util';
 import { GUI } from '../../core';
-import { Group, type DisplayObject, type TextStyleProps } from '../../shapes';
+import type { DisplayObject, TextStyleProps } from '../../shapes';
+import { Group } from '../../shapes';
 import { Point } from '../../types';
 import {
   BBox,
+  Selection,
   deepAssign,
   getEventPos,
   hide,
   ifShow,
   select,
-  Selection,
   show,
   subStyleProps,
   superStyleProps,
   toPrecision,
 } from '../../util';
-import { Axis, type LinearAxisStyleProps } from '../axis';
+import type { LinearAxisStyleProps } from '../axis';
+import { Axis } from '../axis';
 import { CLASS_NAMES as AXIS_CLASS_NAMES } from '../axis/constant';
-import { Indicator, type IndicatorStyleProps } from '../indicator';
+import type { IndicatorStyleProps } from '../indicator';
+import { Indicator } from '../indicator';
+import { Handle as SliderHandle } from '../slider/handle';
 import { Title } from '../title';
 import { CLASS_NAMES, CONTINUOUS_DEFAULT_OPTIONS, STEP_RATIO } from './constant';
-import { Handle, type HandleType, type HandleStyleProps } from './continuous/handle';
-import { Ribbon, type RibbonStyleProps } from './continuous/ribbon';
+import type { HandleStyleProps, HandleType } from './continuous/handle';
+import { Handle } from './continuous/handle';
+import type { RibbonStyleProps } from './continuous/ribbon';
+import { Ribbon } from './continuous/ribbon';
 import { getNextTickValue } from './continuous/utils';
-import { ContinuousDatum, ContinuousOptions, ContinuousStyleProps, LabelStyleProps } from './types';
+import { ContinuousDatum, ContinuousOptions, ContinuousStyleProps } from './types';
 import { getSafetySelections, getStepValueByValue, ifHorizontal } from './utils';
-import { Handle as SliderHandle } from '../slider/handle';
 
 export type { ContinuousOptions, ContinuousStyleProps };
 

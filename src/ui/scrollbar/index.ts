@@ -3,7 +3,8 @@ import { clamp } from '@antv/util';
 import { GUI } from '../../core';
 import type { Group, RectStyleProps } from '../../shapes';
 import { getEventPos, parseSeriesAttr, select, subStyleProps, superStyleProps } from '../../util';
-import { Slider, type SliderStyleProps } from '../slider';
+import type { SliderStyleProps } from '../slider';
+import { Slider } from '../slider';
 import type { ScrollbarOptions, ScrollbarStyleProps } from './types';
 
 export type { ScrollbarOptions, ScrollbarStyleProps };

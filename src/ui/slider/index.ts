@@ -1,25 +1,20 @@
-import { CustomEvent, type Cursor } from '@antv/g';
-import { transition, type GenericAnimation } from '../../animation';
+import type { Cursor } from '@antv/g';
+import { CustomEvent } from '@antv/g';
+import { clamp } from '@antv/util';
+import type { GenericAnimation } from '../../animation';
+import { transition } from '../../animation';
 import { GUI } from '../../core';
 import { Group, Rect, Text } from '../../shapes';
-import {
-  getEventPos,
-  ifShow,
-  parseSeriesAttr,
-  select,
-  subStyleProps,
-  superStyleProps,
-  toPrecision,
-  type Selection,
-} from '../../util';
-import { Sparkline, type SparklineStyleProps } from '../sparkline';
+import type { Selection } from '../../util';
+import { getEventPos, ifShow, parseSeriesAttr, select, subStyleProps, superStyleProps, toPrecision } from '../../util';
+import type { SparklineStyleProps } from '../sparkline';
+import { Sparkline } from '../sparkline';
 import { CLASS_NAMES, HANDLE_DEFAULT_CFG, HANDLE_ICON_DEFAULT_CFG, HANDLE_LABEL_DEFAULT_CFG } from './constant';
-import { Handle, type IconStyleProps, type LabelStyleProps } from './handle';
+import type { HandleType, IconStyleProps, LabelStyleProps } from './handle';
+import { Handle, HandleStyleProps } from './handle';
 import type { SliderOptions, SliderStyleProps } from './types';
 
-export type { SliderStyleProps, SliderOptions };
-
-type HandleType = 'start' | 'end';
+export type { SliderOptions, SliderStyleProps };
 
 export class Slider extends GUI<SliderStyleProps> {
   public static tag = 'slider';
@@ -34,18 +29,21 @@ export class Slider extends GUI<SliderStyleProps> {
     this.attributes.values = this.clampValues(values);
   }
 
-  // 背景、滑道
+  /** 滑道、背景 */
   private trackShape!: Selection<Rect>;
+
+  /** 刷选交互区域 */
+  private brushArea!: Selection<Rect>;
 
   private foregroundGroup!: Selection<Group>;
 
-  // 前景、选区
-  private selectionShape!: Selection<Rect>;
+  /** 前景、选区 */
+  private selectionShape?: Selection<Rect>;
 
-  // 开始滑块
+  /** 开始滑块 */
   private startHandle?: Handle;
 
-  // 结束滑块
+  /** 结束滑块 */
   private endHandle?: Handle;
 
   /**
@@ -106,7 +104,6 @@ export class Slider extends GUI<SliderStyleProps> {
       padding: 0,
       autoFitLabel: true,
       scrollable: true,
-      selectionCursor: 'move',
       selectionFill: '#5B8FF9',
       selectionFillOpacity: 0.45,
       selectionZIndex: 2,
@@ -119,6 +116,9 @@ export class Slider extends GUI<SliderStyleProps> {
       trackSize: 20,
       trackZIndex: -1,
       values: [0, 1],
+      type: 'range',
+      selectionType: 'select',
+      handleIconOffset: 0,
       ...superStyleProps(HANDLE_DEFAULT_CFG, 'handle'),
       ...superStyleProps(HANDLE_ICON_DEFAULT_CFG, 'handleIcon'),
       ...superStyleProps(HANDLE_LABEL_DEFAULT_CFG, 'handleLabel'),
@@ -138,20 +138,28 @@ export class Slider extends GUI<SliderStyleProps> {
   public setValues(values: Required<SliderStyleProps>['values'] = [0, 0], animate: boolean = false) {
     this.attributes.values = values;
     const animation = animate === false ? false : this.attributes.animate;
-    transition(this.selectionShape.node(), this.selectionStyle, animation);
+
+    this.updateSelectionArea(animation);
     this.updateHandlesPosition(animation);
+  }
+
+  private updateSelectionArea(animation: GenericAnimation) {
+    const newSelectionArea = this.calcSelectionArea();
+    this.foregroundGroup.selectAll(CLASS_NAMES.selection.class).each(function (datum, index) {
+      transition(this, newSelectionArea[index], animation);
+    });
   }
 
   private updateHandlesPosition(animation: GenericAnimation) {
     if (!this.attributes.showHandle) return;
-    transition(this.startHandle!, this.getHandleStyle('start'), animation);
-    transition(this.endHandle!, this.getHandleStyle('end'), animation);
+    this.startHandle && transition(this.startHandle, this.getHandleStyle('start'), animation);
+    this.endHandle && transition(this.endHandle, this.getHandleStyle('end'), animation);
   }
 
   private innerSetValues(values: Required<SliderStyleProps>['values'] = [0, 0], trigger: boolean = false) {
     const oldValues = this.values;
     const newValues = this.clampValues(values);
-    this.attr('values', newValues);
+    this.attributes.values = newValues;
     this.setValues(newValues);
     if (trigger) {
       this.onValueChange(oldValues);
@@ -159,12 +167,22 @@ export class Slider extends GUI<SliderStyleProps> {
   }
 
   private renderTrack(container: Group) {
-    const { brushable } = this.attributes;
     const style = subStyleProps(this.attributes, 'track');
 
     this.trackShape = select(container)
       .maybeAppendByClassName(CLASS_NAMES.track, 'rect')
-      .styles({ cursor: brushable ? 'crosshair' : 'default', ...this.shape, ...style });
+      .styles({ ...this.shape, ...style });
+  }
+
+  private renderBrushArea(container: Group) {
+    const { brushable } = this.attributes;
+    this.brushArea = select(container)
+      .maybeAppendByClassName(CLASS_NAMES.brushArea, 'rect')
+      .styles({
+        fill: 'transparent',
+        cursor: brushable ? 'crosshair' : 'default',
+        ...this.shape,
+      });
   }
 
   private renderSparkline(container: Group) {
@@ -177,21 +195,18 @@ export class Slider extends GUI<SliderStyleProps> {
     });
   }
 
-  private get selectionStyle() {
-    const style = subStyleProps(this.attributes, 'selection');
-    return {
-      ...style,
-      ...this.calcMask(),
-    };
-  }
-
   private renderHandles() {
-    const { showHandle } = this.attributes;
-    const data = (showHandle ? (['start', 'end'] as HandleType[]) : []).map((type) => ({ type }));
+    const { showHandle, type } = this.attributes;
+    const availableHandle: HandleType[] = type === 'range' ? ['start', 'end'] : ['end'];
+    const data = showHandle ? availableHandle : [];
     const that = this;
+
     this.foregroundGroup
       ?.selectAll(CLASS_NAMES.handle.class)
-      .data(data, (d) => d.type)
+      .data(
+        data.map((type) => ({ type })),
+        (d) => d.type
+      )
       .join(
         (enter) =>
           enter
@@ -200,9 +215,7 @@ export class Slider extends GUI<SliderStyleProps> {
               this.attr('class', `${CLASS_NAMES.handle.name} ${type}-handle`);
               const name = `${type}Handle` as `${HandleType}Handle`;
               that[name] = this;
-              this.addEventListener('pointerdown', (e: any) => {
-                that.onDragStart(type)(e);
-              });
+              this.addEventListener('pointerdown', that.onDragStart(type));
             }),
         (update) =>
           update.each(function ({ type }) {
@@ -219,25 +232,90 @@ export class Slider extends GUI<SliderStyleProps> {
   }
 
   private renderSelection(container: Group) {
+    const { type, selectionType } = this.attributes;
     this.foregroundGroup = select(container).maybeAppendByClassName(CLASS_NAMES.foreground, 'g');
 
-    this.selectionShape = this.foregroundGroup
-      .maybeAppendByClassName(CLASS_NAMES.selection, 'rect')
-      .styles(this.selectionStyle);
+    // value 类型的 slider 不渲染选区
+    const selectionStyle = subStyleProps(this.attributes, 'selection');
+    const applyStyle = (selection: Selection) => {
+      return selection
+        .style('visibility', (d: any) => (d.show ? 'visible' : 'hidden'))
+        .style('cursor', (d: any) => {
+          if (selectionType === 'select') return 'grab';
+          if (selectionType === 'invert') return 'crosshair';
+          return 'default';
+        })
+        .styles(selectionStyle);
+    };
 
+    const that = this;
+    this.foregroundGroup
+      .selectAll(CLASS_NAMES.selection.class)
+      .data(
+        type === 'value'
+          ? []
+          : this.calcSelectionArea().map((area, index) => ({
+              style: {
+                ...area,
+              },
+              index,
+              // 是否可见
+              show: selectionType === 'select' ? index === 1 : index !== 1,
+            })),
+        (d) => d.index
+      )
+      .join(
+        (enter) =>
+          enter
+            .append('rect')
+            .attr('className', CLASS_NAMES.selection.name)
+            .call(applyStyle)
+            .each(function (datum, index) {
+              if (index === 1) {
+                that.selectionShape = select(this);
+                // 选区drag事件
+                this.on('pointerdown', (e: any) => {
+                  this.attr('cursor', 'grabbing');
+                  that.onDragStart('selection')(e);
+                });
+                // 选区hover事件
+                that.dispatchCustomEvent(this, 'pointerenter', 'selectionMouseenter');
+                that.dispatchCustomEvent(this, 'pointerleave', 'selectionMouseleave');
+                that.dispatchCustomEvent(this, 'click', 'selectionClick');
+
+                // 拖拽交互
+                this.addEventListener('pointerdown', () => {
+                  this.attr('cursor', 'grabbing');
+                });
+                this.addEventListener('pointerup', () => {
+                  this.attr('cursor', 'grab');
+                });
+              } else {
+                this.on('pointerdown', that.onDragStart('track'));
+              }
+            }),
+        (update) => update.call(applyStyle),
+        (exit) => exit.remove()
+      );
+    this.updateSelectionArea(false);
     this.renderHandles();
   }
 
   public render(attributes: SliderStyleProps, container: Group) {
     this.renderTrack(container);
     this.renderSparkline(container);
+    this.renderBrushArea(container);
     this.renderSelection(container);
   }
 
-  private clampValues(values?: [number, number], precision = 4): [number, number] {
+  private clampValues(values?: Required<SliderStyleProps>['values'], precision = 4): [number, number] {
     const [min, max] = this.range;
     const [prevStart, prevEnd] = this.getValues().map((num) => toPrecision(num, precision));
-    let [startVal, endVal] = (values || [prevStart, prevEnd]).map((num) => toPrecision(num, precision));
+    const internalValues = Array.isArray(values) ? values : [prevStart, values ?? prevEnd];
+    let [startVal, endVal] = (internalValues || [prevStart, prevEnd]).map((num) => toPrecision(num, precision));
+
+    if (this.attributes.type === 'value') return [0, clamp(endVal, min, max)];
+
     // 交换startVal endVal
     if (startVal > endVal) {
       [startVal, endVal] = [endVal, startVal];
@@ -260,26 +338,25 @@ export class Slider extends GUI<SliderStyleProps> {
   }
 
   /**
-   * 计算蒙板坐标和宽高
+   * 计算选区坐标和宽高
    * 默认用来计算前景位置大小
    */
-  private calcMask(values?: [number, number]) {
+  private calcSelectionArea(values?: [number, number]) {
     const [start, end] = this.clampValues(values);
     const { x, y, width, height } = this.availableSpace;
 
+    // 中间为选区，两端为反选区
     return this.getOrientVal([
-      {
-        y,
-        height,
-        x: start * width + x,
-        width: (end - start) * width,
-      },
-      {
-        x,
-        width,
-        y: start * height + y,
-        height: (end - start) * height,
-      },
+      [
+        { y, height, x, width: start * width },
+        { y, height, x: start * width + x, width: (end - start) * width },
+        { y, height, x: end * width, width: (1 - end) * width },
+      ],
+      [
+        { x, width, y, height: start * height },
+        { x, width, y: start * height + y, height: (end - start) * height },
+        { x, width, y: end * height, height: (1 - end) * height },
+      ],
     ]);
   }
 
@@ -287,9 +364,11 @@ export class Slider extends GUI<SliderStyleProps> {
    * 计算手柄的x y
    */
   private calcHandlePosition(handleType: HandleType) {
+    const { handleIconOffset } = this.attributes;
     const { x, y, width, height } = this.availableSpace;
     const [stVal, endVal] = this.clampValues();
-    const L = (handleType === 'start' ? stVal : endVal) * this.getOrientVal([width, height]);
+    const offset = handleType === 'start' ? -handleIconOffset : handleIconOffset;
+    const L = (handleType === 'start' ? stVal : endVal) * this.getOrientVal([width, height]) + offset;
     return {
       x: x + this.getOrientVal([L, width / 2]),
       y: y + this.getOrientVal([height / 2, L]),
@@ -310,7 +389,7 @@ export class Slider extends GUI<SliderStyleProps> {
    * @returns
    */
   private calcHandleText(handleType: HandleType) {
-    const { orientation, formatter, autoFitLabel } = this.attributes;
+    const { type, orientation, formatter, autoFitLabel } = this.attributes;
     const handleStyle = subStyleProps(this.attributes, 'handle');
     const labelStyle = subStyleProps(handleStyle, 'label');
     const { spacing } = handleStyle;
@@ -332,6 +411,7 @@ export class Slider extends GUI<SliderStyleProps> {
     temp.destroy();
 
     if (!autoFitLabel) {
+      if (type === 'value') return { text, x: 0, y: -textHeight - spacing };
       const finaleWidth = spacing + size + (orientation === 'horizontal' ? textWidth / 2 : 0);
       return { text, [orientation === 'horizontal' ? 'x' : 'y']: handleType === 'start' ? -finaleWidth : finaleWidth };
     }
@@ -340,7 +420,7 @@ export class Slider extends GUI<SliderStyleProps> {
     let y = 0;
     // 相对于获取两端可用空间
     const { width: iW, height: iH } = this.availableSpace;
-    const { x: fX, y: fY, width: fW, height: fH } = this.calcMask();
+    const { x: fX, y: fY, width: fW, height: fH } = this.calcSelectionArea()[1];
     const totalSpacing = spacing + size;
     if (orientation === 'horizontal') {
       const finalWidth = totalSpacing + textWidth / 2;
@@ -364,8 +444,6 @@ export class Slider extends GUI<SliderStyleProps> {
   }
 
   private getHandleLabelStyle(handleType: HandleType): LabelStyleProps {
-    const { showLabel } = this.attributes;
-    if (!showLabel) return {} as LabelStyleProps;
     const style = subStyleProps(this.attributes, 'handleLabel');
     return {
       ...style,
@@ -388,16 +466,23 @@ export class Slider extends GUI<SliderStyleProps> {
     };
   }
 
-  private getHandleStyle(handleType: HandleType) {
-    const { showLabel, orientation } = this.attributes;
+  private getHandleStyle(handleType: HandleType): HandleStyleProps {
+    const { showLabel, showLabelOnInteraction, orientation } = this.attributes;
     const handlePosition = this.calcHandlePosition(handleType);
     const textStyle = this.calcHandleText(handleType);
+
+    let internalShowLabel = showLabel;
+    if (!showLabel && showLabelOnInteraction) {
+      if (this.target) internalShowLabel = true;
+      else internalShowLabel = false;
+    }
+
     return {
       ...superStyleProps(this.getHandleIconStyle(), 'icon'),
       ...superStyleProps({ ...this.getHandleLabelStyle(handleType), ...textStyle }, 'label'),
       ...handlePosition,
       orientation,
-      showLabel,
+      showLabel: internalShowLabel,
       type: handleType,
       zIndex: 3,
     } as const;
@@ -416,8 +501,10 @@ export class Slider extends GUI<SliderStyleProps> {
   }
 
   private setValuesOffset(stOffset: number, endOffset: number = 0, animate: boolean = false) {
+    const { type } = this.attributes;
     const [oldStartVal, oldEndVal] = this.getValues();
-    const values = [oldStartVal + stOffset, oldEndVal + endOffset].sort() as [number, number];
+    const internalStartOffset = type === 'range' ? stOffset : 0;
+    const values = [oldStartVal + internalStartOffset, oldEndVal + endOffset].sort() as [number, number];
     if (animate) this.setValues(values);
     else this.innerSetValues(values, true);
   }
@@ -435,23 +522,14 @@ export class Slider extends GUI<SliderStyleProps> {
   }
 
   public bindEvents() {
-    const selection = this.selectionShape;
     // scroll 事件
     this.addEventListener('wheel', this.onScroll);
-    // 选区drag事件
-    selection.on('mousedown', this.onDragStart('selection'));
-    selection.on('touchstart', this.onDragStart('selection'));
-    // 选区hover事件
-    this.dispatchCustomEvent(selection, 'mouseenter', 'selectionMouseenter');
-    this.dispatchCustomEvent(selection, 'mouseleave', 'selectionMouseleave');
-    this.dispatchCustomEvent(selection, 'click', 'selectionClick');
-    const track = this.trackShape;
-    this.dispatchCustomEvent(track, 'click', 'trackClick');
-    this.dispatchCustomEvent(track, 'mouseenter', 'trackMouseenter');
-    this.dispatchCustomEvent(track, 'mouseleave', 'trackMouseleave');
+    const brushArea = this.brushArea;
+    this.dispatchCustomEvent(brushArea, 'click', 'trackClick');
+    this.dispatchCustomEvent(brushArea, 'pointerenter', 'trackMouseenter');
+    this.dispatchCustomEvent(brushArea, 'pointerleave', 'trackMouseleave');
     // Drag and brush
-    track.on('mousedown', this.onDragStart('track'));
-    track.on('touchstart', this.onDragStart('track'));
+    brushArea.on('pointerdown', this.onDragStart('track'));
   }
 
   private onScroll(event: WheelEvent) {
@@ -470,17 +548,15 @@ export class Slider extends GUI<SliderStyleProps> {
     this.target = target;
     this.prevPos = this.getOrientVal(getEventPos(e));
     const { x, y } = this.availableSpace;
-    const { x: X, y: Y } = this.attributes;
+    const { x: X, y: Y } = this.getBBox();
     this.selectionStartPos = this.getRatio(this.prevPos - this.getOrientVal([x, y]) - this.getOrientVal([+X!, +Y!]));
     this.selectionWidth = 0;
-    document.addEventListener('mousemove', this.onDragging);
-    document.addEventListener('touchmove', this.onDragging);
-    document.addEventListener('mouseup', this.onDragEnd);
-    document.addEventListener('touchend', this.onDragEnd);
+    document.addEventListener('pointermove', this.onDragging);
+    document.addEventListener('pointerup', this.onDragEnd);
   };
 
   private onDragging = (e: any) => {
-    const { slidable, brushable } = this.attributes;
+    const { slidable, brushable, type } = this.attributes;
     e.stopPropagation();
 
     const currPos = this.getOrientVal(getEventPos(e));
@@ -503,10 +579,13 @@ export class Slider extends GUI<SliderStyleProps> {
         if (!brushable) return;
         // 绘制蒙板
         this.selectionWidth += deltaVal;
-        this.innerSetValues(
-          [this.selectionStartPos, this.selectionStartPos + this.selectionWidth].sort() as [number, number],
-          true
-        );
+        if (type === 'range') {
+          this.innerSetValues(
+            [this.selectionStartPos, this.selectionStartPos + this.selectionWidth].sort() as [number, number],
+            true
+          );
+        } else this.innerSetValues([0, this.selectionStartPos + this.selectionWidth], true);
+
         break;
       default:
         break;
@@ -516,19 +595,22 @@ export class Slider extends GUI<SliderStyleProps> {
   };
 
   private onDragEnd = () => {
-    document.removeEventListener('mousemove', this.onDragging);
-    document.removeEventListener('mousemove', this.onDragging);
-    document.removeEventListener('mouseup', this.onDragEnd);
-    document.removeEventListener('touchend', this.onDragEnd);
+    document.removeEventListener('pointermove', this.onDragging);
+    document.removeEventListener('pointermove', this.onDragging);
+    document.removeEventListener('pointerup', this.onDragEnd);
+    this.target = '';
+    // 更新 handle 状态
+    this.updateHandlesPosition(false);
   };
 
   private onValueChange = (oldValue: [number, number]) => {
+    const { onChange, type } = this.attributes;
+    const internalOldValue = type === 'range' ? oldValue : oldValue[1];
+    const value = type === 'range' ? this.getValues() : this.getValues()[1];
     const evt = new CustomEvent('valuechange', {
-      detail: {
-        oldValue,
-        value: this.getValues(),
-      },
+      detail: { oldValue: internalOldValue, value },
     });
     this.dispatchEvent(evt);
+    onChange?.(value);
   };
 }

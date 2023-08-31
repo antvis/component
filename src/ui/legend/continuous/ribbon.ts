@@ -1,7 +1,9 @@
 import { parseColor } from '@antv/g';
 import { isFunction } from '@antv/util';
-import { GUI, type ComponentOptions, type PrefixStyleProps } from '../../../core';
-import { Group, type GroupStyleProps, type PathStyleProps, type RectStyleProps } from '../../../shapes';
+import type { ComponentOptions, PrefixStyleProps } from '../../../core';
+import { GUI } from '../../../core';
+import type { GroupStyleProps, PathStyleProps, RectStyleProps } from '../../../shapes';
+import { Group } from '../../../shapes';
 import { classNames, select, Selection, subStyleProps } from '../../../util';
 import { ifHorizontal } from '../utils';
 import { getBlockColor } from './utils';

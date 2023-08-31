@@ -1,7 +1,7 @@
 import { Band, Linear } from '@antv/scale';
 import type { ComponentOptions } from '../../core';
 import type { GroupStyleProps, LineStyleProps as GLineStyleProps, PathStyleProps, RectStyleProps } from '../../shapes';
-import type { CallbackableObject, CallbackParameter, PrefixObject } from '../../types';
+import type { CallableObject, CallbackParameter, PrefixObject } from '../../types';
 
 export type Point = [number, number];
 export type Line = Point[];
@@ -12,16 +12,16 @@ export type Scales = {
   x: Linear | Band;
 };
 
-type LineStyleProps = CallbackableObject<
+type LineStyleProps = CallableObject<
   PrefixObject<Omit<GLineStyleProps, 'x1' | 'x2' | 'y1' | 'y2'>, 'line'>,
   CallbackParameter<Data>
 > &
-  CallbackableObject<PrefixObject<Omit<PathStyleProps, 'path' | 'd'>, 'area'>, CallbackParameter<Data>> & {
+  CallableObject<PrefixObject<Omit<PathStyleProps, 'path' | 'd'>, 'area'>, CallbackParameter<Data>> & {
     /** 是否光滑 */
     smooth?: boolean;
   };
 
-type ColumnStyleProps = CallbackableObject<PrefixObject<RectStyleProps, 'column'>, CallbackParameter<Data>> & {
+type ColumnStyleProps = CallableObject<PrefixObject<RectStyleProps, 'column'>, CallbackParameter<Data>> & {
   /** 是否分组 */
   isGroup?: boolean;
   /** 分组柱子的间距 */
@@ -36,6 +36,10 @@ export type SparklineStyleProps = GroupStyleProps &
     isStack?: boolean;
     range?: [number, number];
     type: 'line' | 'column';
+    /**
+     * 缩放比例，0~1
+     */
+    scale?: number;
   };
 
 export type SparklineOptions = ComponentOptions<SparklineStyleProps>;

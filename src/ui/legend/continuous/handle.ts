@@ -1,7 +1,10 @@
-import { GUI, type ComponentOptions, type PrefixStyleProps } from '../../../core';
-import { Group, type GroupStyleProps, type TextStyleProps } from '../../../shapes';
+import type { ComponentOptions, PrefixStyleProps } from '../../../core';
+import { GUI } from '../../../core';
+import type { GroupStyleProps, TextStyleProps } from '../../../shapes';
+import { Group } from '../../../shapes';
 import type { PrefixObject } from '../../../types';
-import { classNames, ifShow, select, subStyleProps, type Selection } from '../../../util';
+import type { Selection } from '../../../util';
+import { classNames, ifShow, select, subStyleProps } from '../../../util';
 import { Marker, MarkerStyleProps } from '../../marker';
 import { ifHorizontal } from '../utils';
 

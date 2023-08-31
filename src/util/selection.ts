@@ -1,9 +1,9 @@
 // @ts-nocheck
-import type { IDocument } from '@antv/g';
-import { group } from 'd3-array';
+import type { IAnimation, IDocument } from '@antv/g';
 import type { AnimationResult } from '../animation';
-import type { BaseStyleProps as BP, DisplayObject, IAnimation } from '../shapes';
+import type { BaseStyleProps as BP, DisplayObject } from '../shapes';
 import { Circle, Ellipse, Group, HTML, Image, Line, Path, Polygon, Polyline, Rect, Text } from '../shapes';
+import { group } from './group';
 
 export type _Element = DisplayObject & {
   // Data for this element.
@@ -325,32 +325,32 @@ export class Selection<T = any> {
     });
   }
 
-  style(key: string, value: any, callbackable: boolean = true): Selection<T> {
-    const callback = typeof value !== 'function' || !callbackable ? () => value : value;
+  style(key: string, value: any, callable: boolean = true): Selection<T> {
+    const callback = typeof value !== 'function' || !callable ? () => value : value;
     return this.each(function (d, i) {
       if (value !== undefined) this.style[key] = callback.call(this, d, i);
     });
   }
 
-  styles(style: Record<string, any> = {}, callbackable: boolean = true): Selection<T> {
+  styles(style: Record<string, any> = {}, callable: boolean = true): Selection<T> {
     return this.each(function (d, i) {
       Object.entries(style).forEach(([key, value]) => {
-        const callback = typeof value !== 'function' || !callbackable ? () => value : value;
+        const callback = typeof value !== 'function' || !callable ? () => value : value;
         if (value !== undefined) this.attr(key, callback.call(this, d, i));
       });
     });
   }
 
-  update(option: any, callbackable: boolean = true): Selection<T> {
-    const callback = typeof option !== 'function' || !callbackable ? () => option : option;
+  update(option: any, callable: boolean = true): Selection<T> {
+    const callback = typeof option !== 'function' || !callable ? () => option : option;
     return this.each(function (d, i) {
       if (option && this.update) this.update(callback.call(this, d, i));
     });
   }
 
   /** if current stage is maybeAppend, skip update stage */
-  maybeUpdate(option: any, callbackable: boolean = true): Selection<T> {
-    const callback = typeof option !== 'function' || !callbackable ? () => option : option;
+  maybeUpdate(option: any, callable: boolean = true): Selection<T> {
+    const callback = typeof option !== 'function' || !callable ? () => option : option;
     return this.each(function (d, i) {
       if (option && this.update) this.update(callback.call(this, d, i));
     });

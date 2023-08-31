@@ -12,6 +12,8 @@ export type IndicatorStyleProps<T = any> = GroupStyleProps &
     /** position of indicator related to pointer  */
     position?: Position;
     padding?: SeriesAttr;
+    /** 圆角半径 */
+    radius?: number;
     formatter?: (val: T) => ExtendDisplayObject;
   };
 

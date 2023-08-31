@@ -1,6 +1,7 @@
-import { degToRad, parseSeriesAttr, type SeriesAttr, textOf } from '../../../util';
 import type { DisplayObject } from '../../../shapes';
 import type { Point } from '../../../types';
+import type { SeriesAttr } from '../../../util';
+import { degToRad, parseSeriesAttr, textOf } from '../../../util';
 
 export class Bounds {
   public x1!: number;

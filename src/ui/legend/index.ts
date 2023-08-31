@@ -1,5 +1,7 @@
-import { Category, type CategoryOptions } from './category';
-import { Continuous, type ContinuousOptions } from './continuous';
+import type { CategoryOptions } from './category';
+import { Category } from './category';
+import type { ContinuousOptions } from './continuous';
+import { Continuous } from './continuous';
 
-export { Continuous, Category };
-export type { ContinuousOptions, CategoryOptions };
+export { Category, Continuous };
+export type { CategoryOptions, ContinuousOptions };

@@ -1,22 +1,25 @@
 import { ElementEvent } from '@antv/g';
+import type { PathArray } from '@antv/util';
 import { GUI } from '../../core';
 import { Group } from '../../shapes';
 import type { Point } from '../../types';
 import {
+  BBox,
+  Selection,
   classNames,
-  deepAssign,
+  hide,
   isHorizontal,
   parseSeriesAttr,
   renderExtDo,
   select,
-  Selection,
+  show,
   splitStyle,
   subStyleProps,
 } from '../../util';
 import { DEFAULT_INDICATOR_STYLE_PROPS } from './constant';
 import type { IndicatorOptions, IndicatorStyleProps, Position } from './types';
 
-export { IndicatorOptions, IndicatorStyleProps };
+export type { IndicatorOptions, IndicatorStyleProps };
 
 type Edge = [Point, Point];
 
@@ -48,12 +51,8 @@ export class Indicator extends GUI<IndicatorStyleProps> {
     const { position, padding } = this.attributes;
     const [t, r, b, l] = parseSeriesAttr(padding);
     const { min, max } = this.label.node().getLocalBounds();
-
-    const points: Edge = [
-      [min[0] - l, min[1] - t],
-      [max[0] + r, max[1] + b],
-    ];
-    const path = this.getPath(position, points);
+    const bbox: BBox = new BBox(min[0] - l, min[1] - t, max[0] + r - min[0] + l, max[1] + b - min[1] + t);
+    const path = this.getPath(position, bbox);
 
     const style = subStyleProps(this.attributes, 'background');
 
@@ -82,41 +81,41 @@ export class Indicator extends GUI<IndicatorStyleProps> {
     this.group.attr('x', -dx).attr('y', -dy);
   }
 
-  private getPath(position: Position, points: Edge) {
-    const [[x0, y0], [x1, y1]] = points;
-    // calc 4 edges
-    const edges: { [key in Position]: Edge } = {
-      top: [
-        [x0, y0],
-        [x1, y0],
-      ],
-      right: [
-        [x1, y0],
-        [x1, y1],
-      ],
-      bottom: [
-        [x1, y1],
-        [x0, y1],
-      ],
-      left: [
-        [x0, y1],
-        [x0, y0],
-      ],
-    };
-    const positionRevert = { top: 'bottom', right: 'left', bottom: 'top', left: 'right' };
-    const path = Object.entries(edges).map(([pos, e]) => {
-      if (pos === positionRevert[position]) return this.createCorner(e);
-      return [
-        ['M', ...e[0]],
-        ['L', ...e[1]],
-      ];
-    });
-    path.push([['Z']]);
+  private getPath(position: Position, bbox: BBox) {
+    const { radius: r } = this.attributes;
+    const { x, y, width, height } = bbox;
 
-    return path.flat().filter((d, i, a) => {
-      if (i === 0) return true;
-      return d[0] !== 'M';
-    });
+    const pathArray: PathArray = [
+      // 0 开始路径
+      ['M', x + r, y],
+      // 1 上边线
+      ['L', x + width - r, y],
+      // 2 右上角圆弧
+      ['A', r, r, 0, 0, 1, x + width, y + r],
+      // 3 右边线
+      ['L', x + width, y + height - r],
+      // 4 右下角圆弧
+      ['A', r, r, 0, 0, 1, x + width - r, y + height],
+      // 5 下边线
+      ['L', x + r, y + height],
+      // 6 左下角圆弧
+      ['A', r, r, 0, 0, 1, x, y + height - r],
+      // 7 左边线
+      ['L', x, y + r],
+      // 8 左上角圆弧
+      ['A', r, r, 0, 0, 1, x + r, y],
+      // 9 关闭路径
+      ['Z'],
+    ];
+
+    // 将 position 反方向的边线替换为带尖角的边线
+    const revertPositionMap = { top: 4, right: 6, bottom: 0, left: 2 };
+    const index = revertPositionMap[position];
+    const newPath: any = this.createCorner([pathArray[index].slice(-2) as any, pathArray[index + 1].slice(-2) as any]);
+    // 替换
+    pathArray.splice(index + 1, 1, ...newPath);
+    pathArray[0][0] = 'M';
+    return pathArray;
   }
 
   private createCorner(edge: Edge, size: number = 10) {
@@ -135,7 +134,7 @@ export class Indicator extends GUI<IndicatorStyleProps> {
     if (isH) {
       this.point = [a2, y0 - cS];
       return [
-        ['M', a0, y0],
+        ['L', a0, y0],
         ['L', a1, y0],
         ['L', a2, y0 - cS],
         ['L', a3, y0],
@@ -144,12 +143,18 @@ export class Indicator extends GUI<IndicatorStyleProps> {
     }
     this.point = [x0 + cS, a2];
     return [
-      ['M', x0, a0],
+      ['L', x0, a0],
       ['L', x0, a1],
       ['L', x0 + cS, a2],
       ['L', x0, a3],
       ['L', x0, a4],
     ];
+  }
+
+  private applyVisibility() {
+    const { visibility } = this.attributes;
+    if (visibility === 'hidden') hide(this);
+    else show(this);
   }
 
   public bindEvents() {
@@ -160,5 +165,6 @@ export class Indicator extends GUI<IndicatorStyleProps> {
     this.renderLabel();
     this.renderBackground();
     this.adjustLayout();
+    this.applyVisibility();
   }
 }

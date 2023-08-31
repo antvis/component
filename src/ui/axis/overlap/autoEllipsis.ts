@@ -1,9 +1,10 @@
 import { isNil } from '@antv/util';
-import { type DisplayObject, Text } from '../../../shapes';
+import type { DisplayObject } from '../../../shapes';
+import { Text } from '../../../shapes';
 import { getFont, measureTextWidth } from '../../../util';
 import { AxisStyleProps, EllipsisOverlapCfg } from '../types';
-import { boundTest } from '../utils/test';
 import { getBBox } from '../utils/bounds';
+import { boundTest } from '../utils/test';
 
 export type Utils = {
   ellipsis: (text: Text, len: number, suffix?: string) => void;

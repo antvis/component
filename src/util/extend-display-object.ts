@@ -1,5 +1,6 @@
 import { isNumber, isString } from '@antv/util';
-import { type DisplayObject, Text } from '../shapes';
+import type { DisplayObject } from '../shapes';
+import { Text } from '../shapes';
 import type { ExtendDisplayObject } from '../types';
 
 export function renderExtDo(el: ExtendDisplayObject): DisplayObject {

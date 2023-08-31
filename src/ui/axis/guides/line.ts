@@ -1,5 +1,6 @@
 import { get, memoize } from '@antv/util';
-import { transition, type AnimationResult, type StandardAnimationOption } from '../../../animation';
+import type { AnimationResult, StandardAnimationOption } from '../../../animation';
+import { transition } from '../../../animation';
 import type { DisplayObject, Line } from '../../../shapes';
 import type { Point, Vector2 } from '../../../types';
 import {

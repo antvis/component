@@ -191,9 +191,10 @@ export class Select extends GUI<SelectStyleProps> {
     const bbox = (this.dropdown.getElementsByClassName('dropdown-container')?.[0] as any)?.getBBox();
 
     const { spacing } = dropdownStyle;
+
     this.dropdown.attr({
       y: height + spacing,
-      width,
+      width: bbox.width + padding[1] + padding[3],
       height: bbox.height + padding[0] + padding[2],
       ...dropdownStyle,
     });
@@ -235,7 +236,7 @@ export class Select extends GUI<SelectStyleProps> {
       this.isPointerInSelect = false;
     });
 
-    document?.addEventListener('click', (e) => {
+    document?.addEventListener('click', () => {
       if (!this.isPointerInSelect) {
         hide(this.dropdown);
       }
