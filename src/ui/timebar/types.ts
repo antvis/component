@@ -13,8 +13,6 @@ export type ControllerStyleProps = GroupStyleProps &
     padding?: SeriesAttr;
     /** 对齐位置 */
     align?: 'left' | 'center' | 'right';
-    /** 背景颜色 */
-    background?: string;
     /** 功能图标尺寸 */
     iconSize?: number;
     /** 功能图标之间的间距 */
@@ -90,7 +88,7 @@ export type TimebarStyleProps = GroupStyleProps &
     values?: number | [number, number] | Date | [Date, Date] | [number | Date, typeof Infinity];
     data?: Datum[];
     /** 图表模式下，时间值自定义格式化 */
-    labelFormatter?: (time: number) => string;
+    labelFormatter?: (time: number | Date) => string;
     /** 图表模式下，需要指定时间间隔（TODO 后续会开放自动切换） */
     interval?: Interval;
     /** 轮播 */
