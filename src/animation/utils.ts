@@ -1,7 +1,7 @@
 /* global Keyframe */
 import { isNil } from '@antv/util';
 import type { DisplayObject } from '../shapes';
-import type { GUI } from '../core';
+import type { Component } from '../core';
 import { show, hide } from '../util';
 import type { AnimationOption, AnimationResult, GenericAnimation, StandardAnimationOption } from './types';
 
@@ -42,12 +42,12 @@ export function onAnimatesFinished(animations: AnimationResult[], callback: () =
   else Promise.all(animations.map((a) => a?.finished)).then(callback);
 }
 
-function attr(target: DisplayObject | GUI<any>, value: Record<string, any>) {
+function attr(target: DisplayObject | Component<any>, value: Record<string, any>) {
   if ('update' in target) target.update(value);
   else target.attr(value);
 }
 
-export function animate(target: DisplayObject | GUI<any>, keyframes: Keyframe[], options: GenericAnimation) {
+export function animate(target: DisplayObject | Component<any>, keyframes: Keyframe[], options: GenericAnimation) {
   if (keyframes.length === 0) return null;
   if (!options) {
     const state = keyframes.slice(-1)[0];
@@ -150,8 +150,8 @@ export function transitionShape(
  * @returns transition instance
  */
 export function transition(
-  target: DisplayObject | GUI<any>,
-  state: Record<string, any> | (DisplayObject | GUI<any>),
+  target: DisplayObject | Component<any>,
+  state: Record<string, any> | (DisplayObject | Component<any>),
   options: GenericAnimation
 ) {
   const from: typeof state = {};

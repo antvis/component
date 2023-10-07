@@ -1,7 +1,7 @@
 import { CustomEvent } from '@antv/g';
 import { noop, set } from '@antv/util';
 import type { CallableStyleProps, ComponentOptions, PrefixStyleProps } from '../../../core';
-import { GUI } from '../../../core';
+import { Component } from '../../../core';
 import type { GroupStyleProps } from '../../../shapes';
 import { Group } from '../../../shapes';
 import type { CallbackParameter } from '../../../types';
@@ -85,7 +85,7 @@ const ifSatisfied = <T>(value: T, rule: (val: T) => boolean, defaultValue = true
   return defaultValue;
 };
 
-export class CategoryItems extends GUI<CategoryItemsStyleProps> {
+export class CategoryItems extends Component<CategoryItemsStyleProps> {
   constructor(options: CategoryItemsOptions) {
     super(options, {
       data: [],

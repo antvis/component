@@ -3,7 +3,7 @@
 ## 引入
 
 ```js
-import { Button } from '@antv/gui';
+import { Button } from '@antv/component';
 ```
 
 ## 配置项

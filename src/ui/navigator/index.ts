@@ -1,7 +1,7 @@
 import { ElementEvent } from '@antv/g';
 import { clamp, debounce } from '@antv/util';
 import { animate, onAnimateFinished } from '../../animation';
-import { GUI } from '../../core';
+import { Component } from '../../core';
 import { Group, Rect, Text } from '../../shapes';
 import type { Vector2 } from '../../types';
 import type { Selection } from '../../util';
@@ -38,7 +38,7 @@ const CLASS_NAMES = classNames(
   'navigator'
 );
 
-export class Navigator extends GUI<NavigatorStyleProps> {
+export class Navigator extends Component<NavigatorStyleProps> {
   constructor(options: NavigatorOptions) {
     super(options, {
       animate: {

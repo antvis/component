@@ -3,7 +3,7 @@ import { CustomEvent } from '@antv/g';
 import { clamp } from '@antv/util';
 import type { GenericAnimation } from '../../animation';
 import { transition } from '../../animation';
-import { GUI } from '../../core';
+import { Component } from '../../core';
 import { Group, Rect, Text } from '../../shapes';
 import type { Selection } from '../../util';
 import { getEventPos, ifShow, parseSeriesAttr, select, subStyleProps, superStyleProps, toPrecision } from '../../util';
@@ -16,7 +16,7 @@ import type { SliderOptions, SliderStyleProps } from './types';
 
 export type { SliderOptions, SliderStyleProps };
 
-export class Slider extends GUI<SliderStyleProps> {
+export class Slider extends Component<SliderStyleProps> {
   public static tag = 'slider';
 
   private range = [0, 1];

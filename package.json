@@ -1,11 +1,11 @@
 {
-  "name": "@antv/gui",
-  "version": "0.5.1-alpha.1",
-  "description": "UI components for AntV G.",
+  "name": "@antv/component",
+  "version": "1.0.0-beta.1",
+  "description": "Visualization components for AntV, based on G.",
   "license": "MIT",
   "main": "lib/index.js",
   "module": "esm/index.js",
-  "unpkg": "dist/gui.min.js",
+  "unpkg": "dist/component.min.js",
   "types": "lib/index.d.ts",
   "exports": {
     ".": {
@@ -128,12 +128,12 @@
   },
   "limit-size": [
     {
-      "path": "dist/gui.min.js",
+      "path": "dist/component.min.js",
       "limit": "80 Kb",
       "gzip": true
     },
     {
-      "path": "dist/gui.min.js",
+      "path": "dist/component.min.js",
       "limit": "250 Kb"
     }
   ],

@@ -7,6 +7,6 @@ export default defineConfig({
     open: '/',
   },
   resolve: {
-    alias: [{ find: '@antv/gui', replacement: path.resolve('../../src/index.ts') }],
+    alias: [{ find: '@antv/component', replacement: path.resolve('../../src/index.ts') }],
   },
 });

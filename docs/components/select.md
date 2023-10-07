@@ -3,7 +3,7 @@
 ## 引入
 
 ```ts
-import { Select } from '@antv/gui';
+import { Select } from '@antv/component';
 ```
 
 ## 配置项

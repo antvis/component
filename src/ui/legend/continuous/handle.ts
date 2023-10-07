@@ -1,5 +1,5 @@
 import type { ComponentOptions, PrefixStyleProps } from '../../../core';
-import { GUI } from '../../../core';
+import { Component } from '../../../core';
 import type { GroupStyleProps, TextStyleProps } from '../../../shapes';
 import { Group } from '../../../shapes';
 import type { PrefixObject } from '../../../types';
@@ -48,7 +48,7 @@ export const DEFAULT_HANDLE_CFG: Partial<HandleStyleProps> = {
   spacing: 0,
 };
 
-export class Handle extends GUI<HandleStyleProps> {
+export class Handle extends Component<HandleStyleProps> {
   constructor(options: HandleOptions) {
     super(options, DEFAULT_HANDLE_CFG);
   }

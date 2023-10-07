@@ -8,6 +8,6 @@ order: 10
 ## 使用
 
 ```ts
-import { Poptip } from '@antv/gui';
+import { Poptip } from '@antv/component';
 ```
 

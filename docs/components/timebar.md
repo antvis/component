@@ -3,7 +3,7 @@
 ## 引入
 
 ```ts
-import { Timebar } from '@antv/gui';
+import { Timebar } from '@antv/component';
 ```
 
 ## 配置项

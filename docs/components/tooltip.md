@@ -5,7 +5,7 @@
 ## 引入
 
 ```ts
-import { Tooltip } from '@antv/gui';
+import { Tooltip } from '@antv/component';
 ```
 
 ## 配置项

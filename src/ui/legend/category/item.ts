@@ -9,7 +9,7 @@ import {
   TextStyleProps,
 } from '@antv/g';
 import type { ComponentOptions } from '../../../core';
-import { GUI } from '../../../core';
+import { Component } from '../../../core';
 import { ExtendDisplayObject, PrefixObject } from '../../../types';
 import {
   Selection,
@@ -67,7 +67,7 @@ function styleOfMarker(group: Group): BaseStyleProps {
   return {};
 }
 
-export class CategoryItem extends GUI<CategoryItemStyleProps> {
+export class CategoryItem extends Component<CategoryItemStyleProps> {
   constructor(options: CategoryItemOptions) {
     super(options, {
       span: [1, 1],

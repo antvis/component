@@ -3,7 +3,7 @@
 ## 引入
 
 ```ts
-import { Navigator } from '@antv/gui';
+import { Navigator } from '@antv/component';
 ```
 
 ## 配置项

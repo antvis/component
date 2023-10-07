@@ -2,7 +2,7 @@
 // import type { DisplayObjectConfig } from '../../shapes';
 // import { clamp, deepMix } from '@antv/util';
 // import { Point as PointScale } from '@antv/scale';
-// import { GUI } from '../../core';
+// import { Component } from '../../core';
 // import { applyStyle, maybeAppend, select, Selection } from '../../util';
 // import { Axis, AxisStyleProps as AxisOptions } from '../axis';
 // import {
@@ -160,7 +160,7 @@
 //     const { position: verticalFactor = -1, tickLine: tickLineCfg, ...axisLabelCfg } = styles.label || {};
 
 //     maybeAppend(bg, '.slider-axis', () => new Axis({ className: 'slider-axis' })).call((selection) =>
-//       (selection.node() as GUI<AxisOptions>).update(
+//       (selection.node() as Component<AxisOptions>).update(
 //         deepMix({}, DEFAULT_AXIS_CFG, {
 //           startPos: [verticalFactor * this.ifH(0, width + 2), verticalFactor * this.ifH(height + 2, 0)],
 //           endPos: [

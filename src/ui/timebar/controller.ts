@@ -1,5 +1,5 @@
 import type { Canvas } from '@antv/g';
-import { GUI } from '../../core';
+import { Component } from '../../core';
 import { DisplayObject, Group, Rect } from '../../shapes';
 import { deepAssign, parseSeriesAttr, subStyleProps } from '../../util';
 import { Backward, ChartType, Forward, PlayPause, Reset, SelectionType, SpeedSelect, Split } from './icons';
@@ -16,7 +16,7 @@ const componentsMap: Record<Functions | 'split', { new (...args: any): DisplayOb
   split: Split,
 } as const;
 
-export class Controller extends GUI<ControllerStyleProps> {
+export class Controller extends Component<ControllerStyleProps> {
   static defaultOptions: ControllerOptions = {
     style: {
       width: 300,

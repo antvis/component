@@ -10,7 +10,7 @@ order: 4
 ## 引入
 
 ```ts
-import { Statistic } from '@antv/gui';
+import { Statistic } from '@antv/component';
 ```
 
 ## 指标卡配置项
@@ -41,7 +41,7 @@ import { Statistic } from '@antv/gui';
 ## 引入
 
 ```ts
-import { Countdown } from '@antv/gui';
+import { Countdown } from '@antv/component';
 ```
 
 ## 定时器配置项(配置继承于指标卡)

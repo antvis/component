@@ -3,7 +3,7 @@
 ## 引入
 
 ```js
-import { Checkbox } from '@antv/gui';
+import { Checkbox } from '@antv/component';
 ```
 
 ## 配置项

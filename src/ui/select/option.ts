@@ -1,10 +1,10 @@
-import { GUI } from '../../core';
+import { Component } from '../../core';
 import { Group, Rect } from '../../shapes';
 import { parseSeriesAttr, renderExtDo, select, subStyleProps } from '../../util';
 import { deepAssign } from '../../util/deep-assign';
 import type { OptionOptions, OptionStyleProps } from './types';
 
-export class Option extends GUI<OptionStyleProps> {
+export class Option extends Component<OptionStyleProps> {
   static defaultOptions: OptionOptions = {
     style: {
       value: '',

@@ -1,5 +1,5 @@
 import { deepMix, isUndefined } from '@antv/util';
-import { GUI } from '../../core';
+import { Component } from '../../core';
 import { Group, RectStyleProps, Text } from '../../shapes';
 import { maybeAppend, parseSeriesAttr, select, subStyleProps } from '../../util';
 import { Marker } from '../marker';
@@ -8,7 +8,7 @@ import type { ButtonOptions, ButtonStyleProps } from './types';
 
 export type { ButtonStyleProps, ButtonOptions };
 
-export class Button extends GUI<ButtonStyleProps> {
+export class Button extends Component<ButtonStyleProps> {
   /**
    * 组件类型
    */

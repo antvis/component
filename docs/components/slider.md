@@ -3,7 +3,7 @@
 ## 引入
 
 ```ts
-import { Slider } from '@antv/gui';
+import { Slider } from '@antv/component';
 ```
 
 ## 配置项

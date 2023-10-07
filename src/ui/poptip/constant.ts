@@ -1,12 +1,12 @@
-export const POPTIP_ID = 'gui-poptip';
+export const POPTIP_ID = 'component-poptip';
 
 /**
  * 默认类名
  */
 export const CLASS_NAME = {
-  CONTAINER: 'gui-poptip',
-  ARROW: 'gui-poptip-arrow',
-  TEXT: 'gui-poptip-text',
+  CONTAINER: 'component-poptip',
+  ARROW: 'component-poptip-arrow',
+  TEXT: 'component-poptip-text',
 };
 
 /**

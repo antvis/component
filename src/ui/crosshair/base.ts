@@ -1,4 +1,4 @@
-import { GUI } from '../../core';
+import { Component } from '../../core';
 import { Group, Path } from '../../shapes';
 import type { Point } from '../../types';
 import { select, subStyleProps } from '../../util';
@@ -6,7 +6,7 @@ import { Tag } from '../tag';
 import { CROSSHAIR_BASE_DEFAULT_STYLE } from './constant';
 import type { CrosshairBaseStyleProps, CrosshairBaseOptions } from './types';
 
-export abstract class CrosshairBase<T extends CrosshairBaseStyleProps> extends GUI<T> {
+export abstract class CrosshairBase<T extends CrosshairBaseStyleProps> extends Component<T> {
   public static tag = 'crosshair-base';
 
   /**

@@ -1,5 +1,5 @@
 import { isNil } from '@antv/util';
-import { GUI } from '../../core';
+import { Component } from '../../core';
 import { Group, Text } from '../../shapes';
 import { maybeAppend, parseSeriesAttr, select, subStyleProps } from '../../util';
 import { Marker } from '../marker';
@@ -36,7 +36,7 @@ function getTextPosition(markerShape: Marker, spacing?: number) {
  *
  * 组成元素：Marker + Text + BackgroundRect
  */
-export class Tag extends GUI<TagStyleProps> {
+export class Tag extends Component<TagStyleProps> {
   /**
    * 标签类型
    */

@@ -3,7 +3,7 @@
 ## 引入
 
 ```ts
-import { Scrollbar } from '@antv/gui';
+import { Scrollbar } from '@antv/component';
 ```
 
 ## 配置项

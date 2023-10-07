@@ -1,5 +1,5 @@
 import { fadeOut, onAnimateFinished, transition } from '../../animation';
-import { GUI } from '../../core';
+import { Component } from '../../core';
 import type { Group } from '../../shapes';
 import type { Point } from '../../types';
 import type { PathCommand, Selection } from '../../util';
@@ -174,7 +174,7 @@ function getData(attr: GridStyleProps) {
   });
 }
 
-export class Grid extends GUI<GridStyleProps> {
+export class Grid extends Component<GridStyleProps> {
   render(attributes: GridStyleProps, container: Group) {
     // @ts-ignore do no passBy className
     const { type, center, areaFill, closed, ...style } = attributes;

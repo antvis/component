@@ -1,4 +1,4 @@
-import { GUI } from '../../core';
+import { Component } from '../../core';
 import type { Group } from '../../shapes';
 import { DisplayObject, Text } from '../../shapes';
 import { BBox, Selection, classNames, ifShow, parseSeriesAttr, select, splitStyle } from '../../util';
@@ -99,7 +99,7 @@ function getTitleLayout(cfg: TitleStyleProps) {
   return { x, y, textAlign, textBaseline };
 }
 
-export class Title extends GUI<TitleStyleProps> {
+export class Title extends Component<TitleStyleProps> {
   private title!: Text;
 
   constructor(options: TitleOptions) {

@@ -1,5 +1,5 @@
 import { get, isEqual } from '@antv/util';
-import { GUI } from '../../core';
+import { Component } from '../../core';
 import type { Group, Rect } from '../../shapes';
 import { select } from '../../util';
 import { Tag } from '../tag';
@@ -39,7 +39,7 @@ function getTagShapeStyle(
   };
 }
 
-export class Switch extends GUI<SwitchStyleProps> {
+export class Switch extends Component<SwitchStyleProps> {
   /**
    * 组件 switch
    */
@@ -63,7 +63,6 @@ export class Switch extends GUI<SwitchStyleProps> {
 
   public render(attributes: Required<SwitchStyleProps>, container: Group) {
     const { size, spacing, disabled, checked, unCheckedChildren, checkedChildren } = attributes;
-    this.attributes;
     const group = select(container).maybeAppendByClassName('switch-content', 'g').node();
     const bounds = group.getLocalBounds();
 
@@ -93,7 +92,7 @@ export class Switch extends GUI<SwitchStyleProps> {
           });
 
           // 增加 整体宽度 需要对 tag 提前渲染获得 width 然后通过 width 计算 x 的位置
-          const { max, min } = tagShape?.getLocalBounds();
+          const { max, min } = tagShape?.getLocalBounds() || {};
           const width = max[0] - min[0] + sizeStyle.radius;
           const height = max[1] - min[1];
 

@@ -25,7 +25,7 @@ export interface PoptipStyleProps {
   id?: string;
   /**
    * @title 容器类名
-   * @description poptip 组件的 class 类名，默认为 .gui-poptip
+   * @description poptip 组件的 class 类名，默认为 .component-poptip
    */
   containerClassName?: string;
   /**
@@ -67,7 +67,9 @@ export interface PoptipStyleProps {
    * @description 所有内容模版都可以通过 '.className': cssStyle 的方式，来改变 poptip 的样式
    */
   domStyles?: {
-    [key: '.gui-poptip' | '.gui-poptip-arrow' | '.gui-poptip-text' | string]: { [key: string]: string };
+    [key: '.component-poptip' | '.component-poptip-arrow' | '.component-poptip-text' | string]: {
+      [key: string]: string;
+    };
   };
 }
 

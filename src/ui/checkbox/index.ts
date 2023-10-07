@@ -1,4 +1,4 @@
-import { GUI } from '../../core';
+import { Component } from '../../core';
 import type { Group, Rect } from '../../shapes';
 import { maybeAppend, subStyleProps } from '../../util';
 import type { CheckboxOptions, CheckboxStyleProps } from './types';
@@ -16,7 +16,7 @@ function getLablePosition(shape: Rect, spacing?: number) {
   };
 }
 
-export class Checkbox extends GUI<CheckboxStyleProps> {
+export class Checkbox extends Component<CheckboxStyleProps> {
   /**
    * 组件 checkbox
    */

@@ -1,6 +1,6 @@
 import { createDom } from '@antv/dom-util';
 import { substitute } from '@antv/util';
-import { GUI } from '../../core';
+import { Component } from '../../core';
 import { Group } from '../../shapes';
 import { applyStyleSheet, throttle } from '../../util';
 import { getClassNames, getDefaultTooltipStyle } from './constant';
@@ -8,7 +8,7 @@ import type { TooltipOptions, TooltipPosition, TooltipStyleProps } from './types
 
 export type { TooltipStyleProps, TooltipOptions };
 
-export class Tooltip extends GUI<TooltipStyleProps> {
+export class Tooltip extends Component<TooltipStyleProps> {
   public static tag = 'tooltip';
 
   public get HTMLTooltipElement() {

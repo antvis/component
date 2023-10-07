@@ -1,4 +1,4 @@
-import { ComponentOptions, GUI } from '../../core';
+import { ComponentOptions, Component } from '../../core';
 import type { GroupStyleProps, LineStyleProps, RectStyleProps, CircleStyleProps } from '../../shapes';
 import { Circle } from '../../shapes';
 import { PrefixObject } from '../../types';
@@ -45,7 +45,7 @@ type ChartModeHandleStyleProps = GroupStyleProps &
     type: HandleType;
   };
 type ChartModeHandleOptions = ComponentOptions<ChartModeHandleStyleProps>;
-export class ChartModeHandle extends GUI<ChartModeHandleStyleProps> {
+export class ChartModeHandle extends Component<ChartModeHandleStyleProps> {
   static defaultOptions: ChartModeHandleOptions = {
     style: {
       width: 10,

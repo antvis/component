@@ -10,7 +10,7 @@ order: 8
 ## 引入
 
 ```ts
-import { Switch } from '@antv/gui';
+import { Switch } from '@antv/component';
 ```
 
 ## 开关配置项

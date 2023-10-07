@@ -1,5 +1,5 @@
 import { deepMix, isNil, pick } from '@antv/util';
-import { GUI } from '../../core';
+import { Component } from '../../core';
 import { Group, Text } from '../../shapes';
 import { maybeAppend, parseSeriesAttr, subStyleProps } from '../../util';
 import { Tag, TagStyleProps } from '../tag';
@@ -7,7 +7,7 @@ import type { BreadcrumbStyleProps, BreadcrumbItem, BreadcrumbOptions } from './
 
 export type { BreadcrumbStyleProps as BreadcrumbCfg, BreadcrumbOptions };
 
-export class Breadcrumb extends GUI<BreadcrumbStyleProps> {
+export class Breadcrumb extends Component<BreadcrumbStyleProps> {
   /**
    * 标签类型
    */

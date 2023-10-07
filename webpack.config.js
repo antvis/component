@@ -25,9 +25,9 @@ module.exports = {
   mode: 'production',
   entry: './src/index.ts',
   output: {
-    library: 'GUI',
+    library: 'Component',
     libraryTarget: 'umd',
-    filename: 'gui.min.js',
+    filename: 'component.min.js',
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
