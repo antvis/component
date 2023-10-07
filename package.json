@@ -30,7 +30,6 @@
     "fix": "eslint ./src/**/*.ts ./__tests__/**/*.ts --fix && prettier ./src ./__tests__ --write ",
     "coverage": "jest -w 16 --coverage",
     "test": "run-s test:i",
-    "test-live": "cross-env DEBUG_MODE=1 jest --watch",
     "test:u": "NODE_ENV=test && jest --config jest.config.js --coverage",
     "test:i": "NODE_ENV=test && jest --config jest.node.config.js --coverage",
     "build": "run-s clean build:* size",
@@ -47,7 +46,7 @@
     "antv",
     "visualization",
     "ui",
-    "GUI"
+    "component"
   ],
   "dependencies": {
     "@antv/dom-util": "^2.0.3",
@@ -130,12 +129,12 @@
   "limit-size": [
     {
       "path": "dist/gui.min.js",
-      "limit": "128 Kb",
+      "limit": "80 Kb",
       "gzip": true
     },
     {
       "path": "dist/gui.min.js",
-      "limit": "480 Kb"
+      "limit": "250 Kb"
     }
   ],
   "author": {
@@ -144,9 +143,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/antvis/gui"
+    "url": "https://github.com/antvis/component"
   },
   "bugs": {
-    "url": "https://github.com/antvis/gui/issues"
+    "url": "https://github.com/antvis/component/issues"
   }
 }

@@ -6,8 +6,8 @@
 
 UI components for [G](https://github.com/antvis/g).
 
-[![Build Status](https://github.com/antvis/gui/workflows/build/badge.svg?branch=master)](https://github.com/antvis/gui/actions)
-[![Coverage Status](https://img.shields.io/coveralls/github/antvis/gui/master.svg)](https://coveralls.io/github/antvis/GUI?branch=master)
+[![Build Status](https://github.com/antvis/gui/workflows/CI/badge.svg?branch=master)](https://github.com/antvis/gui/actions)
+[![Coverage Status](https://coveralls.io/repos/github/antvis/GUI/badge.svg?branch=master)](https://coveralls.io/github/antvis/GUI?branch=master)
 [![npm Version](https://img.shields.io/npm/v/@antv/gui.svg)](https://www.npmjs.com/package/@antv/gui)
 [![npm Download](https://img.shields.io/npm/dm/@antv/gui.svg)](https://www.npmjs.com/package/@antv/gui)
 [![npm License](https://img.shields.io/npm/l/@antv/gui.svg)](https://www.npmjs.com/package/@antv/gui)
