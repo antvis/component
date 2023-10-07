@@ -1,4 +1,4 @@
-import { ComponentOptions, GUI, PrefixStyleProps } from '../../core';
+import { ComponentOptions, Component, PrefixStyleProps } from '../../core';
 import type { DisplayObject, GroupStyleProps, PathStyleProps, TextStyleProps } from '../../shapes';
 import { Group } from '../../shapes';
 import type { Selection } from '../../util';
@@ -39,7 +39,7 @@ const CLASS_NAMES = classNames(
   'handle'
 );
 
-class HandleIcon extends GUI<IconStyleProps> {
+class HandleIcon extends Component<IconStyleProps> {
   render(attributes: Required<IconStyleProps>, container: DisplayObject) {
     const { size = 10, radius = size / 4, orientation, ...iconStyle } = attributes;
     // 默认手柄
@@ -71,7 +71,7 @@ class HandleIcon extends GUI<IconStyleProps> {
   }
 }
 
-export class Handle extends GUI<HandleStyleProps> {
+export class Handle extends Component<HandleStyleProps> {
   private label!: Selection;
 
   private icon!: Selection;

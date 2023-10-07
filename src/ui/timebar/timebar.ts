@@ -1,5 +1,5 @@
 import { clamp } from '@antv/util';
-import { GUI } from '../../core';
+import { Component } from '../../core';
 import { Line } from '../../shapes';
 import { BBox, deepAssign, subStyleProps, formatTime } from '../../util';
 import { Axis } from '../axis';
@@ -15,7 +15,7 @@ type States = Pick<TimebarStyleProps, 'speed' | 'selectionType' | 'chartType' | 
   values?: [number, number] | [Date, Date] | [number | Date, typeof Infinity];
 };
 
-export class Timebar extends GUI<TimebarStyleProps> {
+export class Timebar extends Component<TimebarStyleProps> {
   static defaultOptions: TimebarOptions = {
     style: {
       axisLabelFill: '#6e6e6e',

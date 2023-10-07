@@ -1,6 +1,6 @@
 import { deepMix, isString, isElement, assign, get } from '@antv/util';
 import { DisplayObject, Group } from '../../shapes';
-import { GUI } from '../../core';
+import { Component } from '../../core';
 import { deepAssign } from '../../util';
 import { CLASS_NAME, POPTIP_ID, POPTIP_STYLE } from './constant';
 import { getPositionXY, getSingleTonElement } from './utils';
@@ -17,7 +17,7 @@ type PoptipCallbackOptions = {
   target?: HTMLElement | DisplayObject | false;
 } & Pick<PoptipStyleProps, 'position' | 'arrowPointAtCenter' | 'follow' | 'offset'>;
 
-export class Poptip extends GUI<PoptipStyleProps> {
+export class Poptip extends Component<PoptipStyleProps> {
   public static tag = 'poptip';
 
   public get visible(): boolean {

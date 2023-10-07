@@ -1,7 +1,7 @@
 import { CustomEvent } from '@antv/g';
 import { Linear } from '@antv/scale';
 import { clamp, isUndefined, memoize } from '@antv/util';
-import { GUI } from '../../core';
+import { Component } from '../../core';
 import type { DisplayObject, TextStyleProps } from '../../shapes';
 import { Group } from '../../shapes';
 import { Point } from '../../types';
@@ -46,7 +46,7 @@ const getMinMax = memoize(
   (data) => data.map((d: any) => d.id)
 );
 
-export class Continuous extends GUI<ContinuousStyleProps> {
+export class Continuous extends Component<ContinuousStyleProps> {
   constructor(options: ContinuousOptions) {
     super(options, CONTINUOUS_DEFAULT_OPTIONS);
   }

@@ -1,12 +1,12 @@
 import { CustomEvent } from '@antv/g';
-import { GUI } from '../../core';
+import { Component } from '../../core';
 import { DisplayObject, Rect } from '../../shapes';
 import { hide, parseSeriesAttr, renderExtDo, select, show, subStyleProps } from '../../util';
 import { deepAssign } from '../../util/deep-assign';
 import { Option } from './option';
 import type { SelectOptions, SelectStyleProps } from './types';
 
-export class Select extends GUI<SelectStyleProps> {
+export class Select extends Component<SelectStyleProps> {
   static defaultOptions: SelectOptions = {
     style: {
       width: 140,

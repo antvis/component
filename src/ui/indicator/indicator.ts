@@ -1,6 +1,6 @@
 import { ElementEvent } from '@antv/g';
 import type { PathArray } from '@antv/util';
-import { GUI } from '../../core';
+import { Component } from '../../core';
 import { Group } from '../../shapes';
 import type { Point } from '../../types';
 import {
@@ -31,7 +31,7 @@ const CLASS_NAMES = classNames(
   },
   'indicator'
 );
-export class Indicator extends GUI<IndicatorStyleProps> {
+export class Indicator extends Component<IndicatorStyleProps> {
   constructor(options: IndicatorOptions) {
     super(options, DEFAULT_INDICATOR_STYLE_PROPS);
     this.group = this.appendChild(new Group({}));

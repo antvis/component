@@ -1,4 +1,4 @@
-import { GUI } from '../../core';
+import { Component } from '../../core';
 import type { Group } from '../../shapes';
 import { BBox, select, Selection, splitStyle, subStyleProps } from '../../util';
 import type { TitleStyleProps } from '../title';
@@ -9,7 +9,7 @@ import type { CategoryOptions, CategoryStyleProps } from './types';
 
 export type { CategoryOptions, CategoryStyleProps };
 
-export class Category extends GUI<CategoryStyleProps> {
+export class Category extends Component<CategoryStyleProps> {
   constructor(options: CategoryOptions) {
     super(options, CATEGORY_DEFAULT_OPTIONS);
   }

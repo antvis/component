@@ -3,7 +3,7 @@
 // import { deepMix } from '@antv/util';
 // import { Axis, AxisOptions } from '../axis';
 // import { applyStyle, maybeAppend, select } from '../../util';
-// import { GUI } from '../../core';
+// import { Component } from '../../core';
 // import {
 //   AxisBase,
 //   AxisStyleProps,
@@ -168,7 +168,7 @@
 //           style: DEFAULT_AXIS_CFG,
 //         })
 //     ).call((selection) =>
-//       (selection.node() as GUI<AxisOptions>).update({
+//       (selection.node() as Component<AxisOptions>).update({
 //         startPos,
 //         endPos,
 //         ticks,

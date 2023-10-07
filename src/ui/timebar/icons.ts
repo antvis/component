@@ -1,6 +1,6 @@
 import type { Canvas } from '@antv/g';
 import { clamp, omit } from '@antv/util';
-import { ComponentOptions, GUI } from '../../core';
+import { ComponentOptions, Component } from '../../core';
 import type { GroupStyleProps, PolygonStyleProps, RectStyleProps } from '../../shapes';
 import { Group, Path, Rect } from '../../shapes';
 import { PrefixObject } from '../../types';
@@ -18,7 +18,7 @@ type IconBaseStyleProps = GroupStyleProps &
     onClick?: (e: IconBase) => void;
   };
 type IconBaseOptions = ComponentOptions<IconBaseStyleProps>;
-export abstract class IconBase<T extends Record<string, any> = {}> extends GUI<T & IconBaseStyleProps> {
+export abstract class IconBase<T extends Record<string, any> = {}> extends Component<T & IconBaseStyleProps> {
   public static tag = 'IconBase';
 
   static defaultOptions: IconBaseOptions = {
@@ -584,7 +584,7 @@ type ToggleIconStyleProps<T extends string> = IconBaseStyleProps & {
   onChange?: (type: T) => void;
 };
 type ToggleIconOptions<T extends string> = ComponentOptions<ToggleIconStyleProps<T>>;
-export abstract class ToggleIcon<T extends string> extends GUI<ToggleIconStyleProps<T>> {
+export abstract class ToggleIcon<T extends string> extends Component<ToggleIconStyleProps<T>> {
   abstract toggles: Array<
     [T, typeof Play | typeof Pause | typeof Range | typeof Value | typeof LineChart | typeof BarChart]
   >;

@@ -1,6 +1,6 @@
 import { CustomEvent } from '@antv/g';
 import { clamp } from '@antv/util';
-import { GUI } from '../../core';
+import { Component } from '../../core';
 import type { Group, RectStyleProps } from '../../shapes';
 import { getEventPos, parseSeriesAttr, select, subStyleProps, superStyleProps } from '../../util';
 import type { SliderStyleProps } from '../slider';
@@ -9,7 +9,7 @@ import type { ScrollbarOptions, ScrollbarStyleProps } from './types';
 
 export type { ScrollbarOptions, ScrollbarStyleProps };
 
-export class Scrollbar extends GUI<ScrollbarStyleProps> {
+export class Scrollbar extends Component<ScrollbarStyleProps> {
   public static tag = 'scrollbar';
 
   private slider!: Slider;

@@ -7,7 +7,7 @@ function applyVisibility() {
   visibility(this, this.attributes.visibility !== 'hidden');
 }
 
-export abstract class GUI<T extends Record<string, any>> extends CustomElement<Required<T>> {
+export abstract class Component<T extends Record<string, any>> extends CustomElement<Required<T>> {
   protected _defaultOptions: Partial<T>;
 
   private _offscreen!: Group;

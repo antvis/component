@@ -1,2 +1,2 @@
-export { GUI } from './gui';
+export { Component } from './component';
 export * from './types';

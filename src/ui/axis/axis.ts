@@ -1,6 +1,6 @@
 import type { GenericAnimation, StandardAnimationOption } from '../../animation';
 import { parseAnimationOption } from '../../animation';
-import { GUI } from '../../core';
+import { Component } from '../../core';
 import { Group } from '../../shapes';
 import type { Selection } from '../../util';
 import { ifShow, sampling, select } from '../../util';
@@ -52,7 +52,7 @@ function renderAxisMain(
   return [...lineTransitions, ...tickTransitions, ...labelTransitions].filter((t) => !!t);
 }
 
-export class Axis extends GUI<AxisStyleProps> {
+export class Axis extends Component<AxisStyleProps> {
   constructor(options: AxisOptions) {
     super(options, AXIS_BASE_DEFAULT_ATTR);
   }

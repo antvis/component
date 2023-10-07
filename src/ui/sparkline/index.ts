@@ -1,6 +1,6 @@
 import { Band, Linear } from '@antv/scale';
 import { clone, isArray, isFunction, isNumber } from '@antv/util';
-import { GUI } from '../../core';
+import { Component } from '../../core';
 import { Group } from '../../shapes';
 import { maybeAppend, select, subStyleProps } from '../../util';
 import type { ColumnStyleProps, ColumnsStyleProps } from './columns';
@@ -20,7 +20,7 @@ import { getRange, getStackedData } from './utils';
 
 export type { SparklineOptions, SparklineStyleProps };
 
-export class Sparkline extends GUI<SparklineStyleProps> {
+export class Sparkline extends Component<SparklineStyleProps> {
   public static tag = 'sparkline';
 
   /**

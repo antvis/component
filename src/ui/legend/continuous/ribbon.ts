@@ -1,7 +1,7 @@
 import { parseColor } from '@antv/g';
 import { isFunction } from '@antv/util';
 import type { ComponentOptions, PrefixStyleProps } from '../../../core';
-import { GUI } from '../../../core';
+import { Component } from '../../../core';
 import type { GroupStyleProps, PathStyleProps, RectStyleProps } from '../../../shapes';
 import { Group } from '../../../shapes';
 import { classNames, select, Selection, subStyleProps } from '../../../util';
@@ -110,7 +110,7 @@ function renderSelection(container: Selection, attr: RequiredRibbonStyleProps) {
   ribbon.style('clip-path', clipPath);
 }
 
-export class Ribbon extends GUI<RibbonStyleProps> {
+export class Ribbon extends Component<RibbonStyleProps> {
   constructor(options: RibbonOptions) {
     super(options, {
       type: 'color',
