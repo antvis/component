@@ -6,7 +6,7 @@
 
 Visualization components for AntV, based on [G](https://github.com/antvis/g) which is a flexible rendering engine for visualization.
 
-[![Build Status](https://github.com/antvis/component/workflows/build/badge.svg?branch=master)](https://github.com/antvis/component/actions)
+[![build](https://github.com/antvis/component/actions/workflows/build.yml/badge.svg)](https://github.com/antvis/component/actions/workflows/build.yml)
 [![Coverage Status](https://coveralls.io/repos/github/antvis/component/badge.svg?branch=master)](https://coveralls.io/github/antvis/component?branch=master)
 [![npm Version](https://img.shields.io/npm/v/@antv/component.svg)](https://www.npmjs.com/package/@antv/component)
 [![npm Download](https://img.shields.io/npm/dm/@antv/component.svg)](https://www.npmjs.com/package/@antv/component)

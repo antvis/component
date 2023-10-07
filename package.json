@@ -39,7 +39,6 @@
     "ci": "run-s lint test build",
     "prepublishOnly": "npm run ci",
     "prepare": "husky install",
-    "publish": "pnpm publish -r --registry=https://registry.npmjs.org",
     "upload": "node scripts/uploadSnapshot.js"
   },
   "keywords": [
