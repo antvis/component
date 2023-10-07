@@ -3,7 +3,7 @@
 ## 引入
 
 ```js
-import { Axis } from '@antv/gui';
+import { Axis } from '@antv/component';
 ```
 
 ## 配置项

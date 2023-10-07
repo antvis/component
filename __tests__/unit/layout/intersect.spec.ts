@@ -174,7 +174,9 @@ describe('Utils for detect intersect', () => {
   });
 
   it('bound Text', () => {
-    const text = canvas.appendChild(new Text({ style: { x: 50, y: 200, text: 'GUI', fontSize: 30, fill: 'red' } }));
+    const text = canvas.appendChild(
+      new Text({ style: { x: 50, y: 200, text: 'component', fontSize: 30, fill: 'red' } })
+    );
     const points = IntersectUtils.getBounds(text);
 
     Box(points, 'green', { fillOpacity: 0, lineWidth: 1 });

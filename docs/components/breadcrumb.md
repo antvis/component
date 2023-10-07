@@ -10,7 +10,7 @@ order: 7
 ## 引入
 
 ```ts
-import { Breadcrumb } from '@antv/gui';
+import { Breadcrumb } from '@antv/component';
 ```
 
 ## 配置项

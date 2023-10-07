@@ -8,7 +8,7 @@ order: 6
 ## 引入
 
 ```ts
-import { Sparkline } from '@antv/gui';
+import { Sparkline } from '@antv/component';
 ```
 
 ## 配置项

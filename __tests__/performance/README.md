@@ -1,4 +1,4 @@
-## GUI Performance Tests
+## Performance Tests
 
 ### Usage
 

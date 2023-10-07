@@ -9,7 +9,7 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "paths": {
-      "@antv/gui": ["../../src/index.ts"]
+      "@antv/component": ["../../src/index.ts"]
     }
   }
 }

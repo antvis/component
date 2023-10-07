@@ -1,9 +1,9 @@
-图例（legend）是图表的辅助元素，使用颜色、大小、形状区分不同的数据类型，用于图表中数据的筛选。 GUI 提供了分类图例和连续图例。
+图例（legend）是图表的辅助元素，使用颜色、大小、形状区分不同的数据类型，用于图表中数据的筛选。 component 提供了分类图例和连续图例。
 
 ## 引入
 
 ```js
-import { Category, Continuous } from '@antv/gui';
+import { Category, Continuous } from '@antv/component';
 ```
 
 ## 配置项
