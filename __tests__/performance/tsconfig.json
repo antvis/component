@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "target": "esnext",
+    // "module": "ESNext",
+    "baseUrl": ".",
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "paths": {
+      "@antv/gui": ["../../src/index.ts"]
+    }
+  }
+}
