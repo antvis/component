@@ -17,7 +17,8 @@ export const measureTextWidth = memoize(
     return ctx!.measureText(content).width;
   },
   (text: any, font?: any) =>
-    [isString(text) ? text : text.style.text.toString(), Object.values(font || getFont(text as Text)).join()].join('')
+    [isString(text) ? text : text.style.text.toString(), Object.values(font || getFont(text as Text)).join()].join(''),
+  4096
 );
 
 export const getFont = (textShape: Text) => {

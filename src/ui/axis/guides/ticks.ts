@@ -1,4 +1,4 @@
-import { isFunction, memoize } from '@antv/util';
+import { isFunction } from '@antv/util';
 import type { GenericAnimation, StandardAnimationOption } from '../../../animation';
 import { fadeOut, onAnimateFinished, transition } from '../../../animation';
 import type { Group } from '../../../shapes';
@@ -15,16 +15,13 @@ export function getTickVector(value: number, attr: RequiredAxisStyleProps): Vect
   return getDirectionVector(value, attr.tickDirection, attr);
 }
 
-export const getTickPoints = memoize(
-  (unitVector: Vector2, tickLength: number) => {
-    const [dx, dy] = unitVector;
-    return [
-      [0, 0],
-      [dx * tickLength, dy * tickLength],
-    ];
-  },
-  (unitVector, tickLength) => [...unitVector, tickLength].join()
-);
+export function getTickPoints(unitVector: Vector2, tickLength: number) {
+  const [dx, dy] = unitVector;
+  return [
+    [0, 0],
+    [dx * tickLength, dy * tickLength],
+  ];
+}
 
 function getTickLineLayout(
   datum: AxisDatum,

@@ -1,4 +1,4 @@
-import { isFunction, memoize } from '@antv/util';
+import { isFunction } from '@antv/util';
 import type { CallableObject, Vector2 } from '../../../types';
 import { degToRad, getCallbackValue, normalize, vertical } from '../../../util';
 import type {
@@ -35,34 +35,23 @@ export function filterExec<T>(data: T[], filter?: (...args: any) => boolean): T[
 
 /** ---- to avoid cycle dependency */
 
-export const getLineAngle = memoize(
-  (value: number, attr: RequiredArcAxisStyleProps) => {
-    const { startAngle, endAngle } = attr;
-    return (endAngle - startAngle) * value + startAngle;
-  },
-  (value, attr) => [value, attr.startAngle, attr.endAngle].join()
-);
+export function getLineAngle(value: number, attr: RequiredArcAxisStyleProps) {
+  const { startAngle, endAngle } = attr;
+  return (endAngle - startAngle) * value + startAngle;
+}
 
-export const getLineTangentVector = memoize(
-  (value: number, attr: RequiredAxisStyleProps) => {
-    if (attr.type === 'linear') {
-      const {
-        startPos: [startX, startY],
-        endPos: [endX, endY],
-      } = attr;
-      const [dx, dy] = [endX - startX, endY - startY];
-      return normalize([dx, dy]);
-    }
-
-    const angle = degToRad(getLineAngle(value, attr));
-    return [-Math.sin(angle), Math.cos(angle)] as Vector2;
-  },
-  (value, attr: RequiredAxisStyleProps) => {
-    const dependencies = baseDependencies(attr);
-    attr.type === 'arc' && dependencies.push(value);
-    return dependencies.join();
+export function getLineTangentVector(value: number, attr: RequiredAxisStyleProps) {
+  if (attr.type === 'linear') {
+    const {
+      startPos: [startX, startY],
+      endPos: [endX, endY],
+    } = attr;
+    const [dx, dy] = [endX - startX, endY - startY];
+    return normalize([dx, dy]);
   }
-);
+  const angle = degToRad(getLineAngle(value, attr));
+  return [-Math.sin(angle), Math.cos(angle)] as Vector2;
+}
 
 export function getDirectionVector(value: number, direction: Direction, attr: RequiredAxisStyleProps): Vector2 {
   const tangentVector = getLineTangentVector(value, attr);

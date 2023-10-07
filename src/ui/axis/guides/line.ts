@@ -1,4 +1,4 @@
-import { get, memoize } from '@antv/util';
+import { get } from '@antv/util';
 import type { AnimationResult, StandardAnimationOption } from '../../../animation';
 import { transition } from '../../../animation';
 import type { DisplayObject, Line } from '../../../shapes';
@@ -21,32 +21,23 @@ type LineDatum = {
   className: string;
 };
 
-export const getLinearValuePos = memoize(
-  (value: number, attr: RequiredLinearAxisStyleProps): Vector2 => {
-    const {
-      startPos: [sx, sy],
-      endPos: [ex, ey],
-    } = attr;
-    const [dx, dy] = [ex - sx, ey - sy];
-    return [sx + dx * value, sy + dy * value];
-  },
-  (value, attr) => [value, ...attr.startPos, ...attr.endPos].join()
-);
+export function getLinearValuePos(value: number, attr: RequiredLinearAxisStyleProps): Vector2 {
+  const {
+    startPos: [sx, sy],
+    endPos: [ex, ey],
+  } = attr;
+  const [dx, dy] = [ex - sx, ey - sy];
+  return [sx + dx * value, sy + dy * value];
+}
 
-export const getArcValuePos = memoize(
-  (value: number, attr: RequiredArcAxisStyleProps): Vector2 => {
-    const {
-      radius,
-      center: [cx, cy],
-    } = attr;
-    const angle = degToRad(getLineAngle(value, attr));
-    return [cx + radius * Math.cos(angle), cy + radius * Math.sin(angle)];
-  },
-  (value, attr: RequiredArcAxisStyleProps) => {
-    const { startAngle, endAngle, radius, center } = attr;
-    return [value, startAngle, endAngle, radius, ...center].join();
-  }
-);
+export function getArcValuePos(value: number, attr: RequiredArcAxisStyleProps): Vector2 {
+  const {
+    radius,
+    center: [cx, cy],
+  } = attr;
+  const angle = degToRad(getLineAngle(value, attr));
+  return [cx + radius * Math.cos(angle), cy + radius * Math.sin(angle)];
+}
 
 export function getValuePos(value: number, attr: RequiredAxisStyleProps) {
   if (attr.type === 'linear') return getLinearValuePos(value, attr);

@@ -1,5 +1,5 @@
 import type { IAnimation } from '@antv/g';
-import { get, isFunction, memoize } from '@antv/util';
+import { get, isFunction } from '@antv/util';
 import type { StandardAnimationOption } from '../../../animation';
 import { fadeOut, onAnimateFinished, onAnimatesFinished, transition, transitionShape } from '../../../animation';
 import type { DisplayObject, TextStyleProps } from '../../../shapes';
@@ -30,21 +30,18 @@ import { getFactor } from '../utils';
 import { getValuePos } from './line';
 import { filterExec, getCallbackStyle, getLabelVector, getLineTangentVector } from './utils';
 
-const angleNormalizer = (angle: number) => {
+function angleNormalizer(angle: number) {
   let normalizedAngle = angle;
   while (normalizedAngle < 0) normalizedAngle += 360;
   return Math.round(normalizedAngle % 360);
-};
+}
 
-const getAngle = memoize(
-  (v1: Vector2, v2: Vector2) => {
-    const [x1, y1] = v1;
-    const [x2, y2] = v2;
-    const [dot, det] = [x1 * x2 + y1 * y2, x1 * y2 - y1 * x2];
-    return Math.atan2(det, dot);
-  },
-  (v1, v2) => [...v1, ...v2].join()
-);
+function getAngle(v1: Vector2, v2: Vector2) {
+  const [x1, y1] = v1;
+  const [x2, y2] = v2;
+  const [dot, det] = [x1 * x2 + y1 * y2, x1 * y2 - y1 * x2];
+  return Math.atan2(det, dot);
+}
 
 /** to correct label rotation to avoid inverted character */
 function correctLabelRotation(_rotate: number) {

@@ -1,6 +1,6 @@
 import { CustomEvent } from '@antv/g';
 import { Linear } from '@antv/scale';
-import { clamp, isUndefined, memoize } from '@antv/util';
+import { clamp, isUndefined } from '@antv/util';
 import { Component } from '../../core';
 import type { DisplayObject, TextStyleProps } from '../../shapes';
 import { Group } from '../../shapes';
@@ -36,15 +36,12 @@ import { getSafetySelections, getStepValueByValue, ifHorizontal } from './utils'
 
 export type { ContinuousOptions, ContinuousStyleProps };
 
-const getMinMax = memoize(
-  (data: ContinuousDatum[]) => {
-    return {
-      min: Math.min(...data.map((d) => d.value)),
-      max: Math.max(...data.map((d) => d.value)),
-    };
-  },
-  (data) => data.map((d: any) => d.id)
-);
+function getMinMax(data: ContinuousDatum[]) {
+  return {
+    min: Math.min(...data.map((d) => d.value)),
+    max: Math.max(...data.map((d) => d.value)),
+  };
+}
 
 export class Continuous extends Component<ContinuousStyleProps> {
   constructor(options: ContinuousOptions) {
