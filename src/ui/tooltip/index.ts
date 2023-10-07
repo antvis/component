@@ -1,5 +1,4 @@
-import { createDom } from '@antv/dom-util';
-import { substitute } from '@antv/util';
+import { substitute, createDOM } from '@antv/util';
 import { Component } from '../../core';
 import { Group } from '../../shapes';
 import { applyStyleSheet, throttle } from '../../util';
@@ -35,7 +34,7 @@ export class Tooltip extends Component<TooltipStyleProps> {
     const { data, template } = this.attributes;
     return data.map(({ name = '', color = 'black', index, ...rest }, idx) => {
       const datum = { name, color, index: index ?? idx, ...rest };
-      return createDom(substitute(template.item!, datum)) as HTMLElement;
+      return createDOM(substitute(template.item!, datum)) as HTMLElement;
     });
   }
 
@@ -111,7 +110,7 @@ export class Tooltip extends Component<TooltipStyleProps> {
    */
   private initShape() {
     const { template } = this.attributes;
-    this.element = createDom(template.container!) as HTMLElement;
+    this.element = createDOM(template.container!) as HTMLElement;
     if (this.id) this.element.setAttribute('id', this.id);
   }
 

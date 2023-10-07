@@ -1,9 +1,9 @@
-import { createDom } from '@antv/dom-util';
+import { createDOM } from '@antv/util';
 import { applyStyleSheet } from '../../../src/util';
 
 describe('getStyle', () => {
   test('applyStyleSheet', async () => {
-    const dom = createDom("<div class='a'><div class='b'><div class='c'></div><div class='d'></div></div></div>");
+    const dom = createDOM("<div class='a'><div class='b'><div class='c'></div><div class='d'></div></div></div>");
     const styleSheet = {
       '.a': {
         width: '100px',
