@@ -1,5 +1,7 @@
 # component
 
+> 这个分支的 component 是 G2 4.x 中依赖的版本。
+
 ## 使用
 
 ```js
