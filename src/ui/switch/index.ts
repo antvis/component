@@ -46,7 +46,7 @@ export class Switch extends Component<SwitchStyleProps> {
   public static tag = 'switch';
 
   /**
-   *  开关
+   * 开关
    */
   private checked!: boolean;
 

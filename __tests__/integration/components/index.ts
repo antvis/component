@@ -17,3 +17,4 @@ export * from './marker';
 export * from './text';
 export * from './timebar';
 export * from './select';
+export * from './tag';
