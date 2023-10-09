@@ -56,26 +56,15 @@ export const Tooltip2 = () => {
   );
 
   document.getElementsByTagName('body')[0].appendChild(tooltip.HTMLTooltipElement);
-  let isPointerInTooltip = false;
   group.addEventListener('mousemove', (e: any) => {
-    tooltip.position = [e.offsetX, e.offsetY];
-  });
-  tooltip.getContainer().addEventListener('mouseenter', () => {
-    isPointerInTooltip = true;
-  });
-  tooltip.getContainer().addEventListener('mouseleave', () => {
-    isPointerInTooltip = false;
+    tooltip.show(e.offsetX, e.offsetY);
   });
 
   group.addEventListener('mouseenter', () => {
     tooltip.show();
   });
-  group.addEventListener('mouseleave', () => {
-    timeout(() => {
-      if (!isPointerInTooltip) {
-        tooltip.hide();
-      }
-    });
+  group.addEventListener('mouseleave', (e) => {
+    tooltip.hide(e.offsetX, e.offsetY);
   });
   return group;
 };

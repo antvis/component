@@ -45,13 +45,13 @@ export const Tooltip4 = () => {
 
   document.getElementsByTagName('body')[0].appendChild(tooltip.HTMLTooltipElement);
   group.addEventListener('mousemove', (e: any) => {
-    tooltip.position = [e.offsetX, e.offsetY];
+    tooltip.show(e.offsetX, e.offsetY);
   });
   group.addEventListener('mouseenter', () => {
     tooltip.show();
   });
-  group.addEventListener('mouseleave', () => {
-    tooltip.hide();
+  group.addEventListener('mouseleave', (e) => {
+    tooltip.hide(e.offsetX, e.offsetY);
   });
   return group;
 };

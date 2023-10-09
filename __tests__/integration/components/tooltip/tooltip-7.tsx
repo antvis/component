@@ -39,7 +39,7 @@ export const Tooltip7 = () => {
       document.getElementsByTagName('body')[0].appendChild(tooltip.HTMLTooltipElement);
     }
 
-    tooltip.position = [e.offsetX, e.offsetY];
+    tooltip.show(e.offsetX, e.offsetY);
   });
   group.addEventListener('mouseenter', (e: any) => {
     tooltip?.show(e.offsetX, e.offsetY);
