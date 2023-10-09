@@ -50,7 +50,7 @@ export const Tooltip4 = () => {
   group.addEventListener('mouseenter', () => {
     tooltip.show();
   });
-  group.addEventListener('mouseleave', (e) => {
+  group.addEventListener('mouseleave', (e: any) => {
     tooltip.hide(e.offsetX, e.offsetY);
   });
   return group;

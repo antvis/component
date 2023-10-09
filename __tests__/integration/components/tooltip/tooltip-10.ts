@@ -48,7 +48,7 @@ export const Tooltip10 = () => {
   group.addEventListener('mouseenter', (e: any) => {
     tooltip.show(e.offsetX, e.offsetY);
   });
-  group.addEventListener('mouseleave', (e) => {
+  group.addEventListener('mouseleave', (e: any) => {
     tooltip.hide(e.offsetX, e.offsetY);
   });
 
