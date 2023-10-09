@@ -87,6 +87,13 @@ export class Marker extends Component<MarkerStyleProps> {
   public static getSymbol = (type: string): FunctionalSymbol | undefined => {
     return Marker.MARKER_SYMBOL_MAP.get(type);
   };
+
+  /**
+   * @returns 获取已经注册的 icon 的类型
+   */
+  public static getSymbols = () => {
+    return Array.from(Marker.MARKER_SYMBOL_MAP.keys());
+  };
 }
 
 /** Shapes for Point Geometry */

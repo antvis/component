@@ -14,7 +14,7 @@ export function Checkbox1() {
     })
   );
 
-  group.appendChild(
+  const ck = group.appendChild(
     new Checkbox({
       style: {
         x: 10,
@@ -24,6 +24,12 @@ export function Checkbox1() {
       },
     })
   );
+
+  ck.addEventListener('click', () => {
+    ck.update({
+      checked: !ck.attr('checked'),
+    });
+  });
 
   return group;
 }

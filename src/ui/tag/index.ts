@@ -59,14 +59,14 @@ export class Tag extends Component<TagStyleProps> {
       .attr('className', 'tag-content')
       .style('zIndex', 0)
       .node();
-    const style = marker ? { marker } : { symbol: 'triangle', size: 0 };
+    const markerStyle = marker || { symbol: 'triangle', size: 0 };
     // @ts-ignore
-    const markerShape = maybeAppend(group, '.tag-marker', () => new Marker({ style }))
+    const markerShape = maybeAppend(group, '.tag-marker', () => new Marker({ style: markerStyle }))
       .attr('className', 'tag-marker')
       .call((selection) => {
         (selection.node() as Marker).clear();
       })
-      .update(style)
+      .update(markerStyle)
       .node() as Marker;
 
     const { x, y } = getTextPosition(markerShape, spacing);
