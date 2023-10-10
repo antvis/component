@@ -10,7 +10,7 @@ export type { TooltipStyleProps, TooltipOptions };
 export class Tooltip extends Component<TooltipStyleProps> {
   public static tag = 'tooltip';
 
-  private timestamp = Date.now();
+  private timestamp = -1;
 
   public get HTMLTooltipElement() {
     return this.element;
@@ -199,7 +199,7 @@ export class Tooltip extends Component<TooltipStyleProps> {
     const { showDelay = 60 } = this.attributes;
 
     const currentTimestamp = Date.now();
-    if (currentTimestamp - this.timestamp < showDelay) return;
+    if (this.timestamp > 0 && currentTimestamp - this.timestamp < showDelay) return;
 
     this.timestamp = currentTimestamp;
     // 尝试当前的位置使用默认 position 能否放下
