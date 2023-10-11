@@ -64,7 +64,7 @@ export const Tooltip2 = () => {
     tooltip.show();
   });
   group.addEventListener('mouseleave', (e: any) => {
-    tooltip.hide(e.offsetX, e.offsetY);
+    tooltip.hide(e.clientX, e.clientY);
   });
   return group;
 };

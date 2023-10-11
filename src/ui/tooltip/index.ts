@@ -256,14 +256,16 @@ export class Tooltip extends Component<TooltipStyleProps> {
     return this.getRelativeOffsetFromCursor(correctedPositionString as TooltipPosition);
   }
 
-  private isCursorEntered(cursorX: number, cursorY: number) {
+  private isCursorEntered(clientX: number, clientY: number) {
     // 是可捕获的，并且点在 tooltip dom 上
     if (this.element) {
       const { x, y, width, height } = this.element.getBoundingClientRect();
-      const { container } = this.attributes;
-      const { x: cx, y: cy } = container;
+      // const { container } = this.attributes;
+      // const { x: cx, y: cy } = container;
 
-      return new BBox(x - cx, y - cy, width, height).isPointIn(cursorX, cursorY);
+      // console.log(1113, [clientX, clientY], [x, y, width, height], [cx, cy], new BBox(x - cx, y - cy, width, height).isPointIn(cursorX, cursorY));
+
+      return new BBox(x, y, width, height).isPointIn(clientX, clientY);
     }
     return false;
   }
