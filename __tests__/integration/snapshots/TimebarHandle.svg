@@ -1,0 +1,217 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="50"
+  height="80"
+  style="background: transparent;"
+  color-interpolation-filters="sRGB"
+>
+  <defs />
+  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
+    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
+      <g
+        id="g-svg-835"
+        fill="none"
+        width="50"
+        height="80"
+        transform="matrix(1,0,0,1,0,0)"
+      >
+        <g transform="matrix(1,0,0,1,0,0)">
+          <path
+            id="g-svg-836"
+            fill="rgba(114,205,246,1)"
+            d="M 0,0 l 50,0 l 0,80 l-50 0 z"
+            width="50"
+            height="80"
+          />
+        </g>
+        <g transform="matrix(1,0,0,1,10,10)">
+          <circle
+            id="g-svg-837"
+            fill="rgba(63,124,247,1)"
+            transform="translate(-5,-5)"
+            cx="5"
+            cy="5"
+            r="5"
+            stroke-width="0"
+            stroke="rgba(63,124,247,1)"
+            stroke-opacity="0.5"
+          />
+        </g>
+        <g
+          id="g-svg-838"
+          fill="none"
+          width="10"
+          height="50"
+          transform="matrix(1,0,0,1,10,50)"
+        >
+          <g transform="matrix(1,0,0,1,-5,-25)">
+            <path
+              id="g-svg-1"
+              fill="rgba(255,255,255,1)"
+              class="background"
+              d="M 0,0 l 10,0 l 0,50 l-10 0 z"
+              width="10"
+              height="50"
+              fill-opacity="0.5"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,-1,-5)">
+            <line
+              id="g-svg-2"
+              fill="none"
+              x1="0"
+              y1="0"
+              x2="0"
+              y2="10"
+              class="icon-left-line"
+              stroke="rgba(154,154,154,1)"
+              stroke-width="1"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,1,-5)">
+            <line
+              id="g-svg-3"
+              fill="none"
+              x1="0"
+              y1="0"
+              x2="0"
+              y2="10"
+              class="icon-right-line"
+              stroke="rgba(154,154,154,1)"
+              stroke-width="1"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,5,-25)">
+            <line
+              id="g-svg-4"
+              fill="none"
+              x1="0"
+              y1="0"
+              x2="0"
+              y2="50"
+              class="border"
+              stroke="rgba(232,232,232,1)"
+              stroke-width="1"
+            />
+          </g>
+        </g>
+        <g
+          id="g-svg-839"
+          fill="none"
+          width="10"
+          height="50"
+          transform="matrix(1,0,0,1,25,50)"
+        >
+          <g transform="matrix(1,0,0,1,-5,-25)">
+            <path
+              id="g-svg-5"
+              fill="rgba(255,255,255,1)"
+              class="background"
+              d="M 0,0 l 10,0 l 0,50 l-10 0 z"
+              width="10"
+              height="50"
+              fill-opacity="0.5"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,-1,-5)">
+            <line
+              id="g-svg-6"
+              fill="none"
+              x1="0"
+              y1="0"
+              x2="0"
+              y2="10"
+              class="icon-left-line"
+              stroke="rgba(154,154,154,1)"
+              stroke-width="1"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,1,-5)">
+            <line
+              id="g-svg-7"
+              fill="none"
+              x1="0"
+              y1="0"
+              x2="0"
+              y2="10"
+              class="icon-right-line"
+              stroke="rgba(154,154,154,1)"
+              stroke-width="1"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,-5,-25)">
+            <line
+              id="g-svg-8"
+              fill="none"
+              x1="0"
+              y1="0"
+              x2="0"
+              y2="50"
+              class="border"
+              stroke="rgba(232,232,232,1)"
+              stroke-width="1"
+            />
+          </g>
+        </g>
+        <g
+          id="g-svg-840"
+          fill="none"
+          width="10"
+          height="50"
+          transform="matrix(1,0,0,1,40,50)"
+        >
+          <g transform="matrix(1,0,0,1,-5,-25)">
+            <path
+              id="g-svg-9"
+              fill="rgba(255,255,255,1)"
+              class="background"
+              d="M 0,0 l 10,0 l 0,50 l-10 0 z"
+              width="10"
+              height="50"
+              fill-opacity="0.5"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,-1,-10)">
+            <line
+              id="g-svg-10"
+              fill="none"
+              x1="0"
+              y1="0"
+              x2="0"
+              y2="20"
+              class="icon-left-line"
+              stroke="rgba(154,154,154,1)"
+              stroke-width="1"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,1,-10)">
+            <line
+              id="g-svg-11"
+              fill="none"
+              x1="0"
+              y1="0"
+              x2="0"
+              y2="20"
+              class="icon-right-line"
+              stroke="rgba(154,154,154,1)"
+              stroke-width="1"
+            />
+          </g>
+          <g transform="matrix(1,0,0,1,-5,-25)">
+            <line
+              id="g-svg-12"
+              fill="none"
+              x1="0"
+              y1="0"
+              x2="0"
+              y2="50"
+              class="border"
+              stroke="rgba(232,232,232,1)"
+              stroke-width="1"
+            />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

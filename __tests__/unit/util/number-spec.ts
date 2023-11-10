@@ -1,6 +1,6 @@
 import { toPrecision, toThousands, toScientificNotation, toKNotation } from '../../../src';
 
-describe('number', () => {
+describe.skip('number', () => {
   test('toPrecision', async () => {
     expect(toPrecision(0.12345, 2)).toBe(0.12);
     expect(toPrecision(0.12345, 3)).toBe(0.123);

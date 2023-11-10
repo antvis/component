@@ -1,7 +1,9 @@
 import * as fs from 'fs';
+import { Canvas } from '@antv/g';
+import { format } from 'prettier';
+import xmlserializer from 'xmlserializer';
 import * as tests from './components';
-import { renderCanvas, diff } from './canvas';
-// import { renderSVG } from './svg';
+import { renderCanvas } from './canvas';
 import { fetch } from './fetch';
 
 // @ts-ignore
@@ -19,67 +21,47 @@ describe('integration', () => {
     // @ts-ignore
     if (!target.skip) {
       it(`[Canvas]: ${name}`, async () => {
-        let canvas;
+        let canvas: Canvas | undefined;
+        let actual: string;
         try {
-          const actualPath = `${__dirname}/snapshots/${name}-actual.png`;
-          const expectedPath = `${__dirname}/snapshots/${name}.png`;
-          const diffPath = `${__dirname}/snapshots/${name}-diff.png`;
+          const actualPath = `${__dirname}/snapshots/${name}-actual.svg`;
+          const expectedPath = `${__dirname}/snapshots/${name}.svg`;
           const options = await target();
           // @ts-ignore
           const wait = target.wait;
+          canvas = await renderCanvas(options, wait);
+          const container = canvas.getConfig().container as HTMLElement;
+          const dom = container.querySelector('svg');
+
+          actual = await format(xmlserializer.serializeToString(dom as any), {
+            parser: 'babel',
+          });
+
+          // Remove ';' after format by babel.
+          if (actual !== 'null') actual = actual.slice(0, -2);
+
           // Generate golden png if not exists.
           if (!fs.existsSync(expectedPath)) {
+            if (process.env.CI === 'true') {
+              throw new Error(`Please generate golden image for ${name}`);
+            }
             console.warn(`! generate ${name}`);
-            canvas = await renderCanvas(options, expectedPath, wait);
+            await fs.writeFileSync(expectedPath, actual);
           } else {
-            canvas = await renderCanvas(options, actualPath, wait);
-            // @ts-ignore
-            const maxError = target.maxError || 0;
-            expect(diff(actualPath, expectedPath, diffPath, maxError)).toBeLessThanOrEqual(maxError);
-            if (fs.existsSync(diffPath)) fs.unlinkSync(diffPath);
-            // Persevere the diff image if do not pass the test.
-            fs.unlinkSync(actualPath);
+            const expected = fs.readFileSync(expectedPath, {
+              encoding: 'utf8',
+              flag: 'r',
+            });
+
+            expect(expected).toBe(actual);
+            if (actual === expected) {
+              if (fs.existsSync(actualPath)) fs.unlinkSync(actualPath);
+            }
           }
         } finally {
           if (canvas) canvas.destroy();
         }
       });
-    }
-  }
-
-  for (const [name, generateOptions] of Object.entries(tests)) {
-    // @ts-ignore
-    if (!generateOptions.skip) {
-      // Skip SVG snapshot tests as the DOM structure is not stable now.
-      // Run Canvas snapshot tests to make render plot as expected.
-      // it.skip(`[SVG]: ${name}`, async () => {
-      //   let canvas;
-      //   let actual;
-      //   try {
-      //     const expectedPath = `${__dirname}/snapshots/${name}.svg`;
-      //     const options = await generateOptions();
-      //     [canvas, actual] = await renderSVG(options);
-      //     // Generate golden svg if not exists.
-      //     if (!fs.existsSync(expectedPath)) {
-      //       console.warn(`! generate ${name}`);
-      //       fs.writeFileSync(expectedPath, actual);
-      //     } else {
-      //       const expected = fs.readFileSync(expectedPath, {
-      //         encoding: 'utf8',
-      //         flag: 'r',
-      //       });
-      //       expect(expected).toBe(actual);
-      //     }
-      //   } catch (error) {
-      //     // Generate error svg to compare.
-      //     console.warn(`! generate ${name}`);
-      //     const diffPath = `${__dirname}/snapshots/${name}-diff.svg`;
-      //     actual && fs.writeFileSync(diffPath, actual);
-      //     throw error;
-      //   } finally {
-      //     if (canvas) canvas.destroy();
-      //   }
-      // });
     }
   }
 
