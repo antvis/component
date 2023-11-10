@@ -49,9 +49,6 @@
     "@antv/util": "^3.3.5",
     "svg-path-parser": "^1.1.0"
   },
-  "peerDependencies": {
-    "@antv/g": "^5.18.6"
-  },
   "devDependencies": {
     "@antv/g-canvas": "^1.11.5",
     "@antv/g-plugin-control": "^1.9.6",

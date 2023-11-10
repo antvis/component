@@ -1,4 +1,5 @@
-import { isString, memoize } from '@antv/util';
+import { runtime } from '@antv/g';
+import { memoize } from '@antv/util';
 import type { DisplayObject, Text } from '../shapes';
 
 let ctx: CanvasRenderingContext2D;
@@ -12,22 +13,21 @@ export function setMockMeasureTextWidth(mock: (text: string, fontSize: number) =
  * 计算文本在画布中的宽度
  */
 export const measureTextWidth = memoize(
-  (text: string | Text, font?: any): number => {
-    const content = isString(text) ? text : text.style.text.toString();
-    const { fontSize, fontFamily, fontWeight, fontStyle, fontVariant } = font || getFont(text as Text);
+  (text: string, font: any): number => {
+    const { fontSize, fontFamily, fontWeight, fontStyle, fontVariant } = font;
 
     if (mockMeasureTextWidth) {
-      return mockMeasureTextWidth(content, fontSize);
+      return mockMeasureTextWidth(text, fontSize);
     }
 
     if (!ctx) {
-      ctx = document.createElement('canvas').getContext('2d') as CanvasRenderingContext2D;
+      // @ts-ignore
+      ctx = runtime.offscreenCanvasCreator.getOrCreateContext(undefined) as CanvasRenderingContext2D;
     }
     ctx!.font = [fontStyle, fontVariant, fontWeight, `${fontSize}px`, fontFamily].join(' ');
-    return ctx!.measureText(content).width;
+    return ctx!.measureText(text).width;
   },
-  (text: any, font?: any) =>
-    [isString(text) ? text : text.style.text.toString(), Object.values(font || getFont(text as Text)).join()].join(''),
+  (text: any, font?: any) => [text, Object.values(font || getFont(text as Text)).join()].join(''),
   4096
 );
 

@@ -82,5 +82,4 @@ public
 .lh
 
 # tests
-__tests__/integration/**/*-diff.png
-__tests__/integration/**/*-actual.png
+__tests__/integration/**/*-actual.svg

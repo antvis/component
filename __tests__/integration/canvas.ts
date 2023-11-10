@@ -38,7 +38,7 @@ export function sleep(n: number) {
   });
 }
 
-export async function renderCanvas(gshape: DisplayObject, wait = 100) {
+export async function renderCanvas(gshape: DisplayObject, wait = 300) {
   const bbox = gshape.getBBox();
   const width = gshape.attributes.width || bbox.x + bbox.width || 400;
   const height = gshape.attributes.height || bbox.y + bbox.height || 300;
