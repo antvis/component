@@ -3,7 +3,7 @@ import { Canvas } from '@antv/g';
 import { format } from 'prettier';
 import xmlserializer from 'xmlserializer';
 import * as tests from './components';
-import { renderCanvas } from './canvas';
+import { renderCanvas, sleep } from './canvas';
 import { fetch } from './fetch';
 
 // @ts-ignore
@@ -63,6 +63,7 @@ describe('integration', () => {
           }
         } finally {
           if (canvas) canvas.destroy();
+          sleep(100);
         }
       });
     }
