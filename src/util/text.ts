@@ -2,6 +2,11 @@ import { isString, memoize } from '@antv/util';
 import type { DisplayObject, Text } from '../shapes';
 
 let ctx: CanvasRenderingContext2D;
+let mockMeasureTextWidth: ((text: string, fontSize: number) => number) | undefined;
+
+export function setMockMeasureTextWidth(mock: (text: string, fontSize: number) => number) {
+  mockMeasureTextWidth = mock;
+}
 
 /**
  * 计算文本在画布中的宽度
@@ -10,6 +15,11 @@ export const measureTextWidth = memoize(
   (text: string | Text, font?: any): number => {
     const content = isString(text) ? text : text.style.text.toString();
     const { fontSize, fontFamily, fontWeight, fontStyle, fontVariant } = font || getFont(text as Text);
+
+    if (mockMeasureTextWidth) {
+      return mockMeasureTextWidth(content, fontSize);
+    }
+
     if (!ctx) {
       ctx = document.createElement('canvas').getContext('2d') as CanvasRenderingContext2D;
     }
