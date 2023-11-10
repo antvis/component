@@ -25,8 +25,7 @@ jobs:
         with:
           name: snapshots
           path: |
-            __tests__/integration/snapshots/**/*-actual.svg
-            __tests__/integration/snapshots/**/*-actual.html
+            __tests__/integration/snapshots/*-actual.svg
           retention-days: 1
 
       - name: coverall

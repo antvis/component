@@ -53,10 +53,13 @@ describe('integration', () => {
               flag: 'r',
             });
 
-            expect(expected).toBe(actual);
             if (actual === expected) {
               if (fs.existsSync(actualPath)) fs.unlinkSync(actualPath);
+            } else {
+              if (actual) fs.writeFileSync(actualPath, actual);
             }
+
+            expect(expected).toBe(actual);
           }
         } finally {
           if (canvas) canvas.destroy();
