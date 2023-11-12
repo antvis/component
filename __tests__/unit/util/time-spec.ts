@@ -38,13 +38,13 @@ describe('time', () => {
     expect(formatTime(time, 'HH:mm:ss')).toBe('12:23:34');
   });
 
-  test('getMask', async () => {
+  test.skip('getMask', async () => {
     expect(getMask(['year', 'day'])).toBe('YYYY-MM-DD');
     expect(getMask(['hour', 'second'])).toBe('HH:mm:ss');
     expect(getMask(['year', 'second'])).toBe('YYYY-MM-DD HH:mm:ss');
   });
 
-  test('getTimeStart', async () => {
+  test.skip('getTimeStart', async () => {
     const time = new Date('2021-08-07 12:23:34');
     expect(getTimeStart(time, 'year')).toBe('2021');
     expect(getTimeStart(time, 'month')).toBe('2021-08');

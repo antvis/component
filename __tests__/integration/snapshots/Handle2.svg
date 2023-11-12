@@ -1,0 +1,91 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="400"
+  height="300"
+  style="background: transparent;"
+  color-interpolation-filters="sRGB"
+>
+  <defs />
+  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
+    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
+      <g id="g-svg-8" fill="none" transform="matrix(1,0,0,1,0,0)">
+        <g id="g-svg-9" fill="none" transform="matrix(1,0,0,1,150,150)">
+          <g
+            id="g-svg-1"
+            fill="none"
+            transform="matrix(1,0,0,1,0,0)"
+            class="handle-icon-group"
+          >
+            <g
+              id="g-svg-2"
+              fill="none"
+              transform="matrix(0,1,-1,0,0,0)"
+              class="handle-icon"
+            >
+              <g transform="matrix(1,0,0,1,-5,-12)">
+                <path
+                  id="g-svg-3"
+                  fill="rgba(255,255,255,1)"
+                  class="handle-icon-rect"
+                  stroke-width="1"
+                  stroke="rgba(191,191,191,1)"
+                  d="M 2,0 l 6,0 a 2,2,0,0,1,2,2 l 0,20 a 2,2,0,0,1,-2,2 l -6,0 a 2,2,0,0,1,-2,-2 l 0,-20 a 2,2,0,0,1,2,-2 z"
+                  width="10"
+                  height="24"
+                />
+                <g transform="matrix(1,0,0,1,3.333333,6)">
+                  <line
+                    id="g-svg-4"
+                    fill="rgba(255,255,255,1)"
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="12"
+                    class="handle-icon-line-1"
+                    stroke-width="1"
+                    stroke="rgba(191,191,191,1)"
+                  />
+                </g>
+                <g transform="matrix(1,0,0,1,6.666667,6)">
+                  <line
+                    id="g-svg-5"
+                    fill="rgba(255,255,255,1)"
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="12"
+                    class="handle-icon-line-2"
+                    stroke-width="1"
+                    stroke="rgba(191,191,191,1)"
+                  />
+                </g>
+              </g>
+            </g>
+          </g>
+          <g
+            id="g-svg-6"
+            fill="none"
+            transform="matrix(1,0,0,1,0,0)"
+            class="handle-label-group"
+          >
+            <g transform="matrix(1,0,0,1,0,0)">
+              <text
+                id="g-svg-7"
+                fill="rgba(0,0,0,1)"
+                class="handle-label"
+                fill-opacity="0.45"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                font-size="12"
+                text-anchor="middle"
+              >
+                LabelText
+              </text>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

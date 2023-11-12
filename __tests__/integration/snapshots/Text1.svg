@@ -1,0 +1,33 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="140.2"
+  height="115.5"
+  style="background: transparent;"
+  color-interpolation-filters="sRGB"
+>
+  <defs />
+  <g id="g-svg-camera" transform="matrix(1,0,0,1,0.000002,0)">
+    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
+      <g id="g-svg-24" fill="none" transform="matrix(1,0,0,1,0,0)">
+        <g transform="matrix(1,0,0,1,100,100)">
+          <text
+            id="g-svg-25"
+            fill="rgba(0,0,0,1)"
+            dominant-baseline="central"
+            paint-order="stroke"
+            dx="0.5"
+            font-family="sans-serif"
+            font-size="16"
+            font-style="normal"
+            font-variant="normal"
+            font-weight="normal"
+            stroke-width="1"
+            text-anchor="left"
+          >
+            Hello
+          </text>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

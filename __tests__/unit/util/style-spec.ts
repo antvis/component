@@ -24,8 +24,8 @@ describe('getStyle', () => {
     applyStyleSheet(dom, styleSheet);
 
     expect(dom.style.width).toBe('100px');
-    expect(dom.querySelector('.b').style.backgroundColor).toBe('red');
-    expect(dom.querySelector('.c').style.padding).toBe('0px 0px 0px 0px');
-    expect(dom.querySelector('.d').style.marginLeft).toBe('10px');
+    expect(dom.querySelector<HTMLElement>('.b')!.style.backgroundColor).toBe('red');
+    expect(dom.querySelector<HTMLElement>('.c')!.style.padding).toBe('0px 0px 0px 0px');
+    expect(dom.querySelector<HTMLElement>('.d')!.style.marginLeft).toBe('10px');
   });
 });

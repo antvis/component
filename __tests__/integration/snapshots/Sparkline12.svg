@@ -1,0 +1,400 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="310"
+  height="60"
+  style="background: transparent;"
+  color-interpolation-filters="sRGB"
+>
+  <defs />
+  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
+    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
+      <g id="g-svg-34" fill="none" transform="matrix(1,0,0,1,0,0)">
+        <g
+          id="g-svg-35"
+          fill="none"
+          width="300"
+          height="50"
+          transform="matrix(1,0,0,1,10,10)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <path id="g-svg-1" fill="none" class="container" />
+          </g>
+          <g
+            id="g-svg-2"
+            fill="none"
+            class="spark sparkcolumn"
+            transform="matrix(1,0,0,1,0,0)"
+          >
+            <g
+              id="g-svg-3"
+              name="columns"
+              fill="none"
+              transform="matrix(1,0,0,1,0,0)"
+            >
+              <g transform="matrix(1,0,0,1,0,28.301888)">
+                <path
+                  id="g-svg-4"
+                  fill="rgba(103,142,242,1)"
+                  d="M 0,0 l 30,0 l 0,9.433962264150944 l-30 0 z"
+                  class="column"
+                  stroke-width="1"
+                  stroke="rgba(255,255,255,1)"
+                  width="30"
+                  height="9.433962264150944"
+                />
+              </g>
+              <g transform="matrix(1,0,0,1,30,35.849056)">
+                <path
+                  id="g-svg-5"
+                  fill="rgba(103,142,242,1)"
+                  d="M 0,0 l 30,0 l 0,1.8867924528301887 l-30 0 z"
+                  class="column"
+                  stroke-width="1"
+                  stroke="rgba(255,255,255,1)"
+                  width="30"
+                  height="1.8867924528301887"
+                />
+              </g>
+              <g transform="matrix(1,0,0,1,60,34.905659)">
+                <path
+                  id="g-svg-6"
+                  fill="rgba(103,142,242,1)"
+                  d="M 0,0 l 30,0 l 0,2.8301886792452833 l-30 0 z"
+                  class="column"
+                  stroke-width="1"
+                  stroke="rgba(255,255,255,1)"
+                  width="30"
+                  height="2.8301886792452833"
+                />
+              </g>
+              <g transform="matrix(1,0,0,1,90,33.962265)">
+                <path
+                  id="g-svg-7"
+                  fill="rgba(103,142,242,1)"
+                  d="M 0,0 l 30,0 l 0,3.7735849056603774 l-30 0 z"
+                  class="column"
+                  stroke-width="1"
+                  stroke="rgba(255,255,255,1)"
+                  width="30"
+                  height="3.7735849056603774"
+                />
+              </g>
+              <g transform="matrix(1,0,0,1,120,23.584906)">
+                <path
+                  id="g-svg-8"
+                  fill="rgba(103,142,242,1)"
+                  d="M 0,0 l 30,0 l 0,14.150943396226415 l-30 0 z"
+                  class="column"
+                  stroke-width="1"
+                  stroke="rgba(255,255,255,1)"
+                  width="30"
+                  height="14.150943396226415"
+                />
+              </g>
+              <g transform="matrix(1,0,0,1,150,28.301888)">
+                <path
+                  id="g-svg-9"
+                  fill="rgba(103,142,242,1)"
+                  d="M 0,0 l 30,0 l 0,9.433962264150944 l-30 0 z"
+                  class="column"
+                  stroke-width="1"
+                  stroke="rgba(255,255,255,1)"
+                  width="30"
+                  height="9.433962264150944"
+                />
+              </g>
+              <g transform="matrix(1,0,0,1,180,33.018867)">
+                <path
+                  id="g-svg-10"
+                  fill="rgba(103,142,242,1)"
+                  d="M 0,0 l 30,0 l 0,4.716981132075472 l-30 0 z"
+                  class="column"
+                  stroke-width="1"
+                  stroke="rgba(255,255,255,1)"
+                  width="30"
+                  height="4.716981132075472"
+                />
+              </g>
+              <g transform="matrix(1,0,0,1,210,37.735847)">
+                <path
+                  id="g-svg-11"
+                  fill="rgba(103,142,242,1)"
+                  d="M 0,0 l 30,0 l 0,0 l-30 0 z"
+                  class="column"
+                  stroke-width="1"
+                  stroke="rgba(255,255,255,1)"
+                  width="30"
+                  height="0"
+                />
+              </g>
+              <g transform="matrix(1,0,0,1,240,34.905659)">
+                <path
+                  id="g-svg-12"
+                  fill="rgba(103,142,242,1)"
+                  d="M 0,0 l 30,0 l 0,2.8301886792452833 l-30 0 z"
+                  class="column"
+                  stroke-width="1"
+                  stroke="rgba(255,255,255,1)"
+                  width="30"
+                  height="2.8301886792452833"
+                />
+              </g>
+              <g transform="matrix(1,0,0,1,270,36.792454)">
+                <path
+                  id="g-svg-13"
+                  fill="rgba(103,142,242,1)"
+                  d="M 0,0 l 30,0 l 0,0.9433962264150944 l-30 0 z"
+                  class="column"
+                  stroke-width="1"
+                  stroke="rgba(255,255,255,1)"
+                  width="30"
+                  height="0.9433962264150944"
+                />
+              </g>
+              <g transform="matrix(1,0,0,1,0,23.584906)">
+                <path
+                  id="g-svg-14"
+                  fill="rgba(125,213,169,1)"
+                  d="M 0,0 l 30,0 l 0,4.716981132075472 l-30 0 z"
+                  class="column"
+                  stroke-width="1"
+                  stroke="rgba(255,255,255,1)"
+                  width="30"
+                  height="4.716981132075472"
+                />
+              </g>
+              <g transform="matrix(1,0,0,1,30,29.245283)">
+                <path
+                  id="g-svg-15"
+                  fill="rgba(125,213,169,1)"
+                  d="M 0,0 l 30,0 l 0,6.60377358490566 l-30 0 z"
+                  class="column"
+                  stroke-width="1"
+                  stroke="rgba(255,255,255,1)"
+                  width="30"
+                  height="6.60377358490566"
+                />
+              </g>
+              <g transform="matrix(1,0,0,1,60,25.471699)">
+                <path
+                  id="g-svg-16"
+                  fill="rgba(125,213,169,1)"
+                  d="M 0,0 l 30,0 l 0,9.433962264150944 l-30 0 z"
+                  class="column"
+                  stroke-width="1"
+                  stroke="rgba(255,255,255,1)"
+                  width="30"
+                  height="9.433962264150944"
+                />
+              </g>
+              <g transform="matrix(1,0,0,1,90,31.132076)">
+                <path
+                  id="g-svg-17"
+                  fill="rgba(125,213,169,1)"
+                  d="M 0,0 l 30,0 l 0,2.8301886792452833 l-30 0 z"
+                  class="column"
+                  stroke-width="1"
+                  stroke="rgba(255,255,255,1)"
+                  width="30"
+                  height="2.8301886792452833"
+                />
+              </g>
+              <g transform="matrix(1,0,0,1,120,14.150944)">
+                <path
+                  id="g-svg-18"
+                  fill="rgba(125,213,169,1)"
+                  d="M 0,0 l 30,0 l 0,9.433962264150944 l-30 0 z"
+                  class="column"
+                  stroke-width="1"
+                  stroke="rgba(255,255,255,1)"
+                  width="30"
+                  height="9.433962264150944"
+                />
+              </g>
+              <g transform="matrix(1,0,0,1,150,22.641510)">
+                <path
+                  id="g-svg-19"
+                  fill="rgba(125,213,169,1)"
+                  d="M 0,0 l 30,0 l 0,5.660377358490567 l-30 0 z"
+                  class="column"
+                  stroke-width="1"
+                  stroke="rgba(255,255,255,1)"
+                  width="30"
+                  height="5.660377358490567"
+                />
+              </g>
+              <g transform="matrix(1,0,0,1,180,23.584906)">
+                <path
+                  id="g-svg-20"
+                  fill="rgba(125,213,169,1)"
+                  d="M 0,0 l 30,0 l 0,9.433962264150944 l-30 0 z"
+                  class="column"
+                  stroke-width="1"
+                  stroke="rgba(255,255,255,1)"
+                  width="30"
+                  height="9.433962264150944"
+                />
+              </g>
+              <g transform="matrix(1,0,0,1,210,36.792454)">
+                <path
+                  id="g-svg-21"
+                  fill="rgba(125,213,169,1)"
+                  d="M 0,0 l 30,0 l 0,0.9433962264150944 l-30 0 z"
+                  class="column"
+                  stroke-width="1"
+                  stroke="rgba(255,255,255,1)"
+                  width="30"
+                  height="0.9433962264150944"
+                />
+              </g>
+              <g transform="matrix(1,0,0,1,240,30.188679)">
+                <path
+                  id="g-svg-22"
+                  fill="rgba(125,213,169,1)"
+                  d="M 0,0 l 30,0 l 0,4.716981132075472 l-30 0 z"
+                  class="column"
+                  stroke-width="1"
+                  stroke="rgba(255,255,255,1)"
+                  width="30"
+                  height="4.716981132075472"
+                />
+              </g>
+              <g transform="matrix(1,0,0,1,270,36.792454)">
+                <path
+                  id="g-svg-23"
+                  fill="rgba(125,213,169,1)"
+                  d="M 0,0 l 30,0 l 0,0 l-30 0 z"
+                  class="column"
+                  stroke-width="1"
+                  stroke="rgba(255,255,255,1)"
+                  width="30"
+                  height="0"
+                />
+              </g>
+              <g transform="matrix(1,0,0,1,0,22.641510)">
+                <path
+                  id="g-svg-24"
+                  fill="rgba(97,111,143,1)"
+                  d="M 0,0 l 30,0 l 0,0.9433962264150944 l-30 0 z"
+                  class="column"
+                  stroke-width="1"
+                  stroke="rgba(255,255,255,1)"
+                  width="30"
+                  height="0.9433962264150944"
+                />
+              </g>
+              <g transform="matrix(1,0,0,1,30,26.415094)">
+                <path
+                  id="g-svg-25"
+                  fill="rgba(97,111,143,1)"
+                  d="M 0,0 l 30,0 l 0,2.8301886792452833 l-30 0 z"
+                  class="column"
+                  stroke-width="1"
+                  stroke="rgba(255,255,255,1)"
+                  width="30"
+                  height="2.8301886792452833"
+                />
+              </g>
+              <g transform="matrix(1,0,0,1,60,21.698112)">
+                <path
+                  id="g-svg-26"
+                  fill="rgba(97,111,143,1)"
+                  d="M 0,0 l 30,0 l 0,3.7735849056603774 l-30 0 z"
+                  class="column"
+                  stroke-width="1"
+                  stroke="rgba(255,255,255,1)"
+                  width="30"
+                  height="3.7735849056603774"
+                />
+              </g>
+              <g transform="matrix(1,0,0,1,90,21.698112)">
+                <path
+                  id="g-svg-27"
+                  fill="rgba(97,111,143,1)"
+                  d="M 0,0 l 30,0 l 0,9.433962264150944 l-30 0 z"
+                  class="column"
+                  stroke-width="1"
+                  stroke="rgba(255,255,255,1)"
+                  width="30"
+                  height="9.433962264150944"
+                />
+              </g>
+              <g transform="matrix(1,0,0,1,120,0)">
+                <path
+                  id="g-svg-28"
+                  fill="rgba(97,111,143,1)"
+                  d="M 0,0 l 30,0 l 0,14.150943396226415 l-30 0 z"
+                  class="column"
+                  stroke-width="1"
+                  stroke="rgba(255,255,255,1)"
+                  width="30"
+                  height="14.150943396226415"
+                />
+              </g>
+              <g transform="matrix(1,0,0,1,150,50)">
+                <path
+                  id="g-svg-29"
+                  fill="rgba(97,111,143,1)"
+                  d="M 0,0 l 30,0 l 0,-12.264150943396226 l-30 0 z"
+                  class="column"
+                  stroke-width="1"
+                  stroke="rgba(255,255,255,1)"
+                  width="30"
+                  height="-12.264150943396226"
+                />
+              </g>
+              <g transform="matrix(1,0,0,1,180,20.754717)">
+                <path
+                  id="g-svg-30"
+                  fill="rgba(97,111,143,1)"
+                  d="M 0,0 l 30,0 l 0,2.8301886792452833 l-30 0 z"
+                  class="column"
+                  stroke-width="1"
+                  stroke="rgba(255,255,255,1)"
+                  width="30"
+                  height="2.8301886792452833"
+                />
+              </g>
+              <g transform="matrix(1,0,0,1,210,33.962265)">
+                <path
+                  id="g-svg-31"
+                  fill="rgba(97,111,143,1)"
+                  d="M 0,0 l 30,0 l 0,2.8301886792452833 l-30 0 z"
+                  class="column"
+                  stroke-width="1"
+                  stroke="rgba(255,255,255,1)"
+                  width="30"
+                  height="2.8301886792452833"
+                />
+              </g>
+              <g transform="matrix(1,0,0,1,240,20.754717)">
+                <path
+                  id="g-svg-32"
+                  fill="rgba(97,111,143,1)"
+                  d="M 0,0 l 30,0 l 0,9.433962264150944 l-30 0 z"
+                  class="column"
+                  stroke-width="1"
+                  stroke="rgba(255,255,255,1)"
+                  width="30"
+                  height="9.433962264150944"
+                />
+              </g>
+              <g transform="matrix(1,0,0,1,270,25.471699)">
+                <path
+                  id="g-svg-33"
+                  fill="rgba(97,111,143,1)"
+                  d="M 0,0 l 30,0 l 0,11.320754716981133 l-30 0 z"
+                  class="column"
+                  stroke-width="1"
+                  stroke="rgba(255,255,255,1)"
+                  width="30"
+                  height="11.320754716981133"
+                />
+              </g>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,210 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="50"
+  height="100"
+  style="background: transparent;"
+  color-interpolation-filters="sRGB"
+>
+  <defs>
+    <filter
+      data-type="outer"
+      id="g-filter-dropshadow-23"
+      filterUnits="userSpaceOnUse"
+    >
+      <feDropShadow
+        dx="0"
+        dy="0"
+        stdDeviation="1"
+        flood-color="rgba(0,0,0,0.08)"
+      />
+    </filter>
+  </defs>
+  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
+    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
+      <g
+        id="g-svg-20"
+        fill="none"
+        width="50"
+        height="100"
+        transform="matrix(1,0,0,1,0,0)"
+      >
+        <g
+          id="g-svg-21"
+          fill="none"
+          width="30"
+          height="20"
+          transform="matrix(1,0,0,1,10,10)"
+        >
+          <g transform="matrix(1,0,0,1,0,0)">
+            <path
+              id="g-svg-22"
+              fill="rgba(255,255,255,1)"
+              d="M 2,0 l 26,0 a 2,2,0,0,1,2,2 l 0,16 a 2,2,0,0,1,-2,2 l -26,0 a 2,2,0,0,1,-2,-2 l 0,-16 a 2,2,0,0,1,2,-2 z"
+              class="select"
+              width="30"
+              height="20"
+              stroke="rgba(217,217,217,1)"
+              stroke-width="0"
+            />
+            <g transform="matrix(1,0,0,1,2,-1.500000)">
+              <text
+                id="g-svg-1"
+                fill="rgba(0,0,0,1)"
+                dominant-baseline="central"
+                paint-order="stroke"
+                dx="0.5"
+                font-family="sans-serif"
+                font-size="12"
+                font-style="normal"
+                font-variant="normal"
+                font-weight="normal"
+                stroke-width="1"
+                text-anchor="left"
+                class="value"
+                dy="11.5px"
+              >
+                1x
+              </text>
+            </g>
+          </g>
+          <g transform="matrix(1,0,0,1,0,30)">
+            <path
+              id="g-svg-23"
+              fill="rgba(255,255,255,1)"
+              class="dropdown"
+              d="M 2,0 l 26,0 a 2,2,0,0,1,2,2 l 0,69 a 2,2,0,0,1,-2,2 l -26,0 a 2,2,0,0,1,-2,-2 l 0,-69 a 2,2,0,0,1,2,-2 z"
+              width="30"
+              height="73"
+              stroke="rgba(217,217,217,1)"
+              filter="url(#g-filter-dropshadow-23)"
+            />
+            <g
+              id="g-svg-2"
+              fill="none"
+              transform="matrix(1,0,0,1,0,0)"
+              class="dropdown-container"
+            >
+              <g
+                id="g-svg-3"
+                fill="none"
+                class="dropdown-item"
+                width="26"
+                transform="matrix(1,0,0,1,2,2)"
+              >
+                <g transform="matrix(1,0,0,1,0,0)">
+                  <path
+                    id="g-svg-4"
+                    fill="rgba(230,247,255,1)"
+                    d="M 1,0 l 24,0 a 1,1,0,0,1,1,1 l 0,21 a 1,1,0,0,1,-1,1 l -24,0 a 1,1,0,0,1,-1,-1 l 0,-21 a 1,1,0,0,1,1,-1 z"
+                    width="26"
+                    height="23"
+                  />
+                  <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)">
+                    <g transform="matrix(1,0,0,1,0,0)">
+                      <text
+                        id="g-svg-6"
+                        fill="rgba(0,0,0,1)"
+                        dominant-baseline="central"
+                        paint-order="stroke"
+                        dx="0.5"
+                        font-family="sans-serif"
+                        font-size="12"
+                        font-style="normal"
+                        font-variant="normal"
+                        font-weight="normal"
+                        stroke-width="1"
+                        text-anchor="left"
+                        class="label"
+                        dy="11.5px"
+                      >
+                        1x
+                      </text>
+                    </g>
+                  </g>
+                </g>
+              </g>
+              <g
+                id="g-svg-7"
+                fill="none"
+                class="dropdown-item"
+                width="26"
+                transform="matrix(1,0,0,1,2,25)"
+              >
+                <g transform="matrix(1,0,0,1,0,0)">
+                  <path
+                    id="g-svg-8"
+                    fill="rgba(255,255,255,1)"
+                    d="M 1,0 l 24,0 a 1,1,0,0,1,1,1 l 0,21 a 1,1,0,0,1,-1,1 l -24,0 a 1,1,0,0,1,-1,-1 l 0,-21 a 1,1,0,0,1,1,-1 z"
+                    width="26"
+                    height="23"
+                  />
+                  <g id="g-svg-9" fill="none" transform="matrix(1,0,0,1,0,0)">
+                    <g transform="matrix(1,0,0,1,0,0)">
+                      <text
+                        id="g-svg-10"
+                        fill="rgba(0,0,0,1)"
+                        dominant-baseline="central"
+                        paint-order="stroke"
+                        dx="0.5"
+                        font-family="sans-serif"
+                        font-size="12"
+                        font-style="normal"
+                        font-variant="normal"
+                        font-weight="normal"
+                        stroke-width="1"
+                        text-anchor="left"
+                        class="label"
+                        dy="11.5px"
+                      >
+                        1.5x
+                      </text>
+                    </g>
+                  </g>
+                </g>
+              </g>
+              <g
+                id="g-svg-11"
+                fill="none"
+                class="dropdown-item"
+                width="26"
+                transform="matrix(1,0,0,1,2,48)"
+              >
+                <g transform="matrix(1,0,0,1,0,0)">
+                  <path
+                    id="g-svg-12"
+                    fill="rgba(255,255,255,1)"
+                    d="M 1,0 l 24,0 a 1,1,0,0,1,1,1 l 0,21 a 1,1,0,0,1,-1,1 l -24,0 a 1,1,0,0,1,-1,-1 l 0,-21 a 1,1,0,0,1,1,-1 z"
+                    width="26"
+                    height="23"
+                  />
+                  <g id="g-svg-13" fill="none" transform="matrix(1,0,0,1,0,0)">
+                    <g transform="matrix(1,0,0,1,0,0)">
+                      <text
+                        id="g-svg-14"
+                        fill="rgba(0,0,0,1)"
+                        dominant-baseline="central"
+                        paint-order="stroke"
+                        dx="0.5"
+                        font-family="sans-serif"
+                        font-size="12"
+                        font-style="normal"
+                        font-variant="normal"
+                        font-weight="normal"
+                        stroke-width="1"
+                        text-anchor="left"
+                        class="label"
+                        dy="11.5px"
+                      >
+                        2x
+                      </text>
+                    </g>
+                  </g>
+                </g>
+              </g>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
