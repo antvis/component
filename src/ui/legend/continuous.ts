@@ -2,7 +2,7 @@ import { CustomEvent } from '@antv/g';
 import { Linear } from '@antv/scale';
 import { clamp, isUndefined } from '@antv/util';
 import { Component } from '../../core';
-import type { DisplayObject, TextStyleProps } from '../../shapes';
+import type { BaseStyleProps, DisplayObject, TextStyleProps } from '../../shapes';
 import { Group } from '../../shapes';
 import { Point } from '../../types';
 import {
@@ -45,6 +45,7 @@ function getMinMax(data: ContinuousDatum[]) {
 
 export class Continuous extends Component<ContinuousStyleProps> {
   constructor(options: ContinuousOptions) {
+    console.log('continunes');
     super(options, CONTINUOUS_DEFAULT_OPTIONS);
   }
 
@@ -322,6 +323,8 @@ export class Continuous extends Component<ContinuousStyleProps> {
               this.update({ labelText });
               const name = `${type}Handle` as `${HandleType}Handle`;
               that[name] = this;
+              this.addEventListener('pointerover', that.changeCursor('pointer'));
+              this.addEventListener('pointerleave', that.changeCursor('default'));
               this.addEventListener('pointerdown', that.onDragStart(type));
             }),
         (update) =>
@@ -736,5 +739,11 @@ export class Continuous extends Component<ContinuousStyleProps> {
       detail: { value, range },
     });
     this.dispatchEvent(evt as any);
+  }
+
+  private changeCursor(cursor: BaseStyleProps['cursor'] = 'default') {
+    return (e: any) => {
+      this.style.cursor = cursor;
+    };
   }
 }
