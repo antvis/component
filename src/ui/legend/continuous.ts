@@ -45,7 +45,6 @@ function getMinMax(data: ContinuousDatum[]) {
 
 export class Continuous extends Component<ContinuousStyleProps> {
   constructor(options: ContinuousOptions) {
-    console.log('continunes');
     super(options, CONTINUOUS_DEFAULT_OPTIONS);
   }
 
