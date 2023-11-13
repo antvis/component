@@ -323,7 +323,7 @@ export class Continuous extends Component<ContinuousStyleProps> {
               const name = `${type}Handle` as `${HandleType}Handle`;
               that[name] = this;
               this.addEventListener('pointerover', that.changeCursor('pointer'));
-              this.addEventListener('pointerleave', that.changeCursor('default'));
+              // this.addEventListener('pointerleave', that.changeCursor('default'));
               this.addEventListener('pointerdown', that.onDragStart(type));
             }),
         (update) =>
@@ -575,6 +575,7 @@ export class Continuous extends Component<ContinuousStyleProps> {
     this.ribbon.on('pointerdown', this.onDragStart('ribbon'));
     this.ribbon.on('pointermove', this.onHovering);
     this.addEventListener('pointerout', this.hideIndicator);
+    this.addEventListener('pointerover', this.changeCursor('pointer'));
   }
 
   private onHovering = (e: any) => {
@@ -651,7 +652,7 @@ export class Continuous extends Component<ContinuousStyleProps> {
   };
 
   private onDragEnd = () => {
-    this.style.cursor = 'default';
+    this.style.cursor = 'pointer';
     document.removeEventListener('mousemove', this.onDragging);
     document.removeEventListener('touchmove', this.onDragging);
     document.removeEventListener('mouseup', this.onDragEnd);
