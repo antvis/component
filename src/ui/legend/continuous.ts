@@ -322,8 +322,6 @@ export class Continuous extends Component<ContinuousStyleProps> {
               this.update({ labelText });
               const name = `${type}Handle` as `${HandleType}Handle`;
               that[name] = this;
-              this.addEventListener('pointerover', that.changeCursor('pointer'));
-              // this.addEventListener('pointerleave', that.changeCursor('default'));
               this.addEventListener('pointerdown', that.onDragStart(type));
             }),
         (update) =>
