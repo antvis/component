@@ -569,11 +569,11 @@ export class Continuous extends Component<ContinuousStyleProps> {
   private prevValue!: number;
 
   public bindEvents() {
+    this.style.cursor = 'pointer';
     // 绑定 drag 开始事件
     this.ribbon.on('pointerdown', this.onDragStart('ribbon'));
     this.ribbon.on('pointermove', this.onHovering);
     this.addEventListener('pointerout', this.hideIndicator);
-    this.addEventListener('pointerover', this.changeCursor('pointer'));
   }
 
   private onHovering = (e: any) => {
@@ -737,11 +737,5 @@ export class Continuous extends Component<ContinuousStyleProps> {
       detail: { value, range },
     });
     this.dispatchEvent(evt as any);
-  }
-
-  private changeCursor(cursor: BaseStyleProps['cursor'] = 'default') {
-    return (e: any) => {
-      this.style.cursor = cursor;
-    };
   }
 }
