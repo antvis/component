@@ -2,7 +2,7 @@ import { CustomEvent } from '@antv/g';
 import { Linear } from '@antv/scale';
 import { clamp, isUndefined } from '@antv/util';
 import { Component } from '../../core';
-import type { DisplayObject, TextStyleProps } from '../../shapes';
+import type { BaseStyleProps, DisplayObject, TextStyleProps } from '../../shapes';
 import { Group } from '../../shapes';
 import { Point } from '../../types';
 import {
@@ -569,6 +569,7 @@ export class Continuous extends Component<ContinuousStyleProps> {
   private prevValue!: number;
 
   public bindEvents() {
+    this.style.cursor = 'pointer';
     // 绑定 drag 开始事件
     this.ribbon.on('pointerdown', this.onDragStart('ribbon'));
     this.ribbon.on('pointermove', this.onHovering);
@@ -649,7 +650,7 @@ export class Continuous extends Component<ContinuousStyleProps> {
   };
 
   private onDragEnd = () => {
-    this.style.cursor = 'default';
+    this.style.cursor = 'pointer';
     document.removeEventListener('mousemove', this.onDragging);
     document.removeEventListener('touchmove', this.onDragging);
     document.removeEventListener('mouseup', this.onDragEnd);

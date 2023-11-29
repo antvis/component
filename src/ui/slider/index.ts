@@ -288,7 +288,10 @@ export class Slider extends Component<SliderStyleProps> {
                   this.attr('cursor', 'grabbing');
                 });
                 this.addEventListener('pointerup', () => {
-                  this.attr('cursor', 'grab');
+                  this.attr('cursor', 'pointer');
+                });
+                this.addEventListener('pointerover', () => {
+                  this.attr('cursor', 'pointer');
                 });
               } else {
                 this.on('pointerdown', that.onDragStart('track'));
