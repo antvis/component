@@ -1,7 +1,7 @@
 import { substitute, createDOM } from '@antv/util';
 import { Component } from '../../core';
 import { Group } from '../../shapes';
-import { BBox, applyStyleSheet, throttle } from '../../util';
+import { BBox, applyStyleSheet } from '../../util';
 import { getClassNames, getDefaultTooltipStyle } from './constant';
 import type { TooltipOptions, TooltipPosition, TooltipStyleProps } from './types';
 
