@@ -30,6 +30,8 @@ export type TooltipStyleProps = GroupStyleProps & {
   offset?: [number, number];
   /** 指针是否可进入 */
   enterable?: boolean;
+  /** 配合 enterable = true 使用，指定延迟显示的毫秒数，默认为 60ms */
+  showDelay?: number;
   /** 画布的左上角坐标 */
   container: {
     x: number;

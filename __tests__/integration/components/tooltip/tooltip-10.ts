@@ -36,19 +36,20 @@ export const Tooltip10 = () => {
           { value: 1.2312323, name: '第四项', index: 1, color: 'green' },
           { value: 1.2312323, name: '第五项', index: 1, color: 'blue' },
         ],
+        enterable: true,
       },
     })
   );
 
   document.getElementsByTagName('body')[0].appendChild(tooltip.HTMLTooltipElement);
   group.addEventListener('mousemove', (e: any) => {
-    tooltip.position = [e.offsetX, e.offsetY];
+    tooltip.show(e.offsetX, e.offsetY);
   });
   group.addEventListener('mouseenter', (e: any) => {
     tooltip.show(e.offsetX, e.offsetY);
   });
-  group.addEventListener('mouseleave', () => {
-    tooltip.hide();
+  group.addEventListener('mouseleave', (e: any) => {
+    tooltip.hide(e.clientX, e.clientY);
   });
 
   return group;

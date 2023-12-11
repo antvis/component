@@ -37,7 +37,7 @@ export const Tooltip6 = () => {
 
   document.getElementsByTagName('body')[0].appendChild(tooltip.HTMLTooltipElement);
   group.addEventListener('mousemove', (e: any) => {
-    tooltip.position = [e.offsetX, e.offsetY];
+    tooltip.show(e.offsetX, e.offsetY);
     /** 1: 通过 React 渲染Tooltip节点 */
     // ReactDOM.render(
     //   <div>

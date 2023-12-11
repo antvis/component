@@ -1,7 +1,7 @@
 import { substitute, createDOM } from '@antv/util';
 import { Component } from '../../core';
 import { Group } from '../../shapes';
-import { applyStyleSheet, throttle } from '../../util';
+import { BBox, applyStyleSheet } from '../../util';
 import { getClassNames, getDefaultTooltipStyle } from './constant';
 import type { TooltipOptions, TooltipPosition, TooltipStyleProps } from './types';
 
@@ -10,18 +10,14 @@ export type { TooltipStyleProps, TooltipOptions };
 export class Tooltip extends Component<TooltipStyleProps> {
   public static tag = 'tooltip';
 
+  private timestamp = -1;
+
   public get HTMLTooltipElement() {
     return this.element;
   }
 
   public getContainer() {
     return this.element;
-  }
-
-  public set position([x, y]: [number, number]) {
-    this.attributes.x = x;
-    this.attributes.y = y;
-    this.updatePosition();
   }
 
   private get elementSize() {
@@ -89,19 +85,32 @@ export class Tooltip extends Component<TooltipStyleProps> {
    * 如果设置了坐标值，显示过程中会立即更新位置并关闭过渡动画
    */
   public show(x?: number, y?: number) {
-    const disableTransition = x !== undefined && y !== undefined;
-    if (disableTransition) {
-      const transition = this.element.style.transition;
-      this.element.style.transition = 'none';
-      this.position = [x ?? +this.attributes.x, y ?? +this.attributes.y];
-      setTimeout(() => {
-        this.element.style.transition = transition;
-      }, 10);
+    if (x !== undefined && y !== undefined) {
+      const isToggle = this.element.style.visibility === 'hidden';
+      const setPosition = () => {
+        this.attributes.x = x ?? this.attributes.x;
+        this.attributes.y = y ?? this.attributes.y;
+        this.updatePosition();
+      };
+      // 只有从 hidden 状态变为 visible 状态时才需要关闭过渡动画
+      isToggle ? this.closeTransition(setPosition) : setPosition();
     }
     this.element.style.visibility = 'visible';
   }
 
-  public hide() {
+  /**
+   * 如果 hide 时传入了坐标值，那么只有当鼠标不在 tooltip 上时才会隐藏
+   * 对于 enterable = true 的时候，需要传入 x y，为了避免问题，建议上层在使用的时候，都传入 x y
+   * @param x
+   * @param y
+   * @returns
+   */
+  public hide(x = 0, y = 0) {
+    const { enterable } = this.attributes;
+
+    // 如果当前鼠标在 tooltip 上，则不隐藏
+    if (enterable && this.isCursorEntered(x, y)) return;
+
     this.element.style.visibility = 'hidden';
   }
 
@@ -186,10 +195,15 @@ export class Tooltip extends Component<TooltipStyleProps> {
   /**
    * 更新tooltip的位置
    */
-  @throttle(100, true)
   private updatePosition() {
-    // 尝试当前的位置使用默认position能否放下
-    // 如果不能，则改变取溢出边的反向position
+    const { showDelay = 60 } = this.attributes;
+
+    const currentTimestamp = Date.now();
+    if (this.timestamp > 0 && currentTimestamp - this.timestamp < showDelay) return;
+
+    this.timestamp = currentTimestamp;
+    // 尝试当前的位置使用默认 position 能否放下
+    // 如果不能，则改变取溢出边的反向 position
     /**
      * 默认位置
      *    ⬇️
@@ -240,5 +254,30 @@ export class Tooltip extends Component<TooltipStyleProps> {
 
     const correctedPositionString = correctivePosition.join('-');
     return this.getRelativeOffsetFromCursor(correctedPositionString as TooltipPosition);
+  }
+
+  private isCursorEntered(clientX: number, clientY: number) {
+    // 是可捕获的，并且点在 tooltip dom 上
+    if (this.element) {
+      const { x, y, width, height } = this.element.getBoundingClientRect();
+      // const { container } = this.attributes;
+      // const { x: cx, y: cy } = container;
+
+      // console.log(1113, [clientX, clientY], [x, y, width, height], [cx, cy], new BBox(x - cx, y - cy, width, height).isPointIn(cursorX, cursorY));
+
+      return new BBox(x, y, width, height).isPointIn(clientX, clientY);
+    }
+    return false;
+  }
+
+  private closeTransition(callback: () => void) {
+    const transition = this.element.style.transition;
+    this.element.style.transition = 'none';
+
+    callback();
+
+    setTimeout(() => {
+      this.element.style.transition = transition;
+    }, 10);
   }
 }

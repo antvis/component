@@ -48,6 +48,14 @@ export class BBox {
       left: this.left,
     };
   }
+
+  /**
+   * 点是否在 bbox 中
+   * @param p
+   */
+  public isPointIn(x: number, y: number) {
+    return x >= this.left && x <= this.right && y >= this.top && y <= this.bottom;
+  }
 }
 
 export function getRenderBBox(element: DisplayObject) {
