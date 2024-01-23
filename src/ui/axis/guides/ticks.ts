@@ -77,7 +77,7 @@ function createTick(
   const tick = createTickEl(select(this), datum, index, data, attr);
   applyTickStyle(datum, index, data, tick, this, attr, tickAttr);
   const [x, y] = getValuePos(datum.value, attr);
-  return transition(this, { x, y }, animate);
+  return transition(this, { transform: `translate(${x}, ${y})` }, animate);
 }
 
 export function renderTicks(

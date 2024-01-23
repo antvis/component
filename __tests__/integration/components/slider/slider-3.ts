@@ -7,8 +7,7 @@ export const Slider3 = () => {
   group.appendChild(
     new Slider({
       style: {
-        x: 10,
-        y: 10,
+        transform: 'translate(10, 10)',
         values: [0.25, 0.75],
         trackLength: 300,
         trackSize: 50,

@@ -12,7 +12,7 @@ export const TimebarBasic = it({ width: 500, height: 150 }, (group) => {
   group.appendChild(
     new Timebar({
       style: {
-        x: 10,
+        transform: 'translateX(10)',
         type: 'chart',
         width: 500,
         height: 150,

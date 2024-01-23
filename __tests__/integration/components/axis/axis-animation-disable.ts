@@ -48,13 +48,13 @@ export const AxisAnimationDisable = () => {
 
   group.appendChild(
     new Button({
-      style: { x: 250, y: 100, text: 'update', onClick: update },
+      style: { transform: 'translate(250, 100)', text: 'update', onClick: update },
     })
   );
 
   group.appendChild(
     new Button({
-      style: { x: 250, y: 150, text: 'reset', onClick: reset },
+      style: { transform: 'translate(250, 150)', text: 'reset', onClick: reset },
     })
   );
 

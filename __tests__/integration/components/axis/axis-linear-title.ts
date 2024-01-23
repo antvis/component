@@ -78,7 +78,6 @@ export const AxisLinearTitle = () => {
         src: 'https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ',
         height: 30,
         width: 30,
-        anchor: '0 0',
       },
     })
   );
@@ -90,8 +89,8 @@ export const AxisLinearTitle = () => {
         text: "I'm title",
         textAlign: 'start',
         textBaseline: 'middle',
-        x: 80,
-        y: 15,
+        // x: 80,
+        // y: 15,
       },
     })
   );

@@ -15,7 +15,7 @@ export const Switch1 = () => {
   group.appendChild(
     new Switch({
       style: {
-        y: 40,
+        transform: 'translateY(40)',
         checked: true,
       },
     })
@@ -24,7 +24,7 @@ export const Switch1 = () => {
   const sw = group.appendChild(
     new Switch({
       style: {
-        y: 80,
+        transform: 'translateY(80)',
         checked: false,
       },
     })

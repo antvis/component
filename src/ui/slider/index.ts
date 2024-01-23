@@ -471,7 +471,7 @@ export class Slider extends Component<SliderStyleProps> {
 
   private getHandleStyle(handleType: HandleType): HandleStyleProps {
     const { showLabel, showLabelOnInteraction, orientation } = this.attributes;
-    const handlePosition = this.calcHandlePosition(handleType);
+    const { x, y } = this.calcHandlePosition(handleType);
     const textStyle = this.calcHandleText(handleType);
 
     let internalShowLabel = showLabel;
@@ -483,7 +483,7 @@ export class Slider extends Component<SliderStyleProps> {
     return {
       ...superStyleProps(this.getHandleIconStyle(), 'icon'),
       ...superStyleProps({ ...this.getHandleLabelStyle(handleType), ...textStyle }, 'label'),
-      ...handlePosition,
+      transform: `translate(${x}, ${y})`,
       orientation,
       showLabel: internalShowLabel,
       type: handleType,

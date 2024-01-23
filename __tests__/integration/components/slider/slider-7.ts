@@ -7,8 +7,7 @@ export const Slider7 = () => {
   group.appendChild(
     new Slider({
       style: {
-        x: 10,
-        y: 10,
+        transform: 'translate(10, 10)',
         trackLength: 300,
         trackSize: 50,
         orientation: 'vertical',

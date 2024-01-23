@@ -169,7 +169,7 @@ export class Title extends Component<TitleStyleProps> {
       this.title = group
         .maybeAppendByClassName(CLASS_NAMES.text, 'text')
         .styles(titleStyle)
-        .call(mayApplyStyle, { x, y, textAlign, textBaseline })
+        .call(mayApplyStyle, { transform: `translate(${x},${y})`, textAlign, textBaseline })
         .node();
     });
   }

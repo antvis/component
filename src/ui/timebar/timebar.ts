@@ -210,8 +210,9 @@ export class Timebar extends Component<TimebarStyleProps> {
           if (typeof time === 'number') return parseBySeries(time);
           return formatTime(time, 'YYYY-MM-DD HH:mm:ss');
         },
-        x,
-        y,
+        transform: `translate(${x}, ${y})`,
+        // x,
+        // y,
         zIndex: 1,
         ...userDefinedChartStyle,
       };
@@ -237,8 +238,9 @@ export class Timebar extends Component<TimebarStyleProps> {
       trackSize: height,
       type: selectionType,
       values: this.sliderValues,
-      x,
-      y,
+      // x,
+      // y,
+      transform: `translate(${x}, ${y})`,
       zIndex: 1,
       ...userDefinedChartStyle,
     };
@@ -290,9 +292,11 @@ export class Timebar extends Component<TimebarStyleProps> {
     const userDefinedControllerStyle = subStyleProps(this.attributes, 'controller');
 
     const that = this;
+    const { x, y } = bbox;
 
     const style: ControllerStyleProps = {
       ...bbox,
+      transform: `translate(${x}, ${y})`,
       iconSize: 20,
       speed,
       state,

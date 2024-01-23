@@ -3,7 +3,7 @@ import { it } from '../../utils';
 import { Sparkline } from '../../../../src/ui/sparkline';
 
 export const SparklineScaleColumn = it((group) => {
-  const shape1 = { x: 10, y: 10, width: 300, height: 50 };
+  const shape1 = { transform: 'translate(10, 10)', width: 300, height: 50 };
   group.appendChild(
     new Rect({
       style: {
@@ -29,7 +29,7 @@ export const SparklineScaleColumn = it((group) => {
     })
   );
 
-  const shape2 = { x: 10, y: 70, width: 300, height: 50 };
+  const shape2 = { transform: 'translate(10, 70)', width: 300, height: 50 };
 
   group.appendChild(
     new Rect({

@@ -57,10 +57,10 @@ class HandleIcon extends Component<IconStyleProps> {
         y: -height / 2,
       });
 
-    const x1 = (1 / 3) * width;
-    const x2 = (2 / 3) * width;
-    const y1 = (1 / 4) * height;
-    const y2 = (3 / 4) * height;
+    const x1 = (1 / 3) * width - width / 2;
+    const x2 = (2 / 3) * width - width / 2;
+    const y1 = (1 / 4) * height - height / 2;
+    const y2 = (3 / 4) * height - height / 2;
 
     rect.maybeAppendByClassName(`${CLASS_NAMES.iconLine}-1`, 'line').styles({ x1, x2: x1, y1, y2, ...iconStyle });
     rect.maybeAppendByClassName(`${CLASS_NAMES.iconLine}-2`, 'line').styles({ x1: x2, x2, y1, y2, ...iconStyle });

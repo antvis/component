@@ -161,7 +161,6 @@ const arrow = (size: number, color: string = '#565758') => {
   return new Path({
     style: {
       fill: color,
-      anchor: '0.5 0.5',
       path: `M ${size},${size} L -${size},0 L ${size},-${size} Z`,
       transformOrigin: 'center',
     },

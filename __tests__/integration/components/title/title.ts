@@ -5,16 +5,17 @@ export const TitleDemo = () => {
   const group = new Group({});
 
   const createTitle = (argsRect = {}, argsTitle = {}) => {
+    const { x, y, ...rest } = argsRect as any;
+
     const g = group.appendChild(new Group());
     const content = g.appendChild(
       new Rect({
         style: {
-          x: 0,
-          y: 0,
           width: 100,
           height: 100,
           fill: 'red',
-          ...argsRect,
+          transform: `translate(${x}, ${y})`,
+          ...rest,
         },
       })
     );

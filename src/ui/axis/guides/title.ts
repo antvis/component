@@ -75,9 +75,9 @@ function applyTitleStyle(
   animate: GenericAnimation
 ) {
   const style = subStyleProps(attr, 'title');
-  const [titleStyle, { transform: specified, ...groupStyle }] = splitStyle(style);
+  const [titleStyle, { transform: specified, transformOrigin, ...groupStyle }] = splitStyle(style);
 
-  title.styles(titleStyle);
+  title.styles({ ...titleStyle, transformOrigin });
   group.styles(groupStyle);
 
   const transform = specified || inferTransform(title.node(), titleStyle.direction, titleStyle.position);
@@ -90,8 +90,7 @@ function applyTitleStyle(
     attr
   );
 
-  const animation = transition(group.node(), { x, y }, animate);
-  percentTransform(title.node(), transform);
+  const animation = transition(group.node(), { transform: `translate(${x}, ${y})` }, animate);
   return animation;
 }
 

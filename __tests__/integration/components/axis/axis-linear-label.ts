@@ -39,9 +39,11 @@ export const AxisLinearLabel = () => {
     const labelIcon = new Image({
       style: {
         src: icon,
+        x: 0,
+        y: 0,
         width: 30,
         height: 30,
-        anchor: '0.5 0.5',
+        transform: 'translate(-15, -15)',
       },
     });
     const labelText = new Text({

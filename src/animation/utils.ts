@@ -96,17 +96,12 @@ export function transitionShape(
   const middle = Math.ceil(+duration / 2);
   const offset = +duration / 4;
 
-  const getPosition = (shape: DisplayObject) => {
-    if (shape.nodeName === 'circle') {
-      const [cx, cy] = shape.getLocalPosition();
-      const r = shape.attr('r');
-      return [cx - r, cy - r];
-    }
-    return shape.getLocalPosition();
-  };
-
-  const [sx, sy] = getPosition(source);
-  const [ex, ey] = getPosition(target);
+  const {
+    center: [sx, sy],
+  } = source.getGeometryBounds();
+  const {
+    center: [ex, ey],
+  } = target.getGeometryBounds();
   const [mx, my] = [(sx + ex) / 2 - sx, (sy + ey) / 2 - sy];
 
   const { opacity: so = 1 } = source.style;

@@ -141,6 +141,8 @@ export class Button extends Component<ButtonStyleProps> {
       .styles({
         zIndex: -1,
         ...buttonStyle,
+        x: 0,
+        y: 0,
         height,
         width: pl + (markerSize ? markerSize + markerSpacing : 0) + textBounds.halfExtents[0] * 2 + pr,
       });

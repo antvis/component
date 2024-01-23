@@ -9,8 +9,7 @@ export const HandleDemo = () => {
     group.appendChild(
       new Handle({
         style: {
-          x: 100,
-          y: 100,
+          transform: `translate(${args.x || 100}, ${args.y || 100})`,
           orientation: 'horizontal',
           labelText: 'labelText',
           ...args,

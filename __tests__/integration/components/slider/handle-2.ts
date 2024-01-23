@@ -7,8 +7,7 @@ export const Handle2 = () => {
   group.appendChild(
     new Handle({
       style: {
-        x: 150,
-        y: 150,
+        transform: 'translate(150, 150)',
         orientation: 'vertical',
         labelText: 'LabelText',
       },

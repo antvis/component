@@ -15,8 +15,7 @@ export const Slider9 = () => {
         trackRadius: 5,
         trackSize: 10,
         values: [0.25, 0.75],
-        x: 10,
-        y: 10,
+        transform: 'translate(10, 10)',
       },
     })
   );

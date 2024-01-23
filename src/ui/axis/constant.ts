@@ -38,7 +38,6 @@ export const AXIS_BASE_DEFAULT_ATTR: Partial<AxisBaseStyleProps> = {
     new Path({
       style: {
         path: [['M', 10, 10], ['L', -10, 0], ['L', 10, -10], ['L', 0, 0], ['L', 10, 10], ['Z']],
-        anchor: '0.5 0.5',
         fill: 'black',
         transformOrigin: 'center',
       },
