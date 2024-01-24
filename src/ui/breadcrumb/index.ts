@@ -69,8 +69,7 @@ export class Breadcrumb extends Component<BreadcrumbStyleProps> {
       const shape = new Tag({
         className: 'breadcrumb-item',
         style: {
-          x: cursorX,
-          y: cursorY,
+          transform: `translate(${cursorX}, ${cursorY})`,
           ...tagStyle,
           text: isNil(datum.text) ? datum.id : datum.text,
           ...pick(datum, ['marker']),
@@ -88,7 +87,7 @@ export class Breadcrumb extends Component<BreadcrumbStyleProps> {
       if (!isNil(width)) {
         const avaliableWidth = width! - right;
         if (cursorX > avaliableWidth) {
-          shape.attr({ x: 0, y: cursorY + shapeH });
+          shape.attr({ transform: `translateY(${cursorY + shapeH})` });
           // 更新光标
           cursorX = shapeW;
           cursorY += shapeH;

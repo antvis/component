@@ -44,7 +44,7 @@ function getType(symbol: MarkerStyleProps['symbol']): string | null {
 
 export class Marker extends Component<MarkerStyleProps> {
   public render(attributes: Required<MarkerStyleProps>, container: Group) {
-    const { symbol, size = 16, ...style } = attributes;
+    const { symbol, size = 16, transform, ...style } = attributes;
     const type = getType(symbol);
     ifShow(!!type, select(container), (group) => {
       group

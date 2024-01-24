@@ -30,8 +30,6 @@ export class Checkbox extends Component<CheckboxStyleProps> {
 
   constructor(options: CheckboxOptions) {
     super(options, {
-      x: 0,
-      y: 0,
       labelText: '',
       spacing: 4,
       checked: false,

@@ -6,8 +6,7 @@ import { createGrid } from '../../utils/grid';
 export const IndicatorDemo = () => {
   const group = new Group({
     style: {
-      x: 30,
-      y: 30,
+      transform: 'translate(30, 30)',
     },
   });
 
@@ -218,10 +217,11 @@ export const IndicatorDemo = () => {
   const mi = createIndicator({ x: 250, y: 100, labelText: 0.5, position: 'bottom' });
 
   group.addEventListener('mousemove', (e: any) => {
-    console.log(e.offset, e.canvas);
     const { x, y } = e.offset;
     const [dx, dy] = group.getLocalPosition();
-    mi.setLocalPosition(x - dx, y - dy);
+    mi.style.x = x - dx;
+    mi.style.y = y - dy;
+    mi.update();
   });
 
   return group;
