@@ -14,8 +14,7 @@ export const RibbonDemo = () => {
     return group.appendChild(
       new Ribbon({
         style: {
-          x: 100,
-          y: 100,
+          transform: `translate(${args.x || 100}, ${args.y || 100})`,
           type: 'color',
           orientation: 'horizontal',
           size: 30,

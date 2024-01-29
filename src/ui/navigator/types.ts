@@ -6,6 +6,8 @@ import type { PrefixObject } from '../../types';
 export type NavigatorStyleProps = Omit<RectStyleProps, 'width' | 'height'> &
   PrefixObject<PathStyleProps & { size?: number }, 'button'> &
   PrefixObject<TextStyleProps, 'pageNum'> & {
+    x?: number;
+    y?: number;
     animate?: GenericAnimation;
     /** padding between buttons and page number  */
     controllerPadding?: number;

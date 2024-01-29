@@ -7,7 +7,8 @@ export function Button1() {
   group.appendChild(
     new Button({
       style: {
-        transform: 'translate(100, 100)',
+        x: 100,
+        y: 100,
         text: 'Hello',
       },
     })

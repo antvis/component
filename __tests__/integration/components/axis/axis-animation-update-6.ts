@@ -48,7 +48,8 @@ export const AxisAnimationUpdate6 = () => {
   group.appendChild(
     new Button({
       style: {
-        transform: 'translate(80, 0)',
+        x: 80,
+        y: 0,
         text: 'reset',
         onClick: reset,
       },

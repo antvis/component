@@ -122,6 +122,9 @@ export abstract class IconBase<T extends Record<string, any> = {}> extends Compo
   }
 
   render() {
+    const { x = 0, y = 0 } = this.attributes;
+    // @ts-ignore
+    this.attr('transform', `translate(${x}, ${y})`);
     this.renderIcon();
     if (this.showBackground) this.renderBackground();
   }
@@ -540,15 +543,22 @@ export class SpeedSelect extends IconBase<{ speed?: number; onSelect: SelectStyl
   renderIcon() {
     const { iconSize } = this;
     const { speed = 1 } = this.attributes;
-    const inheritStyle = omit(this.attributes as any, ['x', 'y', 'width', 'height', 'size', 'color', 'speed']);
+    const inheritStyle = omit(this.attributes as any, [
+      'x',
+      'y',
+      'transform',
+      'width',
+      'height',
+      'size',
+      'color',
+      'speed',
+    ]);
     const width = clamp(iconSize, 20, Infinity);
     const height = 20;
-    const x = -width / 2;
-    const y = -height / 2;
     const style: SelectStyleProps = {
       ...inheritStyle,
-      x,
-      y,
+      x: -width / 2,
+      y: -height / 2,
       width,
       height,
       defaultValue: speed,
@@ -568,6 +578,8 @@ export class SpeedSelect extends IconBase<{ speed?: number; onSelect: SelectStyl
         { label: '2x', value: 2 },
       ],
     };
+
+    console.log(style);
 
     select(this.icon)
       .maybeAppend('.speed', () => new Select({ style }))
@@ -604,7 +616,7 @@ export abstract class ToggleIcon<T extends string> extends Component<ToggleIconS
   }
 
   render() {
-    const { x, y, onChange, ...restStyles } = this.attributes;
+    const { onChange, ...restStyles } = this.attributes;
     select(this.icon)
       .selectAll('.icon')
       .data([this.currentType])

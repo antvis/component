@@ -85,7 +85,8 @@ export class Controller extends Component<ControllerStyleProps> {
     components.forEach((name, index) => {
       const Ctor = componentsMap[name];
       const style: Record<string, any> = {
-        transform: `translate(${index * (iconSize + iconSpacing) + xOffset}, ${height / 2})`,
+        x: index * (iconSize + iconSpacing) + xOffset,
+        y: height / 2,
         size: iconSize,
       };
 
@@ -103,14 +104,14 @@ export class Controller extends Component<ControllerStyleProps> {
       }
 
       if (Ctor === SpeedSelect) {
-        // // SpeedSelect 直接插入到 canvas
-        // const { x: baseX, y: baseY } = this.getBBox();
-        // const { x, y, ...rest } = style;
-        // const canvas = this.ownerDocument?.defaultView;
-        // if (canvas) {
-        //   this.speedSelect = new Ctor({ style: { ...rest, zIndex: 100, transform: `translate(${baseX + x}, ${baseY + y})` } }) as SpeedSelect;
-        //   (canvas as unknown as Canvas).appendChild(this.speedSelect);
-        // }
+        // SpeedSelect 直接插入到 canvas
+        const { x: baseX, y: baseY } = this.getBBox();
+        const { x = 0, y = 0, ...rest } = style;
+        const canvas = this.ownerDocument?.defaultView;
+        if (canvas) {
+          this.speedSelect = new Ctor({ style: { ...rest, zIndex: 100, x: baseX + x, y: baseY + y } }) as SpeedSelect;
+          (canvas as unknown as Canvas).appendChild(this.speedSelect);
+        }
       } else {
         this.functions.appendChild(new Ctor({ style }));
       }
@@ -127,6 +128,8 @@ export class Controller extends Component<ControllerStyleProps> {
   }
 
   render() {
+    const { x = 0, y = 0 } = this.attributes;
+    this.attr('transform', `translate(${x}, ${y})`);
     this.renderBackground();
     this.renderFunctions();
   }

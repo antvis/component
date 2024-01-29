@@ -92,7 +92,9 @@ export class Continuous extends Component<ContinuousStyleProps> {
     /** label */
 
     /** content */
-    const contentGroup = select(container).maybeAppendByClassName(CLASS_NAMES.contentGroup, 'g').styles({ x, y });
+    const contentGroup = select(container)
+      .maybeAppendByClassName(CLASS_NAMES.contentGroup, 'g')
+      .styles({ transform: `translate(${x}, ${y})` });
 
     const labelGroup = contentGroup.maybeAppendByClassName(CLASS_NAMES.labelGroup, 'g').styles({ zIndex: 1 });
     ifShow(!!showLabel, labelGroup, (group) => {
@@ -268,8 +270,7 @@ export class Continuous extends Component<ContinuousStyleProps> {
     const { length, size } = this.ribbonShape;
     const style: Required<RibbonStyleProps> = deepAssign(
       {
-        x,
-        y,
+        transform: `translate(${x}, ${y})`,
         length,
         size,
         type,
@@ -344,22 +345,6 @@ export class Continuous extends Component<ContinuousStyleProps> {
     this.setHandlePosition('end', max);
   }
 
-  private adjustTitle() {
-    const { titlePosition, orientation } = this.attributes;
-    const [title] = this.getElementsByClassName(CLASS_NAMES.title.name);
-    const handle: Handle = this.handlesGroup.select(`.${this.getHandleClassName('start')}`).node();
-    if (!title || !handle) return;
-    if (titlePosition !== 'top-left' || orientation !== 'horizontal') return;
-    const {
-      min: [handleX],
-    } = handle.getLocalBounds();
-    const {
-      min: [titleX],
-    } = title.getLocalBounds();
-    const diffX = handleX - titleX;
-    title.style.x = +(this.style.x || 0) + diffX;
-  }
-
   private cacheHandleBBox: DOMRect | null = null;
 
   private get handleBBox() {
@@ -391,7 +376,7 @@ export class Continuous extends Component<ContinuousStyleProps> {
       [ribbonX + ribbonSize * this.handleOffsetRatio, ribbonY + offset]
     );
     const handle: Handle = this.handlesGroup.select(`.${this.getHandleClassName(type)}`).node();
-    handle?.update({ x, y, formatter: handleFormatter });
+    handle?.update({ transform: `translate(${x}, ${y})`, formatter: handleFormatter });
   }
 
   private renderIndicator(container: Selection) {

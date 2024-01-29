@@ -10,7 +10,10 @@ export const Marker1 = () => {
     group.appendChild(
       new Marker({
         style: {
-          transform: `translate(${20 + (index % 10) * 50}, ${150 + Math.floor(index / 10) * 50}) rotate(30deg)`,
+          x: 20 + (index % 10) * 50,
+          y: 150 + Math.floor(index / 10) * 50,
+          transform: `rotate(30deg)`,
+          transformOrigin: 'center',
           symbol: marker,
           size: 16,
           stroke: 'blue',

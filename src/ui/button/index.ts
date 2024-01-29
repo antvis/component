@@ -95,8 +95,11 @@ export class Button extends Component<ButtonStyleProps> {
 
   // @todo 处理 markerAlign='right' 的场景. 方案: left marker & right marker 处理为两个 shape, 互相不干扰
   public render(attributes: Required<ButtonStyleProps>, container: Group) {
-    const { text = '', padding = 0, markerSymbol, markerSpacing = 0 } = attributes;
-    container.attr('cursor', this.state === 'disabled' ? 'not-allowed' : 'pointer');
+    const { text = '', padding = 0, markerSymbol, markerSpacing = 0, x = 0, y = 0 } = attributes;
+    container.attr({
+      cursor: this.state === 'disabled' ? 'not-allowed' : 'pointer',
+      transform: `translate(${x}, ${y})`,
+    });
     const [pt, pr, pb, pl] = parseSeriesAttr(padding);
     const height = this.buttonHeight;
 

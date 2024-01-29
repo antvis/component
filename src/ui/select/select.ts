@@ -193,7 +193,7 @@ export class Select extends Component<SelectStyleProps> {
     const { spacing } = dropdownStyle;
 
     this.dropdown.attr({
-      y: height + spacing,
+      transform: `translateY(${height + spacing})`,
       width: bbox.width + padding[1] + padding[3],
       height: bbox.height + padding[0] + padding[2],
       ...dropdownStyle,
@@ -211,6 +211,8 @@ export class Select extends Component<SelectStyleProps> {
   }
 
   render() {
+    const { x = 0, y = 0 } = this.attributes;
+    this.attr('transform', `translate(${x}, ${y})`);
     this.renderSelect();
     this.renderDropdown();
   }

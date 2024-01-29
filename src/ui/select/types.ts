@@ -28,6 +28,10 @@ export type SelectStyleProps = GroupStyleProps &
   PrefixObject<Omit<RectStyleProps, 'width' | 'height'>, 'dropdown'> &
   PrefixObject<TextStyleProps, 'option'> &
   PrefixObject<Omit<OptionStyleProps, 'value' | 'label' | 'selected' | 'onClick'>, 'option'> & {
+    /** 左上角 X 坐标 */
+    x?: number;
+    /** 左上角 Y 坐标 */
+    y?: number;
     /** 宽度 */
     width?: number;
     /** 高度 */

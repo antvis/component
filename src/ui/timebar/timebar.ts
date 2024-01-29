@@ -537,6 +537,8 @@ export class Timebar extends Component<TimebarStyleProps> {
 
   render() {
     const { axisBBox, controllerBBox, timelineBBox } = this.space;
+    const { x = 0, y = 0 } = this.attributes;
+    this.attr('transform', `translate(${x}, ${y})`);
     this.renderController(controllerBBox);
     this.renderAxis(axisBBox);
     this.renderChart(timelineBBox);

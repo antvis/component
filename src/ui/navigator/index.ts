@@ -305,6 +305,8 @@ export class Navigator extends Component<NavigatorStyleProps> {
 
     this.updatePageInfo();
 
+    // group.node().style.transform = `translate(${pageWidth + spacing}, ${pageHeight / 2})`;
+
     // put it on the right side of the container
     group.node().setLocalPosition(pageWidth + spacing, pageHeight / 2);
     if (whetherToAddEventListener) {
@@ -318,6 +320,9 @@ export class Navigator extends Component<NavigatorStyleProps> {
   }
 
   render(attributes: NavigatorStyleProps, container: Group) {
+    const { x = 0, y = 0 } = attributes;
+    this.attr('transform', `translate(${x}, ${y})`);
+
     /**
      * container
      *  |- contentGroup (with clip path)

@@ -40,6 +40,8 @@ type ChartModeHandleStyleProps = GroupStyleProps &
   PrefixObject<Omit<RectStyleProps, 'x' | 'y' | 'width' | 'height'>, 'background'> &
   PrefixObject<Omit<LineStyleProps, 'x1' | 'y1' | 'x2' | 'y2'>, 'icon'> &
   PrefixObject<Omit<LineStyleProps, 'x1' | 'y1' | 'x2' | 'y2'>, 'border'> & {
+    x?: number;
+    y?: number;
     /** 图标尺寸 */
     iconSize?: number;
     type: HandleType;
@@ -102,6 +104,8 @@ export class ChartModeHandle extends Component<ChartModeHandleStyleProps> {
   }
 
   render() {
+    const { x = 0, y = 0 } = this.attributes;
+    this.attr('transform', `translate(${x}, ${y})`);
     this.renderBackground();
     this.renderIcon();
     this.renderBorder();

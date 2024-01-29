@@ -71,6 +71,9 @@ export class Layout extends Group {
     if (!this.attributes.display || !this.isConnected) return;
     if (this.children.some((child) => !child.isConnected)) return;
     try {
+      const { x, y } = this.attributes;
+      this.style.transform = `translate(${x}, ${y})`;
+
       const bboxes = calcLayout(
         this.getAvailableSpace(),
         this.children.map((child) => (child as DisplayObject).getBBox()),
@@ -79,7 +82,7 @@ export class Layout extends Group {
 
       this.children.forEach((child, index) => {
         const { x, y } = bboxes[index];
-        (child as DisplayObject).attr({ x, y });
+        child.style.transform = `translate(${x}, ${y})`;
       });
     } catch (e) {
       // do nothing

@@ -66,7 +66,8 @@ export class Category extends Component<CategoryStyleProps> {
     const { showTitle } = this.attributes;
     if (showTitle) {
       const { x, y } = this.title.node<Title>().getAvailableSpace();
-      this.itemsGroup.node().setLocalPosition(x, y);
+      this.itemsGroup.node().style.transform = `translate(${x}, ${y})`;
+      // this.itemsGroup.node().setLocalPosition(x, y);
     }
   }
 
@@ -84,8 +85,11 @@ export class Category extends Component<CategoryStyleProps> {
   }
 
   render(attributes: Required<CategoryStyleProps>, container: Group) {
-    const { width, height } = attributes;
+    const { width, height, x = 0, y = 0 } = this.attributes;
     const ctn = select(container);
+    container.style.transform = `translate(${x}, ${y})`;
+
+    console.log(x, y);
 
     this.renderTitle(ctn, width!, height!);
 

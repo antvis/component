@@ -12,7 +12,14 @@ export const RibbonColor = () => {
   const createRibbon = (args: any = {}) => {
     return group.appendChild(
       new Ribbon({
-        style: { type: 'color', orientation: 'horizontal', size: 30, length: 200, ...args },
+        style: {
+          type: 'color',
+          orientation: 'horizontal',
+          size: 30,
+          length: 200,
+          transform: `translate(${args.x}, ${args.y})`,
+          ...args,
+        },
       })
     );
   };
