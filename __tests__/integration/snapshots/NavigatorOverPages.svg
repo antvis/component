@@ -19,7 +19,13 @@
         height="200"
         transform="matrix(1,0,0,1,0,0)"
       >
-        <g id="g-svg-3" fill="none" transform="matrix(1,0,0,1,100,100)">
+        <g
+          id="g-svg-3"
+          fill="none"
+          x="100"
+          y="100"
+          transform="matrix(1,0,0,1,100,100)"
+        >
           <g
             id="g-svg-4"
             fill="none"
@@ -44,12 +50,14 @@
                     stroke="rgba(255,0,0,1)"
                     visibility="hidden"
                   />
-                  <g transform="matrix(1,0,0,1,50,50)">
+                  <g transform="matrix(1,0,0,1,0,0)">
                     <text
                       id="g-svg-8"
                       fill="rgba(0,0,0,1)"
                       dominant-baseline="central"
                       paint-order="stroke"
+                      x="50"
+                      y="50"
                       dx="0.5"
                       font-family="sans-serif"
                       font-size="16"
@@ -76,12 +84,14 @@
                     stroke="rgba(255,0,0,1)"
                     visibility="visible"
                   />
-                  <g transform="matrix(1,0,0,1,50,50)">
+                  <g transform="matrix(1,0,0,1,0,0)">
                     <text
                       id="g-svg-11"
                       fill="rgba(0,0,0,1)"
                       dominant-baseline="central"
                       paint-order="stroke"
+                      x="50"
+                      y="50"
                       dx="0.5"
                       font-family="sans-serif"
                       font-size="16"
@@ -121,12 +131,12 @@
               transform="matrix(-1,-0,0,-1,0,0)"
               class="navigator-prev-btn-group"
             >
-              <g transform="matrix(1,0,0,1,-6,-6)">
+              <g transform="matrix(1,0,0,1,0,0)">
                 <path
                   id="g-svg-4"
                   fill="rgba(0,0,0,1)"
                   class="navigator-prev-btn"
-                  d="M 0,0 L 12,6 L 0,12 Z"
+                  d="M -6,-6 L 6,0 L -6,6 Z"
                 />
               </g>
             </g>
@@ -136,12 +146,12 @@
               transform="matrix(1,0,0,1,41.720001,0)"
               class="navigator-next-btn-group"
             >
-              <g transform="matrix(1,0,0,1,-6,-6)">
+              <g transform="matrix(1,0,0,1,0,0)">
                 <path
                   id="g-svg-6"
                   fill="rgba(0,0,0,1)"
                   class="navigator-next-btn"
-                  d="M 0,0 L 12,6 L 0,12 Z"
+                  d="M -6,-6 L 6,0 L -6,6 Z"
                 />
               </g>
             </g>

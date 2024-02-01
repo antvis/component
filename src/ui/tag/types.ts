@@ -6,6 +6,8 @@ import type { MarkerStyleProps } from '../marker';
 export type TagStyleProps = GroupStyleProps &
   PrefixStyleProps<Omit<TextStyleProps, 'x' | 'y' | 'text'>, 'label'> &
   PrefixStyleProps<Partial<RectStyleProps>, 'background'> & {
+    x?: number;
+    y?: number;
     text?: string;
     /** 水平对齐方式 */
     align?: 'start' | 'center' | 'end';

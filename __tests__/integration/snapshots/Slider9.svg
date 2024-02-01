@@ -32,6 +32,8 @@
               fill="none"
               width="300"
               height="10"
+              x="0"
+              y="0"
               transform="matrix(1,0,0,1,0,0)"
               class="slider-sparkline"
             >
@@ -77,27 +79,29 @@
                 width="75"
               />
             </g>
-            <g transform="matrix(1,0,0,1,75,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
               <path
                 id="g-svg-11"
                 fill="rgba(91,143,249,1)"
                 class="slider-selection"
                 visibility="visible"
                 fill-opacity="0.45"
-                d="M 0,0 l 150,0 l 0,10 l-150 0 z"
+                d="M 75,0 l 150,0 l 0,10 l-150 0 z"
                 height="10"
+                x="75"
                 width="150"
               />
             </g>
-            <g transform="matrix(1,0,0,1,225,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
               <path
                 id="g-svg-12"
                 fill="rgba(91,143,249,1)"
                 class="slider-selection"
                 visibility="hidden"
                 fill-opacity="0.45"
-                d="M 0,0 l 75,0 l 0,10 l-75 0 z"
+                d="M 225,0 l 75,0 l 0,10 l-75 0 z"
                 height="10"
+                x="225"
                 width="75"
               />
             </g>
@@ -117,9 +121,6 @@
                   <circle
                     id="g-svg-17"
                     fill="rgba(78,118,177,1)"
-                    transform="translate(-5,-5)"
-                    cx="5"
-                    cy="5"
                     r="5"
                     class="handle-icon"
                   />
@@ -148,9 +149,6 @@
                   <circle
                     id="g-svg-23"
                     fill="rgba(78,118,177,1)"
-                    transform="translate(-5,-5)"
-                    cx="5"
-                    cy="5"
                     r="5"
                     class="handle-icon"
                   />

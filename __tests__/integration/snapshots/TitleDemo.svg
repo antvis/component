@@ -37,6 +37,8 @@
                   font-weight="bold"
                   font-size="12"
                   font-family="sans-serif"
+                  x="0"
+                  y="0"
                   text-anchor="left"
                 >
                   left top
@@ -61,17 +63,19 @@
               height="100"
               transform="matrix(1,0,0,1,0,0)"
             >
-              <g transform="matrix(1,0,0,1,0,50)">
+              <g transform="matrix(1,0,0,1,0,0)">
                 <text
                   id="g-svg-2"
                   fill="rgba(74,80,90,1)"
                   class="title-text"
                   dominant-baseline="central"
                   paint-order="stroke"
+                  y="50"
                   dx="0.5"
                   font-weight="bold"
                   font-size="12"
                   font-family="sans-serif"
+                  x="0"
                   text-anchor="left"
                 >
                   left
@@ -96,18 +100,20 @@
               height="100"
               transform="matrix(1,0,0,1,0,0)"
             >
-              <g transform="matrix(1,0,0,1,0,100)">
+              <g transform="matrix(1,0,0,1,0,0)">
                 <text
                   id="g-svg-3"
                   fill="rgba(74,80,90,1)"
                   class="title-text"
                   dominant-baseline="central"
                   paint-order="stroke"
+                  y="100"
                   dx="0.5"
                   dy="-11.5px"
                   font-weight="bold"
                   font-size="12"
                   font-family="sans-serif"
+                  x="0"
                   text-anchor="left"
                 >
                   left bottom
@@ -132,13 +138,15 @@
               height="100"
               transform="matrix(1,0,0,1,0,0)"
             >
-              <g transform="matrix(1,0,0,1,50,50)">
+              <g transform="matrix(1,0,0,1,0,0)">
                 <text
                   id="g-svg-4"
                   fill="rgba(74,80,90,1)"
                   class="title-text"
                   dominant-baseline="central"
                   paint-order="stroke"
+                  x="50"
+                  y="50"
                   dx="0.5"
                   font-weight="bold"
                   font-size="12"
@@ -167,18 +175,20 @@
               height="100"
               transform="matrix(1,0,0,1,0,0)"
             >
-              <g transform="matrix(1,0,0,1,100,0)">
+              <g transform="matrix(1,0,0,1,0,0)">
                 <text
                   id="g-svg-5"
                   fill="rgba(74,80,90,1)"
                   class="title-text"
                   dominant-baseline="central"
                   paint-order="stroke"
+                  x="100"
                   dx="0.5"
                   dy="11.5px"
                   font-weight="bold"
                   font-size="12"
                   font-family="sans-serif"
+                  y="0"
                   text-anchor="end"
                 >
                   right top
@@ -203,13 +213,15 @@
               height="100"
               transform="matrix(1,0,0,1,0,0)"
             >
-              <g transform="matrix(1,0,0,1,100,50)">
+              <g transform="matrix(1,0,0,1,0,0)">
                 <text
                   id="g-svg-6"
                   fill="rgba(74,80,90,1)"
                   class="title-text"
                   dominant-baseline="central"
                   paint-order="stroke"
+                  x="100"
+                  y="50"
                   dx="0.5"
                   font-weight="bold"
                   font-size="12"
@@ -238,13 +250,15 @@
               height="100"
               transform="matrix(1,0,0,1,0,0)"
             >
-              <g transform="matrix(1,0,0,1,100,100)">
+              <g transform="matrix(1,0,0,1,0,0)">
                 <text
                   id="g-svg-7"
                   fill="rgba(74,80,90,1)"
                   class="title-text"
                   dominant-baseline="central"
                   paint-order="stroke"
+                  x="100"
+                  y="100"
                   dx="0.5"
                   dy="-11.5px"
                   font-weight="bold"
@@ -274,18 +288,20 @@
               height="100"
               transform="matrix(1,0,0,1,0,0)"
             >
-              <g transform="matrix(1,0,0,1,50,0)">
+              <g transform="matrix(1,0,0,1,0,0)">
                 <text
                   id="g-svg-8"
                   fill="rgba(74,80,90,1)"
                   class="title-text"
                   dominant-baseline="central"
                   paint-order="stroke"
+                  x="50"
                   dx="0.5"
                   dy="11.5px"
                   font-weight="bold"
                   font-size="12"
                   font-family="sans-serif"
+                  y="0"
                   text-anchor="middle"
                 >
                   top
@@ -310,13 +326,15 @@
               height="100"
               transform="matrix(1,0,0,1,0,0)"
             >
-              <g transform="matrix(1,0,0,1,50,100)">
+              <g transform="matrix(1,0,0,1,0,0)">
                 <text
                   id="g-svg-9"
                   fill="rgba(74,80,90,1)"
                   class="title-text"
                   dominant-baseline="central"
                   paint-order="stroke"
+                  x="50"
+                  y="100"
                   dx="0.5"
                   dy="-11.5px"
                   font-weight="bold"
@@ -359,6 +377,8 @@
                   font-size="12"
                   font-family="sans-serif"
                   text-anchor="left"
+                  x="0"
+                  y="0"
                 >
                   left top start
                 </text>
@@ -395,6 +415,8 @@
                   font-size="12"
                   font-family="sans-serif"
                   text-anchor="left"
+                  x="0"
+                  y="0"
                 >
                   left top start
                 </text>

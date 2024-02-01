@@ -8,8 +8,7 @@ export const CategoryPosition2 = () => {
   const g = group.appendChild(
     new Group({
       style: {
-        x: 50,
-        y: 50,
+        transform: 'translate(50, 50)',
       },
     })
   );

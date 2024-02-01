@@ -1,7 +1,7 @@
 <svg
   xmlns="http://www.w3.org/2000/svg"
-  width="725"
-  height="40"
+  width="400"
+  height="300"
   style="background: transparent;"
   color-interpolation-filters="sRGB"
 >
@@ -40,18 +40,24 @@
             fill="none"
             transform="matrix(1,0,0,1,0,0)"
             class="legend-items-group"
+            x="0"
+            y="0"
           >
             <g
               id="g-svg-4"
               fill="none"
               width="725"
               height="40"
+              x="0"
+              y="0"
               transform="matrix(1,0,0,1,0,0)"
               class="legend-items"
             >
               <g
                 id="g-svg-5"
                 fill="none"
+                x="0"
+                y="0"
                 transform="matrix(1,0,0,1,0,0)"
                 class="items-navigator"
               >
@@ -79,6 +85,8 @@
                         fill="none"
                         transform="matrix(1,0,0,1,0,0)"
                         class="items-item"
+                        x="0"
+                        y="0"
                         width="52.400000119209295"
                         height="23"
                       >
@@ -110,9 +118,6 @@
                             <circle
                               id="g-svg-11"
                               fill="rgba(255,0,0,1)"
-                              transform="translate(-6,-6)"
-                              cx="6"
-                              cy="6"
                               r="6"
                               class="legend-category-item-marker"
                               visibility="visible"
@@ -159,6 +164,8 @@
                         fill="none"
                         transform="matrix(1,0,0,1,60.400002,0)"
                         class="items-item"
+                        x="60.400000119209295"
+                        y="0"
                         width="70.88000011920929"
                         height="23"
                       >
@@ -190,9 +197,6 @@
                             <circle
                               id="g-svg-19"
                               fill="rgba(255,0,0,1)"
-                              transform="translate(-6,-6)"
-                              cx="6"
-                              cy="6"
                               r="6"
                               class="legend-category-item-marker"
                               visibility="visible"
@@ -239,6 +243,8 @@
                         fill="none"
                         transform="matrix(1,0,0,1,139.279999,0)"
                         class="items-item"
+                        x="139.28000023841858"
+                        y="0"
                         width="62.84000011920929"
                         height="23"
                       >
@@ -270,9 +276,6 @@
                             <circle
                               id="g-svg-27"
                               fill="rgba(255,0,0,1)"
-                              transform="translate(-6,-6)"
-                              cx="6"
-                              cy="6"
                               r="6"
                               class="legend-category-item-marker"
                               visibility="visible"

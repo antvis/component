@@ -1,7 +1,7 @@
 <svg
   xmlns="http://www.w3.org/2000/svg"
-  width="150"
-  height="42"
+  width="400"
+  height="300"
   style="background: transparent;"
   color-interpolation-filters="sRGB"
 >
@@ -25,31 +25,35 @@
         <g
           id="g-svg-21"
           fill="none"
+          x="10"
+          y="10"
           width="140"
           height="32"
-          transform="matrix(1,0,0,1,10,10)"
+          transform="matrix(1,0,0,1,0,0)"
         >
           <g transform="matrix(1,0,0,1,0,0)">
             <path
               id="g-svg-22"
               fill="rgba(255,255,255,1)"
-              d="M 8,0 l 124,0 a 8,8,0,0,1,8,8 l 0,16 a 8,8,0,0,1,-8,8 l -124,0 a 8,8,0,0,1,-8,-8 l 0,-16 a 8,8,0,0,1,8,-8 z"
+              d="M 18,10 l 124,0 a 8,8,0,0,1,8,8 l 0,16 a 8,8,0,0,1,-8,8 l -124,0 a 8,8,0,0,1,-8,-8 l 0,-16 a 8,8,0,0,1,8,-8 z"
               class="select"
               width="140"
               height="32"
+              x="10"
+              y="10"
               stroke="rgba(217,217,217,1)"
               stroke-width="1"
             />
-            <g transform="matrix(1,0,0,1,109,12.500000)">
+            <g transform="matrix(1,0,0,1,124,26)">
               <path
                 id="g-svg-1"
                 fill="none"
-                d="M 0,0 L 5,7 L 10,0"
+                d="M -5,-3.5 L 0,3.5 L 5,-3.5"
                 stroke-width="1"
                 stroke="rgba(217,217,217,1)"
               />
             </g>
-            <g transform="matrix(1,0,0,1,8,4.500000)">
+            <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="g-svg-2"
                 fill="rgba(0,0,0,1)"
@@ -64,13 +68,15 @@
                 stroke-width="1"
                 text-anchor="left"
                 class="value"
+                x="18"
+                y="14.5"
                 dy="11.5px"
               >
                 选项2
               </text>
             </g>
           </g>
-          <g transform="matrix(1,0,0,1,0,42)">
+          <g transform="matrix(1,0,0,1,10,52)">
             <path
               id="g-svg-23"
               fill="rgba(255,255,255,1)"

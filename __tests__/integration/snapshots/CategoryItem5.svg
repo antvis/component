@@ -39,11 +39,13 @@
             transform="matrix(0.707107,0,0,0.707107,5,11.500000)"
             class="legend-category-item-marker-group"
           >
-            <g transform="matrix(0.707107,0.707107,-0.707107,0.707107,-0,-7.071068)">
+            <g transform="matrix(0.707107,0.707107,-0.707107,0.707107,0,0)">
               <path
                 id="g-svg-2"
                 fill="rgba(255,165,0,1)"
-                d="M 0,0 l 10,0 l 0,10 l-10 0 z"
+                d="M -5,-5 l 10,0 l 0,10 l-10 0 z"
+                x="-5"
+                y="-5"
                 width="10"
                 height="10"
                 class="legend-category-item-marker"

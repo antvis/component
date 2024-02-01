@@ -34,14 +34,14 @@
               class="axis-line-group"
               transform="matrix(1,0,0,1,0,0)"
             >
-              <g transform="matrix(1,0,0,1,45,50)">
+              <g transform="matrix(1,0,0,1,0,0)">
                 <line
                   id="g-svg-39"
                   fill="none"
-                  x1="0"
-                  y1="0"
-                  x2="555"
-                  y2="0"
+                  x1="45"
+                  y1="50"
+                  x2="600"
+                  y2="50"
                   class="axis-line axis-line"
                   stroke-width="0.5"
                   stroke="rgba(0,0,0,1)"
@@ -319,7 +319,7 @@
                 id="g-svg-66"
                 fill="none"
                 class="axis-label"
-                transform="matrix(1,0,0,1,20.920000,66)"
+                transform="matrix(1,0,0,1,45,66)"
               >
                 <g
                   id="g-svg-13"
@@ -327,11 +327,13 @@
                   transform="matrix(1,0,0,1,0,0)"
                   class="axis-label-item"
                 >
-                  <g transform="matrix(1,0,0,1,0,-11.500000)">
+                  <g transform="matrix(1,0,0,1,0,0)">
                     <path
                       id="g-svg-15"
                       fill="rgba(255,0,0,1)"
-                      d="M 0,0 l 48.16,0 l 0,23 l-48.16 0 z"
+                      d="M 0,-11.5 l 48.16,0 l 0,23 l-48.16 0 z"
+                      x="0"
+                      y="-11.5"
                       width="48.16"
                       height="23"
                       visibility="visible"
@@ -351,6 +353,8 @@
                       font-weight="normal"
                       stroke-width="1"
                       text-anchor="left"
+                      x="0"
+                      y="0"
                       visibility="visible"
                     >
                       October
@@ -362,7 +366,7 @@
                 id="g-svg-67"
                 fill="none"
                 class="axis-label"
-                transform="matrix(1,0,0,1,61.876986,66)"
+                transform="matrix(1,0,0,1,92.136986,66)"
               >
                 <g
                   id="g-svg-19"
@@ -370,11 +374,13 @@
                   transform="matrix(1,0,0,1,0,0)"
                   class="axis-label-item"
                 >
-                  <g transform="matrix(1,0,0,1,0,-11.500000)">
+                  <g transform="matrix(1,0,0,1,0,0)">
                     <path
                       id="g-svg-21"
                       fill="rgba(255,0,0,1)"
-                      d="M 0,0 l 60.52,0 l 0,23 l-60.52 0 z"
+                      d="M 0,-11.5 l 60.52,0 l 0,23 l-60.52 0 z"
+                      x="0"
+                      y="-11.5"
                       width="60.52"
                       height="23"
                       visibility="hidden"
@@ -394,6 +400,8 @@
                       font-weight="normal"
                       stroke-width="1"
                       text-anchor="left"
+                      x="0"
+                      y="0"
                       visibility="hidden"
                     >
                       November
@@ -405,7 +413,7 @@
                 id="g-svg-68"
                 fill="none"
                 class="axis-label"
-                transform="matrix(1,0,0,1,107.553417,66)"
+                transform="matrix(1,0,0,1,137.753418,66)"
               >
                 <g
                   id="g-svg-25"
@@ -413,11 +421,13 @@
                   transform="matrix(1,0,0,1,0,0)"
                   class="axis-label-item"
                 >
-                  <g transform="matrix(1,0,0,1,0,-11.500000)">
+                  <g transform="matrix(1,0,0,1,0,0)">
                     <path
                       id="g-svg-27"
                       fill="rgba(255,0,0,1)"
-                      d="M 0,0 l 60.400000000000006,0 l 0,23 l-60.400000000000006 0 z"
+                      d="M 0,-11.5 l 60.400000000000006,0 l 0,23 l-60.400000000000006 0 z"
+                      x="0"
+                      y="-11.5"
                       width="60.400000000000006"
                       height="23"
                       visibility="visible"
@@ -437,6 +447,8 @@
                       font-weight="normal"
                       stroke-width="1"
                       text-anchor="left"
+                      x="0"
+                      y="0"
                       visibility="visible"
                     >
                       December
@@ -448,7 +460,7 @@
                 id="g-svg-69"
                 fill="none"
                 class="axis-label"
-                transform="matrix(1,0,0,1,170.230412,66)"
+                transform="matrix(1,0,0,1,184.890411,66)"
               >
                 <g
                   id="g-svg-31"
@@ -456,11 +468,13 @@
                   transform="matrix(1,0,0,1,0,0)"
                   class="axis-label-item"
                 >
-                  <g transform="matrix(1,0,0,1,0,-11.500000)">
+                  <g transform="matrix(1,0,0,1,0,0)">
                     <path
                       id="g-svg-33"
                       fill="rgba(255,0,0,1)"
-                      d="M 0,0 l 29.320000000000004,0 l 0,23 l-29.320000000000004 0 z"
+                      d="M 0,-11.5 l 29.320000000000004,0 l 0,23 l-29.320000000000004 0 z"
+                      x="0"
+                      y="-11.5"
                       width="29.320000000000004"
                       height="23"
                       visibility="hidden"
@@ -480,6 +494,8 @@
                       font-weight="normal"
                       stroke-width="1"
                       text-anchor="left"
+                      x="0"
+                      y="0"
                       visibility="hidden"
                     >
                       2012
@@ -491,7 +507,7 @@
                 id="g-svg-70"
                 fill="none"
                 class="axis-label"
-                transform="matrix(1,0,0,1,205.847404,66)"
+                transform="matrix(1,0,0,1,232.027390,66)"
               >
                 <g
                   id="g-svg-37"
@@ -499,11 +515,13 @@
                   transform="matrix(1,0,0,1,0,0)"
                   class="axis-label-item"
                 >
-                  <g transform="matrix(1,0,0,1,0,-11.500000)">
+                  <g transform="matrix(1,0,0,1,0,0)">
                     <path
                       id="g-svg-39"
                       fill="rgba(255,0,0,1)"
-                      d="M 0,0 l 52.36,0 l 0,23 l-52.36 0 z"
+                      d="M 0,-11.5 l 52.36,0 l 0,23 l-52.36 0 z"
+                      x="0"
+                      y="-11.5"
                       width="52.36"
                       height="23"
                       visibility="visible"
@@ -523,6 +541,8 @@
                       font-weight="normal"
                       stroke-width="1"
                       text-anchor="left"
+                      x="0"
+                      y="0"
                       visibility="visible"
                     >
                       February
@@ -534,7 +554,7 @@
                 id="g-svg-71"
                 fill="none"
                 class="axis-label"
-                transform="matrix(1,0,0,1,257.563292,66)"
+                transform="matrix(1,0,0,1,276.123291,66)"
               >
                 <g
                   id="g-svg-43"
@@ -542,11 +562,13 @@
                   transform="matrix(1,0,0,1,0,0)"
                   class="axis-label-item"
                 >
-                  <g transform="matrix(1,0,0,1,0,-11.500000)">
+                  <g transform="matrix(1,0,0,1,0,0)">
                     <path
                       id="g-svg-45"
                       fill="rgba(255,0,0,1)"
-                      d="M 0,0 l 37.12,0 l 0,23 l-37.12 0 z"
+                      d="M 0,-11.5 l 37.12,0 l 0,23 l-37.12 0 z"
+                      x="0"
+                      y="-11.5"
                       width="37.12"
                       height="23"
                       visibility="hidden"
@@ -566,6 +588,8 @@
                       font-weight="normal"
                       stroke-width="1"
                       text-anchor="left"
+                      x="0"
+                      y="0"
                       visibility="hidden"
                     >
                       March
@@ -577,7 +601,7 @@
                 id="g-svg-72"
                 fill="none"
                 class="axis-label"
-                transform="matrix(1,0,0,1,309.440285,66)"
+                transform="matrix(1,0,0,1,323.260284,66)"
               >
                 <g
                   id="g-svg-49"
@@ -585,11 +609,13 @@
                   transform="matrix(1,0,0,1,0,0)"
                   class="axis-label-item"
                 >
-                  <g transform="matrix(1,0,0,1,0,-11.500000)">
+                  <g transform="matrix(1,0,0,1,0,0)">
                     <path
                       id="g-svg-51"
                       fill="rgba(255,0,0,1)"
-                      d="M 0,0 l 27.64,0 l 0,23 l-27.64 0 z"
+                      d="M 0,-11.5 l 27.64,0 l 0,23 l-27.64 0 z"
+                      x="0"
+                      y="-11.5"
                       width="27.64"
                       height="23"
                       visibility="visible"
@@ -609,6 +635,8 @@
                       font-weight="normal"
                       stroke-width="1"
                       text-anchor="left"
+                      x="0"
+                      y="0"
                       visibility="visible"
                     >
                       April
@@ -620,7 +648,7 @@
                 id="g-svg-73"
                 fill="none"
                 class="axis-label"
-                transform="matrix(1,0,0,1,356.376709,66)"
+                transform="matrix(1,0,0,1,368.876709,66)"
               >
                 <g
                   id="g-svg-55"
@@ -628,11 +656,13 @@
                   transform="matrix(1,0,0,1,0,0)"
                   class="axis-label-item"
                 >
-                  <g transform="matrix(1,0,0,1,0,-11.500000)">
+                  <g transform="matrix(1,0,0,1,0,0)">
                     <path
                       id="g-svg-57"
                       fill="rgba(255,0,0,1)"
-                      d="M 0,0 l 25,0 l 0,23 l-25 0 z"
+                      d="M 0,-11.5 l 25,0 l 0,23 l-25 0 z"
+                      x="0"
+                      y="-11.5"
                       width="25"
                       height="23"
                       visibility="hidden"
@@ -652,6 +682,8 @@
                       font-weight="normal"
                       stroke-width="1"
                       text-anchor="left"
+                      x="0"
+                      y="0"
                       visibility="hidden"
                     >
                       May
@@ -663,7 +695,7 @@
                 id="g-svg-74"
                 fill="none"
                 class="axis-label"
-                transform="matrix(1,0,0,1,401.533703,66)"
+                transform="matrix(1,0,0,1,416.013702,66)"
               >
                 <g
                   id="g-svg-61"
@@ -671,11 +703,13 @@
                   transform="matrix(1,0,0,1,0,0)"
                   class="axis-label-item"
                 >
-                  <g transform="matrix(1,0,0,1,0,-11.500000)">
+                  <g transform="matrix(1,0,0,1,0,0)">
                     <path
                       id="g-svg-63"
                       fill="rgba(255,0,0,1)"
-                      d="M 0,0 l 28.96,0 l 0,23 l-28.96 0 z"
+                      d="M 0,-11.5 l 28.96,0 l 0,23 l-28.96 0 z"
+                      x="0"
+                      y="-11.5"
                       width="28.96"
                       height="23"
                       visibility="visible"
@@ -695,6 +729,8 @@
                       font-weight="normal"
                       stroke-width="1"
                       text-anchor="left"
+                      x="0"
+                      y="0"
                       visibility="visible"
                     >
                       June
@@ -706,7 +742,7 @@
                 id="g-svg-75"
                 fill="none"
                 class="axis-label"
-                transform="matrix(1,0,0,1,449.370127,66)"
+                transform="matrix(1,0,0,1,461.630127,66)"
               >
                 <g
                   id="g-svg-67"
@@ -714,11 +750,13 @@
                   transform="matrix(1,0,0,1,0,0)"
                   class="axis-label-item"
                 >
-                  <g transform="matrix(1,0,0,1,0,-11.500000)">
+                  <g transform="matrix(1,0,0,1,0,0)">
                     <path
                       id="g-svg-69"
                       fill="rgba(255,0,0,1)"
-                      d="M 0,0 l 24.520000000000003,0 l 0,23 l-24.520000000000003 0 z"
+                      d="M 0,-11.5 l 24.520000000000003,0 l 0,23 l-24.520000000000003 0 z"
+                      x="0"
+                      y="-11.5"
                       width="24.520000000000003"
                       height="23"
                       visibility="hidden"
@@ -738,6 +776,8 @@
                       font-weight="normal"
                       stroke-width="1"
                       text-anchor="left"
+                      x="0"
+                      y="0"
                       visibility="hidden"
                     >
                       July
@@ -749,7 +789,7 @@
                 id="g-svg-76"
                 fill="none"
                 class="axis-label"
-                transform="matrix(1,0,0,1,487.687120,66)"
+                transform="matrix(1,0,0,1,508.767120,66)"
               >
                 <g
                   id="g-svg-73"
@@ -757,11 +797,13 @@
                   transform="matrix(1,0,0,1,0,0)"
                   class="axis-label-item"
                 >
-                  <g transform="matrix(1,0,0,1,0,-11.500000)">
+                  <g transform="matrix(1,0,0,1,0,0)">
                     <path
                       id="g-svg-75"
                       fill="rgba(255,0,0,1)"
-                      d="M 0,0 l 42.160000000000004,0 l 0,23 l-42.160000000000004 0 z"
+                      d="M 0,-11.5 l 42.160000000000004,0 l 0,23 l-42.160000000000004 0 z"
+                      x="0"
+                      y="-11.5"
                       width="42.160000000000004"
                       height="23"
                       visibility="visible"
@@ -781,6 +823,8 @@
                       font-weight="normal"
                       stroke-width="1"
                       text-anchor="left"
+                      x="0"
+                      y="0"
                       visibility="visible"
                     >
                       August
@@ -792,7 +836,7 @@
                 id="g-svg-77"
                 fill="none"
                 class="axis-label"
-                transform="matrix(1,0,0,1,523.664112,66)"
+                transform="matrix(1,0,0,1,555.904114,66)"
               >
                 <g
                   id="g-svg-79"
@@ -800,11 +844,13 @@
                   transform="matrix(1,0,0,1,0,0)"
                   class="axis-label-item"
                 >
-                  <g transform="matrix(1,0,0,1,0,-11.500000)">
+                  <g transform="matrix(1,0,0,1,0,0)">
                     <path
                       id="g-svg-81"
                       fill="rgba(255,0,0,1)"
-                      d="M 0,0 l 64.48,0 l 0,23 l-64.48 0 z"
+                      d="M 0,-11.5 l 64.48,0 l 0,23 l-64.48 0 z"
+                      x="0"
+                      y="-11.5"
                       width="64.48"
                       height="23"
                       visibility="hidden"
@@ -824,6 +870,8 @@
                       font-weight="normal"
                       stroke-width="1"
                       text-anchor="left"
+                      x="0"
+                      y="0"
                       visibility="hidden"
                     >
                       September
@@ -851,19 +899,25 @@
               height="30"
               stroke="rgba(187,187,187,1)"
               stroke-width="1"
+              x="0"
+              y="0"
             />
           </g>
           <g
             id="g-svg-85"
             fill="none"
             class="marker"
-            transform="matrix(1,0,0,1,10,15)"
+            x="10"
+            y="15"
+            transform="matrix(1,0,0,1,0,0)"
           />
-          <g transform="matrix(1,0,0,1,10,15)">
+          <g transform="matrix(1,0,0,1,0,0)">
             <text
               id="g-svg-86"
               fill="rgba(0,0,0,1)"
               class="text"
+              x="10"
+              y="15"
               dominant-baseline="central"
               paint-order="stroke"
               dx="0.5"
@@ -874,30 +928,36 @@
             </text>
           </g>
         </g>
-        <g id="g-svg-35" fill="none" transform="matrix(1,0,0,1,80,0)">
+        <g id="g-svg-35" fill="none" x="80" transform="matrix(1,0,0,1,0,0)">
           <g transform="matrix(1,0,0,1,0,0)">
             <path
               id="g-svg-90"
               fill="rgba(0,0,0,0)"
               class=".background"
-              d="M 5,0 l 40.64,0 a 5,5,0,0,1,5,5 l 0,20 a 5,5,0,0,1,-5,5 l -40.64,0 a 5,5,0,0,1,-5,-5 l 0,-20 a 5,5,0,0,1,5,-5 z"
+              d="M 85,0 l 40.64,0 a 5,5,0,0,1,5,5 l 0,20 a 5,5,0,0,1,-5,5 l -40.64,0 a 5,5,0,0,1,-5,-5 l 0,-20 a 5,5,0,0,1,5,-5 z"
               width="50.64"
               height="30"
               stroke="rgba(187,187,187,1)"
               stroke-width="1"
+              x="80"
+              y="0"
             />
           </g>
           <g
             id="g-svg-88"
             fill="none"
             class="marker"
-            transform="matrix(1,0,0,1,10,15)"
+            x="90"
+            y="15"
+            transform="matrix(1,0,0,1,0,0)"
           />
-          <g transform="matrix(1,0,0,1,10,15)">
+          <g transform="matrix(1,0,0,1,0,0)">
             <text
               id="g-svg-89"
               fill="rgba(0,0,0,1)"
               class="text"
+              x="90"
+              y="15"
               dominant-baseline="central"
               paint-order="stroke"
               dx="0.5"

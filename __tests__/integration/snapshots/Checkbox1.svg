@@ -26,20 +26,22 @@
                 stroke="rgba(218,218,218,1)"
                 stroke-width="1"
               />
-              <g transform="matrix(1,0,0,1,3,4)">
+              <g transform="matrix(1,0,0,1,0,0)">
                 <path
                   id="g-svg-3"
                   fill="none"
                   stroke="rgba(255,255,255,1)"
-                  d="M 0,2 L 2,4.5 L 5.5,0"
+                  d="M 3,6 L 50,8.50 L 8.50,40"
                   stroke-width="1"
                 />
               </g>
             </g>
-            <g transform="matrix(1,0,0,1,16,6)">
+            <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="g-svg-4"
                 fill="rgba(0,0,0,0.45)"
+                x="16"
+                y="6"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"
@@ -68,20 +70,22 @@
                 stroke="rgba(52,113,249,1)"
                 stroke-width="1"
               />
-              <g transform="matrix(1,0,0,1,3,4)">
+              <g transform="matrix(1,0,0,1,0,0)">
                 <path
                   id="g-svg-7"
                   fill="none"
                   stroke="rgba(255,255,255,1)"
-                  d="M 0,2 L 2,4.5 L 5.5,0"
+                  d="M 3,6 L 50,8.50 L 8.50,40"
                   stroke-width="1"
                 />
               </g>
             </g>
-            <g transform="matrix(1,0,0,1,16,6)">
+            <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="g-svg-8"
                 fill="rgba(0,0,0,0.45)"
+                x="16"
+                y="6"
                 dominant-baseline="central"
                 paint-order="stroke"
                 dx="0.5"

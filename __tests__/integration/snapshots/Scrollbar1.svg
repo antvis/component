@@ -9,7 +9,13 @@
   <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
     <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
       <g id="g-svg-67" fill="none" transform="matrix(1,0,0,1,0,0)">
-        <g id="g-svg-68" fill="none" transform="matrix(1,0,0,1,20,20)">
+        <g
+          id="g-svg-68"
+          fill="none"
+          x="20"
+          y="20"
+          transform="matrix(1,0,0,1,0,0)"
+        >
           <g
             id="g-svg-1"
             fill="none"
@@ -49,39 +55,45 @@
               transform="matrix(1,0,0,1,0,0)"
               class="slider-foreground"
             >
-              <g transform="matrix(1,0,0,1,2,2)">
+              <g transform="matrix(1,0,0,1,0,0)">
                 <path
                   id="g-svg-6"
                   fill="rgba(91,143,249,1)"
                   class="slider-selection"
                   visibility="hidden"
                   fill-opacity="0.45"
-                  d="M 3,0 l 0,0 a 3,3,0,0,1,3,3 l 0,97.6 a 3,3,0,0,1,-3,3 l 0,0 a 3,3,0,0,1,-3,-3 l 0,-97.6 a 3,3,0,0,1,3,-3 z"
+                  d="M 5,2 l 0,0 a 3,3,0,0,1,3,3 l 0,97.6 a 3,3,0,0,1,-3,3 l 0,0 a 3,3,0,0,1,-3,-3 l 0,-97.6 a 3,3,0,0,1,3,-3 z"
+                  x="2"
                   width="6"
+                  y="2"
                   height="103.6"
                 />
               </g>
-              <g transform="matrix(1,0,0,1,2,105.599998)">
+              <g transform="matrix(1,0,0,1,0,0)">
                 <path
                   id="g-svg-7"
                   fill="rgba(91,143,249,1)"
                   class="slider-selection"
                   visibility="visible"
                   fill-opacity="0.45"
-                  d="M 3,0 l 0,0 a 3,3,0,0,1,3,3 l 0,82.80000000000001 a 3,3,0,0,1,-3,3 l 0,0 a 3,3,0,0,1,-3,-3 l 0,-82.80000000000001 a 3,3,0,0,1,3,-3 z"
+                  d="M 5,105.6 l 0,0 a 3,3,0,0,1,3,3 l 0,82.80000000000001 a 3,3,0,0,1,-3,3 l 0,0 a 3,3,0,0,1,-3,-3 l 0,-82.80000000000001 a 3,3,0,0,1,3,-3 z"
+                  x="2"
                   width="6"
+                  y="105.6"
                   height="88.80000000000001"
                 />
               </g>
-              <g transform="matrix(1,0,0,1,2,192.399994)">
+              <g transform="matrix(1,0,0,1,0,0)">
                 <path
                   id="g-svg-8"
                   fill="rgba(91,143,249,1)"
                   class="slider-selection"
                   visibility="hidden"
                   fill-opacity="0.45"
-                  d="M 3,0 l 0,0 a 3,3,0,0,1,3,3 l 0,97.6 a 3,3,0,0,1,-3,3 l 0,0 a 3,3,0,0,1,-3,-3 l 0,-97.6 a 3,3,0,0,1,3,-3 z"
+                  d="M 5,192.4 l 0,0 a 3,3,0,0,1,3,3 l 0,97.6 a 3,3,0,0,1,-3,3 l 0,0 a 3,3,0,0,1,-3,-3 l 0,-97.6 a 3,3,0,0,1,3,-3 z"
+                  x="2"
                   width="6"
+                  y="192.4"
                   height="103.6"
                 />
               </g>

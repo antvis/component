@@ -65,7 +65,7 @@
                 height="300"
               />
             </g>
-            <g transform="matrix(1,0,0,1,0,300)">
+            <g transform="matrix(1,0,0,1,0,0)">
               <path
                 id="g-svg-7"
                 fill="rgba(91,143,249,1)"
@@ -73,6 +73,7 @@
                 visibility="hidden"
                 fill-opacity="0.45"
                 width="50"
+                y="300"
               />
             </g>
             <g
@@ -93,38 +94,40 @@
                   transform="matrix(0,1,-1,0,0,0)"
                   class="handle-icon"
                 >
-                  <g transform="matrix(1,0,0,1,-5,-12)">
+                  <g transform="matrix(1,0,0,1,0,0)">
                     <path
                       id="g-svg-13"
                       fill="rgba(255,255,255,1)"
                       class="handle-icon-rect"
                       stroke-width="1"
                       stroke="rgba(191,191,191,1)"
-                      d="M 2,0 l 6,0 a 2,2,0,0,1,2,2 l 0,20 a 2,2,0,0,1,-2,2 l -6,0 a 2,2,0,0,1,-2,-2 l 0,-20 a 2,2,0,0,1,2,-2 z"
+                      d="M -3,-12 l 6,0 a 2,2,0,0,1,2,2 l 0,20 a 2,2,0,0,1,-2,2 l -6,0 a 2,2,0,0,1,-2,-2 l 0,-20 a 2,2,0,0,1,2,-2 z"
                       width="10"
                       height="24"
+                      x="-5"
+                      y="-12"
                     />
-                    <g transform="matrix(1,0,0,1,3.333333,6)">
+                    <g transform="matrix(1,0,0,1,0,0)">
                       <line
                         id="g-svg-14"
                         fill="rgba(255,255,255,1)"
-                        x1="0"
-                        y1="0"
-                        x2="0"
-                        y2="12"
+                        x1="-1.666666666666667"
+                        y1="-6"
+                        x2="-1.666666666666667"
+                        y2="6"
                         class="handle-icon-line-1"
                         stroke-width="1"
                         stroke="rgba(191,191,191,1)"
                       />
                     </g>
-                    <g transform="matrix(1,0,0,1,6.666667,6)">
+                    <g transform="matrix(1,0,0,1,0,0)">
                       <line
                         id="g-svg-15"
                         fill="rgba(255,255,255,1)"
-                        x1="0"
-                        y1="0"
-                        x2="0"
-                        y2="12"
+                        x1="1.666666666666666"
+                        y1="-6"
+                        x2="1.666666666666666"
+                        y2="6"
                         class="handle-icon-line-2"
                         stroke-width="1"
                         stroke="rgba(191,191,191,1)"
@@ -139,7 +142,7 @@
                 transform="matrix(1,0,0,1,0,0)"
                 class="handle-label-group"
               >
-                <g transform="matrix(0,1,-1,0,0,12)">
+                <g transform="matrix(0,1,-1,0,0.500000,0.500000)">
                   <text
                     id="g-svg-17"
                     fill="rgba(0,0,0,1)"
@@ -147,9 +150,11 @@
                     fill-opacity="0.45"
                     dominant-baseline="central"
                     paint-order="stroke"
+                    y="12"
                     dx="0.5"
                     font-size="12"
                     text-anchor="left"
+                    x="0"
                   >
                     0°C
                   </text>
@@ -174,38 +179,40 @@
                   transform="matrix(0,1,-1,0,0,0)"
                   class="handle-icon"
                 >
-                  <g transform="matrix(1,0,0,1,-5,-12)">
+                  <g transform="matrix(1,0,0,1,0,0)">
                     <path
                       id="g-svg-23"
                       fill="rgba(255,255,255,1)"
                       class="handle-icon-rect"
                       stroke-width="1"
                       stroke="rgba(191,191,191,1)"
-                      d="M 2,0 l 6,0 a 2,2,0,0,1,2,2 l 0,20 a 2,2,0,0,1,-2,2 l -6,0 a 2,2,0,0,1,-2,-2 l 0,-20 a 2,2,0,0,1,2,-2 z"
+                      d="M -3,-12 l 6,0 a 2,2,0,0,1,2,2 l 0,20 a 2,2,0,0,1,-2,2 l -6,0 a 2,2,0,0,1,-2,-2 l 0,-20 a 2,2,0,0,1,2,-2 z"
                       width="10"
                       height="24"
+                      x="-5"
+                      y="-12"
                     />
-                    <g transform="matrix(1,0,0,1,3.333333,6)">
+                    <g transform="matrix(1,0,0,1,0,0)">
                       <line
                         id="g-svg-24"
                         fill="rgba(255,255,255,1)"
-                        x1="0"
-                        y1="0"
-                        x2="0"
-                        y2="12"
+                        x1="-1.666666666666667"
+                        y1="-6"
+                        x2="-1.666666666666667"
+                        y2="6"
                         class="handle-icon-line-1"
                         stroke-width="1"
                         stroke="rgba(191,191,191,1)"
                       />
                     </g>
-                    <g transform="matrix(1,0,0,1,6.666667,6)">
+                    <g transform="matrix(1,0,0,1,0,0)">
                       <line
                         id="g-svg-25"
                         fill="rgba(255,255,255,1)"
-                        x1="0"
-                        y1="0"
-                        x2="0"
-                        y2="12"
+                        x1="1.666666666666666"
+                        y1="-6"
+                        x2="1.666666666666666"
+                        y2="6"
                         class="handle-icon-line-2"
                         stroke-width="1"
                         stroke="rgba(191,191,191,1)"
@@ -220,7 +227,7 @@
                 transform="matrix(1,0,0,1,0,0)"
                 class="handle-label-group"
               >
-                <g transform="matrix(0,1,-1,0,0,-12)">
+                <g transform="matrix(0,1,-1,0,-50.019999,3.020000)">
                   <text
                     id="g-svg-27"
                     fill="rgba(0,0,0,1)"
@@ -228,9 +235,11 @@
                     fill-opacity="0.45"
                     dominant-baseline="central"
                     paint-order="stroke"
+                    y="-12"
                     dx="0.5"
                     font-size="12"
                     text-anchor="end"
+                    x="0"
                   >
                     1°C
                   </text>

@@ -92,6 +92,7 @@ export class Switch extends Component<SwitchStyleProps> {
           });
 
           // 增加 整体宽度 需要对 tag 提前渲染获得 width 然后通过 width 计算 x 的位置
+          // @ts-ignore
           const { max, min } = tagShape?.getLocalBounds() || {};
           const width = max[0] - min[0] + sizeStyle.radius;
           const height = max[1] - min[1];

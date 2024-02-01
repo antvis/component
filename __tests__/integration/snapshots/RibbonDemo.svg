@@ -7,7 +7,7 @@
 >
   <defs>
     <clipPath transform="matrix(1,0,0,1,-350,-350)" id="clip-path-365-364">
-      <use href="#g-svg-365" transform="matrix(1,0,0,1,510,350)" />
+      <use href="#g-svg-365" transform="matrix(1,0,0,1,350,350)" />
     </clipPath>
     <linearGradient
       gradientUnits="userSpaceOnUse"
@@ -125,6 +125,27 @@
     <clipPath transform="matrix(1,0,0,1,-100,-200)" id="clip-path-15-14">
       <use href="#g-svg-15" transform="matrix(1,0,0,1,100,200)" />
     </clipPath>
+    <clipPath transform="matrix(1,0,0,1,-150,-200)" id="clip-path-20-19">
+      <use href="#g-svg-20" transform="matrix(1,0,0,1,150,200)" />
+    </clipPath>
+    <clipPath transform="matrix(1,0,0,1,-300,-200)" id="clip-path-25-24">
+      <use href="#g-svg-25" transform="matrix(1,0,0,1,300,200)" />
+    </clipPath>
+    <clipPath transform="matrix(1,0,0,1,-350,-100)" id="clip-path-30-29">
+      <use href="#g-svg-30" transform="matrix(1,0,0,1,350,100)" />
+    </clipPath>
+    <clipPath transform="matrix(1,0,0,1,-350,-150)" id="clip-path-35-34">
+      <use href="#g-svg-35" transform="matrix(1,0,0,1,350,150)" />
+    </clipPath>
+    <clipPath transform="matrix(1,0,0,1,-350,-200)" id="clip-path-40-39">
+      <use href="#g-svg-40" transform="matrix(1,0,0,1,350,200)" />
+    </clipPath>
+    <clipPath transform="matrix(1,0,0,1,-350,-250)" id="clip-path-45-44">
+      <use href="#g-svg-45" transform="matrix(1,0,0,1,350,250)" />
+    </clipPath>
+    <clipPath transform="matrix(1,0,0,1,-350,-300)" id="clip-path-50-49">
+      <use href="#g-svg-50" transform="matrix(1,0,0,1,350,300)" />
+    </clipPath>
     <linearGradient
       gradientUnits="userSpaceOnUse"
       id="g-pattern-3"
@@ -154,9 +175,6 @@
       <stop offset="0.9473684210526315" stop-color="rgba(231,101,91,1)" />
       <stop offset="1" stop-color="rgba(231,101,91,1)" />
     </linearGradient>
-    <clipPath transform="matrix(1,0,0,1,-150,-200)" id="clip-path-20-19">
-      <use href="#g-svg-20" transform="matrix(1,0,0,1,150,240)" />
-    </clipPath>
     <linearGradient
       gradientUnits="userSpaceOnUse"
       id="g-pattern-4"
@@ -177,24 +195,6 @@
       <stop offset="1" stop-color="rgba(226,52,85,1)" />
       <stop offset="1" stop-color="rgba(231,101,91,1)" />
     </linearGradient>
-    <clipPath transform="matrix(1,0,0,1,-300,-200)" id="clip-path-25-24">
-      <use href="#g-svg-25" transform="matrix(1,0,0,1,300,240)" />
-    </clipPath>
-    <clipPath transform="matrix(1,0,0,1,-350,-100)" id="clip-path-30-29">
-      <use href="#g-svg-30" transform="matrix(1,0,0,1,350,100)" />
-    </clipPath>
-    <clipPath transform="matrix(1,0,0,1,-350,-150)" id="clip-path-35-34">
-      <use href="#g-svg-35" transform="matrix(1,0,0,1,350,150)" />
-    </clipPath>
-    <clipPath transform="matrix(1,0,0,1,-350,-200)" id="clip-path-40-39">
-      <use href="#g-svg-40" transform="matrix(1,0,0,1,350,200)" />
-    </clipPath>
-    <clipPath transform="matrix(1,0,0,1,-350,-250)" id="clip-path-45-44">
-      <use href="#g-svg-45" transform="matrix(1,0,0,1,350,250)" />
-    </clipPath>
-    <clipPath transform="matrix(1,0,0,1,-350,-300)" id="clip-path-50-49">
-      <use href="#g-svg-50" transform="matrix(1,0,0,1,430,300)" />
-    </clipPath>
   </defs>
   <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
     <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
@@ -245,7 +245,12 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-351" fill="none" transform="matrix(1,0,0,1,100,150)">
+        <g
+          id="g-svg-351"
+          fill="none"
+          y="150"
+          transform="matrix(1,0,0,1,100,150)"
+        >
           <g
             id="g-svg-6"
             fill="none"
@@ -285,7 +290,12 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-352" fill="none" transform="matrix(1,0,0,1,100,200)">
+        <g
+          id="g-svg-352"
+          fill="none"
+          y="200"
+          transform="matrix(1,0,0,1,100,200)"
+        >
           <g
             id="g-svg-11"
             fill="none"
@@ -328,7 +338,13 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-353" fill="none" transform="matrix(1,0,0,1,150,200)">
+        <g
+          id="g-svg-353"
+          fill="none"
+          x="150"
+          y="200"
+          transform="matrix(1,0,0,1,150,200)"
+        >
           <g
             id="g-svg-16"
             fill="none"
@@ -360,18 +376,24 @@
                 class="ribbon-ribbon"
                 d="M 0,200 L 30,0 L 30,200 Z"
               />
-              <g transform="matrix(1,0,0,1,0,40)">
+              <g transform="matrix(1,0,0,1,0,0)">
                 <path
                   id="g-svg-20"
                   fill="none"
-                  d="M 0,0 L 0,120 L 30,120 L 30,0 Z"
+                  d="M 0,40 L 0,160 L 30,160 L 30,40 Z"
                   class="ribbon-clip-path"
                 />
               </g>
             </g>
           </g>
         </g>
-        <g id="g-svg-354" fill="none" transform="matrix(1,0,0,1,300,200)">
+        <g
+          id="g-svg-354"
+          fill="none"
+          x="300"
+          y="200"
+          transform="matrix(1,0,0,1,300,200)"
+        >
           <g
             id="g-svg-21"
             fill="none"
@@ -403,18 +425,24 @@
                 class="ribbon-ribbon"
                 d="M 0,200 L 30,0 L 30,200 Z"
               />
-              <g transform="matrix(1,0,0,1,0,40)">
+              <g transform="matrix(1,0,0,1,0,0)">
                 <path
                   id="g-svg-25"
                   fill="none"
-                  d="M 0,0 L 0,120 L 30,120 L 30,0 Z"
+                  d="M 0,40 L 0,160 L 30,160 L 30,40 Z"
                   class="ribbon-clip-path"
                 />
               </g>
             </g>
           </g>
         </g>
-        <g id="g-svg-355" fill="none" transform="matrix(1,0,0,1,350,100)">
+        <g
+          id="g-svg-355"
+          fill="none"
+          x="350"
+          y="100"
+          transform="matrix(1,0,0,1,350,100)"
+        >
           <g
             id="g-svg-26"
             fill="none"
@@ -457,7 +485,13 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-356" fill="none" transform="matrix(1,0,0,1,350,150)">
+        <g
+          id="g-svg-356"
+          fill="none"
+          x="350"
+          y="150"
+          transform="matrix(1,0,0,1,350,150)"
+        >
           <g
             id="g-svg-31"
             fill="none"
@@ -500,7 +534,13 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-357" fill="none" transform="matrix(1,0,0,1,350,200)">
+        <g
+          id="g-svg-357"
+          fill="none"
+          x="350"
+          y="200"
+          transform="matrix(1,0,0,1,350,200)"
+        >
           <g
             id="g-svg-36"
             fill="none"
@@ -543,7 +583,13 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-358" fill="none" transform="matrix(1,0,0,1,350,250)">
+        <g
+          id="g-svg-358"
+          fill="none"
+          x="350"
+          y="250"
+          transform="matrix(1,0,0,1,350,250)"
+        >
           <g
             id="g-svg-41"
             fill="none"
@@ -586,7 +632,13 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-359" fill="none" transform="matrix(1,0,0,1,350,300)">
+        <g
+          id="g-svg-359"
+          fill="none"
+          x="350"
+          y="300"
+          transform="matrix(1,0,0,1,350,300)"
+        >
           <g
             id="g-svg-46"
             fill="none"
@@ -618,18 +670,24 @@
                 class="ribbon-ribbon"
                 d="M 0,30 L 0,0 L 400,0 L 400,30 Z"
               />
-              <g transform="matrix(1,0,0,1,80,0)">
+              <g transform="matrix(1,0,0,1,0,0)">
                 <path
                   id="g-svg-50"
                   fill="none"
-                  d="M 0,0 L 0,30 L 240,30 L 240,0 Z"
+                  d="M 80,0 L 80,30 L 320,30 L 320,0 Z"
                   class="ribbon-clip-path"
                 />
               </g>
             </g>
           </g>
         </g>
-        <g id="g-svg-360" fill="none" transform="matrix(1,0,0,1,350,350)">
+        <g
+          id="g-svg-360"
+          fill="none"
+          x="350"
+          y="350"
+          transform="matrix(1,0,0,1,350,350)"
+        >
           <g
             id="g-svg-361"
             fill="none"
@@ -661,11 +719,11 @@
                 d="M 0,30 L 0,0 L 400,0 L 400,30 Z"
                 class="ribbon-ribbon"
               />
-              <g transform="matrix(1,0,0,1,160,0)">
+              <g transform="matrix(1,0,0,1,0,0)">
                 <path
                   id="g-svg-365"
                   fill="none"
-                  d="M 0,0 L 0,30 L 160,30 L 160,0 Z"
+                  d="M 160,0 L 160,30 L 320,30 L 320,0 Z"
                   class="ribbon-clip-path"
                 />
               </g>

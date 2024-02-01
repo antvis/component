@@ -3,6 +3,8 @@ import type { ComponentOptions } from '../../core';
 import type { TagStyleProps } from '../tag';
 
 export type SwitchStyleProps = GroupStyleProps & {
+  x?: number;
+  y?: number;
   /**
    * @title 大小
    * @description switch 开关组件大小。默认为: default, 高度大小等于 22px，宽度默认等于高度的两倍，会随着内部的子元素大小自动调整。

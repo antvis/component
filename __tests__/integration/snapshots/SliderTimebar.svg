@@ -32,6 +32,8 @@
               fill="none"
               width="300"
               height="5"
+              x="0"
+              y="0"
               transform="matrix(1,0,0,1,0,0)"
               class="slider-sparkline"
             >
@@ -81,9 +83,6 @@
                   <circle
                     id="g-svg-14"
                     fill="rgba(63,124,247,1)"
-                    transform="translate(-5,-5)"
-                    cx="5"
-                    cy="5"
                     r="5"
                     stroke-width="0"
                     stroke="rgba(63,124,247,1)"
@@ -124,6 +123,8 @@
               fill="none"
               width="300"
               height="5"
+              x="0"
+              y="0"
               transform="matrix(1,0,0,1,0,0)"
               class="slider-sparkline"
             >
@@ -177,14 +178,15 @@
                 width="150"
               />
             </g>
-            <g transform="matrix(1,0,0,1,150,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
               <path
                 id="g-svg-27"
                 fill="rgba(46,127,248,1)"
                 class="slider-selection"
                 visibility="hidden"
-                d="M 0,0 l 150,0 l 0,5 l-150 0 z"
+                d="M 150,0 l 150,0 l 0,5 l-150 0 z"
                 height="5"
+                x="150"
                 width="150"
               />
             </g>
@@ -204,9 +206,6 @@
                   <circle
                     id="g-svg-32"
                     fill="rgba(63,124,247,1)"
-                    transform="translate(-5,-5)"
-                    cx="5"
-                    cy="5"
                     r="5"
                     stroke-width="0"
                     stroke="rgba(63,124,247,1)"
@@ -238,9 +237,6 @@
                   <circle
                     id="g-svg-38"
                     fill="rgba(63,124,247,1)"
-                    transform="translate(-5,-5)"
-                    cx="5"
-                    cy="5"
                     r="5"
                     stroke-width="0"
                     stroke="rgba(63,124,247,1)"

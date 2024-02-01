@@ -18,7 +18,13 @@
             height="400"
           />
         </g>
-        <g id="g-svg-11" fill="none" transform="matrix(1,0,0,1,100,100)" />
+        <g
+          id="g-svg-11"
+          fill="none"
+          x="100"
+          y="100"
+          transform="matrix(1,0,0,1,0,0)"
+        />
       </g>
     </g>
   </g>

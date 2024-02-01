@@ -1,13 +1,13 @@
 <svg
   xmlns="http://www.w3.org/2000/svg"
-  width="500"
-  height="50"
+  width="400"
+  height="300"
   style="background: transparent;"
   color-interpolation-filters="sRGB"
 >
   <defs>
-    <clipPath transform="matrix(1,0,0,1,0,0)" id="clip-path-77-2">
-      <use href="#g-svg-77" transform="matrix(1,0,0,1,0,0)" />
+    <clipPath transform="matrix(1,0,0,1,0,0)" id="clip-path-57-2">
+      <use href="#g-svg-57" transform="matrix(1,0,0,1,0,0)" />
     </clipPath>
   </defs>
   <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
@@ -23,6 +23,8 @@
           <g
             id="g-svg-1"
             fill="none"
+            x="0"
+            y="0"
             transform="matrix(1,0,0,1,0,0)"
             class="items-navigator"
           >
@@ -31,7 +33,7 @@
               fill="none"
               class="navigator-content-group"
               transform="matrix(1,0,0,1,0,0)"
-              clip-path="url(#clip-path-77-2)"
+              clip-path="url(#clip-path-57-2)"
             >
               <g
                 id="g-svg-3"
@@ -40,7 +42,7 @@
                 transform="matrix(1,0,0,1,0,0)"
               >
                 <g
-                  id="g-svg-61"
+                  id="g-svg-45"
                   fill="none"
                   class="items-item-page"
                   transform="matrix(1,0,0,1,0,0)"
@@ -50,6 +52,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,0,0)"
                     class="items-item"
+                    x="0"
+                    y="0"
                     width="78.56"
                     height="23"
                   >
@@ -81,9 +85,6 @@
                         <circle
                           id="g-svg-7"
                           fill="rgba(255,0,0,1)"
-                          transform="translate(-6,-6)"
-                          cx="6"
-                          cy="6"
                           r="6"
                           class="legend-category-item-marker"
                           visibility="visible"
@@ -129,6 +130,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,88.559998,0)"
                     class="items-item"
+                    x="88.56"
+                    y="0"
                     width="73.03999999999999"
                     height="23"
                   >
@@ -160,9 +163,6 @@
                         <circle
                           id="g-svg-15"
                           fill="rgba(255,165,0,1)"
-                          transform="translate(-6,-6)"
-                          cx="6"
-                          cy="6"
                           r="6"
                           class="legend-category-item-marker"
                           visibility="visible"
@@ -208,6 +208,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,0,23)"
                     class="items-item"
+                    x="0"
+                    y="23"
                     width="64.16"
                     height="23"
                   >
@@ -239,9 +241,6 @@
                         <circle
                           id="g-svg-23"
                           fill="rgba(0,128,0,1)"
-                          transform="translate(-6,-6)"
-                          cx="6"
-                          cy="6"
                           r="6"
                           class="legend-category-item-marker"
                           visibility="visible"
@@ -287,6 +286,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,74.160004,23)"
                     class="items-item"
+                    x="74.16"
+                    y="23"
                     width="189.32"
                     height="23"
                   >
@@ -318,9 +319,6 @@
                         <circle
                           id="g-svg-31"
                           fill="rgba(0,0,255,1)"
-                          transform="translate(-6,-6)"
-                          cx="6"
-                          cy="6"
                           r="6"
                           class="legend-category-item-marker"
                           visibility="visible"
@@ -363,7 +361,7 @@
                   </g>
                 </g>
                 <g
-                  id="g-svg-70"
+                  id="g-svg-54"
                   fill="none"
                   class="items-item-page"
                   transform="matrix(1,0,0,1,0,0)"
@@ -373,6 +371,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,0,0)"
                     class="items-item"
+                    x="0"
+                    y="0"
                     width="123.92000000000002"
                     height="23"
                   >
@@ -404,9 +404,6 @@
                         <circle
                           id="g-svg-39"
                           fill="rgba(128,0,128,1)"
-                          transform="translate(-6,-6)"
-                          cx="6"
-                          cy="6"
                           r="6"
                           class="legend-category-item-marker"
                           visibility="hidden"
@@ -447,214 +444,56 @@
                       class="legend-category-item-value-group"
                     />
                   </g>
-                  <g
-                    id="g-svg-45"
-                    fill="none"
-                    transform="matrix(1,0,0,1,133.919998,0)"
-                    class="items-item"
-                    width="137.48000000000002"
-                    height="23"
-                  >
-                    <g
-                      id="g-svg-51"
-                      fill="none"
-                      transform="matrix(1,0,0,1,0,0)"
-                      class="legend-category-item-background-group"
-                    >
-                      <g transform="matrix(1,0,0,1,0,0)">
-                        <path
-                          id="g-svg-52"
-                          fill="none"
-                          class="legend-category-item-background"
-                          d="M 0,0 l 137.48000000000002,0 l 0,23 l-137.48000000000002 0 z"
-                          width="137.48000000000002"
-                          height="23"
-                          visibility="hidden"
-                        />
-                      </g>
-                    </g>
-                    <g
-                      id="g-svg-46"
-                      fill="none"
-                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
-                      class="legend-category-item-marker-group"
-                    >
-                      <g transform="matrix(1,0,0,1,0,0)">
-                        <circle
-                          id="g-svg-47"
-                          fill="rgba(255,0,0,1)"
-                          transform="translate(-6,-6)"
-                          cx="6"
-                          cy="6"
-                          r="6"
-                          class="legend-category-item-marker"
-                          visibility="hidden"
-                        />
-                      </g>
-                    </g>
-                    <g
-                      id="g-svg-48"
-                      fill="none"
-                      transform="matrix(1,0,0,1,10,11.500000)"
-                      class="legend-category-item-label-group"
-                    >
-                      <g transform="matrix(1,0,0,1,0,0)">
-                        <text
-                          id="g-svg-49"
-                          fill="rgba(255,0,0,1)"
-                          dominant-baseline="central"
-                          paint-order="stroke"
-                          dx="0.5"
-                          font-family="sans-serif"
-                          font-size="12"
-                          font-style="normal"
-                          font-variant="normal"
-                          font-weight="normal"
-                          stroke-width="1"
-                          text-anchor="left"
-                          class="legend-category-item-label"
-                          visibility="hidden"
-                        >
-                          pre-colonial Americas
-                        </text>
-                      </g>
-                    </g>
-                    <g
-                      id="g-svg-50"
-                      fill="none"
-                      transform="matrix(1,0,0,1,0,0)"
-                      class="legend-category-item-value-group"
-                    />
-                  </g>
-                  <g
-                    id="g-svg-53"
-                    fill="none"
-                    transform="matrix(1,0,0,1,0,23)"
-                    class="items-item"
-                    width="80.84"
-                    height="23"
-                  >
-                    <g
-                      id="g-svg-59"
-                      fill="none"
-                      transform="matrix(1,0,0,1,0,0)"
-                      class="legend-category-item-background-group"
-                    >
-                      <g transform="matrix(1,0,0,1,0,0)">
-                        <path
-                          id="g-svg-60"
-                          fill="none"
-                          class="legend-category-item-background"
-                          d="M 0,0 l 80.84,0 l 0,23 l-80.84 0 z"
-                          width="80.84"
-                          height="23"
-                          visibility="hidden"
-                        />
-                      </g>
-                    </g>
-                    <g
-                      id="g-svg-54"
-                      fill="none"
-                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
-                      class="legend-category-item-marker-group"
-                    >
-                      <g transform="matrix(1,0,0,1,0,0)">
-                        <circle
-                          id="g-svg-55"
-                          fill="rgba(255,165,0,1)"
-                          transform="translate(-6,-6)"
-                          cx="6"
-                          cy="6"
-                          r="6"
-                          class="legend-category-item-marker"
-                          visibility="hidden"
-                        />
-                      </g>
-                    </g>
-                    <g
-                      id="g-svg-56"
-                      fill="none"
-                      transform="matrix(1,0,0,1,10,11.500000)"
-                      class="legend-category-item-label-group"
-                    >
-                      <g transform="matrix(1,0,0,1,0,0)">
-                        <text
-                          id="g-svg-57"
-                          fill="rgba(255,0,0,1)"
-                          dominant-baseline="central"
-                          paint-order="stroke"
-                          dx="0.5"
-                          font-family="sans-serif"
-                          font-size="12"
-                          font-style="normal"
-                          font-variant="normal"
-                          font-weight="normal"
-                          stroke-width="1"
-                          text-anchor="left"
-                          class="legend-category-item-label"
-                          visibility="hidden"
-                        >
-                          the Steppes
-                        </text>
-                      </g>
-                    </g>
-                    <g
-                      id="g-svg-58"
-                      fill="none"
-                      transform="matrix(1,0,0,1,0,0)"
-                      class="legend-category-item-value-group"
-                    />
-                  </g>
                 </g>
               </g>
             </g>
             <g
               id="g-svg-4"
               fill="none"
-              transform="matrix(1,0,0,1,276.399994,23)"
+              transform="matrix(1,0,0,1,268.480011,23)"
               class="navigator-controller"
             >
               <g
-                id="g-svg-78"
+                id="g-svg-58"
                 fill="none"
                 transform="matrix(-1,-0,0,-1,0,0)"
                 class="navigator-prev-btn-group"
               >
-                <g transform="matrix(1,0,0,1,-6,-6)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
-                    id="g-svg-79"
+                    id="g-svg-59"
                     fill="rgba(0,0,0,1)"
                     class="navigator-prev-btn"
-                    d="M 0,0 L 12,6 L 0,12 Z"
+                    d="M -6,-6 L 6,0 L -6,6 Z"
                     visibility="visible"
                   />
                 </g>
               </g>
               <g
-                id="g-svg-80"
+                id="g-svg-60"
                 fill="none"
                 transform="matrix(1,0,0,1,40.040001,0)"
                 class="navigator-next-btn-group"
               >
-                <g transform="matrix(1,0,0,1,-6,-6)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
-                    id="g-svg-81"
+                    id="g-svg-61"
                     fill="rgba(0,0,0,1)"
                     class="navigator-next-btn"
-                    d="M 0,0 L 12,6 L 0,12 Z"
+                    d="M -6,-6 L 6,0 L -6,6 Z"
                     visibility="visible"
                   />
                 </g>
               </g>
               <g
-                id="g-svg-82"
+                id="g-svg-62"
                 fill="none"
                 transform="matrix(1,0,0,1,11,0)"
                 class="navigator-page-info-group"
               >
                 <g transform="matrix(1,0,0,1,0,0)">
                   <text
-                    id="g-svg-83"
+                    id="g-svg-63"
                     fill="rgba(0,0,0,1)"
                     class="navigator-page-info"
                     dominant-baseline="central"
@@ -671,11 +510,11 @@
             </g>
             <g transform="matrix(1,0,0,1,0,0)">
               <path
-                id="g-svg-77"
+                id="g-svg-57"
                 fill="none"
-                d="M 0,0 l 271.3999982086817,0 l 0,46 l-271.3999982086817 0 z"
+                d="M 0,0 l 263.48000366210937,0 l 0,46 l-263.48000366210937 0 z"
                 class="navigator-clip-path"
-                width="271.3999982086817"
+                width="263.48000366210937"
                 height="46"
               />
             </g>

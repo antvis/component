@@ -29,6 +29,8 @@
           <g
             id="g-svg-1"
             fill="none"
+            x="0"
+            y="0"
             transform="matrix(1,0,0,1,0,0)"
             class="items-navigator"
           >
@@ -56,6 +58,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,0,0)"
                     class="items-item"
+                    x="0"
+                    y="0"
                     width="117.5"
                     height="23"
                   >
@@ -83,13 +87,13 @@
                       transform="matrix(0.625000,0,0,0.625000,5,11.500000)"
                       class="legend-category-item-marker-group"
                     >
-                      <g transform="matrix(1,0,0,1,-8,-8)">
+                      <g transform="matrix(1,0,0,1,0,0)">
                         <image
                           id="g-svg-7"
                           fill="none"
                           preserveAspectRatio="none"
-                          x="0"
-                          y="0"
+                          x="-8"
+                          y="-8"
                           href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
                           width="16"
                           height="16"
@@ -158,6 +162,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,127.500000,0)"
                     class="items-item"
+                    x="127.5"
+                    y="0"
                     width="117.5"
                     height="23"
                   >
@@ -185,13 +191,13 @@
                       transform="matrix(0.625000,0,0,0.625000,5,11.500000)"
                       class="legend-category-item-marker-group"
                     >
-                      <g transform="matrix(1,0,0,1,-8,-8)">
+                      <g transform="matrix(1,0,0,1,0,0)">
                         <image
                           id="g-svg-16"
                           fill="none"
                           preserveAspectRatio="none"
-                          x="0"
-                          y="0"
+                          x="-8"
+                          y="-8"
                           href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
                           width="16"
                           height="16"
@@ -260,6 +266,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,255,0)"
                     class="items-item"
+                    x="255"
+                    y="0"
                     width="117.5"
                     height="23"
                   >
@@ -287,13 +295,13 @@
                       transform="matrix(0.625000,0,0,0.625000,5,11.500000)"
                       class="legend-category-item-marker-group"
                     >
-                      <g transform="matrix(1,0,0,1,-8,-8)">
+                      <g transform="matrix(1,0,0,1,0,0)">
                         <image
                           id="g-svg-25"
                           fill="none"
                           preserveAspectRatio="none"
-                          x="0"
-                          y="0"
+                          x="-8"
+                          y="-8"
                           href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
                           width="16"
                           height="16"
@@ -362,6 +370,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,382.500000,0)"
                     class="items-item"
+                    x="382.5"
+                    y="0"
                     width="117.5"
                     height="23"
                   >
@@ -389,13 +399,13 @@
                       transform="matrix(0.625000,0,0,0.625000,5,11.500000)"
                       class="legend-category-item-marker-group"
                     >
-                      <g transform="matrix(1,0,0,1,-8,-8)">
+                      <g transform="matrix(1,0,0,1,0,0)">
                         <image
                           id="g-svg-34"
                           fill="none"
                           preserveAspectRatio="none"
-                          x="0"
-                          y="0"
+                          x="-8"
+                          y="-8"
                           href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
                           width="16"
                           height="16"
@@ -471,6 +481,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,0,0)"
                     class="items-item"
+                    x="0"
+                    y="0"
                     width="117.5"
                     height="23"
                   >
@@ -498,13 +510,13 @@
                       transform="matrix(0.625000,0,0,0.625000,5,11.500000)"
                       class="legend-category-item-marker-group"
                     >
-                      <g transform="matrix(1,0,0,1,-8,-8)">
+                      <g transform="matrix(1,0,0,1,0,0)">
                         <image
                           id="g-svg-43"
                           fill="none"
                           preserveAspectRatio="none"
-                          x="0"
-                          y="0"
+                          x="-8"
+                          y="-8"
                           href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
                           width="16"
                           height="16"
@@ -573,6 +585,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,127.500000,0)"
                     class="items-item"
+                    x="127.5"
+                    y="0"
                     width="117.5"
                     height="23"
                   >
@@ -600,13 +614,13 @@
                       transform="matrix(0.625000,0,0,0.625000,5,11.500000)"
                       class="legend-category-item-marker-group"
                     >
-                      <g transform="matrix(1,0,0,1,-8,-8)">
+                      <g transform="matrix(1,0,0,1,0,0)">
                         <image
                           id="g-svg-52"
                           fill="none"
                           preserveAspectRatio="none"
-                          x="0"
-                          y="0"
+                          x="-8"
+                          y="-8"
                           href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
                           width="16"
                           height="16"
@@ -675,6 +689,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,255,0)"
                     class="items-item"
+                    x="255"
+                    y="0"
                     width="117.5"
                     height="23"
                   >
@@ -702,13 +718,13 @@
                       transform="matrix(0.625000,0,0,0.625000,5,11.500000)"
                       class="legend-category-item-marker-group"
                     >
-                      <g transform="matrix(1,0,0,1,-8,-8)">
+                      <g transform="matrix(1,0,0,1,0,0)">
                         <image
                           id="g-svg-61"
                           fill="none"
                           preserveAspectRatio="none"
-                          x="0"
-                          y="0"
+                          x="-8"
+                          y="-8"
                           href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
                           width="16"
                           height="16"
@@ -777,6 +793,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,382.500000,0)"
                     class="items-item"
+                    x="382.5"
+                    y="0"
                     width="117.5"
                     height="23"
                   >
@@ -804,13 +822,13 @@
                       transform="matrix(0.625000,0,0,0.625000,5,11.500000)"
                       class="legend-category-item-marker-group"
                     >
-                      <g transform="matrix(1,0,0,1,-8,-8)">
+                      <g transform="matrix(1,0,0,1,0,0)">
                         <image
                           id="g-svg-70"
                           fill="none"
                           preserveAspectRatio="none"
-                          x="0"
-                          y="0"
+                          x="-8"
+                          y="-8"
                           href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
                           width="16"
                           height="16"
@@ -886,6 +904,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,0,0)"
                     class="items-item"
+                    x="0"
+                    y="0"
                     width="117.5"
                     height="23"
                   >
@@ -913,13 +933,13 @@
                       transform="matrix(0.625000,0,0,0.625000,5,11.500000)"
                       class="legend-category-item-marker-group"
                     >
-                      <g transform="matrix(1,0,0,1,-8,-8)">
+                      <g transform="matrix(1,0,0,1,0,0)">
                         <image
                           id="g-svg-79"
                           fill="none"
                           preserveAspectRatio="none"
-                          x="0"
-                          y="0"
+                          x="-8"
+                          y="-8"
                           href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
                           width="16"
                           height="16"
@@ -988,6 +1008,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,127.500000,0)"
                     class="items-item"
+                    x="127.5"
+                    y="0"
                     width="117.5"
                     height="23"
                   >
@@ -1015,13 +1037,13 @@
                       transform="matrix(0.625000,0,0,0.625000,5,11.500000)"
                       class="legend-category-item-marker-group"
                     >
-                      <g transform="matrix(1,0,0,1,-8,-8)">
+                      <g transform="matrix(1,0,0,1,0,0)">
                         <image
                           id="g-svg-88"
                           fill="none"
                           preserveAspectRatio="none"
-                          x="0"
-                          y="0"
+                          x="-8"
+                          y="-8"
                           href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
                           width="16"
                           height="16"
@@ -1090,6 +1112,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,255,0)"
                     class="items-item"
+                    x="255"
+                    y="0"
                     width="117.5"
                     height="23"
                   >
@@ -1117,13 +1141,13 @@
                       transform="matrix(0.625000,0,0,0.625000,5,11.500000)"
                       class="legend-category-item-marker-group"
                     >
-                      <g transform="matrix(1,0,0,1,-8,-8)">
+                      <g transform="matrix(1,0,0,1,0,0)">
                         <image
                           id="g-svg-97"
                           fill="none"
                           preserveAspectRatio="none"
-                          x="0"
-                          y="0"
+                          x="-8"
+                          y="-8"
                           href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
                           width="16"
                           height="16"
@@ -1192,6 +1216,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,382.500000,0)"
                     class="items-item"
+                    x="382.5"
+                    y="0"
                     width="117.5"
                     height="23"
                   >
@@ -1219,13 +1245,13 @@
                       transform="matrix(0.625000,0,0,0.625000,5,11.500000)"
                       class="legend-category-item-marker-group"
                     >
-                      <g transform="matrix(1,0,0,1,-8,-8)">
+                      <g transform="matrix(1,0,0,1,0,0)">
                         <image
                           id="g-svg-106"
                           fill="none"
                           preserveAspectRatio="none"
-                          x="0"
-                          y="0"
+                          x="-8"
+                          y="-8"
                           href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
                           width="16"
                           height="16"
@@ -1301,6 +1327,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,0,0)"
                     class="items-item"
+                    x="0"
+                    y="0"
                     width="117.5"
                     height="23"
                   >
@@ -1328,13 +1356,13 @@
                       transform="matrix(0.625000,0,0,0.625000,5,11.500000)"
                       class="legend-category-item-marker-group"
                     >
-                      <g transform="matrix(1,0,0,1,-8,-8)">
+                      <g transform="matrix(1,0,0,1,0,0)">
                         <image
                           id="g-svg-115"
                           fill="none"
                           preserveAspectRatio="none"
-                          x="0"
-                          y="0"
+                          x="-8"
+                          y="-8"
                           href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
                           width="16"
                           height="16"
@@ -1403,6 +1431,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,127.500000,0)"
                     class="items-item"
+                    x="127.5"
+                    y="0"
                     width="117.5"
                     height="23"
                   >
@@ -1430,13 +1460,13 @@
                       transform="matrix(0.625000,0,0,0.625000,5,11.500000)"
                       class="legend-category-item-marker-group"
                     >
-                      <g transform="matrix(1,0,0,1,-8,-8)">
+                      <g transform="matrix(1,0,0,1,0,0)">
                         <image
                           id="g-svg-124"
                           fill="none"
                           preserveAspectRatio="none"
-                          x="0"
-                          y="0"
+                          x="-8"
+                          y="-8"
                           href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
                           width="16"
                           height="16"
@@ -1505,6 +1535,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,255,0)"
                     class="items-item"
+                    x="255"
+                    y="0"
                     width="117.5"
                     height="23"
                   >
@@ -1532,13 +1564,13 @@
                       transform="matrix(0.625000,0,0,0.625000,5,11.500000)"
                       class="legend-category-item-marker-group"
                     >
-                      <g transform="matrix(1,0,0,1,-8,-8)">
+                      <g transform="matrix(1,0,0,1,0,0)">
                         <image
                           id="g-svg-133"
                           fill="none"
                           preserveAspectRatio="none"
-                          x="0"
-                          y="0"
+                          x="-8"
+                          y="-8"
                           href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
                           width="16"
                           height="16"
@@ -1607,6 +1639,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,382.500000,0)"
                     class="items-item"
+                    x="382.5"
+                    y="0"
                     width="117.5"
                     height="23"
                   >
@@ -1634,13 +1668,13 @@
                       transform="matrix(0.625000,0,0,0.625000,5,11.500000)"
                       class="legend-category-item-marker-group"
                     >
-                      <g transform="matrix(1,0,0,1,-8,-8)">
+                      <g transform="matrix(1,0,0,1,0,0)">
                         <image
                           id="g-svg-142"
                           fill="none"
                           preserveAspectRatio="none"
-                          x="0"
-                          y="0"
+                          x="-8"
+                          y="-8"
                           href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
                           width="16"
                           height="16"
@@ -1716,6 +1750,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,0,0)"
                     class="items-item"
+                    x="0"
+                    y="0"
                     width="117.5"
                     height="23"
                   >
@@ -1743,13 +1779,13 @@
                       transform="matrix(0.625000,0,0,0.625000,5,11.500000)"
                       class="legend-category-item-marker-group"
                     >
-                      <g transform="matrix(1,0,0,1,-8,-8)">
+                      <g transform="matrix(1,0,0,1,0,0)">
                         <image
                           id="g-svg-151"
                           fill="none"
                           preserveAspectRatio="none"
-                          x="0"
-                          y="0"
+                          x="-8"
+                          y="-8"
                           href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
                           width="16"
                           height="16"
@@ -1818,6 +1854,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,127.500000,0)"
                     class="items-item"
+                    x="127.5"
+                    y="0"
                     width="117.5"
                     height="23"
                   >
@@ -1845,13 +1883,13 @@
                       transform="matrix(0.625000,0,0,0.625000,5,11.500000)"
                       class="legend-category-item-marker-group"
                     >
-                      <g transform="matrix(1,0,0,1,-8,-8)">
+                      <g transform="matrix(1,0,0,1,0,0)">
                         <image
                           id="g-svg-160"
                           fill="none"
                           preserveAspectRatio="none"
-                          x="0"
-                          y="0"
+                          x="-8"
+                          y="-8"
                           href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
                           width="16"
                           height="16"
@@ -1920,6 +1958,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,255,0)"
                     class="items-item"
+                    x="255"
+                    y="0"
                     width="117.5"
                     height="23"
                   >
@@ -1947,13 +1987,13 @@
                       transform="matrix(0.625000,0,0,0.625000,5,11.500000)"
                       class="legend-category-item-marker-group"
                     >
-                      <g transform="matrix(1,0,0,1,-8,-8)">
+                      <g transform="matrix(1,0,0,1,0,0)">
                         <image
                           id="g-svg-169"
                           fill="none"
                           preserveAspectRatio="none"
-                          x="0"
-                          y="0"
+                          x="-8"
+                          y="-8"
                           href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
                           width="16"
                           height="16"
@@ -2022,6 +2062,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,382.500000,0)"
                     class="items-item"
+                    x="382.5"
+                    y="0"
                     width="117.5"
                     height="23"
                   >
@@ -2049,13 +2091,13 @@
                       transform="matrix(0.625000,0,0,0.625000,5,11.500000)"
                       class="legend-category-item-marker-group"
                     >
-                      <g transform="matrix(1,0,0,1,-8,-8)">
+                      <g transform="matrix(1,0,0,1,0,0)">
                         <image
                           id="g-svg-178"
                           fill="none"
                           preserveAspectRatio="none"
-                          x="0"
-                          y="0"
+                          x="-8"
+                          y="-8"
                           href="https://gw.alipayobjects.com/mdn/rms_6ae20b/afts/img/A*N4ZMS7gHsUIAAAAAAAAAAABkARQnAQ"
                           width="16"
                           height="16"
@@ -2134,12 +2176,12 @@
                 transform="matrix(-0.800000,-0,0,-0.800000,0,0)"
                 class="navigator-prev-btn-group"
               >
-                <g transform="matrix(1.250000,0,0,1.250000,-7.500000,-7.500000)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-232"
                     fill="rgba(0,0,255,1)"
                     class="navigator-prev-btn"
-                    d="M 0,0 L 12,6 L 0,12 Z"
+                    d="M -6,-6 L 6,0 L -6,6 Z"
                     visibility="visible"
                   />
                 </g>
@@ -2147,15 +2189,15 @@
               <g
                 id="g-svg-233"
                 fill="none"
-                transform="matrix(0.800000,0,0,0.800000,93.680000,0)"
+                transform="matrix(0.800000,0,0,0.800000,91.279999,0)"
                 class="navigator-next-btn-group"
               >
-                <g transform="matrix(1.250000,0,0,1.250000,-7.500000,-7.500000)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-234"
                     fill="rgba(0,0,255,1)"
                     class="navigator-next-btn"
-                    d="M 0,0 L 12,6 L 0,12 Z"
+                    d="M -6,-6 L 6,0 L -6,6 Z"
                     visibility="visible"
                   />
                 </g>
@@ -2163,7 +2205,7 @@
               <g
                 id="g-svg-235"
                 fill="none"
-                transform="matrix(1,0,0,1,11,0)"
+                transform="matrix(1,0,0,1,9.800000,0)"
                 class="navigator-page-info-group"
               >
                 <g transform="matrix(1,0,0,1,0,0)">
@@ -2195,12 +2237,13 @@
             </g>
           </g>
         </g>
-        <g transform="matrix(1,0,0,1,0,50)">
+        <g transform="matrix(1,0,0,1,0,0)">
           <text
             id="g-svg-238"
             fill="rgba(0,0,0,1)"
             dominant-baseline="central"
             paint-order="stroke"
+            y="50"
             dx="0.5"
             font-family="sans-serif"
             font-size="16"
@@ -2209,16 +2252,19 @@
             font-weight="normal"
             stroke-width="1"
             text-anchor="left"
+            x="0"
           >
             try to hover to the items⬆️
           </text>
         </g>
-        <g transform="matrix(1,0,0,1,250,50)">
+        <g transform="matrix(1,0,0,1,0,0)">
           <text
             id="g-svg-239"
             fill="rgba(0,0,0,1)"
             dominant-baseline="central"
             paint-order="stroke"
+            x="250"
+            y="50"
             dx="0.5"
             font-family="sans-serif"
             font-size="16"

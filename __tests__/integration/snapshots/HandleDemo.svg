@@ -22,12 +22,12 @@
               transform="matrix(1,0,0,1,0,0)"
               class="handle-marker"
             >
-              <g transform="matrix(1,0,0,1,-6.250000,0)">
+              <g transform="matrix(1,0,0,1,0,0)">
                 <path
                   id="g-svg-3"
                   fill="rgba(255,255,255,1)"
                   class="handle-marker"
-                  d="M 6.25,0 L 0,7 L 0,17.5 L 12.5,17.5 L 12.5,7 Z M 4.166666666666666,7 L 4.166666666666666,15.5 M 8.333333333333334,7 L 8.333333333333334,15.5"
+                  d="M 0,0 L -6.25,7 L -6.25,17.5 L 6.25,17.5 L 6.25,7 Z M -2.0833333333333335,7 L -2.0833333333333335,15.5 M 2.0833333333333335,7 L 2.0833333333333335,15.5"
                   stroke="rgba(197,197,197,1)"
                   stroke-width="1"
                 />
@@ -41,7 +41,12 @@
             class="handle-label-group"
           />
         </g>
-        <g id="g-svg-73" fill="none" transform="matrix(1,0,0,1,100,150)">
+        <g
+          id="g-svg-73"
+          fill="none"
+          y="150"
+          transform="matrix(1,0,0,1,100,150)"
+        >
           <g
             id="g-svg-5"
             fill="none"
@@ -54,12 +59,12 @@
               transform="matrix(1,0,0,1,0,0)"
               class="handle-marker"
             >
-              <g transform="matrix(1,0,0,1,0,-6.250000)">
+              <g transform="matrix(1,0,0,1,0,0)">
                 <path
                   id="g-svg-7"
                   fill="rgba(255,255,255,1)"
                   class="handle-marker"
-                  d="M 0,6.25 L 7,12.5 L 17.5,12.5 L 17.5,0 L 7,0 Z M 7,8.333333333333334 L 15.5,8.333333333333334 M 7,4.166666666666666 L 15.5,4.166666666666666"
+                  d="M 0,0 L 7,6.25 L 17.5,6.25 L 17.5,-6.25 L 7,-6.25 Z M 7,2.0833333333333335 L 15.5,2.0833333333333335 M 7,-2.0833333333333335 L 15.5,-2.0833333333333335"
                   stroke="rgba(197,197,197,1)"
                   stroke-width="1"
                 />
@@ -72,15 +77,17 @@
             transform="matrix(1,0,0,1,0,0)"
             class="handle-label-group"
           >
-            <g transform="matrix(1,0,0,1,17.500000,0)">
+            <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="g-svg-9"
                 fill="rgba(197,197,197,1)"
                 class="handle-label"
                 dominant-baseline="central"
                 paint-order="stroke"
+                x="17.5"
                 dx="0.5"
                 font-size="12"
+                y="0"
                 text-anchor="left"
               >
                 labelText
@@ -88,7 +95,12 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-74" fill="none" transform="matrix(1,0,0,1,100,200)">
+        <g
+          id="g-svg-74"
+          fill="none"
+          y="200"
+          transform="matrix(1,0,0,1,100,200)"
+        >
           <g
             id="g-svg-10"
             fill="none"
@@ -101,12 +113,12 @@
               transform="matrix(1,0,0,1,0,0)"
               class="handle-marker"
             >
-              <g transform="matrix(1,0,0,1,-6.250000,0)">
+              <g transform="matrix(1,0,0,1,0,0)">
                 <path
                   id="g-svg-12"
                   fill="rgba(255,255,255,1)"
                   class="handle-marker"
-                  d="M 6.25,0 L 0,7 L 0,17.5 L 12.5,17.5 L 12.5,7 Z M 4.166666666666666,7 L 4.166666666666666,15.5 M 8.333333333333334,7 L 8.333333333333334,15.5"
+                  d="M 0,0 L -6.25,7 L -6.25,17.5 L 6.25,17.5 L 6.25,7 Z M -2.0833333333333335,7 L -2.0833333333333335,15.5 M 2.0833333333333335,7 L 2.0833333333333335,15.5"
                   stroke="rgba(197,197,197,1)"
                   stroke-width="1"
                 />
@@ -119,16 +131,18 @@
             transform="matrix(1,0,0,1,0,0)"
             class="handle-label-group"
           >
-            <g transform="matrix(1,0,0,1,0,27.500000)">
+            <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="g-svg-14"
                 fill="rgba(197,197,197,1)"
                 class="handle-label"
                 dominant-baseline="central"
                 paint-order="stroke"
+                y="27.5"
                 dx="0.5"
                 dy="11.5px"
                 font-size="12"
+                x="0"
                 text-anchor="middle"
               >
                 formatted text - labelText
@@ -136,7 +150,12 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-75" fill="none" transform="matrix(1,0,0,1,100,250)">
+        <g
+          id="g-svg-75"
+          fill="none"
+          y="250"
+          transform="matrix(1,0,0,1,100,250)"
+        >
           <g
             id="g-svg-15"
             fill="none"
@@ -149,12 +168,12 @@
               transform="matrix(1,0,0,1,0,0)"
               class="handle-marker"
             >
-              <g transform="matrix(1,0,0,1,-10,0)">
+              <g transform="matrix(1,0,0,1,0,0)">
                 <path
                   id="g-svg-17"
                   fill="rgba(193,56,54,1)"
                   class="handle-marker"
-                  d="M 10,0 L 0,11.200000000000001 L 0,28 L 20,28 L 20,11.200000000000001 Z M 6.666666666666666,11.200000000000001 L 6.666666666666666,26 M 13.333333333333334,11.200000000000001 L 13.333333333333334,26"
+                  d="M 0,0 L -10,11.200000000000001 L -10,28 L 10,28 L 10,11.200000000000001 Z M -3.3333333333333335,11.200000000000001 L -3.3333333333333335,26 M 3.3333333333333335,11.200000000000001 L 3.3333333333333335,26"
                   stroke="rgba(253,241,240,1)"
                   stroke-width="1"
                 />
@@ -167,16 +186,18 @@
             transform="matrix(1,0,0,1,0,0)"
             class="handle-label-group"
           >
-            <g transform="matrix(1,0,0,1,0,38)">
+            <g transform="matrix(1,0,0,1,0,0)">
               <text
                 id="g-svg-19"
                 fill="rgba(197,197,197,1)"
                 class="handle-label"
                 dominant-baseline="central"
                 paint-order="stroke"
+                y="38"
                 dx="0.5"
                 dy="11.5px"
                 font-size="12"
+                x="0"
                 text-anchor="middle"
               >
                 labelText

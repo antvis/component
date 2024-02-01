@@ -10,9 +10,9 @@
       gradientUnits="userSpaceOnUse"
       id="g-pattern-0"
       x1="0"
-      y1="1.5"
+      y1="-1.5"
       x2="391.2"
-      y2="1.5"
+      y2="-1.5"
     >
       <stop offset="0" stop-color="rgba(252,251,253,1)" />
       <stop offset="0.1111111111111111" stop-color="rgba(252,251,253,1)" />
@@ -34,16 +34,16 @@
       <stop offset="1" stop-color="rgba(96,54,147,1)" />
       <stop offset="1" stop-color="rgba(76,29,134,1)" />
     </linearGradient>
-    <clipPath transform="matrix(1,0,0,1,-4.400000,-24)" id="clip-path-67-66">
-      <use href="#g-svg-67" transform="matrix(1,0,0,1,4.400000,21)" />
+    <clipPath transform="matrix(1,0,0,1,-4.400000,-27)" id="clip-path-67-66">
+      <use href="#g-svg-67" transform="matrix(1,0,0,1,4.400000,27)" />
     </clipPath>
     <linearGradient
       gradientUnits="userSpaceOnUse"
       id="g-pattern-1"
       x1="0"
-      y1="1.5"
+      y1="-1.5"
       x2="391.2"
-      y2="1.5"
+      y2="-1.5"
     >
       <stop offset="0" stop-color="rgba(197,74,83,1)" />
       <stop offset="0.1111111111111111" stop-color="rgba(197,74,83,1)" />
@@ -65,16 +65,16 @@
       <stop offset="1" stop-color="rgba(75,134,184,1)" />
       <stop offset="1" stop-color="rgba(197,74,83,1)" />
     </linearGradient>
-    <clipPath transform="matrix(1,0,0,1,-4.400000,-84)" id="clip-path-154-153">
-      <use href="#g-svg-154" transform="matrix(1,0,0,1,4.400000,81)" />
+    <clipPath transform="matrix(1,0,0,1,-4.400000,-87)" id="clip-path-154-153">
+      <use href="#g-svg-154" transform="matrix(1,0,0,1,4.400000,87)" />
     </clipPath>
     <linearGradient
       gradientUnits="userSpaceOnUse"
       id="g-pattern-2"
       x1="0"
-      y1="1.5"
+      y1="-1.5"
       x2="379.92"
-      y2="1.5"
+      y2="-1.5"
     >
       <stop offset="0" stop-color="rgba(150,52,53,1)" />
       <stop offset="0.1111111111111111" stop-color="rgba(150,52,53,1)" />
@@ -97,18 +97,18 @@
       <stop offset="1" stop-color="rgba(150,52,53,1)" />
     </linearGradient>
     <clipPath
-      transform="matrix(1,0,0,1,-10.040000,-144)"
+      transform="matrix(1,0,0,1,-10.040000,-147)"
       id="clip-path-241-240"
     >
-      <use href="#g-svg-241" transform="matrix(1,0,0,1,10.040000,141)" />
+      <use href="#g-svg-241" transform="matrix(1,0,0,1,10.040000,147)" />
     </clipPath>
     <linearGradient
       gradientUnits="userSpaceOnUse"
       id="g-pattern-3"
       x1="0"
-      y1="1.5"
+      y1="-1.5"
       x2="379.92"
-      y2="1.5"
+      y2="-1.5"
     >
       <stop offset="0" stop-color="rgba(150,52,53,1)" />
       <stop offset="0.0625" stop-color="rgba(150,52,53,1)" />
@@ -131,10 +131,10 @@
       <stop offset="1" stop-color="rgba(150,52,53,1)" />
     </linearGradient>
     <clipPath
-      transform="matrix(1,0,0,1,-10.040000,-204)"
+      transform="matrix(1,0,0,1,-10.040000,-207)"
       id="clip-path-328-327"
     >
-      <use href="#g-svg-328" transform="matrix(1,0,0,1,10.040000,201)" />
+      <use href="#g-svg-328" transform="matrix(1,0,0,1,10.040000,207)" />
     </clipPath>
   </defs>
   <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
@@ -173,6 +173,8 @@
                 font-weight="bold"
                 font-size="12"
                 font-family="sans-serif"
+                x="0"
+                y="0"
                 text-anchor="left"
               >
                 Unemployment rate(%)
@@ -203,12 +205,12 @@
                   transform="matrix(1,0,0,1,0,0)"
                   class="ribbon-background-group"
                 >
-                  <g transform="matrix(1,0,0,1,0,-3)">
+                  <g transform="matrix(1,0,0,1,0,0)">
                     <path
                       id="g-svg-64"
                       fill="rgba(229,229,229,1)"
                       class="ribbon-background"
-                      d="M 0,0 L 0,3 L 391.2,3 L 391.2,0 Z"
+                      d="M 0,-3 L 0,0 L 391.2,0 L 391.2,-3 Z"
                     />
                   </g>
                 </g>
@@ -219,20 +221,20 @@
                   class="ribbon-ribbon-group"
                 >
                   <g
-                    transform="matrix(1,0,0,1,0,-3)"
+                    transform="matrix(1,0,0,1,0,0)"
                     clip-path="url(#clip-path-67-66)"
                   >
                     <path
                       id="g-svg-66"
                       fill="url(#g-pattern-0)"
                       class="ribbon-ribbon"
-                      d="M 0,0 L 0,3 L 391.2,3 L 391.2,0 Z"
+                      d="M 0,-3 L 0,0 L 391.2,0 L 391.2,-3 Z"
                     />
-                    <g transform="matrix(1,0,0,1,0,-3)">
+                    <g transform="matrix(1,0,0,1,0,0)">
                       <path
                         id="g-svg-67"
                         fill="none"
-                        d="M 0,3 L 0,0 L 391.2,0 L 391.2,3 Z"
+                        d="M 0,0 L 0,-3 L 391.2,-3 L 391.2,0 Z"
                         class="ribbon-clip-path"
                       />
                     </g>
@@ -689,12 +691,8 @@
               transform="matrix(1,0,0,1,0,0)"
               class="legend-indicator"
             >
-              <g
-                id="g-svg-69"
-                fill="none"
-                transform="matrix(1,0,0,1,10.928204,0)"
-              >
-                <g transform="matrix(1,0,0,1,-10.928204,-5)">
+              <g id="g-svg-69" fill="none" transform="matrix(1,0,0,1,0,0)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-71"
                     fill="rgba(38,38,38,1)"
@@ -702,7 +700,7 @@
                     stroke-linecap="round"
                     stroke-width="1"
                     stroke="rgba(51,51,51,1)"
-                    d="M 6.928203230275509,3 L 14.928203230275509,3 A 0 0 0 0 1 14.928203230275509 3 L 14.928203230275509,7 A 0 0 0 0 1 14.928203230275509 7 L 6.928203230275509,7 A 0 0 0 0 1 6.928203230275509 7 L 6.928203230275509,7 L 6.928203230275509,10 L 0,5 L 6.928203230275509,0 L 6.928203230275509,3 A 0 0 0 0 1 6.928203230275509 3 Z"
+                    d="M -4,-2 L 4,-2 A 0 0 0 0 1 4 -2 L 4,2 A 0 0 0 0 1 4 2 L -4,2 A 0 0 0 0 1 -4 2 L -4,2 L -4,5 L -10.928203230275509,0 L -4,-5 L -4,-2 A 0 0 0 0 1 -4 -2 Z"
                     visibility="hidden"
                   />
                 </g>
@@ -743,6 +741,8 @@
                 font-weight="bold"
                 font-size="12"
                 font-family="sans-serif"
+                x="0"
+                y="0"
                 text-anchor="left"
               >
                 Height (cm)
@@ -773,12 +773,12 @@
                   transform="matrix(1,0,0,1,0,0)"
                   class="ribbon-background-group"
                 >
-                  <g transform="matrix(1,0,0,1,0,-3)">
+                  <g transform="matrix(1,0,0,1,0,0)">
                     <path
                       id="g-svg-151"
                       fill="rgba(229,229,229,1)"
                       class="ribbon-background"
-                      d="M 0,0 L 0,3 L 391.2,3 L 391.2,0 Z"
+                      d="M 0,-3 L 0,0 L 391.2,0 L 391.2,-3 Z"
                     />
                   </g>
                 </g>
@@ -789,20 +789,20 @@
                   class="ribbon-ribbon-group"
                 >
                   <g
-                    transform="matrix(1,0,0,1,0,-3)"
+                    transform="matrix(1,0,0,1,0,0)"
                     clip-path="url(#clip-path-154-153)"
                   >
                     <path
                       id="g-svg-153"
                       fill="url(#g-pattern-1)"
                       class="ribbon-ribbon"
-                      d="M 0,0 L 0,3 L 391.2,3 L 391.2,0 Z"
+                      d="M 0,-3 L 0,0 L 391.2,0 L 391.2,-3 Z"
                     />
-                    <g transform="matrix(1,0,0,1,0,-3)">
+                    <g transform="matrix(1,0,0,1,0,0)">
                       <path
                         id="g-svg-154"
                         fill="none"
-                        d="M 0,3 L 0,0 L 391.2,0 L 391.2,3 Z"
+                        d="M 0,0 L 0,-3 L 391.2,-3 L 391.2,0 Z"
                         class="ribbon-clip-path"
                       />
                     </g>
@@ -1259,12 +1259,8 @@
               transform="matrix(1,0,0,1,0,0)"
               class="legend-indicator"
             >
-              <g
-                id="g-svg-156"
-                fill="none"
-                transform="matrix(1,0,0,1,10.928204,0)"
-              >
-                <g transform="matrix(1,0,0,1,-10.928204,-5)">
+              <g id="g-svg-156" fill="none" transform="matrix(1,0,0,1,0,0)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-158"
                     fill="rgba(38,38,38,1)"
@@ -1272,7 +1268,7 @@
                     stroke-linecap="round"
                     stroke-width="1"
                     stroke="rgba(51,51,51,1)"
-                    d="M 6.928203230275509,3 L 14.928203230275509,3 A 0 0 0 0 1 14.928203230275509 3 L 14.928203230275509,7 A 0 0 0 0 1 14.928203230275509 7 L 6.928203230275509,7 A 0 0 0 0 1 6.928203230275509 7 L 6.928203230275509,7 L 6.928203230275509,10 L 0,5 L 6.928203230275509,0 L 6.928203230275509,3 A 0 0 0 0 1 6.928203230275509 3 Z"
+                    d="M -4,-2 L 4,-2 A 0 0 0 0 1 4 -2 L 4,2 A 0 0 0 0 1 4 2 L -4,2 A 0 0 0 0 1 -4 2 L -4,2 L -4,5 L -10.928203230275509,0 L -4,-5 L -4,-2 A 0 0 0 0 1 -4 -2 Z"
                     visibility="hidden"
                   />
                 </g>
@@ -1313,6 +1309,8 @@
                 font-weight="bold"
                 font-size="12"
                 font-family="sans-serif"
+                x="0"
+                y="0"
                 text-anchor="left"
               >
                 Unemployment rate(%)
@@ -1343,12 +1341,12 @@
                   transform="matrix(1,0,0,1,0,0)"
                   class="ribbon-background-group"
                 >
-                  <g transform="matrix(1,0,0,1,0,-3)">
+                  <g transform="matrix(1,0,0,1,0,0)">
                     <path
                       id="g-svg-238"
                       fill="rgba(229,229,229,1)"
                       class="ribbon-background"
-                      d="M 0,0 L 0,3 L 379.92,3 L 379.92,0 Z"
+                      d="M 0,-3 L 0,0 L 379.92,0 L 379.92,-3 Z"
                     />
                   </g>
                 </g>
@@ -1359,20 +1357,20 @@
                   class="ribbon-ribbon-group"
                 >
                   <g
-                    transform="matrix(1,0,0,1,0,-3)"
+                    transform="matrix(1,0,0,1,0,0)"
                     clip-path="url(#clip-path-241-240)"
                   >
                     <path
                       id="g-svg-240"
                       fill="url(#g-pattern-2)"
                       class="ribbon-ribbon"
-                      d="M 0,0 L 0,3 L 379.92,3 L 379.92,0 Z"
+                      d="M 0,-3 L 0,0 L 379.92,0 L 379.92,-3 Z"
                     />
-                    <g transform="matrix(1,0,0,1,0,-3)">
+                    <g transform="matrix(1,0,0,1,0,0)">
                       <path
                         id="g-svg-241"
                         fill="none"
-                        d="M 0,3 L 0,0 L 379.92,0 L 379.92,3 Z"
+                        d="M 0,0 L 0,-3 L 379.92,-3 L 379.92,0 Z"
                         class="ribbon-clip-path"
                       />
                     </g>
@@ -1829,12 +1827,8 @@
               transform="matrix(1,0,0,1,0,0)"
               class="legend-indicator"
             >
-              <g
-                id="g-svg-243"
-                fill="none"
-                transform="matrix(1,0,0,1,10.928204,0)"
-              >
-                <g transform="matrix(1,0,0,1,-10.928204,-5)">
+              <g id="g-svg-243" fill="none" transform="matrix(1,0,0,1,0,0)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-245"
                     fill="rgba(38,38,38,1)"
@@ -1842,7 +1836,7 @@
                     stroke-linecap="round"
                     stroke-width="1"
                     stroke="rgba(51,51,51,1)"
-                    d="M 6.928203230275509,3 L 14.928203230275509,3 A 0 0 0 0 1 14.928203230275509 3 L 14.928203230275509,7 A 0 0 0 0 1 14.928203230275509 7 L 6.928203230275509,7 A 0 0 0 0 1 6.928203230275509 7 L 6.928203230275509,7 L 6.928203230275509,10 L 0,5 L 6.928203230275509,0 L 6.928203230275509,3 A 0 0 0 0 1 6.928203230275509 3 Z"
+                    d="M -4,-2 L 4,-2 A 0 0 0 0 1 4 -2 L 4,2 A 0 0 0 0 1 4 2 L -4,2 A 0 0 0 0 1 -4 2 L -4,2 L -4,5 L -10.928203230275509,0 L -4,-5 L -4,-2 A 0 0 0 0 1 -4 -2 Z"
                     visibility="hidden"
                   />
                 </g>
@@ -1883,6 +1877,8 @@
                 font-weight="bold"
                 font-size="12"
                 font-family="sans-serif"
+                x="0"
+                y="0"
                 text-anchor="left"
               >
                 Unemployment rate(%)
@@ -1913,12 +1909,12 @@
                   transform="matrix(1,0,0,1,0,0)"
                   class="ribbon-background-group"
                 >
-                  <g transform="matrix(1,0,0,1,0,-3)">
+                  <g transform="matrix(1,0,0,1,0,0)">
                     <path
                       id="g-svg-325"
                       fill="rgba(229,229,229,1)"
                       class="ribbon-background"
-                      d="M 0,0 L 0,3 L 379.92,3 L 379.92,0 Z"
+                      d="M 0,-3 L 0,0 L 379.92,0 L 379.92,-3 Z"
                     />
                   </g>
                 </g>
@@ -1929,20 +1925,20 @@
                   class="ribbon-ribbon-group"
                 >
                   <g
-                    transform="matrix(1,0,0,1,0,-3)"
+                    transform="matrix(1,0,0,1,0,0)"
                     clip-path="url(#clip-path-328-327)"
                   >
                     <path
                       id="g-svg-327"
                       fill="url(#g-pattern-3)"
                       class="ribbon-ribbon"
-                      d="M 0,0 L 0,3 L 379.92,3 L 379.92,0 Z"
+                      d="M 0,-3 L 0,0 L 379.92,0 L 379.92,-3 Z"
                     />
-                    <g transform="matrix(1,0,0,1,0,-3)">
+                    <g transform="matrix(1,0,0,1,0,0)">
                       <path
                         id="g-svg-328"
                         fill="none"
-                        d="M 0,3 L 0,0 L 379.92,0 L 379.92,3 Z"
+                        d="M 0,0 L 0,-3 L 379.92,-3 L 379.92,0 Z"
                         class="ribbon-clip-path"
                       />
                     </g>
@@ -2399,12 +2395,8 @@
               transform="matrix(1,0,0,1,0,0)"
               class="legend-indicator"
             >
-              <g
-                id="g-svg-330"
-                fill="none"
-                transform="matrix(1,0,0,1,10.928204,0)"
-              >
-                <g transform="matrix(1,0,0,1,-10.928204,-5)">
+              <g id="g-svg-330" fill="none" transform="matrix(1,0,0,1,0,0)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-332"
                     fill="rgba(38,38,38,1)"
@@ -2412,7 +2404,7 @@
                     stroke-linecap="round"
                     stroke-width="1"
                     stroke="rgba(51,51,51,1)"
-                    d="M 6.928203230275509,3 L 14.928203230275509,3 A 0 0 0 0 1 14.928203230275509 3 L 14.928203230275509,7 A 0 0 0 0 1 14.928203230275509 7 L 6.928203230275509,7 A 0 0 0 0 1 6.928203230275509 7 L 6.928203230275509,7 L 6.928203230275509,10 L 0,5 L 6.928203230275509,0 L 6.928203230275509,3 A 0 0 0 0 1 6.928203230275509 3 Z"
+                    d="M -4,-2 L 4,-2 A 0 0 0 0 1 4 -2 L 4,2 A 0 0 0 0 1 4 2 L -4,2 A 0 0 0 0 1 -4 2 L -4,2 L -4,5 L -10.928203230275509,0 L -4,-5 L -4,-2 A 0 0 0 0 1 -4 -2 Z"
                     visibility="hidden"
                   />
                 </g>

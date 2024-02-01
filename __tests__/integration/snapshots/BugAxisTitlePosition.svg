@@ -34,14 +34,14 @@
               transform="matrix(1,0,0,1,0,0)"
               class="axis-line-group"
             >
-              <g transform="matrix(1,0,0,1,145,30)">
+              <g transform="matrix(1,0,0,1,0,0)">
                 <line
                   id="g-svg-4"
                   fill="none"
-                  x1="0"
-                  y1="0"
-                  x2="0"
-                  y2="420"
+                  x1="145"
+                  y1="30"
+                  x2="145"
+                  y2="450"
                   class="axis-line axis-line"
                   stroke-width="1"
                   stroke="rgba(0,0,0,1)"
@@ -60,13 +60,13 @@
                 transform="matrix(1,0,0,1,145,396.442963)"
                 class="axis-tick"
               >
-                <g transform="matrix(1,0,0,1,-5,0)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <line
                     id="g-svg-13"
                     fill="none"
-                    x1="5"
+                    x1="0"
                     y1="0"
-                    x2="0"
+                    x2="-5"
                     y2="0"
                     class="axis-tick-item"
                     stroke-width="1"
@@ -80,13 +80,13 @@
                 transform="matrix(1,0,0,1,145,340.067108)"
                 class="axis-tick"
               >
-                <g transform="matrix(1,0,0,1,-5,0)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <line
                     id="g-svg-14"
                     fill="none"
-                    x1="5"
+                    x1="0"
                     y1="0"
-                    x2="0"
+                    x2="-5"
                     y2="0"
                     class="axis-tick-item"
                     stroke-width="1"
@@ -100,13 +100,13 @@
                 transform="matrix(1,0,0,1,145,283.691284)"
                 class="axis-tick"
               >
-                <g transform="matrix(1,0,0,1,-5,0)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <line
                     id="g-svg-15"
                     fill="none"
-                    x1="5"
+                    x1="0"
                     y1="0"
-                    x2="0"
+                    x2="-5"
                     y2="0"
                     class="axis-tick-item"
                     stroke-width="1"
@@ -120,13 +120,13 @@
                 transform="matrix(1,0,0,1,145,227.315430)"
                 class="axis-tick"
               >
-                <g transform="matrix(1,0,0,1,-5,0)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <line
                     id="g-svg-16"
                     fill="none"
-                    x1="5"
+                    x1="0"
                     y1="0"
-                    x2="0"
+                    x2="-5"
                     y2="0"
                     class="axis-tick-item"
                     stroke-width="1"
@@ -140,13 +140,13 @@
                 transform="matrix(1,0,0,1,145,170.939590)"
                 class="axis-tick"
               >
-                <g transform="matrix(1,0,0,1,-5,0)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <line
                     id="g-svg-17"
                     fill="none"
-                    x1="5"
+                    x1="0"
                     y1="0"
-                    x2="0"
+                    x2="-5"
                     y2="0"
                     class="axis-tick-item"
                     stroke-width="1"
@@ -160,13 +160,13 @@
                 transform="matrix(1,0,0,1,145,114.563759)"
                 class="axis-tick"
               >
-                <g transform="matrix(1,0,0,1,-5,0)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <line
                     id="g-svg-18"
                     fill="none"
-                    x1="5"
+                    x1="0"
                     y1="0"
-                    x2="0"
+                    x2="-5"
                     y2="0"
                     class="axis-tick-item"
                     stroke-width="1"
@@ -180,13 +180,13 @@
                 transform="matrix(1,0,0,1,145,58.187920)"
                 class="axis-tick"
               >
-                <g transform="matrix(1,0,0,1,-5,0)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <line
                     id="g-svg-19"
                     fill="none"
-                    x1="5"
+                    x1="0"
                     y1="0"
-                    x2="0"
+                    x2="-5"
                     y2="0"
                     class="axis-tick-item"
                     stroke-width="1"
@@ -388,10 +388,10 @@
           <g
             id="g-svg-35"
             fill="none"
-            transform="matrix(1,0,0,1,89.320000,240)"
+            transform="matrix(1,0,0,1,112.320000,240)"
             class="axis-title-group"
           >
-            <g transform="matrix(0,-1,1,0,11.500001,0)">
+            <g transform="matrix(0,-1,1,0,0.500000,0.500000)">
               <text
                 id="g-svg-36"
                 fill="rgba(0,0,0,1)"

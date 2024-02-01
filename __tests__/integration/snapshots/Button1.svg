@@ -9,30 +9,42 @@
   <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
     <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
       <g id="g-svg-163" fill="none" transform="matrix(1,0,0,1,0,0)">
-        <g id="g-svg-164" fill="none" transform="matrix(1,0,0,1,100,100)">
+        <g
+          id="g-svg-164"
+          fill="none"
+          x="100"
+          y="100"
+          transform="matrix(1,0,0,1,0,0)"
+        >
           <g transform="matrix(1,0,0,1,0,0)">
             <path
               id="g-svg-3"
               fill="rgba(0,0,0,0)"
               class=".background"
-              d="M 5,0 l 40.400000000000006,0 a 5,5,0,0,1,5,5 l 0,20 a 5,5,0,0,1,-5,5 l -40.400000000000006,0 a 5,5,0,0,1,-5,-5 l 0,-20 a 5,5,0,0,1,5,-5 z"
+              d="M 105,100 l 40.400000000000006,0 a 5,5,0,0,1,5,5 l 0,20 a 5,5,0,0,1,-5,5 l -40.400000000000006,0 a 5,5,0,0,1,-5,-5 l 0,-20 a 5,5,0,0,1,5,-5 z"
               width="50.400000000000006"
               height="30"
               stroke="rgba(187,187,187,1)"
               stroke-width="1"
+              x="100"
+              y="100"
             />
           </g>
           <g
             id="g-svg-1"
             fill="none"
             class="marker"
-            transform="matrix(1,0,0,1,10,15)"
+            x="110"
+            y="115"
+            transform="matrix(1,0,0,1,0,0)"
           />
-          <g transform="matrix(1,0,0,1,10,15)">
+          <g transform="matrix(1,0,0,1,0,0)">
             <text
               id="g-svg-2"
               fill="rgba(0,0,0,1)"
               class="text"
+              x="110"
+              y="115"
               dominant-baseline="central"
               paint-order="stroke"
               dx="0.5"

@@ -22,38 +22,40 @@
               transform="matrix(1,0,0,1,0,0)"
               class="handle-icon"
             >
-              <g transform="matrix(1,0,0,1,-5,-12)">
+              <g transform="matrix(1,0,0,1,0,0)">
                 <path
                   id="g-svg-3"
                   fill="rgba(255,255,255,1)"
                   class="handle-icon-rect"
                   stroke-width="1"
                   stroke="rgba(191,191,191,1)"
-                  d="M 2,0 l 6,0 a 2,2,0,0,1,2,2 l 0,20 a 2,2,0,0,1,-2,2 l -6,0 a 2,2,0,0,1,-2,-2 l 0,-20 a 2,2,0,0,1,2,-2 z"
+                  d="M -3,-12 l 6,0 a 2,2,0,0,1,2,2 l 0,20 a 2,2,0,0,1,-2,2 l -6,0 a 2,2,0,0,1,-2,-2 l 0,-20 a 2,2,0,0,1,2,-2 z"
                   width="10"
                   height="24"
+                  x="-5"
+                  y="-12"
                 />
-                <g transform="matrix(1,0,0,1,3.333333,6)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <line
                     id="g-svg-4"
                     fill="rgba(255,255,255,1)"
-                    x1="0"
-                    y1="0"
-                    x2="0"
-                    y2="12"
+                    x1="-1.666666666666667"
+                    y1="-6"
+                    x2="-1.666666666666667"
+                    y2="6"
                     class="handle-icon-line-1"
                     stroke-width="1"
                     stroke="rgba(191,191,191,1)"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,6.666667,6)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <line
                     id="g-svg-5"
                     fill="rgba(255,255,255,1)"
-                    x1="0"
-                    y1="0"
-                    x2="0"
-                    y2="12"
+                    x1="1.666666666666666"
+                    y1="-6"
+                    x2="1.666666666666666"
+                    y2="6"
                     class="handle-icon-line-2"
                     stroke-width="1"
                     stroke="rgba(191,191,191,1)"

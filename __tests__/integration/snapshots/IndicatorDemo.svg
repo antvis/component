@@ -48,7 +48,7 @@
                     d="M 0,0 L 400,0"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,0,20)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-6"
                     fill="none"
@@ -56,10 +56,10 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 400,0"
+                    d="M 0,20 L 400,20"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,0,40)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-7"
                     fill="none"
@@ -67,10 +67,10 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 400,0"
+                    d="M 0,40 L 400,40"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,0,60)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-8"
                     fill="none"
@@ -78,10 +78,10 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 400,0"
+                    d="M 0,60.00000000000001 L 400,60.00000000000001"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,0,80)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-9"
                     fill="none"
@@ -89,10 +89,10 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 400,0"
+                    d="M 0,80 L 400,80"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,0,100)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-10"
                     fill="none"
@@ -100,10 +100,10 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 400,0"
+                    d="M 0,100 L 400,100"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,0,120)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-11"
                     fill="none"
@@ -111,10 +111,10 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 400,0"
+                    d="M 0,120.00000000000001 L 400,120.00000000000001"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,0,140)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-12"
                     fill="none"
@@ -122,10 +122,10 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 400,0"
+                    d="M 0,140 L 400,140"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,0,160)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-13"
                     fill="none"
@@ -133,10 +133,10 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 400,0"
+                    d="M 0,160 L 400,160"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,0,180)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-14"
                     fill="none"
@@ -144,10 +144,10 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 400,0"
+                    d="M 0,180 L 400,180"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,0,200)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-15"
                     fill="none"
@@ -155,10 +155,10 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 400,0"
+                    d="M 0,200 L 400,200"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,0,220)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-16"
                     fill="none"
@@ -166,10 +166,10 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 400,0"
+                    d="M 0,220.00000000000003 L 400,220.00000000000003"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,0,240)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-17"
                     fill="none"
@@ -177,10 +177,10 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 400,0"
+                    d="M 0,240.00000000000003 L 400,240.00000000000003"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,0,260)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-18"
                     fill="none"
@@ -188,10 +188,10 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 400,0"
+                    d="M 0,260 L 400,260"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,0,280)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-19"
                     fill="none"
@@ -199,10 +199,10 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 400,0"
+                    d="M 0,280 L 400,280"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,0,300)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-20"
                     fill="none"
@@ -210,10 +210,10 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 400,0"
+                    d="M 0,300 L 400,300"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,0,320)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-21"
                     fill="none"
@@ -221,10 +221,10 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 400,0"
+                    d="M 0,320 L 400,320"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,0,340)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-22"
                     fill="none"
@@ -232,10 +232,10 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 400,0"
+                    d="M 0,340.00000000000006 L 400,340.00000000000006"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,0,360)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-23"
                     fill="none"
@@ -243,10 +243,10 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 400,0"
+                    d="M 0,360 L 400,360"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,0,380)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-24"
                     fill="none"
@@ -254,7 +254,7 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 400,0"
+                    d="M 0,380 L 400,380"
                   />
                 </g>
               </g>
@@ -307,7 +307,7 @@
               <g
                 id="g-svg-30"
                 fill="none"
-                transform="matrix(-0,-1,1,-0,-10,0)"
+                transform="matrix(0,-1,1,0,-10,0)"
                 class="axis-label"
               >
                 <g transform="matrix(1,0,0,1,0,0)">
@@ -333,7 +333,7 @@
               <g
                 id="g-svg-31"
                 fill="none"
-                transform="matrix(-0,-1,1,-0,-10,20)"
+                transform="matrix(0,-1,1,0,-10,20)"
                 class="axis-label"
               >
                 <g transform="matrix(1,0,0,1,0,0)">
@@ -359,7 +359,7 @@
               <g
                 id="g-svg-32"
                 fill="none"
-                transform="matrix(-0,-1,1,-0,-10,40)"
+                transform="matrix(0,-1,1,0,-10,40)"
                 class="axis-label"
               >
                 <g transform="matrix(1,0,0,1,0,0)">
@@ -385,7 +385,7 @@
               <g
                 id="g-svg-33"
                 fill="none"
-                transform="matrix(-0,-1,1,-0,-10,60)"
+                transform="matrix(0,-1,1,0,-10,60)"
                 class="axis-label"
               >
                 <g transform="matrix(1,0,0,1,0,0)">
@@ -411,7 +411,7 @@
               <g
                 id="g-svg-34"
                 fill="none"
-                transform="matrix(-0,-1,1,-0,-10,80)"
+                transform="matrix(0,-1,1,0,-10,80)"
                 class="axis-label"
               >
                 <g transform="matrix(1,0,0,1,0,0)">
@@ -437,7 +437,7 @@
               <g
                 id="g-svg-35"
                 fill="none"
-                transform="matrix(-0,-1,1,-0,-10,100)"
+                transform="matrix(0,-1,1,0,-10,100)"
                 class="axis-label"
               >
                 <g transform="matrix(1,0,0,1,0,0)">
@@ -463,7 +463,7 @@
               <g
                 id="g-svg-36"
                 fill="none"
-                transform="matrix(-0,-1,1,-0,-10,120)"
+                transform="matrix(0,-1,1,0,-10,120)"
                 class="axis-label"
               >
                 <g transform="matrix(1,0,0,1,0,0)">
@@ -489,7 +489,7 @@
               <g
                 id="g-svg-37"
                 fill="none"
-                transform="matrix(-0,-1,1,-0,-10,140)"
+                transform="matrix(0,-1,1,0,-10,140)"
                 class="axis-label"
               >
                 <g transform="matrix(1,0,0,1,0,0)">
@@ -515,7 +515,7 @@
               <g
                 id="g-svg-38"
                 fill="none"
-                transform="matrix(-0,-1,1,-0,-10,160)"
+                transform="matrix(0,-1,1,0,-10,160)"
                 class="axis-label"
               >
                 <g transform="matrix(1,0,0,1,0,0)">
@@ -541,7 +541,7 @@
               <g
                 id="g-svg-39"
                 fill="none"
-                transform="matrix(-0,-1,1,-0,-10,180)"
+                transform="matrix(0,-1,1,0,-10,180)"
                 class="axis-label"
               >
                 <g transform="matrix(1,0,0,1,0,0)">
@@ -567,7 +567,7 @@
               <g
                 id="g-svg-40"
                 fill="none"
-                transform="matrix(-0,-1,1,-0,-10,200)"
+                transform="matrix(0,-1,1,0,-10,200)"
                 class="axis-label"
               >
                 <g transform="matrix(1,0,0,1,0,0)">
@@ -593,7 +593,7 @@
               <g
                 id="g-svg-41"
                 fill="none"
-                transform="matrix(-0,-1,1,-0,-10,220)"
+                transform="matrix(0,-1,1,0,-10,220)"
                 class="axis-label"
               >
                 <g transform="matrix(1,0,0,1,0,0)">
@@ -619,7 +619,7 @@
               <g
                 id="g-svg-42"
                 fill="none"
-                transform="matrix(-0,-1,1,-0,-10,240)"
+                transform="matrix(0,-1,1,0,-10,240)"
                 class="axis-label"
               >
                 <g transform="matrix(1,0,0,1,0,0)">
@@ -645,7 +645,7 @@
               <g
                 id="g-svg-43"
                 fill="none"
-                transform="matrix(-0,-1,1,-0,-10,260)"
+                transform="matrix(0,-1,1,0,-10,260)"
                 class="axis-label"
               >
                 <g transform="matrix(1,0,0,1,0,0)">
@@ -671,7 +671,7 @@
               <g
                 id="g-svg-44"
                 fill="none"
-                transform="matrix(-0,-1,1,-0,-10,280)"
+                transform="matrix(0,-1,1,0,-10,280)"
                 class="axis-label"
               >
                 <g transform="matrix(1,0,0,1,0,0)">
@@ -697,7 +697,7 @@
               <g
                 id="g-svg-45"
                 fill="none"
-                transform="matrix(-0,-1,1,-0,-10,300)"
+                transform="matrix(0,-1,1,0,-10,300)"
                 class="axis-label"
               >
                 <g transform="matrix(1,0,0,1,0,0)">
@@ -723,7 +723,7 @@
               <g
                 id="g-svg-46"
                 fill="none"
-                transform="matrix(-0,-1,1,-0,-10,320)"
+                transform="matrix(0,-1,1,0,-10,320)"
                 class="axis-label"
               >
                 <g transform="matrix(1,0,0,1,0,0)">
@@ -749,7 +749,7 @@
               <g
                 id="g-svg-47"
                 fill="none"
-                transform="matrix(-0,-1,1,-0,-10,340)"
+                transform="matrix(0,-1,1,0,-10,340)"
                 class="axis-label"
               >
                 <g transform="matrix(1,0,0,1,0,0)">
@@ -775,7 +775,7 @@
               <g
                 id="g-svg-48"
                 fill="none"
-                transform="matrix(-0,-1,1,-0,-10,360)"
+                transform="matrix(0,-1,1,0,-10,360)"
                 class="axis-label"
               >
                 <g transform="matrix(1,0,0,1,0,0)">
@@ -801,7 +801,7 @@
               <g
                 id="g-svg-49"
                 fill="none"
-                transform="matrix(-0,-1,1,-0,-10,380)"
+                transform="matrix(0,-1,1,0,-10,380)"
                 class="axis-label"
               >
                 <g transform="matrix(1,0,0,1,0,0)">
@@ -863,7 +863,7 @@
                     d="M 0,0 L 0,400"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,20,0)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-76"
                     fill="none"
@@ -871,10 +871,10 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 0,400"
+                    d="M 20,0 L 20,400"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,40,0)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-77"
                     fill="none"
@@ -882,10 +882,10 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 0,400"
+                    d="M 40,0 L 40,400"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,60,0)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-78"
                     fill="none"
@@ -893,10 +893,10 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 0,400"
+                    d="M 60.00000000000001,0 L 60.00000000000001,400"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,80,0)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-79"
                     fill="none"
@@ -904,10 +904,10 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 0,400"
+                    d="M 80,0 L 80,400"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,100,0)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-80"
                     fill="none"
@@ -915,10 +915,10 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 0,400"
+                    d="M 100,0 L 100,400"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,120,0)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-81"
                     fill="none"
@@ -926,10 +926,10 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 0,400"
+                    d="M 120.00000000000001,0 L 120.00000000000001,400"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,140,0)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-82"
                     fill="none"
@@ -937,10 +937,10 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 0,400"
+                    d="M 140,0 L 140,400"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,160,0)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-83"
                     fill="none"
@@ -948,10 +948,10 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 0,400"
+                    d="M 160,0 L 160,400"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,180,0)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-84"
                     fill="none"
@@ -959,10 +959,10 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 0,400"
+                    d="M 180,0 L 180,400"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,200,0)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-85"
                     fill="none"
@@ -970,10 +970,10 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 0,400"
+                    d="M 200,0 L 200,400"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,220,0)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-86"
                     fill="none"
@@ -981,10 +981,10 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 0,400"
+                    d="M 220.00000000000003,0 L 220.00000000000003,400"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,240,0)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-87"
                     fill="none"
@@ -992,10 +992,10 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 0,400"
+                    d="M 240.00000000000003,0 L 240.00000000000003,400"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,260,0)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-88"
                     fill="none"
@@ -1003,10 +1003,10 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 0,400"
+                    d="M 260,0 L 260,400"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,280,0)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-89"
                     fill="none"
@@ -1014,10 +1014,10 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 0,400"
+                    d="M 280,0 L 280,400"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,300,0)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-90"
                     fill="none"
@@ -1025,10 +1025,10 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 0,400"
+                    d="M 300,0 L 300,400"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,320,0)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-91"
                     fill="none"
@@ -1036,10 +1036,10 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 0,400"
+                    d="M 320,0 L 320,400"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,340,0)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-92"
                     fill="none"
@@ -1047,10 +1047,10 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 0,400"
+                    d="M 340.00000000000006,0 L 340.00000000000006,400"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,360,0)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-93"
                     fill="none"
@@ -1058,10 +1058,10 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 0,400"
+                    d="M 360,0 L 360,400"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,380,0)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-94"
                     fill="none"
@@ -1069,7 +1069,7 @@
                     stroke="rgba(211,211,211,1)"
                     stroke-width="1"
                     stroke-dasharray="4,4"
-                    d="M 0,0 L 0,400"
+                    d="M 380,0 L 380,400"
                   />
                 </g>
               </g>
@@ -1668,12 +1668,13 @@
             class="axis-title-group"
           />
         </g>
-        <g transform="matrix(1,0,0,1,0,30)">
+        <g transform="matrix(1,0,0,1,0,0)">
           <text
             id="g-svg-16"
             fill="rgba(255,0,0,1)"
             dominant-baseline="central"
             paint-order="stroke"
+            y="30"
             dx="0.5"
             font-family="sans-serif"
             font-size="16"
@@ -1682,56 +1683,30 @@
             font-weight="normal"
             stroke-width="1"
             text-anchor="left"
+            x="0"
           >
             left
           </text>
         </g>
-        <g transform="matrix(1,0,0,1,50,50)">
-          <circle
-            id="g-svg-19"
-            fill="rgba(255,0,0,1)"
-            transform="translate(-2,-2)"
-            cx="2"
-            cy="2"
-            r="2"
-          />
+        <g transform="matrix(1,0,0,1,0,0)">
+          <circle id="g-svg-19" fill="rgba(255,0,0,1)" cx="50" cy="50" r="2" />
         </g>
-        <g transform="matrix(1,0,0,1,50,80)">
-          <circle
-            id="g-svg-22"
-            fill="rgba(255,0,0,1)"
-            transform="translate(-2,-2)"
-            cx="2"
-            cy="2"
-            r="2"
-          />
+        <g transform="matrix(1,0,0,1,0,0)">
+          <circle id="g-svg-22" fill="rgba(255,0,0,1)" cx="50" cy="80" r="2" />
         </g>
-        <g transform="matrix(1,0,0,1,50,110)">
-          <circle
-            id="g-svg-25"
-            fill="rgba(255,0,0,1)"
-            transform="translate(-2,-2)"
-            cx="2"
-            cy="2"
-            r="2"
-          />
+        <g transform="matrix(1,0,0,1,0,0)">
+          <circle id="g-svg-25" fill="rgba(255,0,0,1)" cx="50" cy="110" r="2" />
         </g>
-        <g transform="matrix(1,0,0,1,50,140)">
-          <circle
-            id="g-svg-28"
-            fill="rgba(255,0,0,1)"
-            transform="translate(-2,-2)"
-            cx="2"
-            cy="2"
-            r="2"
-          />
+        <g transform="matrix(1,0,0,1,0,0)">
+          <circle id="g-svg-28" fill="rgba(255,0,0,1)" cx="50" cy="140" r="2" />
         </g>
-        <g transform="matrix(1,0,0,1,0,30)">
+        <g transform="matrix(1,0,0,1,0,0)">
           <text
             id="g-svg-29"
             fill="rgba(255,0,0,1)"
             dominant-baseline="central"
             paint-order="stroke"
+            y="30"
             dx="0.5"
             font-family="sans-serif"
             font-size="16"
@@ -1740,56 +1715,30 @@
             font-weight="normal"
             stroke-width="1"
             text-anchor="left"
+            x="0"
           >
             left
           </text>
         </g>
-        <g transform="matrix(1,0,0,1,50,170)">
-          <circle
-            id="g-svg-32"
-            fill="rgba(255,0,0,1)"
-            transform="translate(-2,-2)"
-            cx="2"
-            cy="2"
-            r="2"
-          />
+        <g transform="matrix(1,0,0,1,0,0)">
+          <circle id="g-svg-32" fill="rgba(255,0,0,1)" cx="50" cy="170" r="2" />
         </g>
-        <g transform="matrix(1,0,0,1,50,200)">
-          <circle
-            id="g-svg-35"
-            fill="rgba(255,0,0,1)"
-            transform="translate(-2,-2)"
-            cx="2"
-            cy="2"
-            r="2"
-          />
+        <g transform="matrix(1,0,0,1,0,0)">
+          <circle id="g-svg-35" fill="rgba(255,0,0,1)" cx="50" cy="200" r="2" />
         </g>
-        <g transform="matrix(1,0,0,1,50,230)">
-          <circle
-            id="g-svg-38"
-            fill="rgba(255,0,0,1)"
-            transform="translate(-2,-2)"
-            cx="2"
-            cy="2"
-            r="2"
-          />
+        <g transform="matrix(1,0,0,1,0,0)">
+          <circle id="g-svg-38" fill="rgba(255,0,0,1)" cx="50" cy="230" r="2" />
         </g>
-        <g transform="matrix(1,0,0,1,50,260)">
-          <circle
-            id="g-svg-41"
-            fill="rgba(255,0,0,1)"
-            transform="translate(-2,-2)"
-            cx="2"
-            cy="2"
-            r="2"
-          />
+        <g transform="matrix(1,0,0,1,0,0)">
+          <circle id="g-svg-41" fill="rgba(255,0,0,1)" cx="50" cy="260" r="2" />
         </g>
-        <g transform="matrix(1,0,0,1,0,30)">
+        <g transform="matrix(1,0,0,1,0,0)">
           <text
             id="g-svg-42"
             fill="rgba(255,0,0,1)"
             dominant-baseline="central"
             paint-order="stroke"
+            y="30"
             dx="0.5"
             font-family="sans-serif"
             font-size="16"
@@ -1798,56 +1747,42 @@
             font-weight="normal"
             stroke-width="1"
             text-anchor="left"
+            x="0"
           >
             left
           </text>
         </g>
-        <g transform="matrix(1,0,0,1,150,50)">
-          <circle
-            id="g-svg-45"
-            fill="rgba(255,0,0,1)"
-            transform="translate(-2,-2)"
-            cx="2"
-            cy="2"
-            r="2"
-          />
+        <g transform="matrix(1,0,0,1,0,0)">
+          <circle id="g-svg-45" fill="rgba(255,0,0,1)" cx="150" cy="50" r="2" />
         </g>
-        <g transform="matrix(1,0,0,1,150,80)">
-          <circle
-            id="g-svg-48"
-            fill="rgba(255,0,0,1)"
-            transform="translate(-2,-2)"
-            cx="2"
-            cy="2"
-            r="2"
-          />
+        <g transform="matrix(1,0,0,1,0,0)">
+          <circle id="g-svg-48" fill="rgba(255,0,0,1)" cx="150" cy="80" r="2" />
         </g>
-        <g transform="matrix(1,0,0,1,150,110)">
+        <g transform="matrix(1,0,0,1,0,0)">
           <circle
             id="g-svg-51"
             fill="rgba(255,0,0,1)"
-            transform="translate(-2,-2)"
-            cx="2"
-            cy="2"
+            cx="150"
+            cy="110"
             r="2"
           />
         </g>
-        <g transform="matrix(1,0,0,1,150,140)">
+        <g transform="matrix(1,0,0,1,0,0)">
           <circle
             id="g-svg-54"
             fill="rgba(255,0,0,1)"
-            transform="translate(-2,-2)"
-            cx="2"
-            cy="2"
+            cx="150"
+            cy="140"
             r="2"
           />
         </g>
-        <g transform="matrix(1,0,0,1,0,30)">
+        <g transform="matrix(1,0,0,1,0,0)">
           <text
             id="g-svg-55"
             fill="rgba(255,0,0,1)"
             dominant-baseline="central"
             paint-order="stroke"
+            y="30"
             dx="0.5"
             font-family="sans-serif"
             font-size="16"
@@ -1856,63 +1791,65 @@
             font-weight="normal"
             stroke-width="1"
             text-anchor="left"
+            x="0"
           >
             left
           </text>
         </g>
-        <g transform="matrix(1,0,0,1,150,180)">
+        <g transform="matrix(1,0,0,1,0,0)">
           <circle
             id="g-svg-58"
             fill="rgba(255,0,0,1)"
-            transform="translate(-2,-2)"
-            cx="2"
-            cy="2"
+            cx="150"
+            cy="180"
             r="2"
           />
         </g>
-        <g transform="matrix(1,0,0,1,150,220)">
+        <g transform="matrix(1,0,0,1,0,0)">
           <circle
             id="g-svg-61"
             fill="rgba(255,0,0,1)"
-            transform="translate(-2,-2)"
-            cx="2"
-            cy="2"
+            cx="150"
+            cy="220"
             r="2"
           />
         </g>
-        <g transform="matrix(1,0,0,1,150,250)">
+        <g transform="matrix(1,0,0,1,0,0)">
           <circle
             id="g-svg-64"
             fill="rgba(255,0,0,1)"
-            transform="translate(-2,-2)"
-            cx="2"
-            cy="2"
+            cx="150"
+            cy="250"
             r="2"
           />
         </g>
-        <g transform="matrix(1,0,0,1,150,290)">
+        <g transform="matrix(1,0,0,1,0,0)">
           <circle
             id="g-svg-67"
             fill="rgba(255,0,0,1)"
-            transform="translate(-2,-2)"
-            cx="2"
-            cy="2"
+            cx="150"
+            cy="290"
             r="2"
           />
         </g>
-        <g transform="matrix(1,0,0,1,250,100)">
+        <g transform="matrix(1,0,0,1,0,0)">
           <circle
             id="g-svg-78"
             fill="rgba(255,0,0,1)"
-            transform="translate(-2,-2)"
-            cx="2"
-            cy="2"
+            cx="250"
+            cy="100"
             r="2"
           />
         </g>
-        <g id="g-svg-17" fill="none" transform="matrix(1,0,0,1,50,50)">
-          <g id="g-svg-18" fill="none" transform="matrix(1,0,0,1,-30.888203,0)">
-            <g transform="matrix(1,0,0,1,-4,-13.500000)">
+        <g
+          id="g-svg-17"
+          fill="none"
+          x="50"
+          y="50"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g id="g-svg-18" fill="none" transform="matrix(1,0,0,1,19.111797,50)">
+            <g transform="matrix(1,0,0,1,0,0)">
               <path
                 id="g-svg-143"
                 fill="rgba(38,38,38,1)"
@@ -1920,7 +1857,7 @@
                 stroke-linecap="round"
                 stroke-width="1"
                 stroke="rgba(51,51,51,1)"
-                d="M 0,0 L 27.96,0 A 0 0 0 0 1 27.96 0 L 27.96,0 L 27.96,8.5 L 34.88820323027551,13.5 L 27.96,18.5 L 27.96,27 A 0 0 0 0 1 27.96 27 L 0,27 A 0 0 0 0 1 0 27 L 0,0 A 0 0 0 0 1 0 0 Z"
+                d="M -3.9999999999999964,-13.5 L 23.960000000000004,-13.5 A 0 0 0 0 1 23.960000000000004 -13.5 L 23.960000000000004,-13.5 L 23.960000000000004,-5 L 30.888203230275515,0 L 23.960000000000004,5 L 23.960000000000004,13.5 A 0 0 0 0 1 23.960000000000004 13.5 L -3.9999999999999964,13.5 A 0 0 0 0 1 -3.9999999999999964 13.5 L -3.9999999999999964,-13.5 A 0 0 0 0 1 -3.9999999999999964 -13.5 Z"
                 visibility="visible"
               />
             </g>
@@ -1953,9 +1890,15 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-20" fill="none" transform="matrix(1,0,0,1,50,80)">
-          <g id="g-svg-21" fill="none" transform="matrix(1,0,0,1,-48.168201,0)">
-            <g transform="matrix(1,0,0,1,-4,-13.500000)">
+        <g
+          id="g-svg-20"
+          fill="none"
+          x="50"
+          y="80"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g id="g-svg-21" fill="none" transform="matrix(1,0,0,1,1.831797,80)">
+            <g transform="matrix(1,0,0,1,0,0)">
               <path
                 id="g-svg-146"
                 fill="rgba(38,38,38,1)"
@@ -1963,7 +1906,7 @@
                 stroke-linecap="round"
                 stroke-width="1"
                 stroke="rgba(51,51,51,1)"
-                d="M 0,0 L 45.24000000000001,0 A 0 0 0 0 1 45.24000000000001 0 L 45.24000000000001,0 L 45.24000000000001,8.5 L 52.16820323027551,13.5 L 45.24000000000001,18.5 L 45.24000000000001,27 A 0 0 0 0 1 45.24000000000001 27 L 0,27 A 0 0 0 0 1 0 27 L 0,0 A 0 0 0 0 1 0 0 Z"
+                d="M -3.9999999999999964,-13.5 L 41.24000000000001,-13.5 A 0 0 0 0 1 41.24000000000001 -13.5 L 41.24000000000001,-13.5 L 41.24000000000001,-5 L 48.168203230275516,0 L 41.24000000000001,5 L 41.24000000000001,13.5 A 0 0 0 0 1 41.24000000000001 13.5 L -3.9999999999999964,13.5 A 0 0 0 0 1 -3.9999999999999964 13.5 L -3.9999999999999964,-13.5 A 0 0 0 0 1 -3.9999999999999964 -13.5 Z"
                 visibility="visible"
               />
             </g>
@@ -1996,9 +1939,15 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-23" fill="none" transform="matrix(1,0,0,1,50,110)">
-          <g id="g-svg-24" fill="none" transform="matrix(1,0,0,1,-48.168201,0)">
-            <g transform="matrix(1,0,0,1,-4,-13.500000)">
+        <g
+          id="g-svg-23"
+          fill="none"
+          x="50"
+          y="110"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g id="g-svg-24" fill="none" transform="matrix(1,0,0,1,1.831797,110)">
+            <g transform="matrix(1,0,0,1,0,0)">
               <path
                 id="g-svg-149"
                 fill="rgba(255,255,255,1)"
@@ -2006,7 +1955,7 @@
                 stroke-linecap="round"
                 stroke-width="1"
                 stroke="rgba(51,51,51,1)"
-                d="M 0,0 L 45.24000000000001,0 A 0 0 0 0 1 45.24000000000001 0 L 45.24000000000001,0 L 45.24000000000001,8.5 L 52.16820323027551,13.5 L 45.24000000000001,18.5 L 45.24000000000001,27 A 0 0 0 0 1 45.24000000000001 27 L 0,27 A 0 0 0 0 1 0 27 L 0,0 A 0 0 0 0 1 0 0 Z"
+                d="M -3.9999999999999964,-13.5 L 41.24000000000001,-13.5 A 0 0 0 0 1 41.24000000000001 -13.5 L 41.24000000000001,-13.5 L 41.24000000000001,-5 L 48.168203230275516,0 L 41.24000000000001,5 L 41.24000000000001,13.5 A 0 0 0 0 1 41.24000000000001 13.5 L -3.9999999999999964,13.5 A 0 0 0 0 1 -3.9999999999999964 13.5 L -3.9999999999999964,-13.5 A 0 0 0 0 1 -3.9999999999999964 -13.5 Z"
                 visibility="visible"
               />
             </g>
@@ -2039,9 +1988,15 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-26" fill="none" transform="matrix(1,0,0,1,50,140)">
-          <g id="g-svg-27" fill="none" transform="matrix(1,0,0,1,-44.808205,0)">
-            <g transform="matrix(1,0,0,1,-10,-13.500000)">
+        <g
+          id="g-svg-26"
+          fill="none"
+          x="50"
+          y="140"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g id="g-svg-27" fill="none" transform="matrix(1,0,0,1,5.191797,140)">
+            <g transform="matrix(1,0,0,1,0,0)">
               <path
                 id="g-svg-157"
                 fill="rgba(38,38,38,1)"
@@ -2049,7 +2004,7 @@
                 stroke-linecap="round"
                 stroke-width="1"
                 stroke="rgba(51,51,51,1)"
-                d="M 0,0 L 47.879999999999995,0 A 0 0 0 0 1 47.879999999999995 0 L 47.879999999999995,0 L 47.879999999999995,8.5 L 54.8082032302755,13.5 L 47.879999999999995,18.5 L 47.879999999999995,27 A 0 0 0 0 1 47.879999999999995 27 L 0,27 A 0 0 0 0 1 0 27 L 0,0 A 0 0 0 0 1 0 0 Z"
+                d="M -10,-13.5 L 37.879999999999995,-13.5 A 0 0 0 0 1 37.879999999999995 -13.5 L 37.879999999999995,-13.5 L 37.879999999999995,-5 L 44.8082032302755,0 L 37.879999999999995,5 L 37.879999999999995,13.5 A 0 0 0 0 1 37.879999999999995 13.5 L -10,13.5 A 0 0 0 0 1 -10 13.5 L -10,-13.5 A 0 0 0 0 1 -10 -13.5 Z"
                 visibility="visible"
               />
             </g>
@@ -2069,19 +2024,17 @@
                   <circle
                     id="g-svg-152"
                     fill="rgba(255,165,0,1)"
-                    transform="translate(-6,-6)"
-                    cx="6"
-                    cy="6"
                     r="6"
                     visibility="visible"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,12,0)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <text
                     id="g-svg-153"
                     fill="rgba(255,255,255,1)"
                     dominant-baseline="central"
                     paint-order="stroke"
+                    x="12"
                     dx="0.5"
                     font-family="sans-serif"
                     font-size="12"
@@ -2099,9 +2052,19 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-30" fill="none" transform="matrix(1,0,0,1,50,170)">
-          <g id="g-svg-31" fill="none" transform="matrix(1,0,0,1,10.928204,0)">
-            <g transform="matrix(1,0,0,1,-10.928204,-13.500000)">
+        <g
+          id="g-svg-30"
+          fill="none"
+          x="50"
+          y="170"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="g-svg-31"
+            fill="none"
+            transform="matrix(1,0,0,1,60.928204,170)"
+          >
+            <g transform="matrix(1,0,0,1,0,0)">
               <path
                 id="g-svg-160"
                 fill="rgba(38,38,38,1)"
@@ -2109,7 +2072,7 @@
                 stroke-linecap="round"
                 stroke-width="1"
                 stroke="rgba(51,51,51,1)"
-                d="M 6.928203230275509,0 L 34.88820323027551,0 A 0 0 0 0 1 34.88820323027551 0 L 34.88820323027551,27 A 0 0 0 0 1 34.88820323027551 27 L 6.928203230275509,27 A 0 0 0 0 1 6.928203230275509 27 L 6.928203230275509,27 L 6.928203230275509,18.5 L 0,13.5 L 6.928203230275509,8.5 L 6.928203230275509,0 A 0 0 0 0 1 6.928203230275509 0 Z"
+                d="M -3.9999999999999964,-13.5 L 23.960000000000004,-13.5 A 0 0 0 0 1 23.960000000000004 -13.5 L 23.960000000000004,13.5 A 0 0 0 0 1 23.960000000000004 13.5 L -3.9999999999999964,13.5 A 0 0 0 0 1 -3.9999999999999964 13.5 L -3.9999999999999964,13.5 L -3.9999999999999964,5 L -10.928203230275505,0 L -3.9999999999999964,-5 L -3.9999999999999964,-13.5 A 0 0 0 0 1 -3.9999999999999964 -13.5 Z"
                 visibility="visible"
               />
             </g>
@@ -2142,9 +2105,19 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-33" fill="none" transform="matrix(1,0,0,1,50,200)">
-          <g id="g-svg-34" fill="none" transform="matrix(1,0,0,1,10.928204,0)">
-            <g transform="matrix(1,0,0,1,-10.928204,-13.500000)">
+        <g
+          id="g-svg-33"
+          fill="none"
+          x="50"
+          y="200"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="g-svg-34"
+            fill="none"
+            transform="matrix(1,0,0,1,60.928204,200)"
+          >
+            <g transform="matrix(1,0,0,1,0,0)">
               <path
                 id="g-svg-163"
                 fill="rgba(38,38,38,1)"
@@ -2152,7 +2125,7 @@
                 stroke-linecap="round"
                 stroke-width="1"
                 stroke="rgba(51,51,51,1)"
-                d="M 6.928203230275509,0 L 52.168203230275516,0 A 0 0 0 0 1 52.168203230275516 0 L 52.168203230275516,27 A 0 0 0 0 1 52.168203230275516 27 L 6.928203230275509,27 A 0 0 0 0 1 6.928203230275509 27 L 6.928203230275509,27 L 6.928203230275509,18.5 L 0,13.5 L 6.928203230275509,8.5 L 6.928203230275509,0 A 0 0 0 0 1 6.928203230275509 0 Z"
+                d="M -3.9999999999999964,-13.5 L 41.24000000000001,-13.5 A 0 0 0 0 1 41.24000000000001 -13.5 L 41.24000000000001,13.5 A 0 0 0 0 1 41.24000000000001 13.5 L -3.9999999999999964,13.5 A 0 0 0 0 1 -3.9999999999999964 13.5 L -3.9999999999999964,13.5 L -3.9999999999999964,5 L -10.928203230275505,0 L -3.9999999999999964,-5 L -3.9999999999999964,-13.5 A 0 0 0 0 1 -3.9999999999999964 -13.5 Z"
                 visibility="visible"
               />
             </g>
@@ -2185,9 +2158,19 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-36" fill="none" transform="matrix(1,0,0,1,50,230)">
-          <g id="g-svg-37" fill="none" transform="matrix(1,0,0,1,10.928204,0)">
-            <g transform="matrix(1,0,0,1,-10.928204,-13.500000)">
+        <g
+          id="g-svg-36"
+          fill="none"
+          x="50"
+          y="230"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="g-svg-37"
+            fill="none"
+            transform="matrix(1,0,0,1,60.928204,230)"
+          >
+            <g transform="matrix(1,0,0,1,0,0)">
               <path
                 id="g-svg-166"
                 fill="rgba(255,255,255,1)"
@@ -2195,7 +2178,7 @@
                 stroke-linecap="round"
                 stroke-width="1"
                 stroke="rgba(51,51,51,1)"
-                d="M 6.928203230275509,0 L 52.168203230275516,0 A 0 0 0 0 1 52.168203230275516 0 L 52.168203230275516,27 A 0 0 0 0 1 52.168203230275516 27 L 6.928203230275509,27 A 0 0 0 0 1 6.928203230275509 27 L 6.928203230275509,27 L 6.928203230275509,18.5 L 0,13.5 L 6.928203230275509,8.5 L 6.928203230275509,0 A 0 0 0 0 1 6.928203230275509 0 Z"
+                d="M -3.9999999999999964,-13.5 L 41.24000000000001,-13.5 A 0 0 0 0 1 41.24000000000001 -13.5 L 41.24000000000001,13.5 A 0 0 0 0 1 41.24000000000001 13.5 L -3.9999999999999964,13.5 A 0 0 0 0 1 -3.9999999999999964 13.5 L -3.9999999999999964,13.5 L -3.9999999999999964,5 L -10.928203230275505,0 L -3.9999999999999964,-5 L -3.9999999999999964,-13.5 A 0 0 0 0 1 -3.9999999999999964 -13.5 Z"
                 visibility="visible"
               />
             </g>
@@ -2228,9 +2211,19 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-39" fill="none" transform="matrix(1,0,0,1,50,260)">
-          <g id="g-svg-40" fill="none" transform="matrix(1,0,0,1,16.928204,0)">
-            <g transform="matrix(1,0,0,1,-16.928204,-13.500000)">
+        <g
+          id="g-svg-39"
+          fill="none"
+          x="50"
+          y="260"
+          transform="matrix(1,0,0,1,0,0)"
+        >
+          <g
+            id="g-svg-40"
+            fill="none"
+            transform="matrix(1,0,0,1,66.928200,260)"
+          >
+            <g transform="matrix(1,0,0,1,0,0)">
               <path
                 id="g-svg-174"
                 fill="rgba(38,38,38,1)"
@@ -2238,7 +2231,7 @@
                 stroke-linecap="round"
                 stroke-width="1"
                 stroke="rgba(51,51,51,1)"
-                d="M 6.928203230275507,0 L 54.8082032302755,0 A 0 0 0 0 1 54.8082032302755 0 L 54.8082032302755,27 A 0 0 0 0 1 54.8082032302755 27 L 6.928203230275507,27 A 0 0 0 0 1 6.928203230275507 27 L 6.928203230275507,27 L 6.928203230275507,18.5 L 0,13.5 L 6.928203230275507,8.5 L 6.928203230275507,0 A 0 0 0 0 1 6.928203230275507 0 Z"
+                d="M -10,-13.5 L 37.879999999999995,-13.5 A 0 0 0 0 1 37.879999999999995 -13.5 L 37.879999999999995,13.5 A 0 0 0 0 1 37.879999999999995 13.5 L -10,13.5 A 0 0 0 0 1 -10 13.5 L -10,13.5 L -10,5 L -16.928203230275507,0 L -10,-5 L -10,-13.5 A 0 0 0 0 1 -10 -13.5 Z"
                 visibility="visible"
               />
             </g>
@@ -2258,19 +2251,17 @@
                   <circle
                     id="g-svg-169"
                     fill="rgba(255,165,0,1)"
-                    transform="translate(-6,-6)"
-                    cx="6"
-                    cy="6"
                     r="6"
                     visibility="visible"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,12,0)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <text
                     id="g-svg-170"
                     fill="rgba(255,255,255,1)"
                     dominant-baseline="central"
                     paint-order="stroke"
+                    x="12"
                     dx="0.5"
                     font-family="sans-serif"
                     font-size="12"
@@ -2288,13 +2279,19 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-43" fill="none" transform="matrix(1,0,0,1,150,50)">
+        <g
+          id="g-svg-43"
+          fill="none"
+          x="150"
+          y="50"
+          transform="matrix(1,0,0,1,0,0)"
+        >
           <g
             id="g-svg-44"
             fill="none"
-            transform="matrix(1,0,0,1,-9.980000,-20.428204)"
+            transform="matrix(1,0,0,1,140.020004,29.571796)"
           >
-            <g transform="matrix(1,0,0,1,-4,-13.500000)">
+            <g transform="matrix(1,0,0,1,0,0)">
               <path
                 id="g-svg-177"
                 fill="rgba(38,38,38,1)"
@@ -2302,7 +2299,7 @@
                 stroke-linecap="round"
                 stroke-width="1"
                 stroke="rgba(51,51,51,1)"
-                d="M 0,0 L 27.96,0 A 0 0 0 0 1 27.96 0 L 27.96,27 A 0 0 0 0 1 27.96 27 L 27.96,27 L 18.98,27 L 13.98,33.92820323027551 L 8.98,27 L 0,27 A 0 0 0 0 1 0 27 L 0,0 A 0 0 0 0 1 0 0 Z"
+                d="M -3.9999999999999964,-13.5 L 23.960000000000004,-13.5 A 0 0 0 0 1 23.960000000000004 -13.5 L 23.960000000000004,13.5 A 0 0 0 0 1 23.960000000000004 13.5 L 23.960000000000004,13.5 L 14.980000000000004,13.5 L 9.980000000000004,20.428203230275507 L 4.980000000000004,13.5 L -3.9999999999999964,13.5 A 0 0 0 0 1 -3.9999999999999964 13.5 L -3.9999999999999964,-13.5 A 0 0 0 0 1 -3.9999999999999964 -13.5 Z"
                 visibility="visible"
               />
             </g>
@@ -2335,13 +2332,19 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-46" fill="none" transform="matrix(1,0,0,1,150,80)">
+        <g
+          id="g-svg-46"
+          fill="none"
+          x="150"
+          y="80"
+          transform="matrix(1,0,0,1,0,0)"
+        >
           <g
             id="g-svg-47"
             fill="none"
-            transform="matrix(1,0,0,1,-18.620001,-20.428204)"
+            transform="matrix(1,0,0,1,131.380005,59.571796)"
           >
-            <g transform="matrix(1,0,0,1,-4,-13.500000)">
+            <g transform="matrix(1,0,0,1,0,0)">
               <path
                 id="g-svg-180"
                 fill="rgba(38,38,38,1)"
@@ -2349,7 +2352,7 @@
                 stroke-linecap="round"
                 stroke-width="1"
                 stroke="rgba(51,51,51,1)"
-                d="M 0,0 L 45.24000000000001,0 A 0 0 0 0 1 45.24000000000001 0 L 45.24000000000001,27 A 0 0 0 0 1 45.24000000000001 27 L 45.24000000000001,27 L 27.62,27 L 22.62,33.92820323027551 L 17.62,27 L 0,27 A 0 0 0 0 1 0 27 L 0,0 A 0 0 0 0 1 0 0 Z"
+                d="M -3.9999999999999964,-13.5 L 41.24000000000001,-13.5 A 0 0 0 0 1 41.24000000000001 -13.5 L 41.24000000000001,13.5 A 0 0 0 0 1 41.24000000000001 13.5 L 41.24000000000001,13.5 L 23.620000000000005,13.5 L 18.620000000000005,20.428203230275507 L 13.620000000000005,13.5 L -3.9999999999999964,13.5 A 0 0 0 0 1 -3.9999999999999964 13.5 L -3.9999999999999964,-13.5 A 0 0 0 0 1 -3.9999999999999964 -13.5 Z"
                 visibility="visible"
               />
             </g>
@@ -2382,13 +2385,19 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-49" fill="none" transform="matrix(1,0,0,1,150,110)">
+        <g
+          id="g-svg-49"
+          fill="none"
+          x="150"
+          y="110"
+          transform="matrix(1,0,0,1,0,0)"
+        >
           <g
             id="g-svg-50"
             fill="none"
-            transform="matrix(1,0,0,1,-18.620001,-20.428204)"
+            transform="matrix(1,0,0,1,131.380005,89.571800)"
           >
-            <g transform="matrix(1,0,0,1,-4,-13.500000)">
+            <g transform="matrix(1,0,0,1,0,0)">
               <path
                 id="g-svg-183"
                 fill="rgba(255,255,255,1)"
@@ -2396,7 +2405,7 @@
                 stroke-linecap="round"
                 stroke-width="1"
                 stroke="rgba(51,51,51,1)"
-                d="M 0,0 L 45.24000000000001,0 A 0 0 0 0 1 45.24000000000001 0 L 45.24000000000001,27 A 0 0 0 0 1 45.24000000000001 27 L 45.24000000000001,27 L 27.62,27 L 22.62,33.92820323027551 L 17.62,27 L 0,27 A 0 0 0 0 1 0 27 L 0,0 A 0 0 0 0 1 0 0 Z"
+                d="M -3.9999999999999964,-13.5 L 41.24000000000001,-13.5 A 0 0 0 0 1 41.24000000000001 -13.5 L 41.24000000000001,13.5 A 0 0 0 0 1 41.24000000000001 13.5 L 41.24000000000001,13.5 L 23.620000000000005,13.5 L 18.620000000000005,20.428203230275507 L 13.620000000000005,13.5 L -3.9999999999999964,13.5 A 0 0 0 0 1 -3.9999999999999964 13.5 L -3.9999999999999964,-13.5 A 0 0 0 0 1 -3.9999999999999964 -13.5 Z"
                 visibility="visible"
               />
             </g>
@@ -2429,13 +2438,19 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-52" fill="none" transform="matrix(1,0,0,1,150,140)">
+        <g
+          id="g-svg-52"
+          fill="none"
+          x="150"
+          y="140"
+          transform="matrix(1,0,0,1,0,0)"
+        >
           <g
             id="g-svg-53"
             fill="none"
-            transform="matrix(1,0,0,1,-13.940000,-20.428204)"
+            transform="matrix(1,0,0,1,136.059998,119.571800)"
           >
-            <g transform="matrix(1,0,0,1,-10,-13.500000)">
+            <g transform="matrix(1,0,0,1,0,0)">
               <path
                 id="g-svg-191"
                 fill="rgba(38,38,38,1)"
@@ -2443,7 +2458,7 @@
                 stroke-linecap="round"
                 stroke-width="1"
                 stroke="rgba(51,51,51,1)"
-                d="M 0,0 L 47.879999999999995,0 A 0 0 0 0 1 47.879999999999995 0 L 47.879999999999995,27 A 0 0 0 0 1 47.879999999999995 27 L 47.879999999999995,27 L 28.939999999999998,27 L 23.939999999999998,33.92820323027551 L 18.939999999999998,27 L 0,27 A 0 0 0 0 1 0 27 L 0,0 A 0 0 0 0 1 0 0 Z"
+                d="M -10,-13.5 L 37.879999999999995,-13.5 A 0 0 0 0 1 37.879999999999995 -13.5 L 37.879999999999995,13.5 A 0 0 0 0 1 37.879999999999995 13.5 L 37.879999999999995,13.5 L 18.939999999999998,13.5 L 13.939999999999998,20.428203230275507 L 8.939999999999998,13.5 L -10,13.5 A 0 0 0 0 1 -10 13.5 L -10,-13.5 A 0 0 0 0 1 -10 -13.5 Z"
                 visibility="visible"
               />
             </g>
@@ -2463,19 +2478,17 @@
                   <circle
                     id="g-svg-186"
                     fill="rgba(255,165,0,1)"
-                    transform="translate(-6,-6)"
-                    cx="6"
-                    cy="6"
                     r="6"
                     visibility="visible"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,12,0)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <text
                     id="g-svg-187"
                     fill="rgba(255,255,255,1)"
                     dominant-baseline="central"
                     paint-order="stroke"
+                    x="12"
                     dx="0.5"
                     font-family="sans-serif"
                     font-size="12"
@@ -2493,13 +2506,19 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-56" fill="none" transform="matrix(1,0,0,1,150,180)">
+        <g
+          id="g-svg-56"
+          fill="none"
+          x="150"
+          y="180"
+          transform="matrix(1,0,0,1,0,0)"
+        >
           <g
             id="g-svg-57"
             fill="none"
-            transform="matrix(1,0,0,1,-9.980000,20.428204)"
+            transform="matrix(1,0,0,1,140.020004,200.428207)"
           >
-            <g transform="matrix(1,0,0,1,-4,-20.428204)">
+            <g transform="matrix(1,0,0,1,0,0)">
               <path
                 id="g-svg-194"
                 fill="rgba(38,38,38,1)"
@@ -2507,7 +2526,7 @@
                 stroke-linecap="round"
                 stroke-width="1"
                 stroke="rgba(51,51,51,1)"
-                d="M 0,6.928203230275507 L 0,6.928203230275507 L 8.98,6.928203230275507 L 13.98,0 L 18.98,6.928203230275507 L 27.96,6.928203230275507 A 0 0 0 0 1 27.96 6.928203230275507 L 27.96,33.92820323027551 A 0 0 0 0 1 27.96 33.92820323027551 L 0,33.92820323027551 A 0 0 0 0 1 0 33.92820323027551 L 0,6.928203230275507 A 0 0 0 0 1 0 6.928203230275507 Z"
+                d="M -3.9999999999999964,-13.5 L -3.9999999999999964,-13.5 L 4.980000000000004,-13.5 L 9.980000000000004,-20.428203230275507 L 14.980000000000004,-13.5 L 23.960000000000004,-13.5 A 0 0 0 0 1 23.960000000000004 -13.5 L 23.960000000000004,13.5 A 0 0 0 0 1 23.960000000000004 13.5 L -3.9999999999999964,13.5 A 0 0 0 0 1 -3.9999999999999964 13.5 L -3.9999999999999964,-13.5 A 0 0 0 0 1 -3.9999999999999964 -13.5 Z"
                 visibility="visible"
               />
             </g>
@@ -2540,13 +2559,19 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-59" fill="none" transform="matrix(1,0,0,1,150,220)">
+        <g
+          id="g-svg-59"
+          fill="none"
+          x="150"
+          y="220"
+          transform="matrix(1,0,0,1,0,0)"
+        >
           <g
             id="g-svg-60"
             fill="none"
-            transform="matrix(1,0,0,1,-18.620001,20.428204)"
+            transform="matrix(1,0,0,1,131.380005,240.428207)"
           >
-            <g transform="matrix(1,0,0,1,-4,-20.428204)">
+            <g transform="matrix(1,0,0,1,0,0)">
               <path
                 id="g-svg-197"
                 fill="rgba(38,38,38,1)"
@@ -2554,7 +2579,7 @@
                 stroke-linecap="round"
                 stroke-width="1"
                 stroke="rgba(51,51,51,1)"
-                d="M 0,6.928203230275507 L 0,6.928203230275507 L 17.620000000000005,6.928203230275507 L 22.620000000000005,0 L 27.620000000000005,6.928203230275507 L 45.24000000000001,6.928203230275507 A 0 0 0 0 1 45.24000000000001 6.928203230275507 L 45.24000000000001,33.92820323027551 A 0 0 0 0 1 45.24000000000001 33.92820323027551 L 0,33.92820323027551 A 0 0 0 0 1 0 33.92820323027551 L 0,6.928203230275507 A 0 0 0 0 1 0 6.928203230275507 Z"
+                d="M -3.9999999999999964,-13.5 L -3.9999999999999964,-13.5 L 13.620000000000008,-13.5 L 18.620000000000008,-20.428203230275507 L 23.620000000000008,-13.5 L 41.24000000000001,-13.5 A 0 0 0 0 1 41.24000000000001 -13.5 L 41.24000000000001,13.5 A 0 0 0 0 1 41.24000000000001 13.5 L -3.9999999999999964,13.5 A 0 0 0 0 1 -3.9999999999999964 13.5 L -3.9999999999999964,-13.5 A 0 0 0 0 1 -3.9999999999999964 -13.5 Z"
                 visibility="visible"
               />
             </g>
@@ -2587,13 +2612,19 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-62" fill="none" transform="matrix(1,0,0,1,150,250)">
+        <g
+          id="g-svg-62"
+          fill="none"
+          x="150"
+          y="250"
+          transform="matrix(1,0,0,1,0,0)"
+        >
           <g
             id="g-svg-63"
             fill="none"
-            transform="matrix(1,0,0,1,-18.620001,20.428204)"
+            transform="matrix(1,0,0,1,131.380005,270.428192)"
           >
-            <g transform="matrix(1,0,0,1,-4,-20.428204)">
+            <g transform="matrix(1,0,0,1,0,0)">
               <path
                 id="g-svg-200"
                 fill="rgba(255,255,255,1)"
@@ -2601,7 +2632,7 @@
                 stroke-linecap="round"
                 stroke-width="1"
                 stroke="rgba(51,51,51,1)"
-                d="M 0,6.928203230275507 L 0,6.928203230275507 L 17.620000000000005,6.928203230275507 L 22.620000000000005,0 L 27.620000000000005,6.928203230275507 L 45.24000000000001,6.928203230275507 A 0 0 0 0 1 45.24000000000001 6.928203230275507 L 45.24000000000001,33.92820323027551 A 0 0 0 0 1 45.24000000000001 33.92820323027551 L 0,33.92820323027551 A 0 0 0 0 1 0 33.92820323027551 L 0,6.928203230275507 A 0 0 0 0 1 0 6.928203230275507 Z"
+                d="M -3.9999999999999964,-13.5 L -3.9999999999999964,-13.5 L 13.620000000000008,-13.5 L 18.620000000000008,-20.428203230275507 L 23.620000000000008,-13.5 L 41.24000000000001,-13.5 A 0 0 0 0 1 41.24000000000001 -13.5 L 41.24000000000001,13.5 A 0 0 0 0 1 41.24000000000001 13.5 L -3.9999999999999964,13.5 A 0 0 0 0 1 -3.9999999999999964 13.5 L -3.9999999999999964,-13.5 A 0 0 0 0 1 -3.9999999999999964 -13.5 Z"
                 visibility="visible"
               />
             </g>
@@ -2634,17 +2665,23 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-65" fill="none" transform="matrix(1,0,0,1,150,290)">
+        <g
+          id="g-svg-65"
+          fill="none"
+          x="150"
+          y="290"
+          transform="matrix(1,0,0,1,0,0)"
+        >
           <g
             id="g-svg-66"
             fill="none"
-            transform="matrix(1,0,0,1,-32.959999,20.428204)"
+            transform="matrix(1,0,0,1,117.040001,310.428192)"
           >
-            <g transform="matrix(1,0,0,1,-10,-20.428204)">
+            <g transform="matrix(1,0,0,1,0,0)">
               <path
                 id="g-svg-75"
                 fill="rgba(38,38,38,1)"
-                d="M 0,6.928203230275507 L 0,6.928203230275507 L 37.96000000000001,6.928203230275507 L 42.96000000000001,0 L 47.96000000000001,6.928203230275507 L 85.92000000000002,6.928203230275507 A 0 0 0 0 1 85.92000000000002 6.928203230275507 L 85.92000000000002,33.92820323027551 A 0 0 0 0 1 85.92000000000002 33.92820323027551 L 0,33.92820323027551 A 0 0 0 0 1 0 33.92820323027551 L 0,6.928203230275507 A 0 0 0 0 1 0 6.928203230275507 Z"
+                d="M -10.000007629394545,-13.5 L -10.000007629394545,-13.5 L 27.95999237060545,-13.5 L 32.95999237060545,-20.428203230275507 L 37.95999237060545,-13.5 L 75.91999237060544,-13.5 A 0 0 0 0 1 75.91999237060544 -13.5 L 75.91999237060544,13.5 A 0 0 0 0 1 75.91999237060544 13.5 L -10.000007629394545,13.5 A 0 0 0 0 1 -10.000007629394545 13.5 L -10.000007629394545,-13.5 A 0 0 0 0 1 -10.000007629394545 -13.5 Z"
                 class="indicator-background"
                 stroke-linecap="round"
                 stroke-width="1"
@@ -2668,19 +2705,17 @@
                   <circle
                     id="g-svg-70"
                     fill="rgba(255,165,0,1)"
-                    transform="translate(-6,-6)"
-                    cx="6"
-                    cy="6"
                     r="6"
                     visibility="visible"
                   />
                 </g>
-                <g transform="matrix(1,0,0,1,12,0)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <text
                     id="g-svg-71"
                     fill="rgba(255,0,0,1)"
                     dominant-baseline="central"
                     paint-order="stroke"
+                    x="12"
                     dx="0.5"
                     font-family="sans-serif"
                     font-size="12"
@@ -2698,13 +2733,19 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-76" fill="none" transform="matrix(1,0,0,1,250,100)">
+        <g
+          id="g-svg-76"
+          fill="none"
+          x="250"
+          y="100"
+          transform="matrix(1,0,0,1,0,0)"
+        >
           <g
             id="g-svg-77"
             fill="none"
-            transform="matrix(1,0,0,1,-9.980000,20.428204)"
+            transform="matrix(1,0,0,1,240.020004,120.428200)"
           >
-            <g transform="matrix(1,0,0,1,-4,-20.428204)">
+            <g transform="matrix(1,0,0,1,0,0)">
               <path
                 id="g-svg-206"
                 fill="rgba(38,38,38,1)"
@@ -2712,7 +2753,7 @@
                 stroke-linecap="round"
                 stroke-width="1"
                 stroke="rgba(51,51,51,1)"
-                d="M 0,6.928203230275507 L 0,6.928203230275507 L 8.98,6.928203230275507 L 13.98,0 L 18.98,6.928203230275507 L 27.96,6.928203230275507 A 0 0 0 0 1 27.96 6.928203230275507 L 27.96,33.92820323027551 A 0 0 0 0 1 27.96 33.92820323027551 L 0,33.92820323027551 A 0 0 0 0 1 0 33.92820323027551 L 0,6.928203230275507 A 0 0 0 0 1 0 6.928203230275507 Z"
+                d="M -3.9999999999999964,-13.5 L -3.9999999999999964,-13.5 L 4.980000000000004,-13.5 L 9.980000000000004,-20.428203230275507 L 14.980000000000004,-13.5 L 23.960000000000004,-13.5 A 0 0 0 0 1 23.960000000000004 -13.5 L 23.960000000000004,13.5 A 0 0 0 0 1 23.960000000000004 13.5 L -3.9999999999999964,13.5 A 0 0 0 0 1 -3.9999999999999964 13.5 L -3.9999999999999964,-13.5 A 0 0 0 0 1 -3.9999999999999964 -13.5 Z"
                 visibility="visible"
               />
             </g>

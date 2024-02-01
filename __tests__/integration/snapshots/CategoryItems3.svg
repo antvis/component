@@ -1,7 +1,7 @@
 <svg
   xmlns="http://www.w3.org/2000/svg"
-  width="155"
-  height="210"
+  width="400"
+  height="300"
   style="background: transparent;"
   color-interpolation-filters="sRGB"
 >
@@ -23,6 +23,8 @@
           <g
             id="g-svg-1"
             fill="none"
+            x="0"
+            y="0"
             transform="matrix(1,0,0,1,0,0)"
             class="items-navigator"
           >
@@ -50,6 +52,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,0,0)"
                     class="items-item"
+                    x="0"
+                    y="0"
                     width="100"
                     height="23"
                   >
@@ -77,11 +81,13 @@
                       transform="matrix(0.625000,0,0,0.625000,5,11.500000)"
                       class="legend-category-item-marker-group"
                     >
-                      <g transform="matrix(1,0,0,1,-8,-8)">
+                      <g transform="matrix(1,0,0,1,0,0)">
                         <path
                           id="g-svg-7"
                           fill="rgba(255,0,0,1)"
-                          d="M 0,0 l 16,0 l 0,16 l-16 0 z"
+                          d="M -8,-8 l 16,0 l 0,16 l-16 0 z"
+                          x="-8"
+                          y="-8"
                           width="16"
                           height="16"
                           class="legend-category-item-marker"
@@ -149,6 +155,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,0,33)"
                     class="items-item"
+                    x="0"
+                    y="33"
                     width="100"
                     height="23"
                   >
@@ -180,9 +188,8 @@
                         <circle
                           id="g-svg-16"
                           fill="rgba(0,128,0,1)"
-                          transform="translate(-8,-8)"
-                          cx="8"
-                          cy="8"
+                          cx="0"
+                          cy="0"
                           r="8"
                           class="legend-category-item-marker"
                           visibility="visible"
@@ -249,6 +256,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,0,66)"
                     class="items-item"
+                    x="0"
+                    y="66"
                     width="100"
                     height="23"
                   >
@@ -276,11 +285,13 @@
                       transform="matrix(0.625000,0,0,0.625000,5,11.500000)"
                       class="legend-category-item-marker-group"
                     >
-                      <g transform="matrix(1,0,0,1,-8,-8)">
+                      <g transform="matrix(1,0,0,1,0,0)">
                         <path
                           id="g-svg-25"
                           fill="rgba(255,0,0,1)"
-                          d="M 0,0 l 16,0 l 0,16 l-16 0 z"
+                          d="M -8,-8 l 16,0 l 0,16 l-16 0 z"
+                          x="-8"
+                          y="-8"
                           width="16"
                           height="16"
                           class="legend-category-item-marker"
@@ -348,6 +359,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,0,99)"
                     class="items-item"
+                    x="0"
+                    y="99"
                     width="100"
                     height="23"
                   >
@@ -379,9 +392,8 @@
                         <circle
                           id="g-svg-34"
                           fill="rgba(0,128,0,1)"
-                          transform="translate(-8,-8)"
-                          cx="8"
-                          cy="8"
+                          cx="0"
+                          cy="0"
                           r="8"
                           class="legend-category-item-marker"
                           visibility="visible"
@@ -448,6 +460,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,0,132)"
                     class="items-item"
+                    x="0"
+                    y="132"
                     width="100"
                     height="23"
                   >
@@ -475,11 +489,13 @@
                       transform="matrix(0.625000,0,0,0.625000,5,11.500000)"
                       class="legend-category-item-marker-group"
                     >
-                      <g transform="matrix(1,0,0,1,-8,-8)">
+                      <g transform="matrix(1,0,0,1,0,0)">
                         <path
                           id="g-svg-43"
                           fill="rgba(255,0,0,1)"
-                          d="M 0,0 l 16,0 l 0,16 l-16 0 z"
+                          d="M -8,-8 l 16,0 l 0,16 l-16 0 z"
+                          x="-8"
+                          y="-8"
                           width="16"
                           height="16"
                           class="legend-category-item-marker"
@@ -554,6 +570,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,0,0)"
                     class="items-item"
+                    x="0"
+                    y="0"
                     width="100"
                     height="23"
                   >
@@ -585,9 +603,8 @@
                         <circle
                           id="g-svg-52"
                           fill="rgba(0,128,0,1)"
-                          transform="translate(-8,-8)"
-                          cx="8"
-                          cy="8"
+                          cx="0"
+                          cy="0"
                           r="8"
                           class="legend-category-item-marker"
                           visibility="hidden"
@@ -654,6 +671,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,0,33)"
                     class="items-item"
+                    x="0"
+                    y="33"
                     width="100"
                     height="23"
                   >
@@ -681,11 +700,13 @@
                       transform="matrix(0.625000,0,0,0.625000,5,11.500000)"
                       class="legend-category-item-marker-group"
                     >
-                      <g transform="matrix(1,0,0,1,-8,-8)">
+                      <g transform="matrix(1,0,0,1,0,0)">
                         <path
                           id="g-svg-61"
                           fill="rgba(255,0,0,1)"
-                          d="M 0,0 l 16,0 l 0,16 l-16 0 z"
+                          d="M -8,-8 l 16,0 l 0,16 l-16 0 z"
+                          x="-8"
+                          y="-8"
                           width="16"
                           height="16"
                           class="legend-category-item-marker"
@@ -753,6 +774,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,0,66)"
                     class="items-item"
+                    x="0"
+                    y="66"
                     width="100"
                     height="23"
                   >
@@ -784,9 +807,8 @@
                         <circle
                           id="g-svg-70"
                           fill="rgba(0,128,0,1)"
-                          transform="translate(-8,-8)"
-                          cx="8"
-                          cy="8"
+                          cx="0"
+                          cy="0"
                           r="8"
                           class="legend-category-item-marker"
                           visibility="hidden"
@@ -853,6 +875,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,0,99)"
                     class="items-item"
+                    x="0"
+                    y="99"
                     width="100"
                     height="23"
                   >
@@ -880,11 +904,13 @@
                       transform="matrix(0.625000,0,0,0.625000,5,11.500000)"
                       class="legend-category-item-marker-group"
                     >
-                      <g transform="matrix(1,0,0,1,-8,-8)">
+                      <g transform="matrix(1,0,0,1,0,0)">
                         <path
                           id="g-svg-79"
                           fill="rgba(255,0,0,1)"
-                          d="M 0,0 l 16,0 l 0,16 l-16 0 z"
+                          d="M -8,-8 l 16,0 l 0,16 l-16 0 z"
+                          x="-8"
+                          y="-8"
                           width="16"
                           height="16"
                           class="legend-category-item-marker"
@@ -952,6 +978,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,0,132)"
                     class="items-item"
+                    x="0"
+                    y="132"
                     width="100"
                     height="23"
                   >
@@ -983,9 +1011,8 @@
                         <circle
                           id="g-svg-88"
                           fill="rgba(0,128,0,1)"
-                          transform="translate(-8,-8)"
-                          cx="8"
-                          cy="8"
+                          cx="0"
+                          cy="0"
                           r="8"
                           class="legend-category-item-marker"
                           visibility="hidden"
@@ -1059,6 +1086,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,0,0)"
                     class="items-item"
+                    x="0"
+                    y="0"
                     width="100"
                     height="23"
                   >
@@ -1086,11 +1115,13 @@
                       transform="matrix(0.625000,0,0,0.625000,5,11.500000)"
                       class="legend-category-item-marker-group"
                     >
-                      <g transform="matrix(1,0,0,1,-8,-8)">
+                      <g transform="matrix(1,0,0,1,0,0)">
                         <path
                           id="g-svg-97"
                           fill="rgba(255,0,0,1)"
-                          d="M 0,0 l 16,0 l 0,16 l-16 0 z"
+                          d="M -8,-8 l 16,0 l 0,16 l-16 0 z"
+                          x="-8"
+                          y="-8"
                           width="16"
                           height="16"
                           class="legend-category-item-marker"
@@ -1158,6 +1189,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,0,33)"
                     class="items-item"
+                    x="0"
+                    y="33"
                     width="100"
                     height="23"
                   >
@@ -1189,9 +1222,8 @@
                         <circle
                           id="g-svg-106"
                           fill="rgba(0,128,0,1)"
-                          transform="translate(-8,-8)"
-                          cx="8"
-                          cy="8"
+                          cx="0"
+                          cy="0"
                           r="8"
                           class="legend-category-item-marker"
                           visibility="hidden"
@@ -1258,6 +1290,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,0,66)"
                     class="items-item"
+                    x="0"
+                    y="66"
                     width="100"
                     height="23"
                   >
@@ -1285,11 +1319,13 @@
                       transform="matrix(0.625000,0,0,0.625000,5,11.500000)"
                       class="legend-category-item-marker-group"
                     >
-                      <g transform="matrix(1,0,0,1,-8,-8)">
+                      <g transform="matrix(1,0,0,1,0,0)">
                         <path
                           id="g-svg-115"
                           fill="rgba(255,0,0,1)"
-                          d="M 0,0 l 16,0 l 0,16 l-16 0 z"
+                          d="M -8,-8 l 16,0 l 0,16 l-16 0 z"
+                          x="-8"
+                          y="-8"
                           width="16"
                           height="16"
                           class="legend-category-item-marker"
@@ -1357,6 +1393,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,0,99)"
                     class="items-item"
+                    x="0"
+                    y="99"
                     width="100"
                     height="23"
                   >
@@ -1388,9 +1426,8 @@
                         <circle
                           id="g-svg-124"
                           fill="rgba(0,128,0,1)"
-                          transform="translate(-8,-8)"
-                          cx="8"
-                          cy="8"
+                          cx="0"
+                          cy="0"
                           r="8"
                           class="legend-category-item-marker"
                           visibility="hidden"
@@ -1457,6 +1494,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,0,132)"
                     class="items-item"
+                    x="0"
+                    y="132"
                     width="100"
                     height="23"
                   >
@@ -1484,11 +1523,13 @@
                       transform="matrix(0.625000,0,0,0.625000,5,11.500000)"
                       class="legend-category-item-marker-group"
                     >
-                      <g transform="matrix(1,0,0,1,-8,-8)">
+                      <g transform="matrix(1,0,0,1,0,0)">
                         <path
                           id="g-svg-133"
                           fill="rgba(255,0,0,1)"
-                          d="M 0,0 l 16,0 l 0,16 l-16 0 z"
+                          d="M -8,-8 l 16,0 l 0,16 l-16 0 z"
+                          x="-8"
+                          y="-8"
                           width="16"
                           height="16"
                           class="legend-category-item-marker"
@@ -1563,6 +1604,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,0,0)"
                     class="items-item"
+                    x="0"
+                    y="0"
                     width="100"
                     height="23"
                   >
@@ -1594,9 +1637,8 @@
                         <circle
                           id="g-svg-142"
                           fill="rgba(0,128,0,1)"
-                          transform="translate(-8,-8)"
-                          cx="8"
-                          cy="8"
+                          cx="0"
+                          cy="0"
                           r="8"
                           class="legend-category-item-marker"
                           visibility="hidden"
@@ -1663,6 +1705,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,0,33)"
                     class="items-item"
+                    x="0"
+                    y="33"
                     width="100"
                     height="23"
                   >
@@ -1690,11 +1734,13 @@
                       transform="matrix(0.625000,0,0,0.625000,5,11.500000)"
                       class="legend-category-item-marker-group"
                     >
-                      <g transform="matrix(1,0,0,1,-8,-8)">
+                      <g transform="matrix(1,0,0,1,0,0)">
                         <path
                           id="g-svg-151"
                           fill="rgba(255,0,0,1)"
-                          d="M 0,0 l 16,0 l 0,16 l-16 0 z"
+                          d="M -8,-8 l 16,0 l 0,16 l-16 0 z"
+                          x="-8"
+                          y="-8"
                           width="16"
                           height="16"
                           class="legend-category-item-marker"
@@ -1762,6 +1808,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,0,66)"
                     class="items-item"
+                    x="0"
+                    y="66"
                     width="100"
                     height="23"
                   >
@@ -1793,9 +1841,8 @@
                         <circle
                           id="g-svg-160"
                           fill="rgba(0,128,0,1)"
-                          transform="translate(-8,-8)"
-                          cx="8"
-                          cy="8"
+                          cx="0"
+                          cy="0"
                           r="8"
                           class="legend-category-item-marker"
                           visibility="hidden"
@@ -1862,6 +1909,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,0,99)"
                     class="items-item"
+                    x="0"
+                    y="99"
                     width="100"
                     height="23"
                   >
@@ -1889,11 +1938,13 @@
                       transform="matrix(0.625000,0,0,0.625000,5,11.500000)"
                       class="legend-category-item-marker-group"
                     >
-                      <g transform="matrix(1,0,0,1,-8,-8)">
+                      <g transform="matrix(1,0,0,1,0,0)">
                         <path
                           id="g-svg-169"
                           fill="rgba(255,0,0,1)"
-                          d="M 0,0 l 16,0 l 0,16 l-16 0 z"
+                          d="M -8,-8 l 16,0 l 0,16 l-16 0 z"
+                          x="-8"
+                          y="-8"
                           width="16"
                           height="16"
                           class="legend-category-item-marker"
@@ -1961,6 +2012,8 @@
                     fill="none"
                     transform="matrix(1,0,0,1,0,132)"
                     class="items-item"
+                    x="0"
+                    y="132"
                     width="100"
                     height="23"
                   >
@@ -1992,9 +2045,8 @@
                         <circle
                           id="g-svg-178"
                           fill="rgba(0,128,0,1)"
-                          transform="translate(-8,-8)"
-                          cx="8"
-                          cy="8"
+                          cx="0"
+                          cy="0"
                           r="8"
                           class="legend-category-item-marker"
                           visibility="hidden"
@@ -2071,12 +2123,12 @@
                 transform="matrix(0,-1,1,0,9.260000,-17)"
                 class="navigator-prev-btn-group"
               >
-                <g transform="matrix(1,0,0,1,-6,-6)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-231"
                     fill="rgba(0,0,0,1)"
                     class="navigator-prev-btn"
-                    d="M 0,0 L 12,6 L 0,12 Z"
+                    d="M -6,-6 L 6,0 L -6,6 Z"
                     visibility="visible"
                   />
                 </g>
@@ -2087,12 +2139,12 @@
                 transform="matrix(0,1,-1,0,9.260000,17)"
                 class="navigator-next-btn-group"
               >
-                <g transform="matrix(1,0,0,1,-6,-6)">
+                <g transform="matrix(1,0,0,1,0,0)">
                   <path
                     id="g-svg-233"
                     fill="rgba(0,0,0,1)"
                     class="navigator-next-btn"
-                    d="M 0,0 L 12,6 L 0,12 Z"
+                    d="M -6,-6 L 6,0 L -6,6 Z"
                     visibility="visible"
                   />
                 </g>

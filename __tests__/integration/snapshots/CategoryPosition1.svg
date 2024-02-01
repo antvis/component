@@ -1,7 +1,7 @@
 <svg
   xmlns="http://www.w3.org/2000/svg"
-  width="455"
-  height="50"
+  width="400"
+  height="300"
   style="background: transparent;"
   color-interpolation-filters="sRGB"
 >
@@ -47,6 +47,8 @@
                     font-weight="bold"
                     font-size="12"
                     font-family="sans-serif"
+                    x="0"
+                    y="0"
                     text-anchor="left"
                   >
                     Legend Title
@@ -59,18 +61,24 @@
               fill="none"
               transform="matrix(1,0,0,1,0,27)"
               class="legend-items-group"
+              x="0"
+              y="27"
             >
               <g
                 id="g-svg-5"
                 fill="none"
                 width="455"
                 height="23"
+                x="0"
+                y="0"
                 transform="matrix(1,0,0,1,0,0)"
                 class="legend-items"
               >
                 <g
                   id="g-svg-6"
                   fill="none"
+                  x="0"
+                  y="0"
                   transform="matrix(1,0,0,1,0,0)"
                   class="items-navigator"
                 >
@@ -98,6 +106,8 @@
                           fill="none"
                           transform="matrix(1,0,0,1,0,0)"
                           class="items-item"
+                          x="0"
+                          y="0"
                           width="100"
                           height="23"
                         >
@@ -129,9 +139,6 @@
                               <circle
                                 id="g-svg-12"
                                 fill="rgba(87,129,240,1)"
-                                transform="translate(-6,-6)"
-                                cx="6"
-                                cy="6"
                                 r="6"
                                 class="legend-category-item-marker"
                                 visibility="visible"
@@ -198,6 +205,8 @@
                           fill="none"
                           transform="matrix(1,0,0,1,100,0)"
                           class="items-item"
+                          x="100"
+                          y="0"
                           width="100"
                           height="23"
                         >
@@ -229,9 +238,6 @@
                               <circle
                                 id="g-svg-21"
                                 fill="rgba(112,210,160,1)"
-                                transform="translate(-6,-6)"
-                                cx="6"
-                                cy="6"
                                 r="6"
                                 class="legend-category-item-marker"
                                 visibility="visible"
@@ -298,6 +304,8 @@
                           fill="none"
                           transform="matrix(1,0,0,1,200,0)"
                           class="items-item"
+                          x="200"
+                          y="0"
                           width="100"
                           height="23"
                         >
@@ -329,9 +337,6 @@
                               <circle
                                 id="g-svg-30"
                                 fill="rgba(85,100,132,1)"
-                                transform="translate(-6,-6)"
-                                cx="6"
-                                cy="6"
                                 r="6"
                                 class="legend-category-item-marker"
                                 visibility="visible"
@@ -398,6 +403,8 @@
                           fill="none"
                           transform="matrix(1,0,0,1,300,0)"
                           class="items-item"
+                          x="300"
+                          y="0"
                           width="100"
                           height="23"
                         >
@@ -429,9 +436,6 @@
                               <circle
                                 id="g-svg-39"
                                 fill="rgba(239,183,69,1)"
-                                transform="translate(-6,-6)"
-                                cx="6"
-                                cy="6"
                                 r="6"
                                 class="legend-category-item-marker"
                                 visibility="visible"
@@ -505,6 +509,8 @@
                           fill="none"
                           transform="matrix(1,0,0,1,0,0)"
                           class="items-item"
+                          x="0"
+                          y="0"
                           width="100"
                           height="23"
                         >
@@ -536,9 +542,6 @@
                               <circle
                                 id="g-svg-48"
                                 fill="rgba(95,79,238,1)"
-                                transform="translate(-6,-6)"
-                                cx="6"
-                                cy="6"
                                 r="6"
                                 class="legend-category-item-marker"
                                 visibility="hidden"
@@ -605,6 +608,8 @@
                           fill="none"
                           transform="matrix(1,0,0,1,100,0)"
                           class="items-item"
+                          x="100"
+                          y="0"
                           width="100"
                           height="23"
                         >
@@ -636,9 +641,6 @@
                               <circle
                                 id="g-svg-57"
                                 fill="rgba(87,129,240,1)"
-                                transform="translate(-6,-6)"
-                                cx="6"
-                                cy="6"
                                 r="6"
                                 class="legend-category-item-marker"
                                 visibility="hidden"
@@ -705,6 +707,8 @@
                           fill="none"
                           transform="matrix(1,0,0,1,200,0)"
                           class="items-item"
+                          x="200"
+                          y="0"
                           width="100"
                           height="23"
                         >
@@ -736,9 +740,6 @@
                               <circle
                                 id="g-svg-66"
                                 fill="rgba(112,210,160,1)"
-                                transform="translate(-6,-6)"
-                                cx="6"
-                                cy="6"
                                 r="6"
                                 class="legend-category-item-marker"
                                 visibility="hidden"
@@ -805,6 +806,8 @@
                           fill="none"
                           transform="matrix(1,0,0,1,300,0)"
                           class="items-item"
+                          x="300"
+                          y="0"
                           width="100"
                           height="23"
                         >
@@ -836,9 +839,6 @@
                               <circle
                                 id="g-svg-75"
                                 fill="rgba(85,100,132,1)"
-                                transform="translate(-6,-6)"
-                                cx="6"
-                                cy="6"
                                 r="6"
                                 class="legend-category-item-marker"
                                 visibility="hidden"
@@ -912,6 +912,8 @@
                           fill="none"
                           transform="matrix(1,0,0,1,0,0)"
                           class="items-item"
+                          x="0"
+                          y="0"
                           width="100"
                           height="23"
                         >
@@ -943,9 +945,6 @@
                               <circle
                                 id="g-svg-84"
                                 fill="rgba(239,183,69,1)"
-                                transform="translate(-6,-6)"
-                                cx="6"
-                                cy="6"
                                 r="6"
                                 class="legend-category-item-marker"
                                 visibility="hidden"
@@ -1012,6 +1011,8 @@
                           fill="none"
                           transform="matrix(1,0,0,1,100,0)"
                           class="items-item"
+                          x="100"
+                          y="0"
                           width="100"
                           height="23"
                         >
@@ -1043,9 +1044,6 @@
                               <circle
                                 id="g-svg-93"
                                 fill="rgba(95,79,238,1)"
-                                transform="translate(-6,-6)"
-                                cx="6"
-                                cy="6"
                                 r="6"
                                 class="legend-category-item-marker"
                                 visibility="hidden"
@@ -1112,6 +1110,8 @@
                           fill="none"
                           transform="matrix(1,0,0,1,200,0)"
                           class="items-item"
+                          x="200"
+                          y="0"
                           width="100"
                           height="23"
                         >
@@ -1143,9 +1143,6 @@
                               <circle
                                 id="g-svg-102"
                                 fill="rgba(87,129,240,1)"
-                                transform="translate(-6,-6)"
-                                cx="6"
-                                cy="6"
                                 r="6"
                                 class="legend-category-item-marker"
                                 visibility="hidden"
@@ -1212,6 +1209,8 @@
                           fill="none"
                           transform="matrix(1,0,0,1,300,0)"
                           class="items-item"
+                          x="300"
+                          y="0"
                           width="100"
                           height="23"
                         >
@@ -1243,9 +1242,6 @@
                               <circle
                                 id="g-svg-111"
                                 fill="rgba(112,210,160,1)"
-                                transform="translate(-6,-6)"
-                                cx="6"
-                                cy="6"
                                 r="6"
                                 class="legend-category-item-marker"
                                 visibility="hidden"
@@ -1319,6 +1315,8 @@
                           fill="none"
                           transform="matrix(1,0,0,1,0,0)"
                           class="items-item"
+                          x="0"
+                          y="0"
                           width="100"
                           height="23"
                         >
@@ -1350,9 +1348,6 @@
                               <circle
                                 id="g-svg-120"
                                 fill="rgba(85,100,132,1)"
-                                transform="translate(-6,-6)"
-                                cx="6"
-                                cy="6"
                                 r="6"
                                 class="legend-category-item-marker"
                                 visibility="hidden"
@@ -1419,6 +1414,8 @@
                           fill="none"
                           transform="matrix(1,0,0,1,100,0)"
                           class="items-item"
+                          x="100"
+                          y="0"
                           width="100"
                           height="23"
                         >
@@ -1450,9 +1447,6 @@
                               <circle
                                 id="g-svg-129"
                                 fill="rgba(239,183,69,1)"
-                                transform="translate(-6,-6)"
-                                cx="6"
-                                cy="6"
                                 r="6"
                                 class="legend-category-item-marker"
                                 visibility="hidden"
@@ -1519,6 +1513,8 @@
                           fill="none"
                           transform="matrix(1,0,0,1,200,0)"
                           class="items-item"
+                          x="200"
+                          y="0"
                           width="100"
                           height="23"
                         >
@@ -1550,9 +1546,6 @@
                               <circle
                                 id="g-svg-138"
                                 fill="rgba(95,79,238,1)"
-                                transform="translate(-6,-6)"
-                                cx="6"
-                                cy="6"
                                 r="6"
                                 class="legend-category-item-marker"
                                 visibility="hidden"
@@ -1619,6 +1612,8 @@
                           fill="none"
                           transform="matrix(1,0,0,1,300,0)"
                           class="items-item"
+                          x="300"
+                          y="0"
                           width="100"
                           height="23"
                         >
@@ -1650,9 +1645,6 @@
                               <circle
                                 id="g-svg-147"
                                 fill="rgba(87,129,240,1)"
-                                transform="translate(-6,-6)"
-                                cx="6"
-                                cy="6"
                                 r="6"
                                 class="legend-category-item-marker"
                                 visibility="hidden"
@@ -1726,6 +1718,8 @@
                           fill="none"
                           transform="matrix(1,0,0,1,0,0)"
                           class="items-item"
+                          x="0"
+                          y="0"
                           width="100"
                           height="23"
                         >
@@ -1757,9 +1751,6 @@
                               <circle
                                 id="g-svg-156"
                                 fill="rgba(112,210,160,1)"
-                                transform="translate(-6,-6)"
-                                cx="6"
-                                cy="6"
                                 r="6"
                                 class="legend-category-item-marker"
                                 visibility="hidden"
@@ -1826,6 +1817,8 @@
                           fill="none"
                           transform="matrix(1,0,0,1,100,0)"
                           class="items-item"
+                          x="100"
+                          y="0"
                           width="100"
                           height="23"
                         >
@@ -1857,9 +1850,6 @@
                               <circle
                                 id="g-svg-165"
                                 fill="rgba(85,100,132,1)"
-                                transform="translate(-6,-6)"
-                                cx="6"
-                                cy="6"
                                 r="6"
                                 class="legend-category-item-marker"
                                 visibility="hidden"
@@ -1926,6 +1916,8 @@
                           fill="none"
                           transform="matrix(1,0,0,1,200,0)"
                           class="items-item"
+                          x="200"
+                          y="0"
                           width="100"
                           height="23"
                         >
@@ -1957,9 +1949,6 @@
                               <circle
                                 id="g-svg-174"
                                 fill="rgba(239,183,69,1)"
-                                transform="translate(-6,-6)"
-                                cx="6"
-                                cy="6"
                                 r="6"
                                 class="legend-category-item-marker"
                                 visibility="hidden"
@@ -2026,6 +2015,8 @@
                           fill="none"
                           transform="matrix(1,0,0,1,300,0)"
                           class="items-item"
+                          x="300"
+                          y="0"
                           width="100"
                           height="23"
                         >
@@ -2057,9 +2048,6 @@
                               <circle
                                 id="g-svg-183"
                                 fill="rgba(95,79,238,1)"
-                                transform="translate(-6,-6)"
-                                cx="6"
-                                cy="6"
                                 r="6"
                                 class="legend-category-item-marker"
                                 visibility="hidden"
@@ -2136,12 +2124,12 @@
                       transform="matrix(-1,-0,0,-1,0,0)"
                       class="navigator-prev-btn-group"
                     >
-                      <g transform="matrix(1,0,0,1,-6,-6)">
+                      <g transform="matrix(1,0,0,1,0,0)">
                         <path
                           id="g-svg-237"
                           fill="rgba(0,0,0,1)"
                           class="navigator-prev-btn"
-                          d="M 0,0 L 12,6 L 0,12 Z"
+                          d="M -6,-6 L 6,0 L -6,6 Z"
                           visibility="visible"
                         />
                       </g>
@@ -2152,12 +2140,12 @@
                       transform="matrix(1,0,0,1,40.160000,0)"
                       class="navigator-next-btn-group"
                     >
-                      <g transform="matrix(1,0,0,1,-6,-6)">
+                      <g transform="matrix(1,0,0,1,0,0)">
                         <path
                           id="g-svg-239"
                           fill="rgba(0,0,0,1)"
                           class="navigator-next-btn"
-                          d="M 0,0 L 12,6 L 0,12 Z"
+                          d="M -6,-6 L 6,0 L -6,6 Z"
                           visibility="visible"
                         />
                       </g>
