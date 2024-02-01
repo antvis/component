@@ -98,7 +98,6 @@ export class Button extends Component<ButtonStyleProps> {
     const { text = '', padding = 0, markerSymbol, markerSpacing = 0, x = 0, y = 0 } = attributes;
     container.attr({
       cursor: this.state === 'disabled' ? 'not-allowed' : 'pointer',
-      transform: `translate(${x}, ${y})`,
     });
     const [pt, pr, pb, pl] = parseSeriesAttr(padding);
     const height = this.buttonHeight;
@@ -109,8 +108,8 @@ export class Button extends Component<ButtonStyleProps> {
     const style = {
       ...markerStyle,
       symbol: markerSymbol,
-      x: pl + markerSize / 2,
-      y: height / 2,
+      x: x + pl + markerSize / 2,
+      y: y + height / 2,
       size: markerSize,
     };
     const markerShape = maybeAppend(container, '.marker', () => new Marker({ className: 'marker', style }))
@@ -123,8 +122,8 @@ export class Button extends Component<ButtonStyleProps> {
     this.textShape = maybeAppend(container, '.text', 'text')
       .attr('className', 'text')
       .styles({
-        x: markerSize ? bounds.max[0] + markerSpacing : pl,
-        y: height / 2,
+        x: x + (markerSize ? bounds.max[0] + markerSpacing : pl),
+        y: y + height / 2,
         ...textStyle,
         text,
         textAlign: 'left',
@@ -144,8 +143,8 @@ export class Button extends Component<ButtonStyleProps> {
       .styles({
         zIndex: -1,
         ...buttonStyle,
-        x: 0,
-        y: 0,
+        x,
+        y,
         height,
         width: pl + (markerSize ? markerSize + markerSpacing : 0) + textBounds.halfExtents[0] * 2 + pr,
       });

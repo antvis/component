@@ -18,6 +18,8 @@ type States = Pick<TimebarStyleProps, 'speed' | 'selectionType' | 'chartType' | 
 export class Timebar extends Component<TimebarStyleProps> {
   static defaultOptions: TimebarOptions = {
     style: {
+      x: 0,
+      y: 0,
       axisLabelFill: '#6e6e6e',
       axisLabelTextAlign: 'left',
       axisLabelTextBaseline: 'top',
@@ -75,10 +77,10 @@ export class Timebar extends Component<TimebarStyleProps> {
 
   /** 计算空间分配 */
   private get space() {
-    const { width, height, type, controllerHeight } = this.attributes;
+    const { x, y, width, height, type, controllerHeight } = this.attributes;
 
     const availableTimelineHeight = clamp(+height - controllerHeight, 0, +height);
-    const controllerBBox = new BBox(0, +height - controllerHeight, +width, controllerHeight);
+    const controllerBBox = new BBox(x, y + +height - controllerHeight, +width, controllerHeight);
 
     // chart 模式下可用
     let axisBBox: BBox;
@@ -86,13 +88,13 @@ export class Timebar extends Component<TimebarStyleProps> {
     if (type === 'chart') {
       // axis 默认分配高度为 35
       axisHeight = 35;
-      axisBBox = new BBox(0, availableTimelineHeight - axisHeight, +width, axisHeight);
+      axisBBox = new BBox(x, y + availableTimelineHeight - axisHeight, +width, axisHeight);
     } else axisBBox = new BBox();
 
     const timelineHeight = type === 'time' ? 10 : availableTimelineHeight;
     const timelineBBox = new BBox(
-      0,
-      type === 'time' ? availableTimelineHeight : availableTimelineHeight - timelineHeight,
+      x,
+      y + (type === 'time' ? availableTimelineHeight : availableTimelineHeight - timelineHeight),
       +width,
       timelineHeight - axisHeight
     );
@@ -292,11 +294,9 @@ export class Timebar extends Component<TimebarStyleProps> {
     const userDefinedControllerStyle = subStyleProps(this.attributes, 'controller');
 
     const that = this;
-    const { x, y } = bbox;
 
     const style: ControllerStyleProps = {
       ...bbox,
-      transform: `translate(${x}, ${y})`,
       iconSize: 20,
       speed,
       state,
@@ -537,8 +537,6 @@ export class Timebar extends Component<TimebarStyleProps> {
 
   render() {
     const { axisBBox, controllerBBox, timelineBBox } = this.space;
-    const { x = 0, y = 0 } = this.attributes;
-    this.attr('transform', `translate(${x}, ${y})`);
     this.renderController(controllerBBox);
     this.renderAxis(axisBBox);
     this.renderChart(timelineBBox);

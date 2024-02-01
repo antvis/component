@@ -24,7 +24,7 @@ export const AxisLinearBasis5 = () => {
         lineExtension: [10, 10],
         tickLength: 10,
         labelSpacing: 5,
-        labelTransform: 'rotate(90)',
+        labelTransform: 'rotate(45)',
         type: 'linear',
         tickLineWidth: 5,
       },

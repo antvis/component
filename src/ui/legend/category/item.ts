@@ -200,8 +200,6 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
       this.markerGroup.node().scale(1 / this.markerGroup.node().getScale()[0]);
       const scale = scaleToPixel(this.markerGroup.node(), this.scaleSize, true);
       this.markerGroup.node().style._transform = `scale(${scale})`;
-
-      // console.log('scale...');
     });
   }
 
@@ -253,14 +251,12 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
 
   public render(attributes: CategoryItemStyleProps, container: Group) {
     const ctn = select(container);
-    const { x, y } = attributes;
+    const { x = 0, y = 0 } = attributes;
     ctn.styles({ transform: `translate(${x}, ${y})` });
     this.renderMarker(ctn);
     this.renderLabel(ctn);
     this.renderValue(ctn);
     this.renderBackground(ctn);
     this.adjustLayout();
-
-    console.log(this, this.getBBox());
   }
 }

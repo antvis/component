@@ -35,7 +35,7 @@ export const BugAxisTitlePosition = () => {
         titleSpacing: 10,
         titleTextBaseline: 'middle',
         titleTransformOrigin: 'center',
-        titleTransform: 'translate(50%, 0) rotate(-90)',
+        titleTransform: 'rotate(-90)',
         labelAlign: 'horizontal',
         labelSpacing: 4,
         labelDirection: 'positive',

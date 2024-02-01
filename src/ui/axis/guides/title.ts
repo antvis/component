@@ -32,7 +32,10 @@ function getTitlePosition(
     halfExtents: [mainHalfWidth, mainHalfHeight],
   } = mainGroup.node().getLocalBounds();
 
-  const [titleHalfWidth, titleHalfHeight] = titleGroup.node().getLocalBounds().halfExtents;
+  const {
+    min: [titleX, titleY],
+    halfExtents: [titleHalfWidth, titleHalfHeight],
+  } = titleGroup.node().getLocalBounds();
 
   let [x, y] = [mainX + mainHalfWidth, mainY + mainHalfHeight];
 
@@ -48,8 +51,8 @@ function getTitlePosition(
   }
 
   if (pos.includes('t')) y -= mainHalfHeight + titleHalfHeight + spacingTop;
-  if (pos.includes('r')) x += mainHalfWidth + titleHalfWidth + spacingRight;
-  if (pos.includes('l')) x -= mainHalfWidth + titleHalfWidth * 2 + spacingLeft;
+  if (pos.includes('r')) x += mainHalfWidth + spacingRight;
+  if (pos.includes('l')) x -= mainHalfWidth + spacingLeft;
   if (pos.includes('b')) y += mainHalfHeight + titleHalfHeight * 2 + spacingBottom;
 
   return { x, y };
@@ -57,9 +60,8 @@ function getTitlePosition(
 
 function inferTransform(n: DisplayObject, direction: string, position: string): string {
   const node = n.cloneNode(true);
-  node.style.transform = 'scale(1, 1)';
-  node.style.transform = 'none';
   const { height } = node.getBBox();
+
   if (direction === 'vertical') {
     if (position === 'left') return `rotate(-90) translate(0, ${height / 2})`;
     if (position === 'right') return `rotate(-90) translate(0, -${height / 2})`;
@@ -77,10 +79,10 @@ function applyTitleStyle(
   const style = subStyleProps(attr, 'title');
   const [titleStyle, { transform: specified, transformOrigin, ...groupStyle }] = splitStyle(style);
 
-  title.styles({ ...titleStyle, transformOrigin });
   group.styles(groupStyle);
 
   const transform = specified || inferTransform(title.node(), titleStyle.direction, titleStyle.position);
+  title.styles({ ...titleStyle, transformOrigin });
   percentTransform(title.node(), transform);
 
   const { x, y } = getTitlePosition(

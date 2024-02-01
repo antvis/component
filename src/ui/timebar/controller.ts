@@ -19,6 +19,8 @@ const componentsMap: Record<Functions | 'split', { new (...args: any): DisplayOb
 export class Controller extends Component<ControllerStyleProps> {
   static defaultOptions: ControllerOptions = {
     style: {
+      x: 0,
+      y: 0,
       width: 300,
       height: 40,
       padding: 0,
@@ -50,13 +52,13 @@ export class Controller extends Component<ControllerStyleProps> {
   }
 
   private renderBackground() {
-    const { width, height } = this.style;
+    const { x, y, width, height } = this.style;
     const backgroundStyle = subStyleProps(this.attributes, 'background');
-    this.background.attr({ width, height, ...backgroundStyle });
+    this.background.attr({ x, y, width, height, ...backgroundStyle });
   }
 
   private renderFunctions() {
-    const { functions, iconSize, iconSpacing, width, height, align } = this.attributes;
+    const { functions, iconSize, iconSpacing, x, y, width, height, align } = this.attributes;
 
     const {
       padding: [, right, , left],
@@ -85,8 +87,8 @@ export class Controller extends Component<ControllerStyleProps> {
     components.forEach((name, index) => {
       const Ctor = componentsMap[name];
       const style: Record<string, any> = {
-        x: index * (iconSize + iconSpacing) + xOffset,
-        y: height / 2,
+        x: x + index * (iconSize + iconSpacing) + xOffset,
+        y: y + height / 2,
         size: iconSize,
       };
 
@@ -105,11 +107,9 @@ export class Controller extends Component<ControllerStyleProps> {
 
       if (Ctor === SpeedSelect) {
         // SpeedSelect 直接插入到 canvas
-        const { x: baseX, y: baseY } = this.getBBox();
-        const { x = 0, y = 0, ...rest } = style;
         const canvas = this.ownerDocument?.defaultView;
         if (canvas) {
-          this.speedSelect = new Ctor({ style: { ...rest, zIndex: 100, x: baseX + x, y: baseY + y } }) as SpeedSelect;
+          this.speedSelect = new Ctor({ style: { ...style, zIndex: 100 } }) as SpeedSelect;
           (canvas as unknown as Canvas).appendChild(this.speedSelect);
         }
       } else {
@@ -128,8 +128,6 @@ export class Controller extends Component<ControllerStyleProps> {
   }
 
   render() {
-    const { x = 0, y = 0 } = this.attributes;
-    this.attr('transform', `translate(${x}, ${y})`);
     this.renderBackground();
     this.renderFunctions();
   }

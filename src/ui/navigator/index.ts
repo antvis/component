@@ -41,6 +41,8 @@ const CLASS_NAMES = classNames(
 export class Navigator extends Component<NavigatorStyleProps> {
   constructor(options: NavigatorOptions) {
     super(options, {
+      x: 0,
+      y: 0,
       animate: {
         easing: 'linear',
         duration: 200,

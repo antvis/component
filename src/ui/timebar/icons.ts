@@ -66,10 +66,10 @@ export abstract class IconBase<T extends Record<string, any> = {}> extends Compo
   }
 
   protected renderBackground() {
-    const { size } = this.attributes;
+    const { x, y, size } = this.attributes;
     const halfSize = size / 2;
     const backgroundStyle = subStyleProps(this.attributes, 'background');
-    this.background.attr({ x: -halfSize, y: -halfSize, width: size, height: size, ...backgroundStyle });
+    this.background.attr({ x: x - halfSize, y: y - halfSize, width: size, height: size, ...backgroundStyle });
   }
 
   protected showIndicator() {
@@ -122,9 +122,6 @@ export abstract class IconBase<T extends Record<string, any> = {}> extends Compo
   }
 
   render() {
-    const { x = 0, y = 0 } = this.attributes;
-    // @ts-ignore
-    this.attr('transform', `translate(${x}, ${y})`);
     this.renderIcon();
     if (this.showBackground) this.renderBackground();
   }
@@ -185,7 +182,7 @@ export class Reset extends IconBase {
   }
 
   renderIcon() {
-    const { color } = this.attributes;
+    const { x, y, color } = this.attributes;
     const size = this.iconSize;
     const { lineWidth } = this;
     const arrowSize = lineWidth + 0.5;
@@ -195,7 +192,7 @@ export class Reset extends IconBase {
       .styles({
         stroke: color,
         lineWidth,
-        path: this.arcPath(0, 0, size / 2 - lineWidth),
+        path: this.arcPath(x, y, size / 2 - lineWidth),
         markerStart: arrow(arrowSize, color),
       });
   }
@@ -208,19 +205,19 @@ export class Backward extends IconBase {
   }
 
   renderIcon() {
-    const { color } = this.attributes;
+    const { x, y, color } = this.attributes;
     const size = this.iconSize;
     const deltaX = size / 2;
     const deltaY = size / 2 / 3 ** 0.5;
     const points: PolygonStyleProps['points'] = [
-      [0, 0],
-      [0, -deltaY],
-      [-deltaX, 0],
-      [0, deltaY],
-      [0, 0],
-      [deltaX, -deltaY],
-      [deltaX, deltaY],
-      [0, 0],
+      [x, y],
+      [x, y - deltaY],
+      [x - deltaX, y],
+      [x, y + deltaY],
+      [x, y],
+      [x + deltaX, y - deltaY],
+      [x + deltaX, y + deltaY],
+      [x, y],
     ];
     select(this.icon).maybeAppend('.backward', 'polygon').styles({
       points,
@@ -236,19 +233,19 @@ export class Forward extends IconBase {
   }
 
   renderIcon() {
-    const { color } = this.attributes;
+    const { x, y, color } = this.attributes;
     const size = this.iconSize;
     const deltaX = size / 2;
     const deltaY = size / 2 / 3 ** 0.5;
     const points: PolygonStyleProps['points'] = [
-      [0, 0],
-      [0, -deltaY],
-      [deltaX, 0],
-      [0, deltaY],
-      [0, 0],
-      [-deltaX, -deltaY],
-      [-deltaX, deltaY],
-      [0, 0],
+      [x, y],
+      [x, y - deltaY],
+      [x + deltaX, y],
+      [x, y + deltaY],
+      [x, y],
+      [x - deltaX, y - deltaY],
+      [x - deltaX, y + deltaY],
+      [x, y],
     ];
     select(this.icon).maybeAppend('.forward', 'polygon').styles({
       points,
@@ -263,14 +260,14 @@ export class Play extends IconBase {
   }
 
   renderIcon() {
-    const { color } = this.attributes;
+    const { x, y, color } = this.attributes;
     const size = this.iconSize;
     const deltaX = (size / 3) * 3 ** 0.5 * 0.8;
     const points: PolygonStyleProps['points'] = [
-      [deltaX, 0],
-      [-deltaX / 2, -(size / 2) * 0.8],
-      [-deltaX / 2, (size / 2) * 0.8],
-      [deltaX, 0],
+      [x + deltaX, y],
+      [x - deltaX / 2, y - (size / 2) * 0.8],
+      [x - deltaX / 2, y + (size / 2) * 0.8],
+      [x + deltaX, y],
     ];
     select(this.icon).maybeAppend('.play', 'polygon').styles({
       points,
@@ -285,19 +282,19 @@ export class Pause extends IconBase {
   }
 
   renderIcon() {
-    const { color } = this.attributes;
+    const { x, y, color } = this.attributes;
     const size = this.iconSize;
     const deltaX = size / 3;
     const points: PolygonStyleProps['points'] = [
-      [-deltaX, -size / 2],
-      [-deltaX, size / 2],
-      [-deltaX / 2, size / 2],
-      [-deltaX / 2, -size / 2],
-      [-deltaX, -size / 2],
-      [deltaX / 2, -size / 2],
-      [deltaX / 2, size / 2],
-      [deltaX, size / 2],
-      [deltaX, -size / 2],
+      [x - deltaX, y - size / 2],
+      [x - deltaX, y + size / 2],
+      [x - deltaX / 2, y + size / 2],
+      [x - deltaX / 2, y - size / 2],
+      [x - deltaX, y - size / 2],
+      [x + deltaX / 2, y - size / 2],
+      [x + deltaX / 2, y + size / 2],
+      [x + deltaX, y + size / 2],
+      [x + deltaX, y - size / 2],
     ];
     select(this.icon).maybeAppend('.pause', 'polygon').styles({
       points,
@@ -313,17 +310,17 @@ export class Range extends IconBase {
   }
 
   renderIcon() {
-    const { color } = this.attributes;
+    const { x, y, color } = this.attributes;
     const { iconSize: size, lineWidth } = this;
     const gap = lineWidth;
 
     select(this.icon)
       .maybeAppend('.left-line', 'line')
       .styles({
-        x1: -size / 2,
-        y1: -size / 2,
-        x2: -size / 2,
-        y2: size / 2,
+        x1: x - size / 2,
+        y1: y - size / 2,
+        x2: x - size / 2,
+        y2: y + size / 2,
         stroke: color,
         lineWidth,
       });
@@ -331,10 +328,10 @@ export class Range extends IconBase {
     select(this.icon)
       .maybeAppend('.right-line', 'line')
       .styles({
-        x1: size / 2,
-        y1: -size / 2,
-        x2: size / 2,
-        y2: size / 2,
+        x1: x + size / 2,
+        y1: y - size / 2,
+        x2: x + size / 2,
+        y2: y + size / 2,
         stroke: color,
         lineWidth,
       });
@@ -342,10 +339,10 @@ export class Range extends IconBase {
     select(this.icon)
       .maybeAppend('.left-arrow', 'line')
       .styles({
-        x1: 0,
-        y1: 0,
-        x2: -size / 2 + gap * 2,
-        y2: 0,
+        x1: x,
+        y1: y,
+        x2: x - size / 2 + gap * 2,
+        y2: y,
         stroke: color,
         lineWidth,
         markerEnd: arrow(lineWidth * 2, color),
@@ -354,10 +351,10 @@ export class Range extends IconBase {
     select(this.icon)
       .maybeAppend('.right-arrow', 'line')
       .styles({
-        x1: 0,
-        y1: 0,
-        x2: size / 2 - gap * 2,
-        y2: 0,
+        x1: x,
+        y1: y,
+        x2: x + size / 2 - gap * 2,
+        y2: y,
         stroke: color,
         lineWidth,
         markerEnd: arrow(lineWidth * 2, color),
@@ -372,16 +369,16 @@ export class Value extends IconBase {
   }
 
   renderIcon() {
-    const { color } = this.attributes;
+    const { x, y, color } = this.attributes;
     const { iconSize: size, lineWidth } = this;
 
     select(this.icon)
       .maybeAppend('.line', 'line')
       .styles({
-        x1: 0,
-        y1: -size / 2,
-        x2: 0,
-        y2: size / 2,
+        x1: x,
+        y1: y - size / 2,
+        x2: x,
+        y2: y + size / 2,
         stroke: color,
         lineWidth,
       });
@@ -391,10 +388,10 @@ export class Value extends IconBase {
     select(this.icon)
       .maybeAppend('.left-arrow', 'line')
       .styles({
-        x1: -size / 2 - gap * 2,
-        y1: 0,
-        x2: -gap * 2,
-        y2: 0,
+        x1: x - size / 2 - gap * 2,
+        y1: y,
+        x2: x - gap * 2,
+        y2: y,
         stroke: color,
         lineWidth,
         markerEnd: arrow(lineWidth * 2, color),
@@ -403,10 +400,10 @@ export class Value extends IconBase {
     select(this.icon)
       .maybeAppend('.right-arrow', 'line')
       .styles({
-        x1: size / 2 + gap * 2,
-        y1: 0,
-        x2: gap * 2,
-        y2: 0,
+        x1: x + size / 2 + gap * 2,
+        y1: y,
+        x2: x + gap * 2,
+        y2: y,
         stroke: color,
         lineWidth,
         markerEnd: arrow(lineWidth * 2, color),
@@ -428,18 +425,18 @@ export class LineChart extends IconBase {
   }
 
   renderIcon() {
-    const { color } = this.attributes;
+    const { x, y, color } = this.attributes;
     const { iconSize: size, lineWidth } = this;
 
     const gap = lineWidth;
     const deltaX = (size - gap * 2 - lineWidth) / 4;
     const deltaY = (size - gap * 2 - lineWidth) / 2;
-    const [ox, oy] = [-size / 2 + gap, size / 2 - gap * 2];
+    const [ox, oy] = [x - size / 2 + gap, y + size / 2 - gap * 2];
 
     select(this.icon)
       .maybeAppend('.coordinate', 'polyline')
       .styles({
-        points: getCoordinatePoints(size),
+        points: getCoordinatePoints(size).map(([px, py]) => [px + x, py + y]),
         stroke: color,
         lineWidth,
       });
@@ -470,18 +467,18 @@ export class BarChart extends IconBase {
 
   renderIcon() {
     const { data } = this;
-    const { color } = this.attributes;
+    const { x, y, color } = this.attributes;
     const { iconSize: size, lineWidth } = this;
 
     const gap = lineWidth;
     const deltaX = (size - gap) / data.length;
     const deltaY = (size - gap * 2) / 4;
-    const [ox, oy] = [-size / 2 + gap * 2, size / 2 - gap];
+    const [ox, oy] = [x - size / 2 + gap * 2, y + size / 2 - gap];
 
     select(this.icon)
       .maybeAppend('.coordinate', 'polyline')
       .styles({
-        points: getCoordinatePoints(size),
+        points: getCoordinatePoints(size).map(([px, py]) => [px + x, py + y]),
         stroke: color,
         lineWidth,
       });
@@ -516,15 +513,15 @@ export class Split extends IconBase {
   }
 
   renderIcon() {
-    const { color } = this.attributes;
+    const { x, y, color } = this.attributes;
     const { iconSize: size, lineWidth } = this;
     select(this.icon)
       .maybeAppend('.split', 'line')
       .styles({
-        x1: 0,
-        y1: -size / 2,
-        x2: 0,
-        y2: size / 2,
+        x1: x,
+        y1: y - size / 2,
+        x2: x,
+        y2: y + size / 2,
         stroke: color,
         lineWidth,
       });
@@ -542,11 +539,12 @@ export class SpeedSelect extends IconBase<{ speed?: number; onSelect: SelectStyl
 
   renderIcon() {
     const { iconSize } = this;
-    const { speed = 1 } = this.attributes;
+    const { x, y, speed = 1 } = this.attributes;
     const inheritStyle = omit(this.attributes as any, [
       'x',
       'y',
       'transform',
+      'transformOrigin',
       'width',
       'height',
       'size',
@@ -557,8 +555,8 @@ export class SpeedSelect extends IconBase<{ speed?: number; onSelect: SelectStyl
     const height = 20;
     const style: SelectStyleProps = {
       ...inheritStyle,
-      x: -width / 2,
-      y: -height / 2,
+      x: x - width / 2,
+      y: y - height / 2,
       width,
       height,
       defaultValue: speed,
@@ -578,8 +576,6 @@ export class SpeedSelect extends IconBase<{ speed?: number; onSelect: SelectStyl
         { label: '2x', value: 2 },
       ],
     };
-
-    console.log(style);
 
     select(this.icon)
       .maybeAppend('.speed', () => new Select({ style }))

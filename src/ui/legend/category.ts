@@ -89,8 +89,6 @@ export class Category extends Component<CategoryStyleProps> {
     const ctn = select(container);
     container.style.transform = `translate(${x}, ${y})`;
 
-    console.log(x, y);
-
     this.renderTitle(ctn, width!, height!);
 
     this.renderItems(ctn, this.availableSpace);

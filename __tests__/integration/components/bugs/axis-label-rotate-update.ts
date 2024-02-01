@@ -68,7 +68,7 @@ export const AxisLabelRotateUpdate = () => {
 
   group.appendChild(new Button({ style: { text: 'update', onClick: () => update() } }));
 
-  group.appendChild(new Button({ style: { transform: 'translate(80, 0)', text: 'reset', onClick: () => reset() } }));
+  group.appendChild(new Button({ style: { x: 80, text: 'reset', onClick: () => reset() } }));
 
   if (process.env.NODE_ENV === 'test') {
     update(false);

@@ -10,7 +10,7 @@ export const CategoryItems9 = () => {
   group.appendChild(
     new CategoryItems({
       style: {
-        data: flowItemData,
+        data: flowItemData.slice(0, 5),
         layout: 'flex',
         itemLabelFill: 'red',
         itemValueFill: 'green',
