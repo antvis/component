@@ -6,54 +6,46 @@
   color-interpolation-filters="sRGB"
 >
   <defs />
-  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
-    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
-      <g
-        id="g-svg-8"
-        fill="none"
-        width="320"
-        height="50"
-        transform="matrix(1,0,0,1,0,0)"
-      >
-        <g id="g-svg-9" fill="none" transform="matrix(1,0,0,1,10,10)">
-          <g transform="matrix(1,0,0,1,0,0)">
+  <g id="g-svg-camera">
+    <g id="g-root" fill="none">
+      <g id="g-svg-8" fill="none" width="320" height="50">
+        <g id="g-svg-9" fill="none" x="10" y="10">
+          <g>
             <path
               id="g-svg-1"
               fill="rgba(65,97,128,1)"
               class="slider-track"
-              d="M 0,0 l 300,0 l 0,50 l-300 0 z"
+              d="M 10,10 l 300,0 l 0,50 l-300 0 z"
+              x="10"
+              y="10"
               width="300"
               height="50"
               opacity="0.05"
             />
           </g>
-          <g
-            id="g-svg-2"
-            fill="none"
-            transform="matrix(1,0,0,1,0,0)"
-            class="slider-sparkline-group"
-          >
+          <g id="g-svg-2" fill="none" class="slider-sparkline-group">
             <g
               id="g-svg-3"
               fill="none"
+              x="10"
+              y="10"
               width="300"
               height="50"
-              x="0"
-              y="0"
-              transform="matrix(1,0,0,1,0,0)"
               class="slider-sparkline"
             >
-              <g transform="matrix(1,0,0,1,0,0)">
+              <g>
                 <path id="g-svg-4" fill="none" class="container" />
               </g>
               <g
                 id="g-svg-5"
                 fill="none"
                 class="spark sparkline"
-                transform="matrix(1,0,0,1,0,0)"
+                x="10"
+                y="10"
+                transform="matrix(1,0,0,1,10,10)"
               >
-                <g id="g-svg-6" fill="none" transform="matrix(1,0,0,1,0,0)">
-                  <g transform="matrix(1,0,0,1,0,0)">
+                <g id="g-svg-6" fill="none">
+                  <g>
                     <path
                       id="g-svg-10"
                       fill="none"
@@ -63,7 +55,7 @@
                       stroke-width="1"
                     />
                   </g>
-                  <g transform="matrix(1,0,0,1,0,0)">
+                  <g>
                     <path
                       id="g-svg-11"
                       fill="rgba(214,228,253,1)"
@@ -73,39 +65,33 @@
                     />
                   </g>
                 </g>
-                <g id="g-svg-7" fill="none" transform="matrix(1,0,0,1,0,0)" />
+                <g id="g-svg-7" fill="none" />
               </g>
             </g>
           </g>
-          <g transform="matrix(1,0,0,1,0,0)">
+          <g>
             <path
               id="g-svg-12"
               fill="rgba(0,0,0,0)"
               class="slider-brush-area"
-              d="M 0,0 l 300,0 l 0,50 l-300 0 z"
+              d="M 10,10 l 300,0 l 0,50 l-300 0 z"
+              x="10"
+              y="10"
               width="300"
               height="50"
             />
           </g>
-          <g
-            id="g-svg-13"
-            fill="none"
-            transform="matrix(1,0,0,1,0,0)"
-            class="slider-foreground"
-          >
+          <g id="g-svg-13" fill="none" class="slider-foreground">
             <g
               id="g-svg-16"
               fill="none"
-              transform="matrix(1,0,0,1,150,25)"
+              x="0"
+              y="0"
+              transform="matrix(1,0,0,1,160,35)"
               class="slider-handle end-handle"
             >
-              <g
-                id="g-svg-17"
-                fill="none"
-                transform="matrix(1,0,0,1,0,0)"
-                class="handle-icon-group"
-              >
-                <g transform="matrix(1,0,0,1,0,0)">
+              <g id="g-svg-17" fill="none" class="handle-icon-group">
+                <g>
                   <line
                     id="g-svg-18"
                     fill="none"
@@ -119,12 +105,7 @@
                   />
                 </g>
               </g>
-              <g
-                id="g-svg-19"
-                fill="none"
-                transform="matrix(1,0,0,1,0,0)"
-                class="handle-label-group"
-              />
+              <g id="g-svg-19" fill="none" class="handle-label-group" />
             </g>
           </g>
         </g>

@@ -69,7 +69,8 @@ export const SliderInvert = it({ width: 320, height: 50 }, (group) => {
   group.appendChild(
     new Slider({
       style: {
-        transform: 'translate(10, 10)',
+        x: 10,
+        y: 10,
         values: [0.25, 0.75],
         trackLength: 300,
         trackSize: 50,

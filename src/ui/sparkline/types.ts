@@ -31,6 +31,8 @@ type ColumnStyleProps = CallableObject<PrefixObject<RectStyleProps, 'column'>, C
 export type SparklineStyleProps = GroupStyleProps &
   LineStyleProps &
   ColumnStyleProps & {
+    x?: number;
+    y?: number;
     color?: string | string[] | ((idx: number) => string);
     data?: number[] | number[][];
     isStack?: boolean;

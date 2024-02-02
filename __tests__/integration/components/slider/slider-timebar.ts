@@ -15,7 +15,8 @@ export const SliderTimebar = it((group) => {
         trackSize: 5,
         values: [0, 0.75],
         type: 'value',
-        transform: 'translate(10, 10)',
+        x: 10,
+        y: 10,
       },
     })
   );
@@ -33,7 +34,8 @@ export const SliderTimebar = it((group) => {
         selectionFill: '#2e7ff8',
         selectionFillOpacity: 1,
         values: [0, 0.5],
-        transform: 'translate(10, 30)',
+        x: 10,
+        y: 30,
       },
     })
   );

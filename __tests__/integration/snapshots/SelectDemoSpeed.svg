@@ -19,25 +19,11 @@
       />
     </filter>
   </defs>
-  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
-    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
-      <g
-        id="g-svg-20"
-        fill="none"
-        width="50"
-        height="100"
-        transform="matrix(1,0,0,1,0,0)"
-      >
-        <g
-          id="g-svg-21"
-          fill="none"
-          x="10"
-          y="10"
-          width="30"
-          height="20"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,0,0)">
+  <g id="g-svg-camera">
+    <g id="g-root" fill="none">
+      <g id="g-svg-20" fill="none" width="50" height="100">
+        <g id="g-svg-21" fill="none" x="10" y="10" width="30" height="20">
+          <g>
             <path
               id="g-svg-22"
               fill="rgba(255,255,255,1)"
@@ -50,7 +36,7 @@
               stroke="rgba(217,217,217,1)"
               stroke-width="0"
             />
-            <g transform="matrix(1,0,0,1,0,0)">
+            <g>
               <text
                 id="g-svg-1"
                 fill="rgba(0,0,0,1)"
@@ -84,12 +70,7 @@
               stroke="rgba(217,217,217,1)"
               filter="url(#g-filter-dropshadow-23)"
             />
-            <g
-              id="g-svg-2"
-              fill="none"
-              transform="matrix(1,0,0,1,0,0)"
-              class="dropdown-container"
-            >
+            <g id="g-svg-2" fill="none" class="dropdown-container">
               <g
                 id="g-svg-3"
                 fill="none"
@@ -97,7 +78,7 @@
                 width="26"
                 transform="matrix(1,0,0,1,2,2)"
               >
-                <g transform="matrix(1,0,0,1,0,0)">
+                <g>
                   <path
                     id="g-svg-4"
                     fill="rgba(230,247,255,1)"
@@ -105,8 +86,8 @@
                     width="26"
                     height="23"
                   />
-                  <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,0)">
-                    <g transform="matrix(1,0,0,1,0,0)">
+                  <g id="g-svg-5" fill="none">
+                    <g>
                       <text
                         id="g-svg-6"
                         fill="rgba(0,0,0,1)"
@@ -136,7 +117,7 @@
                 width="26"
                 transform="matrix(1,0,0,1,2,25)"
               >
-                <g transform="matrix(1,0,0,1,0,0)">
+                <g>
                   <path
                     id="g-svg-8"
                     fill="rgba(255,255,255,1)"
@@ -144,8 +125,8 @@
                     width="26"
                     height="23"
                   />
-                  <g id="g-svg-9" fill="none" transform="matrix(1,0,0,1,0,0)">
-                    <g transform="matrix(1,0,0,1,0,0)">
+                  <g id="g-svg-9" fill="none">
+                    <g>
                       <text
                         id="g-svg-10"
                         fill="rgba(0,0,0,1)"
@@ -175,7 +156,7 @@
                 width="26"
                 transform="matrix(1,0,0,1,2,48)"
               >
-                <g transform="matrix(1,0,0,1,0,0)">
+                <g>
                   <path
                     id="g-svg-12"
                     fill="rgba(255,255,255,1)"
@@ -183,8 +164,8 @@
                     width="26"
                     height="23"
                   />
-                  <g id="g-svg-13" fill="none" transform="matrix(1,0,0,1,0,0)">
-                    <g transform="matrix(1,0,0,1,0,0)">
+                  <g id="g-svg-13" fill="none">
+                    <g>
                       <text
                         id="g-svg-14"
                         fill="rgba(0,0,0,1)"

@@ -10,15 +10,9 @@
       <use href="#g-svg-1" transform="matrix(1,0,0,1,100,100)" />
     </clipPath>
   </defs>
-  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
-    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
-      <g
-        id="g-svg-2"
-        fill="none"
-        width="260"
-        height="200"
-        transform="matrix(1,0,0,1,0,0)"
-      >
+  <g id="g-svg-camera">
+    <g id="g-root" fill="none">
+      <g id="g-svg-2" fill="none" width="260" height="200">
         <g
           id="g-svg-3"
           fill="none"
@@ -30,7 +24,6 @@
             id="g-svg-4"
             fill="none"
             class="navigator-content-group"
-            transform="matrix(1,0,0,1,0,0)"
             clip-path="url(#clip-path-1-4)"
           >
             <g
@@ -39,8 +32,8 @@
               class="navigator-play-window"
               transform="matrix(1,0,0,1,-100,0)"
             >
-              <g id="g-svg-6" fill="none" transform="matrix(1,0,0,1,0,0)">
-                <g transform="matrix(1,0,0,1,0,0)">
+              <g id="g-svg-6" fill="none">
+                <g>
                   <path
                     id="g-svg-7"
                     fill="rgba(247,247,247,1)"
@@ -50,7 +43,7 @@
                     stroke="rgba(255,0,0,1)"
                     visibility="hidden"
                   />
-                  <g transform="matrix(1,0,0,1,0,0)">
+                  <g>
                     <text
                       id="g-svg-8"
                       fill="rgba(0,0,0,1)"
@@ -74,7 +67,7 @@
                 </g>
               </g>
               <g id="g-svg-9" fill="none" transform="matrix(1,0,0,1,100,0)">
-                <g transform="matrix(1,0,0,1,0,0)">
+                <g>
                   <path
                     id="g-svg-10"
                     fill="rgba(247,247,247,1)"
@@ -84,7 +77,7 @@
                     stroke="rgba(255,0,0,1)"
                     visibility="visible"
                   />
-                  <g transform="matrix(1,0,0,1,0,0)">
+                  <g>
                     <text
                       id="g-svg-11"
                       fill="rgba(0,0,0,1)"
@@ -109,7 +102,7 @@
               </g>
             </g>
           </g>
-          <g transform="matrix(1,0,0,1,0,0)">
+          <g>
             <path
               id="g-svg-1"
               fill="none"
@@ -131,7 +124,7 @@
               transform="matrix(-1,-0,0,-1,0,0)"
               class="navigator-prev-btn-group"
             >
-              <g transform="matrix(1,0,0,1,0,0)">
+              <g>
                 <path
                   id="g-svg-4"
                   fill="rgba(0,0,0,1)"
@@ -146,7 +139,7 @@
               transform="matrix(1,0,0,1,41.720001,0)"
               class="navigator-next-btn-group"
             >
-              <g transform="matrix(1,0,0,1,0,0)">
+              <g>
                 <path
                   id="g-svg-6"
                   fill="rgba(0,0,0,1)"
@@ -161,7 +154,7 @@
               transform="matrix(1,0,0,1,11,0)"
               class="navigator-page-info-group"
             >
-              <g transform="matrix(1,0,0,1,0,0)">
+              <g>
                 <text
                   id="g-svg-8"
                   fill="rgba(0,0,0,1)"

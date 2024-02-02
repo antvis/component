@@ -6,44 +6,38 @@
   color-interpolation-filters="sRGB"
 >
   <defs />
-  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
-    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
-      <g id="g-svg-13" fill="none" transform="matrix(1,0,0,1,0,0)">
-        <g id="g-svg-14" fill="none" transform="matrix(1,0,0,1,10,10)">
-          <g transform="matrix(1,0,0,1,0,0)">
+  <g id="g-svg-camera">
+    <g id="g-root" fill="none">
+      <g id="g-svg-13" fill="none">
+        <g id="g-svg-14" fill="none" x="10" y="10">
+          <g>
             <path
               id="g-svg-1"
               fill="rgba(216,232,251,1)"
               class="slider-track"
-              d="M 5,0 l 0,0 a 5,5,0,0,1,5,5 l 0,290 a 5,5,0,0,1,-5,5 l 0,0 a 5,5,0,0,1,-5,-5 l 0,-290 a 5,5,0,0,1,5,-5 z"
+              d="M 15,10 l 0,0 a 5,5,0,0,1,5,5 l 0,290 a 5,5,0,0,1,-5,5 l 0,0 a 5,5,0,0,1,-5,-5 l 0,-290 a 5,5,0,0,1,5,-5 z"
+              x="10"
+              y="10"
               width="10"
               height="300"
               opacity="0.5"
             />
           </g>
-          <g
-            id="g-svg-2"
-            fill="none"
-            transform="matrix(1,0,0,1,0,0)"
-            class="slider-sparkline-group"
-          />
-          <g transform="matrix(1,0,0,1,0,0)">
+          <g id="g-svg-2" fill="none" class="slider-sparkline-group" />
+          <g>
             <path
               id="g-svg-3"
               fill="rgba(0,0,0,0)"
               class="slider-brush-area"
-              d="M 0,0 l 10,0 l 0,300 l-10 0 z"
+              d="M 10,10 l 10,0 l 0,300 l-10 0 z"
+              x="10"
+              y="10"
               width="10"
               height="300"
             />
           </g>
-          <g
-            id="g-svg-4"
-            fill="none"
-            transform="matrix(1,0,0,1,0,0)"
-            class="slider-foreground"
-          >
-            <g transform="matrix(1,0,0,1,0,0)">
+          <g id="g-svg-4" fill="none" class="slider-foreground">
+            <g transform="matrix(1,0,0,1,10,10)">
               <path
                 id="g-svg-5"
                 fill="rgba(91,143,249,1)"
@@ -57,7 +51,7 @@
                 height="74"
               />
             </g>
-            <g transform="matrix(1,0,0,1,0,0)">
+            <g transform="matrix(1,0,0,1,10,10)">
               <path
                 id="g-svg-6"
                 fill="rgba(91,143,249,1)"
@@ -71,7 +65,7 @@
                 height="148"
               />
             </g>
-            <g transform="matrix(1,0,0,1,0,0)">
+            <g transform="matrix(1,0,0,1,10,10)">
               <path
                 id="g-svg-7"
                 fill="rgba(91,143,249,1)"

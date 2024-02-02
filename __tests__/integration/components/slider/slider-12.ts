@@ -24,7 +24,8 @@ export const Slider12 = () => {
         handleLabelFillOpacity: 0.45,
         handleLabelFontSize: 12,
         handleLabelFontWeight: 'normal',
-        transform: 'translate(10, 10)',
+        x: 10,
+        y: 10,
         trackLength: 510,
         orientation: 'horizontal',
         animate: {

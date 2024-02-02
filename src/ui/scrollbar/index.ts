@@ -23,6 +23,8 @@ export class Scrollbar extends Component<ScrollbarStyleProps> {
 
   constructor(options: ScrollbarOptions) {
     super(options, {
+      x: 0,
+      y: 0,
       isRound: true,
       orientation: 'vertical',
       padding: [2, 2, 2, 2],
@@ -90,11 +92,13 @@ export class Scrollbar extends Component<ScrollbarStyleProps> {
   }
 
   private renderSlider(container: Group) {
-    const { orientation, trackSize, padding, slidable } = this.attributes;
+    const { x, y, orientation, trackSize, padding, slidable } = this.attributes;
     const trackStyle = subStyleProps<RectStyleProps>(this.attributes, 'track');
     const selectionStyle = subStyleProps<RectStyleProps>(this.attributes, 'thumb');
 
     const style: SliderStyleProps = {
+      x,
+      y,
       brushable: false,
       orientation,
       padding,

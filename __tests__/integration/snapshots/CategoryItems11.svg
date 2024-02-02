@@ -6,57 +6,26 @@
   color-interpolation-filters="sRGB"
 >
   <defs>
-    <clipPath transform="matrix(1,0,0,1,0,0)" id="clip-path-17-2">
-      <use href="#g-svg-17" transform="matrix(1,0,0,1,0,0)" />
+    <clipPath id="clip-path-17-2">
+      <use href="#g-svg-17" />
     </clipPath>
   </defs>
-  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
-    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
-      <g
-        id="g-svg-27"
-        fill="none"
-        width="100"
-        height="20"
-        transform="matrix(1,0,0,1,0,0)"
-      >
-        <g
-          id="g-svg-28"
-          fill="none"
-          width="600"
-          height="30"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g
-            id="g-svg-1"
-            fill="none"
-            x="0"
-            y="0"
-            transform="matrix(1,0,0,1,0,0)"
-            class="items-navigator"
-          >
+  <g id="g-svg-camera">
+    <g id="g-root" fill="none">
+      <g id="g-svg-27" fill="none" width="100" height="20">
+        <g id="g-svg-28" fill="none" width="600" height="30">
+          <g id="g-svg-1" fill="none" x="0" y="0" class="items-navigator">
             <g
               id="g-svg-2"
               fill="none"
               class="navigator-content-group"
-              transform="matrix(1,0,0,1,0,0)"
               clip-path="url(#clip-path-17-2)"
             >
-              <g
-                id="g-svg-3"
-                fill="none"
-                class="navigator-play-window"
-                transform="matrix(1,0,0,1,0,0)"
-              >
-                <g
-                  id="g-svg-14"
-                  fill="none"
-                  class="items-item-page"
-                  transform="matrix(1,0,0,1,0,0)"
-                >
+              <g id="g-svg-3" fill="none" class="navigator-play-window">
+                <g id="g-svg-14" fill="none" class="items-item-page">
                   <g
                     id="g-svg-5"
                     fill="none"
-                    transform="matrix(1,0,0,1,0,0)"
                     class="items-item"
                     x="0"
                     y="0"
@@ -66,10 +35,9 @@
                     <g
                       id="g-svg-12"
                       fill="none"
-                      transform="matrix(1,0,0,1,0,0)"
                       class="legend-category-item-background-group"
                     >
-                      <g transform="matrix(1,0,0,1,0,0)">
+                      <g>
                         <path
                           id="g-svg-13"
                           fill="none"
@@ -87,7 +55,7 @@
                       transform="matrix(0.636915,0,0,0.636915,5,11.500000)"
                       class="legend-category-item-marker-group"
                     >
-                      <g transform="matrix(1,0,0,1,0,0)">
+                      <g>
                         <path
                           id="g-svg-7"
                           fill="none"
@@ -105,7 +73,7 @@
                       transform="matrix(1,0,0,1,10,11.500000)"
                       class="legend-category-item-label-group"
                     >
-                      <g transform="matrix(1,0,0,1,0,0)">
+                      <g>
                         <text
                           id="g-svg-9"
                           fill="rgba(255,0,0,1)"
@@ -132,7 +100,7 @@
                       transform="matrix(1,0,0,1,53.240002,11.500000)"
                       class="legend-category-item-value-group"
                     >
-                      <g transform="matrix(1,0,0,1,0,0)">
+                      <g>
                         <text
                           id="g-svg-11"
                           fill="rgba(0,128,0,1)"
@@ -157,13 +125,8 @@
                 </g>
               </g>
             </g>
-            <g
-              id="g-svg-4"
-              fill="none"
-              transform="matrix(1,0,0,1,0,0)"
-              class="navigator-controller"
-            />
-            <g transform="matrix(1,0,0,1,0,0)">
+            <g id="g-svg-4" fill="none" class="navigator-controller" />
+            <g>
               <path
                 id="g-svg-17"
                 fill="none"

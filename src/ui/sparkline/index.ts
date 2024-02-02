@@ -155,6 +155,8 @@ export class Sparkline extends Component<SparklineStyleProps> {
   constructor(options: SparklineOptions) {
     super(options, {
       type: 'line',
+      x: 0,
+      y: 0,
       width: 200,
       height: 20,
       isStack: false,
@@ -173,9 +175,13 @@ export class Sparkline extends Component<SparklineStyleProps> {
   public render(attributes: Required<SparklineStyleProps>, container: Group) {
     maybeAppend(container, '.container', 'rect').attr('className', 'container').node();
 
-    const { type } = attributes;
+    const { type, x, y } = attributes;
     const className = `spark${type}`;
-    const style: any = type === 'line' ? this.linesStyle : this.columnsStyle;
+    const style: any = {
+      x,
+      y,
+      ...(type === 'line' ? this.linesStyle : this.columnsStyle),
+    };
 
     select(container)
       .selectAll('.spark')

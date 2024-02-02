@@ -19,25 +19,11 @@
       />
     </filter>
   </defs>
-  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
-    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
-      <g
-        id="g-svg-20"
-        fill="none"
-        width="160"
-        height="250"
-        transform="matrix(1,0,0,1,0,0)"
-      >
-        <g
-          id="g-svg-21"
-          fill="none"
-          x="10"
-          y="10"
-          width="140"
-          height="32"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g transform="matrix(1,0,0,1,0,0)">
+  <g id="g-svg-camera">
+    <g id="g-root" fill="none">
+      <g id="g-svg-20" fill="none" width="160" height="250">
+        <g id="g-svg-21" fill="none" x="10" y="10" width="140" height="32">
+          <g>
             <path
               id="g-svg-22"
               fill="rgba(255,255,255,1)"
@@ -59,7 +45,7 @@
                 stroke="rgba(217,217,217,1)"
               />
             </g>
-            <g transform="matrix(1,0,0,1,0,0)">
+            <g>
               <text
                 id="g-svg-2"
                 fill="rgba(194,194,194,1)"
@@ -87,12 +73,7 @@
               stroke="rgba(217,217,217,1)"
               filter="url(#g-filter-dropshadow-23)"
             />
-            <g
-              id="g-svg-3"
-              fill="none"
-              transform="matrix(1,0,0,1,0,0)"
-              class="dropdown-container"
-            >
+            <g id="g-svg-3" fill="none" class="dropdown-container">
               <g
                 id="g-svg-4"
                 fill="none"
@@ -100,7 +81,7 @@
                 width="124"
                 transform="matrix(1,0,0,1,8,8)"
               >
-                <g transform="matrix(1,0,0,1,0,0)">
+                <g>
                   <path
                     id="g-svg-5"
                     fill="rgba(255,255,255,1)"
@@ -109,7 +90,7 @@
                     height="39"
                   />
                   <g id="g-svg-6" fill="none" transform="matrix(1,0,0,1,12,8)">
-                    <g transform="matrix(1,0,0,1,0,0)">
+                    <g>
                       <text
                         id="g-svg-7"
                         fill="rgba(0,0,0,1)"
@@ -139,7 +120,7 @@
                 width="124"
                 transform="matrix(1,0,0,1,8,47)"
               >
-                <g transform="matrix(1,0,0,1,0,0)">
+                <g>
                   <path
                     id="g-svg-9"
                     fill="rgba(255,255,255,1)"
@@ -148,7 +129,7 @@
                     height="39"
                   />
                   <g id="g-svg-10" fill="none" transform="matrix(1,0,0,1,12,8)">
-                    <g transform="matrix(1,0,0,1,0,0)">
+                    <g>
                       <text
                         id="g-svg-11"
                         fill="rgba(0,0,0,1)"
@@ -178,7 +159,7 @@
                 width="124"
                 transform="matrix(1,0,0,1,8,86)"
               >
-                <g transform="matrix(1,0,0,1,0,0)">
+                <g>
                   <path
                     id="g-svg-13"
                     fill="rgba(255,255,255,1)"
@@ -187,7 +168,7 @@
                     height="56"
                   />
                   <g id="g-svg-14" fill="none" transform="matrix(1,0,0,1,12,8)">
-                    <g transform="matrix(1,0,0,1,0,0)">
+                    <g>
                       <path
                         id="g-svg-15"
                         fill="rgba(247,84,97,1)"
@@ -208,7 +189,7 @@
                 width="124"
                 transform="matrix(1,0,0,1,8,142)"
               >
-                <g transform="matrix(1,0,0,1,0,0)">
+                <g>
                   <path
                     id="g-svg-17"
                     fill="rgba(255,255,255,1)"
@@ -217,7 +198,7 @@
                     height="36"
                   />
                   <g id="g-svg-18" fill="none" transform="matrix(1,0,0,1,12,8)">
-                    <g transform="matrix(1,0,0,1,0,0)">
+                    <g>
                       <path
                         id="g-svg-19"
                         fill="rgba(15,88,218,1)"

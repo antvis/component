@@ -8,7 +8,8 @@ export const HandleUpdate = () => {
   const handle = group.appendChild(
     new Handle({
       style: {
-        transform: 'translate(150, 150)',
+        x: 150,
+        y: 150,
         orientation: 'vertical',
         labelText: 'LabelText',
       },

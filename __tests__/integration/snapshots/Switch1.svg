@@ -6,23 +6,12 @@
   color-interpolation-filters="sRGB"
 >
   <defs />
-  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
-    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
-      <g id="g-svg-9" fill="none" transform="matrix(1,0,0,1,0,0)">
-        <g
-          id="g-svg-10"
-          fill="none"
-          x="0"
-          y="0"
-          transform="matrix(1,0,0,1,0,0)"
-        >
-          <g
-            id="g-svg-1"
-            fill="none"
-            transform="matrix(1,0,0,1,0,0)"
-            class="switch-content"
-          >
-            <g transform="matrix(1,0,0,1,0,0)">
+  <g id="g-svg-camera">
+    <g id="g-root" fill="none">
+      <g id="g-svg-9" fill="none">
+        <g id="g-svg-10" fill="none" x="0" y="0">
+          <g id="g-svg-1" fill="none" class="switch-content">
+            <g>
               <path
                 id="g-svg-3"
                 fill="none"
@@ -36,7 +25,7 @@
                 height="22"
               />
             </g>
-            <g transform="matrix(1,0,0,1,0,0)">
+            <g>
               <path
                 id="g-svg-2"
                 fill="rgba(0,0,0,0.25098039215686274)"
@@ -48,7 +37,7 @@
                 height="22"
               />
             </g>
-            <g transform="matrix(1,0,0,1,0,0)">
+            <g>
               <path
                 id="g-svg-4"
                 fill="rgba(255,255,255,1)"
@@ -69,13 +58,8 @@
           y="0"
           transform="matrix(1,0,0,1,0,40)"
         >
-          <g
-            id="g-svg-5"
-            fill="none"
-            transform="matrix(1,0,0,1,0,0)"
-            class="switch-content"
-          >
-            <g transform="matrix(1,0,0,1,0,0)">
+          <g id="g-svg-5" fill="none" class="switch-content">
+            <g>
               <path
                 id="g-svg-7"
                 fill="none"
@@ -89,7 +73,7 @@
                 height="22"
               />
             </g>
-            <g transform="matrix(1,0,0,1,0,0)">
+            <g>
               <path
                 id="g-svg-6"
                 fill="rgba(24,144,255,1)"
@@ -101,7 +85,7 @@
                 height="22"
               />
             </g>
-            <g transform="matrix(1,0,0,1,0,0)">
+            <g>
               <path
                 id="g-svg-8"
                 fill="rgba(255,255,255,1)"
@@ -122,13 +106,8 @@
           y="0"
           transform="matrix(1,0,0,1,0,80)"
         >
-          <g
-            id="g-svg-9"
-            fill="none"
-            transform="matrix(1,0,0,1,0,0)"
-            class="switch-content"
-          >
-            <g transform="matrix(1,0,0,1,0,0)">
+          <g id="g-svg-9" fill="none" class="switch-content">
+            <g>
               <path
                 id="g-svg-11"
                 fill="none"
@@ -142,7 +121,7 @@
                 height="22"
               />
             </g>
-            <g transform="matrix(1,0,0,1,0,0)">
+            <g>
               <path
                 id="g-svg-10"
                 fill="rgba(0,0,0,0.25098039215686274)"
@@ -154,7 +133,7 @@
                 height="22"
               />
             </g>
-            <g transform="matrix(1,0,0,1,0,0)">
+            <g>
               <path
                 id="g-svg-12"
                 fill="rgba(255,255,255,1)"
