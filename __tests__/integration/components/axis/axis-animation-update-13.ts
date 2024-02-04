@@ -55,7 +55,7 @@ export const AxisAnimationUpdate13 = () => {
         titleTransformOrigin: 'center',
         titleTextBaseline: 'middle',
         titlePosition: 'left',
-        titleTransform: 'translate(50%, 0) rotate(-90)',
+        titleTransform: 'translate(-100%, 0) rotate(-90)',
         labelDirection: 'positive',
         tickDirection: 'positive',
         gridDirection: 'negative',

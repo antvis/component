@@ -1195,10 +1195,10 @@
           <g
             id="g-svg-126"
             fill="none"
-            transform="matrix(1,0,0,1,30,285)"
+            transform="matrix(1,0,0,1,11.500000,285)"
             class="axis-title-group"
           >
-            <g transform="matrix(0,-1,1,0,0.500000,0.500000)">
+            <g transform="matrix(0,-1,1,0,0,0)">
               <text
                 id="g-svg-127"
                 fill="rgba(255,0,0,1)"
@@ -1800,7 +1800,7 @@
           <g
             id="g-svg-189"
             fill="none"
-            transform="matrix(1,0,0,1,285,547)"
+            transform="matrix(1,0,0,1,285,528.500000)"
             class="axis-title-group"
           >
             <g>
@@ -2405,10 +2405,10 @@
           <g
             id="g-svg-253"
             fill="none"
-            transform="matrix(1,0,0,1,565,285)"
+            transform="matrix(1,0,0,1,573.500000,285)"
             class="axis-title-group"
           >
-            <g transform="matrix(0,-1,1,0,0.500000,0.500000)">
+            <g transform="matrix(0,-1,1,0,0,0)">
               <text
                 id="g-svg-254"
                 fill="rgba(255,0,0,1)"
@@ -3011,10 +3011,10 @@
             <g
               id="g-svg-316"
               fill="none"
-              transform="matrix(1,0,0,1,665,285)"
+              transform="matrix(1,0,0,1,683.500000,285)"
               class="axis-title-group"
             >
-              <g transform="matrix(0,-1,1,0,0.500000,0.500000)">
+              <g transform="matrix(0,-1,1,0,0,0)">
                 <text
                   id="g-svg-317"
                   fill="rgba(255,0,0,1)"
@@ -3618,10 +3618,10 @@
             <g
               id="g-svg-379"
               fill="none"
-              transform="matrix(1,0,0,1,665,285)"
+              transform="matrix(1,0,0,1,683.500000,285)"
               class="axis-title-group"
             >
-              <g transform="matrix(0,-1,1,0,0.500000,0.500000)">
+              <g transform="matrix(0,-1,1,0,0,0)">
                 <text
                   id="g-svg-380"
                   fill="rgba(255,0,0,1)"

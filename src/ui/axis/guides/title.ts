@@ -33,7 +33,6 @@ function getTitlePosition(
   } = mainGroup.node().getLocalBounds();
 
   const {
-    min: [titleX, titleY],
     halfExtents: [titleHalfWidth, titleHalfHeight],
   } = titleGroup.node().getLocalBounds();
 
@@ -51,9 +50,9 @@ function getTitlePosition(
   }
 
   if (pos.includes('t')) y -= mainHalfHeight + titleHalfHeight + spacingTop;
-  if (pos.includes('r')) x += mainHalfWidth + spacingRight;
-  if (pos.includes('l')) x -= mainHalfWidth + spacingLeft;
-  if (pos.includes('b')) y += mainHalfHeight + titleHalfHeight * 2 + spacingBottom;
+  if (pos.includes('r')) x += mainHalfWidth + titleHalfWidth + spacingRight;
+  if (pos.includes('l')) x -= mainHalfWidth + titleHalfWidth + spacingLeft;
+  if (pos.includes('b')) y += mainHalfHeight + titleHalfHeight + spacingBottom;
 
   return { x, y };
 }
