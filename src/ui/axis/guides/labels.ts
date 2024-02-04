@@ -201,12 +201,11 @@ function renderLabel(
     .node();
   const [labelStyle, { transform, ...groupStyle }] = splitStyle(getCallbackStyle(style, [datum, index, data]));
 
-  percentTransform(container, transform);
-  const rotate = getLabelRotation(datum, container, attr);
-
-  container.setLocalEulerAngles(rotate);
-  const [m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16] = container.getLocalTransform();
-  container.style._transform = `matrix3d(${m1}, ${m2}, ${m3}, ${m4}, ${m5}, ${m6}, ${m7}, ${m8}, ${m9}, ${m10}, ${m11}, ${m12}, ${m13}, ${m14}, ${m15}, ${m16})`;
+  percentTransform(label, transform);
+  const rotate = getLabelRotation(datum, label, attr);
+  if (!label.getLocalEulerAngles()) {
+    label.setLocalEulerAngles(rotate);
+  }
 
   applyTextStyle(label, {
     ...getLabelStyle(datum.value, rotate, attr),
@@ -235,8 +234,8 @@ export function renderLabels(
           .transition(function (datum) {
             renderLabel(this, datum, data, style, attr);
             const { x, y } = getLabelPos(datum, data, attr);
-            const transform = this.style._transform || '';
-            this.style.transform = `translate(${x}, ${y}) ${transform}`;
+            // .axis-label
+            this.style.transform = `translate(${x}, ${y})`;
             return null;
           })
           .call(() => overlapHandler.call(container, attr)),
@@ -249,6 +248,7 @@ export function renderLabels(
             const { x, y } = getLabelPos(datum, data, attr);
             const animation = transition(this, { transform: `translate(${x}, ${y})` }, animate.update);
             return [...shapeAnimation, animation];
+            // return [animation];
           })
           .call((selection) => {
             const transitions = get(selection, '_transitions').flat().filter(defined) as IAnimation[];

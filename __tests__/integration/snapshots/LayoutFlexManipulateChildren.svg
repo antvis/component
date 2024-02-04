@@ -102,10 +102,10 @@
               <g
                 id="g-svg-15"
                 fill="none"
-                transform="matrix(0,-1,1,0,-10,0)"
+                transform="matrix(1,0,0,1,-10,0)"
                 class="axis-label"
               >
-                <g>
+                <g transform="matrix(-0,-1,1,-0,0,0)">
                   <text
                     id="g-svg-20"
                     fill="rgba(0,0,0,1)"
@@ -128,10 +128,10 @@
               <g
                 id="g-svg-16"
                 fill="none"
-                transform="matrix(0,-1,1,0,-10,20)"
+                transform="matrix(1,0,0,1,-10,20)"
                 class="axis-label"
               >
-                <g>
+                <g transform="matrix(-0,-1,1,-0,0,0)">
                   <text
                     id="g-svg-21"
                     fill="rgba(0,0,0,1)"
@@ -154,10 +154,10 @@
               <g
                 id="g-svg-17"
                 fill="none"
-                transform="matrix(0,-1,1,0,-10,40)"
+                transform="matrix(1,0,0,1,-10,40)"
                 class="axis-label"
               >
-                <g>
+                <g transform="matrix(-0,-1,1,-0,0,0)">
                   <text
                     id="g-svg-22"
                     fill="rgba(0,0,0,1)"
@@ -180,10 +180,10 @@
               <g
                 id="g-svg-18"
                 fill="none"
-                transform="matrix(0,-1,1,0,-10,60)"
+                transform="matrix(1,0,0,1,-10,60)"
                 class="axis-label"
               >
-                <g>
+                <g transform="matrix(-0,-1,1,-0,0,0)">
                   <text
                     id="g-svg-23"
                     fill="rgba(0,0,0,1)"
@@ -206,10 +206,10 @@
               <g
                 id="g-svg-19"
                 fill="none"
-                transform="matrix(0,-1,1,0,-10,80)"
+                transform="matrix(1,0,0,1,-10,80)"
                 class="axis-label"
               >
-                <g>
+                <g transform="matrix(-0,-1,1,-0,0,0)">
                   <text
                     id="g-svg-24"
                     fill="rgba(0,0,0,1)"

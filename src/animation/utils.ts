@@ -106,10 +106,16 @@ export function transitionShape(
 
   const { opacity: so = 1 } = source.style;
   const { opacity: to = 1 } = target.style;
+
+  const st = source.style.transform || '';
+  const tt = target.style.transform || '';
+  // const st = source.style._transform || '';
+  // const tt = target.style._transform || '';
+
   const sourceAnimation = source.animate(
     [
-      { opacity: so, transform: 'translate(0, 0)' },
-      { opacity: 0, transform: `translate(${mx}, ${my})` },
+      { opacity: so, transform: `translate(0, 0) ${st}` },
+      { opacity: 0, transform: `translate(${mx}, ${my}) ${st}` },
     ],
     {
       fill: 'both',
@@ -119,8 +125,8 @@ export function transitionShape(
   );
   const targetAnimation = target.animate(
     [
-      { opacity: 0, transform: `translate(${-mx}, ${-my})`, offset: 0.01 },
-      { opacity: to, transform: 'translate(0, 0)' },
+      { opacity: 0, transform: `translate(${-mx}, ${-my}) ${tt}`, offset: 0.01 },
+      { opacity: to, transform: `translate(0, 0) ${tt}` },
     ],
     {
       fill: 'both',

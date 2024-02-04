@@ -417,10 +417,10 @@
               <g
                 id="g-svg-49"
                 fill="none"
-                transform="matrix(0.707107,-0.707107,0.707107,0.707107,100.502525,100.502525)"
+                transform="matrix(1,0,0,1,100.502525,100.502525)"
                 class="axis-label"
               >
-                <g>
+                <g transform="matrix(0.707107,-0.707107,0.707107,0.707107,0,0)">
                   <text
                     id="g-svg-61"
                     fill="rgba(0,0,0,1)"
@@ -444,10 +444,10 @@
               <g
                 id="g-svg-50"
                 fill="none"
-                transform="matrix(0.923880,-0.382683,0.382683,0.923880,123.212158,85.328430)"
+                transform="matrix(1,0,0,1,123.212158,85.328430)"
                 class="axis-label"
               >
-                <g>
+                <g transform="matrix(0.923880,-0.382683,0.382683,0.923880,0,0)">
                   <text
                     id="g-svg-62"
                     fill="rgba(0,0,0,1)"
@@ -498,10 +498,10 @@
               <g
                 id="g-svg-52"
                 fill="none"
-                transform="matrix(0.923880,0.382683,-0.382683,0.923880,176.787842,85.328430)"
+                transform="matrix(1,0,0,1,176.787842,85.328430)"
                 class="axis-label"
               >
-                <g>
+                <g transform="matrix(0.923880,0.382683,-0.382683,0.923880,0,0)">
                   <text
                     id="g-svg-64"
                     fill="rgba(0,0,0,1)"
@@ -525,10 +525,10 @@
               <g
                 id="g-svg-53"
                 fill="none"
-                transform="matrix(0.707107,0.707107,-0.707107,0.707107,199.497482,100.502525)"
+                transform="matrix(1,0,0,1,199.497482,100.502525)"
                 class="axis-label"
               >
-                <g>
+                <g transform="matrix(0.707107,0.707107,-0.707107,0.707107,0,0)">
                   <text
                     id="g-svg-65"
                     fill="rgba(0,0,0,1)"
@@ -552,10 +552,10 @@
               <g
                 id="g-svg-54"
                 fill="none"
-                transform="matrix(0.382683,0.923880,-0.923880,0.382683,214.671570,123.212158)"
+                transform="matrix(1,0,0,1,214.671570,123.212158)"
                 class="axis-label"
               >
-                <g>
+                <g transform="matrix(0.382683,0.923880,-0.923880,0.382683,0,0)">
                   <text
                     id="g-svg-66"
                     fill="rgba(0,0,0,1)"
@@ -579,10 +579,10 @@
               <g
                 id="g-svg-55"
                 fill="none"
-                transform="matrix(0,-1,1,0,220,150)"
+                transform="matrix(1,0,0,1,220,150)"
                 class="axis-label"
               >
-                <g>
+                <g transform="matrix(-0,-1,1,-0,0,0)">
                   <text
                     id="g-svg-67"
                     fill="rgba(0,0,0,1)"
@@ -606,10 +606,10 @@
               <g
                 id="g-svg-56"
                 fill="none"
-                transform="matrix(0.382683,-0.923880,0.923880,0.382683,214.671570,176.787842)"
+                transform="matrix(1,0,0,1,214.671570,176.787842)"
                 class="axis-label"
               >
-                <g>
+                <g transform="matrix(0.382683,-0.923880,0.923880,0.382683,0,0)">
                   <text
                     id="g-svg-68"
                     fill="rgba(0,0,0,1)"
@@ -633,10 +633,10 @@
               <g
                 id="g-svg-57"
                 fill="none"
-                transform="matrix(0.707107,-0.707107,0.707107,0.707107,199.497482,199.497482)"
+                transform="matrix(1,0,0,1,199.497482,199.497482)"
                 class="axis-label"
               >
-                <g>
+                <g transform="matrix(0.707107,-0.707107,0.707107,0.707107,0,0)">
                   <text
                     id="g-svg-69"
                     fill="rgba(0,0,0,1)"
@@ -660,10 +660,10 @@
               <g
                 id="g-svg-58"
                 fill="none"
-                transform="matrix(0.923880,-0.382683,0.382683,0.923880,176.787842,214.671570)"
+                transform="matrix(1,0,0,1,176.787842,214.671570)"
                 class="axis-label"
               >
-                <g>
+                <g transform="matrix(0.923880,-0.382683,0.382683,0.923880,0,0)">
                   <text
                     id="g-svg-70"
                     fill="rgba(0,0,0,1)"
@@ -690,7 +690,7 @@
                 transform="matrix(1,0,0,1,150,220)"
                 class="axis-label"
               >
-                <g>
+                <g transform="matrix(1,-0,0,1,0,0)">
                   <text
                     id="g-svg-71"
                     fill="rgba(0,0,0,1)"
@@ -714,10 +714,10 @@
               <g
                 id="g-svg-60"
                 fill="none"
-                transform="matrix(0.923880,0.382683,-0.382683,0.923880,123.212158,214.671570)"
+                transform="matrix(1,0,0,1,123.212158,214.671570)"
                 class="axis-label"
               >
-                <g>
+                <g transform="matrix(0.923880,0.382683,-0.382683,0.923880,0,0)">
                   <text
                     id="g-svg-72"
                     fill="rgba(0,0,0,1)"

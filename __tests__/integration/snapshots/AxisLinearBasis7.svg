@@ -588,10 +588,10 @@
               <g
                 id="g-svg-64"
                 fill="none"
-                transform="matrix(0,1,-1,0,50,55)"
+                transform="matrix(1,0,0,1,50,55)"
                 class="axis-label"
               >
-                <g>
+                <g transform="matrix(0,1,-1,0,0,0)">
                   <text
                     id="g-svg-81"
                     fill="rgba(0,0,0,1)"
@@ -607,17 +607,17 @@
                     text-anchor="left"
                     class="axis-label-item"
                   >
-                    蚂蚁技术研究院
+                    蚂蚁技...
                   </text>
                 </g>
               </g>
               <g
                 id="g-svg-65"
                 fill="none"
-                transform="matrix(0,1,-1,0,72.500000,55)"
+                transform="matrix(1,0,0,1,72.500000,55)"
                 class="axis-label"
               >
-                <g>
+                <g transform="matrix(0,1,-1,0,0,0)">
                   <text
                     id="g-svg-82"
                     fill="rgba(0,0,0,1)"
@@ -640,10 +640,10 @@
               <g
                 id="g-svg-66"
                 fill="none"
-                transform="matrix(0,1,-1,0,95,55)"
+                transform="matrix(1,0,0,1,95,55)"
                 class="axis-label"
               >
-                <g>
+                <g transform="matrix(0,1,-1,0,0,0)">
                   <text
                     id="g-svg-83"
                     fill="rgba(0,0,0,1)"
@@ -666,10 +666,10 @@
               <g
                 id="g-svg-67"
                 fill="none"
-                transform="matrix(0,1,-1,0,185,55)"
+                transform="matrix(1,0,0,1,185,55)"
                 class="axis-label"
               >
-                <g>
+                <g transform="matrix(0,1,-1,0,0,0)">
                   <text
                     id="g-svg-84"
                     fill="rgba(0,0,0,1)"
@@ -692,10 +692,10 @@
               <g
                 id="g-svg-68"
                 fill="none"
-                transform="matrix(0,1,-1,0,207.500000,55)"
+                transform="matrix(1,0,0,1,207.500000,55)"
                 class="axis-label"
               >
-                <g>
+                <g transform="matrix(0,1,-1,0,0,0)">
                   <text
                     id="g-svg-85"
                     fill="rgba(0,0,0,1)"
@@ -718,10 +718,10 @@
               <g
                 id="g-svg-69"
                 fill="none"
-                transform="matrix(0,1,-1,0,230,55)"
+                transform="matrix(1,0,0,1,230,55)"
                 class="axis-label"
               >
-                <g>
+                <g transform="matrix(0,1,-1,0,0,0)">
                   <text
                     id="g-svg-86"
                     fill="rgba(0,0,0,1)"
@@ -744,10 +744,10 @@
               <g
                 id="g-svg-70"
                 fill="none"
-                transform="matrix(0,1,-1,0,252.500000,55)"
+                transform="matrix(1,0,0,1,252.500000,55)"
                 class="axis-label"
               >
-                <g>
+                <g transform="matrix(0,1,-1,0,0,0)">
                   <text
                     id="g-svg-87"
                     fill="rgba(0,0,0,1)"
@@ -770,10 +770,10 @@
               <g
                 id="g-svg-71"
                 fill="none"
-                transform="matrix(0,1,-1,0,275,55)"
+                transform="matrix(1,0,0,1,275,55)"
                 class="axis-label"
               >
-                <g>
+                <g transform="matrix(0,1,-1,0,0,0)">
                   <text
                     id="g-svg-88"
                     fill="rgba(0,0,0,1)"
@@ -789,17 +789,17 @@
                     text-anchor="left"
                     class="axis-label-item"
                   >
-                    社会公益及绿色...
+                    社会公...
                   </text>
                 </g>
               </g>
               <g
                 id="g-svg-72"
                 fill="none"
-                transform="matrix(0,1,-1,0,297.500000,55)"
+                transform="matrix(1,0,0,1,297.500000,55)"
                 class="axis-label"
               >
-                <g>
+                <g transform="matrix(0,1,-1,0,0,0)">
                   <text
                     id="g-svg-89"
                     fill="rgba(0,0,0,1)"
@@ -815,17 +815,17 @@
                     text-anchor="left"
                     class="axis-label-item"
                   >
-                    阿里妈妈事业群
+                    阿里妈...
                   </text>
                 </g>
               </g>
               <g
                 id="g-svg-73"
                 fill="none"
-                transform="matrix(0,1,-1,0,320,55)"
+                transform="matrix(1,0,0,1,320,55)"
                 class="axis-label"
               >
-                <g>
+                <g transform="matrix(0,1,-1,0,0,0)">
                   <text
                     id="g-svg-90"
                     fill="rgba(0,0,0,1)"
@@ -848,10 +848,10 @@
               <g
                 id="g-svg-74"
                 fill="none"
-                transform="matrix(0,1,-1,0,342.500000,55)"
+                transform="matrix(1,0,0,1,342.500000,55)"
                 class="axis-label"
               >
-                <g>
+                <g transform="matrix(0,1,-1,0,0,0)">
                   <text
                     id="g-svg-91"
                     fill="rgba(0,0,0,1)"
@@ -874,10 +874,10 @@
               <g
                 id="g-svg-75"
                 fill="none"
-                transform="matrix(0,1,-1,0,365,55)"
+                transform="matrix(1,0,0,1,365,55)"
                 class="axis-label"
               >
-                <g>
+                <g transform="matrix(0,1,-1,0,0,0)">
                   <text
                     id="g-svg-92"
                     fill="rgba(0,0,0,1)"
@@ -893,17 +893,17 @@
                     text-anchor="left"
                     class="axis-label-item"
                   >
-                    天猫事业线
+                    天猫事...
                   </text>
                 </g>
               </g>
               <g
                 id="g-svg-76"
                 fill="none"
-                transform="matrix(0,1,-1,0,387.500000,55)"
+                transform="matrix(1,0,0,1,387.500000,55)"
                 class="axis-label"
               >
-                <g>
+                <g transform="matrix(0,1,-1,0,0,0)">
                   <text
                     id="g-svg-93"
                     fill="rgba(0,0,0,1)"
@@ -926,10 +926,10 @@
               <g
                 id="g-svg-77"
                 fill="none"
-                transform="matrix(0,1,-1,0,410,55)"
+                transform="matrix(1,0,0,1,410,55)"
                 class="axis-label"
               >
-                <g>
+                <g transform="matrix(0,1,-1,0,0,0)">
                   <text
                     id="g-svg-94"
                     fill="rgba(0,0,0,1)"
@@ -945,17 +945,17 @@
                     text-anchor="left"
                     class="axis-label-item"
                   >
-                    OceanBase
+                    Ocean...
                   </text>
                 </g>
               </g>
               <g
                 id="g-svg-78"
                 fill="none"
-                transform="matrix(0,1,-1,0,432.500000,55)"
+                transform="matrix(1,0,0,1,432.500000,55)"
                 class="axis-label"
               >
-                <g>
+                <g transform="matrix(0,1,-1,0,0,0)">
                   <text
                     id="g-svg-95"
                     fill="rgba(0,0,0,1)"
@@ -971,17 +971,17 @@
                     text-anchor="left"
                     class="axis-label-item"
                   >
-                    投资基金线
+                    投资基...
                   </text>
                 </g>
               </g>
               <g
                 id="g-svg-79"
                 fill="none"
-                transform="matrix(0,1,-1,0,455,55)"
+                transform="matrix(1,0,0,1,455,55)"
                 class="axis-label"
               >
-                <g>
+                <g transform="matrix(0,1,-1,0,0,0)">
                   <text
                     id="g-svg-96"
                     fill="rgba(0,0,0,1)"
@@ -1004,10 +1004,10 @@
               <g
                 id="g-svg-80"
                 fill="none"
-                transform="matrix(0,1,-1,0,477.500000,55)"
+                transform="matrix(1,0,0,1,477.500000,55)"
                 class="axis-label"
               >
-                <g>
+                <g transform="matrix(0,1,-1,0,0,0)">
                   <text
                     id="g-svg-97"
                     fill="rgba(0,0,0,1)"
@@ -1023,7 +1023,7 @@
                     text-anchor="left"
                     class="axis-label-item"
                   >
-                    智能科技事业群
+                    智能科...
                   </text>
                 </g>
               </g>
