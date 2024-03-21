@@ -1,32 +1,29 @@
 <svg
   xmlns="http://www.w3.org/2000/svg"
-  width="310"
-  height="60"
+  width="400"
+  height="300"
   style="background: transparent;"
   color-interpolation-filters="sRGB"
 >
   <defs />
-  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
-    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
-      <g id="g-svg-11" fill="none" transform="matrix(1,0,0,1,0,0)">
+  <g id="g-svg-camera">
+    <g id="g-root" fill="none">
+      <g id="g-svg-11" fill="none">
         <g
           id="g-svg-12"
           fill="none"
+          x="0"
+          y="0"
           width="300"
           height="50"
           transform="matrix(1,0,0,1,10,10)"
         >
-          <g transform="matrix(1,0,0,1,0,0)">
+          <g>
             <path id="g-svg-1" fill="none" class="container" />
           </g>
-          <g
-            id="g-svg-2"
-            fill="none"
-            class="spark sparkline"
-            transform="matrix(1,0,0,1,0,0)"
-          >
-            <g id="g-svg-3" fill="none" transform="matrix(1,0,0,1,0,0)">
-              <g transform="matrix(1,0,0,1,0,0)">
+          <g id="g-svg-2" fill="none" class="spark sparkline" x="0" y="0">
+            <g id="g-svg-3" fill="none">
+              <g>
                 <path
                   id="g-svg-5"
                   fill="none"
@@ -36,17 +33,17 @@
                   stroke-width="1"
                 />
               </g>
-              <g transform="matrix(1,0,0,1,0,16.666666)">
+              <g>
                 <path
                   id="g-svg-6"
                   fill="none"
-                  d="M 0,16.666666666666668 L 33.33333333333333,10 L 66.66666666666666,0 L 100,23.333333333333332 L 133.33333333333331,0 L 166.66666666666669,13.333333333333332 L 200,0 L 233.33333333333334,29.999999999999996 L 266.66666666666663,16.666666666666668 L 300,33.33333333333333"
+                  d="M 0,33.333333333333336 L 33.33333333333333,26.666666666666668 L 66.66666666666666,16.666666666666668 L 100,40 L 133.33333333333331,16.666666666666668 L 166.66666666666669,30 L 200,16.666666666666668 L 233.33333333333334,46.666666666666664 L 266.66666666666663,33.333333333333336 L 300,50"
                   class="line"
                   stroke="rgba(237,191,69,1)"
                   stroke-width="1"
                 />
               </g>
-              <g transform="matrix(1,0,0,1,0,0)">
+              <g>
                 <path
                   id="g-svg-7"
                   fill="none"
@@ -56,7 +53,7 @@
                   stroke-width="1"
                 />
               </g>
-              <g transform="matrix(1,0,0,1,0,0)">
+              <g>
                 <path
                   id="g-svg-8"
                   fill="rgba(131,218,173,1)"
@@ -66,17 +63,17 @@
                   stroke-width="0"
                 />
               </g>
-              <g transform="matrix(1,0,0,1,0,16.666666)">
+              <g>
                 <path
                   id="g-svg-9"
                   fill="rgba(237,191,69,1)"
-                  d="M 0,16.666666666666668 L 33.33333333333333,10 L 66.66666666666666,0 L 100,23.333333333333332 L 133.33333333333331,0 L 166.66666666666669,13.333333333333332 L 200,0 L 233.33333333333334,29.999999999999996 L 266.66666666666663,16.666666666666668 L 300,33.33333333333333 L 300,33.33333333333333 L 0,33.33333333333333 Z"
+                  d="M 0,33.333333333333336 L 33.33333333333333,26.666666666666668 L 66.66666666666666,16.666666666666668 L 100,40 L 133.33333333333331,16.666666666666668 L 166.66666666666669,30 L 200,16.666666666666668 L 233.33333333333334,46.666666666666664 L 266.66666666666663,33.333333333333336 L 300,50 L 300,50 L 0,50 Z"
                   class="area"
                   opacity="0.5"
                   stroke-width="0"
                 />
               </g>
-              <g transform="matrix(1,0,0,1,0,0)">
+              <g>
                 <path
                   id="g-svg-10"
                   fill="rgba(210,206,249,1)"
@@ -87,7 +84,7 @@
                 />
               </g>
             </g>
-            <g id="g-svg-4" fill="none" transform="matrix(1,0,0,1,0,0)" />
+            <g id="g-svg-4" fill="none" />
           </g>
         </g>
       </g>

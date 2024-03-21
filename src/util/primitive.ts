@@ -1,11 +1,8 @@
 export const PRIMILTIVE_ATTRIBUTES = [
   '$el',
-  'anchor',
   'cx',
   'cy',
   'd',
-  'defX',
-  'defY',
   'dx',
   'dy',
   'fill',

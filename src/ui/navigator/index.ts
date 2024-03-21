@@ -41,6 +41,8 @@ const CLASS_NAMES = classNames(
 export class Navigator extends Component<NavigatorStyleProps> {
   constructor(options: NavigatorOptions) {
     super(options, {
+      x: 0,
+      y: 0,
       animate: {
         easing: 'linear',
         duration: 200,
@@ -48,7 +50,7 @@ export class Navigator extends Component<NavigatorStyleProps> {
       },
       buttonCursor: 'pointer',
       buttonFill: 'black',
-      buttonPath: button(0, 0, 6),
+      buttonD: button(0, 0, 6),
       buttonSize: 12,
       controllerPadding: 5,
       controllerSpacing: 5,
@@ -305,6 +307,8 @@ export class Navigator extends Component<NavigatorStyleProps> {
 
     this.updatePageInfo();
 
+    // group.node().style.transform = `translate(${pageWidth + spacing}, ${pageHeight / 2})`;
+
     // put it on the right side of the container
     group.node().setLocalPosition(pageWidth + spacing, pageHeight / 2);
     if (whetherToAddEventListener) {
@@ -318,6 +322,9 @@ export class Navigator extends Component<NavigatorStyleProps> {
   }
 
   render(attributes: NavigatorStyleProps, container: Group) {
+    const { x = 0, y = 0 } = attributes;
+    this.attr('transform', `translate(${x}, ${y})`);
+
     /**
      * container
      *  |- contentGroup (with clip path)

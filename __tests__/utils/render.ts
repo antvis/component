@@ -23,7 +23,7 @@ export function createCanvas(size = 300, renderer = 'canvas', grid = false) {
       path.push(['M', i, 0], ['L', i, size]);
       path.push(['M', 0, i], ['L', size, i]);
     }
-    canvas.appendChild(new Path({ style: { lineWidth: 0.5, stroke: '#ddd', lineDash: [gap / 4, gap / 4], path } }));
+    canvas.appendChild(new Path({ style: { lineWidth: 0.5, stroke: '#ddd', lineDash: [gap / 4, gap / 4], d: path } }));
   }
 
   return canvas;

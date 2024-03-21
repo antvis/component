@@ -21,6 +21,8 @@ export type SliderStyleProps = GroupStyleProps &
   PrefixObject<RectStyleProps, 'selection'> &
   HandleStyleProps &
   Partial<PrefixStyleProps<Omit<SparklineStyleProps, 'width' | 'height'>, 'sparkline'>> & {
+    x?: number;
+    y?: number;
     /** 动画配置 */
     animate?: GenericAnimation;
 

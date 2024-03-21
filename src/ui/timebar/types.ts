@@ -8,6 +8,8 @@ import type { LinearAxisStyleProps } from '../axis/types';
 export type Functions = 'reset' | 'speed' | 'backward' | 'playPause' | 'forward' | 'selectionType' | 'chartType';
 export type ControllerStyleProps = GroupStyleProps &
   PrefixObject<BaseStyleProps, 'background'> & {
+    x?: number;
+    y?: number;
     width: number;
     height: number;
     padding?: SeriesAttr;
@@ -72,6 +74,8 @@ export type TimebarStyleProps = GroupStyleProps &
   PrefixObject<Omit<LinearAxisStyleProps, 'type' | 'startPos' | 'endPos' | 'data'>, 'axis'> &
   Pick<ControllerStyleProps, UnvarnishedControllerProps> &
   PrefixObject<Omit<ControllerStyleProps, 'width' | 'onChange' | UnvarnishedControllerProps>, 'controller'> & {
+    x?: number;
+    y?: number;
     /**
      * 类型
      * @description time 时间轴

@@ -34,7 +34,7 @@ export class CircleCrosshair extends CrosshairBase<Required<CircleCrosshairStyle
     } = this.attributes;
 
     const path = this.createCirclePath(((lx - cx) ** 2 + (ly - cy) ** 2) ** 0.5) as any;
-    this.crosshairShape.attr({ path });
+    this.crosshairShape.attr({ d: path });
   }
 
   protected adjustLayout() {

@@ -13,6 +13,8 @@ export type ButtonStyleProps = GroupStyleProps &
       Partial<PrefixStyleProps<RectStyleProps, 'button'>> &
       Partial<PrefixStyleProps<Omit<MarkerStyleProps, 'symbol'>, 'marker'>>
   > & {
+    x?: number;
+    y?: number;
     type?: 'primary' | 'dashed' | 'link' | 'text' | 'default';
     /**
      * @title 大小

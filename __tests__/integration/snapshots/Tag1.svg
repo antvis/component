@@ -6,16 +6,18 @@
   color-interpolation-filters="sRGB"
 >
   <defs />
-  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
-    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
-      <g id="g-svg-15" fill="none" transform="matrix(1,0,0,1,0,0)">
+  <g id="g-svg-camera">
+    <g id="g-root" fill="none">
+      <g id="g-svg-15" fill="none">
         <g id="g-svg-16" fill="none" transform="matrix(1,0,0,1,100,100)">
-          <g transform="matrix(1,0,0,1,0,0)">
+          <g>
             <path
               id="g-svg-6"
               fill="rgba(250,250,250,1)"
               class="tag-background"
               d="M 2,0 l 21.560000000000002,0 a 2,2,0,0,1,2,2 l 0,27 a 2,2,0,0,1,-2,2 l -21.560000000000002,0 a 2,2,0,0,1,-2,-2 l 0,-27 a 2,2,0,0,1,2,-2 z"
+              y="0"
+              x="0"
               width="25.560000000000002"
               height="31"
               stroke="rgba(217,217,217,1)"
@@ -28,13 +30,8 @@
             transform="matrix(1,0,0,1,4,15.500000)"
             class="tag-content"
           >
-            <g
-              id="g-svg-2"
-              fill="none"
-              transform="matrix(1,0,0,1,0,0)"
-              class="tag-marker"
-            >
-              <g transform="matrix(1,0,0,1,0,0)">
+            <g id="g-svg-2" fill="none" class="tag-marker">
+              <g>
                 <path
                   id="g-svg-4"
                   fill="none"
@@ -43,7 +40,7 @@
                 />
               </g>
             </g>
-            <g transform="matrix(1,0,0,1,0,0)">
+            <g>
               <text
                 id="g-svg-5"
                 fill="rgba(0,0,0,1)"
@@ -65,12 +62,14 @@
           </g>
         </g>
         <g id="g-svg-17" fill="none" transform="matrix(1,0,0,1,200,100)">
-          <g transform="matrix(1,0,0,1,-4,0)">
+          <g>
             <path
               id="g-svg-12"
               fill="rgba(219,241,183,1)"
               class="tag-background"
-              d="M 2,0 l 33.920000000000016,0 a 2,2,0,0,1,2,2 l 0,27 a 2,2,0,0,1,-2,2 l -33.920000000000016,0 a 2,2,0,0,1,-2,-2 l 0,-27 a 2,2,0,0,1,2,-2 z"
+              d="M -2,0 l 33.920000000000016,0 a 2,2,0,0,1,2,2 l 0,27 a 2,2,0,0,1,-2,2 l -33.920000000000016,0 a 2,2,0,0,1,-2,-2 l 0,-27 a 2,2,0,0,1,2,-2 z"
+              y="0"
+              x="-4"
               width="37.920000000000016"
               height="31"
               stroke="rgba(217,217,217,1)"
@@ -83,23 +82,18 @@
             transform="matrix(1,0,0,1,4,15.500000)"
             class="tag-content"
           >
-            <g
-              id="g-svg-8"
-              fill="none"
-              transform="matrix(1,0,0,1,0,0)"
-              class="tag-marker"
-            >
-              <g transform="matrix(1,0,0,1,-4,-4)">
+            <g id="g-svg-8" fill="none" class="tag-marker">
+              <g>
                 <path
                   id="g-svg-10"
                   fill="none"
                   class="tag-marker"
-                  d="M 0,4 L 4,0 L 8,4 L 4,8 Z"
+                  d="M -4,0 L 0,-4 L 4,0 L 0,4 Z"
                   stroke="rgba(91,143,249,1)"
                 />
               </g>
             </g>
-            <g transform="matrix(1,0,0,1,8,0)">
+            <g>
               <text
                 id="g-svg-11"
                 fill="rgba(255,0,0,1)"
@@ -113,7 +107,9 @@
                 stroke-width="1"
                 text-anchor="left"
                 class="tag-text"
+                x="8"
                 dx="0.5"
+                y="0"
               >
                 G6
               </text>
@@ -121,12 +117,14 @@
           </g>
         </g>
         <g id="g-svg-18" fill="none" transform="matrix(1,0,0,1,300,100)">
-          <g transform="matrix(1,0,0,1,0,0)">
+          <g>
             <path
               id="g-svg-18"
               fill="rgba(250,250,250,1)"
               class="tag-background"
               d="M 6,0 l 50.91999999999996,0 a 6,6,0,0,1,6,6 l 0,23 a 6,6,0,0,1,-6,6 l -50.91999999999996,0 a 6,6,0,0,1,-6,-6 l 0,-23 a 6,6,0,0,1,6,-6 z"
+              y="0"
+              x="0"
               width="62.91999999999996"
               height="35"
               stroke="rgba(217,217,217,1)"
@@ -139,13 +137,8 @@
             transform="matrix(1,0,0,1,24,17.500000)"
             class="tag-content"
           >
-            <g
-              id="g-svg-14"
-              fill="none"
-              transform="matrix(1,0,0,1,0,0)"
-              class="tag-marker"
-            >
-              <g transform="matrix(1,0,0,1,0,0)">
+            <g id="g-svg-14" fill="none" class="tag-marker">
+              <g>
                 <path
                   id="g-svg-16"
                   fill="none"
@@ -154,7 +147,7 @@
                 />
               </g>
             </g>
-            <g transform="matrix(1,0,0,1,0,0)">
+            <g>
               <text
                 id="g-svg-17"
                 fill="rgba(0,0,0,1)"

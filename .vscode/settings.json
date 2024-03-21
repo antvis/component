@@ -1,7 +1,4 @@
 {
-  "cSpell.words": [
-    "bbox",
-    "Sparkline",
-    "timebar"
-  ]
+  "cSpell.words": ["bbox", "Sparkline", "timebar"],
+  "svg.preview.background": "white"
 }

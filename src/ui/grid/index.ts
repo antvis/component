@@ -79,7 +79,7 @@ function renderGridLine(
   const lines = data.map((item, idx) => {
     return {
       id: item.id || `grid-line-${idx}`,
-      path: getLinePath(item.points, attr),
+      d: getLinePath(item.points, attr),
     };
   });
   return container
@@ -90,7 +90,7 @@ function renderGridLine(
         enter.append('path').each(function (datum, index) {
           const lineStyle = getCallbackValue(
             getPrimitiveAttributes({
-              path: datum.path,
+              d: datum.d,
               ...style,
             }),
             [datum, index, lines]
@@ -108,7 +108,7 @@ function renderGridLine(
         update.transition(function (datum, index) {
           const lineStyle = getCallbackValue(
             getPrimitiveAttributes({
-              path: datum.path,
+              d: datum.d,
               ...style,
             }),
             [datum, index, lines]
@@ -134,7 +134,7 @@ function renderAlternateRegion(container: Selection<Group>, data: GridStyleProps
   for (let idx = 0; idx < data.length - 1; idx++) {
     const [prev, curr] = [data[idx].points, data[idx + 1].points];
     const path = connectPaths(prev, curr, style);
-    regions.push({ path, fill: getColor(idx) });
+    regions.push({ d: path, fill: getColor(idx) });
   }
 
   return container

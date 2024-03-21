@@ -1,32 +1,28 @@
 <svg
   xmlns="http://www.w3.org/2000/svg"
-  width="310"
-  height="60"
+  width="400"
+  height="300"
   style="background: transparent;"
   color-interpolation-filters="sRGB"
 >
   <defs />
-  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
-    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
-      <g id="g-svg-40" fill="none" transform="matrix(1,0,0,1,0,0)">
-        <g
-          id="g-svg-41"
-          fill="none"
-          width="300"
-          height="50"
-          transform="matrix(1,0,0,1,10,10)"
-        >
-          <g transform="matrix(1,0,0,1,0,0)">
+  <g id="g-svg-camera">
+    <g id="g-root" fill="none">
+      <g id="g-svg-40" fill="none">
+        <g id="g-svg-41" fill="none" x="10" y="10" width="300" height="50">
+          <g>
             <path id="g-svg-1" fill="none" class="container" />
           </g>
           <g
             id="g-svg-2"
             fill="none"
             class="spark sparkline"
-            transform="matrix(1,0,0,1,0,0)"
+            x="10"
+            y="10"
+            transform="matrix(1,0,0,1,10,10)"
           >
-            <g id="g-svg-3" fill="none" transform="matrix(1,0,0,1,0,0)">
-              <g transform="matrix(1,0,0,1,0,0)">
+            <g id="g-svg-3" fill="none">
+              <g>
                 <path
                   id="g-svg-5"
                   fill="none"
@@ -36,17 +32,17 @@
                   stroke-width="1"
                 />
               </g>
-              <g transform="matrix(1,0,0,1,0,10)">
+              <g>
                 <path
                   id="g-svg-6"
                   fill="none"
-                  d="M 0,10.000000000000002 L 33.33333333333333,6 L 66.66666666666666,0 L 100,14.000000000000002 L 133.33333333333331,0 L 166.66666666666669,8.000000000000002 L 200,0 L 233.33333333333334,18.000000000000007 L 266.66666666666663,10.000000000000002 L 300,20"
+                  d="M 0,20 L 33.33333333333333,15.999999999999998 L 66.66666666666666,9.999999999999998 L 100,24 L 133.33333333333331,9.999999999999998 L 166.66666666666669,18 L 200,9.999999999999998 L 233.33333333333334,28.000000000000004 L 266.66666666666663,20 L 300,30"
                   class="line"
                   stroke="rgba(237,191,69,1)"
                   stroke-width="1"
                 />
               </g>
-              <g transform="matrix(1,0,0,1,0,0)">
+              <g>
                 <path
                   id="g-svg-7"
                   fill="none"
@@ -56,7 +52,7 @@
                   stroke-width="1"
                 />
               </g>
-              <g transform="matrix(1,0,0,1,0,0)">
+              <g>
                 <path
                   id="g-svg-8"
                   fill="rgba(131,218,173,1)"
@@ -65,16 +61,16 @@
                   opacity="0"
                 />
               </g>
-              <g transform="matrix(1,0,0,1,0,10)">
+              <g>
                 <path
                   id="g-svg-9"
                   fill="rgba(237,191,69,1)"
-                  d="M 0,10.000000000000002 L 33.33333333333333,6 L 66.66666666666666,0 L 100,14.000000000000002 L 133.33333333333331,0 L 166.66666666666669,8.000000000000002 L 200,0 L 233.33333333333334,18.000000000000007 L 266.66666666666663,10.000000000000002 L 300,20 L 300,20 L 0,20 Z"
+                  d="M 0,20 L 33.33333333333333,15.999999999999998 L 66.66666666666666,9.999999999999998 L 100,24 L 133.33333333333331,9.999999999999998 L 166.66666666666669,18 L 200,9.999999999999998 L 233.33333333333334,28.000000000000004 L 266.66666666666663,20 L 300,30 L 300,30 L 0,30 Z"
                   class="area"
                   opacity="0"
                 />
               </g>
-              <g transform="matrix(1,0,0,1,0,0)">
+              <g>
                 <path
                   id="g-svg-10"
                   fill="rgba(210,206,249,1)"
@@ -84,7 +80,7 @@
                 />
               </g>
             </g>
-            <g id="g-svg-4" fill="none" transform="matrix(1,0,0,1,0,0)" />
+            <g id="g-svg-4" fill="none" />
           </g>
         </g>
       </g>

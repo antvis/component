@@ -49,7 +49,6 @@ export const AxisAnimationUpdate5 = () => {
     new Button({
       style: {
         x: 80,
-        y: 0,
         text: 'reset',
         onClick: reset,
       },

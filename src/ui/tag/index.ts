@@ -23,6 +23,7 @@ function adjust(container: Group, paddingLeft: number, paddingTop: number, align
 }
 
 function getTextPosition(markerShape: Marker, spacing?: number) {
+  // @ts-ignore
   const bounds = markerShape.getLocalBounds();
 
   return {

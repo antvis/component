@@ -21,6 +21,8 @@ export const BugCategoryWithShape2 = () => {
   rect2.appendChild(
     new Category({
       style: {
+        x: 50,
+        y: 50,
         titleText: 'title',
         titleFontSize: 20,
         width,

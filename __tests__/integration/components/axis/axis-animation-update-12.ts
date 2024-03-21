@@ -14,8 +14,7 @@ export const AxisAnimationUpdate12 = () => {
   const g1 = group.appendChild(
     new Group({
       style: {
-        x: 100,
-        y: 100,
+        transform: 'translate(100, 100)',
       },
     })
   );
@@ -23,8 +22,7 @@ export const AxisAnimationUpdate12 = () => {
   const g2 = group.appendChild(
     new Group({
       style: {
-        x: 50,
-        y: 50,
+        transform: 'translate(50, 50)',
       },
     })
   );

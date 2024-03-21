@@ -52,7 +52,7 @@ export class Option extends Component<OptionStyleProps> {
       fill: selected ? this.selectedColor : '#fff',
     });
     // place label
-    this.label.attr({ x: left, y: (backgroundHeight - labelHeight) / 2 });
+    this.label.attr({ transform: `translate(${left}, ${(backgroundHeight - labelHeight) / 2})` });
   }
 
   constructor(options: OptionOptions) {

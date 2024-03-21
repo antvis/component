@@ -21,6 +21,7 @@ export const ContinuousDemo = () => {
           handleFormatter: (str: any) => `${str}°C`,
           titleText: 'Title',
           handleMarkerSize: 30,
+          transform: `translate(${x}, ${y})`,
           ...args,
         },
       })

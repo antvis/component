@@ -40,6 +40,10 @@ type ChartModeHandleStyleProps = GroupStyleProps &
   PrefixObject<Omit<RectStyleProps, 'x' | 'y' | 'width' | 'height'>, 'background'> &
   PrefixObject<Omit<LineStyleProps, 'x1' | 'y1' | 'x2' | 'y2'>, 'icon'> &
   PrefixObject<Omit<LineStyleProps, 'x1' | 'y1' | 'x2' | 'y2'>, 'border'> & {
+    x?: number;
+    y?: number;
+    width?: number;
+    height?: number;
     /** 图标尺寸 */
     iconSize?: number;
     type: HandleType;
@@ -48,6 +52,8 @@ type ChartModeHandleOptions = ComponentOptions<ChartModeHandleStyleProps>;
 export class ChartModeHandle extends Component<ChartModeHandleStyleProps> {
   static defaultOptions: ChartModeHandleOptions = {
     style: {
+      x: 0,
+      y: 0,
       width: 10,
       height: 50,
       iconSize: 10,
@@ -62,41 +68,41 @@ export class ChartModeHandle extends Component<ChartModeHandleStyleProps> {
   };
 
   private renderBackground() {
-    const { width, height } = this.attributes;
+    const { x, y, width, height } = this.attributes;
     const style = subStyleProps(this.attributes, 'background');
     select(this)
       .maybeAppend('background', 'rect')
       .attr('className', 'background')
-      .styles({ x: -width / 2, y: -height / 2, width, height, ...style });
+      .styles({ x: x - width / 2, y: y - height / 2, width, height, ...style });
   }
 
   private renderIcon() {
-    const { iconSize } = this.attributes;
+    const { x, y, iconSize } = this.attributes;
     const style = subStyleProps(this.attributes, 'icon');
     const diffX = 1;
     const diffY = iconSize / 2;
     select(this)
       .maybeAppend('icon-left-line', 'line')
       .attr('className', 'icon-left-line')
-      .styles({ x1: -diffX, y1: -diffY, x2: -diffX, y2: diffY, ...style });
+      .styles({ x1: x - diffX, y1: y - diffY, x2: x - diffX, y2: y + diffY, ...style });
     select(this)
       .maybeAppend('icon-right-line', 'line')
       .attr('className', 'icon-right-line')
-      .styles({ x1: diffX, y1: -diffY, x2: diffX, y2: diffY, ...style });
+      .styles({ x1: x + diffX, y1: y - diffY, x2: x + diffX, y2: y + diffY, ...style });
   }
 
   private renderBorder() {
-    const { width, height, type } = this.attributes;
+    const { x: xx, y, width, height, type } = this.attributes;
     const style = subStyleProps(this.attributes, 'border');
     const x = type === 'start' ? +width / 2 : -width / 2;
     select(this)
       .maybeAppend('border', 'line')
       .attr('className', 'border')
       .styles({
-        x1: x,
-        y1: -height / 2,
-        x2: x,
-        y2: +height / 2,
+        x1: x + xx,
+        y1: y - height / 2,
+        x2: x + xx,
+        y2: y + height / 2,
         ...style,
       });
   }

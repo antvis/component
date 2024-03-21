@@ -20,6 +20,8 @@ export type TooltipItem = {
 };
 
 export type TooltipStyleProps = GroupStyleProps & {
+  x?: number;
+  y?: number;
   /* 项目 */
   data?: TooltipItem[];
   /** 标题 */

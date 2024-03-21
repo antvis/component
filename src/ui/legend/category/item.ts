@@ -42,6 +42,8 @@ export type CategoryItemStyleProps = GroupStyleProps &
     valueText?: ExtendDisplayObject;
     // if width and height not specific, set it to actual space occurred
     width?: number;
+    x?: number;
+    y?: number;
   };
 
 export type CategoryItemOptions = ComponentOptions<CategoryItemStyleProps>;
@@ -196,7 +198,8 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
 
       // record the scale of marker
       this.markerGroup.node().scale(1 / this.markerGroup.node().getScale()[0]);
-      scaleToPixel(this.markerGroup.node(), this.scaleSize, true);
+      const scale = scaleToPixel(this.markerGroup.node(), this.scaleSize, true);
+      this.markerGroup.node().style._transform = `scale(${scale})`;
     });
   }
 
@@ -231,18 +234,25 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
       },
     } = this;
     const halfHeight = height / 2;
-    this.markerGroup.styles({ x: markerX, y: halfHeight });
-    this.labelGroup.styles({ x: labelX, y: halfHeight });
+
+    // console.log(this.markerGroup.node().style._transform);
+
+    this.markerGroup.styles({
+      transform: `translate(${markerX}, ${halfHeight})${this.markerGroup.node().style._transform}`,
+    });
+    this.labelGroup.styles({ transform: `translate(${labelX}, ${halfHeight})` });
 
     ellipsisIt(this.labelGroup.select(CLASS_NAMES.label.class).node(), Math.ceil(labelWidth));
     if (this.showValue) {
-      this.valueGroup.styles({ x: valueX, y: halfHeight });
+      this.valueGroup.styles({ transform: `translate(${valueX}, ${halfHeight})` });
       ellipsisIt(this.valueGroup.select(CLASS_NAMES.value.class).node(), Math.ceil(valueWidth));
     }
   }
 
   public render(attributes: CategoryItemStyleProps, container: Group) {
     const ctn = select(container);
+    const { x = 0, y = 0 } = attributes;
+    ctn.styles({ transform: `translate(${x}, ${y})` });
     this.renderMarker(ctn);
     this.renderLabel(ctn);
     this.renderValue(ctn);

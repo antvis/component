@@ -43,8 +43,7 @@ export const Continuous1 = () => {
           handleMarkerSize: 30,
           ribbonTrackFill: 'pink',
           showLabel: false,
-          x: 0,
-          y,
+          transform: `translateY(${y})`,
           ...con,
         },
       })

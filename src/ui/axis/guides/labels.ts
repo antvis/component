@@ -187,24 +187,30 @@ function overlapHandler(attr: Required<AxisStyleProps>) {
   });
 }
 
-function renderLabel(container: DisplayObject, datum: any, data: any[], style: any, attr: Required<AxisStyleProps>) {
+function renderLabel(
+  container: DisplayObject,
+  datum: any,
+  data: any[],
+  style: any,
+  attr: Required<AxisStyleProps>
+): DisplayObject {
   const index = data.indexOf(datum);
   const label = select(container)
     .append(formatter(datum, index, data, attr))
     .attr('className', CLASS_NAMES.labelItem.name)
     .node();
   const [labelStyle, { transform, ...groupStyle }] = splitStyle(getCallbackStyle(style, [datum, index, data]));
-  percentTransform(container, transform);
 
-  const rotate = getLabelRotation(datum, container, attr);
-  container.setLocalEulerAngles(+rotate);
+  percentTransform(label, transform);
+  const rotate = getLabelRotation(datum, label, attr);
+  if (!label.getLocalEulerAngles()) {
+    label.setLocalEulerAngles(rotate);
+  }
 
   applyTextStyle(label, {
     ...getLabelStyle(datum.value, rotate, attr),
     ...labelStyle,
   });
-  // todo G transform 存在问题，需要二次设置
-  percentTransform(container, transform);
   container.attr(groupStyle);
   return label;
 }
@@ -227,24 +233,30 @@ export function renderLabels(
           .attr('className', CLASS_NAMES.label.name)
           .transition(function (datum) {
             renderLabel(this, datum, data, style, attr);
-            this.attr(getLabelPos(datum, data, attr));
-            this.__bbox__ = datum.bbox;
+            const { x, y } = getLabelPos(datum, data, attr);
+            // .axis-label
+            this.style.transform = `translate(${x}, ${y})`;
             return null;
           })
-          .call(() => overlapHandler.call(container, attr)),
+          .call(() => {
+            overlapHandler.call(container, attr);
+          }),
       (update) =>
         update
           .transition(function (datum) {
             const prevLabel = this.querySelector(CLASS_NAMES.labelItem.class);
             const label = renderLabel(this, datum, data, style, attr);
             const shapeAnimation = transitionShape(prevLabel, label, animate.update);
-            const animation = transition(this, getLabelPos(datum, data, attr), animate.update);
-            this.__bbox__ = datum.bbox;
+            const { x, y } = getLabelPos(datum, data, attr);
+            const animation = transition(this, { transform: `translate(${x}, ${y})` }, animate.update);
             return [...shapeAnimation, animation];
+            // return [animation];
           })
           .call((selection) => {
             const transitions = get(selection, '_transitions').flat().filter(defined) as IAnimation[];
-            onAnimatesFinished(transitions, () => overlapHandler.call(container, attr));
+            onAnimatesFinished(transitions, () => {
+              overlapHandler.call(container, attr);
+            });
           }),
       (exit) =>
         exit.transition(function () {

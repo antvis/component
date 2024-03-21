@@ -9,6 +9,8 @@ import type { SelectOptions, SelectStyleProps } from './types';
 export class Select extends Component<SelectStyleProps> {
   static defaultOptions: SelectOptions = {
     style: {
+      x: 0,
+      y: 0,
       width: 140,
       height: 32,
       options: [],
@@ -74,10 +76,10 @@ export class Select extends Component<SelectStyleProps> {
   );
 
   private renderSelect() {
-    const { width, height, bordered, showDropdownIcon } = this.style;
+    const { x, y, width, height, bordered, showDropdownIcon } = this.style;
     const selectStyle = subStyleProps(this.attributes, 'select');
     const placeholderStyle = subStyleProps(this.attributes, 'placeholder');
-    this.select.attr({ width, height, ...selectStyle, fill: '#fff', strokeWidth: bordered ? 1 : 0 });
+    this.select.attr({ x, y, width, height, ...selectStyle, fill: '#fff', strokeWidth: bordered ? 1 : 0 });
     const padding = this.dropdownPadding;
     // dropdown icon
     const iconSize = 10;
@@ -85,7 +87,7 @@ export class Select extends Component<SelectStyleProps> {
       select(this.select)
         .maybeAppend('.dropdown-icon', 'path')
         .style('d', 'M-5,-3.5 L0,3.5 L5,-3.5')
-        .style('transform', `translate(${width - iconSize - padding[1] - padding[3]}, ${height / 2})`)
+        .style('transform', `translate(${x + width - iconSize - padding[1] - padding[3]}, ${y + height / 2})`)
         .style('lineWidth', 1)
         .style('stroke', this.select.style.stroke);
     }
@@ -93,7 +95,7 @@ export class Select extends Component<SelectStyleProps> {
     const currentOption = this.style.options?.find((option) => option.value === this.currentValue);
     // placeholder
     const finalPlaceholderStyle = {
-      x: padding[3],
+      x: x + padding[3],
       ...placeholderStyle,
     };
     select(this.select)
@@ -107,7 +109,7 @@ export class Select extends Component<SelectStyleProps> {
             .styles(finalPlaceholderStyle)
             .style('y', function () {
               const bbox = this.getBBox();
-              return (height - bbox.height) / 2;
+              return y + (height - bbox.height) / 2;
             }),
         (update) => update.styles(finalPlaceholderStyle),
         (exit) => exit.remove()
@@ -116,7 +118,7 @@ export class Select extends Component<SelectStyleProps> {
     // value
     const labelStyle = subStyleProps(this.attributes, 'optionLabel');
     const finalValueStyle = {
-      x: padding[3],
+      x: x + padding[3],
       ...labelStyle,
     };
 
@@ -131,7 +133,7 @@ export class Select extends Component<SelectStyleProps> {
             .styles(finalValueStyle)
             .style('y', function () {
               const bbox = this.getBBox();
-              return (height - bbox.height) / 2;
+              return y + (height - bbox.height) / 2;
             }),
         (update) => update.styles(finalValueStyle),
         (exit) => exit.remove()
@@ -139,7 +141,7 @@ export class Select extends Component<SelectStyleProps> {
   }
 
   private renderDropdown() {
-    const { width, height, options, onSelect, open } = this.style;
+    const { x, y, width, height, options, onSelect, open } = this.style;
     const dropdownStyle = subStyleProps(this.attributes, 'dropdown');
     const optionStyle = subStyleProps(this.attributes, 'option');
     const padding = this.dropdownPadding;
@@ -193,7 +195,7 @@ export class Select extends Component<SelectStyleProps> {
     const { spacing } = dropdownStyle;
 
     this.dropdown.attr({
-      y: height + spacing,
+      transform: `translate(${x}, ${y + height + spacing})`,
       width: bbox.width + padding[1] + padding[3],
       height: bbox.height + padding[0] + padding[2],
       ...dropdownStyle,

@@ -1,7 +1,7 @@
 <svg
   xmlns="http://www.w3.org/2000/svg"
-  width="200"
-  height="200"
+  width="100"
+  height="100"
   style="background: transparent;"
   color-interpolation-filters="sRGB"
 >
@@ -10,25 +10,25 @@
       <use href="#g-svg-1" transform="matrix(1,0,0,1,100,100)" />
     </clipPath>
   </defs>
-  <g id="g-svg-camera" transform="matrix(1,0,0,1,0,0)">
-    <g id="g-root" fill="none" transform="matrix(1,0,0,1,0,0)">
-      <g id="g-svg-2" fill="none" transform="matrix(1,0,0,1,0,0)">
-        <g id="g-svg-3" fill="none" transform="matrix(1,0,0,1,100,100)">
+  <g id="g-svg-camera">
+    <g id="g-root" fill="none">
+      <g id="g-svg-2" fill="none">
+        <g
+          id="g-svg-3"
+          fill="none"
+          x="100"
+          y="100"
+          transform="matrix(1,0,0,1,100,100)"
+        >
           <g
             id="g-svg-4"
             fill="none"
             class="navigator-content-group"
-            transform="matrix(1,0,0,1,0,0)"
             clip-path="url(#clip-path-1-4)"
           >
-            <g
-              id="g-svg-5"
-              fill="none"
-              class="navigator-play-window"
-              transform="matrix(1,0,0,1,0,0)"
-            >
-              <g id="g-svg-6" fill="none" transform="matrix(1,0,0,1,0,0)">
-                <g transform="matrix(1,0,0,1,0,0)">
+            <g id="g-svg-5" fill="none" class="navigator-play-window">
+              <g id="g-svg-6" fill="none">
+                <g>
                   <path
                     id="g-svg-7"
                     fill="rgba(247,247,247,1)"
@@ -38,12 +38,14 @@
                     stroke="rgba(255,0,0,1)"
                     visibility="visible"
                   />
-                  <g transform="matrix(1,0,0,1,50,50)">
+                  <g>
                     <text
                       id="g-svg-8"
                       fill="rgba(0,0,0,1)"
                       dominant-baseline="central"
                       paint-order="stroke"
+                      x="50"
+                      y="50"
                       dx="0.5"
                       font-family="sans-serif"
                       font-size="16"
@@ -61,7 +63,7 @@
               </g>
             </g>
           </g>
-          <g transform="matrix(1,0,0,1,0,0)">
+          <g>
             <path
               id="g-svg-1"
               fill="none"
@@ -71,12 +73,7 @@
               height="100"
             />
           </g>
-          <g
-            id="g-svg-2"
-            fill="none"
-            transform="matrix(1,0,0,1,0,0)"
-            class="navigator-controller"
-          />
+          <g id="g-svg-2" fill="none" class="navigator-controller" />
         </g>
       </g>
     </g>

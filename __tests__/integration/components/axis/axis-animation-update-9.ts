@@ -80,8 +80,3 @@ export const AxisAnimationUpdate9 = () => {
 AxisAnimationUpdate9.tags = ['坐标轴', '动画', '更新'];
 
 AxisAnimationUpdate9.wait = 500;
-
-// FIXME: skip for now
-// -             transform="matrix(1,0,0,1,54.239998,265.750000)"
-// +             transform="matrix(1,0,0,1,54.240002,265.750000)"
-AxisAnimationUpdate9.skip = true;

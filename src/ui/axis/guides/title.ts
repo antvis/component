@@ -32,7 +32,9 @@ function getTitlePosition(
     halfExtents: [mainHalfWidth, mainHalfHeight],
   } = mainGroup.node().getLocalBounds();
 
-  const [titleHalfWidth, titleHalfHeight] = titleGroup.node().getLocalBounds().halfExtents;
+  const {
+    halfExtents: [titleHalfWidth, titleHalfHeight],
+  } = titleGroup.node().getLocalBounds();
 
   let [x, y] = [mainX + mainHalfWidth, mainY + mainHalfHeight];
 
@@ -49,17 +51,16 @@ function getTitlePosition(
 
   if (pos.includes('t')) y -= mainHalfHeight + titleHalfHeight + spacingTop;
   if (pos.includes('r')) x += mainHalfWidth + titleHalfWidth + spacingRight;
-  if (pos.includes('l')) x -= mainHalfWidth + titleHalfWidth * 2 + spacingLeft;
-  if (pos.includes('b')) y += mainHalfHeight + titleHalfHeight * 2 + spacingBottom;
+  if (pos.includes('l')) x -= mainHalfWidth + titleHalfWidth + spacingLeft;
+  if (pos.includes('b')) y += mainHalfHeight + titleHalfHeight + spacingBottom;
 
   return { x, y };
 }
 
 function inferTransform(n: DisplayObject, direction: string, position: string): string {
-  const node = n.cloneNode(true);
-  node.style.transform = 'scale(1, 1)';
-  node.style.transform = 'none';
-  const { height } = node.getBBox();
+  const { halfExtents } = n.getGeometryBounds();
+  const height = halfExtents[1] * 2;
+
   if (direction === 'vertical') {
     if (position === 'left') return `rotate(-90) translate(0, ${height / 2})`;
     if (position === 'right') return `rotate(-90) translate(0, -${height / 2})`;
@@ -75,12 +76,12 @@ function applyTitleStyle(
   animate: GenericAnimation
 ) {
   const style = subStyleProps(attr, 'title');
-  const [titleStyle, { transform: specified, ...groupStyle }] = splitStyle(style);
+  const [titleStyle, { transform: specified, transformOrigin, ...groupStyle }] = splitStyle(style);
 
-  title.styles(titleStyle);
   group.styles(groupStyle);
 
   const transform = specified || inferTransform(title.node(), titleStyle.direction, titleStyle.position);
+  title.styles({ ...titleStyle, transformOrigin });
   percentTransform(title.node(), transform);
 
   const { x, y } = getTitlePosition(
@@ -90,8 +91,7 @@ function applyTitleStyle(
     attr
   );
 
-  const animation = transition(group.node(), { x, y }, animate);
-  percentTransform(title.node(), transform);
+  const animation = transition(group.node(), { transform: `translate(${x}, ${y})` }, animate);
   return animation;
 }
 

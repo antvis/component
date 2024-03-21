@@ -5,6 +5,8 @@ import { deepAssign, select } from '../../util';
 export type ColumnStyleProps = GroupStyleProps;
 
 export interface ColumnsStyleProps extends BaseStyleProps {
+  x?: number;
+  y?: number;
   columns: ColumnStyleProps[][];
 }
 
@@ -19,7 +21,8 @@ export class Columns extends DisplayObject<ColumnsStyleProps> {
   }
 
   public render(): void {
-    const { columns } = this.attributes;
+    const { columns, x, y } = this.attributes;
+    this.columnsGroup.style.transform = `translate(${x}, ${y})`;
 
     select(this.columnsGroup)
       .selectAll('.column')

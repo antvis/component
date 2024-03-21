@@ -54,7 +54,7 @@ export class PolygonCrosshair extends CrosshairBase<Required<PolygonCrosshairSty
     if (!ix || !iy) return;
     const equivalentRadius = lineLen(center, [lx, ly]) / lineLen(center, [ix, iy]);
     const path = this.createPolygonPath(equivalentRadius) as any;
-    this.crosshairShape.attr({ path });
+    this.crosshairShape.attr({ d: path });
   }
 
   protected adjustLayout() {

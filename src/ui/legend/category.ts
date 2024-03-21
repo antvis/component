@@ -44,7 +44,7 @@ export class Category extends Component<CategoryStyleProps> {
     const itemStyle = { ...partialItemStyle, width, height, x: 0, y: 0 } as CategoryStyleProps;
     this.itemsGroup = container
       .maybeAppendByClassName<Group>(CLASS_NAMES.itemsGroup, 'g')
-      .styles({ x, y, ...groupStyle });
+      .styles({ ...groupStyle, transform: `translate(${x}, ${y})` });
     const that = this;
     this.itemsGroup
       .selectAll(CLASS_NAMES.items.class)
@@ -66,7 +66,7 @@ export class Category extends Component<CategoryStyleProps> {
     const { showTitle } = this.attributes;
     if (showTitle) {
       const { x, y } = this.title.node<Title>().getAvailableSpace();
-      this.itemsGroup.node().setLocalPosition(x, y);
+      this.itemsGroup.node().style.transform = `translate(${x}, ${y})`;
     }
   }
 
@@ -84,8 +84,9 @@ export class Category extends Component<CategoryStyleProps> {
   }
 
   render(attributes: Required<CategoryStyleProps>, container: Group) {
-    const { width, height } = attributes;
+    const { width, height, x = 0, y = 0 } = this.attributes;
     const ctn = select(container);
+    container.style.transform = `translate(${x}, ${y})`;
 
     this.renderTitle(ctn, width!, height!);
 

@@ -21,7 +21,7 @@ export const BugCategoryMarker = () => {
   group.appendChild(
     new Category({
       style: {
-        itemMarker: (d: any, i: number) => () => new Path({ style: { path: circle(0, 0, 6) } }),
+        itemMarker: (d: any, i: number) => () => new Path({ style: { d: circle(0, 0, 6) } }),
         itemMarkerStroke: (_: any, index: number) => data[index].color,
         data,
 

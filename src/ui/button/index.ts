@@ -95,8 +95,10 @@ export class Button extends Component<ButtonStyleProps> {
 
   // @todo 处理 markerAlign='right' 的场景. 方案: left marker & right marker 处理为两个 shape, 互相不干扰
   public render(attributes: Required<ButtonStyleProps>, container: Group) {
-    const { text = '', padding = 0, markerSymbol, markerSpacing = 0 } = attributes;
-    container.attr('cursor', this.state === 'disabled' ? 'not-allowed' : 'pointer');
+    const { text = '', padding = 0, markerSymbol, markerSpacing = 0, x = 0, y = 0 } = attributes;
+    container.attr({
+      cursor: this.state === 'disabled' ? 'not-allowed' : 'pointer',
+    });
     const [pt, pr, pb, pl] = parseSeriesAttr(padding);
     const height = this.buttonHeight;
 
@@ -106,8 +108,8 @@ export class Button extends Component<ButtonStyleProps> {
     const style = {
       ...markerStyle,
       symbol: markerSymbol,
-      x: pl + markerSize / 2,
-      y: height / 2,
+      x: x + pl + markerSize / 2,
+      y: y + height / 2,
       size: markerSize,
     };
     const markerShape = maybeAppend(container, '.marker', () => new Marker({ className: 'marker', style }))
@@ -120,8 +122,8 @@ export class Button extends Component<ButtonStyleProps> {
     this.textShape = maybeAppend(container, '.text', 'text')
       .attr('className', 'text')
       .styles({
-        x: markerSize ? bounds.max[0] + markerSpacing : pl,
-        y: height / 2,
+        x: x + (markerSize ? bounds.max[0] + markerSpacing : pl),
+        y: y + height / 2,
         ...textStyle,
         text,
         textAlign: 'left',
@@ -141,6 +143,8 @@ export class Button extends Component<ButtonStyleProps> {
       .styles({
         zIndex: -1,
         ...buttonStyle,
+        x,
+        y,
         height,
         width: pl + (markerSize ? markerSize + markerSpacing : 0) + textBounds.halfExtents[0] * 2 + pr,
       });

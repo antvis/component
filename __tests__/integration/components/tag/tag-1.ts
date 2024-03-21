@@ -7,8 +7,7 @@ export const Tag1 = () => {
   group.appendChild(
     new Tag({
       style: {
-        x: 100,
-        y: 100,
+        transform: 'translate(100, 100)',
         text: 'G2',
       },
     })
@@ -17,8 +16,7 @@ export const Tag1 = () => {
   group.appendChild(
     new Tag({
       style: {
-        x: 200,
-        y: 100,
+        transform: 'translate(200, 100)',
         text: 'G6',
         backgroundFill: '#DBF1B7',
         labelFill: 'red',
@@ -34,8 +32,7 @@ export const Tag1 = () => {
   const tag = group.appendChild(
     new Tag({
       style: {
-        x: 300,
-        y: 100,
+        transform: 'translate(300, 100)',
         text: 'L7',
         radius: 6,
         padding: [6, 24],

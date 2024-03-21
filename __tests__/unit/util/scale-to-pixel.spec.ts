@@ -23,7 +23,7 @@ describe('scale to pixel', () => {
     // height: 10
     const path1 = new Path({
       style: {
-        path: 'M0,0 L10,10 L20,0 Z',
+        d: 'M0,0 L10,10 L20,0 Z',
       },
     });
     const path1Bbox = path1.getBBox();
@@ -56,7 +56,7 @@ describe('scale to pixel', () => {
     // height: 10
     const path1 = new Path({
       style: {
-        path: 'M0,0 L10,10 L20,0 Z',
+        d: 'M0,0 L10,10 L20,0 Z',
       },
     });
     const path1Bbox = path1.getBBox();

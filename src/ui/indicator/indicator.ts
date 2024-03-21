@@ -58,7 +58,7 @@ export class Indicator extends Component<IndicatorStyleProps> {
 
     this.background = select(this.group)
       .maybeAppendByClassName(CLASS_NAMES.background, 'path')
-      .styles({ ...style, path });
+      .styles({ ...style, d: path });
     this.group.appendChild(this.label.node());
   }
 
@@ -78,7 +78,8 @@ export class Indicator extends Component<IndicatorStyleProps> {
 
   private adjustLayout() {
     const [dx, dy] = this.point;
-    this.group.attr('x', -dx).attr('y', -dy);
+    const { x, y } = this.attributes;
+    this.group.attr('transform', `translate(${x - dx}, ${y - dy})`);
   }
 
   private getPath(position: Position, bbox: BBox) {

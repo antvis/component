@@ -29,7 +29,7 @@ export const SparklineScaleColumn = it((group) => {
     })
   );
 
-  const shape2 = { x: 10, y: 70, width: 300, height: 50 };
+  const shape2 = { x: 10, y: 70, transform: `translate(30, 30)`, width: 300, height: 50 };
 
   group.appendChild(
     new Rect({

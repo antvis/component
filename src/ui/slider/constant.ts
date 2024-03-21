@@ -20,6 +20,8 @@ export const HANDLE_LABEL_DEFAULT_CFG = {
 } as const;
 
 export const HANDLE_DEFAULT_CFG = {
+  x: 0,
+  y: 0,
   orientation: 'horizontal',
   showLabel: true,
   type: 'start',

@@ -83,7 +83,7 @@ export class Slider extends Component<SliderStyleProps> {
   }
 
   private get availableSpace() {
-    const { padding } = this.attributes;
+    const { x, y, padding } = this.attributes;
     const [top, right, bottom, left] = parseSeriesAttr(padding!);
     const { width, height } = this.shape;
     return {
@@ -96,6 +96,8 @@ export class Slider extends Component<SliderStyleProps> {
 
   constructor(options: SliderOptions) {
     super(options, {
+      x: 0,
+      y: 0,
       animate: { duration: 100, fill: 'both' },
       brushable: true,
       formatter: (val: any) => val.toString(),
@@ -167,18 +169,21 @@ export class Slider extends Component<SliderStyleProps> {
   }
 
   private renderTrack(container: Group) {
+    const { x, y } = this.attributes;
     const style = subStyleProps(this.attributes, 'track');
 
     this.trackShape = select(container)
       .maybeAppendByClassName(CLASS_NAMES.track, 'rect')
-      .styles({ ...this.shape, ...style });
+      .styles({ x, y, ...this.shape, ...style });
   }
 
   private renderBrushArea(container: Group) {
-    const { brushable } = this.attributes;
+    const { x, y, brushable } = this.attributes;
     this.brushArea = select(container)
       .maybeAppendByClassName(CLASS_NAMES.brushArea, 'rect')
       .styles({
+        x,
+        y,
         fill: 'transparent',
         cursor: brushable ? 'crosshair' : 'default',
         ...this.shape,
@@ -186,11 +191,11 @@ export class Slider extends Component<SliderStyleProps> {
   }
 
   private renderSparkline(container: Group) {
-    const { orientation } = this.attributes;
+    const { x, y, orientation } = this.attributes;
     const sparklineGroup = select(container).maybeAppendByClassName(CLASS_NAMES.sparklineGroup, 'g');
 
     ifShow(orientation === 'horizontal', sparklineGroup, (group) => {
-      const style = this.sparklineStyle!;
+      const style = { ...this.sparklineStyle!, x, y };
       group.maybeAppendByClassName(CLASS_NAMES.sparkline, () => new Sparkline({ style })).update(style);
     });
   }
@@ -232,7 +237,7 @@ export class Slider extends Component<SliderStyleProps> {
   }
 
   private renderSelection(container: Group) {
-    const { type, selectionType } = this.attributes;
+    const { x, y, type, selectionType } = this.attributes;
     this.foregroundGroup = select(container).maybeAppendByClassName(CLASS_NAMES.foreground, 'g');
 
     // value 类型的 slider 不渲染选区
@@ -245,7 +250,10 @@ export class Slider extends Component<SliderStyleProps> {
           if (selectionType === 'invert') return 'crosshair';
           return 'default';
         })
-        .styles(selectionStyle);
+        .styles({
+          ...selectionStyle,
+          transform: `translate(${x}, ${y})`,
+        });
     };
 
     const that = this;
@@ -381,8 +389,8 @@ export class Slider extends Component<SliderStyleProps> {
   private inferTextStyle(handleType: HandleType): Record<string, any> {
     const { orientation } = this.attributes;
     if (orientation === 'horizontal') return {};
-    if (handleType === 'start') return { transform: 'rotate(90)', textAlign: 'start' };
-    if (handleType === 'end') return { transform: 'rotate(90)', textAlign: 'end' };
+    if (handleType === 'start') return { transformOrigin: 'left center', transform: 'rotate(90)', textAlign: 'start' };
+    if (handleType === 'end') return { transformOrigin: 'right center', transform: 'rotate(90)', textAlign: 'end' };
     return {};
   }
 
@@ -470,8 +478,8 @@ export class Slider extends Component<SliderStyleProps> {
   }
 
   private getHandleStyle(handleType: HandleType): HandleStyleProps {
-    const { showLabel, showLabelOnInteraction, orientation } = this.attributes;
-    const handlePosition = this.calcHandlePosition(handleType);
+    const { x: ox, y: oy, showLabel, showLabelOnInteraction, orientation } = this.attributes;
+    const { x, y } = this.calcHandlePosition(handleType);
     const textStyle = this.calcHandleText(handleType);
 
     let internalShowLabel = showLabel;
@@ -483,7 +491,7 @@ export class Slider extends Component<SliderStyleProps> {
     return {
       ...superStyleProps(this.getHandleIconStyle(), 'icon'),
       ...superStyleProps({ ...this.getHandleLabelStyle(handleType), ...textStyle }, 'label'),
-      ...handlePosition,
+      transform: `translate(${x + ox}, ${y + oy})`,
       orientation,
       showLabel: internalShowLabel,
       type: handleType,

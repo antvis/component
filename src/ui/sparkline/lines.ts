@@ -4,6 +4,8 @@ import { DisplayObject, Group } from '../../shapes';
 import { deepAssign, select } from '../../util';
 
 export interface LinesStyleProps extends BaseStyleProps {
+  x?: number;
+  y?: number;
   lines: PathStyleProps[];
   areas: PathStyleProps[];
 }
@@ -19,7 +21,8 @@ export class Lines extends DisplayObject<LinesStyleProps> {
   }
 
   public render(): void {
-    const { lines, areas } = this.attributes;
+    const { lines, areas, x, y } = this.attributes;
+    this.style.transform = `translate(${x}, ${y})`;
     if (lines) this.renderLines(lines);
     if (areas) this.renderAreas(areas);
   }

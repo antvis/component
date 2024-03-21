@@ -39,7 +39,7 @@ const Cases = {
   Path: () => {
     return new Path({
       style: {
-        path: [
+        d: [
           ['M', 100 * Math.random(), 100 * Math.random()],
           ['L', 100 * Math.random(), 100 * Math.random()],
           ['L', 100 * Math.random(), 100 * Math.random()],

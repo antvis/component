@@ -36,6 +36,8 @@ export type CategoryItemsStyleProps = GroupStyleProps &
     data: CategoryItemsDatum[];
     orientation?: 'horizontal' | 'vertical';
     layout?: 'flex' | 'grid';
+    x?: number;
+    y?: number;
     width?: number;
     height?: number;
     gridRow?: number;

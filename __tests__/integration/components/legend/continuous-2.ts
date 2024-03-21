@@ -39,8 +39,7 @@ export const Continuous2 = () => {
           ribbonTrackFill: 'pink',
           showLabel: false,
           type: 'size',
-          x: 0,
-          y,
+          transform: `translateY(${y})`,
           ...con,
         },
       })

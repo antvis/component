@@ -8,6 +8,8 @@ import type { SliderStyleProps } from '../slider';
 export type ScrollbarStyleProps = GroupStyleProps &
   PrefixObject<RectStyleProps, 'track'> &
   PrefixObject<RectStyleProps, 'thumb'> & {
+    x?: number;
+    y?: number;
     /** 滑条朝向 */
     orientation?: Required<SliderStyleProps>['orientation'];
 

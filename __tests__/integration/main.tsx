@@ -17,7 +17,9 @@ const { Option } = Select;
 const casesName = Object.keys(cases);
 const renderers = {
   svg: new SVGRenderer(),
-  canvas: new CanvasRenderer(),
+  canvas: new CanvasRenderer({
+    // enableDirtyRectangleRendering: false,
+  }),
   webgl: new WebGLRenderer(),
 } as const;
 renderers.webgl.registerPlugin(new ControlPlugin());

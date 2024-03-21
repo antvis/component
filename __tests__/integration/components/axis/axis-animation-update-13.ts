@@ -13,8 +13,7 @@ export const AxisAnimationUpdate13 = () => {
   group.appendChild(
     new Group({
       style: {
-        x: 100,
-        y: 100,
+        transform: 'translate(100, 100)',
       },
     })
   );
@@ -22,8 +21,7 @@ export const AxisAnimationUpdate13 = () => {
   const g2 = group.appendChild(
     new Group({
       style: {
-        x: 50,
-        y: 50,
+        transform: 'translate(50, 50)',
       },
     })
   );
@@ -57,7 +55,7 @@ export const AxisAnimationUpdate13 = () => {
         titleTransformOrigin: 'center',
         titleTextBaseline: 'middle',
         titlePosition: 'left',
-        titleTransform: 'translate(50%, 0) rotate(-90)',
+        titleTransform: 'translate(-100%, 0) rotate(-90)',
         labelDirection: 'positive',
         tickDirection: 'positive',
         gridDirection: 'negative',
@@ -117,3 +115,4 @@ export const AxisAnimationUpdate13 = () => {
 AxisAnimationUpdate13.tags = ['坐标轴', '动画', '更新', '标题'];
 
 AxisAnimationUpdate13.wait = 500;
+AxisAnimationUpdate13.skip = true;

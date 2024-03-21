@@ -121,6 +121,7 @@ export class OffscreenCanvasContext {
   }
 
   measureText(text: string): TextMetrics {
+    // @ts-ignore
     return {
       width: measureText(text, this.fontSize),
       actualBoundingBoxAscent: 0,

@@ -6,6 +6,7 @@ import { hide } from './visibility';
 class OffscreenGroup extends Group {
   constructor(...args: any[]) {
     super(...args);
+    this.isMutationObserved = true;
     this.addEventListener(ElementEvent.INSERTED, () => {
       hide(this);
     });

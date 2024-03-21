@@ -33,7 +33,7 @@ export const AxisLinearTitlePosition = () => {
     titleText: 'left',
     titlePosition: 'l',
     titleSpacing: 10,
-    titleTransform: 'translate(50%, 0) rotate(-90)',
+    titleTransform: 'rotate(-90)',
   });
   createAxis({
     startPos: [50, 500],
@@ -46,8 +46,7 @@ export const AxisLinearTitlePosition = () => {
     endPos: [550, 500],
     titleText: 'right',
     titlePosition: 'r',
-    titleSpacing: 10,
-    titleTransform: 'translate(-50%, 0) rotate(-90)',
+    titleTransform: 'rotate(-90)',
   });
 
   const g1 = group.appendChild(
@@ -63,15 +62,14 @@ export const AxisLinearTitlePosition = () => {
       titleText: 'right',
       titlePosition: 'r',
       titleSpacing: 10,
-      titleTransform: 'translate(-50%, 0) rotate(-90)',
+      titleTransform: 'rotate(-90)',
     })
   );
 
   const g2 = group.appendChild(
     new Group({
       style: {
-        x: 60,
-        y: 60,
+        transform: 'translate(60, 60)',
       },
     })
   );
@@ -83,7 +81,7 @@ export const AxisLinearTitlePosition = () => {
       titleText: 'right',
       titlePosition: 'r',
       titleSpacing: 10,
-      titleTransform: 'translate(-50%, 0) rotate(-90)',
+      titleTransform: 'rotate(-90)',
     })
   );
 

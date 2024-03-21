@@ -4,6 +4,8 @@ import type { SeriesAttr } from '../../util/series';
 
 export type LayoutStyleProps = GroupStyleProps &
   LayoutElementConfig & {
+    x?: number;
+    y?: number;
     width: number;
     height: number;
     margin?: SeriesAttr;
