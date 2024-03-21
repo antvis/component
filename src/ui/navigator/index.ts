@@ -50,7 +50,7 @@ export class Navigator extends Component<NavigatorStyleProps> {
       },
       buttonCursor: 'pointer',
       buttonFill: 'black',
-      buttonPath: button(0, 0, 6),
+      buttonD: button(0, 0, 6),
       buttonSize: 12,
       controllerPadding: 5,
       controllerSpacing: 5,

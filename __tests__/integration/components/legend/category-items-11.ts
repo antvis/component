@@ -24,7 +24,7 @@ export const CategoryItems11 = () => {
         itemValueFill: 'green',
         colPadding: 5,
         itemMarker: (d: any, i: number) => () =>
-          new Path({ style: { path: [circle, triangle, diamond][i % 3](0, 0, 6) } }),
+          new Path({ style: { d: [circle, triangle, diamond][i % 3](0, 0, 6) } }),
         itemMarkerStroke: (_: any, index: number) => colors[index % colors.length],
         itemMarkerStrokeWidth: 2,
       },

@@ -6,7 +6,7 @@
   color-interpolation-filters="sRGB"
 >
   <defs>
-    <clipPath transform="matrix(1,0,0,1,-350,-350)" id="clip-path-365-364">
+    <clipPath id="clip-path-365-364" transform="matrix(1,0,0,1,-350,-350)">
       <use href="#g-svg-365" transform="matrix(1,0,0,1,350,350)" />
     </clipPath>
     <linearGradient

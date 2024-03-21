@@ -37,7 +37,7 @@ export const AXIS_BASE_DEFAULT_ATTR: Partial<AxisBaseStyleProps> = {
   lineArrow: () =>
     new Path({
       style: {
-        path: [['M', 10, 10], ['L', -10, 0], ['L', 10, -10], ['L', 0, 0], ['L', 10, 10], ['Z']],
+        d: [['M', 10, 10], ['L', -10, 0], ['L', 10, -10], ['L', 0, 0], ['L', 10, 10], ['Z']],
         fill: 'black',
         transformOrigin: 'center',
       },

@@ -42,7 +42,7 @@ const CHECKED_SHAPE_PATH = [
 ] as any;
 
 export const CHECKED_SHAPE_STYLE = {
-  path: CHECKED_SHAPE_PATH,
+  d: CHECKED_SHAPE_PATH,
   lineWidth: 1,
   cursor: 'pointer',
 };

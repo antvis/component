@@ -93,7 +93,7 @@ function getClipPath(attr: RequiredRibbonStyleProps): any[] {
 
 function renderTrack(container: Selection, attr: RequiredRibbonStyleProps) {
   const style = subStyleProps(attr, 'track');
-  container.maybeAppendByClassName(CLASS_NAMES.track, 'path').styles({ path: getTrackPath(attr), ...style });
+  container.maybeAppendByClassName(CLASS_NAMES.track, 'path').styles({ d: getTrackPath(attr), ...style });
 }
 
 function renderSelection(container: Selection, attr: RequiredRibbonStyleProps) {
@@ -102,12 +102,12 @@ function renderSelection(container: Selection, attr: RequiredRibbonStyleProps) {
 
   const ribbon = container
     .maybeAppendByClassName(CLASS_NAMES.selection, 'path')
-    .styles({ path: getSelectionPath(attr), fill, ...style });
+    .styles({ d: getSelectionPath(attr), fill, ...style });
   const clipPath = ribbon
     .maybeAppendByClassName(CLASS_NAMES.clipPath, 'path')
-    .styles({ path: getClipPath(attr) })
+    .styles({ d: getClipPath(attr) })
     .node();
-  ribbon.style('clip-path', clipPath);
+  ribbon.style('clipPath', clipPath);
 }
 
 export class Ribbon extends Component<RibbonStyleProps> {

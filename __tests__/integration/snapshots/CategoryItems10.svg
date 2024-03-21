@@ -62,7 +62,6 @@
                           r="6"
                           class="legend-category-item-marker"
                           stroke="rgba(255,192,203,1)"
-                          stroke-width="2"
                           visibility="visible"
                         />
                       </g>
@@ -162,7 +161,6 @@
                           r="6"
                           class="legend-category-item-marker"
                           stroke="rgba(128,0,128,1)"
-                          stroke-width="2"
                           visibility="visible"
                         />
                       </g>
@@ -262,7 +260,6 @@
                           r="6"
                           class="legend-category-item-marker"
                           stroke="rgba(255,192,203,1)"
-                          stroke-width="2"
                           visibility="visible"
                         />
                       </g>
@@ -362,7 +359,6 @@
                           r="6"
                           class="legend-category-item-marker"
                           stroke="rgba(128,0,128,1)"
-                          stroke-width="2"
                           visibility="visible"
                         />
                       </g>
@@ -462,7 +458,6 @@
                           r="6"
                           class="legend-category-item-marker"
                           stroke="rgba(255,192,203,1)"
-                          stroke-width="2"
                           visibility="visible"
                         />
                       </g>

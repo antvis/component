@@ -39,7 +39,6 @@
                 r="6"
                 class="legend-category-item-marker"
                 stroke="rgba(0,128,0,1)"
-                stroke-width="2"
                 stroke-opacity="0.5"
               />
             </g>

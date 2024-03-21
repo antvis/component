@@ -44,7 +44,7 @@ export class Category extends Component<CategoryStyleProps> {
     const itemStyle = { ...partialItemStyle, width, height, x: 0, y: 0 } as CategoryStyleProps;
     this.itemsGroup = container
       .maybeAppendByClassName<Group>(CLASS_NAMES.itemsGroup, 'g')
-      .styles({ x, y, ...groupStyle });
+      .styles({ ...groupStyle, transform: `translate(${x}, ${y})` });
     const that = this;
     this.itemsGroup
       .selectAll(CLASS_NAMES.items.class)
@@ -67,7 +67,6 @@ export class Category extends Component<CategoryStyleProps> {
     if (showTitle) {
       const { x, y } = this.title.node<Title>().getAvailableSpace();
       this.itemsGroup.node().style.transform = `translate(${x}, ${y})`;
-      // this.itemsGroup.node().setLocalPosition(x, y);
     }
   }
 

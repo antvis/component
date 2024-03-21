@@ -238,7 +238,9 @@ export function renderLabels(
             this.style.transform = `translate(${x}, ${y})`;
             return null;
           })
-          .call(() => overlapHandler.call(container, attr)),
+          .call(() => {
+            overlapHandler.call(container, attr);
+          }),
       (update) =>
         update
           .transition(function (datum) {
@@ -252,7 +254,9 @@ export function renderLabels(
           })
           .call((selection) => {
             const transitions = get(selection, '_transitions').flat().filter(defined) as IAnimation[];
-            onAnimatesFinished(transitions, () => overlapHandler.call(container, attr));
+            onAnimatesFinished(transitions, () => {
+              overlapHandler.call(container, attr);
+            });
           }),
       (exit) =>
         exit.transition(function () {

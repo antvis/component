@@ -58,7 +58,7 @@ export class Indicator extends Component<IndicatorStyleProps> {
 
     this.background = select(this.group)
       .maybeAppendByClassName(CLASS_NAMES.background, 'path')
-      .styles({ ...style, path });
+      .styles({ ...style, d: path });
     this.group.appendChild(this.label.node());
   }
 

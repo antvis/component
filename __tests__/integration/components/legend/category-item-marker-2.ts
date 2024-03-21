@@ -79,11 +79,17 @@ export const CategoryItemMarker2 = () => {
         gridCol: 10,
         height: 40,
         titleText: 'Legend Title',
+        // titleFill: '#1D2129',
+        // titleFillOpacity: 0.65,
+        // titleFontSize: 12,
+        // titleFontWeight: 'normal',
+        // titleSpacing: 4,
+        // showTitle: false,
         width: 500,
         itemMarker: (d: any, i: number) => () =>
           new Path({
             style: {
-              path: paths[i],
+              d: paths[i],
             },
           }),
         itemMarkerStroke: 'red',

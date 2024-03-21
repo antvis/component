@@ -57,8 +57,10 @@ export function boundTest<T extends DisplayObject>(items: T[], attr: AxisStylePr
   };
 
   const testIntersect = (prevItem: T, currItem: T) => {
-    if (!prevItem) return true;
-    return !intersect(prevItem, currItem, parseSeriesAttr(margin));
+    if (!prevItem || !prevItem.firstChild) return true;
+    // Get the first child of the item(Text).
+    // @ts-ignore
+    return !intersect(prevItem.firstChild, currItem.firstChild, parseSeriesAttr(margin));
   };
 
   for (const curr of items) {

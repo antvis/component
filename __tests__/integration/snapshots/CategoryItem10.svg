@@ -40,7 +40,6 @@
                 d="M -6,0 A 6 6 0 1 0 6 0 A 6 6 0 1 0 -6 0 Z"
                 class="legend-category-item-marker"
                 stroke="rgba(0,128,0,1)"
-                stroke-width="2"
                 stroke-opacity="0.5"
               />
             </g>
@@ -114,7 +113,6 @@
                 d="M -6,5.196152422706632 L 0,-5.196152422706632 L 6,5.196152422706632 Z"
                 class="legend-category-item-marker"
                 stroke="rgba(0,128,0,1)"
-                stroke-width="2"
                 stroke-opacity="0.5"
               />
             </g>
@@ -188,7 +186,6 @@
                 d="M -6,0 L 0,-6 L 6,0 L 0,6 Z"
                 class="legend-category-item-marker"
                 stroke="rgba(0,128,0,1)"
-                stroke-width="2"
                 stroke-opacity="0.5"
               />
             </g>

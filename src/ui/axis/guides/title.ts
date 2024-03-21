@@ -58,8 +58,8 @@ function getTitlePosition(
 }
 
 function inferTransform(n: DisplayObject, direction: string, position: string): string {
-  const node = n.cloneNode(true);
-  const { height } = node.getBBox();
+  const { halfExtents } = n.getGeometryBounds();
+  const height = halfExtents[1] * 2;
 
   if (direction === 'vertical') {
     if (position === 'left') return `rotate(-90) translate(0, ${height / 2})`;

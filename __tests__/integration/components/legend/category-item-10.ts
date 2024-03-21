@@ -21,7 +21,7 @@ export const CategoryItem10 = () => {
           marker: () =>
             new Path({
               style: {
-                path: shape(0, 0, 6),
+                d: shape(0, 0, 6),
               },
             }),
           markerStroke: 'green',

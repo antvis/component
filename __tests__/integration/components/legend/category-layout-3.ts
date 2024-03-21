@@ -29,7 +29,7 @@ export const CategoryLayout3 = () => {
         itemMarker: () => () =>
           new Path({
             style: {
-              path: smooth(0, 0, 6),
+              d: smooth(0, 0, 6),
             },
           }),
       },

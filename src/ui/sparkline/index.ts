@@ -90,13 +90,13 @@ export class Sparkline extends Component<SparklineStyleProps> {
       lines: lines.map((line, idx) => {
         return {
           stroke: this.getColor(idx),
-          path: smooth ? lineToCurvePath(line) : lineToLinePath(line),
+          d: smooth ? lineToCurvePath(line) : lineToLinePath(line),
           ...lineStyle,
         };
       }) as any,
       areas: areas.map((path, idx) => {
         return {
-          path,
+          d: path,
           fill: this.getColor(idx),
           ...areaStyle,
         };

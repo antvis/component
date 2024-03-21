@@ -161,7 +161,7 @@ const arrow = (size: number, color: string = '#565758') => {
   return new Path({
     style: {
       fill: color,
-      path: `M ${size},${size} L -${size},0 L ${size},-${size} Z`,
+      d: `M ${size},${size} L -${size},0 L ${size},-${size} Z`,
       transformOrigin: 'center',
     },
   });
@@ -192,7 +192,7 @@ export class Reset extends IconBase {
       .styles({
         stroke: color,
         lineWidth,
-        path: this.arcPath(x, y, size / 2 - lineWidth),
+        d: this.arcPath(x, y, size / 2 - lineWidth),
         markerStart: arrow(arrowSize, color),
       });
   }

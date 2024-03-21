@@ -65,7 +65,7 @@ export class Marker extends Component<MarkerStyleProps> {
           } else {
             const r = (size as number) / 2;
             const symbolFn = isFunction(symbol) ? symbol : Marker.getSymbol(symbol);
-            selection.styles({ path: symbolFn?.(x, y, r), ...style });
+            selection.styles({ d: symbolFn?.(x, y, r), ...style });
           }
         });
     });

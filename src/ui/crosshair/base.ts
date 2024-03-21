@@ -43,7 +43,7 @@ export abstract class CrosshairBase<T extends CrosshairBaseStyleProps> extends C
     const style = subStyleProps(this.attributes, 'line');
     return {
       ...style,
-      path: this.crosshairPath,
+      d: this.crosshairPath,
     };
   }
 

@@ -101,14 +101,14 @@ function renderArc(
 
   return container
     .selectAll(CLASS_NAMES.line.class)
-    .data([{ path: getArcPath(startAngle, endAngle, ...center, radius) }], (d, i) => i)
+    .data([{ d: getArcPath(startAngle, endAngle, ...center, radius) }], (d, i) => i)
     .join(
       (enter) =>
         enter
           .append('path')
           .attr('className', CLASS_NAMES.line.name)
           .styles(attr)
-          .styles({ path: (d: any) => d.path }),
+          .styles({ d: (d: any) => d.d }),
       (update) =>
         update
           .transition(function () {
@@ -121,7 +121,7 @@ function renderArc(
             if (animation) {
               const layout = () => {
                 const data = get(this.attributes, '__keyframe_data__') as Parameters<typeof getArcPath>;
-                this.style.path = getArcPath(...data);
+                this.style.d = getArcPath(...data);
               };
               animation.onframe = layout;
               animation.onfinish = layout;

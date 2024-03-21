@@ -1022,7 +1022,6 @@
                 x="25"
                 y="15"
                 stroke="rgba(217,217,217,1)"
-                stroke-width="0"
               />
               <g>
                 <text
@@ -1380,7 +1379,6 @@
                 x="62.5"
                 y="65"
                 stroke="rgba(217,217,217,1)"
-                stroke-width="0"
               />
               <g>
                 <text
@@ -1734,7 +1732,6 @@
                 x="100"
                 y="115"
                 stroke="rgba(217,217,217,1)"
-                stroke-width="0"
               />
               <g>
                 <text

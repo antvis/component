@@ -52,8 +52,8 @@
                     <g
                       id="g-svg-6"
                       fill="none"
-                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                       class="legend-category-item-marker-group"
+                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                     >
                       <g>
                         <circle
@@ -68,8 +68,8 @@
                     <g
                       id="g-svg-8"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,11.500000)"
                       class="legend-category-item-label-group"
+                      transform="matrix(1,0,0,1,10,11.500000)"
                     >
                       <g>
                         <text
@@ -101,12 +101,12 @@
                   <g
                     id="g-svg-13"
                     fill="none"
-                    transform="matrix(1,0,0,1,62.500000,0)"
                     class="items-item"
                     x="62.5"
                     y="0"
                     width="62.5"
                     height="23"
+                    transform="matrix(1,0,0,1,62.500000,0)"
                   >
                     <g
                       id="g-svg-19"
@@ -128,8 +128,8 @@
                     <g
                       id="g-svg-14"
                       fill="none"
-                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                       class="legend-category-item-marker-group"
+                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                     >
                       <g>
                         <circle
@@ -144,8 +144,8 @@
                     <g
                       id="g-svg-16"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,11.500000)"
                       class="legend-category-item-label-group"
+                      transform="matrix(1,0,0,1,10,11.500000)"
                     >
                       <g>
                         <text
@@ -177,12 +177,12 @@
                   <g
                     id="g-svg-21"
                     fill="none"
-                    transform="matrix(1,0,0,1,125,0)"
                     class="items-item"
                     x="125"
                     y="0"
                     width="62.5"
                     height="23"
+                    transform="matrix(1,0,0,1,125,0)"
                   >
                     <g
                       id="g-svg-27"
@@ -204,8 +204,8 @@
                     <g
                       id="g-svg-22"
                       fill="none"
-                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                       class="legend-category-item-marker-group"
+                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                     >
                       <g>
                         <circle
@@ -220,8 +220,8 @@
                     <g
                       id="g-svg-24"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,11.500000)"
                       class="legend-category-item-label-group"
+                      transform="matrix(1,0,0,1,10,11.500000)"
                     >
                       <g>
                         <text
@@ -253,12 +253,12 @@
                   <g
                     id="g-svg-29"
                     fill="none"
-                    transform="matrix(1,0,0,1,187.500000,0)"
                     class="items-item"
                     x="187.5"
                     y="0"
                     width="62.5"
                     height="23"
+                    transform="matrix(1,0,0,1,187.500000,0)"
                   >
                     <g
                       id="g-svg-35"
@@ -280,8 +280,8 @@
                     <g
                       id="g-svg-30"
                       fill="none"
-                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                       class="legend-category-item-marker-group"
+                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                     >
                       <g>
                         <circle
@@ -296,8 +296,8 @@
                     <g
                       id="g-svg-32"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,11.500000)"
                       class="legend-category-item-label-group"
+                      transform="matrix(1,0,0,1,10,11.500000)"
                     >
                       <g>
                         <text
@@ -329,12 +329,12 @@
                   <g
                     id="g-svg-37"
                     fill="none"
-                    transform="matrix(1,0,0,1,250,0)"
                     class="items-item"
                     x="250"
                     y="0"
                     width="62.5"
                     height="23"
+                    transform="matrix(1,0,0,1,250,0)"
                   >
                     <g
                       id="g-svg-43"
@@ -356,8 +356,8 @@
                     <g
                       id="g-svg-38"
                       fill="none"
-                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                       class="legend-category-item-marker-group"
+                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                     >
                       <g>
                         <circle
@@ -372,8 +372,8 @@
                     <g
                       id="g-svg-40"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,11.500000)"
                       class="legend-category-item-label-group"
+                      transform="matrix(1,0,0,1,10,11.500000)"
                     >
                       <g>
                         <text
@@ -405,12 +405,12 @@
                   <g
                     id="g-svg-45"
                     fill="none"
-                    transform="matrix(1,0,0,1,312.500000,0)"
                     class="items-item"
                     x="312.5"
                     y="0"
                     width="62.5"
                     height="23"
+                    transform="matrix(1,0,0,1,312.500000,0)"
                   >
                     <g
                       id="g-svg-51"
@@ -432,8 +432,8 @@
                     <g
                       id="g-svg-46"
                       fill="none"
-                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                       class="legend-category-item-marker-group"
+                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                     >
                       <g>
                         <circle
@@ -448,8 +448,8 @@
                     <g
                       id="g-svg-48"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,11.500000)"
                       class="legend-category-item-label-group"
+                      transform="matrix(1,0,0,1,10,11.500000)"
                     >
                       <g>
                         <text
@@ -481,12 +481,12 @@
                   <g
                     id="g-svg-53"
                     fill="none"
-                    transform="matrix(1,0,0,1,375,0)"
                     class="items-item"
                     x="375"
                     y="0"
                     width="62.5"
                     height="23"
+                    transform="matrix(1,0,0,1,375,0)"
                   >
                     <g
                       id="g-svg-59"
@@ -508,8 +508,8 @@
                     <g
                       id="g-svg-54"
                       fill="none"
-                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                       class="legend-category-item-marker-group"
+                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                     >
                       <g>
                         <circle
@@ -524,8 +524,8 @@
                     <g
                       id="g-svg-56"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,11.500000)"
                       class="legend-category-item-label-group"
+                      transform="matrix(1,0,0,1,10,11.500000)"
                     >
                       <g>
                         <text
@@ -557,12 +557,12 @@
                   <g
                     id="g-svg-61"
                     fill="none"
-                    transform="matrix(1,0,0,1,437.500000,0)"
                     class="items-item"
                     x="437.5"
                     y="0"
                     width="62.5"
                     height="23"
+                    transform="matrix(1,0,0,1,437.500000,0)"
                   >
                     <g
                       id="g-svg-67"
@@ -584,8 +584,8 @@
                     <g
                       id="g-svg-62"
                       fill="none"
-                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                       class="legend-category-item-marker-group"
+                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                     >
                       <g>
                         <circle
@@ -600,8 +600,8 @@
                     <g
                       id="g-svg-64"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,11.500000)"
                       class="legend-category-item-label-group"
+                      transform="matrix(1,0,0,1,10,11.500000)"
                     >
                       <g>
                         <text
@@ -633,12 +633,12 @@
                   <g
                     id="g-svg-69"
                     fill="none"
-                    transform="matrix(1,0,0,1,0,23)"
                     class="items-item"
                     x="0"
                     y="23"
                     width="62.5"
                     height="23"
+                    transform="matrix(1,0,0,1,0,23)"
                   >
                     <g
                       id="g-svg-75"
@@ -660,8 +660,8 @@
                     <g
                       id="g-svg-70"
                       fill="none"
-                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                       class="legend-category-item-marker-group"
+                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                     >
                       <g>
                         <circle
@@ -676,8 +676,8 @@
                     <g
                       id="g-svg-72"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,11.500000)"
                       class="legend-category-item-label-group"
+                      transform="matrix(1,0,0,1,10,11.500000)"
                     >
                       <g>
                         <text
@@ -709,12 +709,12 @@
                   <g
                     id="g-svg-77"
                     fill="none"
-                    transform="matrix(1,0,0,1,62.500000,23)"
                     class="items-item"
                     x="62.5"
                     y="23"
                     width="62.5"
                     height="23"
+                    transform="matrix(1,0,0,1,62.500000,23)"
                   >
                     <g
                       id="g-svg-83"
@@ -736,8 +736,8 @@
                     <g
                       id="g-svg-78"
                       fill="none"
-                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                       class="legend-category-item-marker-group"
+                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                     >
                       <g>
                         <circle
@@ -752,8 +752,8 @@
                     <g
                       id="g-svg-80"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,11.500000)"
                       class="legend-category-item-label-group"
+                      transform="matrix(1,0,0,1,10,11.500000)"
                     >
                       <g>
                         <text
@@ -785,12 +785,12 @@
                   <g
                     id="g-svg-85"
                     fill="none"
-                    transform="matrix(1,0,0,1,125,23)"
                     class="items-item"
                     x="125"
                     y="23"
                     width="62.5"
                     height="23"
+                    transform="matrix(1,0,0,1,125,23)"
                   >
                     <g
                       id="g-svg-91"
@@ -812,8 +812,8 @@
                     <g
                       id="g-svg-86"
                       fill="none"
-                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                       class="legend-category-item-marker-group"
+                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                     >
                       <g>
                         <circle
@@ -828,8 +828,8 @@
                     <g
                       id="g-svg-88"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,11.500000)"
                       class="legend-category-item-label-group"
+                      transform="matrix(1,0,0,1,10,11.500000)"
                     >
                       <g>
                         <text
@@ -861,12 +861,12 @@
                   <g
                     id="g-svg-93"
                     fill="none"
-                    transform="matrix(1,0,0,1,187.500000,23)"
                     class="items-item"
                     x="187.5"
                     y="23"
                     width="62.5"
                     height="23"
+                    transform="matrix(1,0,0,1,187.500000,23)"
                   >
                     <g
                       id="g-svg-99"
@@ -888,8 +888,8 @@
                     <g
                       id="g-svg-94"
                       fill="none"
-                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                       class="legend-category-item-marker-group"
+                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                     >
                       <g>
                         <circle
@@ -904,8 +904,8 @@
                     <g
                       id="g-svg-96"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,11.500000)"
                       class="legend-category-item-label-group"
+                      transform="matrix(1,0,0,1,10,11.500000)"
                     >
                       <g>
                         <text
@@ -937,12 +937,12 @@
                   <g
                     id="g-svg-101"
                     fill="none"
-                    transform="matrix(1,0,0,1,250,23)"
                     class="items-item"
                     x="250"
                     y="23"
                     width="62.5"
                     height="23"
+                    transform="matrix(1,0,0,1,250,23)"
                   >
                     <g
                       id="g-svg-107"
@@ -964,8 +964,8 @@
                     <g
                       id="g-svg-102"
                       fill="none"
-                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                       class="legend-category-item-marker-group"
+                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                     >
                       <g>
                         <circle
@@ -980,8 +980,8 @@
                     <g
                       id="g-svg-104"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,11.500000)"
                       class="legend-category-item-label-group"
+                      transform="matrix(1,0,0,1,10,11.500000)"
                     >
                       <g>
                         <text
@@ -1013,12 +1013,12 @@
                   <g
                     id="g-svg-109"
                     fill="none"
-                    transform="matrix(1,0,0,1,312.500000,23)"
                     class="items-item"
                     x="312.5"
                     y="23"
                     width="62.5"
                     height="23"
+                    transform="matrix(1,0,0,1,312.500000,23)"
                   >
                     <g
                       id="g-svg-115"
@@ -1040,8 +1040,8 @@
                     <g
                       id="g-svg-110"
                       fill="none"
-                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                       class="legend-category-item-marker-group"
+                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                     >
                       <g>
                         <circle
@@ -1056,8 +1056,8 @@
                     <g
                       id="g-svg-112"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,11.500000)"
                       class="legend-category-item-label-group"
+                      transform="matrix(1,0,0,1,10,11.500000)"
                     >
                       <g>
                         <text
@@ -1089,12 +1089,12 @@
                   <g
                     id="g-svg-117"
                     fill="none"
-                    transform="matrix(1,0,0,1,375,23)"
                     class="items-item"
                     x="375"
                     y="23"
                     width="62.5"
                     height="23"
+                    transform="matrix(1,0,0,1,375,23)"
                   >
                     <g
                       id="g-svg-123"
@@ -1116,8 +1116,8 @@
                     <g
                       id="g-svg-118"
                       fill="none"
-                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                       class="legend-category-item-marker-group"
+                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                     >
                       <g>
                         <circle
@@ -1132,8 +1132,8 @@
                     <g
                       id="g-svg-120"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,11.500000)"
                       class="legend-category-item-label-group"
+                      transform="matrix(1,0,0,1,10,11.500000)"
                     >
                       <g>
                         <text
@@ -1165,12 +1165,12 @@
                   <g
                     id="g-svg-125"
                     fill="none"
-                    transform="matrix(1,0,0,1,437.500000,23)"
                     class="items-item"
                     x="437.5"
                     y="23"
                     width="62.5"
                     height="23"
+                    transform="matrix(1,0,0,1,437.500000,23)"
                   >
                     <g
                       id="g-svg-131"
@@ -1192,8 +1192,8 @@
                     <g
                       id="g-svg-126"
                       fill="none"
-                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                       class="legend-category-item-marker-group"
+                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                     >
                       <g>
                         <circle
@@ -1208,8 +1208,8 @@
                     <g
                       id="g-svg-128"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,11.500000)"
                       class="legend-category-item-label-group"
+                      transform="matrix(1,0,0,1,10,11.500000)"
                     >
                       <g>
                         <text
@@ -1269,8 +1269,8 @@
                     <g
                       id="g-svg-134"
                       fill="none"
-                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                       class="legend-category-item-marker-group"
+                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                     >
                       <g>
                         <circle
@@ -1285,8 +1285,8 @@
                     <g
                       id="g-svg-136"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,11.500000)"
                       class="legend-category-item-label-group"
+                      transform="matrix(1,0,0,1,10,11.500000)"
                     >
                       <g>
                         <text
@@ -1318,12 +1318,12 @@
                   <g
                     id="g-svg-141"
                     fill="none"
-                    transform="matrix(1,0,0,1,62.500000,0)"
                     class="items-item"
                     x="62.5"
                     y="0"
                     width="62.5"
                     height="23"
+                    transform="matrix(1,0,0,1,62.500000,0)"
                   >
                     <g
                       id="g-svg-147"
@@ -1345,8 +1345,8 @@
                     <g
                       id="g-svg-142"
                       fill="none"
-                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                       class="legend-category-item-marker-group"
+                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                     >
                       <g>
                         <circle
@@ -1361,8 +1361,8 @@
                     <g
                       id="g-svg-144"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,11.500000)"
                       class="legend-category-item-label-group"
+                      transform="matrix(1,0,0,1,10,11.500000)"
                     >
                       <g>
                         <text
@@ -1394,12 +1394,12 @@
                   <g
                     id="g-svg-149"
                     fill="none"
-                    transform="matrix(1,0,0,1,125,0)"
                     class="items-item"
                     x="125"
                     y="0"
                     width="62.5"
                     height="23"
+                    transform="matrix(1,0,0,1,125,0)"
                   >
                     <g
                       id="g-svg-155"
@@ -1421,8 +1421,8 @@
                     <g
                       id="g-svg-150"
                       fill="none"
-                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                       class="legend-category-item-marker-group"
+                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                     >
                       <g>
                         <circle
@@ -1437,8 +1437,8 @@
                     <g
                       id="g-svg-152"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,11.500000)"
                       class="legend-category-item-label-group"
+                      transform="matrix(1,0,0,1,10,11.500000)"
                     >
                       <g>
                         <text
@@ -1470,12 +1470,12 @@
                   <g
                     id="g-svg-157"
                     fill="none"
-                    transform="matrix(1,0,0,1,187.500000,0)"
                     class="items-item"
                     x="187.5"
                     y="0"
                     width="62.5"
                     height="23"
+                    transform="matrix(1,0,0,1,187.500000,0)"
                   >
                     <g
                       id="g-svg-163"
@@ -1497,8 +1497,8 @@
                     <g
                       id="g-svg-158"
                       fill="none"
-                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                       class="legend-category-item-marker-group"
+                      transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
                     >
                       <g>
                         <circle
@@ -1513,8 +1513,8 @@
                     <g
                       id="g-svg-160"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,11.500000)"
                       class="legend-category-item-label-group"
+                      transform="matrix(1,0,0,1,10,11.500000)"
                     >
                       <g>
                         <text
@@ -1555,8 +1555,8 @@
               <g
                 id="g-svg-208"
                 fill="none"
-                transform="matrix(-1,-0,0,-1,0,0)"
                 class="navigator-prev-btn-group"
+                transform="matrix(-1,-0,0,-1,0,0)"
               >
                 <g>
                   <path
@@ -1564,15 +1564,14 @@
                     fill="rgba(0,0,0,1)"
                     class="navigator-prev-btn"
                     d="M -6,-6 L 6,0 L -6,6 Z"
-                    visibility="visible"
                   />
                 </g>
               </g>
               <g
                 id="g-svg-210"
                 fill="none"
-                transform="matrix(1,0,0,1,40.040001,0)"
                 class="navigator-next-btn-group"
+                transform="matrix(1,0,0,1,40.040001,0)"
               >
                 <g>
                   <path
@@ -1580,7 +1579,6 @@
                     fill="rgba(0,0,0,1)"
                     class="navigator-next-btn"
                     d="M -6,-6 L 6,0 L -6,6 Z"
-                    visibility="visible"
                   />
                 </g>
               </g>
@@ -1600,7 +1598,6 @@
                     dx="0.5"
                     font-size="12"
                     text-anchor="left"
-                    visibility="visible"
                   >
                     1/2
                   </text>

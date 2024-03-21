@@ -485,7 +485,6 @@
             width="50"
             height="50"
             stroke="rgba(255,165,0,1)"
-            stroke-width="2"
           />
         </g>
         <g>
@@ -498,7 +497,6 @@
             width="40"
             height="40"
             stroke="rgba(255,0,0,1)"
-            stroke-width="1"
           />
         </g>
         <g>
@@ -511,7 +509,6 @@
             width="30"
             height="30"
             stroke="rgba(0,128,0,1)"
-            stroke-width="1"
           />
         </g>
       </g>

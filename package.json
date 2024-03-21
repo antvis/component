@@ -1,6 +1,6 @@
 {
   "name": "@antv/component",
-  "version": "1.0.1-beta.1",
+  "version": "2.0.0",
   "description": "Visualization components for AntV, based on G.",
   "license": "MIT",
   "main": "lib/index.js",
@@ -44,16 +44,16 @@
     "component"
   ],
   "dependencies": {
-    "@antv/g": "5.18.25-next.10",
+    "@antv/g": "^6.0.0",
     "@antv/scale": "^0.4.3",
     "@antv/util": "^3.3.5",
     "svg-path-parser": "^1.1.0"
   },
   "devDependencies": {
-    "@antv/g-canvas": "1.11.27-next.10",
-    "@antv/g-plugin-control": "1.9.22-next.10",
-    "@antv/g-svg": "1.10.26-next.10",
-    "@antv/g-webgl": "1.9.37-next.10",
+    "@antv/g-canvas": "^2.0.0",
+    "@antv/g-plugin-control": "^2.0.0",
+    "@antv/g-svg": "^2.0.0",
+    "@antv/g-webgl": "^2.0.0",
     "@babel/plugin-proposal-decorators": "^7.20.5",
     "@babel/plugin-transform-runtime": "^7.17.0",
     "@babel/preset-env": "^7.16.11",

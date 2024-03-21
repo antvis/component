@@ -236,8 +236,8 @@
             <g
               id="g-svg-3"
               fill="none"
-              transform="matrix(-1,-0,0,-1,0,0)"
               class="navigator-prev-btn-group"
+              transform="matrix(-1,-0,0,-1,0,0)"
             >
               <g>
                 <path
@@ -251,8 +251,8 @@
             <g
               id="g-svg-5"
               fill="none"
-              transform="matrix(1,0,0,1,40.160000,0)"
               class="navigator-next-btn-group"
+              transform="matrix(1,0,0,1,40.160000,0)"
             >
               <g>
                 <path
@@ -491,8 +491,8 @@
             <g
               id="g-svg-11"
               fill="none"
-              transform="matrix(0,-1,1,0,9.080000,-17)"
               class="navigator-prev-btn-group"
+              transform="matrix(0,-1,1,0,9.080000,-17)"
             >
               <g>
                 <path
@@ -506,8 +506,8 @@
             <g
               id="g-svg-13"
               fill="none"
-              transform="matrix(0,1,-1,0,9.080000,17)"
               class="navigator-next-btn-group"
+              transform="matrix(0,1,-1,0,9.080000,17)"
             >
               <g>
                 <path
@@ -746,8 +746,8 @@
             <g
               id="g-svg-19"
               fill="none"
-              transform="matrix(-1,-0,0,-1,0,0)"
               class="navigator-prev-btn-group"
+              transform="matrix(-1,-0,0,-1,0,0)"
             >
               <g>
                 <path
@@ -761,8 +761,8 @@
             <g
               id="g-svg-21"
               fill="none"
-              transform="matrix(1,0,0,1,40.160000,0)"
               class="navigator-next-btn-group"
+              transform="matrix(1,0,0,1,40.160000,0)"
             >
               <g>
                 <path
@@ -1006,8 +1006,8 @@
             <g
               id="g-svg-27"
               fill="none"
-              transform="matrix(0,-1,1,0,10.160000,-17)"
               class="navigator-prev-btn-group"
+              transform="matrix(0,-1,1,0,10.160000,-17)"
             >
               <g>
                 <path
@@ -1021,8 +1021,8 @@
             <g
               id="g-svg-29"
               fill="none"
-              transform="matrix(0,1,-1,0,10.160000,17)"
               class="navigator-next-btn-group"
+              transform="matrix(0,1,-1,0,10.160000,17)"
             >
               <g>
                 <path
@@ -1036,8 +1036,8 @@
             <g
               id="g-svg-31"
               fill="none"
-              transform="matrix(1,0,0,1,10.160000,0)"
               class="navigator-page-info-group"
+              transform="matrix(1,0,0,1,10.160000,0)"
             >
               <g>
                 <text
@@ -1266,8 +1266,8 @@
             <g
               id="g-svg-35"
               fill="none"
-              transform="matrix(-1,-0,0,-1,0,0)"
               class="navigator-prev-btn-group"
+              transform="matrix(-1,-0,0,-1,0,0)"
             >
               <g>
                 <path
@@ -1281,8 +1281,8 @@
             <g
               id="g-svg-37"
               fill="none"
-              transform="matrix(1,0,0,1,42.320000,0)"
               class="navigator-next-btn-group"
+              transform="matrix(1,0,0,1,42.320000,0)"
             >
               <g>
                 <path
@@ -2036,8 +2036,8 @@
             <g
               id="g-svg-43"
               fill="none"
-              transform="matrix(-0.800000,-0,0,-0.800000,0,0)"
               class="navigator-prev-btn-group"
+              transform="matrix(-0.800000,-0,0,-0.800000,0,0)"
             >
               <g transform="matrix(1.250000,0,0,1.250000,0,0)">
                 <path
@@ -2051,8 +2051,8 @@
             <g
               id="g-svg-45"
               fill="none"
-              transform="matrix(0.800000,0,0,0.800000,54.360001,0)"
               class="navigator-next-btn-group"
+              transform="matrix(0.800000,0,0,0.800000,54.360001,0)"
             >
               <g transform="matrix(1.250000,0,0,1.250000,0,0)">
                 <path
