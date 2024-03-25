@@ -12,7 +12,7 @@
         <g id="g-svg-16" fill="none" transform="matrix(1,0,0,1,100,100)">
           <g>
             <path
-              id="g-svg-6"
+              id="g-svg-5"
               fill="rgba(250,250,250,1)"
               class="tag-background"
               d="M 2,0 l 21.560000000000002,0 a 2,2,0,0,1,2,2 l 0,27 a 2,2,0,0,1,-2,2 l -21.560000000000002,0 a 2,2,0,0,1,-2,-2 l 0,-27 a 2,2,0,0,1,2,-2 z"
@@ -33,16 +33,16 @@
             <g id="g-svg-2" fill="none" class="tag-marker">
               <g>
                 <path
-                  id="g-svg-4"
+                  id="g-svg-3"
                   fill="none"
-                  class="tag-marker"
+                  class="marker path-marker"
                   d="M 0,0 L 0,0 L 0,0 Z"
                 />
               </g>
             </g>
             <g>
               <text
-                id="g-svg-5"
+                id="g-svg-4"
                 fill="rgba(0,0,0,1)"
                 dominant-baseline="central"
                 paint-order="stroke"
@@ -64,7 +64,7 @@
         <g id="g-svg-17" fill="none" transform="matrix(1,0,0,1,200,100)">
           <g>
             <path
-              id="g-svg-12"
+              id="g-svg-10"
               fill="rgba(219,241,183,1)"
               class="tag-background"
               d="M -2,0 l 33.920000000000016,0 a 2,2,0,0,1,2,2 l 0,27 a 2,2,0,0,1,-2,2 l -33.920000000000016,0 a 2,2,0,0,1,-2,-2 l 0,-27 a 2,2,0,0,1,2,-2 z"
@@ -77,17 +77,17 @@
             />
           </g>
           <g
-            id="g-svg-7"
+            id="g-svg-6"
             fill="none"
             transform="matrix(1,0,0,1,4,15.500000)"
             class="tag-content"
           >
-            <g id="g-svg-8" fill="none" class="tag-marker">
+            <g id="g-svg-7" fill="none" class="tag-marker">
               <g>
                 <path
-                  id="g-svg-10"
+                  id="g-svg-8"
                   fill="none"
-                  class="tag-marker"
+                  class="marker path-marker"
                   d="M -4,0 L 0,-4 L 4,0 L 0,4 Z"
                   stroke="rgba(91,143,249,1)"
                 />
@@ -95,7 +95,7 @@
             </g>
             <g>
               <text
-                id="g-svg-11"
+                id="g-svg-9"
                 fill="rgba(255,0,0,1)"
                 dominant-baseline="central"
                 paint-order="stroke"
@@ -119,7 +119,7 @@
         <g id="g-svg-18" fill="none" transform="matrix(1,0,0,1,300,100)">
           <g>
             <path
-              id="g-svg-18"
+              id="g-svg-15"
               fill="rgba(250,250,250,1)"
               class="tag-background"
               d="M 6,0 l 50.91999999999996,0 a 6,6,0,0,1,6,6 l 0,23 a 6,6,0,0,1,-6,6 l -50.91999999999996,0 a 6,6,0,0,1,-6,-6 l 0,-23 a 6,6,0,0,1,6,-6 z"
@@ -132,24 +132,24 @@
             />
           </g>
           <g
-            id="g-svg-13"
+            id="g-svg-11"
             fill="none"
             transform="matrix(1,0,0,1,24,17.500000)"
             class="tag-content"
           >
-            <g id="g-svg-14" fill="none" class="tag-marker">
+            <g id="g-svg-12" fill="none" class="tag-marker">
               <g>
                 <path
-                  id="g-svg-16"
+                  id="g-svg-13"
                   fill="none"
-                  class="tag-marker"
+                  class="marker path-marker"
                   d="M 0,0 L 0,0 L 0,0 Z"
                 />
               </g>
             </g>
             <g>
               <text
-                id="g-svg-17"
+                id="g-svg-14"
                 fill="rgba(0,0,0,1)"
                 dominant-baseline="central"
                 paint-order="stroke"
