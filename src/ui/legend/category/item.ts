@@ -8,6 +8,7 @@ import {
   RectStyleProps,
   TextStyleProps,
 } from '@antv/g';
+import { Marker } from '../../marker';
 import type { ComponentOptions } from '../../../core';
 import { Component } from '../../../core';
 import { ExtendDisplayObject, PrefixObject } from '../../../types';
@@ -179,15 +180,21 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
     this.markerGroup = container.maybeAppendByClassName(CLASS_NAMES.markerGroup, 'g').style('zIndex', 0);
     ifShow(!!marker, this.markerGroup, () => {
       const parent = this.markerGroup.node();
-      const oldMarker = parent.getElementsByClassName(CLASS_NAMES.marker.name)[0] as DisplayObject;
-      const newMarker = (marker as () => DisplayObject)();
+      const oldMarker = parent.childNodes?.[0] as DisplayObject | undefined;
+      const newMarker =
+        typeof marker === 'string'
+          ? new Marker({ style: { symbol: marker }, className: CLASS_NAMES.marker.name })
+          : marker();
 
       if (!oldMarker) {
-        select(newMarker).attr('className', CLASS_NAMES.marker.name).styles(style);
+        if (!(newMarker instanceof Marker)) select(newMarker).attr('className', CLASS_NAMES.marker.name).styles(style);
         parent.appendChild(newMarker);
       } else if (newMarker.nodeName === oldMarker.nodeName) {
-        copyAttributes(oldMarker, newMarker);
-        select(oldMarker).styles(style);
+        if (oldMarker instanceof Marker) oldMarker.update({ ...style, symbol: marker });
+        else {
+          copyAttributes(oldMarker, newMarker);
+          select(oldMarker).styles(style);
+        }
       } else {
         oldMarker.remove();
         select(newMarker).attr('className', CLASS_NAMES.marker.name).styles(style);

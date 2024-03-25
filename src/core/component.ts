@@ -60,4 +60,9 @@ export abstract class Component<T extends Record<string, any>> extends CustomEle
   ): void | AnimationResult[];
 
   public bindEvents(attributes: T, container: Group): void {}
+
+  protected getSubShapeStyle(attributes: T): T {
+    const { x, y, transform, transformOrigin, class: _class, className, zIndex, ...style } = attributes;
+    return style as T;
+  }
 }

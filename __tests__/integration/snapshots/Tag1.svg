@@ -38,7 +38,7 @@
                 <path
                   id="g-svg-4"
                   fill="none"
-                  class="tag-marker"
+                  class="marker path-marker"
                   d="M 0,0 L 0,0 L 0,0 Z"
                 />
               </g>
@@ -93,7 +93,7 @@
                 <path
                   id="g-svg-10"
                   fill="none"
-                  class="tag-marker"
+                  class="marker path-marker"
                   d="M 0,4 L 4,0 L 8,4 L 4,8 Z"
                   stroke="rgba(91,143,249,1)"
                 />
@@ -149,7 +149,7 @@
                 <path
                   id="g-svg-16"
                   fill="none"
-                  class="tag-marker"
+                  class="marker path-marker"
                   d="M 0,0 L 0,0 L 0,0 Z"
                 />
               </g>
