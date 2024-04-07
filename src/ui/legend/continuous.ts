@@ -570,11 +570,13 @@ export class Continuous extends Component<ContinuousStyleProps> {
         data.map(({ value }) => value),
         value
       );
-      this.showIndicator((range[0] + range[1]) / 2, `${range[0]}-${range[1]}`);
+
+      const selection = this.getRealSelection(range);
+      this.showIndicator((range[0] + range[1]) / 2, `${selection[0]}-${selection[1]}`);
       this.dispatchIndicated(value, range);
     } else {
       const safetyValue = this.getTickValue(value);
-      this.showIndicator(safetyValue);
+      this.showIndicator(safetyValue, `${this.getRealValue(safetyValue)}`);
       this.dispatchIndicated(safetyValue);
     }
   };
@@ -708,18 +710,50 @@ export class Continuous extends Component<ContinuousStyleProps> {
     return scale.map(value);
   }
 
+  private getRealSelection(range: number[]) {
+    const { max } = this.range;
+    const [start, end] = range;
+
+    return this.ifHorizontal([start, end], [max - end, max - start]);
+  }
+
+  private getRealValue(value: number) {
+    const { max } = this.range;
+
+    return this.ifHorizontal(value, max - value);
+  }
+
   private dispatchSelection() {
+    const selection = this.getRealSelection(this.selection);
+
     const evt = new CustomEvent('valuechange', {
       detail: {
-        value: this.selection,
+        value: selection,
       },
     });
     this.dispatchEvent(evt as any);
   }
 
-  private dispatchIndicated(value: number, range?: unknown) {
+  private dispatchIndicated(value: number, range?: number[]) {
+    const { max } = this.range;
+
+    const detail = this.ifHorizontal(
+      () => {
+        return {
+          value,
+          range,
+        };
+      },
+      () => {
+        return {
+          value: max - value,
+          range: range ? this.getRealSelection(range) : undefined,
+        };
+      }
+    );
+
     const evt = new CustomEvent('indicate', {
-      detail: { value, range },
+      detail,
     });
     this.dispatchEvent(evt as any);
   }
