@@ -8,17 +8,17 @@
   <defs />
   <g id="g-svg-camera">
     <g id="g-root" fill="none">
-      <g id="g-svg-150" fill="none">
+      <g id="g-svg-149" fill="none">
         <g>
           <path
-            id="g-svg-151"
+            id="g-svg-150"
             fill="rgba(255,255,255,1)"
             d="M 0,0 l 400,0 l 0,400 l-400 0 z"
             width="400"
             height="400"
           />
         </g>
-        <g id="g-svg-152" fill="none">
+        <g id="g-svg-151" fill="none">
           <g id="g-svg-1" fill="none" class="axis-grid-group">
             <g id="g-svg-2" fill="none" class="axis-grid">
               <g id="g-svg-3" fill="none" class="grid-line-group">
@@ -788,7 +788,7 @@
           </g>
           <g id="g-svg-70" fill="none" class="axis-title-group" />
         </g>
-        <g id="g-svg-153" fill="none">
+        <g id="g-svg-152" fill="none">
           <g id="g-svg-71" fill="none" class="axis-grid-group">
             <g id="g-svg-72" fill="none" class="axis-grid">
               <g id="g-svg-73" fill="none" class="grid-line-group">
@@ -1578,12 +1578,12 @@
           </g>
           <g id="g-svg-140" fill="none" class="axis-title-group" />
         </g>
-        <g id="g-svg-154" fill="none">
+        <g id="g-svg-153" fill="none">
           <g id="g-svg-141" fill="none" class=".crosshair-group">
             <g id="g-svg-142" fill="none" class="crosshair-tag">
               <g>
                 <path
-                  id="g-svg-148"
+                  id="g-svg-147"
                   fill="rgba(250,250,250,1)"
                   class="tag-background"
                   d="M -2,-4 l 4,0 a 2,2,0,0,1,2,2 l 0,4 a 2,2,0,0,1,-2,2 l -4,0 a 2,2,0,0,1,-2,-2 l 0,-4 a 2,2,0,0,1,2,-2 z"
@@ -1605,9 +1605,9 @@
                 <g id="g-svg-144" fill="none" class="tag-marker">
                   <g>
                     <path
-                      id="g-svg-146"
+                      id="g-svg-145"
                       fill="none"
-                      class="tag-marker"
+                      class="marker path-marker"
                       d="M 0,0 L 0,0 L 0,0 Z"
                       visibility="hidden"
                     />
@@ -1617,7 +1617,7 @@
             </g>
             <g>
               <path
-                id="g-svg-149"
+                id="g-svg-148"
                 fill="none"
                 class=".crosshair-path"
                 stroke="rgba(65,97,128,1)"

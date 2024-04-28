@@ -54,6 +54,7 @@ export { CategoryLayout31 } from './category-layout-31';
 export { CategoryLayout32 } from './category-layout-32';
 export { CategoryLayout33 } from './category-layout-33';
 export { CategoryLayout34 } from './category-layout-34';
+export { CategoryMarker } from './category-marker';
 export { CategoryPosition1 } from './category-position-1';
 export { CategoryPosition2 } from './category-position-2';
 export { CategoryPosition3 } from './category-position-3';
