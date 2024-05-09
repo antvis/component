@@ -36,10 +36,38 @@
     </linearGradient>
     <linearGradient
       gradientUnits="userSpaceOnUse"
-      id="g-pattern-5"
-      x1="35.42000000000004"
+      id="g-pattern-4"
+      x1="37.919999999999995"
       y1="377"
-      x2="35.419999999999966"
+      x2="37.91999999999992"
+      y2="0"
+    >
+      <stop offset="0" stop-color="rgba(208,227,250,1)" />
+      <stop offset="0.1111111111111111" stop-color="rgba(208,227,250,1)" />
+      <stop offset="0.1111111111111111" stop-color="rgba(172,199,246,1)" />
+      <stop offset="0.2222222222222222" stop-color="rgba(172,199,246,1)" />
+      <stop offset="0.2222222222222222" stop-color="rgba(141,170,242,1)" />
+      <stop offset="0.33333333333333326" stop-color="rgba(141,170,242,1)" />
+      <stop offset="0.33333333333333326" stop-color="rgba(109,142,234,1)" />
+      <stop offset="0.4444444444444444" stop-color="rgba(109,142,234,1)" />
+      <stop offset="0.4444444444444444" stop-color="rgba(77,115,205,1)" />
+      <stop offset="0.5555555555555556" stop-color="rgba(77,115,205,1)" />
+      <stop offset="0.5555555555555556" stop-color="rgba(50,91,177,1)" />
+      <stop offset="0.6666666666666665" stop-color="rgba(50,91,177,1)" />
+      <stop offset="0.6666666666666665" stop-color="rgba(90,62,117,1)" />
+      <stop offset="0.7777777777777779" stop-color="rgba(90,62,117,1)" />
+      <stop offset="0.7777777777777779" stop-color="rgba(140,60,121,1)" />
+      <stop offset="0.8888888888888888" stop-color="rgba(140,60,121,1)" />
+      <stop offset="0.8888888888888888" stop-color="rgba(226,52,85,1)" />
+      <stop offset="1" stop-color="rgba(226,52,85,1)" />
+      <stop offset="1" stop-color="rgba(231,101,91,1)" />
+    </linearGradient>
+    <linearGradient
+      gradientUnits="userSpaceOnUse"
+      id="g-pattern-9"
+      x1="35.42000000000005"
+      y1="377"
+      x2="35.41999999999998"
       y2="0"
     >
       <stop offset="0" stop-color="rgba(208,227,250,1)" />
@@ -173,160 +201,15 @@
     >
       <use href="#g-svg-426" transform="matrix(1,0,0,1,460,11.500000)" />
     </clipPath>
-    <linearGradient
-      gradientUnits="userSpaceOnUse"
-      id="g-pattern-4"
-      x1="37.919999999999995"
-      y1="377"
-      x2="37.91999999999992"
-      y2="0"
-    >
-      <stop offset="0" stop-color="rgba(208,227,250,1)" />
-      <stop offset="0.1111111111111111" stop-color="rgba(208,227,250,1)" />
-      <stop offset="0.1111111111111111" stop-color="rgba(172,199,246,1)" />
-      <stop offset="0.2222222222222222" stop-color="rgba(172,199,246,1)" />
-      <stop offset="0.2222222222222222" stop-color="rgba(141,170,242,1)" />
-      <stop offset="0.33333333333333326" stop-color="rgba(141,170,242,1)" />
-      <stop offset="0.33333333333333326" stop-color="rgba(109,142,234,1)" />
-      <stop offset="0.4444444444444444" stop-color="rgba(109,142,234,1)" />
-      <stop offset="0.4444444444444444" stop-color="rgba(77,115,205,1)" />
-      <stop offset="0.5555555555555556" stop-color="rgba(77,115,205,1)" />
-      <stop offset="0.5555555555555556" stop-color="rgba(50,91,177,1)" />
-      <stop offset="0.6666666666666665" stop-color="rgba(50,91,177,1)" />
-      <stop offset="0.6666666666666665" stop-color="rgba(90,62,117,1)" />
-      <stop offset="0.7777777777777779" stop-color="rgba(90,62,117,1)" />
-      <stop offset="0.7777777777777779" stop-color="rgba(140,60,121,1)" />
-      <stop offset="0.8888888888888888" stop-color="rgba(140,60,121,1)" />
-      <stop offset="0.8888888888888888" stop-color="rgba(226,52,85,1)" />
-      <stop offset="1" stop-color="rgba(226,52,85,1)" />
-      <stop offset="1" stop-color="rgba(231,101,91,1)" />
-    </linearGradient>
     <clipPath
       transform="matrix(1,0,0,1,-609.159973,-11.500000)"
       id="clip-path-488-487"
     >
       <use href="#g-svg-488" transform="matrix(1,0,0,1,609.160000,11.500000)" />
     </clipPath>
-    <clipPath transform="matrix(1,0,0,1,0,-416.500000)" id="clip-path-604-603">
-      <use href="#g-svg-604" transform="matrix(1,0,0,1,0,416.500000)" />
-    </clipPath>
-    <clipPath
-      transform="matrix(1,0,0,1,-154.160004,-416.500000)"
-      id="clip-path-738-737"
-    >
-      <use
-        href="#g-svg-738"
-        transform="matrix(1,0,0,1,154.160000,416.500000)"
-      />
-    </clipPath>
     <linearGradient
       gradientUnits="userSpaceOnUse"
-      id="g-pattern-6"
-      x1="35.42000000000002"
-      y1="350"
-      x2="35.41999999999995"
-      y2="0"
-    >
-      <stop offset="0" stop-color="rgba(208,227,250,1)" />
-      <stop offset="0.1111111111111111" stop-color="rgba(208,227,250,1)" />
-      <stop offset="0.1111111111111111" stop-color="rgba(172,199,246,1)" />
-      <stop offset="0.2222222222222222" stop-color="rgba(172,199,246,1)" />
-      <stop offset="0.2222222222222222" stop-color="rgba(141,170,242,1)" />
-      <stop offset="0.33333333333333326" stop-color="rgba(141,170,242,1)" />
-      <stop offset="0.33333333333333326" stop-color="rgba(109,142,234,1)" />
-      <stop offset="0.4444444444444444" stop-color="rgba(109,142,234,1)" />
-      <stop offset="0.4444444444444444" stop-color="rgba(77,115,205,1)" />
-      <stop offset="0.5555555555555556" stop-color="rgba(77,115,205,1)" />
-      <stop offset="0.5555555555555556" stop-color="rgba(50,91,177,1)" />
-      <stop offset="0.6666666666666665" stop-color="rgba(50,91,177,1)" />
-      <stop offset="0.6666666666666665" stop-color="rgba(90,62,117,1)" />
-      <stop offset="0.7777777777777779" stop-color="rgba(90,62,117,1)" />
-      <stop offset="0.7777777777777779" stop-color="rgba(140,60,121,1)" />
-      <stop offset="0.8888888888888888" stop-color="rgba(140,60,121,1)" />
-      <stop offset="0.8888888888888888" stop-color="rgba(226,52,85,1)" />
-      <stop offset="1" stop-color="rgba(226,52,85,1)" />
-      <stop offset="1" stop-color="rgba(231,101,91,1)" />
-    </linearGradient>
-    <clipPath
-      transform="matrix(1,0,0,1,-230,-443.500000)"
-      id="clip-path-873-872"
-    >
-      <use href="#g-svg-873" transform="matrix(1,0,0,1,230,443.500000)" />
-    </clipPath>
-    <linearGradient
-      gradientUnits="userSpaceOnUse"
-      id="g-pattern-7"
-      x1="35.42000000000005"
-      y1="350"
-      x2="35.41999999999998"
-      y2="0"
-    >
-      <stop offset="0" stop-color="rgba(208,227,250,1)" />
-      <stop offset="0.1111111111111111" stop-color="rgba(208,227,250,1)" />
-      <stop offset="0.1111111111111111" stop-color="rgba(172,199,246,1)" />
-      <stop offset="0.2222222222222222" stop-color="rgba(172,199,246,1)" />
-      <stop offset="0.2222222222222222" stop-color="rgba(141,170,242,1)" />
-      <stop offset="0.33333333333333326" stop-color="rgba(141,170,242,1)" />
-      <stop offset="0.33333333333333326" stop-color="rgba(109,142,234,1)" />
-      <stop offset="0.4444444444444444" stop-color="rgba(109,142,234,1)" />
-      <stop offset="0.4444444444444444" stop-color="rgba(77,115,205,1)" />
-      <stop offset="0.5555555555555556" stop-color="rgba(77,115,205,1)" />
-      <stop offset="0.5555555555555556" stop-color="rgba(50,91,177,1)" />
-      <stop offset="0.6666666666666665" stop-color="rgba(50,91,177,1)" />
-      <stop offset="0.6666666666666665" stop-color="rgba(90,62,117,1)" />
-      <stop offset="0.7777777777777779" stop-color="rgba(90,62,117,1)" />
-      <stop offset="0.7777777777777779" stop-color="rgba(140,60,121,1)" />
-      <stop offset="0.8888888888888888" stop-color="rgba(140,60,121,1)" />
-      <stop offset="0.8888888888888888" stop-color="rgba(226,52,85,1)" />
-      <stop offset="1" stop-color="rgba(226,52,85,1)" />
-      <stop offset="1" stop-color="rgba(231,101,91,1)" />
-    </linearGradient>
-    <clipPath
-      transform="matrix(1,0,0,1,-384.160004,-443.500000)"
-      id="clip-path-1008-1007"
-    >
-      <use
-        href="#g-svg-1008"
-        transform="matrix(1,0,0,1,384.160000,443.500000)"
-      />
-    </clipPath>
-    <linearGradient
-      gradientUnits="userSpaceOnUse"
-      id="g-pattern-8"
-      x1="35.42000000000005"
-      y1="377"
-      x2="35.41999999999998"
-      y2="0"
-    >
-      <stop offset="0" stop-color="rgba(208,227,250,1)" />
-      <stop offset="0.1111111111111111" stop-color="rgba(208,227,250,1)" />
-      <stop offset="0.1111111111111111" stop-color="rgba(172,199,246,1)" />
-      <stop offset="0.2222222222222222" stop-color="rgba(172,199,246,1)" />
-      <stop offset="0.2222222222222222" stop-color="rgba(141,170,242,1)" />
-      <stop offset="0.33333333333333326" stop-color="rgba(141,170,242,1)" />
-      <stop offset="0.33333333333333326" stop-color="rgba(109,142,234,1)" />
-      <stop offset="0.4444444444444444" stop-color="rgba(109,142,234,1)" />
-      <stop offset="0.4444444444444444" stop-color="rgba(77,115,205,1)" />
-      <stop offset="0.5555555555555556" stop-color="rgba(77,115,205,1)" />
-      <stop offset="0.5555555555555556" stop-color="rgba(50,91,177,1)" />
-      <stop offset="0.6666666666666665" stop-color="rgba(50,91,177,1)" />
-      <stop offset="0.6666666666666665" stop-color="rgba(90,62,117,1)" />
-      <stop offset="0.7777777777777779" stop-color="rgba(90,62,117,1)" />
-      <stop offset="0.7777777777777779" stop-color="rgba(140,60,121,1)" />
-      <stop offset="0.8888888888888888" stop-color="rgba(140,60,121,1)" />
-      <stop offset="0.8888888888888888" stop-color="rgba(226,52,85,1)" />
-      <stop offset="1" stop-color="rgba(226,52,85,1)" />
-      <stop offset="1" stop-color="rgba(231,101,91,1)" />
-    </linearGradient>
-    <clipPath
-      transform="matrix(1,0,0,1,-460,-416.500000)"
-      id="clip-path-1118-1117"
-    >
-      <use href="#g-svg-1118" transform="matrix(1,0,0,1,460,416.500000)" />
-    </clipPath>
-    <linearGradient
-      gradientUnits="userSpaceOnUse"
-      id="g-pattern-9"
+      id="g-pattern-5"
       x1="35.419999999999995"
       y1="377"
       x2="35.41999999999992"
@@ -353,12 +236,163 @@
       <stop offset="1" stop-color="rgba(231,101,91,1)" />
     </linearGradient>
     <clipPath
-      transform="matrix(1,0,0,1,-614.159973,-416.500000)"
+      transform="matrix(1,0,0,1,-690,-11.500000)"
+      id="clip-path-604-603"
+    >
+      <use href="#g-svg-604" transform="matrix(1,0,0,1,690,11.500000)" />
+    </clipPath>
+    <linearGradient
+      gradientUnits="userSpaceOnUse"
+      id="g-pattern-6"
+      x1="35.42000000000004"
+      y1="377"
+      x2="35.419999999999966"
+      y2="0"
+    >
+      <stop offset="0" stop-color="rgba(208,227,250,1)" />
+      <stop offset="0.1111111111111111" stop-color="rgba(208,227,250,1)" />
+      <stop offset="0.1111111111111111" stop-color="rgba(172,199,246,1)" />
+      <stop offset="0.2222222222222222" stop-color="rgba(172,199,246,1)" />
+      <stop offset="0.2222222222222222" stop-color="rgba(141,170,242,1)" />
+      <stop offset="0.33333333333333326" stop-color="rgba(141,170,242,1)" />
+      <stop offset="0.33333333333333326" stop-color="rgba(109,142,234,1)" />
+      <stop offset="0.4444444444444444" stop-color="rgba(109,142,234,1)" />
+      <stop offset="0.4444444444444444" stop-color="rgba(77,115,205,1)" />
+      <stop offset="0.5555555555555556" stop-color="rgba(77,115,205,1)" />
+      <stop offset="0.5555555555555556" stop-color="rgba(50,91,177,1)" />
+      <stop offset="0.6666666666666665" stop-color="rgba(50,91,177,1)" />
+      <stop offset="0.6666666666666665" stop-color="rgba(90,62,117,1)" />
+      <stop offset="0.7777777777777779" stop-color="rgba(90,62,117,1)" />
+      <stop offset="0.7777777777777779" stop-color="rgba(140,60,121,1)" />
+      <stop offset="0.8888888888888888" stop-color="rgba(140,60,121,1)" />
+      <stop offset="0.8888888888888888" stop-color="rgba(226,52,85,1)" />
+      <stop offset="1" stop-color="rgba(226,52,85,1)" />
+      <stop offset="1" stop-color="rgba(231,101,91,1)" />
+    </linearGradient>
+    <clipPath
+      transform="matrix(1,0,0,1,-39.160000,-416.500000)"
+      id="clip-path-738-737"
+    >
+      <use href="#g-svg-738" transform="matrix(1,0,0,1,39.160000,416.500000)" />
+    </clipPath>
+    <linearGradient
+      gradientUnits="userSpaceOnUse"
+      id="g-pattern-7"
+      x1="35.42000000000004"
+      y1="350"
+      x2="35.419999999999966"
+      y2="0"
+    >
+      <stop offset="0" stop-color="rgba(208,227,250,1)" />
+      <stop offset="0.1111111111111111" stop-color="rgba(208,227,250,1)" />
+      <stop offset="0.1111111111111111" stop-color="rgba(172,199,246,1)" />
+      <stop offset="0.2222222222222222" stop-color="rgba(172,199,246,1)" />
+      <stop offset="0.2222222222222222" stop-color="rgba(141,170,242,1)" />
+      <stop offset="0.33333333333333326" stop-color="rgba(141,170,242,1)" />
+      <stop offset="0.33333333333333326" stop-color="rgba(109,142,234,1)" />
+      <stop offset="0.4444444444444444" stop-color="rgba(109,142,234,1)" />
+      <stop offset="0.4444444444444444" stop-color="rgba(77,115,205,1)" />
+      <stop offset="0.5555555555555556" stop-color="rgba(77,115,205,1)" />
+      <stop offset="0.5555555555555556" stop-color="rgba(50,91,177,1)" />
+      <stop offset="0.6666666666666665" stop-color="rgba(50,91,177,1)" />
+      <stop offset="0.6666666666666665" stop-color="rgba(90,62,117,1)" />
+      <stop offset="0.7777777777777779" stop-color="rgba(90,62,117,1)" />
+      <stop offset="0.7777777777777779" stop-color="rgba(140,60,121,1)" />
+      <stop offset="0.8888888888888888" stop-color="rgba(140,60,121,1)" />
+      <stop offset="0.8888888888888888" stop-color="rgba(226,52,85,1)" />
+      <stop offset="1" stop-color="rgba(226,52,85,1)" />
+      <stop offset="1" stop-color="rgba(231,101,91,1)" />
+    </linearGradient>
+    <clipPath
+      transform="matrix(1,0,0,1,-115,-443.500000)"
+      id="clip-path-873-872"
+    >
+      <use href="#g-svg-873" transform="matrix(1,0,0,1,115,443.500000)" />
+    </clipPath>
+    <linearGradient
+      gradientUnits="userSpaceOnUse"
+      id="g-pattern-8"
+      x1="35.42000000000002"
+      y1="350"
+      x2="35.41999999999995"
+      y2="0"
+    >
+      <stop offset="0" stop-color="rgba(208,227,250,1)" />
+      <stop offset="0.1111111111111111" stop-color="rgba(208,227,250,1)" />
+      <stop offset="0.1111111111111111" stop-color="rgba(172,199,246,1)" />
+      <stop offset="0.2222222222222222" stop-color="rgba(172,199,246,1)" />
+      <stop offset="0.2222222222222222" stop-color="rgba(141,170,242,1)" />
+      <stop offset="0.33333333333333326" stop-color="rgba(141,170,242,1)" />
+      <stop offset="0.33333333333333326" stop-color="rgba(109,142,234,1)" />
+      <stop offset="0.4444444444444444" stop-color="rgba(109,142,234,1)" />
+      <stop offset="0.4444444444444444" stop-color="rgba(77,115,205,1)" />
+      <stop offset="0.5555555555555556" stop-color="rgba(77,115,205,1)" />
+      <stop offset="0.5555555555555556" stop-color="rgba(50,91,177,1)" />
+      <stop offset="0.6666666666666665" stop-color="rgba(50,91,177,1)" />
+      <stop offset="0.6666666666666665" stop-color="rgba(90,62,117,1)" />
+      <stop offset="0.7777777777777779" stop-color="rgba(90,62,117,1)" />
+      <stop offset="0.7777777777777779" stop-color="rgba(140,60,121,1)" />
+      <stop offset="0.8888888888888888" stop-color="rgba(140,60,121,1)" />
+      <stop offset="0.8888888888888888" stop-color="rgba(226,52,85,1)" />
+      <stop offset="1" stop-color="rgba(226,52,85,1)" />
+      <stop offset="1" stop-color="rgba(231,101,91,1)" />
+    </linearGradient>
+    <clipPath
+      transform="matrix(1,0,0,1,-269.160004,-443.500000)"
+      id="clip-path-1008-1007"
+    >
+      <use
+        href="#g-svg-1008"
+        transform="matrix(1,0,0,1,269.160000,443.500000)"
+      />
+    </clipPath>
+    <clipPath
+      transform="matrix(1,0,0,1,-345,-416.500000)"
+      id="clip-path-1118-1117"
+    >
+      <use href="#g-svg-1118" transform="matrix(1,0,0,1,345,416.500000)" />
+    </clipPath>
+    <clipPath
+      transform="matrix(1,0,0,1,-499.160004,-416.500000)"
       id="clip-path-1220-1219"
     >
       <use
         href="#g-svg-1220"
-        transform="matrix(1,0,0,1,614.160000,416.500000)"
+        transform="matrix(1,0,0,1,499.160000,416.500000)"
+      />
+    </clipPath>
+    <clipPath
+      transform="matrix(1,0,0,1,-575,-416.500000)"
+      id="clip-path-1316-1315"
+    >
+      <use href="#g-svg-1316" transform="matrix(1,0,0,1,575,416.500000)" />
+    </clipPath>
+    <linearGradient
+      gradientUnits="userSpaceOnUse"
+      id="g-pattern-10"
+      x1="37.919999999999995"
+      y1="377"
+      x2="37.91999999999992"
+      y2="0"
+    >
+      <stop offset="0" stop-color="rgba(208,227,250,1)" />
+      <stop offset="0.1111111111111111" stop-color="rgba(172,199,246,1)" />
+      <stop offset="0.2222222222222222" stop-color="rgba(141,170,242,1)" />
+      <stop offset="0.33333333333333326" stop-color="rgba(109,142,234,1)" />
+      <stop offset="0.4444444444444444" stop-color="rgba(77,115,205,1)" />
+      <stop offset="0.5555555555555556" stop-color="rgba(50,91,177,1)" />
+      <stop offset="0.6666666666666665" stop-color="rgba(90,62,117,1)" />
+      <stop offset="0.7777777777777779" stop-color="rgba(140,60,121,1)" />
+      <stop offset="0.8888888888888888" stop-color="rgba(226,52,85,1)" />
+      <stop offset="1" stop-color="rgba(231,101,91,1)" />
+    </linearGradient>
+    <clipPath
+      transform="matrix(1,0,0,1,-724.159973,-416.500000)"
+      id="clip-path-1410-1409"
+    >
+      <use
+        href="#g-svg-1410"
+        transform="matrix(1,0,0,1,724.160000,416.500000)"
       />
     </clipPath>
   </defs>
@@ -433,7 +467,7 @@
                     <g
                       id="g-svg-10"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,388.500000)"
+                      transform="matrix(1,0,0,1,75.839996,388.500000)"
                       class="axis-label"
                     >
                       <g>
@@ -460,7 +494,7 @@
                     <g
                       id="g-svg-11"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,346.611115)"
+                      transform="matrix(1,0,0,1,75.839996,346.611115)"
                       class="axis-label"
                     >
                       <g>
@@ -487,7 +521,7 @@
                     <g
                       id="g-svg-12"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,304.722229)"
+                      transform="matrix(1,0,0,1,75.839996,304.722229)"
                       class="axis-label"
                     >
                       <g>
@@ -514,7 +548,7 @@
                     <g
                       id="g-svg-13"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,262.833344)"
+                      transform="matrix(1,0,0,1,75.839996,262.833344)"
                       class="axis-label"
                     >
                       <g>
@@ -541,7 +575,7 @@
                     <g
                       id="g-svg-14"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,220.944443)"
+                      transform="matrix(1,0,0,1,75.839996,220.944443)"
                       class="axis-label"
                     >
                       <g>
@@ -568,7 +602,7 @@
                     <g
                       id="g-svg-15"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,179.055557)"
+                      transform="matrix(1,0,0,1,75.839996,179.055557)"
                       class="axis-label"
                     >
                       <g>
@@ -595,7 +629,7 @@
                     <g
                       id="g-svg-16"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,137.166672)"
+                      transform="matrix(1,0,0,1,75.839996,137.166672)"
                       class="axis-label"
                     >
                       <g>
@@ -622,7 +656,7 @@
                     <g
                       id="g-svg-17"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,95.277779)"
+                      transform="matrix(1,0,0,1,75.839996,95.277779)"
                       class="axis-label"
                     >
                       <g>
@@ -649,7 +683,7 @@
                     <g
                       id="g-svg-18"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,53.388889)"
+                      transform="matrix(1,0,0,1,75.839996,53.388889)"
                       class="axis-label"
                     >
                       <g>
@@ -676,7 +710,7 @@
                     <g
                       id="g-svg-19"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,11.500000)"
+                      transform="matrix(1,0,0,1,75.839996,11.500000)"
                       class="axis-label"
                     >
                       <g>
@@ -1480,7 +1514,7 @@
                     <g
                       id="g-svg-199"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,361.500000)"
+                      transform="matrix(1,0,0,1,75.839996,361.500000)"
                       class="axis-label"
                     >
                       <g>
@@ -1507,7 +1541,7 @@
                     <g
                       id="g-svg-200"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,322.611115)"
+                      transform="matrix(1,0,0,1,75.839996,322.611115)"
                       class="axis-label"
                     >
                       <g>
@@ -1534,7 +1568,7 @@
                     <g
                       id="g-svg-201"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,283.722229)"
+                      transform="matrix(1,0,0,1,75.839996,283.722229)"
                       class="axis-label"
                     >
                       <g>
@@ -1561,7 +1595,7 @@
                     <g
                       id="g-svg-202"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,244.833328)"
+                      transform="matrix(1,0,0,1,75.839996,244.833328)"
                       class="axis-label"
                     >
                       <g>
@@ -1588,7 +1622,7 @@
                     <g
                       id="g-svg-203"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,205.944443)"
+                      transform="matrix(1,0,0,1,75.839996,205.944443)"
                       class="axis-label"
                     >
                       <g>
@@ -1615,7 +1649,7 @@
                     <g
                       id="g-svg-204"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,167.055557)"
+                      transform="matrix(1,0,0,1,75.839996,167.055557)"
                       class="axis-label"
                     >
                       <g>
@@ -1642,7 +1676,7 @@
                     <g
                       id="g-svg-205"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,128.166672)"
+                      transform="matrix(1,0,0,1,75.839996,128.166672)"
                       class="axis-label"
                     >
                       <g>
@@ -1669,7 +1703,7 @@
                     <g
                       id="g-svg-206"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,89.277779)"
+                      transform="matrix(1,0,0,1,75.839996,89.277779)"
                       class="axis-label"
                     >
                       <g>
@@ -1696,7 +1730,7 @@
                     <g
                       id="g-svg-207"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,50.388889)"
+                      transform="matrix(1,0,0,1,75.839996,50.388889)"
                       class="axis-label"
                     >
                       <g>
@@ -1723,7 +1757,7 @@
                     <g
                       id="g-svg-208"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,11.500000)"
+                      transform="matrix(1,0,0,1,75.839996,11.500000)"
                       class="axis-label"
                     >
                       <g>
@@ -2527,7 +2561,7 @@
                     <g
                       id="g-svg-388"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,388.500000)"
+                      transform="matrix(1,0,0,1,75.839996,388.500000)"
                       class="axis-label"
                     >
                       <g>
@@ -2554,7 +2588,7 @@
                     <g
                       id="g-svg-389"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,346.611115)"
+                      transform="matrix(1,0,0,1,75.839996,346.611115)"
                       class="axis-label"
                     >
                       <g>
@@ -2581,7 +2615,7 @@
                     <g
                       id="g-svg-390"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,304.722229)"
+                      transform="matrix(1,0,0,1,75.839996,304.722229)"
                       class="axis-label"
                     >
                       <g>
@@ -2608,7 +2642,7 @@
                     <g
                       id="g-svg-391"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,262.833344)"
+                      transform="matrix(1,0,0,1,75.839996,262.833344)"
                       class="axis-label"
                     >
                       <g>
@@ -2635,7 +2669,7 @@
                     <g
                       id="g-svg-392"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,220.944443)"
+                      transform="matrix(1,0,0,1,75.839996,220.944443)"
                       class="axis-label"
                     >
                       <g>
@@ -2662,7 +2696,7 @@
                     <g
                       id="g-svg-393"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,179.055557)"
+                      transform="matrix(1,0,0,1,75.839996,179.055557)"
                       class="axis-label"
                     >
                       <g>
@@ -2689,7 +2723,7 @@
                     <g
                       id="g-svg-394"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,137.166672)"
+                      transform="matrix(1,0,0,1,75.839996,137.166672)"
                       class="axis-label"
                     >
                       <g>
@@ -2716,7 +2750,7 @@
                     <g
                       id="g-svg-395"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,95.277779)"
+                      transform="matrix(1,0,0,1,75.839996,95.277779)"
                       class="axis-label"
                     >
                       <g>
@@ -2743,7 +2777,7 @@
                     <g
                       id="g-svg-396"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,53.388889)"
+                      transform="matrix(1,0,0,1,75.839996,53.388889)"
                       class="axis-label"
                     >
                       <g>
@@ -2770,7 +2804,7 @@
                     <g
                       id="g-svg-397"
                       fill="none"
-                      transform="matrix(1,0,0,1,10,11.500000)"
+                      transform="matrix(1,0,0,1,75.839996,11.500000)"
                       class="axis-label"
                     >
                       <g>
@@ -3189,9 +3223,9 @@
           <path
             id="g-svg-1258"
             fill="none"
-            d="M 0,405 l 110,0 l 0,400 l-110 0 z"
-            x="0"
-            y="405"
+            d="M 690,0 l 110,0 l 0,400 l-110 0 z"
+            x="690"
+            y="0"
             width="110"
             height="400"
             stroke="rgba(255,0,0,1)"
@@ -3202,7 +3236,7 @@
           fill="none"
           width="110"
           height="400"
-          transform="matrix(1,0,0,1,0,405)"
+          transform="matrix(1,0,0,1,690,0)"
         >
           <g
             id="g-svg-503"
@@ -3225,7 +3259,7 @@
                       id="g-svg-601"
                       fill="rgba(229,229,229,1)"
                       class="ribbon-background"
-                      d="M 0,377 L 0,0 L 70.84,0 L 70.84,377 Z"
+                      d="M 0,377 L 0,0 L 70.83999999999992,0 L 70.83999999999992,377 Z"
                     />
                   </g>
                 </g>
@@ -3235,13 +3269,13 @@
                       id="g-svg-603"
                       fill="url(#g-pattern-5)"
                       class="ribbon-ribbon"
-                      d="M 0,377 L 0,0 L 70.84,0 L 70.84,377 Z"
+                      d="M 0,377 L 0,0 L 70.83999999999992,0 L 70.83999999999992,377 Z"
                     />
                     <g>
                       <path
                         id="g-svg-604"
                         fill="none"
-                        d="M 0,0 L 0,377 L 70.84,377 L 70.84,0 Z"
+                        d="M 0,0 L 0,377 L 70.83999999999992,377 L 70.83999999999992,0 Z"
                         class="ribbon-clip-path"
                       />
                     </g>
@@ -3267,7 +3301,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.84"
+                          x2="-70.83999999999992"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -3287,7 +3321,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.84"
+                          x2="-70.83999999999992"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -3307,7 +3341,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.84"
+                          x2="-70.83999999999992"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -3327,7 +3361,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.84"
+                          x2="-70.83999999999992"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -3347,7 +3381,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.84"
+                          x2="-70.83999999999992"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -3367,7 +3401,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.84"
+                          x2="-70.83999999999992"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -3387,7 +3421,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.84"
+                          x2="-70.83999999999992"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -3407,7 +3441,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.84"
+                          x2="-70.83999999999992"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -3427,7 +3461,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.84"
+                          x2="-70.83999999999992"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -3447,7 +3481,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.84"
+                          x2="-70.83999999999992"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -3460,7 +3494,7 @@
                     <g
                       id="g-svg-532"
                       fill="none"
-                      transform="matrix(1,0,0,1,80.839996,388.500000)"
+                      transform="matrix(1,0,0,1,75.839996,388.500000)"
                       class="axis-label"
                     >
                       <g>
@@ -3487,7 +3521,7 @@
                     <g
                       id="g-svg-533"
                       fill="none"
-                      transform="matrix(1,0,0,1,80.839996,346.611115)"
+                      transform="matrix(1,0,0,1,75.839996,346.611115)"
                       class="axis-label"
                     >
                       <g>
@@ -3514,7 +3548,7 @@
                     <g
                       id="g-svg-534"
                       fill="none"
-                      transform="matrix(1,0,0,1,80.839996,304.722229)"
+                      transform="matrix(1,0,0,1,75.839996,304.722229)"
                       class="axis-label"
                     >
                       <g>
@@ -3541,7 +3575,7 @@
                     <g
                       id="g-svg-535"
                       fill="none"
-                      transform="matrix(1,0,0,1,80.839996,262.833344)"
+                      transform="matrix(1,0,0,1,75.839996,262.833344)"
                       class="axis-label"
                     >
                       <g>
@@ -3568,7 +3602,7 @@
                     <g
                       id="g-svg-536"
                       fill="none"
-                      transform="matrix(1,0,0,1,80.839996,220.944443)"
+                      transform="matrix(1,0,0,1,75.839996,220.944443)"
                       class="axis-label"
                     >
                       <g>
@@ -3595,7 +3629,7 @@
                     <g
                       id="g-svg-537"
                       fill="none"
-                      transform="matrix(1,0,0,1,80.839996,179.055557)"
+                      transform="matrix(1,0,0,1,75.839996,179.055557)"
                       class="axis-label"
                     >
                       <g>
@@ -3622,7 +3656,7 @@
                     <g
                       id="g-svg-538"
                       fill="none"
-                      transform="matrix(1,0,0,1,80.839996,137.166672)"
+                      transform="matrix(1,0,0,1,75.839996,137.166672)"
                       class="axis-label"
                     >
                       <g>
@@ -3649,7 +3683,7 @@
                     <g
                       id="g-svg-539"
                       fill="none"
-                      transform="matrix(1,0,0,1,80.839996,95.277779)"
+                      transform="matrix(1,0,0,1,75.839996,95.277779)"
                       class="axis-label"
                     >
                       <g>
@@ -3676,7 +3710,7 @@
                     <g
                       id="g-svg-540"
                       fill="none"
-                      transform="matrix(1,0,0,1,80.839996,53.388889)"
+                      transform="matrix(1,0,0,1,75.839996,53.388889)"
                       class="axis-label"
                     >
                       <g>
@@ -3703,7 +3737,7 @@
                     <g
                       id="g-svg-541"
                       fill="none"
-                      transform="matrix(1,0,0,1,80.839996,11.500000)"
+                      transform="matrix(1,0,0,1,75.839996,11.500000)"
                       class="axis-label"
                     >
                       <g>
@@ -3901,8 +3935,8 @@
           <path
             id="g-svg-1260"
             fill="none"
-            d="M 115,405 l 110,0 l 0,400 l-110 0 z"
-            x="115"
+            d="M 0,405 l 110,0 l 0,400 l-110 0 z"
+            x="0"
             y="405"
             width="110"
             height="400"
@@ -3914,7 +3948,7 @@
           fill="none"
           width="110"
           height="400"
-          transform="matrix(1,0,0,1,115,405)"
+          transform="matrix(1,0,0,1,0,405)"
         >
           <g
             id="g-svg-637"
@@ -3945,7 +3979,7 @@
                   <g clip-path="url(#clip-path-738-737)">
                     <path
                       id="g-svg-737"
-                      fill="url(#g-pattern-5)"
+                      fill="url(#g-pattern-6)"
                       class="ribbon-ribbon"
                       d="M 0,377 L 0,0 L 70.84,0 L 70.84,377 Z"
                     />
@@ -4172,7 +4206,7 @@
                     <g
                       id="g-svg-666"
                       fill="none"
-                      transform="matrix(1,0,0,1,29.160000,388.500000)"
+                      transform="matrix(1,0,0,1,34.160000,388.500000)"
                       class="axis-label"
                     >
                       <g>
@@ -4199,7 +4233,7 @@
                     <g
                       id="g-svg-667"
                       fill="none"
-                      transform="matrix(1,0,0,1,29.160000,346.611115)"
+                      transform="matrix(1,0,0,1,34.160000,346.611115)"
                       class="axis-label"
                     >
                       <g>
@@ -4226,7 +4260,7 @@
                     <g
                       id="g-svg-668"
                       fill="none"
-                      transform="matrix(1,0,0,1,29.160000,304.722229)"
+                      transform="matrix(1,0,0,1,34.160000,304.722229)"
                       class="axis-label"
                     >
                       <g>
@@ -4253,7 +4287,7 @@
                     <g
                       id="g-svg-669"
                       fill="none"
-                      transform="matrix(1,0,0,1,29.160000,262.833344)"
+                      transform="matrix(1,0,0,1,34.160000,262.833344)"
                       class="axis-label"
                     >
                       <g>
@@ -4280,7 +4314,7 @@
                     <g
                       id="g-svg-670"
                       fill="none"
-                      transform="matrix(1,0,0,1,29.160000,220.944443)"
+                      transform="matrix(1,0,0,1,34.160000,220.944443)"
                       class="axis-label"
                     >
                       <g>
@@ -4307,7 +4341,7 @@
                     <g
                       id="g-svg-671"
                       fill="none"
-                      transform="matrix(1,0,0,1,29.160000,179.055557)"
+                      transform="matrix(1,0,0,1,34.160000,179.055557)"
                       class="axis-label"
                     >
                       <g>
@@ -4334,7 +4368,7 @@
                     <g
                       id="g-svg-672"
                       fill="none"
-                      transform="matrix(1,0,0,1,29.160000,137.166672)"
+                      transform="matrix(1,0,0,1,34.160000,137.166672)"
                       class="axis-label"
                     >
                       <g>
@@ -4361,7 +4395,7 @@
                     <g
                       id="g-svg-673"
                       fill="none"
-                      transform="matrix(1,0,0,1,29.160000,95.277779)"
+                      transform="matrix(1,0,0,1,34.160000,95.277779)"
                       class="axis-label"
                     >
                       <g>
@@ -4388,7 +4422,7 @@
                     <g
                       id="g-svg-674"
                       fill="none"
-                      transform="matrix(1,0,0,1,29.160000,53.388889)"
+                      transform="matrix(1,0,0,1,34.160000,53.388889)"
                       class="axis-label"
                     >
                       <g>
@@ -4415,7 +4449,7 @@
                     <g
                       id="g-svg-675"
                       fill="none"
-                      transform="matrix(1,0,0,1,29.160000,11.500000)"
+                      transform="matrix(1,0,0,1,34.160000,11.500000)"
                       class="axis-label"
                     >
                       <g>
@@ -4613,8 +4647,8 @@
           <path
             id="g-svg-1262"
             fill="none"
-            d="M 230,405 l 110,0 l 0,400 l-110 0 z"
-            x="230"
+            d="M 115,405 l 110,0 l 0,400 l-110 0 z"
+            x="115"
             y="405"
             width="110"
             height="400"
@@ -4626,7 +4660,7 @@
           fill="none"
           width="110"
           height="400"
-          transform="matrix(1,0,0,1,230,405)"
+          transform="matrix(1,0,0,1,115,405)"
         >
           <g
             id="g-svg-771"
@@ -4674,7 +4708,7 @@
                       id="g-svg-870"
                       fill="rgba(229,229,229,1)"
                       class="ribbon-background"
-                      d="M 0,350 L 0,0 L 70.83999999999997,0 L 70.83999999999997,350 Z"
+                      d="M 0,350 L 0,0 L 70.84,0 L 70.84,350 Z"
                     />
                   </g>
                 </g>
@@ -4682,15 +4716,15 @@
                   <g clip-path="url(#clip-path-873-872)">
                     <path
                       id="g-svg-872"
-                      fill="url(#g-pattern-6)"
+                      fill="url(#g-pattern-7)"
                       class="ribbon-ribbon"
-                      d="M 0,350 L 0,0 L 70.83999999999997,0 L 70.83999999999997,350 Z"
+                      d="M 0,350 L 0,0 L 70.84,0 L 70.84,350 Z"
                     />
                     <g>
                       <path
                         id="g-svg-873"
                         fill="none"
-                        d="M 0,0 L 0,350 L 70.83999999999997,350 L 70.83999999999997,0 Z"
+                        d="M 0,0 L 0,350 L 70.84,350 L 70.84,0 Z"
                         class="ribbon-clip-path"
                       />
                     </g>
@@ -4716,7 +4750,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.83999999999997"
+                          x2="-70.84"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -4736,7 +4770,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.83999999999997"
+                          x2="-70.84"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -4756,7 +4790,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.83999999999997"
+                          x2="-70.84"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -4776,7 +4810,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.83999999999997"
+                          x2="-70.84"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -4796,7 +4830,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.83999999999997"
+                          x2="-70.84"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -4816,7 +4850,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.83999999999997"
+                          x2="-70.84"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -4836,7 +4870,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.83999999999997"
+                          x2="-70.84"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -4856,7 +4890,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.83999999999997"
+                          x2="-70.84"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -4876,7 +4910,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.83999999999997"
+                          x2="-70.84"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -4896,7 +4930,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.83999999999997"
+                          x2="-70.84"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -4909,7 +4943,7 @@
                     <g
                       id="g-svg-801"
                       fill="none"
-                      transform="matrix(1,0,0,1,80.839996,361.500000)"
+                      transform="matrix(1,0,0,1,75.839996,361.500000)"
                       class="axis-label"
                     >
                       <g>
@@ -4936,7 +4970,7 @@
                     <g
                       id="g-svg-802"
                       fill="none"
-                      transform="matrix(1,0,0,1,80.839996,322.611115)"
+                      transform="matrix(1,0,0,1,75.839996,322.611115)"
                       class="axis-label"
                     >
                       <g>
@@ -4963,7 +4997,7 @@
                     <g
                       id="g-svg-803"
                       fill="none"
-                      transform="matrix(1,0,0,1,80.839996,283.722229)"
+                      transform="matrix(1,0,0,1,75.839996,283.722229)"
                       class="axis-label"
                     >
                       <g>
@@ -4990,7 +5024,7 @@
                     <g
                       id="g-svg-804"
                       fill="none"
-                      transform="matrix(1,0,0,1,80.839996,244.833328)"
+                      transform="matrix(1,0,0,1,75.839996,244.833328)"
                       class="axis-label"
                     >
                       <g>
@@ -5017,7 +5051,7 @@
                     <g
                       id="g-svg-805"
                       fill="none"
-                      transform="matrix(1,0,0,1,80.839996,205.944443)"
+                      transform="matrix(1,0,0,1,75.839996,205.944443)"
                       class="axis-label"
                     >
                       <g>
@@ -5044,7 +5078,7 @@
                     <g
                       id="g-svg-806"
                       fill="none"
-                      transform="matrix(1,0,0,1,80.839996,167.055557)"
+                      transform="matrix(1,0,0,1,75.839996,167.055557)"
                       class="axis-label"
                     >
                       <g>
@@ -5071,7 +5105,7 @@
                     <g
                       id="g-svg-807"
                       fill="none"
-                      transform="matrix(1,0,0,1,80.839996,128.166672)"
+                      transform="matrix(1,0,0,1,75.839996,128.166672)"
                       class="axis-label"
                     >
                       <g>
@@ -5098,7 +5132,7 @@
                     <g
                       id="g-svg-808"
                       fill="none"
-                      transform="matrix(1,0,0,1,80.839996,89.277779)"
+                      transform="matrix(1,0,0,1,75.839996,89.277779)"
                       class="axis-label"
                     >
                       <g>
@@ -5125,7 +5159,7 @@
                     <g
                       id="g-svg-809"
                       fill="none"
-                      transform="matrix(1,0,0,1,80.839996,50.388889)"
+                      transform="matrix(1,0,0,1,75.839996,50.388889)"
                       class="axis-label"
                     >
                       <g>
@@ -5152,7 +5186,7 @@
                     <g
                       id="g-svg-810"
                       fill="none"
-                      transform="matrix(1,0,0,1,80.839996,11.500000)"
+                      transform="matrix(1,0,0,1,75.839996,11.500000)"
                       class="axis-label"
                     >
                       <g>
@@ -5350,8 +5384,8 @@
           <path
             id="g-svg-1264"
             fill="none"
-            d="M 345,405 l 110,0 l 0,400 l-110 0 z"
-            x="345"
+            d="M 230,405 l 110,0 l 0,400 l-110 0 z"
+            x="230"
             y="405"
             width="110"
             height="400"
@@ -5363,7 +5397,7 @@
           fill="none"
           width="110"
           height="400"
-          transform="matrix(1,0,0,1,345,405)"
+          transform="matrix(1,0,0,1,230,405)"
         >
           <g
             id="g-svg-906"
@@ -5411,7 +5445,7 @@
                       id="g-svg-1005"
                       fill="rgba(229,229,229,1)"
                       class="ribbon-background"
-                      d="M 0,350 L 0,0 L 70.84000000000003,0 L 70.84000000000003,350 Z"
+                      d="M 0,350 L 0,0 L 70.83999999999997,0 L 70.83999999999997,350 Z"
                     />
                   </g>
                 </g>
@@ -5419,15 +5453,15 @@
                   <g clip-path="url(#clip-path-1008-1007)">
                     <path
                       id="g-svg-1007"
-                      fill="url(#g-pattern-7)"
+                      fill="url(#g-pattern-8)"
                       class="ribbon-ribbon"
-                      d="M 0,350 L 0,0 L 70.84000000000003,0 L 70.84000000000003,350 Z"
+                      d="M 0,350 L 0,0 L 70.83999999999997,0 L 70.83999999999997,350 Z"
                     />
                     <g>
                       <path
                         id="g-svg-1008"
                         fill="none"
-                        d="M 0,0 L 0,350 L 70.84000000000003,350 L 70.84000000000003,0 Z"
+                        d="M 0,0 L 0,350 L 70.83999999999997,350 L 70.83999999999997,0 Z"
                         class="ribbon-clip-path"
                       />
                     </g>
@@ -5453,7 +5487,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.84000000000003"
+                          x2="-70.83999999999997"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -5473,7 +5507,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.84000000000003"
+                          x2="-70.83999999999997"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -5493,7 +5527,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.84000000000003"
+                          x2="-70.83999999999997"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -5513,7 +5547,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.84000000000003"
+                          x2="-70.83999999999997"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -5533,7 +5567,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.84000000000003"
+                          x2="-70.83999999999997"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -5553,7 +5587,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.84000000000003"
+                          x2="-70.83999999999997"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -5573,7 +5607,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.84000000000003"
+                          x2="-70.83999999999997"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -5593,7 +5627,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.84000000000003"
+                          x2="-70.83999999999997"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -5613,7 +5647,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.84000000000003"
+                          x2="-70.83999999999997"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -5633,7 +5667,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.84000000000003"
+                          x2="-70.83999999999997"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -5646,7 +5680,7 @@
                     <g
                       id="g-svg-936"
                       fill="none"
-                      transform="matrix(1,0,0,1,29.160000,361.500000)"
+                      transform="matrix(1,0,0,1,34.160000,361.500000)"
                       class="axis-label"
                     >
                       <g>
@@ -5673,7 +5707,7 @@
                     <g
                       id="g-svg-937"
                       fill="none"
-                      transform="matrix(1,0,0,1,29.160000,322.611115)"
+                      transform="matrix(1,0,0,1,34.160000,322.611115)"
                       class="axis-label"
                     >
                       <g>
@@ -5700,7 +5734,7 @@
                     <g
                       id="g-svg-938"
                       fill="none"
-                      transform="matrix(1,0,0,1,29.160000,283.722229)"
+                      transform="matrix(1,0,0,1,34.160000,283.722229)"
                       class="axis-label"
                     >
                       <g>
@@ -5727,7 +5761,7 @@
                     <g
                       id="g-svg-939"
                       fill="none"
-                      transform="matrix(1,0,0,1,29.160000,244.833328)"
+                      transform="matrix(1,0,0,1,34.160000,244.833328)"
                       class="axis-label"
                     >
                       <g>
@@ -5754,7 +5788,7 @@
                     <g
                       id="g-svg-940"
                       fill="none"
-                      transform="matrix(1,0,0,1,29.160000,205.944443)"
+                      transform="matrix(1,0,0,1,34.160000,205.944443)"
                       class="axis-label"
                     >
                       <g>
@@ -5781,7 +5815,7 @@
                     <g
                       id="g-svg-941"
                       fill="none"
-                      transform="matrix(1,0,0,1,29.160000,167.055557)"
+                      transform="matrix(1,0,0,1,34.160000,167.055557)"
                       class="axis-label"
                     >
                       <g>
@@ -5808,7 +5842,7 @@
                     <g
                       id="g-svg-942"
                       fill="none"
-                      transform="matrix(1,0,0,1,29.160000,128.166672)"
+                      transform="matrix(1,0,0,1,34.160000,128.166672)"
                       class="axis-label"
                     >
                       <g>
@@ -5835,7 +5869,7 @@
                     <g
                       id="g-svg-943"
                       fill="none"
-                      transform="matrix(1,0,0,1,29.160000,89.277779)"
+                      transform="matrix(1,0,0,1,34.160000,89.277779)"
                       class="axis-label"
                     >
                       <g>
@@ -5862,7 +5896,7 @@
                     <g
                       id="g-svg-944"
                       fill="none"
-                      transform="matrix(1,0,0,1,29.160000,50.388889)"
+                      transform="matrix(1,0,0,1,34.160000,50.388889)"
                       class="axis-label"
                     >
                       <g>
@@ -5889,7 +5923,7 @@
                     <g
                       id="g-svg-945"
                       fill="none"
-                      transform="matrix(1,0,0,1,29.160000,11.500000)"
+                      transform="matrix(1,0,0,1,34.160000,11.500000)"
                       class="axis-label"
                     >
                       <g>
@@ -6099,8 +6133,8 @@
           <path
             id="g-svg-1266"
             fill="none"
-            d="M 460,405 l 110,0 l 0,400 l-110 0 z"
-            x="460"
+            d="M 345,405 l 110,0 l 0,400 l-110 0 z"
+            x="345"
             y="405"
             width="110"
             height="400"
@@ -6112,7 +6146,7 @@
           fill="none"
           width="110"
           height="400"
-          transform="matrix(1,0,0,1,460,405)"
+          transform="matrix(1,0,0,1,345,405)"
         >
           <g
             id="g-svg-1041"
@@ -6143,7 +6177,7 @@
                   <g clip-path="url(#clip-path-1118-1117)">
                     <path
                       id="g-svg-1117"
-                      fill="url(#g-pattern-8)"
+                      fill="url(#g-pattern-9)"
                       class="ribbon-ribbon"
                       d="M 0,377 L 0,0 L 70.84000000000003,0 L 70.84000000000003,377 Z"
                     />
@@ -6370,7 +6404,7 @@
                     <g
                       id="g-svg-1070"
                       fill="none"
-                      transform="matrix(1,0,0,1,80.839996,388.500000)"
+                      transform="matrix(1,0,0,1,75.839996,388.500000)"
                       class="axis-label"
                     >
                       <g>
@@ -6397,7 +6431,7 @@
                     <g
                       id="g-svg-1071"
                       fill="none"
-                      transform="matrix(1,0,0,1,80.839996,346.611115)"
+                      transform="matrix(1,0,0,1,75.839996,346.611115)"
                       class="axis-label"
                     >
                       <g>
@@ -6424,7 +6458,7 @@
                     <g
                       id="g-svg-1072"
                       fill="none"
-                      transform="matrix(1,0,0,1,80.839996,304.722229)"
+                      transform="matrix(1,0,0,1,75.839996,304.722229)"
                       class="axis-label"
                     >
                       <g>
@@ -6451,7 +6485,7 @@
                     <g
                       id="g-svg-1073"
                       fill="none"
-                      transform="matrix(1,0,0,1,80.839996,262.833344)"
+                      transform="matrix(1,0,0,1,75.839996,262.833344)"
                       class="axis-label"
                     >
                       <g>
@@ -6478,7 +6512,7 @@
                     <g
                       id="g-svg-1074"
                       fill="none"
-                      transform="matrix(1,0,0,1,80.839996,220.944443)"
+                      transform="matrix(1,0,0,1,75.839996,220.944443)"
                       class="axis-label"
                     >
                       <g>
@@ -6505,7 +6539,7 @@
                     <g
                       id="g-svg-1075"
                       fill="none"
-                      transform="matrix(1,0,0,1,80.839996,179.055557)"
+                      transform="matrix(1,0,0,1,75.839996,179.055557)"
                       class="axis-label"
                     >
                       <g>
@@ -6532,7 +6566,7 @@
                     <g
                       id="g-svg-1076"
                       fill="none"
-                      transform="matrix(1,0,0,1,80.839996,137.166672)"
+                      transform="matrix(1,0,0,1,75.839996,137.166672)"
                       class="axis-label"
                     >
                       <g>
@@ -6559,7 +6593,7 @@
                     <g
                       id="g-svg-1077"
                       fill="none"
-                      transform="matrix(1,0,0,1,80.839996,95.277779)"
+                      transform="matrix(1,0,0,1,75.839996,95.277779)"
                       class="axis-label"
                     >
                       <g>
@@ -6586,7 +6620,7 @@
                     <g
                       id="g-svg-1078"
                       fill="none"
-                      transform="matrix(1,0,0,1,80.839996,53.388889)"
+                      transform="matrix(1,0,0,1,75.839996,53.388889)"
                       class="axis-label"
                     >
                       <g>
@@ -6613,7 +6647,7 @@
                     <g
                       id="g-svg-1079"
                       fill="none"
-                      transform="matrix(1,0,0,1,80.839996,11.500000)"
+                      transform="matrix(1,0,0,1,75.839996,11.500000)"
                       class="axis-label"
                     >
                       <g>
@@ -6666,8 +6700,8 @@
           <path
             id="g-svg-1268"
             fill="none"
-            d="M 575,405 l 110,0 l 0,400 l-110 0 z"
-            x="575"
+            d="M 460,405 l 110,0 l 0,400 l-110 0 z"
+            x="460"
             y="405"
             width="110"
             height="400"
@@ -6679,7 +6713,7 @@
           fill="none"
           width="110"
           height="400"
-          transform="matrix(1,0,0,1,575,405)"
+          transform="matrix(1,0,0,1,460,405)"
         >
           <g
             id="g-svg-1143"
@@ -6702,7 +6736,7 @@
                       id="g-svg-1217"
                       fill="rgba(229,229,229,1)"
                       class="ribbon-background"
-                      d="M 0,377 L 0,0 L 70.83999999999992,0 L 70.83999999999992,377 Z"
+                      d="M 0,377 L 0,0 L 70.84000000000003,0 L 70.84000000000003,377 Z"
                     />
                   </g>
                 </g>
@@ -6712,13 +6746,13 @@
                       id="g-svg-1219"
                       fill="url(#g-pattern-9)"
                       class="ribbon-ribbon"
-                      d="M 0,377 L 0,0 L 70.83999999999992,0 L 70.83999999999992,377 Z"
+                      d="M 0,377 L 0,0 L 70.84000000000003,0 L 70.84000000000003,377 Z"
                     />
                     <g>
                       <path
                         id="g-svg-1220"
                         fill="none"
-                        d="M 0,0 L 0,377 L 70.83999999999992,377 L 70.83999999999992,0 Z"
+                        d="M 0,0 L 0,377 L 70.84000000000003,377 L 70.84000000000003,0 Z"
                         class="ribbon-clip-path"
                       />
                     </g>
@@ -6744,7 +6778,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.83999999999992"
+                          x2="-70.84000000000003"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -6764,7 +6798,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.83999999999992"
+                          x2="-70.84000000000003"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -6784,7 +6818,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.83999999999992"
+                          x2="-70.84000000000003"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -6804,7 +6838,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.83999999999992"
+                          x2="-70.84000000000003"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -6824,7 +6858,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.83999999999992"
+                          x2="-70.84000000000003"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -6844,7 +6878,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.83999999999992"
+                          x2="-70.84000000000003"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -6864,7 +6898,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.83999999999992"
+                          x2="-70.84000000000003"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -6884,7 +6918,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.83999999999992"
+                          x2="-70.84000000000003"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -6904,7 +6938,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.83999999999992"
+                          x2="-70.84000000000003"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -6924,7 +6958,7 @@
                           fill="none"
                           x1="0"
                           y1="0"
-                          x2="-70.83999999999992"
+                          x2="-70.84000000000003"
                           y2="0"
                           class="axis-tick-item"
                           stroke-width="1"
@@ -6937,7 +6971,7 @@
                     <g
                       id="g-svg-1172"
                       fill="none"
-                      transform="matrix(1,0,0,1,29.160000,388.500000)"
+                      transform="matrix(1,0,0,1,34.160000,388.500000)"
                       class="axis-label"
                     >
                       <g>
@@ -6964,7 +6998,7 @@
                     <g
                       id="g-svg-1173"
                       fill="none"
-                      transform="matrix(1,0,0,1,29.160000,346.611115)"
+                      transform="matrix(1,0,0,1,34.160000,346.611115)"
                       class="axis-label"
                     >
                       <g>
@@ -6991,7 +7025,7 @@
                     <g
                       id="g-svg-1174"
                       fill="none"
-                      transform="matrix(1,0,0,1,29.160000,304.722229)"
+                      transform="matrix(1,0,0,1,34.160000,304.722229)"
                       class="axis-label"
                     >
                       <g>
@@ -7018,7 +7052,7 @@
                     <g
                       id="g-svg-1175"
                       fill="none"
-                      transform="matrix(1,0,0,1,29.160000,262.833344)"
+                      transform="matrix(1,0,0,1,34.160000,262.833344)"
                       class="axis-label"
                     >
                       <g>
@@ -7045,7 +7079,7 @@
                     <g
                       id="g-svg-1176"
                       fill="none"
-                      transform="matrix(1,0,0,1,29.160000,220.944443)"
+                      transform="matrix(1,0,0,1,34.160000,220.944443)"
                       class="axis-label"
                     >
                       <g>
@@ -7072,7 +7106,7 @@
                     <g
                       id="g-svg-1177"
                       fill="none"
-                      transform="matrix(1,0,0,1,29.160000,179.055557)"
+                      transform="matrix(1,0,0,1,34.160000,179.055557)"
                       class="axis-label"
                     >
                       <g>
@@ -7099,7 +7133,7 @@
                     <g
                       id="g-svg-1178"
                       fill="none"
-                      transform="matrix(1,0,0,1,29.160000,137.166672)"
+                      transform="matrix(1,0,0,1,34.160000,137.166672)"
                       class="axis-label"
                     >
                       <g>
@@ -7126,7 +7160,7 @@
                     <g
                       id="g-svg-1179"
                       fill="none"
-                      transform="matrix(1,0,0,1,29.160000,95.277779)"
+                      transform="matrix(1,0,0,1,34.160000,95.277779)"
                       class="axis-label"
                     >
                       <g>
@@ -7153,7 +7187,7 @@
                     <g
                       id="g-svg-1180"
                       fill="none"
-                      transform="matrix(1,0,0,1,29.160000,53.388889)"
+                      transform="matrix(1,0,0,1,34.160000,53.388889)"
                       class="axis-label"
                     >
                       <g>
@@ -7180,7 +7214,7 @@
                     <g
                       id="g-svg-1181"
                       fill="none"
-                      transform="matrix(1,0,0,1,29.160000,11.500000)"
+                      transform="matrix(1,0,0,1,34.160000,11.500000)"
                       class="axis-label"
                     >
                       <g>
@@ -7225,6 +7259,1052 @@
                   />
                 </g>
                 <g id="g-svg-1223" fill="none" class="indicator-label-group" />
+              </g>
+            </g>
+          </g>
+        </g>
+        <g>
+          <path
+            id="g-svg-1270"
+            fill="none"
+            d="M 575,405 l 110,0 l 0,400 l-110 0 z"
+            x="575"
+            y="405"
+            width="110"
+            height="400"
+            stroke="rgba(255,0,0,1)"
+          />
+        </g>
+        <g
+          id="g-svg-1271"
+          fill="none"
+          width="110"
+          height="400"
+          transform="matrix(1,0,0,1,575,405)"
+        >
+          <g
+            id="g-svg-1245"
+            fill="none"
+            width="110"
+            height="400"
+            class="legend-title"
+          />
+          <g id="g-svg-1246" fill="none" class="legend-content-group">
+            <g id="g-svg-1285" fill="none" class="legend-ribbon-group">
+              <g
+                id="g-svg-1311"
+                fill="none"
+                transform="matrix(1,0,0,1,0,11.500000)"
+                class="legend-ribbon"
+              >
+                <g id="g-svg-1312" fill="none" class="ribbon-background-group">
+                  <g>
+                    <path
+                      id="g-svg-1313"
+                      fill="rgba(229,229,229,1)"
+                      class="ribbon-background"
+                      d="M 0,377 L 0,0 L 75.83999999999992,0 L 75.83999999999992,377 Z"
+                    />
+                  </g>
+                </g>
+                <g id="g-svg-1314" fill="none" class="ribbon-ribbon-group">
+                  <g clip-path="url(#clip-path-1316-1315)">
+                    <path
+                      id="g-svg-1315"
+                      fill="url(#g-pattern-4)"
+                      class="ribbon-ribbon"
+                      d="M 0,377 L 0,0 L 75.83999999999992,0 L 75.83999999999992,377 Z"
+                    />
+                    <g>
+                      <path
+                        id="g-svg-1316"
+                        fill="none"
+                        d="M 0,0 L 0,377 L 75.83999999999992,377 L 75.83999999999992,0 Z"
+                        class="ribbon-clip-path"
+                      />
+                    </g>
+                  </g>
+                </g>
+              </g>
+            </g>
+            <g id="g-svg-1247" fill="none" class="legend-label-group">
+              <g id="g-svg-1248" fill="none" class="legend-label">
+                <g id="g-svg-1249" fill="none" class="axis-grid-group" />
+                <g id="g-svg-1250" fill="none" class="axis-main-group">
+                  <g id="g-svg-1251" fill="none" class="axis-line-group" />
+                  <g id="g-svg-1252" fill="none" class="axis-tick-group" />
+                  <g id="g-svg-1253" fill="none" class="axis-label-group">
+                    <g
+                      id="g-svg-1254"
+                      fill="none"
+                      transform="matrix(1,0,0,1,75.839996,388.500000)"
+                      class="axis-label"
+                    >
+                      <g>
+                        <text
+                          id="g-svg-1321"
+                          fill="rgba(0,0,0,1)"
+                          dominant-baseline="central"
+                          paint-order="stroke"
+                          dx="0.5"
+                          font-family="sans-serif"
+                          font-size="12"
+                          font-style="normal"
+                          font-variant="normal"
+                          font-weight="normal"
+                          stroke-width="1"
+                          text-anchor="left"
+                          class="axis-label-item"
+                          visibility="visible"
+                        >
+                          0
+                        </text>
+                      </g>
+                    </g>
+                    <g
+                      id="g-svg-1255"
+                      fill="none"
+                      transform="matrix(1,0,0,1,75.839996,346.611115)"
+                      class="axis-label"
+                    >
+                      <g>
+                        <text
+                          id="g-svg-1322"
+                          fill="rgba(0,0,0,1)"
+                          dominant-baseline="central"
+                          paint-order="stroke"
+                          dx="0.5"
+                          font-family="sans-serif"
+                          font-size="12"
+                          font-style="normal"
+                          font-variant="normal"
+                          font-weight="normal"
+                          stroke-width="1"
+                          text-anchor="left"
+                          class="axis-label-item"
+                          visibility="visible"
+                        >
+                          100
+                        </text>
+                      </g>
+                    </g>
+                    <g
+                      id="g-svg-1256"
+                      fill="none"
+                      transform="matrix(1,0,0,1,75.839996,304.722229)"
+                      class="axis-label"
+                    >
+                      <g>
+                        <text
+                          id="g-svg-1323"
+                          fill="rgba(0,0,0,1)"
+                          dominant-baseline="central"
+                          paint-order="stroke"
+                          dx="0.5"
+                          font-family="sans-serif"
+                          font-size="12"
+                          font-style="normal"
+                          font-variant="normal"
+                          font-weight="normal"
+                          stroke-width="1"
+                          text-anchor="left"
+                          class="axis-label-item"
+                          visibility="visible"
+                        >
+                          200
+                        </text>
+                      </g>
+                    </g>
+                    <g
+                      id="g-svg-1257"
+                      fill="none"
+                      transform="matrix(1,0,0,1,75.839996,262.833344)"
+                      class="axis-label"
+                    >
+                      <g>
+                        <text
+                          id="g-svg-1324"
+                          fill="rgba(0,0,0,1)"
+                          dominant-baseline="central"
+                          paint-order="stroke"
+                          dx="0.5"
+                          font-family="sans-serif"
+                          font-size="12"
+                          font-style="normal"
+                          font-variant="normal"
+                          font-weight="normal"
+                          stroke-width="1"
+                          text-anchor="left"
+                          class="axis-label-item"
+                          visibility="visible"
+                        >
+                          300
+                        </text>
+                      </g>
+                    </g>
+                    <g
+                      id="g-svg-1258"
+                      fill="none"
+                      transform="matrix(1,0,0,1,75.839996,220.944443)"
+                      class="axis-label"
+                    >
+                      <g>
+                        <text
+                          id="g-svg-1325"
+                          fill="rgba(0,0,0,1)"
+                          dominant-baseline="central"
+                          paint-order="stroke"
+                          dx="0.5"
+                          font-family="sans-serif"
+                          font-size="12"
+                          font-style="normal"
+                          font-variant="normal"
+                          font-weight="normal"
+                          stroke-width="1"
+                          text-anchor="left"
+                          class="axis-label-item"
+                          visibility="visible"
+                        >
+                          400
+                        </text>
+                      </g>
+                    </g>
+                    <g
+                      id="g-svg-1259"
+                      fill="none"
+                      transform="matrix(1,0,0,1,75.839996,179.055557)"
+                      class="axis-label"
+                    >
+                      <g>
+                        <text
+                          id="g-svg-1326"
+                          fill="rgba(0,0,0,1)"
+                          dominant-baseline="central"
+                          paint-order="stroke"
+                          dx="0.5"
+                          font-family="sans-serif"
+                          font-size="12"
+                          font-style="normal"
+                          font-variant="normal"
+                          font-weight="normal"
+                          stroke-width="1"
+                          text-anchor="left"
+                          class="axis-label-item"
+                          visibility="visible"
+                        >
+                          500
+                        </text>
+                      </g>
+                    </g>
+                    <g
+                      id="g-svg-1260"
+                      fill="none"
+                      transform="matrix(1,0,0,1,75.839996,137.166672)"
+                      class="axis-label"
+                    >
+                      <g>
+                        <text
+                          id="g-svg-1327"
+                          fill="rgba(0,0,0,1)"
+                          dominant-baseline="central"
+                          paint-order="stroke"
+                          dx="0.5"
+                          font-family="sans-serif"
+                          font-size="12"
+                          font-style="normal"
+                          font-variant="normal"
+                          font-weight="normal"
+                          stroke-width="1"
+                          text-anchor="left"
+                          class="axis-label-item"
+                          visibility="visible"
+                        >
+                          600
+                        </text>
+                      </g>
+                    </g>
+                    <g
+                      id="g-svg-1261"
+                      fill="none"
+                      transform="matrix(1,0,0,1,75.839996,95.277779)"
+                      class="axis-label"
+                    >
+                      <g>
+                        <text
+                          id="g-svg-1328"
+                          fill="rgba(0,0,0,1)"
+                          dominant-baseline="central"
+                          paint-order="stroke"
+                          dx="0.5"
+                          font-family="sans-serif"
+                          font-size="12"
+                          font-style="normal"
+                          font-variant="normal"
+                          font-weight="normal"
+                          stroke-width="1"
+                          text-anchor="left"
+                          class="axis-label-item"
+                          visibility="visible"
+                        >
+                          700
+                        </text>
+                      </g>
+                    </g>
+                    <g
+                      id="g-svg-1262"
+                      fill="none"
+                      transform="matrix(1,0,0,1,75.839996,53.388889)"
+                      class="axis-label"
+                    >
+                      <g>
+                        <text
+                          id="g-svg-1329"
+                          fill="rgba(0,0,0,1)"
+                          dominant-baseline="central"
+                          paint-order="stroke"
+                          dx="0.5"
+                          font-family="sans-serif"
+                          font-size="12"
+                          font-style="normal"
+                          font-variant="normal"
+                          font-weight="normal"
+                          stroke-width="1"
+                          text-anchor="left"
+                          class="axis-label-item"
+                          visibility="visible"
+                        >
+                          800
+                        </text>
+                      </g>
+                    </g>
+                    <g
+                      id="g-svg-1263"
+                      fill="none"
+                      transform="matrix(1,0,0,1,75.839996,11.500000)"
+                      class="axis-label"
+                    >
+                      <g>
+                        <text
+                          id="g-svg-1330"
+                          fill="rgba(0,0,0,1)"
+                          dominant-baseline="central"
+                          paint-order="stroke"
+                          dx="0.5"
+                          font-family="sans-serif"
+                          font-size="12"
+                          font-style="normal"
+                          font-variant="normal"
+                          font-weight="normal"
+                          stroke-width="1"
+                          text-anchor="left"
+                          class="axis-label-item"
+                          visibility="visible"
+                        >
+                          900
+                        </text>
+                      </g>
+                    </g>
+                  </g>
+                </g>
+                <g id="g-svg-1274" fill="none" class="axis-title-group" />
+              </g>
+            </g>
+            <g id="g-svg-1286" fill="none" class="legend-handles-group">
+              <g
+                id="g-svg-1287"
+                fill="none"
+                x="0"
+                y="0"
+                transform="matrix(1,0,0,1,37.919998,11.500000)"
+                class="legend-handle legend-start-handle"
+              >
+                <g id="g-svg-1288" fill="none" class="handle-icon-group">
+                  <g
+                    id="g-svg-1331"
+                    fill="none"
+                    x="0"
+                    y="0"
+                    class="handle-icon"
+                  >
+                    <g transform="matrix(0,1,-1,0,0,0)">
+                      <path
+                        id="g-svg-1332"
+                        fill="rgba(255,255,255,1)"
+                        class="handle-icon-rect"
+                        stroke-width="1"
+                        stroke="rgba(191,191,191,1)"
+                        d="M -3,-12 l 6,0 a 2,2,0,0,1,2,2 l 0,20 a 2,2,0,0,1,-2,2 l -6,0 a 2,2,0,0,1,-2,-2 l 0,-20 a 2,2,0,0,1,2,-2 z"
+                        width="10"
+                        height="24"
+                        x="-5"
+                        y="-12"
+                      />
+                      <g>
+                        <line
+                          id="g-svg-1333"
+                          fill="rgba(255,255,255,1)"
+                          x1="-1.666666666666667"
+                          y1="-6"
+                          x2="-1.666666666666667"
+                          y2="6"
+                          class="handle-icon-line-1"
+                          stroke-width="1"
+                          stroke="rgba(191,191,191,1)"
+                        />
+                      </g>
+                      <g>
+                        <line
+                          id="g-svg-1334"
+                          fill="rgba(255,255,255,1)"
+                          x1="1.666666666666666"
+                          y1="-6"
+                          x2="1.666666666666666"
+                          y2="6"
+                          class="handle-icon-line-2"
+                          stroke-width="1"
+                          stroke="rgba(191,191,191,1)"
+                        />
+                      </g>
+                    </g>
+                  </g>
+                </g>
+                <g id="g-svg-1293" fill="none" class="handle-label-group">
+                  <g>
+                    <text
+                      id="g-svg-1294"
+                      fill="rgba(197,197,197,1)"
+                      class="handle-label"
+                      fill-opacity="0.45"
+                      dominant-baseline="central"
+                      paint-order="stroke"
+                      dx="0.5"
+                      font-size="12"
+                      text-anchor="middle"
+                      x="0"
+                      y="0"
+                    >
+                      0
+                    </text>
+                  </g>
+                </g>
+              </g>
+              <g
+                id="g-svg-1295"
+                fill="none"
+                x="0"
+                y="0"
+                transform="matrix(1,0,0,1,37.919998,388.500000)"
+                class="legend-handle legend-end-handle"
+              >
+                <g id="g-svg-1296" fill="none" class="handle-icon-group">
+                  <g
+                    id="g-svg-1335"
+                    fill="none"
+                    x="0"
+                    y="0"
+                    class="handle-icon"
+                  >
+                    <g transform="matrix(0,1,-1,0,0,0)">
+                      <path
+                        id="g-svg-1336"
+                        fill="rgba(255,255,255,1)"
+                        class="handle-icon-rect"
+                        stroke-width="1"
+                        stroke="rgba(191,191,191,1)"
+                        d="M -3,-12 l 6,0 a 2,2,0,0,1,2,2 l 0,20 a 2,2,0,0,1,-2,2 l -6,0 a 2,2,0,0,1,-2,-2 l 0,-20 a 2,2,0,0,1,2,-2 z"
+                        width="10"
+                        height="24"
+                        x="-5"
+                        y="-12"
+                      />
+                      <g>
+                        <line
+                          id="g-svg-1337"
+                          fill="rgba(255,255,255,1)"
+                          x1="-1.666666666666667"
+                          y1="-6"
+                          x2="-1.666666666666667"
+                          y2="6"
+                          class="handle-icon-line-1"
+                          stroke-width="1"
+                          stroke="rgba(191,191,191,1)"
+                        />
+                      </g>
+                      <g>
+                        <line
+                          id="g-svg-1338"
+                          fill="rgba(255,255,255,1)"
+                          x1="1.666666666666666"
+                          y1="-6"
+                          x2="1.666666666666666"
+                          y2="6"
+                          class="handle-icon-line-2"
+                          stroke-width="1"
+                          stroke="rgba(191,191,191,1)"
+                        />
+                      </g>
+                    </g>
+                  </g>
+                </g>
+                <g id="g-svg-1301" fill="none" class="handle-label-group">
+                  <g>
+                    <text
+                      id="g-svg-1302"
+                      fill="rgba(197,197,197,1)"
+                      class="handle-label"
+                      fill-opacity="0.45"
+                      dominant-baseline="central"
+                      paint-order="stroke"
+                      dx="0.5"
+                      font-size="12"
+                      text-anchor="middle"
+                      x="0"
+                      y="0"
+                    >
+                      900
+                    </text>
+                  </g>
+                </g>
+              </g>
+            </g>
+            <g id="g-svg-1317" fill="none" class="legend-indicator">
+              <g id="g-svg-1318" fill="none">
+                <g>
+                  <path
+                    id="g-svg-1320"
+                    fill="rgba(38,38,38,1)"
+                    class="indicator-background"
+                    stroke-linecap="round"
+                    stroke-width="1"
+                    stroke="rgba(51,51,51,1)"
+                    d="M -4,-2 L 4,-2 A 0 0 0 0 1 4 -2 L 4,2 A 0 0 0 0 1 4 2 L -4,2 A 0 0 0 0 1 -4 2 L -4,2 L -4,5 L -10.928203230275509,0 L -4,-5 L -4,-2 A 0 0 0 0 1 -4 -2 Z"
+                    visibility="hidden"
+                  />
+                </g>
+                <g id="g-svg-1319" fill="none" class="indicator-label-group" />
+              </g>
+            </g>
+          </g>
+        </g>
+        <g>
+          <path
+            id="g-svg-1272"
+            fill="none"
+            d="M 690,405 l 110,0 l 0,400 l-110 0 z"
+            x="690"
+            y="405"
+            width="110"
+            height="400"
+            stroke="rgba(255,0,0,1)"
+          />
+        </g>
+        <g
+          id="g-svg-1273"
+          fill="none"
+          width="110"
+          height="400"
+          transform="matrix(1,0,0,1,690,405)"
+        >
+          <g
+            id="g-svg-1339"
+            fill="none"
+            width="110"
+            height="400"
+            class="legend-title"
+          />
+          <g id="g-svg-1340" fill="none" class="legend-content-group">
+            <g id="g-svg-1379" fill="none" class="legend-ribbon-group">
+              <g
+                id="g-svg-1405"
+                fill="none"
+                transform="matrix(1,0,0,1,34.160000,11.500000)"
+                class="legend-ribbon"
+              >
+                <g id="g-svg-1406" fill="none" class="ribbon-background-group">
+                  <g>
+                    <path
+                      id="g-svg-1407"
+                      fill="rgba(229,229,229,1)"
+                      class="ribbon-background"
+                      d="M 0,377 L 0,0 L 75.83999999999992,0 L 75.83999999999992,377 Z"
+                    />
+                  </g>
+                </g>
+                <g id="g-svg-1408" fill="none" class="ribbon-ribbon-group">
+                  <g clip-path="url(#clip-path-1410-1409)">
+                    <path
+                      id="g-svg-1409"
+                      fill="url(#g-pattern-10)"
+                      class="ribbon-ribbon"
+                      d="M 0,377 L 0,0 L 75.83999999999992,0 L 75.83999999999992,377 Z"
+                    />
+                    <g>
+                      <path
+                        id="g-svg-1410"
+                        fill="none"
+                        d="M 0,0 L 0,377 L 75.83999999999992,377 L 75.83999999999992,0 Z"
+                        class="ribbon-clip-path"
+                      />
+                    </g>
+                  </g>
+                </g>
+              </g>
+            </g>
+            <g id="g-svg-1341" fill="none" class="legend-label-group">
+              <g id="g-svg-1342" fill="none" class="legend-label">
+                <g id="g-svg-1343" fill="none" class="axis-grid-group" />
+                <g id="g-svg-1344" fill="none" class="axis-main-group">
+                  <g id="g-svg-1345" fill="none" class="axis-line-group" />
+                  <g id="g-svg-1346" fill="none" class="axis-tick-group" />
+                  <g id="g-svg-1347" fill="none" class="axis-label-group">
+                    <g
+                      id="g-svg-1348"
+                      fill="none"
+                      transform="matrix(1,0,0,1,24.160000,388.500000)"
+                      class="axis-label"
+                    >
+                      <g>
+                        <text
+                          id="g-svg-1415"
+                          fill="rgba(0,0,0,1)"
+                          dominant-baseline="central"
+                          paint-order="stroke"
+                          dx="0.5"
+                          font-family="sans-serif"
+                          font-size="12"
+                          font-style="normal"
+                          font-variant="normal"
+                          font-weight="normal"
+                          stroke-width="1"
+                          text-anchor="end"
+                          class="axis-label-item"
+                          visibility="visible"
+                        >
+                          0
+                        </text>
+                      </g>
+                    </g>
+                    <g
+                      id="g-svg-1349"
+                      fill="none"
+                      transform="matrix(1,0,0,1,24.160000,346.611115)"
+                      class="axis-label"
+                    >
+                      <g>
+                        <text
+                          id="g-svg-1416"
+                          fill="rgba(0,0,0,1)"
+                          dominant-baseline="central"
+                          paint-order="stroke"
+                          dx="0.5"
+                          font-family="sans-serif"
+                          font-size="12"
+                          font-style="normal"
+                          font-variant="normal"
+                          font-weight="normal"
+                          stroke-width="1"
+                          text-anchor="end"
+                          class="axis-label-item"
+                          visibility="visible"
+                        >
+                          100
+                        </text>
+                      </g>
+                    </g>
+                    <g
+                      id="g-svg-1350"
+                      fill="none"
+                      transform="matrix(1,0,0,1,24.160000,304.722229)"
+                      class="axis-label"
+                    >
+                      <g>
+                        <text
+                          id="g-svg-1417"
+                          fill="rgba(0,0,0,1)"
+                          dominant-baseline="central"
+                          paint-order="stroke"
+                          dx="0.5"
+                          font-family="sans-serif"
+                          font-size="12"
+                          font-style="normal"
+                          font-variant="normal"
+                          font-weight="normal"
+                          stroke-width="1"
+                          text-anchor="end"
+                          class="axis-label-item"
+                          visibility="visible"
+                        >
+                          200
+                        </text>
+                      </g>
+                    </g>
+                    <g
+                      id="g-svg-1351"
+                      fill="none"
+                      transform="matrix(1,0,0,1,24.160000,262.833344)"
+                      class="axis-label"
+                    >
+                      <g>
+                        <text
+                          id="g-svg-1418"
+                          fill="rgba(0,0,0,1)"
+                          dominant-baseline="central"
+                          paint-order="stroke"
+                          dx="0.5"
+                          font-family="sans-serif"
+                          font-size="12"
+                          font-style="normal"
+                          font-variant="normal"
+                          font-weight="normal"
+                          stroke-width="1"
+                          text-anchor="end"
+                          class="axis-label-item"
+                          visibility="visible"
+                        >
+                          300
+                        </text>
+                      </g>
+                    </g>
+                    <g
+                      id="g-svg-1352"
+                      fill="none"
+                      transform="matrix(1,0,0,1,24.160000,220.944443)"
+                      class="axis-label"
+                    >
+                      <g>
+                        <text
+                          id="g-svg-1419"
+                          fill="rgba(0,0,0,1)"
+                          dominant-baseline="central"
+                          paint-order="stroke"
+                          dx="0.5"
+                          font-family="sans-serif"
+                          font-size="12"
+                          font-style="normal"
+                          font-variant="normal"
+                          font-weight="normal"
+                          stroke-width="1"
+                          text-anchor="end"
+                          class="axis-label-item"
+                          visibility="visible"
+                        >
+                          400
+                        </text>
+                      </g>
+                    </g>
+                    <g
+                      id="g-svg-1353"
+                      fill="none"
+                      transform="matrix(1,0,0,1,24.160000,179.055557)"
+                      class="axis-label"
+                    >
+                      <g>
+                        <text
+                          id="g-svg-1420"
+                          fill="rgba(0,0,0,1)"
+                          dominant-baseline="central"
+                          paint-order="stroke"
+                          dx="0.5"
+                          font-family="sans-serif"
+                          font-size="12"
+                          font-style="normal"
+                          font-variant="normal"
+                          font-weight="normal"
+                          stroke-width="1"
+                          text-anchor="end"
+                          class="axis-label-item"
+                          visibility="visible"
+                        >
+                          500
+                        </text>
+                      </g>
+                    </g>
+                    <g
+                      id="g-svg-1354"
+                      fill="none"
+                      transform="matrix(1,0,0,1,24.160000,137.166672)"
+                      class="axis-label"
+                    >
+                      <g>
+                        <text
+                          id="g-svg-1421"
+                          fill="rgba(0,0,0,1)"
+                          dominant-baseline="central"
+                          paint-order="stroke"
+                          dx="0.5"
+                          font-family="sans-serif"
+                          font-size="12"
+                          font-style="normal"
+                          font-variant="normal"
+                          font-weight="normal"
+                          stroke-width="1"
+                          text-anchor="end"
+                          class="axis-label-item"
+                          visibility="visible"
+                        >
+                          600
+                        </text>
+                      </g>
+                    </g>
+                    <g
+                      id="g-svg-1355"
+                      fill="none"
+                      transform="matrix(1,0,0,1,24.160000,95.277779)"
+                      class="axis-label"
+                    >
+                      <g>
+                        <text
+                          id="g-svg-1422"
+                          fill="rgba(0,0,0,1)"
+                          dominant-baseline="central"
+                          paint-order="stroke"
+                          dx="0.5"
+                          font-family="sans-serif"
+                          font-size="12"
+                          font-style="normal"
+                          font-variant="normal"
+                          font-weight="normal"
+                          stroke-width="1"
+                          text-anchor="end"
+                          class="axis-label-item"
+                          visibility="visible"
+                        >
+                          700
+                        </text>
+                      </g>
+                    </g>
+                    <g
+                      id="g-svg-1356"
+                      fill="none"
+                      transform="matrix(1,0,0,1,24.160000,53.388889)"
+                      class="axis-label"
+                    >
+                      <g>
+                        <text
+                          id="g-svg-1423"
+                          fill="rgba(0,0,0,1)"
+                          dominant-baseline="central"
+                          paint-order="stroke"
+                          dx="0.5"
+                          font-family="sans-serif"
+                          font-size="12"
+                          font-style="normal"
+                          font-variant="normal"
+                          font-weight="normal"
+                          stroke-width="1"
+                          text-anchor="end"
+                          class="axis-label-item"
+                          visibility="visible"
+                        >
+                          800
+                        </text>
+                      </g>
+                    </g>
+                    <g
+                      id="g-svg-1357"
+                      fill="none"
+                      transform="matrix(1,0,0,1,24.160000,11.500000)"
+                      class="axis-label"
+                    >
+                      <g>
+                        <text
+                          id="g-svg-1424"
+                          fill="rgba(0,0,0,1)"
+                          dominant-baseline="central"
+                          paint-order="stroke"
+                          dx="0.5"
+                          font-family="sans-serif"
+                          font-size="12"
+                          font-style="normal"
+                          font-variant="normal"
+                          font-weight="normal"
+                          stroke-width="1"
+                          text-anchor="end"
+                          class="axis-label-item"
+                          visibility="visible"
+                        >
+                          900
+                        </text>
+                      </g>
+                    </g>
+                  </g>
+                </g>
+                <g id="g-svg-1368" fill="none" class="axis-title-group" />
+              </g>
+            </g>
+            <g id="g-svg-1380" fill="none" class="legend-handles-group">
+              <g
+                id="g-svg-1381"
+                fill="none"
+                x="0"
+                y="0"
+                transform="matrix(1,0,0,1,72.080002,11.500000)"
+                class="legend-handle legend-start-handle"
+              >
+                <g id="g-svg-1382" fill="none" class="handle-icon-group">
+                  <g
+                    id="g-svg-1425"
+                    fill="none"
+                    x="0"
+                    y="0"
+                    class="handle-icon"
+                  >
+                    <g transform="matrix(0,1,-1,0,0,0)">
+                      <path
+                        id="g-svg-1426"
+                        fill="rgba(255,255,255,1)"
+                        class="handle-icon-rect"
+                        stroke-width="1"
+                        stroke="rgba(191,191,191,1)"
+                        d="M -3,-12 l 6,0 a 2,2,0,0,1,2,2 l 0,20 a 2,2,0,0,1,-2,2 l -6,0 a 2,2,0,0,1,-2,-2 l 0,-20 a 2,2,0,0,1,2,-2 z"
+                        width="10"
+                        height="24"
+                        x="-5"
+                        y="-12"
+                      />
+                      <g>
+                        <line
+                          id="g-svg-1427"
+                          fill="rgba(255,255,255,1)"
+                          x1="-1.666666666666667"
+                          y1="-6"
+                          x2="-1.666666666666667"
+                          y2="6"
+                          class="handle-icon-line-1"
+                          stroke-width="1"
+                          stroke="rgba(191,191,191,1)"
+                        />
+                      </g>
+                      <g>
+                        <line
+                          id="g-svg-1428"
+                          fill="rgba(255,255,255,1)"
+                          x1="1.666666666666666"
+                          y1="-6"
+                          x2="1.666666666666666"
+                          y2="6"
+                          class="handle-icon-line-2"
+                          stroke-width="1"
+                          stroke="rgba(191,191,191,1)"
+                        />
+                      </g>
+                    </g>
+                  </g>
+                </g>
+                <g id="g-svg-1387" fill="none" class="handle-label-group">
+                  <g>
+                    <text
+                      id="g-svg-1388"
+                      fill="rgba(197,197,197,1)"
+                      class="handle-label"
+                      fill-opacity="0.45"
+                      dominant-baseline="central"
+                      paint-order="stroke"
+                      dx="0.5"
+                      font-size="12"
+                      text-anchor="middle"
+                      x="0"
+                      y="0"
+                    >
+                      0
+                    </text>
+                  </g>
+                </g>
+              </g>
+              <g
+                id="g-svg-1389"
+                fill="none"
+                x="0"
+                y="0"
+                transform="matrix(1,0,0,1,72.080002,388.500000)"
+                class="legend-handle legend-end-handle"
+              >
+                <g id="g-svg-1390" fill="none" class="handle-icon-group">
+                  <g
+                    id="g-svg-1429"
+                    fill="none"
+                    x="0"
+                    y="0"
+                    class="handle-icon"
+                  >
+                    <g transform="matrix(0,1,-1,0,0,0)">
+                      <path
+                        id="g-svg-1430"
+                        fill="rgba(255,255,255,1)"
+                        class="handle-icon-rect"
+                        stroke-width="1"
+                        stroke="rgba(191,191,191,1)"
+                        d="M -3,-12 l 6,0 a 2,2,0,0,1,2,2 l 0,20 a 2,2,0,0,1,-2,2 l -6,0 a 2,2,0,0,1,-2,-2 l 0,-20 a 2,2,0,0,1,2,-2 z"
+                        width="10"
+                        height="24"
+                        x="-5"
+                        y="-12"
+                      />
+                      <g>
+                        <line
+                          id="g-svg-1431"
+                          fill="rgba(255,255,255,1)"
+                          x1="-1.666666666666667"
+                          y1="-6"
+                          x2="-1.666666666666667"
+                          y2="6"
+                          class="handle-icon-line-1"
+                          stroke-width="1"
+                          stroke="rgba(191,191,191,1)"
+                        />
+                      </g>
+                      <g>
+                        <line
+                          id="g-svg-1432"
+                          fill="rgba(255,255,255,1)"
+                          x1="1.666666666666666"
+                          y1="-6"
+                          x2="1.666666666666666"
+                          y2="6"
+                          class="handle-icon-line-2"
+                          stroke-width="1"
+                          stroke="rgba(191,191,191,1)"
+                        />
+                      </g>
+                    </g>
+                  </g>
+                </g>
+                <g id="g-svg-1395" fill="none" class="handle-label-group">
+                  <g>
+                    <text
+                      id="g-svg-1396"
+                      fill="rgba(197,197,197,1)"
+                      class="handle-label"
+                      fill-opacity="0.45"
+                      dominant-baseline="central"
+                      paint-order="stroke"
+                      dx="0.5"
+                      font-size="12"
+                      text-anchor="middle"
+                      x="0"
+                      y="0"
+                    >
+                      900
+                    </text>
+                  </g>
+                </g>
+              </g>
+            </g>
+            <g id="g-svg-1411" fill="none" class="legend-indicator">
+              <g id="g-svg-1412" fill="none">
+                <g>
+                  <path
+                    id="g-svg-1414"
+                    fill="rgba(38,38,38,1)"
+                    class="indicator-background"
+                    stroke-linecap="round"
+                    stroke-width="1"
+                    stroke="rgba(51,51,51,1)"
+                    d="M -4,-2 L 4,-2 A 0 0 0 0 1 4 -2 L 4,2 A 0 0 0 0 1 4 2 L -4,2 A 0 0 0 0 1 -4 2 L -4,2 L -4,5 L -10.928203230275509,0 L -4,-5 L -4,-2 A 0 0 0 0 1 -4 -2 Z"
+                    visibility="hidden"
+                  />
+                </g>
+                <g id="g-svg-1413" fill="none" class="indicator-label-group" />
               </g>
             </g>
           </g>

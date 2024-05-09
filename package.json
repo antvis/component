@@ -1,6 +1,6 @@
 {
   "name": "@antv/component",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Visualization components for AntV, based on G.",
   "license": "MIT",
   "main": "lib/index.js",
@@ -44,7 +44,7 @@
     "component"
   ],
   "dependencies": {
-    "@antv/g": "^6.0.4",
+    "@antv/g": "^6.0.5",
     "@antv/scale": "^0.4.3",
     "@antv/util": "^3.3.5",
     "svg-path-parser": "^1.1.0"

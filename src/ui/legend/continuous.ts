@@ -2,7 +2,7 @@ import { CustomEvent } from '@antv/g';
 import { Linear } from '@antv/scale';
 import { clamp, isUndefined } from '@antv/util';
 import { Component } from '../../core';
-import type { BaseStyleProps, DisplayObject, TextStyleProps } from '../../shapes';
+import type { DisplayObject, TextStyleProps } from '../../shapes';
 import { Group } from '../../shapes';
 import { Point } from '../../types';
 import {
@@ -517,7 +517,7 @@ export class Continuous extends Component<ContinuousStyleProps> {
       else if (labelPosition === 'top') spacing = labelSpacing;
     }
 
-    return { offset, spacing: labelSpacing, tickLength };
+    return { offset, spacing, tickLength };
   }
 
   private adjustLabel() {
@@ -570,11 +570,13 @@ export class Continuous extends Component<ContinuousStyleProps> {
         data.map(({ value }) => value),
         value
       );
-      this.showIndicator((range[0] + range[1]) / 2, `${range[0]}-${range[1]}`);
+
+      const selection = this.getRealSelection(range);
+      this.showIndicator((range[0] + range[1]) / 2, `${selection[0]}-${selection[1]}`);
       this.dispatchIndicated(value, range);
     } else {
       const safetyValue = this.getTickValue(value);
-      this.showIndicator(safetyValue);
+      this.showIndicator(safetyValue, `${this.getRealValue(safetyValue)}`);
       this.dispatchIndicated(safetyValue);
     }
   };
@@ -590,6 +592,7 @@ export class Continuous extends Component<ContinuousStyleProps> {
     const safeValue = clamp(value, min, max);
     const offset = this.getOffset(safeValue);
     const pos: Point = this.ifHorizontal([offset + x, y], [x, offset + y]);
+
     this.indicator.update({
       x: pos[0],
       y: pos[1],
@@ -686,9 +689,8 @@ export class Continuous extends Component<ContinuousStyleProps> {
 
   /**
    * 事件触发的位置对应的value值
-   * @param limit {boolean} 我也忘了要干啥了
    */
-  private getValueByCanvasPoint(e: any, limit: boolean = false) {
+  private getValueByCanvasPoint(e: any) {
     const { min, max } = this.range;
     const [x, y] = this.ribbon.node().getPosition();
     const startPos = this.ifHorizontal(x, y);
@@ -708,18 +710,50 @@ export class Continuous extends Component<ContinuousStyleProps> {
     return scale.map(value);
   }
 
+  private getRealSelection(range: number[]) {
+    const { max } = this.range;
+    const [start, end] = range;
+
+    return this.ifHorizontal([start, end], [max - end, max - start]);
+  }
+
+  private getRealValue(value: number) {
+    const { max } = this.range;
+
+    return this.ifHorizontal(value, max - value);
+  }
+
   private dispatchSelection() {
+    const selection = this.getRealSelection(this.selection);
+
     const evt = new CustomEvent('valuechange', {
       detail: {
-        value: this.selection,
+        value: selection,
       },
     });
     this.dispatchEvent(evt as any);
   }
 
-  private dispatchIndicated(value: number, range?: unknown) {
+  private dispatchIndicated(value: number, range?: number[]) {
+    const { max } = this.range;
+
+    const detail = this.ifHorizontal(
+      () => {
+        return {
+          value,
+          range,
+        };
+      },
+      () => {
+        return {
+          value: max - value,
+          range: range ? this.getRealSelection(range) : undefined,
+        };
+      }
+    );
+
     const evt = new CustomEvent('indicate', {
-      detail: { value, range },
+      detail,
     });
     this.dispatchEvent(evt as any);
   }
