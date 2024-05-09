@@ -44,7 +44,7 @@
     "component"
   ],
   "dependencies": {
-    "@antv/g": "^6.0.4",
+    "@antv/g": "^6.0.5",
     "@antv/scale": "^0.4.3",
     "@antv/util": "^3.3.5",
     "svg-path-parser": "^1.1.0"

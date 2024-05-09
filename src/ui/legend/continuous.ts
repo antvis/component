@@ -2,7 +2,7 @@ import { CustomEvent } from '@antv/g';
 import { Linear } from '@antv/scale';
 import { clamp, isUndefined } from '@antv/util';
 import { Component } from '../../core';
-import type { BaseStyleProps, DisplayObject, TextStyleProps } from '../../shapes';
+import type { DisplayObject, TextStyleProps } from '../../shapes';
 import { Group } from '../../shapes';
 import { Point } from '../../types';
 import {
@@ -517,7 +517,7 @@ export class Continuous extends Component<ContinuousStyleProps> {
       else if (labelPosition === 'top') spacing = labelSpacing;
     }
 
-    return { offset, spacing: labelSpacing, tickLength };
+    return { offset, spacing, tickLength };
   }
 
   private adjustLabel() {
@@ -592,6 +592,7 @@ export class Continuous extends Component<ContinuousStyleProps> {
     const safeValue = clamp(value, min, max);
     const offset = this.getOffset(safeValue);
     const pos: Point = this.ifHorizontal([offset + x, y], [x, offset + y]);
+
     this.indicator.update({
       x: pos[0],
       y: pos[1],
@@ -688,9 +689,8 @@ export class Continuous extends Component<ContinuousStyleProps> {
 
   /**
    * 事件触发的位置对应的value值
-   * @param limit {boolean} 我也忘了要干啥了
    */
-  private getValueByCanvasPoint(e: any, limit: boolean = false) {
+  private getValueByCanvasPoint(e: any) {
     const { min, max } = this.range;
     const [x, y] = this.ribbon.node().getPosition();
     const startPos = this.ifHorizontal(x, y);
