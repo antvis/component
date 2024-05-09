@@ -6,7 +6,7 @@
   color-interpolation-filters="sRGB"
 >
   <defs>
-    <clipPath id="clip-path-106-89" transform="matrix(1,0,0,1,-10,-230)">
+    <clipPath transform="matrix(1,0,0,1,-10,-230)" id="clip-path-106-89">
       <use href="#g-svg-106" transform="matrix(1,0,0,1,10,230)" />
     </clipPath>
     <clipPath transform="matrix(1,0,0,1,-10,-10)" id="clip-path-1-53">
@@ -224,8 +224,8 @@
             <g
               id="g-svg-3"
               fill="none"
-              class="navigator-prev-btn-group"
               transform="matrix(-1,-0,0,-1,0,0)"
+              class="navigator-prev-btn-group"
             >
               <g>
                 <path
@@ -239,8 +239,8 @@
             <g
               id="g-svg-5"
               fill="none"
-              class="navigator-next-btn-group"
               transform="matrix(1,0,0,1,40.160000,0)"
+              class="navigator-next-btn-group"
             >
               <g>
                 <path
@@ -479,8 +479,8 @@
             <g
               id="g-svg-11"
               fill="none"
-              class="navigator-prev-btn-group"
               transform="matrix(-1,-0,0,-1,0,0)"
+              class="navigator-prev-btn-group"
             >
               <g>
                 <path
@@ -494,8 +494,8 @@
             <g
               id="g-svg-13"
               fill="none"
-              class="navigator-next-btn-group"
               transform="matrix(1,0,0,1,40.160000,0)"
+              class="navigator-next-btn-group"
             >
               <g>
                 <path
