@@ -151,7 +151,11 @@ export class Tooltip extends Component<TooltipStyleProps> {
       const itemsElements = this.HTMLTooltipItemsElements;
       const ul = document.createElement('ul');
       ul.className = CLASS_NAME.LIST;
-      ul.replaceChildren(...itemsElements);
+      if (ul.replaceChildren) ul.replaceChildren(...itemsElements);
+      else {
+        ul.innerHTML = '';
+        ul.append(...itemsElements);
+      }
       const list = this.element.querySelector(`.${CLASS_NAME.LIST}`);
       if (list) list.replaceWith(ul);
       else container.appendChild(ul);
