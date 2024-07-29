@@ -16,7 +16,7 @@ module.exports = {
           sourceMap: true,
         },
       },
-    ],
+    ], 
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
   testRegex: '/__tests__/.*(-|\\.)spec\\.ts?$',
