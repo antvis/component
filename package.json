@@ -60,6 +60,7 @@
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^12.0.1",
     "@types/jest": "^29.5.1",
+    "@types/prettier": "^2.7.3",
     "@types/jsdom": "^21.1.1",
     "@types/react": "^16.14.34",
     "@types/react-dom": "^18.0.9",

@@ -64,15 +64,12 @@ export class Controller extends Component<ControllerStyleProps> {
       padding: [, right, , left],
     } = this;
 
-    const components = functions.reduce(
-      (prev, curr) => {
-        if (prev.length && curr.length) {
-          return prev.concat('split', ...curr);
-        }
-        return prev.concat(...curr);
-      },
-      [] as (keyof typeof componentsMap)[]
-    );
+    const components = functions.reduce((prev, curr) => {
+      if (prev.length && curr.length) {
+        return prev.concat('split', ...curr);
+      }
+      return prev.concat(...curr);
+    }, [] as (keyof typeof componentsMap)[]);
 
     const componentsWidth = components.length * (iconSize + iconSpacing) - iconSpacing;
     const xOffset =
