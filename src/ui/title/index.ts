@@ -73,14 +73,11 @@ export function getBBox(title: Title, content: DisplayObject): DOMRect {
 }
 
 function mayApplyStyle(el: Selection, style: any) {
-  const finalStyle = Object.entries(style).reduce(
-    (acc, [key, value]) => {
-      const currAttr = el.node().attr(key);
-      if (!currAttr) acc[key] = value;
-      return acc;
-    },
-    {} as Record<string, any>
-  );
+  const finalStyle = Object.entries(style).reduce((acc, [key, value]) => {
+    const currAttr = el.node().attr(key);
+    if (!currAttr) acc[key] = value;
+    return acc;
+  }, {} as Record<string, any>);
 
   el.styles(finalStyle);
 }
