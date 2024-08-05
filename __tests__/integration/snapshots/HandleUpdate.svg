@@ -11,10 +11,10 @@
       <g id="g-svg-8" fill="none" width="200" height="200">
         <g id="g-svg-9" fill="none" x="150" y="150">
           <g id="g-svg-1" fill="none" class="handle-icon-group">
-            <g id="g-svg-2" fill="none" x="150" y="150" class="handle-icon">
+            <g id="g-svg-8" fill="none" x="150" y="150" class="handle-icon">
               <g transform="matrix(0,1,-1,0,299.999990,0)">
                 <path
-                  id="g-svg-3"
+                  id="g-svg-9"
                   fill="rgba(255,255,255,1)"
                   class="handle-icon-rect"
                   stroke-width="1"
@@ -27,7 +27,7 @@
                 />
                 <g>
                   <line
-                    id="g-svg-4"
+                    id="g-svg-10"
                     fill="rgba(255,255,255,1)"
                     x1="148.33333333333334"
                     y1="144"
@@ -40,7 +40,7 @@
                 </g>
                 <g>
                   <line
-                    id="g-svg-5"
+                    id="g-svg-11"
                     fill="rgba(255,255,255,1)"
                     x1="151.66666666666666"
                     y1="144"

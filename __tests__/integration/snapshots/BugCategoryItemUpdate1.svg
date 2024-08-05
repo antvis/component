@@ -8,16 +8,16 @@
   <defs />
   <g id="g-svg-camera">
     <g id="g-root" fill="none">
-      <g id="g-svg-84" fill="none" width="100" height="20">
-        <g id="g-svg-85" fill="none">
+      <g id="g-svg-176" fill="none" width="100" height="20">
+        <g id="g-svg-177" fill="none">
           <g
-            id="g-svg-7"
+            id="g-svg-9"
             fill="none"
             class="legend-category-item-background-group"
           >
             <g>
               <path
-                id="g-svg-8"
+                id="g-svg-10"
                 fill="rgba(247,247,247,1)"
                 class="legend-category-item-background"
                 d="M 0,0 l 80.08000000000001,0 l 0,23 l-80.08000000000001 0 z"
@@ -27,14 +27,14 @@
             </g>
           </g>
           <g
-            id="g-svg-1"
+            id="g-svg-3"
             fill="none"
             transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
             class="legend-category-item-marker-group"
           >
             <g>
               <circle
-                id="g-svg-2"
+                id="g-svg-4"
                 fill="rgba(0,128,0,1)"
                 r="6"
                 class="legend-category-item-marker"
@@ -42,14 +42,14 @@
             </g>
           </g>
           <g
-            id="g-svg-3"
+            id="g-svg-5"
             fill="none"
             transform="matrix(1,0,0,1,15,11.500000)"
             class="legend-category-item-label-group"
           >
             <g>
               <text
-                id="g-svg-4"
+                id="g-svg-6"
                 fill="rgba(0,128,0,1)"
                 dominant-baseline="central"
                 paint-order="stroke"
@@ -68,14 +68,14 @@
             </g>
           </g>
           <g
-            id="g-svg-5"
+            id="g-svg-7"
             fill="none"
             transform="matrix(1,0,0,1,48.480000,11.500000)"
             class="legend-category-item-value-group"
           >
             <g>
               <text
-                id="g-svg-6"
+                id="g-svg-8"
                 fill="rgba(0,128,0,1)"
                 dominant-baseline="central"
                 paint-order="stroke"

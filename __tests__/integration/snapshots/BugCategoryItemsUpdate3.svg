@@ -12,12 +12,12 @@
   </defs>
   <g id="g-svg-camera">
     <g id="g-root" fill="none">
-      <g id="g-svg-84" fill="none">
+      <g id="g-svg-146" fill="none">
         <g
-          id="g-svg-85"
+          id="g-svg-147"
           fill="none"
           class="category-items-3"
-          width="400"
+          width="300"
           height="100"
         >
           <g id="g-svg-1" fill="none" x="0" y="0" class="items-navigator">
@@ -28,14 +28,14 @@
               clip-path="url(#clip-path-77-2)"
             >
               <g id="g-svg-3" fill="none" class="navigator-play-window">
-                <g id="g-svg-61" fill="none" class="items-item-page">
+                <g id="g-svg-98" fill="none" class="items-item-page">
                   <g
                     id="g-svg-5"
                     fill="none"
                     class="items-item"
                     x="0"
                     y="0"
-                    width="108.33333333333333"
+                    width="75"
                     height="23"
                   >
                     <g
@@ -48,8 +48,8 @@
                           id="g-svg-12"
                           fill="none"
                           class="legend-category-item-background"
-                          d="M 0,0 l 108.33333333333333,0 l 0,23 l-108.33333333333333 0 z"
-                          width="108.33333333333333"
+                          d="M 0,0 l 75,0 l 0,23 l-75 0 z"
+                          width="75"
                           height="23"
                           visibility="visible"
                         />
@@ -94,7 +94,7 @@
                           class="legend-category-item-label"
                           visibility="visible"
                         >
-                          Middle East
+                          Middle E...
                         </text>
                       </g>
                     </g>
@@ -107,11 +107,11 @@
                   <g
                     id="g-svg-13"
                     fill="none"
-                    transform="matrix(1,0,0,1,118.333336,0)"
+                    transform="matrix(1,0,0,1,85,0)"
                     class="items-item"
-                    x="118.33333333333333"
+                    x="85"
                     y="0"
-                    width="108.33333333333333"
+                    width="75"
                     height="23"
                   >
                     <g
@@ -124,8 +124,8 @@
                           id="g-svg-20"
                           fill="none"
                           class="legend-category-item-background"
-                          d="M 0,0 l 108.33333333333333,0 l 0,23 l-108.33333333333333 0 z"
-                          width="108.33333333333333"
+                          d="M 0,0 l 75,0 l 0,23 l-75 0 z"
+                          width="75"
                           height="23"
                           visibility="visible"
                         />
@@ -183,11 +183,11 @@
                   <g
                     id="g-svg-21"
                     fill="none"
-                    transform="matrix(1,0,0,1,236.666672,0)"
+                    transform="matrix(1,0,0,1,170,0)"
                     class="items-item"
-                    x="236.66666666666666"
+                    x="170"
                     y="0"
-                    width="108.33333333333333"
+                    width="75"
                     height="23"
                   >
                     <g
@@ -200,8 +200,8 @@
                           id="g-svg-28"
                           fill="none"
                           class="legend-category-item-background"
-                          d="M 0,0 l 108.33333333333333,0 l 0,23 l-108.33333333333333 0 z"
-                          width="108.33333333333333"
+                          d="M 0,0 l 75,0 l 0,23 l-75 0 z"
+                          width="75"
                           height="23"
                           visibility="visible"
                         />
@@ -263,7 +263,7 @@
                     class="items-item"
                     x="0"
                     y="28"
-                    width="108.33333333333333"
+                    width="75"
                     height="23"
                   >
                     <g
@@ -276,8 +276,8 @@
                           id="g-svg-36"
                           fill="none"
                           class="legend-category-item-background"
-                          d="M 0,0 l 108.33333333333333,0 l 0,23 l-108.33333333333333 0 z"
-                          width="108.33333333333333"
+                          d="M 0,0 l 75,0 l 0,23 l-75 0 z"
+                          width="75"
                           height="23"
                           visibility="visible"
                         />
@@ -322,7 +322,7 @@
                           class="legend-category-item-label"
                           visibility="visible"
                         >
-                          Europe(and col...
+                          Europe(a...
                         </text>
                       </g>
                     </g>
@@ -335,11 +335,11 @@
                   <g
                     id="g-svg-37"
                     fill="none"
-                    transform="matrix(1,0,0,1,118.333336,28)"
+                    transform="matrix(1,0,0,1,85,28)"
                     class="items-item"
-                    x="118.33333333333333"
+                    x="85"
                     y="28"
-                    width="108.33333333333333"
+                    width="75"
                     height="23"
                   >
                     <g
@@ -352,8 +352,8 @@
                           id="g-svg-44"
                           fill="none"
                           class="legend-category-item-background"
-                          d="M 0,0 l 108.33333333333333,0 l 0,23 l-108.33333333333333 0 z"
-                          width="108.33333333333333"
+                          d="M 0,0 l 75,0 l 0,23 l-75 0 z"
+                          width="75"
                           height="23"
                           visibility="visible"
                         />
@@ -398,7 +398,7 @@
                           class="legend-category-item-label"
                           visibility="visible"
                         >
-                          Sub-Saharan A...
+                          Sub-Sah...
                         </text>
                       </g>
                     </g>
@@ -411,11 +411,11 @@
                   <g
                     id="g-svg-45"
                     fill="none"
-                    transform="matrix(1,0,0,1,236.666672,28)"
+                    transform="matrix(1,0,0,1,170,28)"
                     class="items-item"
-                    x="236.66666666666666"
+                    x="170"
                     y="28"
-                    width="108.33333333333333"
+                    width="75"
                     height="23"
                   >
                     <g
@@ -428,8 +428,8 @@
                           id="g-svg-52"
                           fill="none"
                           class="legend-category-item-background"
-                          d="M 0,0 l 108.33333333333333,0 l 0,23 l-108.33333333333333 0 z"
-                          width="108.33333333333333"
+                          d="M 0,0 l 75,0 l 0,23 l-75 0 z"
+                          width="75"
                           height="23"
                           visibility="visible"
                         />
@@ -474,7 +474,7 @@
                           class="legend-category-item-label"
                           visibility="visible"
                         >
-                          pre-colonial A...
+                          pre-colo...
                         </text>
                       </g>
                     </g>
@@ -485,14 +485,14 @@
                     />
                   </g>
                 </g>
-                <g id="g-svg-74" fill="none" class="items-item-page">
+                <g id="g-svg-111" fill="none" class="items-item-page">
                   <g
                     id="g-svg-53"
                     fill="none"
                     class="items-item"
                     x="0"
                     y="0"
-                    width="108.33333333333333"
+                    width="75"
                     height="23"
                   >
                     <g
@@ -505,8 +505,8 @@
                           id="g-svg-60"
                           fill="none"
                           class="legend-category-item-background"
-                          d="M 0,0 l 108.33333333333333,0 l 0,23 l-108.33333333333333 0 z"
-                          width="108.33333333333333"
+                          d="M 0,0 l 75,0 l 0,23 l-75 0 z"
+                          width="75"
                           height="23"
                           visibility="hidden"
                         />
@@ -551,7 +551,7 @@
                           class="legend-category-item-label"
                           visibility="hidden"
                         >
-                          the Steppes
+                          the Step...
                         </text>
                       </g>
                     </g>
@@ -567,7 +567,7 @@
             <g
               id="g-svg-4"
               fill="none"
-              transform="matrix(1,0,0,1,350,25.500000)"
+              transform="matrix(1,0,0,1,250,25.500000)"
               class="navigator-controller"
             >
               <g
@@ -582,6 +582,7 @@
                     fill="rgba(0,0,0,1)"
                     class="navigator-prev-btn"
                     d="M -6,-6 L 6,0 L -6,6 Z"
+                    visibility="visible"
                   />
                 </g>
               </g>
@@ -597,6 +598,7 @@
                     fill="rgba(0,0,0,1)"
                     class="navigator-next-btn"
                     d="M -6,-6 L 6,0 L -6,6 Z"
+                    visibility="visible"
                   />
                 </g>
               </g>
@@ -616,6 +618,7 @@
                     dx="0.5"
                     font-size="12"
                     text-anchor="left"
+                    visibility="visible"
                   >
                     1/2
                   </text>
@@ -626,9 +629,9 @@
               <path
                 id="g-svg-77"
                 fill="none"
-                d="M 0,0 l 345,0 l 0,51 l-345 0 z"
+                d="M 0,0 l 245,0 l 0,51 l-245 0 z"
                 class="navigator-clip-path"
-                width="345"
+                width="245"
                 height="51"
               />
             </g>
