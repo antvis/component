@@ -38,3 +38,4 @@ export * from './transform';
 export * from './transpose';
 export * from './traverse';
 export * from './visibility';
+export * from './replace-children';

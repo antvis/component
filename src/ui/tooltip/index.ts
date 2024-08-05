@@ -1,7 +1,7 @@
 import { substitute, createDOM } from '@antv/util';
 import { Component } from '../../core';
 import { Group } from '../../shapes';
-import { BBox, applyStyleSheet } from '../../util';
+import { BBox, applyStyleSheet, replaceChildren } from '../../util';
 import { getClassNames, getDefaultTooltipStyle } from './constant';
 import type { TooltipOptions, TooltipPosition, TooltipStyleProps } from './types';
 
@@ -131,7 +131,7 @@ export class Tooltip extends Component<TooltipStyleProps> {
     const { content } = this.attributes;
     if (!content) return;
     if (typeof content === 'string') this.element.innerHTML = content;
-    else this.element.replaceChildren(content);
+    replaceChildren(this.element, content);
   }
 
   /**
@@ -151,11 +151,7 @@ export class Tooltip extends Component<TooltipStyleProps> {
       const itemsElements = this.HTMLTooltipItemsElements;
       const ul = document.createElement('ul');
       ul.className = CLASS_NAME.LIST;
-      if (ul.replaceChildren) ul.replaceChildren(...itemsElements);
-      else {
-        ul.innerHTML = '';
-        ul.append(...itemsElements);
-      }
+      replaceChildren(ul, itemsElements);
       const list = this.element.querySelector(`.${CLASS_NAME.LIST}`);
       if (list) list.replaceWith(ul);
       else container.appendChild(ul);
