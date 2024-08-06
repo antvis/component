@@ -131,7 +131,7 @@ export class Tooltip extends Component<TooltipStyleProps> {
     const { content } = this.attributes;
     if (!content) return;
     if (typeof content === 'string') this.element.innerHTML = content;
-    replaceChildren(this.element, content);
+    else replaceChildren(this.element, content);
   }
 
   /**
