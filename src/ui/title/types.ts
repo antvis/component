@@ -1,6 +1,6 @@
-import { ExtendDisplayObject } from 'src/types';
 import type { ComponentOptions } from '../../core/types';
 import type { GroupStyleProps, TextStyleProps } from '../../shapes';
+import type { ExtendDisplayObject } from '../../types';
 import type { SeriesAttr } from '../../util';
 
 export type PositionAbbr = 't' | 'r' | 'l' | 'b' | 'lt' | 'tl' | 'rt' | 'tr' | 'lb' | 'bl' | 'rb' | 'br' | 'i';
