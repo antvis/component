@@ -6,7 +6,10 @@ import type { Data } from './types';
  */
 export function getRange(data: Data): [number, number] {
   if (data.length === 0) return [0, 0];
-  return [min(minBy(data, (arr) => min(arr) || 0)), max(maxBy(data, (arr) => max(arr) || 0))] as [number, number];
+  return [
+    min(minBy(data, (arr) => min(arr) || 0) as number[]),
+    max(maxBy(data, (arr) => max(arr) || 0) as number[]),
+  ] as [number, number];
 }
 
 /**
