@@ -6,31 +6,25 @@
   color-interpolation-filters="sRGB"
 >
   <defs>
-    <clipPath transform="matrix(1,0,0,1,-100,-100)" id="clip-path-1-4">
+    <clipPath transform="matrix(1,0,0,1,-100,-100)" id="clip-path-1-2">
       <use href="#g-svg-1" transform="matrix(1,0,0,1,100,100)" />
     </clipPath>
   </defs>
-  <g id="g-svg-camera">
-    <g id="g-root" fill="none">
-      <g id="g-svg-2" fill="none">
+  <g>
+    <g fill="none">
+      <g fill="none">
         <g
-          id="g-svg-3"
+          id="ref-0"
           fill="none"
           x="100"
           y="100"
           transform="matrix(1,0,0,1,100,100)"
         >
-          <g
-            id="g-svg-4"
-            fill="none"
-            class="navigator-content-group"
-            clip-path="url(#clip-path-1-4)"
-          >
-            <g id="g-svg-5" fill="none" class="navigator-play-window">
-              <g id="g-svg-6" fill="none">
+          <g fill="none" class="navigator-content-group" clip-path=" ">
+            <g fill="none" class="navigator-play-window">
+              <g fill="none">
                 <g>
                   <path
-                    id="g-svg-7"
                     fill="rgba(247,247,247,1)"
                     d="M 0,0 l 100,0 l 0,100 l-100 0 z"
                     width="100"
@@ -40,7 +34,6 @@
                   />
                   <g>
                     <text
-                      id="g-svg-8"
                       fill="rgba(0,0,0,1)"
                       dominant-baseline="central"
                       paint-order="stroke"
@@ -65,7 +58,7 @@
           </g>
           <g>
             <path
-              id="g-svg-1"
+              id="ref-0"
               fill="none"
               d="M 0,0 l 100,0 l 0,100 l-100 0 z"
               class="navigator-clip-path"
@@ -73,7 +66,7 @@
               height="100"
             />
           </g>
-          <g id="g-svg-2" fill="none" class="navigator-controller" />
+          <g fill="none" class="navigator-controller" />
         </g>
       </g>
     </g>
