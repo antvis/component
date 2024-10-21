@@ -8,10 +8,10 @@
   <defs />
   <g id="g-svg-camera">
     <g id="g-root" fill="none">
-      <g id="g-svg-835" fill="none" width="50" height="80">
+      <g id="g-svg-0" fill="none" width="50" height="80">
         <g>
           <path
-            id="g-svg-836"
+            id="g-svg-1"
             fill="rgba(114,205,246,1)"
             d="M 0,0 l 50,0 l 0,80 l-50 0 z"
             width="50"
@@ -20,7 +20,7 @@
         </g>
         <g>
           <circle
-            id="g-svg-837"
+            id="g-svg-2"
             fill="rgba(63,124,247,1)"
             r="5"
             stroke-width="0"
@@ -30,7 +30,7 @@
             cy="10"
           />
         </g>
-        <g id="g-svg-838" fill="none" x="10" y="50" width="10" height="50">
+        <g id="g-svg-3" fill="none" x="10" y="50" width="10" height="50">
           <g>
             <path
               id="g-svg-1"
@@ -84,7 +84,7 @@
             />
           </g>
         </g>
-        <g id="g-svg-839" fill="none" x="25" y="50" width="10" height="50">
+        <g id="g-svg-4" fill="none" x="25" y="50" width="10" height="50">
           <g>
             <path
               id="g-svg-5"
@@ -138,7 +138,7 @@
             />
           </g>
         </g>
-        <g id="g-svg-840" fill="none" x="40" y="50" width="10" height="50">
+        <g id="g-svg-5" fill="none" x="40" y="50" width="10" height="50">
           <g>
             <path
               id="g-svg-9"

@@ -8,10 +8,10 @@
   <defs />
   <g id="g-svg-camera">
     <g id="g-root" fill="none">
-      <g id="g-svg-1" fill="none">
+      <g id="g-svg-0" fill="none">
         <g>
           <path
-            id="g-svg-2"
+            id="g-svg-1"
             fill="rgba(221,221,221,1)"
             d="M 0,0 l 400,0 l 0,400 l-400 0 z"
             width="400"
