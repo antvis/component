@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import { Canvas, resetEntityCounter } from '@antv/g';
+import { Canvas } from '@antv/g';
 import { format } from 'prettier';
 import xmlserializer from 'xmlserializer';
 import * as tests from './components';
@@ -9,29 +9,6 @@ import { fetch } from './fetch';
 // @ts-ignore
 global.fetch = fetch;
 
-const removeId = (svg: string, reserved?: Map<string, number>) => {
-  if (!reserved) return svg.replace(/ *id="[^"]*" */g, ' ');
-  return svg.replace(/ *id="([^"]*)" *| *href="#([^"]*)" *|url\(#([^"]*)\)/g, (match, id, href, url) => {
-    const value = id || href || url;
-    const index = reserved.get(value);
-    if (index !== undefined) return match.replace(value, `ref-${index}`);
-    return ' ';
-  });
-};
-
-const formatSVG = (svg: string) => {
-  if (!svg.includes('<defs>')) return svg; // svg defs, it's a little complex to handle
-
-  let counter = 0;
-  const refs = new Map<string, number>();
-
-  svg.match(/href="#[^"]*"/g)?.forEach((ref) => refs.set(ref.slice(7, -1), counter++));
-
-  const [before, after] = svg.split('</defs>');
-
-  return `${before}</defs>${removeId(after, refs)}`.replace(/\r\n|\n\s+\n/g, '\n');
-};
-
 describe('integration', () => {
   const onlyTests = Object.entries(tests).filter(
     // @ts-ignore
@@ -39,14 +16,6 @@ describe('integration', () => {
   );
 
   const finalTests = onlyTests.length === 0 ? tests : Object.fromEntries(onlyTests);
-
-  if (!fs.existsSync(`${__dirname}/snapshots`)) {
-    fs.mkdirSync(`${__dirname}/snapshots`);
-  }
-
-  beforeEach(() => {
-    resetEntityCounter();
-  });
 
   for (const [name, target] of Object.entries(finalTests)) {
     // @ts-ignore
@@ -64,7 +33,7 @@ describe('integration', () => {
           const container = canvas.getConfig().container as HTMLElement;
           const dom = container.querySelector('svg');
 
-          actual = await format(formatSVG(xmlserializer.serializeToString(dom as any)), {
+          actual = await format(xmlserializer.serializeToString(dom as any), {
             parser: 'babel',
           });
 
