@@ -6,36 +6,36 @@
   color-interpolation-filters="sRGB"
 >
   <defs>
-    <clipPath transform="matrix(1,0,0,1,-100,-100)" id="clip-path-1-4">
+    <clipPath transform="matrix(1,0,0,1,-100,-100)" id="clip-path-1-2">
       <use href="#g-svg-1" transform="matrix(1,0,0,1,100,100)" />
     </clipPath>
   </defs>
   <g id="g-svg-camera">
     <g id="g-root" fill="none">
-      <g id="g-svg-2" fill="none" width="260" height="200">
+      <g id="g-svg-0" fill="none" width="260" height="200">
         <g
-          id="g-svg-3"
+          id="g-svg-1"
           fill="none"
           x="100"
           y="100"
           transform="matrix(1,0,0,1,100,100)"
         >
           <g
-            id="g-svg-4"
+            id="g-svg-2"
             fill="none"
             class="navigator-content-group"
-            clip-path="url(#clip-path-1-4)"
+            clip-path="url(#clip-path-1-2)"
           >
             <g
-              id="g-svg-5"
+              id="g-svg-3"
               fill="none"
               class="navigator-play-window"
               transform="matrix(1,0,0,1,-100,0)"
             >
-              <g id="g-svg-6" fill="none">
+              <g id="g-svg-4" fill="none">
                 <g>
                   <path
-                    id="g-svg-7"
+                    id="g-svg-5"
                     fill="rgba(247,247,247,1)"
                     d="M 0,0 l 100,0 l 0,100 l-100 0 z"
                     width="100"
@@ -45,7 +45,7 @@
                   />
                   <g>
                     <text
-                      id="g-svg-8"
+                      id="g-svg-6"
                       fill="rgba(0,0,0,1)"
                       dominant-baseline="central"
                       paint-order="stroke"
@@ -66,10 +66,10 @@
                   </g>
                 </g>
               </g>
-              <g id="g-svg-9" fill="none" transform="matrix(1,0,0,1,100,0)">
+              <g id="g-svg-7" fill="none" transform="matrix(1,0,0,1,100,0)">
                 <g>
                   <path
-                    id="g-svg-10"
+                    id="g-svg-8"
                     fill="rgba(247,247,247,1)"
                     d="M 0,0 l 100,0 l 0,100 l-100 0 z"
                     width="100"
@@ -79,7 +79,7 @@
                   />
                   <g>
                     <text
-                      id="g-svg-11"
+                      id="g-svg-9"
                       fill="rgba(0,0,0,1)"
                       dominant-baseline="central"
                       paint-order="stroke"

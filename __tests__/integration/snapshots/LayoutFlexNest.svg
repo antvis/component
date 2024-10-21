@@ -8,17 +8,17 @@
   <defs />
   <g id="g-svg-camera">
     <g id="g-root" fill="none">
-      <g id="g-svg-251" fill="none">
+      <g id="g-svg-0" fill="none">
         <g>
           <path
-            id="g-svg-252"
+            id="g-svg-1"
             fill="rgba(255,255,255,1)"
             d="M 0,0 l 100,0 l 0,100 l-100 0 z"
             width="100"
             height="100"
           />
         </g>
-        <g id="g-svg-253" fill="none">
+        <g id="g-svg-2" fill="none">
           <g id="g-svg-1" fill="none" class="axis-grid-group">
             <g id="g-svg-2" fill="none" class="axis-grid">
               <g id="g-svg-3" fill="none" class="grid-line-group">
@@ -233,7 +233,7 @@
           </g>
           <g id="g-svg-25" fill="none" class="axis-title-group" />
         </g>
-        <g id="g-svg-254" fill="none">
+        <g id="g-svg-3" fill="none">
           <g id="g-svg-26" fill="none" class="axis-grid-group">
             <g id="g-svg-27" fill="none" class="axis-grid">
               <g id="g-svg-28" fill="none" class="grid-line-group">
@@ -453,20 +453,20 @@
           </g>
           <g id="g-svg-50" fill="none" class="axis-title-group" />
         </g>
-        <g id="g-svg-255" fill="none" width="100" height="100">
-          <g id="g-svg-259" fill="none" width="40" height="40">
-            <g transform="matrix(1,0,0,1,15,20)">
+        <g id="g-svg-4" fill="none" width="100" height="100">
+          <g id="g-svg-8" fill="none" width="40" height="40">
+            <g>
               <path
-                id="g-svg-260"
+                id="g-svg-9"
                 fill="rgba(255,0,0,1)"
                 d="M 0,0 l 10,0 l 0,10 l-10 0 z"
                 width="10"
                 height="10"
               />
             </g>
-            <g transform="matrix(1,0,0,1,25,20)">
+            <g>
               <path
-                id="g-svg-261"
+                id="g-svg-10"
                 fill="rgba(0,128,0,1)"
                 d="M 0,0 l 10,0 l 0,10 l-10 0 z"
                 width="10"
@@ -477,7 +477,7 @@
         </g>
         <g>
           <path
-            id="g-svg-256"
+            id="g-svg-5"
             fill="none"
             d="M 50,0 l 50,0 l 0,50 l-50 0 z"
             x="50"
@@ -489,7 +489,7 @@
         </g>
         <g>
           <path
-            id="g-svg-257"
+            id="g-svg-6"
             fill="none"
             d="M 55,5 l 40,0 l 0,40 l-40 0 z"
             x="55"
@@ -501,7 +501,7 @@
         </g>
         <g>
           <path
-            id="g-svg-258"
+            id="g-svg-7"
             fill="none"
             d="M 60,10 l 30,0 l 0,30 l-30 0 z"
             x="60"
