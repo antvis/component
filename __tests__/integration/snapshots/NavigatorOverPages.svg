@@ -6,29 +6,36 @@
   color-interpolation-filters="sRGB"
 >
   <defs>
-    <clipPath transform="matrix(1,0,0,1,-100,-100)" id="clip-path-1-2">
+    <clipPath transform="matrix(1,0,0,1,-100,-100)" id="clip-path-1-4">
       <use href="#g-svg-1" transform="matrix(1,0,0,1,100,100)" />
     </clipPath>
   </defs>
-  <g>
-    <g fill="none">
-      <g fill="none" width="260" height="200">
+  <g id="g-svg-camera">
+    <g id="g-root" fill="none">
+      <g id="g-svg-2" fill="none" width="260" height="200">
         <g
-          id="ref-0"
+          id="g-svg-3"
           fill="none"
           x="100"
           y="100"
           transform="matrix(1,0,0,1,100,100)"
         >
-          <g fill="none" class="navigator-content-group" clip-path=" ">
+          <g
+            id="g-svg-4"
+            fill="none"
+            class="navigator-content-group"
+            clip-path="url(#clip-path-1-4)"
+          >
             <g
+              id="g-svg-5"
               fill="none"
               class="navigator-play-window"
               transform="matrix(1,0,0,1,-100,0)"
             >
-              <g fill="none">
+              <g id="g-svg-6" fill="none">
                 <g>
                   <path
+                    id="g-svg-7"
                     fill="rgba(247,247,247,1)"
                     d="M 0,0 l 100,0 l 0,100 l-100 0 z"
                     width="100"
@@ -38,6 +45,7 @@
                   />
                   <g>
                     <text
+                      id="g-svg-8"
                       fill="rgba(0,0,0,1)"
                       dominant-baseline="central"
                       paint-order="stroke"
@@ -58,9 +66,10 @@
                   </g>
                 </g>
               </g>
-              <g fill="none" transform="matrix(1,0,0,1,100,0)">
+              <g id="g-svg-9" fill="none" transform="matrix(1,0,0,1,100,0)">
                 <g>
                   <path
+                    id="g-svg-10"
                     fill="rgba(247,247,247,1)"
                     d="M 0,0 l 100,0 l 0,100 l-100 0 z"
                     width="100"
@@ -70,6 +79,7 @@
                   />
                   <g>
                     <text
+                      id="g-svg-11"
                       fill="rgba(0,0,0,1)"
                       dominant-baseline="central"
                       paint-order="stroke"
@@ -94,7 +104,7 @@
           </g>
           <g>
             <path
-              id="ref-0"
+              id="g-svg-1"
               fill="none"
               d="M 0,0 l 100,0 l 0,100 l-100 0 z"
               class="navigator-clip-path"
@@ -103,17 +113,20 @@
             />
           </g>
           <g
+            id="g-svg-2"
             fill="none"
             transform="matrix(1,0,0,1,105,50)"
             class="navigator-controller"
           >
             <g
+              id="g-svg-3"
               fill="none"
               transform="matrix(-1,-0,0,-1,0,0)"
               class="navigator-prev-btn-group"
             >
               <g>
                 <path
+                  id="g-svg-4"
                   fill="rgba(0,0,0,1)"
                   class="navigator-prev-btn"
                   d="M -6,-6 L 6,0 L -6,6 Z"
@@ -121,12 +134,14 @@
               </g>
             </g>
             <g
+              id="g-svg-5"
               fill="none"
               transform="matrix(1,0,0,1,41.720001,0)"
               class="navigator-next-btn-group"
             >
               <g>
                 <path
+                  id="g-svg-6"
                   fill="rgba(0,0,0,1)"
                   class="navigator-next-btn"
                   d="M -6,-6 L 6,0 L -6,6 Z"
@@ -134,12 +149,14 @@
               </g>
             </g>
             <g
+              id="g-svg-7"
               fill="none"
               transform="matrix(1,0,0,1,11,0)"
               class="navigator-page-info-group"
             >
               <g>
                 <text
+                  id="g-svg-8"
                   fill="rgba(0,0,0,1)"
                   class="navigator-page-info"
                   dominant-baseline="central"

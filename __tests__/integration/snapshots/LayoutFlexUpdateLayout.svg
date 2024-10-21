@@ -8,17 +8,17 @@
   <defs />
   <g id="g-svg-camera">
     <g id="g-root" fill="none">
-      <g id="g-svg-0" fill="none" width="600" height="300">
+      <g id="g-svg-51" fill="none" width="600" height="300">
         <g>
           <path
-            id="g-svg-1"
+            id="g-svg-52"
             fill="rgba(255,255,255,1)"
             d="M 0,0 l 600,0 l 0,600 l-600 0 z"
             width="600"
             height="600"
           />
         </g>
-        <g id="g-svg-2" fill="none">
+        <g id="g-svg-53" fill="none">
           <g id="g-svg-1" fill="none" class="axis-grid-group">
             <g id="g-svg-2" fill="none" class="axis-grid">
               <g id="g-svg-3" fill="none" class="grid-line-group">
@@ -1158,7 +1158,7 @@
           </g>
           <g id="g-svg-100" fill="none" class="axis-title-group" />
         </g>
-        <g id="g-svg-3" fill="none">
+        <g id="g-svg-54" fill="none">
           <g id="g-svg-101" fill="none" class="axis-grid-group">
             <g id="g-svg-102" fill="none" class="axis-grid">
               <g id="g-svg-103" fill="none" class="grid-line-group">
@@ -2330,7 +2330,7 @@
         </g>
         <g>
           <path
-            id="g-svg-4"
+            id="g-svg-55"
             fill="none"
             d="M 0,0 l 100,0 l 0,100 l-100 0 z"
             x="0"
@@ -2340,10 +2340,10 @@
             stroke="rgba(255,165,0,1)"
           />
         </g>
-        <g id="g-svg-5" fill="none" x="0" y="0" width="100" height="100">
+        <g id="g-svg-56" fill="none" x="0" y="0" width="100" height="100">
           <g>
             <path
-              id="g-svg-7"
+              id="g-svg-58"
               fill="rgba(255,0,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -2352,7 +2352,7 @@
           </g>
           <g>
             <path
-              id="g-svg-8"
+              id="g-svg-59"
               fill="rgba(0,128,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -2361,7 +2361,7 @@
           </g>
           <g>
             <path
-              id="g-svg-9"
+              id="g-svg-60"
               fill="rgba(0,0,255,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -2371,7 +2371,7 @@
         </g>
         <g>
           <text
-            id="g-svg-6"
+            id="g-svg-57"
             fill="rgba(0,0,0,1)"
             dominant-baseline="central"
             paint-order="stroke"
@@ -2398,7 +2398,7 @@
         </g>
         <g>
           <path
-            id="g-svg-10"
+            id="g-svg-61"
             fill="none"
             d="M 100,0 l 100,0 l 0,100 l-100 0 z"
             x="100"
@@ -2408,10 +2408,10 @@
             stroke="rgba(255,165,0,1)"
           />
         </g>
-        <g id="g-svg-11" fill="none" x="100" y="0" width="100" height="100">
+        <g id="g-svg-62" fill="none" x="100" y="0" width="100" height="100">
           <g>
             <path
-              id="g-svg-13"
+              id="g-svg-64"
               fill="rgba(255,0,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -2420,7 +2420,7 @@
           </g>
           <g>
             <path
-              id="g-svg-14"
+              id="g-svg-65"
               fill="rgba(0,128,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -2429,7 +2429,7 @@
           </g>
           <g>
             <path
-              id="g-svg-15"
+              id="g-svg-66"
               fill="rgba(0,0,255,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -2439,7 +2439,7 @@
         </g>
         <g>
           <text
-            id="g-svg-12"
+            id="g-svg-63"
             fill="rgba(0,0,0,1)"
             dominant-baseline="central"
             paint-order="stroke"
@@ -2466,7 +2466,7 @@
         </g>
         <g>
           <path
-            id="g-svg-16"
+            id="g-svg-67"
             fill="none"
             d="M 200,0 l 100,0 l 0,100 l-100 0 z"
             x="200"
@@ -2476,10 +2476,10 @@
             stroke="rgba(255,165,0,1)"
           />
         </g>
-        <g id="g-svg-17" fill="none" x="200" y="0" width="100" height="100">
+        <g id="g-svg-68" fill="none" x="200" y="0" width="100" height="100">
           <g>
             <path
-              id="g-svg-19"
+              id="g-svg-70"
               fill="rgba(255,0,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -2488,7 +2488,7 @@
           </g>
           <g>
             <path
-              id="g-svg-20"
+              id="g-svg-71"
               fill="rgba(0,128,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -2497,7 +2497,7 @@
           </g>
           <g>
             <path
-              id="g-svg-21"
+              id="g-svg-72"
               fill="rgba(0,0,255,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -2507,7 +2507,7 @@
         </g>
         <g>
           <text
-            id="g-svg-18"
+            id="g-svg-69"
             fill="rgba(0,0,0,1)"
             dominant-baseline="central"
             paint-order="stroke"
@@ -2534,7 +2534,7 @@
         </g>
         <g>
           <path
-            id="g-svg-22"
+            id="g-svg-73"
             fill="none"
             d="M 300,0 l 100,0 l 0,100 l-100 0 z"
             x="300"
@@ -2544,10 +2544,10 @@
             stroke="rgba(255,165,0,1)"
           />
         </g>
-        <g id="g-svg-23" fill="none" x="300" y="0" width="100" height="100">
+        <g id="g-svg-74" fill="none" x="300" y="0" width="100" height="100">
           <g>
             <path
-              id="g-svg-25"
+              id="g-svg-76"
               fill="rgba(255,0,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -2556,7 +2556,7 @@
           </g>
           <g>
             <path
-              id="g-svg-26"
+              id="g-svg-77"
               fill="rgba(0,128,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -2565,7 +2565,7 @@
           </g>
           <g>
             <path
-              id="g-svg-27"
+              id="g-svg-78"
               fill="rgba(0,0,255,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -2575,7 +2575,7 @@
         </g>
         <g>
           <text
-            id="g-svg-24"
+            id="g-svg-75"
             fill="rgba(0,0,0,1)"
             dominant-baseline="central"
             paint-order="stroke"
@@ -2602,7 +2602,7 @@
         </g>
         <g>
           <path
-            id="g-svg-28"
+            id="g-svg-79"
             fill="none"
             d="M 400,0 l 100,0 l 0,100 l-100 0 z"
             x="400"
@@ -2612,10 +2612,10 @@
             stroke="rgba(255,165,0,1)"
           />
         </g>
-        <g id="g-svg-29" fill="none" x="400" y="0" width="100" height="100">
+        <g id="g-svg-80" fill="none" x="400" y="0" width="100" height="100">
           <g>
             <path
-              id="g-svg-31"
+              id="g-svg-82"
               fill="rgba(255,0,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -2624,7 +2624,7 @@
           </g>
           <g>
             <path
-              id="g-svg-32"
+              id="g-svg-83"
               fill="rgba(0,128,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -2633,7 +2633,7 @@
           </g>
           <g>
             <path
-              id="g-svg-33"
+              id="g-svg-84"
               fill="rgba(0,0,255,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -2643,7 +2643,7 @@
         </g>
         <g>
           <text
-            id="g-svg-30"
+            id="g-svg-81"
             fill="rgba(0,0,0,1)"
             dominant-baseline="central"
             paint-order="stroke"
@@ -2670,7 +2670,7 @@
         </g>
         <g>
           <path
-            id="g-svg-34"
+            id="g-svg-85"
             fill="none"
             d="M 500,0 l 100,0 l 0,100 l-100 0 z"
             x="500"
@@ -2680,10 +2680,10 @@
             stroke="rgba(255,165,0,1)"
           />
         </g>
-        <g id="g-svg-35" fill="none" x="500" y="0" width="100" height="100">
+        <g id="g-svg-86" fill="none" x="500" y="0" width="100" height="100">
           <g>
             <path
-              id="g-svg-37"
+              id="g-svg-88"
               fill="rgba(255,0,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -2692,7 +2692,7 @@
           </g>
           <g>
             <path
-              id="g-svg-38"
+              id="g-svg-89"
               fill="rgba(0,128,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -2701,7 +2701,7 @@
           </g>
           <g>
             <path
-              id="g-svg-39"
+              id="g-svg-90"
               fill="rgba(0,0,255,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -2711,7 +2711,7 @@
         </g>
         <g>
           <text
-            id="g-svg-36"
+            id="g-svg-87"
             fill="rgba(0,0,0,1)"
             dominant-baseline="central"
             paint-order="stroke"
@@ -2738,7 +2738,7 @@
         </g>
         <g>
           <path
-            id="g-svg-40"
+            id="g-svg-91"
             fill="none"
             d="M 0,100 l 100,0 l 0,100 l-100 0 z"
             x="0"
@@ -2748,10 +2748,10 @@
             stroke="rgba(255,165,0,1)"
           />
         </g>
-        <g id="g-svg-41" fill="none" x="0" y="100" width="100" height="100">
+        <g id="g-svg-92" fill="none" x="0" y="100" width="100" height="100">
           <g>
             <path
-              id="g-svg-43"
+              id="g-svg-94"
               fill="rgba(255,0,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -2760,7 +2760,7 @@
           </g>
           <g>
             <path
-              id="g-svg-44"
+              id="g-svg-95"
               fill="rgba(0,128,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -2769,7 +2769,7 @@
           </g>
           <g>
             <path
-              id="g-svg-45"
+              id="g-svg-96"
               fill="rgba(0,0,255,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -2779,7 +2779,7 @@
         </g>
         <g>
           <text
-            id="g-svg-42"
+            id="g-svg-93"
             fill="rgba(0,0,0,1)"
             dominant-baseline="central"
             paint-order="stroke"
@@ -2806,7 +2806,7 @@
         </g>
         <g>
           <path
-            id="g-svg-46"
+            id="g-svg-97"
             fill="none"
             d="M 100,100 l 100,0 l 0,100 l-100 0 z"
             x="100"
@@ -2816,10 +2816,10 @@
             stroke="rgba(255,165,0,1)"
           />
         </g>
-        <g id="g-svg-47" fill="none" x="100" y="100" width="100" height="100">
+        <g id="g-svg-98" fill="none" x="100" y="100" width="100" height="100">
           <g>
             <path
-              id="g-svg-49"
+              id="g-svg-100"
               fill="rgba(255,0,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -2828,7 +2828,7 @@
           </g>
           <g>
             <path
-              id="g-svg-50"
+              id="g-svg-101"
               fill="rgba(0,128,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -2837,7 +2837,7 @@
           </g>
           <g>
             <path
-              id="g-svg-51"
+              id="g-svg-102"
               fill="rgba(0,0,255,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -2847,7 +2847,7 @@
         </g>
         <g>
           <text
-            id="g-svg-48"
+            id="g-svg-99"
             fill="rgba(0,0,0,1)"
             dominant-baseline="central"
             paint-order="stroke"
@@ -2874,7 +2874,7 @@
         </g>
         <g>
           <path
-            id="g-svg-52"
+            id="g-svg-103"
             fill="none"
             d="M 200,100 l 100,0 l 0,100 l-100 0 z"
             x="200"
@@ -2884,10 +2884,10 @@
             stroke="rgba(255,165,0,1)"
           />
         </g>
-        <g id="g-svg-53" fill="none" x="200" y="100" width="100" height="100">
+        <g id="g-svg-104" fill="none" x="200" y="100" width="100" height="100">
           <g>
             <path
-              id="g-svg-55"
+              id="g-svg-106"
               fill="rgba(255,0,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -2896,7 +2896,7 @@
           </g>
           <g>
             <path
-              id="g-svg-56"
+              id="g-svg-107"
               fill="rgba(0,128,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -2905,7 +2905,7 @@
           </g>
           <g>
             <path
-              id="g-svg-57"
+              id="g-svg-108"
               fill="rgba(0,0,255,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -2915,7 +2915,7 @@
         </g>
         <g>
           <text
-            id="g-svg-54"
+            id="g-svg-105"
             fill="rgba(0,0,0,1)"
             dominant-baseline="central"
             paint-order="stroke"
@@ -2942,7 +2942,7 @@
         </g>
         <g>
           <path
-            id="g-svg-58"
+            id="g-svg-109"
             fill="none"
             d="M 300,100 l 100,0 l 0,100 l-100 0 z"
             x="300"
@@ -2952,10 +2952,10 @@
             stroke="rgba(255,165,0,1)"
           />
         </g>
-        <g id="g-svg-59" fill="none" x="300" y="100" width="100" height="100">
+        <g id="g-svg-110" fill="none" x="300" y="100" width="100" height="100">
           <g>
             <path
-              id="g-svg-61"
+              id="g-svg-112"
               fill="rgba(255,0,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -2964,7 +2964,7 @@
           </g>
           <g>
             <path
-              id="g-svg-62"
+              id="g-svg-113"
               fill="rgba(0,128,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -2973,7 +2973,7 @@
           </g>
           <g>
             <path
-              id="g-svg-63"
+              id="g-svg-114"
               fill="rgba(0,0,255,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -2983,7 +2983,7 @@
         </g>
         <g>
           <text
-            id="g-svg-60"
+            id="g-svg-111"
             fill="rgba(0,0,0,1)"
             dominant-baseline="central"
             paint-order="stroke"
@@ -3010,7 +3010,7 @@
         </g>
         <g>
           <path
-            id="g-svg-64"
+            id="g-svg-115"
             fill="none"
             d="M 400,100 l 100,0 l 0,100 l-100 0 z"
             x="400"
@@ -3020,10 +3020,10 @@
             stroke="rgba(255,165,0,1)"
           />
         </g>
-        <g id="g-svg-65" fill="none" x="400" y="100" width="100" height="100">
+        <g id="g-svg-116" fill="none" x="400" y="100" width="100" height="100">
           <g>
             <path
-              id="g-svg-67"
+              id="g-svg-118"
               fill="rgba(255,0,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -3032,7 +3032,7 @@
           </g>
           <g>
             <path
-              id="g-svg-68"
+              id="g-svg-119"
               fill="rgba(0,128,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -3041,7 +3041,7 @@
           </g>
           <g>
             <path
-              id="g-svg-69"
+              id="g-svg-120"
               fill="rgba(0,0,255,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -3051,7 +3051,7 @@
         </g>
         <g>
           <text
-            id="g-svg-66"
+            id="g-svg-117"
             fill="rgba(0,0,0,1)"
             dominant-baseline="central"
             paint-order="stroke"
@@ -3078,7 +3078,7 @@
         </g>
         <g>
           <path
-            id="g-svg-70"
+            id="g-svg-121"
             fill="none"
             d="M 500,100 l 100,0 l 0,100 l-100 0 z"
             x="500"
@@ -3088,10 +3088,10 @@
             stroke="rgba(255,165,0,1)"
           />
         </g>
-        <g id="g-svg-71" fill="none" x="500" y="100" width="100" height="100">
+        <g id="g-svg-122" fill="none" x="500" y="100" width="100" height="100">
           <g>
             <path
-              id="g-svg-73"
+              id="g-svg-124"
               fill="rgba(255,0,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -3100,7 +3100,7 @@
           </g>
           <g>
             <path
-              id="g-svg-74"
+              id="g-svg-125"
               fill="rgba(0,128,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -3109,7 +3109,7 @@
           </g>
           <g>
             <path
-              id="g-svg-75"
+              id="g-svg-126"
               fill="rgba(0,0,255,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -3119,7 +3119,7 @@
         </g>
         <g>
           <text
-            id="g-svg-72"
+            id="g-svg-123"
             fill="rgba(0,0,0,1)"
             dominant-baseline="central"
             paint-order="stroke"
@@ -3146,7 +3146,7 @@
         </g>
         <g>
           <path
-            id="g-svg-76"
+            id="g-svg-127"
             fill="none"
             d="M 0,200 l 100,0 l 0,100 l-100 0 z"
             x="0"
@@ -3156,10 +3156,10 @@
             stroke="rgba(255,165,0,1)"
           />
         </g>
-        <g id="g-svg-77" fill="none" x="0" y="200" width="100" height="100">
+        <g id="g-svg-128" fill="none" x="0" y="200" width="100" height="100">
           <g>
             <path
-              id="g-svg-79"
+              id="g-svg-130"
               fill="rgba(255,0,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -3168,7 +3168,7 @@
           </g>
           <g>
             <path
-              id="g-svg-80"
+              id="g-svg-131"
               fill="rgba(0,128,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -3177,7 +3177,7 @@
           </g>
           <g>
             <path
-              id="g-svg-81"
+              id="g-svg-132"
               fill="rgba(0,0,255,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -3187,7 +3187,7 @@
         </g>
         <g>
           <text
-            id="g-svg-78"
+            id="g-svg-129"
             fill="rgba(0,0,0,1)"
             dominant-baseline="central"
             paint-order="stroke"
@@ -3214,7 +3214,7 @@
         </g>
         <g>
           <path
-            id="g-svg-82"
+            id="g-svg-133"
             fill="none"
             d="M 100,200 l 100,0 l 0,100 l-100 0 z"
             x="100"
@@ -3224,10 +3224,10 @@
             stroke="rgba(255,165,0,1)"
           />
         </g>
-        <g id="g-svg-83" fill="none" x="100" y="200" width="100" height="100">
+        <g id="g-svg-134" fill="none" x="100" y="200" width="100" height="100">
           <g>
             <path
-              id="g-svg-85"
+              id="g-svg-136"
               fill="rgba(255,0,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -3236,7 +3236,7 @@
           </g>
           <g>
             <path
-              id="g-svg-86"
+              id="g-svg-137"
               fill="rgba(0,128,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -3245,7 +3245,7 @@
           </g>
           <g>
             <path
-              id="g-svg-87"
+              id="g-svg-138"
               fill="rgba(0,0,255,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -3255,7 +3255,7 @@
         </g>
         <g>
           <text
-            id="g-svg-84"
+            id="g-svg-135"
             fill="rgba(0,0,0,1)"
             dominant-baseline="central"
             paint-order="stroke"
@@ -3282,7 +3282,7 @@
         </g>
         <g>
           <path
-            id="g-svg-88"
+            id="g-svg-139"
             fill="none"
             d="M 200,200 l 100,0 l 0,100 l-100 0 z"
             x="200"
@@ -3292,10 +3292,10 @@
             stroke="rgba(255,165,0,1)"
           />
         </g>
-        <g id="g-svg-89" fill="none" x="200" y="200" width="100" height="100">
+        <g id="g-svg-140" fill="none" x="200" y="200" width="100" height="100">
           <g>
             <path
-              id="g-svg-91"
+              id="g-svg-142"
               fill="rgba(255,0,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -3304,7 +3304,7 @@
           </g>
           <g>
             <path
-              id="g-svg-92"
+              id="g-svg-143"
               fill="rgba(0,128,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -3313,7 +3313,7 @@
           </g>
           <g>
             <path
-              id="g-svg-93"
+              id="g-svg-144"
               fill="rgba(0,0,255,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -3323,7 +3323,7 @@
         </g>
         <g>
           <text
-            id="g-svg-90"
+            id="g-svg-141"
             fill="rgba(0,0,0,1)"
             dominant-baseline="central"
             paint-order="stroke"
@@ -3350,7 +3350,7 @@
         </g>
         <g>
           <path
-            id="g-svg-94"
+            id="g-svg-145"
             fill="none"
             d="M 300,200 l 100,0 l 0,100 l-100 0 z"
             x="300"
@@ -3360,10 +3360,10 @@
             stroke="rgba(255,165,0,1)"
           />
         </g>
-        <g id="g-svg-95" fill="none" x="300" y="200" width="100" height="100">
+        <g id="g-svg-146" fill="none" x="300" y="200" width="100" height="100">
           <g>
             <path
-              id="g-svg-97"
+              id="g-svg-148"
               fill="rgba(255,0,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -3372,7 +3372,7 @@
           </g>
           <g>
             <path
-              id="g-svg-98"
+              id="g-svg-149"
               fill="rgba(0,128,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -3381,7 +3381,7 @@
           </g>
           <g>
             <path
-              id="g-svg-99"
+              id="g-svg-150"
               fill="rgba(0,0,255,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -3391,7 +3391,7 @@
         </g>
         <g>
           <text
-            id="g-svg-96"
+            id="g-svg-147"
             fill="rgba(0,0,0,1)"
             dominant-baseline="central"
             paint-order="stroke"
@@ -3418,7 +3418,7 @@
         </g>
         <g>
           <path
-            id="g-svg-100"
+            id="g-svg-151"
             fill="none"
             d="M 400,200 l 100,0 l 0,100 l-100 0 z"
             x="400"
@@ -3428,10 +3428,10 @@
             stroke="rgba(255,165,0,1)"
           />
         </g>
-        <g id="g-svg-101" fill="none" x="400" y="200" width="100" height="100">
+        <g id="g-svg-152" fill="none" x="400" y="200" width="100" height="100">
           <g>
             <path
-              id="g-svg-103"
+              id="g-svg-154"
               fill="rgba(255,0,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -3440,7 +3440,7 @@
           </g>
           <g>
             <path
-              id="g-svg-104"
+              id="g-svg-155"
               fill="rgba(0,128,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -3449,7 +3449,7 @@
           </g>
           <g>
             <path
-              id="g-svg-105"
+              id="g-svg-156"
               fill="rgba(0,0,255,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -3459,7 +3459,7 @@
         </g>
         <g>
           <text
-            id="g-svg-102"
+            id="g-svg-153"
             fill="rgba(0,0,0,1)"
             dominant-baseline="central"
             paint-order="stroke"
@@ -3486,7 +3486,7 @@
         </g>
         <g>
           <path
-            id="g-svg-106"
+            id="g-svg-157"
             fill="none"
             d="M 500,200 l 100,0 l 0,100 l-100 0 z"
             x="500"
@@ -3496,10 +3496,10 @@
             stroke="rgba(255,165,0,1)"
           />
         </g>
-        <g id="g-svg-107" fill="none" x="500" y="200" width="100" height="100">
+        <g id="g-svg-158" fill="none" x="500" y="200" width="100" height="100">
           <g>
             <path
-              id="g-svg-109"
+              id="g-svg-160"
               fill="rgba(255,0,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -3508,7 +3508,7 @@
           </g>
           <g>
             <path
-              id="g-svg-110"
+              id="g-svg-161"
               fill="rgba(0,128,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -3517,7 +3517,7 @@
           </g>
           <g>
             <path
-              id="g-svg-111"
+              id="g-svg-162"
               fill="rgba(0,0,255,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -3527,7 +3527,7 @@
         </g>
         <g>
           <text
-            id="g-svg-108"
+            id="g-svg-159"
             fill="rgba(0,0,0,1)"
             dominant-baseline="central"
             paint-order="stroke"

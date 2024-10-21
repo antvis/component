@@ -6,31 +6,37 @@
   color-interpolation-filters="sRGB"
 >
   <defs>
-    <clipPath transform="matrix(1,0,0,1,-10,-230)" id="clip-path-55-38">
-      <use href="#g-svg-55" transform="matrix(1,0,0,1,10,230)" />
+    <clipPath transform="matrix(1,0,0,1,-10,-230)" id="clip-path-106-89">
+      <use href="#g-svg-106" transform="matrix(1,0,0,1,10,230)" />
     </clipPath>
-    <clipPath transform="matrix(1,0,0,1,-10,-10)" id="clip-path-1-2">
+    <clipPath transform="matrix(1,0,0,1,-10,-10)" id="clip-path-1-53">
       <use href="#g-svg-1" transform="matrix(1,0,0,1,10,10)" />
     </clipPath>
-    <clipPath transform="matrix(1,0,0,1,-10,-120)" id="clip-path-9-20">
+    <clipPath transform="matrix(1,0,0,1,-10,-120)" id="clip-path-9-71">
       <use href="#g-svg-9" transform="matrix(1,0,0,1,10,120)" />
     </clipPath>
   </defs>
-  <g>
-    <g fill="none">
-      <g fill="none" width="160" height="330">
+  <g id="g-svg-camera">
+    <g id="g-root" fill="none">
+      <g id="g-svg-51" fill="none" width="160" height="330">
         <g
-          id="ref-1"
+          id="g-svg-52"
           fill="none"
           x="10"
           y="10"
           transform="matrix(1,0,0,1,10,10)"
         >
-          <g fill="none" class="navigator-content-group" clip-path=" ">
-            <g fill="none" class="navigator-play-window">
-              <g fill="none">
+          <g
+            id="g-svg-53"
+            fill="none"
+            class="navigator-content-group"
+            clip-path="url(#clip-path-1-53)"
+          >
+            <g id="g-svg-54" fill="none" class="navigator-play-window">
+              <g id="g-svg-55" fill="none">
                 <g>
                   <path
+                    id="g-svg-56"
                     fill="rgba(247,247,247,1)"
                     d="M 0,0 l 100,0 l 0,100 l-100 0 z"
                     width="100"
@@ -40,6 +46,7 @@
                   />
                   <g>
                     <text
+                      id="g-svg-57"
                       fill="rgba(0,0,0,1)"
                       dominant-baseline="central"
                       paint-order="stroke"
@@ -60,9 +67,10 @@
                   </g>
                 </g>
               </g>
-              <g fill="none">
+              <g id="g-svg-58" fill="none">
                 <g>
                   <path
+                    id="g-svg-59"
                     fill="rgba(247,247,247,1)"
                     d="M 0,0 l 100,0 l 0,100 l-100 0 z"
                     width="100"
@@ -72,7 +80,7 @@
                   />
                   <g>
                     <text
-                      id="ref-2"
+                      id="g-svg-60"
                       fill="rgba(0,0,0,1)"
                       dominant-baseline="central"
                       paint-order="stroke"
@@ -93,9 +101,10 @@
                   </g>
                 </g>
               </g>
-              <g fill="none">
+              <g id="g-svg-61" fill="none">
                 <g>
                   <path
+                    id="g-svg-62"
                     fill="rgba(247,247,247,1)"
                     d="M 0,0 l 100,0 l 0,100 l-100 0 z"
                     width="100"
@@ -105,6 +114,7 @@
                   />
                   <g>
                     <text
+                      id="g-svg-63"
                       fill="rgba(0,0,0,1)"
                       dominant-baseline="central"
                       paint-order="stroke"
@@ -125,9 +135,10 @@
                   </g>
                 </g>
               </g>
-              <g fill="none">
+              <g id="g-svg-64" fill="none">
                 <g>
                   <path
+                    id="g-svg-65"
                     fill="rgba(247,247,247,1)"
                     d="M 0,0 l 100,0 l 0,100 l-100 0 z"
                     width="100"
@@ -137,6 +148,7 @@
                   />
                   <g>
                     <text
+                      id="g-svg-66"
                       fill="rgba(0,0,0,1)"
                       dominant-baseline="central"
                       paint-order="stroke"
@@ -157,9 +169,10 @@
                   </g>
                 </g>
               </g>
-              <g fill="none">
+              <g id="g-svg-67" fill="none">
                 <g>
                   <path
+                    id="g-svg-68"
                     fill="rgba(247,247,247,1)"
                     d="M 0,0 l 100,0 l 0,100 l-100 0 z"
                     width="100"
@@ -169,6 +182,7 @@
                   />
                   <g>
                     <text
+                      id="g-svg-69"
                       fill="rgba(0,0,0,1)"
                       dominant-baseline="central"
                       paint-order="stroke"
@@ -193,7 +207,7 @@
           </g>
           <g>
             <path
-              id="ref-1"
+              id="g-svg-1"
               fill="none"
               d="M 0,0 l 100,0 l 0,100 l-100 0 z"
               class="navigator-clip-path"
@@ -202,17 +216,20 @@
             />
           </g>
           <g
+            id="g-svg-2"
             fill="none"
             transform="matrix(1,0,0,1,105,50)"
             class="navigator-controller"
           >
             <g
+              id="g-svg-3"
               fill="none"
               transform="matrix(-1,-0,0,-1,0,0)"
               class="navigator-prev-btn-group"
             >
               <g>
                 <path
+                  id="g-svg-4"
                   fill="rgba(0,0,0,1)"
                   class="navigator-prev-btn"
                   d="M -6,-6 L 6,0 L -6,6 Z"
@@ -220,12 +237,14 @@
               </g>
             </g>
             <g
+              id="g-svg-5"
               fill="none"
               transform="matrix(1,0,0,1,40.160000,0)"
               class="navigator-next-btn-group"
             >
               <g>
                 <path
+                  id="g-svg-6"
                   fill="rgba(0,0,0,1)"
                   class="navigator-next-btn"
                   d="M -6,-6 L 6,0 L -6,6 Z"
@@ -233,12 +252,14 @@
               </g>
             </g>
             <g
+              id="g-svg-7"
               fill="none"
               transform="matrix(1,0,0,1,11,0)"
               class="navigator-page-info-group"
             >
               <g>
                 <text
+                  id="g-svg-8"
                   fill="rgba(0,0,0,1)"
                   class="navigator-page-info"
                   dominant-baseline="central"
@@ -253,12 +274,24 @@
             </g>
           </g>
         </g>
-        <g fill="none" x="10" y="120" transform="matrix(1,0,0,1,10,120)">
-          <g fill="none" class="navigator-content-group" clip-path=" ">
-            <g fill="none" class="navigator-play-window">
-              <g fill="none">
+        <g
+          id="g-svg-70"
+          fill="none"
+          x="10"
+          y="120"
+          transform="matrix(1,0,0,1,10,120)"
+        >
+          <g
+            id="g-svg-71"
+            fill="none"
+            class="navigator-content-group"
+            clip-path="url(#clip-path-9-71)"
+          >
+            <g id="g-svg-72" fill="none" class="navigator-play-window">
+              <g id="g-svg-73" fill="none">
                 <g>
                   <path
+                    id="g-svg-74"
                     fill="rgba(247,247,247,1)"
                     d="M 0,0 l 100,0 l 0,100 l-100 0 z"
                     width="100"
@@ -268,6 +301,7 @@
                   />
                   <g>
                     <text
+                      id="g-svg-75"
                       fill="rgba(0,0,0,1)"
                       dominant-baseline="central"
                       paint-order="stroke"
@@ -288,9 +322,10 @@
                   </g>
                 </g>
               </g>
-              <g fill="none">
+              <g id="g-svg-76" fill="none">
                 <g>
                   <path
+                    id="g-svg-77"
                     fill="rgba(247,247,247,1)"
                     d="M 0,0 l 100,0 l 0,100 l-100 0 z"
                     width="100"
@@ -300,6 +335,7 @@
                   />
                   <g>
                     <text
+                      id="g-svg-78"
                       fill="rgba(0,0,0,1)"
                       dominant-baseline="central"
                       paint-order="stroke"
@@ -320,9 +356,10 @@
                   </g>
                 </g>
               </g>
-              <g fill="none">
+              <g id="g-svg-79" fill="none">
                 <g>
                   <path
+                    id="g-svg-80"
                     fill="rgba(247,247,247,1)"
                     d="M 0,0 l 100,0 l 0,100 l-100 0 z"
                     width="100"
@@ -332,6 +369,7 @@
                   />
                   <g>
                     <text
+                      id="g-svg-81"
                       fill="rgba(0,0,0,1)"
                       dominant-baseline="central"
                       paint-order="stroke"
@@ -352,9 +390,10 @@
                   </g>
                 </g>
               </g>
-              <g fill="none">
+              <g id="g-svg-82" fill="none">
                 <g>
                   <path
+                    id="g-svg-83"
                     fill="rgba(247,247,247,1)"
                     d="M 0,0 l 100,0 l 0,100 l-100 0 z"
                     width="100"
@@ -364,6 +403,7 @@
                   />
                   <g>
                     <text
+                      id="g-svg-84"
                       fill="rgba(0,0,0,1)"
                       dominant-baseline="central"
                       paint-order="stroke"
@@ -384,9 +424,10 @@
                   </g>
                 </g>
               </g>
-              <g fill="none">
+              <g id="g-svg-85" fill="none">
                 <g>
                   <path
+                    id="g-svg-86"
                     fill="rgba(247,247,247,1)"
                     d="M 0,0 l 100,0 l 0,100 l-100 0 z"
                     width="100"
@@ -396,6 +437,7 @@
                   />
                   <g>
                     <text
+                      id="g-svg-87"
                       fill="rgba(0,0,0,1)"
                       dominant-baseline="central"
                       paint-order="stroke"
@@ -420,7 +462,7 @@
           </g>
           <g>
             <path
-              id="ref-2"
+              id="g-svg-9"
               fill="none"
               d="M 0,0 l 100,0 l 0,100 l-100 0 z"
               class="navigator-clip-path"
@@ -429,17 +471,20 @@
             />
           </g>
           <g
+            id="g-svg-10"
             fill="none"
             transform="matrix(1,0,0,1,105,50)"
             class="navigator-controller"
           >
             <g
+              id="g-svg-11"
               fill="none"
               transform="matrix(-1,-0,0,-1,0,0)"
               class="navigator-prev-btn-group"
             >
               <g>
                 <path
+                  id="g-svg-12"
                   fill="rgba(0,0,0,1)"
                   class="navigator-prev-btn"
                   d="M -6,-6 L 6,0 L -6,6 Z"
@@ -447,12 +492,14 @@
               </g>
             </g>
             <g
+              id="g-svg-13"
               fill="none"
               transform="matrix(1,0,0,1,40.160000,0)"
               class="navigator-next-btn-group"
             >
               <g>
                 <path
+                  id="g-svg-14"
                   fill="rgba(0,0,0,1)"
                   class="navigator-next-btn"
                   d="M -6,-6 L 6,0 L -6,6 Z"
@@ -460,12 +507,14 @@
               </g>
             </g>
             <g
+              id="g-svg-15"
               fill="none"
               transform="matrix(1,0,0,1,11,0)"
               class="navigator-page-info-group"
             >
               <g>
                 <text
+                  id="g-svg-16"
                   fill="rgba(0,0,0,1)"
                   class="navigator-page-info"
                   dominant-baseline="central"
@@ -480,12 +529,24 @@
             </g>
           </g>
         </g>
-        <g fill="none" x="10" y="230" transform="matrix(1,0,0,1,10,230)">
-          <g fill="none" class="navigator-content-group" clip-path=" ">
-            <g fill="none" class="navigator-play-window">
-              <g fill="none">
+        <g
+          id="g-svg-88"
+          fill="none"
+          x="10"
+          y="230"
+          transform="matrix(1,0,0,1,10,230)"
+        >
+          <g
+            id="g-svg-89"
+            fill="none"
+            class="navigator-content-group"
+            clip-path="url(#clip-path-106-89)"
+          >
+            <g id="g-svg-90" fill="none" class="navigator-play-window">
+              <g id="g-svg-91" fill="none">
                 <g>
                   <path
+                    id="g-svg-92"
                     fill="rgba(247,247,247,1)"
                     d="M 0,0 l 100,0 l 0,100 l-100 0 z"
                     width="100"
@@ -495,6 +556,7 @@
                   />
                   <g>
                     <text
+                      id="g-svg-93"
                       fill="rgba(0,0,0,1)"
                       dominant-baseline="central"
                       paint-order="stroke"
@@ -515,9 +577,10 @@
                   </g>
                 </g>
               </g>
-              <g fill="none">
+              <g id="g-svg-94" fill="none">
                 <g>
                   <path
+                    id="g-svg-95"
                     fill="rgba(247,247,247,1)"
                     d="M 0,0 l 100,0 l 0,100 l-100 0 z"
                     width="100"
@@ -527,6 +590,7 @@
                   />
                   <g>
                     <text
+                      id="g-svg-96"
                       fill="rgba(0,0,0,1)"
                       dominant-baseline="central"
                       paint-order="stroke"
@@ -547,9 +611,10 @@
                   </g>
                 </g>
               </g>
-              <g fill="none">
+              <g id="g-svg-97" fill="none">
                 <g>
                   <path
+                    id="g-svg-98"
                     fill="rgba(247,247,247,1)"
                     d="M 0,0 l 100,0 l 0,100 l-100 0 z"
                     width="100"
@@ -559,6 +624,7 @@
                   />
                   <g>
                     <text
+                      id="g-svg-99"
                       fill="rgba(0,0,0,1)"
                       dominant-baseline="central"
                       paint-order="stroke"
@@ -579,9 +645,10 @@
                   </g>
                 </g>
               </g>
-              <g fill="none">
+              <g id="g-svg-100" fill="none">
                 <g>
                   <path
+                    id="g-svg-101"
                     fill="rgba(247,247,247,1)"
                     d="M 0,0 l 100,0 l 0,100 l-100 0 z"
                     width="100"
@@ -591,6 +658,7 @@
                   />
                   <g>
                     <text
+                      id="g-svg-102"
                       fill="rgba(0,0,0,1)"
                       dominant-baseline="central"
                       paint-order="stroke"
@@ -611,9 +679,10 @@
                   </g>
                 </g>
               </g>
-              <g fill="none">
+              <g id="g-svg-103" fill="none">
                 <g>
                   <path
+                    id="g-svg-104"
                     fill="rgba(247,247,247,1)"
                     d="M 0,0 l 100,0 l 0,100 l-100 0 z"
                     width="100"
@@ -623,6 +692,7 @@
                   />
                   <g>
                     <text
+                      id="g-svg-105"
                       fill="rgba(0,0,0,1)"
                       dominant-baseline="central"
                       paint-order="stroke"
@@ -647,7 +717,7 @@
           </g>
           <g>
             <path
-              id="ref-0"
+              id="g-svg-106"
               fill="none"
               d="M 0,0 l 100,0 l 0,100 l-100 0 z"
               class="navigator-clip-path"
@@ -656,17 +726,20 @@
             />
           </g>
           <g
+            id="g-svg-107"
             fill="none"
             class="navigator-controller"
             transform="matrix(1,0,0,1,105,50)"
           >
             <g
+              id="g-svg-108"
               fill="none"
               class="navigator-prev-btn-group"
               transform="matrix(-1,-0,0,-1,0,0)"
             >
               <g>
                 <path
+                  id="g-svg-109"
                   fill="rgba(0,0,0,1)"
                   d="M -6,-6 L 6,0 L -6,6 Z"
                   class="navigator-prev-btn"
@@ -675,12 +748,14 @@
               </g>
             </g>
             <g
+              id="g-svg-110"
               fill="none"
               class="navigator-next-btn-group"
               transform="matrix(1,0,0,1,40.160000,0)"
             >
               <g>
                 <path
+                  id="g-svg-111"
                   fill="rgba(0,0,0,1)"
                   d="M -6,-6 L 6,0 L -6,6 Z"
                   class="navigator-next-btn"
@@ -689,12 +764,14 @@
               </g>
             </g>
             <g
+              id="g-svg-112"
               fill="none"
               class="navigator-page-info-group"
               transform="matrix(1,0,0,1,11,0)"
             >
               <g>
                 <text
+                  id="g-svg-113"
                   fill="rgba(0,0,0,1)"
                   dominant-baseline="central"
                   paint-order="stroke"

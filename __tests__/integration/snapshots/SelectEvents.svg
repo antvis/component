@@ -8,7 +8,7 @@
   <defs>
     <filter
       data-type="outer"
-      id="g-filter-dropshadow-3"
+      id="g-filter-dropshadow-23"
       filterUnits="userSpaceOnUse"
     >
       <feDropShadow
@@ -19,12 +19,13 @@
       />
     </filter>
   </defs>
-  <g>
-    <g fill="none">
-      <g fill="none">
-        <g fill="none" x="10" y="10" width="140" height="32">
+  <g id="g-svg-camera">
+    <g id="g-root" fill="none">
+      <g id="g-svg-20" fill="none">
+        <g id="g-svg-21" fill="none" x="10" y="10" width="140" height="32">
           <g>
             <path
+              id="g-svg-22"
               fill="rgba(255,255,255,1)"
               d="M 18,10 l 124,0 a 8,8,0,0,1,8,8 l 0,16 a 8,8,0,0,1,-8,8 l -124,0 a 8,8,0,0,1,-8,-8 l 0,-16 a 8,8,0,0,1,8,-8 z"
               class="select"
@@ -36,6 +37,7 @@
             />
             <g transform="matrix(1,0,0,1,124,26)">
               <path
+                id="g-svg-1"
                 fill="none"
                 d="M -5,-3.5 L 0,3.5 L 5,-3.5"
                 stroke-width="1"
@@ -44,6 +46,7 @@
             </g>
             <g>
               <text
+                id="g-svg-2"
                 fill="rgba(194,194,194,1)"
                 class="placeholder"
                 x="18"
@@ -60,17 +63,19 @@
           </g>
           <g transform="matrix(1,0,0,1,10,52)">
             <path
+              id="g-svg-23"
               fill="rgba(255,255,255,1)"
               class="dropdown"
               d="M 8,0 l 124,0 a 8,8,0,0,1,8,8 l 0,170 a 8,8,0,0,1,-8,8 l -124,0 a 8,8,0,0,1,-8,-8 l 0,-170 a 8,8,0,0,1,8,-8 z"
               width="140"
               height="186"
               stroke="rgba(217,217,217,1)"
-              filter=" "
+              filter="url(#g-filter-dropshadow-23)"
               visibility="hidden"
             />
-            <g fill="none" class="dropdown-container">
+            <g id="g-svg-3" fill="none" class="dropdown-container">
               <g
+                id="g-svg-4"
                 fill="none"
                 class="dropdown-item"
                 width="124"
@@ -78,15 +83,17 @@
               >
                 <g>
                   <path
+                    id="g-svg-5"
                     fill="rgba(255,255,255,1)"
                     d="M 4,0 l 116,0 a 4,4,0,0,1,4,4 l 0,31 a 4,4,0,0,1,-4,4 l -116,0 a 4,4,0,0,1,-4,-4 l 0,-31 a 4,4,0,0,1,4,-4 z"
                     width="124"
                     height="39"
                     visibility="hidden"
                   />
-                  <g fill="none" transform="matrix(1,0,0,1,12,8)">
+                  <g id="g-svg-6" fill="none" transform="matrix(1,0,0,1,12,8)">
                     <g>
                       <text
+                        id="g-svg-7"
                         fill="rgba(0,0,0,1)"
                         dominant-baseline="central"
                         paint-order="stroke"
@@ -109,6 +116,7 @@
                 </g>
               </g>
               <g
+                id="g-svg-8"
                 fill="none"
                 class="dropdown-item"
                 width="124"
@@ -116,15 +124,17 @@
               >
                 <g>
                   <path
+                    id="g-svg-9"
                     fill="rgba(255,255,255,1)"
                     d="M 4,0 l 116,0 a 4,4,0,0,1,4,4 l 0,31 a 4,4,0,0,1,-4,4 l -116,0 a 4,4,0,0,1,-4,-4 l 0,-31 a 4,4,0,0,1,4,-4 z"
                     width="124"
                     height="39"
                     visibility="hidden"
                   />
-                  <g fill="none" transform="matrix(1,0,0,1,12,8)">
+                  <g id="g-svg-10" fill="none" transform="matrix(1,0,0,1,12,8)">
                     <g>
                       <text
+                        id="g-svg-11"
                         fill="rgba(0,0,0,1)"
                         dominant-baseline="central"
                         paint-order="stroke"
@@ -147,6 +157,7 @@
                 </g>
               </g>
               <g
+                id="g-svg-12"
                 fill="none"
                 class="dropdown-item"
                 width="124"
@@ -154,15 +165,17 @@
               >
                 <g>
                   <path
+                    id="g-svg-13"
                     fill="rgba(255,255,255,1)"
                     d="M 4,0 l 116,0 a 4,4,0,0,1,4,4 l 0,48 a 4,4,0,0,1,-4,4 l -116,0 a 4,4,0,0,1,-4,-4 l 0,-48 a 4,4,0,0,1,4,-4 z"
                     width="124"
                     height="56"
                     visibility="hidden"
                   />
-                  <g fill="none" transform="matrix(1,0,0,1,12,8)">
+                  <g id="g-svg-14" fill="none" transform="matrix(1,0,0,1,12,8)">
                     <g>
                       <path
+                        id="g-svg-15"
                         fill="rgba(247,84,97,1)"
                         d="M 0,0 l 100,0 l 0,40 l-100 0 z"
                         width="100"
@@ -176,6 +189,7 @@
                 </g>
               </g>
               <g
+                id="g-svg-16"
                 fill="none"
                 class="dropdown-item"
                 width="124"
@@ -183,15 +197,17 @@
               >
                 <g>
                   <path
+                    id="g-svg-17"
                     fill="rgba(255,255,255,1)"
                     d="M 4,0 l 116,0 a 4,4,0,0,1,4,4 l 0,28 a 4,4,0,0,1,-4,4 l -116,0 a 4,4,0,0,1,-4,-4 l 0,-28 a 4,4,0,0,1,4,-4 z"
                     width="124"
                     height="36"
                     visibility="hidden"
                   />
-                  <g fill="none" transform="matrix(1,0,0,1,12,8)">
+                  <g id="g-svg-18" fill="none" transform="matrix(1,0,0,1,12,8)">
                     <g>
                       <path
+                        id="g-svg-19"
                         fill="rgba(15,88,218,1)"
                         d="M 0,0 l 100,0 l 0,20 l-100 0 z"
                         width="100"

@@ -8,17 +8,17 @@
   <defs />
   <g id="g-svg-camera">
     <g id="g-root" fill="none">
-      <g id="g-svg-0" fill="none">
-        <g id="g-svg-1" fill="none">
+      <g id="g-svg-1" fill="none">
+        <g id="g-svg-2" fill="none">
           <g transform="matrix(1,0,0,1,50,50)">
             <path
-              id="g-svg-2"
+              id="g-svg-3"
               fill="rgba(255,0,0,1)"
               d="M 0,0 l 100,0 l 0,100 l-100 0 z"
               width="100"
               height="100"
             />
-            <g id="g-svg-3" fill="none" width="100" height="100">
+            <g id="g-svg-4" fill="none" width="100" height="100">
               <g>
                 <text
                   id="g-svg-1"
@@ -41,16 +41,16 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-4" fill="none">
+        <g id="g-svg-5" fill="none">
           <g transform="matrix(1,0,0,1,50,150)">
             <path
-              id="g-svg-5"
+              id="g-svg-6"
               fill="rgba(255,165,0,1)"
               d="M 0,0 l 100,0 l 0,100 l-100 0 z"
               width="100"
               height="100"
             />
-            <g id="g-svg-6" fill="none" width="100" height="100">
+            <g id="g-svg-7" fill="none" width="100" height="100">
               <g>
                 <text
                   id="g-svg-2"
@@ -72,16 +72,16 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-7" fill="none">
+        <g id="g-svg-8" fill="none">
           <g transform="matrix(1,0,0,1,50,250)">
             <path
-              id="g-svg-8"
+              id="g-svg-9"
               fill="rgba(0,128,0,1)"
               d="M 0,0 l 100,0 l 0,100 l-100 0 z"
               width="100"
               height="100"
             />
-            <g id="g-svg-9" fill="none" width="100" height="100">
+            <g id="g-svg-10" fill="none" width="100" height="100">
               <g>
                 <text
                   id="g-svg-3"
@@ -104,16 +104,16 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-10" fill="none">
+        <g id="g-svg-11" fill="none">
           <g transform="matrix(1,0,0,1,50,350)">
             <path
-              id="g-svg-11"
+              id="g-svg-12"
               fill="rgba(255,192,203,1)"
               d="M 0,0 l 100,0 l 0,100 l-100 0 z"
               width="100"
               height="100"
             />
-            <g id="g-svg-12" fill="none" width="100" height="100">
+            <g id="g-svg-13" fill="none" width="100" height="100">
               <g>
                 <text
                   id="g-svg-4"
@@ -135,16 +135,16 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-13" fill="none">
+        <g id="g-svg-14" fill="none">
           <g transform="matrix(1,0,0,1,200,50)">
             <path
-              id="g-svg-14"
+              id="g-svg-15"
               fill="rgba(0,0,255,1)"
               d="M 0,0 l 100,0 l 0,100 l-100 0 z"
               width="100"
               height="100"
             />
-            <g id="g-svg-15" fill="none" width="100" height="100">
+            <g id="g-svg-16" fill="none" width="100" height="100">
               <g>
                 <text
                   id="g-svg-5"
@@ -167,16 +167,16 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-16" fill="none">
+        <g id="g-svg-17" fill="none">
           <g transform="matrix(1,0,0,1,200,150)">
             <path
-              id="g-svg-17"
+              id="g-svg-18"
               fill="rgba(128,0,128,1)"
               d="M 0,0 l 100,0 l 0,100 l-100 0 z"
               width="100"
               height="100"
             />
-            <g id="g-svg-18" fill="none" width="100" height="100">
+            <g id="g-svg-19" fill="none" width="100" height="100">
               <g>
                 <text
                   id="g-svg-6"
@@ -198,16 +198,16 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-19" fill="none">
+        <g id="g-svg-20" fill="none">
           <g transform="matrix(1,0,0,1,200,250)">
             <path
-              id="g-svg-20"
+              id="g-svg-21"
               fill="rgba(255,255,0,1)"
               d="M 0,0 l 100,0 l 0,100 l-100 0 z"
               width="100"
               height="100"
             />
-            <g id="g-svg-21" fill="none" width="100" height="100">
+            <g id="g-svg-22" fill="none" width="100" height="100">
               <g>
                 <text
                   id="g-svg-7"
@@ -230,16 +230,16 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-22" fill="none">
+        <g id="g-svg-23" fill="none">
           <g transform="matrix(1,0,0,1,400,50)">
             <path
-              id="g-svg-23"
+              id="g-svg-24"
               fill="rgba(0,0,255,1)"
               d="M 0,0 l 100,0 l 0,100 l-100 0 z"
               width="100"
               height="100"
             />
-            <g id="g-svg-24" fill="none" width="100" height="100">
+            <g id="g-svg-25" fill="none" width="100" height="100">
               <g>
                 <text
                   id="g-svg-8"
@@ -262,16 +262,16 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-25" fill="none">
+        <g id="g-svg-26" fill="none">
           <g transform="matrix(1,0,0,1,400,150)">
             <path
-              id="g-svg-26"
+              id="g-svg-27"
               fill="rgba(128,0,128,1)"
               d="M 0,0 l 100,0 l 0,100 l-100 0 z"
               width="100"
               height="100"
             />
-            <g id="g-svg-27" fill="none" width="100" height="100">
+            <g id="g-svg-28" fill="none" width="100" height="100">
               <g>
                 <text
                   id="g-svg-9"
@@ -294,16 +294,16 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-28" fill="none">
+        <g id="g-svg-29" fill="none">
           <g transform="matrix(1,0,0,1,400,300)">
             <path
-              id="g-svg-29"
+              id="g-svg-30"
               fill="rgba(255,192,203,1)"
               d="M 0,0 l 200,0 l 0,200 l-200 0 z"
               width="200"
               height="200"
             />
-            <g id="g-svg-30" fill="none" width="100" height="100">
+            <g id="g-svg-31" fill="none" width="100" height="100">
               <g>
                 <text
                   id="g-svg-10"
@@ -326,17 +326,17 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-31" fill="none">
+        <g id="g-svg-32" fill="none">
           <g transform="matrix(1,0,0,1,600,50)">
             <path
-              id="g-svg-32"
+              id="g-svg-33"
               fill="rgba(255,192,203,1)"
               d="M 0,0 l 200,0 l 0,200 l-200 0 z"
               width="200"
               height="200"
             />
             <g
-              id="g-svg-33"
+              id="g-svg-34"
               fill="none"
               width="100"
               height="100"
