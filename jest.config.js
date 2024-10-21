@@ -4,12 +4,13 @@ const esm = ['internmap', 'd3-*', 'lodash-es'].map((d) => `_${d}|${d}`).join('|'
 
 module.exports = {
   testTimeout: 100000,
-  preset: 'ts-jest/presets/js-with-ts',
+  preset: 'ts-jest',
   testEnvironment: 'jsdom',
   transform: {
-    '\\.[jt]sx?$': [
+    '^.+\\.[tj]s$': [
       'ts-jest',
       {
+        isolatedModules: true,
         tsconfig: {
           target: 'esnext', // Increase test coverage.
           allowJs: true,
@@ -28,5 +29,5 @@ module.exports = {
     '!**/(countdown|statistic|link|toolbox)/**',
   ],
   // Transform esm to cjs.
-  transformIgnorePatterns: [`<rootDir>/node_modules/(?!(${esm}))`],
+  transformIgnorePatterns: [`<rootDir>/node_modules/(?!(?:.pnpm/)?(${esm}))`],
 };
