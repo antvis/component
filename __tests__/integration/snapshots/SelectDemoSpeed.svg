@@ -8,7 +8,7 @@
   <defs>
     <filter
       data-type="outer"
-      id="g-filter-dropshadow-23"
+      id="g-filter-dropshadow-3"
       filterUnits="userSpaceOnUse"
     >
       <feDropShadow
@@ -21,11 +21,11 @@
   </defs>
   <g id="g-svg-camera">
     <g id="g-root" fill="none">
-      <g id="g-svg-20" fill="none" width="50" height="100">
-        <g id="g-svg-21" fill="none" x="10" y="10" width="30" height="20">
+      <g id="g-svg-0" fill="none" width="50" height="100">
+        <g id="g-svg-1" fill="none" x="10" y="10" width="30" height="20">
           <g>
             <path
-              id="g-svg-22"
+              id="g-svg-2"
               fill="rgba(255,255,255,1)"
               d="M 12,10 l 26,0 a 2,2,0,0,1,2,2 l 0,16 a 2,2,0,0,1,-2,2 l -26,0 a 2,2,0,0,1,-2,-2 l 0,-16 a 2,2,0,0,1,2,-2 z"
               class="select"
@@ -60,14 +60,14 @@
           </g>
           <g transform="matrix(1,0,0,1,10,40)">
             <path
-              id="g-svg-23"
+              id="g-svg-3"
               fill="rgba(255,255,255,1)"
               class="dropdown"
               d="M 2,0 l 26,0 a 2,2,0,0,1,2,2 l 0,69 a 2,2,0,0,1,-2,2 l -26,0 a 2,2,0,0,1,-2,-2 l 0,-69 a 2,2,0,0,1,2,-2 z"
               width="30"
               height="73"
               stroke="rgba(217,217,217,1)"
-              filter="url(#g-filter-dropshadow-23)"
+              filter="url(#g-filter-dropshadow-3)"
             />
             <g id="g-svg-2" fill="none" class="dropdown-container">
               <g

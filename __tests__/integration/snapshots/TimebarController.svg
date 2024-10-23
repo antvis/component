@@ -45,11 +45,11 @@
   </defs>
   <g id="g-svg-camera">
     <g id="g-root" fill="none">
-      <g id="g-svg-13" fill="none">
-        <g id="g-svg-14" fill="none" x="0" y="0" width="300" height="50">
+      <g id="g-svg-0" fill="none">
+        <g id="g-svg-1" fill="none" x="0" y="0" width="300" height="50">
           <g>
             <path
-              id="g-svg-15"
+              id="g-svg-2"
               fill="rgba(251,253,255,1)"
               d="M 0,0 l 300,0 l 0,50 l-300 0 z"
               x="0"
@@ -59,7 +59,7 @@
               stroke="rgba(235,237,240,1)"
             />
           </g>
-          <g id="g-svg-16" fill="none">
+          <g id="g-svg-3" fill="none">
             <g id="g-svg-1" fill="none" x="12.5" y="25">
               <g>
                 <path
@@ -371,10 +371,10 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-17" fill="none" x="0" y="50" width="300" height="50">
+        <g id="g-svg-4" fill="none" x="0" y="50" width="300" height="50">
           <g>
             <path
-              id="g-svg-18"
+              id="g-svg-5"
               fill="rgba(251,253,255,1)"
               d="M 0,50 l 300,0 l 0,50 l-300 0 z"
               x="0"
@@ -384,7 +384,7 @@
               stroke="rgba(235,237,240,1)"
             />
           </g>
-          <g id="g-svg-19" fill="none">
+          <g id="g-svg-6" fill="none">
             <g id="g-svg-118" fill="none" x="50" y="75">
               <g>
                 <path
@@ -696,10 +696,10 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-20" fill="none" x="0" y="100" width="300" height="50">
+        <g id="g-svg-7" fill="none" x="0" y="100" width="300" height="50">
           <g>
             <path
-              id="g-svg-21"
+              id="g-svg-8"
               fill="rgba(251,253,255,1)"
               d="M 0,100 l 300,0 l 0,50 l-300 0 z"
               x="0"
@@ -709,7 +709,7 @@
               stroke="rgba(235,237,240,1)"
             />
           </g>
-          <g id="g-svg-22" fill="none">
+          <g id="g-svg-9" fill="none">
             <g id="g-svg-235" fill="none" x="87.5" y="125">
               <g>
                 <path

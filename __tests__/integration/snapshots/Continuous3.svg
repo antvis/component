@@ -102,10 +102,10 @@
   </defs>
   <g id="g-svg-camera">
     <g id="g-root" fill="none">
-      <g id="g-svg-111" fill="none" width="400" height="190">
+      <g id="g-svg-0" fill="none" width="400" height="190">
         <g>
           <path
-            id="g-svg-112"
+            id="g-svg-1"
             fill="none"
             d="M 0,0 l 400,0 l 0,60 l-400 0 z"
             x="0"
@@ -115,7 +115,7 @@
             stroke="rgba(255,0,0,1)"
           />
         </g>
-        <g id="g-svg-113" fill="none" width="400" height="60">
+        <g id="g-svg-2" fill="none" width="400" height="60">
           <g
             id="g-svg-1"
             fill="none"
@@ -354,7 +354,7 @@
         </g>
         <g>
           <path
-            id="g-svg-114"
+            id="g-svg-3"
             fill="none"
             d="M 0,65 l 400,0 l 0,60 l-400 0 z"
             x="0"
@@ -365,7 +365,7 @@
           />
         </g>
         <g
-          id="g-svg-115"
+          id="g-svg-4"
           fill="none"
           width="400"
           height="60"
@@ -584,7 +584,7 @@
         </g>
         <g>
           <path
-            id="g-svg-116"
+            id="g-svg-5"
             fill="none"
             d="M 0,130 l 400,0 l 0,60 l-400 0 z"
             x="0"
@@ -595,7 +595,7 @@
           />
         </g>
         <g
-          id="g-svg-117"
+          id="g-svg-6"
           fill="none"
           width="400"
           height="60"
