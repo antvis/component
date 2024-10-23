@@ -16,7 +16,7 @@ export const Marker1 = () => {
           y,
           // transform: `translate(${x}, ${y}) rotate(45deg) translate(${-x}, ${-y})`,
           // transformOrigin: `0 0`,
-          transform: 'rotate(45deg)',
+          transform: [['rotate', 45]],
           transformOrigin: `${x} ${y}`,
           symbol: marker,
           size: 16,

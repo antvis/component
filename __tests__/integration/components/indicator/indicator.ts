@@ -6,7 +6,7 @@ import { createGrid } from '../../utils/grid';
 export const IndicatorDemo = () => {
   const group = new Group({
     style: {
-      transform: 'translate(30, 30)',
+      transform: [['translate', 30, 30]],
     },
   });
 

@@ -19,7 +19,7 @@ export const AxisLinearCustomTick = () => {
         tickFormatter: (datum: any, index: number, data: any, [cx, cy]: any) => {
           if (index === 3)
             return new Rect({
-              style: { x: 0, y: 0, width: 20, height: 20, fill: 'green', transform: 'translate(-10, -10)' },
+              style: { x: 0, y: 0, width: 20, height: 20, fill: 'green', transform: [['translate', -10, -10]] },
             });
           return index % 5 === 0
             ? new Circle({ style: { cx: 0, cy: 0, r: index % 10 === 0 ? 10 : 5 } })

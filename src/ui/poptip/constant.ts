@@ -73,7 +73,7 @@ export const POPTIP_STYLE = {
   [`.${CLASS_NAME.ARROW}`]: {
     width: '4px',
     height: '4px',
-    transform: 'rotate(45deg)',
+    transform: [['rotate', 45]],
     'background-color': 'rgba(0, 0, 0)',
     position: 'absolute',
     'z-index': -1,

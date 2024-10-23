@@ -69,7 +69,7 @@ export const AxisLinearTitlePosition = () => {
   const g2 = group.appendChild(
     new Group({
       style: {
-        transform: 'translate(60, 60)',
+        transform: [['translate', 60, 60]],
       },
     })
   );
