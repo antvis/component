@@ -54,7 +54,7 @@ export const TitleDemo = () => {
     {
       text: 'left top start',
       position: 'left-top',
-      transform: 'rotate(90)',
+      transform: [['rotate', 90]],
       textAlign: 'start',
       textBaseline: 'bottom',
     }

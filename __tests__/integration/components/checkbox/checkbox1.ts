@@ -7,7 +7,7 @@ export function Checkbox1() {
   group.appendChild(
     new Checkbox({
       style: {
-        transform: 'translate(10, 10)',
+        transform: [['translate', 10, 10]],
         labelText: 'Checkbox',
       },
     })
@@ -16,7 +16,7 @@ export function Checkbox1() {
   const ck = group.appendChild(
     new Checkbox({
       style: {
-        transform: 'translate(10, 30)',
+        transform: [['translate', 10, 30]],
         labelText: 'Checkbox',
         checked: true,
       },

@@ -389,8 +389,9 @@ export class Slider extends Component<SliderStyleProps> {
   private inferTextStyle(handleType: HandleType): Record<string, any> {
     const { orientation } = this.attributes;
     if (orientation === 'horizontal') return {};
-    if (handleType === 'start') return { transformOrigin: 'left center', transform: 'rotate(90)', textAlign: 'start' };
-    if (handleType === 'end') return { transformOrigin: 'right center', transform: 'rotate(90)', textAlign: 'end' };
+    if (handleType === 'start')
+      return { transformOrigin: 'left center', transform: [['rotate', 90]], textAlign: 'start' };
+    if (handleType === 'end') return { transformOrigin: 'right center', transform: [['rotate', 90]], textAlign: 'end' };
     return {};
   }
 
