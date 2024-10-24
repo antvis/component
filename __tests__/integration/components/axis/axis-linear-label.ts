@@ -43,14 +43,14 @@ export const AxisLinearLabel = () => {
         y: 0,
         width: 30,
         height: 30,
-        transform: [['translate', -15, -15]],
+        transform: 'translate(-15, -15)',
       },
     });
     const labelText = new Text({
       style: {
         text,
         textAlign: 'center',
-        transform: [['translate', 0, 30]],
+        transform: 'translate(0, 30)',
       },
     });
     labelGroup.appendChild(labelIcon);

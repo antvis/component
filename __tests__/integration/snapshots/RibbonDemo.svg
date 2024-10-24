@@ -6,6 +6,34 @@
   color-interpolation-filters="sRGB"
 >
   <defs>
+    <linearGradient
+      gradientUnits="userSpaceOnUse"
+      id="g-pattern-0"
+      x1="0"
+      y1="15"
+      x2="400"
+      y2="15"
+    >
+      <stop offset="0" stop-color="rgba(208,227,250,1)" />
+      <stop offset="0.1111111111111111" stop-color="rgba(208,227,250,1)" />
+      <stop offset="0.1111111111111111" stop-color="rgba(172,199,246,1)" />
+      <stop offset="0.2222222222222222" stop-color="rgba(172,199,246,1)" />
+      <stop offset="0.2222222222222222" stop-color="rgba(141,170,242,1)" />
+      <stop offset="0.33333333333333326" stop-color="rgba(141,170,242,1)" />
+      <stop offset="0.33333333333333326" stop-color="rgba(109,142,234,1)" />
+      <stop offset="0.4444444444444444" stop-color="rgba(109,142,234,1)" />
+      <stop offset="0.4444444444444444" stop-color="rgba(77,115,205,1)" />
+      <stop offset="0.5555555555555556" stop-color="rgba(77,115,205,1)" />
+      <stop offset="0.5555555555555556" stop-color="rgba(50,91,177,1)" />
+      <stop offset="0.6666666666666665" stop-color="rgba(50,91,177,1)" />
+      <stop offset="0.6666666666666665" stop-color="rgba(90,62,117,1)" />
+      <stop offset="0.7777777777777779" stop-color="rgba(90,62,117,1)" />
+      <stop offset="0.7777777777777779" stop-color="rgba(140,60,121,1)" />
+      <stop offset="0.8888888888888888" stop-color="rgba(140,60,121,1)" />
+      <stop offset="0.8888888888888888" stop-color="rgba(226,52,85,1)" />
+      <stop offset="1" stop-color="rgba(226,52,85,1)" />
+      <stop offset="1" stop-color="rgba(231,101,91,1)" />
+    </linearGradient>
     <clipPath transform="matrix(1,0,0,1,-350,-350)" id="clip-path-16-15">
       <use href="#g-svg-16" transform="matrix(1,0,0,1,350,350)" />
     </clipPath>
@@ -68,34 +96,6 @@
       <stop offset="0.9" stop-color="rgba(231,101,91,1)" />
       <stop offset="1" stop-color="rgba(231,101,91,1)" />
       <stop offset="1" stop-color="rgba(208,227,250,1)" />
-    </linearGradient>
-    <linearGradient
-      gradientUnits="userSpaceOnUse"
-      id="g-pattern-0"
-      x1="0"
-      y1="15"
-      x2="400"
-      y2="15"
-    >
-      <stop offset="0" stop-color="rgba(208,227,250,1)" />
-      <stop offset="0.1111111111111111" stop-color="rgba(208,227,250,1)" />
-      <stop offset="0.1111111111111111" stop-color="rgba(172,199,246,1)" />
-      <stop offset="0.2222222222222222" stop-color="rgba(172,199,246,1)" />
-      <stop offset="0.2222222222222222" stop-color="rgba(141,170,242,1)" />
-      <stop offset="0.33333333333333326" stop-color="rgba(141,170,242,1)" />
-      <stop offset="0.33333333333333326" stop-color="rgba(109,142,234,1)" />
-      <stop offset="0.4444444444444444" stop-color="rgba(109,142,234,1)" />
-      <stop offset="0.4444444444444444" stop-color="rgba(77,115,205,1)" />
-      <stop offset="0.5555555555555556" stop-color="rgba(77,115,205,1)" />
-      <stop offset="0.5555555555555556" stop-color="rgba(50,91,177,1)" />
-      <stop offset="0.6666666666666665" stop-color="rgba(50,91,177,1)" />
-      <stop offset="0.6666666666666665" stop-color="rgba(90,62,117,1)" />
-      <stop offset="0.7777777777777779" stop-color="rgba(90,62,117,1)" />
-      <stop offset="0.7777777777777779" stop-color="rgba(140,60,121,1)" />
-      <stop offset="0.8888888888888888" stop-color="rgba(140,60,121,1)" />
-      <stop offset="0.8888888888888888" stop-color="rgba(226,52,85,1)" />
-      <stop offset="1" stop-color="rgba(226,52,85,1)" />
-      <stop offset="1" stop-color="rgba(231,101,91,1)" />
     </linearGradient>
     <clipPath transform="matrix(1,0,0,1,-100,-100)" id="clip-path-5-4">
       <use href="#g-svg-5" transform="matrix(1,0,0,1,100,100)" />

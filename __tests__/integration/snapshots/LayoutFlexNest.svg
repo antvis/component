@@ -455,7 +455,7 @@
         </g>
         <g id="g-svg-4" fill="none" width="100" height="100">
           <g id="g-svg-8" fill="none" width="40" height="40">
-            <g transform="matrix(1,0,0,1,15,20)">
+            <g>
               <path
                 id="g-svg-9"
                 fill="rgba(255,0,0,1)"
@@ -464,7 +464,7 @@
                 height="10"
               />
             </g>
-            <g transform="matrix(1,0,0,1,25,20)">
+            <g>
               <path
                 id="g-svg-10"
                 fill="rgba(0,128,0,1)"
