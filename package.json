@@ -1,6 +1,6 @@
 {
   "name": "@antv/component",
-  "version": "2.1.1-alpha.3",
+  "version": "2.1.1",
   "description": "Visualization components for AntV, based on G.",
   "license": "MIT",
   "main": "lib/index.js",
