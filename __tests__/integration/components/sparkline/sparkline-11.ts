@@ -7,7 +7,7 @@ export const Sparkline11 = () => {
   group.appendChild(
     new Sparkline({
       style: {
-        transform: [['translate', 10, 10]],
+        transform: 'translate(10, 10)',
         type: 'column',
         width: 300,
         height: 50,

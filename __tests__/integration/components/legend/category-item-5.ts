@@ -26,7 +26,7 @@ export const CategoryItem5 = () => {
               width: 10,
               height: 10,
               transformOrigin: 'center',
-              transform: [['rotate', 45]],
+              transform: 'rotate(45)',
             },
           }),
       },
