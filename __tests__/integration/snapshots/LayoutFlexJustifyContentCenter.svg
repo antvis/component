@@ -454,7 +454,7 @@
           <g id="g-svg-50" fill="none" class="axis-title-group" />
         </g>
         <g id="g-svg-4" fill="none" width="100" height="100">
-          <g>
+          <g transform="matrix(1,0,0,1,25,0)">
             <path
               id="g-svg-5"
               fill="rgba(255,0,0,1)"
@@ -463,7 +463,7 @@
               height="10"
             />
           </g>
-          <g>
+          <g transform="matrix(1,0,0,1,35,0)">
             <path
               id="g-svg-6"
               fill="rgba(0,128,0,1)"
@@ -472,7 +472,7 @@
               height="10"
             />
           </g>
-          <g>
+          <g transform="matrix(1,0,0,1,45,0)">
             <path
               id="g-svg-7"
               fill="rgba(0,0,255,1)"
@@ -481,7 +481,7 @@
               height="10"
             />
           </g>
-          <g>
+          <g transform="matrix(1,0,0,1,55,0)">
             <path
               id="g-svg-8"
               fill="rgba(255,255,0,1)"
@@ -490,7 +490,7 @@
               height="10"
             />
           </g>
-          <g>
+          <g transform="matrix(1,0,0,1,65,0)">
             <path
               id="g-svg-9"
               fill="rgba(255,192,203,1)"
