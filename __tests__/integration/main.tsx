@@ -41,20 +41,9 @@ const View: React.FC = () => {
     return renderers[renderer];
   }, [renderer]);
 
-  const destroyShapeRecursive = (shape?: DisplayObject) => {
-    if (!shape) return;
-    if (shape.childNodes.length > 0) {
-      for (let index = shape.childNodes.length - 1; index > 0; index--) {
-        const child = shape.childNodes[index] as DisplayObject;
-        destroyShapeRecursive(child);
-      }
-    }
-    shape.destroy();
-  };
-
   const renderCase = (name: string) => {
     if (!canvasRef.current || !casesName.includes(name)) return;
-    destroyShapeRecursive(nodeRef.current);
+    nodeRef.current?.destroy();
     const node = cases[name]();
     nodeRef.current = node;
     const title = cases[name].tags || [name];

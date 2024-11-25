@@ -106,10 +106,10 @@
   </defs>
   <g id="g-svg-camera">
     <g id="g-root" fill="none">
-      <g id="g-svg-634" fill="none" width="400" height="420">
+      <g id="g-svg-0" fill="none" width="400" height="420">
         <g>
           <path
-            id="g-svg-635"
+            id="g-svg-1"
             fill="none"
             d="M 0,0 l 400,0 l 0,80 l-400 0 z"
             x="0"
@@ -119,7 +119,7 @@
             stroke="rgba(255,0,0,1)"
           />
         </g>
-        <g id="g-svg-636" fill="none" width="400" height="80">
+        <g id="g-svg-2" fill="none" width="400" height="80">
           <g
             id="g-svg-1"
             fill="none"
@@ -358,7 +358,7 @@
         </g>
         <g>
           <path
-            id="g-svg-637"
+            id="g-svg-3"
             fill="none"
             d="M 0,85 l 400,0 l 0,80 l-400 0 z"
             x="0"
@@ -369,7 +369,7 @@
           />
         </g>
         <g
-          id="g-svg-638"
+          id="g-svg-4"
           fill="none"
           width="400"
           height="80"
@@ -581,7 +581,7 @@
         </g>
         <g>
           <path
-            id="g-svg-639"
+            id="g-svg-5"
             fill="none"
             d="M 0,170 l 400,0 l 0,80 l-400 0 z"
             x="0"
@@ -592,7 +592,7 @@
           />
         </g>
         <g
-          id="g-svg-640"
+          id="g-svg-6"
           fill="none"
           width="400"
           height="80"
@@ -661,7 +661,7 @@
         </g>
         <g>
           <path
-            id="g-svg-641"
+            id="g-svg-7"
             fill="none"
             d="M 0,255 l 400,0 l 0,80 l-400 0 z"
             x="0"
@@ -672,7 +672,7 @@
           />
         </g>
         <g
-          id="g-svg-642"
+          id="g-svg-8"
           fill="none"
           width="400"
           height="80"
@@ -891,7 +891,7 @@
         </g>
         <g>
           <path
-            id="g-svg-643"
+            id="g-svg-9"
             fill="none"
             d="M 0,340 l 400,0 l 0,80 l-400 0 z"
             x="0"
@@ -902,7 +902,7 @@
           />
         </g>
         <g
-          id="g-svg-644"
+          id="g-svg-10"
           fill="none"
           width="400"
           height="80"

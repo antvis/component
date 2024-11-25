@@ -12,10 +12,10 @@
   </defs>
   <g id="g-svg-camera">
     <g id="g-root" fill="none">
-      <g id="g-svg-129" fill="none">
+      <g id="g-svg-0" fill="none">
         <g>
           <path
-            id="g-svg-130"
+            id="g-svg-1"
             fill="none"
             d="M 50,50 l 350,0 l 0,60 l-350 0 z"
             x="50"
@@ -25,7 +25,7 @@
             stroke="rgba(255,0,0,1)"
           />
           <g
-            id="g-svg-131"
+            id="g-svg-2"
             fill="none"
             x="50"
             y="50"

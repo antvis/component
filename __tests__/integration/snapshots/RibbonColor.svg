@@ -18,6 +18,18 @@
       <stop offset="0.5" stop-color="rgba(0,255,0,1)" />
       <stop offset="1" stop-color="rgba(0,0,255,1)" />
     </linearGradient>
+    <linearGradient
+      gradientUnits="userSpaceOnUse"
+      id="g-pattern-4"
+      x1="15.00000000000002"
+      y1="210"
+      x2="14.99999999999998"
+      y2="0"
+    >
+      <stop offset="0" stop-color="rgba(255,0,0,1)" />
+      <stop offset="0.5" stop-color="rgba(0,255,0,1)" />
+      <stop offset="1" stop-color="rgba(0,0,255,1)" />
+    </linearGradient>
     <clipPath id="clip-path-5-4">
       <use href="#g-svg-5" />
     </clipPath>
@@ -74,18 +86,6 @@
     <clipPath transform="matrix(1,0,0,1,0,-180)" id="clip-path-35-34">
       <use href="#g-svg-35" transform="matrix(1,0,0,1,0,180)" />
     </clipPath>
-    <linearGradient
-      gradientUnits="userSpaceOnUse"
-      id="g-pattern-4"
-      x1="15.00000000000002"
-      y1="210"
-      x2="14.99999999999998"
-      y2="0"
-    >
-      <stop offset="0" stop-color="rgba(255,0,0,1)" />
-      <stop offset="0.5" stop-color="rgba(0,255,0,1)" />
-      <stop offset="1" stop-color="rgba(0,0,255,1)" />
-    </linearGradient>
     <clipPath transform="matrix(1,0,0,1,-200,0)" id="clip-path-40-39">
       <use href="#g-svg-40" transform="matrix(1,0,0,1,200,0)" />
     </clipPath>
@@ -145,8 +145,8 @@
   </defs>
   <g id="g-svg-camera">
     <g id="g-root" fill="none">
-      <g id="g-svg-51" fill="none" width="410" height="210">
-        <g id="g-svg-52" fill="none">
+      <g id="g-svg-0" fill="none" width="410" height="210">
+        <g id="g-svg-1" fill="none">
           <g id="g-svg-1" fill="none" class="ribbon-background-group">
             <g>
               <path
@@ -177,7 +177,7 @@
           </g>
         </g>
         <g
-          id="g-svg-53"
+          id="g-svg-2"
           fill="none"
           x="0"
           y="30"
@@ -213,7 +213,7 @@
           </g>
         </g>
         <g
-          id="g-svg-54"
+          id="g-svg-3"
           fill="none"
           x="0"
           y="60"
@@ -249,7 +249,7 @@
           </g>
         </g>
         <g
-          id="g-svg-55"
+          id="g-svg-4"
           fill="none"
           x="0"
           y="90"
@@ -285,7 +285,7 @@
           </g>
         </g>
         <g
-          id="g-svg-56"
+          id="g-svg-5"
           fill="none"
           x="0"
           y="120"
@@ -321,7 +321,7 @@
           </g>
         </g>
         <g
-          id="g-svg-57"
+          id="g-svg-6"
           fill="none"
           x="0"
           y="150"
@@ -357,7 +357,7 @@
           </g>
         </g>
         <g
-          id="g-svg-58"
+          id="g-svg-7"
           fill="none"
           x="0"
           y="180"
@@ -393,7 +393,7 @@
           </g>
         </g>
         <g
-          id="g-svg-59"
+          id="g-svg-8"
           fill="none"
           x="200"
           y="0"
@@ -429,7 +429,7 @@
           </g>
         </g>
         <g
-          id="g-svg-60"
+          id="g-svg-9"
           fill="none"
           x="230"
           y="0"
@@ -465,7 +465,7 @@
           </g>
         </g>
         <g
-          id="g-svg-61"
+          id="g-svg-10"
           fill="none"
           x="260"
           y="0"
@@ -501,7 +501,7 @@
           </g>
         </g>
         <g
-          id="g-svg-62"
+          id="g-svg-11"
           fill="none"
           x="290"
           y="0"
@@ -537,7 +537,7 @@
           </g>
         </g>
         <g
-          id="g-svg-63"
+          id="g-svg-12"
           fill="none"
           x="320"
           y="0"
@@ -573,7 +573,7 @@
           </g>
         </g>
         <g
-          id="g-svg-64"
+          id="g-svg-13"
           fill="none"
           x="350"
           y="0"
@@ -609,7 +609,7 @@
           </g>
         </g>
         <g
-          id="g-svg-65"
+          id="g-svg-14"
           fill="none"
           x="380"
           y="0"

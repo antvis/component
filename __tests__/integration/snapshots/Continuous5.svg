@@ -398,10 +398,10 @@
   </defs>
   <g id="g-svg-camera">
     <g id="g-root" fill="none">
-      <g id="g-svg-1245" fill="none" width="685" height="805">
+      <g id="g-svg-0" fill="none" width="685" height="805">
         <g>
           <path
-            id="g-svg-1246"
+            id="g-svg-1"
             fill="none"
             d="M 0,0 l 110,0 l 0,400 l-110 0 z"
             x="0"
@@ -411,7 +411,7 @@
             stroke="rgba(255,0,0,1)"
           />
         </g>
-        <g id="g-svg-1247" fill="none" width="110" height="400">
+        <g id="g-svg-2" fill="none" width="110" height="400">
           <g
             id="g-svg-1"
             fill="none"
@@ -906,7 +906,7 @@
         </g>
         <g>
           <path
-            id="g-svg-1248"
+            id="g-svg-3"
             fill="none"
             d="M 115,0 l 110,0 l 0,400 l-110 0 z"
             x="115"
@@ -917,7 +917,7 @@
           />
         </g>
         <g
-          id="g-svg-1249"
+          id="g-svg-4"
           fill="none"
           width="110"
           height="400"
@@ -1417,7 +1417,7 @@
         </g>
         <g>
           <path
-            id="g-svg-1250"
+            id="g-svg-5"
             fill="none"
             d="M 230,0 l 110,0 l 0,400 l-110 0 z"
             x="230"
@@ -1428,7 +1428,7 @@
           />
         </g>
         <g
-          id="g-svg-1251"
+          id="g-svg-6"
           fill="none"
           width="110"
           height="400"
@@ -1953,7 +1953,7 @@
         </g>
         <g>
           <path
-            id="g-svg-1252"
+            id="g-svg-7"
             fill="none"
             d="M 345,0 l 110,0 l 0,400 l-110 0 z"
             x="345"
@@ -1964,7 +1964,7 @@
           />
         </g>
         <g
-          id="g-svg-1253"
+          id="g-svg-8"
           fill="none"
           width="110"
           height="400"
@@ -2489,7 +2489,7 @@
         </g>
         <g>
           <path
-            id="g-svg-1254"
+            id="g-svg-9"
             fill="none"
             d="M 460,0 l 110,0 l 0,400 l-110 0 z"
             x="460"
@@ -2500,7 +2500,7 @@
           />
         </g>
         <g
-          id="g-svg-1255"
+          id="g-svg-10"
           fill="none"
           width="110"
           height="400"
@@ -2855,7 +2855,7 @@
         </g>
         <g>
           <path
-            id="g-svg-1256"
+            id="g-svg-11"
             fill="none"
             d="M 575,0 l 110,0 l 0,400 l-110 0 z"
             x="575"
@@ -2866,7 +2866,7 @@
           />
         </g>
         <g
-          id="g-svg-1257"
+          id="g-svg-12"
           fill="none"
           width="110"
           height="400"
@@ -3221,7 +3221,7 @@
         </g>
         <g>
           <path
-            id="g-svg-1258"
+            id="g-svg-13"
             fill="none"
             d="M 690,0 l 110,0 l 0,400 l-110 0 z"
             x="690"
@@ -3232,7 +3232,7 @@
           />
         </g>
         <g
-          id="g-svg-1259"
+          id="g-svg-14"
           fill="none"
           width="110"
           height="400"
@@ -3933,7 +3933,7 @@
         </g>
         <g>
           <path
-            id="g-svg-1260"
+            id="g-svg-15"
             fill="none"
             d="M 0,405 l 110,0 l 0,400 l-110 0 z"
             x="0"
@@ -3944,7 +3944,7 @@
           />
         </g>
         <g
-          id="g-svg-1261"
+          id="g-svg-16"
           fill="none"
           width="110"
           height="400"
@@ -4645,7 +4645,7 @@
         </g>
         <g>
           <path
-            id="g-svg-1262"
+            id="g-svg-17"
             fill="none"
             d="M 115,405 l 110,0 l 0,400 l-110 0 z"
             x="115"
@@ -4656,7 +4656,7 @@
           />
         </g>
         <g
-          id="g-svg-1263"
+          id="g-svg-18"
           fill="none"
           width="110"
           height="400"
@@ -5382,7 +5382,7 @@
         </g>
         <g>
           <path
-            id="g-svg-1264"
+            id="g-svg-19"
             fill="none"
             d="M 230,405 l 110,0 l 0,400 l-110 0 z"
             x="230"
@@ -5393,7 +5393,7 @@
           />
         </g>
         <g
-          id="g-svg-1265"
+          id="g-svg-20"
           fill="none"
           width="110"
           height="400"
@@ -6131,7 +6131,7 @@
         </g>
         <g>
           <path
-            id="g-svg-1266"
+            id="g-svg-21"
             fill="none"
             d="M 345,405 l 110,0 l 0,400 l-110 0 z"
             x="345"
@@ -6142,7 +6142,7 @@
           />
         </g>
         <g
-          id="g-svg-1267"
+          id="g-svg-22"
           fill="none"
           width="110"
           height="400"
@@ -6698,7 +6698,7 @@
         </g>
         <g>
           <path
-            id="g-svg-1268"
+            id="g-svg-23"
             fill="none"
             d="M 460,405 l 110,0 l 0,400 l-110 0 z"
             x="460"
@@ -6709,7 +6709,7 @@
           />
         </g>
         <g
-          id="g-svg-1269"
+          id="g-svg-24"
           fill="none"
           width="110"
           height="400"
@@ -7265,7 +7265,7 @@
         </g>
         <g>
           <path
-            id="g-svg-1270"
+            id="g-svg-25"
             fill="none"
             d="M 575,405 l 110,0 l 0,400 l-110 0 z"
             x="575"
@@ -7276,7 +7276,7 @@
           />
         </g>
         <g
-          id="g-svg-1271"
+          id="g-svg-26"
           fill="none"
           width="110"
           height="400"
@@ -7788,7 +7788,7 @@
         </g>
         <g>
           <path
-            id="g-svg-1272"
+            id="g-svg-27"
             fill="none"
             d="M 690,405 l 110,0 l 0,400 l-110 0 z"
             x="690"
@@ -7799,7 +7799,7 @@
           />
         </g>
         <g
-          id="g-svg-1273"
+          id="g-svg-28"
           fill="none"
           width="110"
           height="400"

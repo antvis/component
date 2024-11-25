@@ -8,17 +8,17 @@
   <defs />
   <g id="g-svg-camera">
     <g id="g-root" fill="none">
-      <g id="g-svg-201" fill="none">
+      <g id="g-svg-0" fill="none">
         <g>
           <path
-            id="g-svg-202"
+            id="g-svg-1"
             fill="rgba(255,255,255,1)"
             d="M 0,0 l 200,0 l 0,200 l-200 0 z"
             width="200"
             height="200"
           />
         </g>
-        <g id="g-svg-203" fill="none">
+        <g id="g-svg-2" fill="none">
           <g id="g-svg-1" fill="none" class="axis-grid-group">
             <g id="g-svg-2" fill="none" class="axis-grid">
               <g id="g-svg-3" fill="none" class="grid-line-group">
@@ -418,7 +418,7 @@
           </g>
           <g id="g-svg-40" fill="none" class="axis-title-group" />
         </g>
-        <g id="g-svg-204" fill="none">
+        <g id="g-svg-3" fill="none">
           <g id="g-svg-41" fill="none" class="axis-grid-group">
             <g id="g-svg-42" fill="none" class="axis-grid">
               <g id="g-svg-43" fill="none" class="grid-line-group">
@@ -828,10 +828,10 @@
           </g>
           <g id="g-svg-80" fill="none" class="axis-title-group" />
         </g>
-        <g id="g-svg-205" fill="none" width="100" height="100">
+        <g id="g-svg-4" fill="none" width="100" height="100">
           <g transform="matrix(1,0,0,1,25,45)">
             <path
-              id="g-svg-206"
+              id="g-svg-5"
               fill="rgba(255,0,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -840,7 +840,7 @@
           </g>
           <g transform="matrix(1,0,0,1,35,45)">
             <path
-              id="g-svg-207"
+              id="g-svg-6"
               fill="rgba(0,128,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -849,7 +849,7 @@
           </g>
           <g transform="matrix(1,0,0,1,45,45)">
             <path
-              id="g-svg-208"
+              id="g-svg-7"
               fill="rgba(0,0,255,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -858,7 +858,7 @@
           </g>
           <g transform="matrix(1,0,0,1,55,45)">
             <path
-              id="g-svg-209"
+              id="g-svg-8"
               fill="rgba(255,255,0,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
@@ -867,7 +867,7 @@
           </g>
           <g transform="matrix(1,0,0,1,65,45)">
             <path
-              id="g-svg-210"
+              id="g-svg-9"
               fill="rgba(255,192,203,1)"
               d="M 0,0 l 10,0 l 0,10 l-10 0 z"
               width="10"
