@@ -9,7 +9,7 @@
   <g id="g-svg-camera">
     <g id="g-root" fill="none">
       <g id="g-svg-0" fill="none">
-        <g id="g-svg-1" fill="none" x="100" y="100">
+        <g id="g-svg-1" fill="none">
           <g>
             <path
               id="g-svg-3"
@@ -24,7 +24,7 @@
               y="100"
             />
           </g>
-          <g id="g-svg-1" fill="none" class="marker" x="110" y="115" />
+          <g id="g-svg-1" fill="none" class="marker" />
           <g>
             <text
               id="g-svg-2"

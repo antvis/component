@@ -139,15 +139,9 @@
   </defs>
   <g id="g-svg-camera">
     <g id="g-root" fill="none">
-      <g id="g-svg-0" fill="none" width="400" height="240">
-        <g id="g-svg-1" fill="none" width="400" height="60">
-          <g
-            id="g-svg-1"
-            fill="none"
-            width="400"
-            height="60"
-            class="legend-title"
-          >
+      <g id="g-svg-0" fill="none">
+        <g id="g-svg-1" fill="none">
+          <g id="g-svg-1" fill="none" class="legend-title">
             <g>
               <text
                 id="g-svg-2"
@@ -628,20 +622,8 @@
             </g>
           </g>
         </g>
-        <g
-          id="g-svg-2"
-          fill="none"
-          width="400"
-          height="60"
-          transform="matrix(1,0,0,1,0,60)"
-        >
-          <g
-            id="g-svg-88"
-            fill="none"
-            width="400"
-            height="60"
-            class="legend-title"
-          >
+        <g id="g-svg-2" fill="none" transform="matrix(1,0,0,1,0,60)">
+          <g id="g-svg-88" fill="none" class="legend-title">
             <g>
               <text
                 id="g-svg-89"
@@ -1122,20 +1104,8 @@
             </g>
           </g>
         </g>
-        <g
-          id="g-svg-3"
-          fill="none"
-          width="400"
-          height="60"
-          transform="matrix(1,0,0,1,0,120)"
-        >
-          <g
-            id="g-svg-175"
-            fill="none"
-            width="400"
-            height="60"
-            class="legend-title"
-          >
+        <g id="g-svg-3" fill="none" transform="matrix(1,0,0,1,0,120)">
+          <g id="g-svg-175" fill="none" class="legend-title">
             <g>
               <text
                 id="g-svg-176"
@@ -1616,20 +1586,8 @@
             </g>
           </g>
         </g>
-        <g
-          id="g-svg-4"
-          fill="none"
-          width="400"
-          height="60"
-          transform="matrix(1,0,0,1,0,180)"
-        >
-          <g
-            id="g-svg-262"
-            fill="none"
-            width="400"
-            height="60"
-            class="legend-title"
-          >
+        <g id="g-svg-4" fill="none" transform="matrix(1,0,0,1,0,180)">
+          <g id="g-svg-262" fill="none" class="legend-title">
             <g>
               <text
                 id="g-svg-263"

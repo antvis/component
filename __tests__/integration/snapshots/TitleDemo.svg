@@ -18,7 +18,7 @@
               width="100"
               height="100"
             />
-            <g id="g-svg-3" fill="none" width="100" height="100">
+            <g id="g-svg-3" fill="none">
               <g>
                 <text
                   id="g-svg-1"
@@ -50,7 +50,7 @@
               width="100"
               height="100"
             />
-            <g id="g-svg-6" fill="none" width="100" height="100">
+            <g id="g-svg-6" fill="none">
               <g>
                 <text
                   id="g-svg-2"
@@ -81,7 +81,7 @@
               width="100"
               height="100"
             />
-            <g id="g-svg-9" fill="none" width="100" height="100">
+            <g id="g-svg-9" fill="none">
               <g>
                 <text
                   id="g-svg-3"
@@ -113,7 +113,7 @@
               width="100"
               height="100"
             />
-            <g id="g-svg-12" fill="none" width="100" height="100">
+            <g id="g-svg-12" fill="none">
               <g>
                 <text
                   id="g-svg-4"
@@ -144,7 +144,7 @@
               width="100"
               height="100"
             />
-            <g id="g-svg-15" fill="none" width="100" height="100">
+            <g id="g-svg-15" fill="none">
               <g>
                 <text
                   id="g-svg-5"
@@ -176,7 +176,7 @@
               width="100"
               height="100"
             />
-            <g id="g-svg-18" fill="none" width="100" height="100">
+            <g id="g-svg-18" fill="none">
               <g>
                 <text
                   id="g-svg-6"
@@ -207,7 +207,7 @@
               width="100"
               height="100"
             />
-            <g id="g-svg-21" fill="none" width="100" height="100">
+            <g id="g-svg-21" fill="none">
               <g>
                 <text
                   id="g-svg-7"
@@ -239,7 +239,7 @@
               width="100"
               height="100"
             />
-            <g id="g-svg-24" fill="none" width="100" height="100">
+            <g id="g-svg-24" fill="none">
               <g>
                 <text
                   id="g-svg-8"
@@ -271,7 +271,7 @@
               width="100"
               height="100"
             />
-            <g id="g-svg-27" fill="none" width="100" height="100">
+            <g id="g-svg-27" fill="none">
               <g>
                 <text
                   id="g-svg-9"
@@ -303,7 +303,7 @@
               width="200"
               height="200"
             />
-            <g id="g-svg-30" fill="none" width="100" height="100">
+            <g id="g-svg-30" fill="none">
               <g>
                 <text
                   id="g-svg-10"
@@ -335,13 +335,7 @@
               width="200"
               height="200"
             />
-            <g
-              id="g-svg-33"
-              fill="none"
-              width="100"
-              height="100"
-              transform="matrix(0,1,-1,0,0,0)"
-            >
+            <g id="g-svg-33" fill="none" transform="matrix(0,1,-1,0,0,0)">
               <g>
                 <text
                   id="g-svg-11"

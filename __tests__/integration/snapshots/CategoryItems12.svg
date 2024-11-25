@@ -12,9 +12,9 @@
   </defs>
   <g id="g-svg-camera">
     <g id="g-root" fill="none">
-      <g id="g-svg-0" fill="none" width="150" height="20">
-        <g id="g-svg-1" fill="none" width="565" height="40" x="0" y="0">
-          <g id="g-svg-1" fill="none" x="0" y="0" class="items-navigator">
+      <g id="g-svg-0" fill="none">
+        <g id="g-svg-1" fill="none">
+          <g id="g-svg-1" fill="none" class="items-navigator">
             <g
               id="g-svg-2"
               fill="none"
@@ -23,15 +23,7 @@
             >
               <g id="g-svg-3" fill="none" class="navigator-play-window">
                 <g id="g-svg-45" fill="none" class="items-item-page">
-                  <g
-                    id="g-svg-5"
-                    fill="none"
-                    class="items-item"
-                    x="0"
-                    y="0"
-                    width="21.8"
-                    height="23"
-                  >
+                  <g id="g-svg-5" fill="none" class="items-item">
                     <g
                       id="g-svg-11"
                       fill="none"
@@ -105,10 +97,6 @@
                     fill="none"
                     transform="matrix(1,0,0,1,29.799999,0)"
                     class="items-item"
-                    x="29.8"
-                    y="0"
-                    width="21.92"
-                    height="23"
                   >
                     <g
                       id="g-svg-19"
@@ -183,10 +171,6 @@
                     fill="none"
                     transform="matrix(1,0,0,1,59.720001,0)"
                     class="items-item"
-                    x="59.72"
-                    y="0"
-                    width="21.8"
-                    height="23"
                   >
                     <g
                       id="g-svg-27"
@@ -261,10 +245,6 @@
                     fill="none"
                     transform="matrix(1,0,0,1,89.519997,0)"
                     class="items-item"
-                    x="89.52"
-                    y="0"
-                    width="21.68"
-                    height="23"
                   >
                     <g
                       id="g-svg-35"
@@ -339,10 +319,6 @@
                     fill="none"
                     transform="matrix(1,0,0,1,119.199997,0)"
                     class="items-item"
-                    x="119.19999999999999"
-                    y="0"
-                    width="21.560000000000002"
-                    height="23"
                   >
                     <g
                       id="g-svg-43"

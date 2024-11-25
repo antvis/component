@@ -8,7 +8,7 @@
   <defs />
   <g id="g-svg-camera">
     <g id="g-root" fill="none">
-      <g id="g-svg-0" fill="none" width="400" height="300">
+      <g id="g-svg-0" fill="none">
         <g id="g-svg-1" fill="none">
           <g id="g-svg-1" fill="none" class="axis-grid-group">
             <g id="g-svg-2" fill="none" class="axis-grid">
@@ -156,7 +156,7 @@
                   id="g-svg-19"
                   fill="none"
                   class="axis-line"
-                  d="M 93.4314575050762,93.4314575050762 A 80 80 0 1 1 93.4314575050762 206.5685424949238 L 82.7006386386624,196.0876300128821"
+                  d="M 93.4314575050762,93.4314575050762 A 80 80 0 1 1 82.7006386386624 196.0876300128821"
                   stroke-width="5"
                   stroke="rgba(255,165,0,1)"
                 />
