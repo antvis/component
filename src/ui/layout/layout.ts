@@ -92,6 +92,7 @@ export class Layout extends Group {
   bindEvents() {
     this.layoutEvents.forEach((event) => {
       this.addEventListener(event, (e: FederatedEvent) => {
+        if (!e.target) return;
         (e.target as DisplayObject).isMutationObserved = true;
         this.layout();
       });
