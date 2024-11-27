@@ -18,14 +18,8 @@
   </defs>
   <g id="g-svg-camera">
     <g id="g-root" fill="none">
-      <g id="g-svg-0" fill="none" width="160" height="330">
-        <g
-          id="g-svg-1"
-          fill="none"
-          x="10"
-          y="10"
-          transform="matrix(1,0,0,1,10,10)"
-        >
+      <g id="g-svg-0" fill="none">
+        <g id="g-svg-1" fill="none" transform="matrix(1,0,0,1,10,10)">
           <g
             id="g-svg-2"
             fill="none"
@@ -274,13 +268,7 @@
             </g>
           </g>
         </g>
-        <g
-          id="g-svg-19"
-          fill="none"
-          x="10"
-          y="120"
-          transform="matrix(1,0,0,1,10,120)"
-        >
+        <g id="g-svg-19" fill="none" transform="matrix(1,0,0,1,10,120)">
           <g
             id="g-svg-20"
             fill="none"
@@ -529,13 +517,7 @@
             </g>
           </g>
         </g>
-        <g
-          id="g-svg-37"
-          fill="none"
-          x="10"
-          y="230"
-          transform="matrix(1,0,0,1,10,230)"
-        >
+        <g id="g-svg-37" fill="none" transform="matrix(1,0,0,1,10,230)">
           <g
             id="g-svg-38"
             fill="none"

@@ -46,7 +46,7 @@
   <g id="g-svg-camera">
     <g id="g-root" fill="none">
       <g id="g-svg-0" fill="none">
-        <g id="g-svg-1" fill="none" x="0" y="0" width="300" height="50">
+        <g id="g-svg-1" fill="none">
           <g>
             <path
               id="g-svg-2"
@@ -60,7 +60,7 @@
             />
           </g>
           <g id="g-svg-3" fill="none">
-            <g id="g-svg-1" fill="none" x="12.5" y="25">
+            <g id="g-svg-1" fill="none">
               <g>
                 <path
                   id="g-svg-2"
@@ -92,7 +92,7 @@
                 </g>
               </g>
             </g>
-            <g id="g-svg-35" fill="none" x="62.5" y="25">
+            <g id="g-svg-35" fill="none">
               <g>
                 <path id="g-svg-36" fill="none" />
               </g>
@@ -111,7 +111,7 @@
                 </g>
               </g>
             </g>
-            <g id="g-svg-43" fill="none" x="87.5" y="25">
+            <g id="g-svg-43" fill="none">
               <g>
                 <path
                   id="g-svg-44"
@@ -134,9 +134,9 @@
                 </g>
               </g>
             </g>
-            <g id="g-svg-51" fill="none" x="112.5" y="25">
+            <g id="g-svg-51" fill="none">
               <g id="g-svg-52" fill="none">
-                <g id="g-svg-53" fill="none" x="112.5" y="25" class="icon">
+                <g id="g-svg-53" fill="none" class="icon">
                   <g>
                     <path
                       id="g-svg-54"
@@ -161,7 +161,7 @@
                 </g>
               </g>
             </g>
-            <g id="g-svg-61" fill="none" x="137.5" y="25">
+            <g id="g-svg-61" fill="none">
               <g>
                 <path
                   id="g-svg-62"
@@ -184,7 +184,7 @@
                 </g>
               </g>
             </g>
-            <g id="g-svg-69" fill="none" x="162.5" y="25">
+            <g id="g-svg-69" fill="none">
               <g>
                 <path id="g-svg-70" fill="none" />
               </g>
@@ -203,9 +203,9 @@
                 </g>
               </g>
             </g>
-            <g id="g-svg-77" fill="none" x="187.5" y="25">
+            <g id="g-svg-77" fill="none">
               <g id="g-svg-78" fill="none">
-                <g id="g-svg-79" fill="none" x="187.5" y="25" class="icon">
+                <g id="g-svg-79" fill="none" class="icon">
                   <g>
                     <path
                       id="g-svg-80"
@@ -273,9 +273,9 @@
                 </g>
               </g>
             </g>
-            <g id="g-svg-97" fill="none" x="212.5" y="25">
+            <g id="g-svg-97" fill="none">
               <g id="g-svg-98" fill="none">
-                <g id="g-svg-99" fill="none" x="212.5" y="25" class="icon">
+                <g id="g-svg-99" fill="none" class="icon">
                   <g>
                     <path
                       id="g-svg-100"
@@ -371,7 +371,7 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-4" fill="none" x="0" y="50" width="300" height="50">
+        <g id="g-svg-4" fill="none">
           <g>
             <path
               id="g-svg-5"
@@ -385,7 +385,7 @@
             />
           </g>
           <g id="g-svg-6" fill="none">
-            <g id="g-svg-118" fill="none" x="50" y="75">
+            <g id="g-svg-118" fill="none">
               <g>
                 <path
                   id="g-svg-119"
@@ -417,7 +417,7 @@
                 </g>
               </g>
             </g>
-            <g id="g-svg-152" fill="none" x="100" y="75">
+            <g id="g-svg-152" fill="none">
               <g>
                 <path id="g-svg-153" fill="none" />
               </g>
@@ -436,7 +436,7 @@
                 </g>
               </g>
             </g>
-            <g id="g-svg-160" fill="none" x="125" y="75">
+            <g id="g-svg-160" fill="none">
               <g>
                 <path
                   id="g-svg-161"
@@ -459,9 +459,9 @@
                 </g>
               </g>
             </g>
-            <g id="g-svg-168" fill="none" x="150" y="75">
+            <g id="g-svg-168" fill="none">
               <g id="g-svg-169" fill="none">
-                <g id="g-svg-170" fill="none" x="150" y="75" class="icon">
+                <g id="g-svg-170" fill="none" class="icon">
                   <g>
                     <path
                       id="g-svg-171"
@@ -486,7 +486,7 @@
                 </g>
               </g>
             </g>
-            <g id="g-svg-178" fill="none" x="175" y="75">
+            <g id="g-svg-178" fill="none">
               <g>
                 <path
                   id="g-svg-179"
@@ -509,7 +509,7 @@
                 </g>
               </g>
             </g>
-            <g id="g-svg-186" fill="none" x="200" y="75">
+            <g id="g-svg-186" fill="none">
               <g>
                 <path id="g-svg-187" fill="none" />
               </g>
@@ -528,9 +528,9 @@
                 </g>
               </g>
             </g>
-            <g id="g-svg-194" fill="none" x="225" y="75">
+            <g id="g-svg-194" fill="none">
               <g id="g-svg-195" fill="none">
-                <g id="g-svg-196" fill="none" x="225" y="75" class="icon">
+                <g id="g-svg-196" fill="none" class="icon">
                   <g>
                     <path
                       id="g-svg-197"
@@ -598,9 +598,9 @@
                 </g>
               </g>
             </g>
-            <g id="g-svg-214" fill="none" x="250" y="75">
+            <g id="g-svg-214" fill="none">
               <g id="g-svg-215" fill="none">
-                <g id="g-svg-216" fill="none" x="250" y="75" class="icon">
+                <g id="g-svg-216" fill="none" class="icon">
                   <g>
                     <path
                       id="g-svg-217"
@@ -696,7 +696,7 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-7" fill="none" x="0" y="100" width="300" height="50">
+        <g id="g-svg-7" fill="none">
           <g>
             <path
               id="g-svg-8"
@@ -710,7 +710,7 @@
             />
           </g>
           <g id="g-svg-9" fill="none">
-            <g id="g-svg-235" fill="none" x="87.5" y="125">
+            <g id="g-svg-235" fill="none">
               <g>
                 <path
                   id="g-svg-236"
@@ -742,7 +742,7 @@
                 </g>
               </g>
             </g>
-            <g id="g-svg-269" fill="none" x="137.5" y="125">
+            <g id="g-svg-269" fill="none">
               <g>
                 <path id="g-svg-270" fill="none" />
               </g>
@@ -761,7 +761,7 @@
                 </g>
               </g>
             </g>
-            <g id="g-svg-277" fill="none" x="162.5" y="125">
+            <g id="g-svg-277" fill="none">
               <g>
                 <path
                   id="g-svg-278"
@@ -784,9 +784,9 @@
                 </g>
               </g>
             </g>
-            <g id="g-svg-285" fill="none" x="187.5" y="125">
+            <g id="g-svg-285" fill="none">
               <g id="g-svg-286" fill="none">
-                <g id="g-svg-287" fill="none" x="187.5" y="125" class="icon">
+                <g id="g-svg-287" fill="none" class="icon">
                   <g>
                     <path
                       id="g-svg-288"
@@ -811,7 +811,7 @@
                 </g>
               </g>
             </g>
-            <g id="g-svg-295" fill="none" x="212.5" y="125">
+            <g id="g-svg-295" fill="none">
               <g>
                 <path
                   id="g-svg-296"
@@ -834,7 +834,7 @@
                 </g>
               </g>
             </g>
-            <g id="g-svg-303" fill="none" x="237.5" y="125">
+            <g id="g-svg-303" fill="none">
               <g>
                 <path id="g-svg-304" fill="none" />
               </g>
@@ -853,9 +853,9 @@
                 </g>
               </g>
             </g>
-            <g id="g-svg-311" fill="none" x="262.5" y="125">
+            <g id="g-svg-311" fill="none">
               <g id="g-svg-312" fill="none">
-                <g id="g-svg-313" fill="none" x="262.5" y="125" class="icon">
+                <g id="g-svg-313" fill="none" class="icon">
                   <g>
                     <path
                       id="g-svg-314"
@@ -935,9 +935,9 @@
                 </g>
               </g>
             </g>
-            <g id="g-svg-332" fill="none" x="287.5" y="125">
+            <g id="g-svg-332" fill="none">
               <g id="g-svg-333" fill="none">
-                <g id="g-svg-334" fill="none" x="287.5" y="125" class="icon">
+                <g id="g-svg-334" fill="none" class="icon">
                   <g>
                     <path
                       id="g-svg-335"
@@ -976,7 +976,7 @@
           </g>
         </g>
       </g>
-      <g id="g-svg-7" fill="none" x="12.5" y="0">
+      <g id="g-svg-7" fill="none">
         <g
           id="g-svg-8"
           fill="none"
@@ -997,20 +997,12 @@
           <g id="g-svg-9" fill="none" class="indicator-label-group" />
         </g>
       </g>
-      <g id="g-svg-11" fill="none" x="37.5" y="25">
+      <g id="g-svg-11" fill="none">
         <g>
           <path id="g-svg-12" fill="none" />
         </g>
         <g id="g-svg-13" fill="none">
-          <g
-            id="g-svg-14"
-            fill="none"
-            x="25"
-            y="15"
-            width="25"
-            height="20"
-            class="speed"
-          >
+          <g id="g-svg-14" fill="none" class="speed">
             <g>
               <path
                 id="g-svg-15"
@@ -1059,7 +1051,7 @@
                 visibility="hidden"
               />
               <g id="g-svg-18" fill="none" class="dropdown-container">
-                <g id="g-svg-19" fill="none" class="dropdown-item" width="25">
+                <g id="g-svg-19" fill="none" class="dropdown-item">
                   <g>
                     <path
                       id="g-svg-20"
@@ -1098,7 +1090,6 @@
                   id="g-svg-23"
                   fill="none"
                   class="dropdown-item"
-                  width="25"
                   transform="matrix(1,0,0,1,0,25)"
                 >
                   <g>
@@ -1139,7 +1130,6 @@
                   id="g-svg-27"
                   fill="none"
                   class="dropdown-item"
-                  width="25"
                   transform="matrix(1,0,0,1,0,50)"
                 >
                   <g>
@@ -1181,7 +1171,7 @@
           </g>
         </g>
       </g>
-      <g id="g-svg-31" fill="none" x="12.5" y="-12.5">
+      <g id="g-svg-31" fill="none">
         <g
           id="g-svg-32"
           fill="none"
@@ -1202,7 +1192,7 @@
           <g id="g-svg-33" fill="none" class="indicator-label-group" />
         </g>
       </g>
-      <g id="g-svg-39" fill="none" x="12.5" y="-12.5">
+      <g id="g-svg-39" fill="none">
         <g
           id="g-svg-40"
           fill="none"
@@ -1223,7 +1213,7 @@
           <g id="g-svg-41" fill="none" class="indicator-label-group" />
         </g>
       </g>
-      <g id="g-svg-47" fill="none" x="87.5" y="0">
+      <g id="g-svg-47" fill="none">
         <g
           id="g-svg-48"
           fill="none"
@@ -1244,7 +1234,7 @@
           <g id="g-svg-49" fill="none" class="indicator-label-group" />
         </g>
       </g>
-      <g id="g-svg-57" fill="none" x="0" y="-10">
+      <g id="g-svg-57" fill="none">
         <g id="g-svg-58" fill="none" transform="matrix(1,0,0,1,0,-18.928204)">
           <g>
             <path
@@ -1261,7 +1251,7 @@
           <g id="g-svg-59" fill="none" class="indicator-label-group" />
         </g>
       </g>
-      <g id="g-svg-65" fill="none" x="137.5" y="0">
+      <g id="g-svg-65" fill="none">
         <g
           id="g-svg-66"
           fill="none"
@@ -1282,7 +1272,7 @@
           <g id="g-svg-67" fill="none" class="indicator-label-group" />
         </g>
       </g>
-      <g id="g-svg-73" fill="none" x="12.5" y="-12.5">
+      <g id="g-svg-73" fill="none">
         <g
           id="g-svg-74"
           fill="none"
@@ -1303,7 +1293,7 @@
           <g id="g-svg-75" fill="none" class="indicator-label-group" />
         </g>
       </g>
-      <g id="g-svg-89" fill="none" x="0" y="-10">
+      <g id="g-svg-89" fill="none">
         <g id="g-svg-90" fill="none" transform="matrix(1,0,0,1,0,-18.928204)">
           <g>
             <path
@@ -1320,7 +1310,7 @@
           <g id="g-svg-91" fill="none" class="indicator-label-group" />
         </g>
       </g>
-      <g id="g-svg-109" fill="none" x="0" y="-10">
+      <g id="g-svg-109" fill="none">
         <g id="g-svg-110" fill="none" transform="matrix(1,0,0,1,0,-18.928204)">
           <g>
             <path
@@ -1337,7 +1327,7 @@
           <g id="g-svg-111" fill="none" class="indicator-label-group" />
         </g>
       </g>
-      <g id="g-svg-124" fill="none" x="50" y="50">
+      <g id="g-svg-124" fill="none">
         <g id="g-svg-125" fill="none" transform="matrix(1,0,0,1,50,41.071796)">
           <g>
             <path
@@ -1354,20 +1344,12 @@
           <g id="g-svg-126" fill="none" class="indicator-label-group" />
         </g>
       </g>
-      <g id="g-svg-128" fill="none" x="75" y="75">
+      <g id="g-svg-128" fill="none">
         <g>
           <path id="g-svg-129" fill="none" />
         </g>
         <g id="g-svg-130" fill="none">
-          <g
-            id="g-svg-131"
-            fill="none"
-            x="62.5"
-            y="65"
-            width="25"
-            height="20"
-            class="speed"
-          >
+          <g id="g-svg-131" fill="none" class="speed">
             <g>
               <path
                 id="g-svg-132"
@@ -1416,7 +1398,7 @@
                 visibility="hidden"
               />
               <g id="g-svg-135" fill="none" class="dropdown-container">
-                <g id="g-svg-136" fill="none" class="dropdown-item" width="25">
+                <g id="g-svg-136" fill="none" class="dropdown-item">
                   <g>
                     <path
                       id="g-svg-137"
@@ -1455,7 +1437,6 @@
                   id="g-svg-140"
                   fill="none"
                   class="dropdown-item"
-                  width="25"
                   transform="matrix(1,0,0,1,0,25)"
                 >
                   <g>
@@ -1496,7 +1477,6 @@
                   id="g-svg-144"
                   fill="none"
                   class="dropdown-item"
-                  width="25"
                   transform="matrix(1,0,0,1,0,50)"
                 >
                   <g>
@@ -1538,7 +1518,7 @@
           </g>
         </g>
       </g>
-      <g id="g-svg-148" fill="none" x="12.5" y="-12.5">
+      <g id="g-svg-148" fill="none">
         <g
           id="g-svg-149"
           fill="none"
@@ -1559,7 +1539,7 @@
           <g id="g-svg-150" fill="none" class="indicator-label-group" />
         </g>
       </g>
-      <g id="g-svg-156" fill="none" x="12.5" y="-12.5">
+      <g id="g-svg-156" fill="none">
         <g
           id="g-svg-157"
           fill="none"
@@ -1580,7 +1560,7 @@
           <g id="g-svg-158" fill="none" class="indicator-label-group" />
         </g>
       </g>
-      <g id="g-svg-164" fill="none" x="125" y="50">
+      <g id="g-svg-164" fill="none">
         <g id="g-svg-165" fill="none" transform="matrix(1,0,0,1,125,41.071796)">
           <g>
             <path
@@ -1597,7 +1577,7 @@
           <g id="g-svg-166" fill="none" class="indicator-label-group" />
         </g>
       </g>
-      <g id="g-svg-174" fill="none" x="0" y="-10">
+      <g id="g-svg-174" fill="none">
         <g id="g-svg-175" fill="none" transform="matrix(1,0,0,1,0,-18.928204)">
           <g>
             <path
@@ -1614,7 +1594,7 @@
           <g id="g-svg-176" fill="none" class="indicator-label-group" />
         </g>
       </g>
-      <g id="g-svg-182" fill="none" x="175" y="50">
+      <g id="g-svg-182" fill="none">
         <g id="g-svg-183" fill="none" transform="matrix(1,0,0,1,175,41.071796)">
           <g>
             <path
@@ -1631,7 +1611,7 @@
           <g id="g-svg-184" fill="none" class="indicator-label-group" />
         </g>
       </g>
-      <g id="g-svg-190" fill="none" x="12.5" y="-12.5">
+      <g id="g-svg-190" fill="none">
         <g
           id="g-svg-191"
           fill="none"
@@ -1652,7 +1632,7 @@
           <g id="g-svg-192" fill="none" class="indicator-label-group" />
         </g>
       </g>
-      <g id="g-svg-206" fill="none" x="0" y="-10">
+      <g id="g-svg-206" fill="none">
         <g id="g-svg-207" fill="none" transform="matrix(1,0,0,1,0,-18.928204)">
           <g>
             <path
@@ -1669,7 +1649,7 @@
           <g id="g-svg-208" fill="none" class="indicator-label-group" />
         </g>
       </g>
-      <g id="g-svg-226" fill="none" x="0" y="-10">
+      <g id="g-svg-226" fill="none">
         <g id="g-svg-227" fill="none" transform="matrix(1,0,0,1,0,-18.928204)">
           <g>
             <path
@@ -1686,7 +1666,7 @@
           <g id="g-svg-228" fill="none" class="indicator-label-group" />
         </g>
       </g>
-      <g id="g-svg-241" fill="none" x="87.5" y="100">
+      <g id="g-svg-241" fill="none">
         <g
           id="g-svg-242"
           fill="none"
@@ -1707,20 +1687,12 @@
           <g id="g-svg-243" fill="none" class="indicator-label-group" />
         </g>
       </g>
-      <g id="g-svg-245" fill="none" x="112.5" y="125">
+      <g id="g-svg-245" fill="none">
         <g>
           <path id="g-svg-246" fill="none" />
         </g>
         <g id="g-svg-247" fill="none">
-          <g
-            id="g-svg-248"
-            fill="none"
-            x="100"
-            y="115"
-            width="25"
-            height="20"
-            class="speed"
-          >
+          <g id="g-svg-248" fill="none" class="speed">
             <g>
               <path
                 id="g-svg-249"
@@ -1769,7 +1741,7 @@
                 visibility="hidden"
               />
               <g id="g-svg-252" fill="none" class="dropdown-container">
-                <g id="g-svg-253" fill="none" class="dropdown-item" width="25">
+                <g id="g-svg-253" fill="none" class="dropdown-item">
                   <g>
                     <path
                       id="g-svg-254"
@@ -1808,7 +1780,6 @@
                   id="g-svg-257"
                   fill="none"
                   class="dropdown-item"
-                  width="25"
                   transform="matrix(1,0,0,1,0,25)"
                 >
                   <g>
@@ -1849,7 +1820,6 @@
                   id="g-svg-261"
                   fill="none"
                   class="dropdown-item"
-                  width="25"
                   transform="matrix(1,0,0,1,0,50)"
                 >
                   <g>
@@ -1891,7 +1861,7 @@
           </g>
         </g>
       </g>
-      <g id="g-svg-265" fill="none" x="12.5" y="-12.5">
+      <g id="g-svg-265" fill="none">
         <g
           id="g-svg-266"
           fill="none"
@@ -1912,7 +1882,7 @@
           <g id="g-svg-267" fill="none" class="indicator-label-group" />
         </g>
       </g>
-      <g id="g-svg-273" fill="none" x="12.5" y="-12.5">
+      <g id="g-svg-273" fill="none">
         <g
           id="g-svg-274"
           fill="none"
@@ -1933,7 +1903,7 @@
           <g id="g-svg-275" fill="none" class="indicator-label-group" />
         </g>
       </g>
-      <g id="g-svg-281" fill="none" x="162.5" y="100">
+      <g id="g-svg-281" fill="none">
         <g
           id="g-svg-282"
           fill="none"
@@ -1954,7 +1924,7 @@
           <g id="g-svg-283" fill="none" class="indicator-label-group" />
         </g>
       </g>
-      <g id="g-svg-291" fill="none" x="0" y="-10">
+      <g id="g-svg-291" fill="none">
         <g id="g-svg-292" fill="none" transform="matrix(1,0,0,1,0,-18.928204)">
           <g>
             <path
@@ -1971,7 +1941,7 @@
           <g id="g-svg-293" fill="none" class="indicator-label-group" />
         </g>
       </g>
-      <g id="g-svg-299" fill="none" x="212.5" y="100">
+      <g id="g-svg-299" fill="none">
         <g
           id="g-svg-300"
           fill="none"
@@ -1992,7 +1962,7 @@
           <g id="g-svg-301" fill="none" class="indicator-label-group" />
         </g>
       </g>
-      <g id="g-svg-307" fill="none" x="12.5" y="-12.5">
+      <g id="g-svg-307" fill="none">
         <g
           id="g-svg-308"
           fill="none"
@@ -2013,7 +1983,7 @@
           <g id="g-svg-309" fill="none" class="indicator-label-group" />
         </g>
       </g>
-      <g id="g-svg-324" fill="none" x="0" y="-10">
+      <g id="g-svg-324" fill="none">
         <g id="g-svg-325" fill="none" transform="matrix(1,0,0,1,0,-18.928204)">
           <g>
             <path
@@ -2030,7 +2000,7 @@
           <g id="g-svg-326" fill="none" class="indicator-label-group" />
         </g>
       </g>
-      <g id="g-svg-339" fill="none" x="0" y="-10">
+      <g id="g-svg-339" fill="none">
         <g id="g-svg-340" fill="none" transform="matrix(1,0,0,1,0,-18.928204)">
           <g>
             <path

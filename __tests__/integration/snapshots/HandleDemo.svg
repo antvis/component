@@ -26,7 +26,7 @@
           </g>
           <g id="g-svg-4" fill="none" class="handle-label-group" />
         </g>
-        <g id="g-svg-2" fill="none" y="150" transform="matrix(1,0,0,1,100,150)">
+        <g id="g-svg-2" fill="none" transform="matrix(1,0,0,1,100,150)">
           <g id="g-svg-5" fill="none" class="handle-marker-group">
             <g id="g-svg-6" fill="none" class="handle-marker">
               <g>
@@ -60,7 +60,7 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-3" fill="none" y="200" transform="matrix(1,0,0,1,100,200)">
+        <g id="g-svg-3" fill="none" transform="matrix(1,0,0,1,100,200)">
           <g id="g-svg-10" fill="none" class="handle-marker-group">
             <g id="g-svg-11" fill="none" class="handle-marker">
               <g>
@@ -95,7 +95,7 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-4" fill="none" y="250" transform="matrix(1,0,0,1,100,250)">
+        <g id="g-svg-4" fill="none" transform="matrix(1,0,0,1,100,250)">
           <g id="g-svg-15" fill="none" class="handle-marker-group">
             <g id="g-svg-16" fill="none" class="handle-marker">
               <g>

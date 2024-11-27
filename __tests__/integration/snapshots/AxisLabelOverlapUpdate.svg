@@ -419,7 +419,7 @@
               y="0"
             />
           </g>
-          <g id="g-svg-17" fill="none" class="marker" x="10" y="15" />
+          <g id="g-svg-17" fill="none" class="marker" />
           <g>
             <text
               id="g-svg-18"
@@ -437,7 +437,7 @@
             </text>
           </g>
         </g>
-        <g id="g-svg-3" fill="none" x="80">
+        <g id="g-svg-3" fill="none">
           <g>
             <path
               id="g-svg-22"
@@ -452,7 +452,7 @@
               y="0"
             />
           </g>
-          <g id="g-svg-20" fill="none" class="marker" x="90" y="15" />
+          <g id="g-svg-20" fill="none" class="marker" />
           <g>
             <text
               id="g-svg-21"

@@ -22,11 +22,11 @@
             stroke-width="1"
           />
         </g>
-        <g id="g-svg-2" fill="none" x="10" y="10" width="300" height="50">
+        <g id="g-svg-2" fill="none">
           <g>
             <path id="g-svg-1" fill="none" class="container" />
           </g>
-          <g id="g-svg-2" fill="none" class="spark sparkcolumn" x="10" y="10">
+          <g id="g-svg-2" fill="none" class="spark sparkcolumn">
             <g
               id="g-svg-3"
               name="columns"
@@ -469,19 +469,11 @@
             stroke-width="1"
           />
         </g>
-        <g
-          id="g-svg-4"
-          fill="none"
-          x="10"
-          y="70"
-          width="300"
-          height="50"
-          transform="matrix(1,0,0,1,30,30)"
-        >
+        <g id="g-svg-4" fill="none" transform="matrix(1,0,0,1,30,30)">
           <g>
             <path id="g-svg-34" fill="none" class="container" />
           </g>
-          <g id="g-svg-35" fill="none" class="spark sparkcolumn" x="10" y="70">
+          <g id="g-svg-35" fill="none" class="spark sparkcolumn">
             <g
               id="g-svg-36"
               name="columns"

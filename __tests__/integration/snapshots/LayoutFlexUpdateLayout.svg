@@ -8,7 +8,7 @@
   <defs />
   <g id="g-svg-camera">
     <g id="g-root" fill="none">
-      <g id="g-svg-0" fill="none" width="600" height="300">
+      <g id="g-svg-0" fill="none">
         <g>
           <path
             id="g-svg-1"
@@ -2340,7 +2340,7 @@
             stroke="rgba(255,165,0,1)"
           />
         </g>
-        <g id="g-svg-5" fill="none" x="0" y="0" width="100" height="100">
+        <g id="g-svg-5" fill="none">
           <g>
             <path
               id="g-svg-7"
@@ -2408,15 +2408,7 @@
             stroke="rgba(255,165,0,1)"
           />
         </g>
-        <g
-          id="g-svg-11"
-          fill="none"
-          x="100"
-          y="0"
-          width="100"
-          height="100"
-          transform="matrix(1,0,0,1,100,0)"
-        >
+        <g id="g-svg-11" fill="none" transform="matrix(1,0,0,1,100,0)">
           <g transform="matrix(1,0,0,1,45,0)">
             <path
               id="g-svg-13"
@@ -2484,15 +2476,7 @@
             stroke="rgba(255,165,0,1)"
           />
         </g>
-        <g
-          id="g-svg-17"
-          fill="none"
-          x="200"
-          y="0"
-          width="100"
-          height="100"
-          transform="matrix(1,0,0,1,200,0)"
-        >
+        <g id="g-svg-17" fill="none" transform="matrix(1,0,0,1,200,0)">
           <g transform="matrix(1,0,0,1,90,0)">
             <path
               id="g-svg-19"
@@ -2560,15 +2544,7 @@
             stroke="rgba(255,165,0,1)"
           />
         </g>
-        <g
-          id="g-svg-23"
-          fill="none"
-          x="300"
-          y="0"
-          width="100"
-          height="100"
-          transform="matrix(1,0,0,1,300,0)"
-        >
+        <g id="g-svg-23" fill="none" transform="matrix(1,0,0,1,300,0)">
           <g transform="matrix(1,0,0,1,0,35)">
             <path
               id="g-svg-25"
@@ -2636,15 +2612,7 @@
             stroke="rgba(255,165,0,1)"
           />
         </g>
-        <g
-          id="g-svg-29"
-          fill="none"
-          x="400"
-          y="0"
-          width="100"
-          height="100"
-          transform="matrix(1,0,0,1,400,0)"
-        >
+        <g id="g-svg-29" fill="none" transform="matrix(1,0,0,1,400,0)">
           <g transform="matrix(1,0,0,1,45,35)">
             <path
               id="g-svg-31"
@@ -2712,15 +2680,7 @@
             stroke="rgba(255,165,0,1)"
           />
         </g>
-        <g
-          id="g-svg-35"
-          fill="none"
-          x="500"
-          y="0"
-          width="100"
-          height="100"
-          transform="matrix(1,0,0,1,500,0)"
-        >
+        <g id="g-svg-35" fill="none" transform="matrix(1,0,0,1,500,0)">
           <g transform="matrix(1,0,0,1,90,35)">
             <path
               id="g-svg-37"
@@ -2788,15 +2748,7 @@
             stroke="rgba(255,165,0,1)"
           />
         </g>
-        <g
-          id="g-svg-41"
-          fill="none"
-          x="0"
-          y="100"
-          width="100"
-          height="100"
-          transform="matrix(1,0,0,1,0,100)"
-        >
+        <g id="g-svg-41" fill="none" transform="matrix(1,0,0,1,0,100)">
           <g transform="matrix(1,0,0,1,0,70)">
             <path
               id="g-svg-43"
@@ -2864,15 +2816,7 @@
             stroke="rgba(255,165,0,1)"
           />
         </g>
-        <g
-          id="g-svg-47"
-          fill="none"
-          x="100"
-          y="100"
-          width="100"
-          height="100"
-          transform="matrix(1,0,0,1,100,100)"
-        >
+        <g id="g-svg-47" fill="none" transform="matrix(1,0,0,1,100,100)">
           <g transform="matrix(1,0,0,1,45,70)">
             <path
               id="g-svg-49"
@@ -2940,15 +2884,7 @@
             stroke="rgba(255,165,0,1)"
           />
         </g>
-        <g
-          id="g-svg-53"
-          fill="none"
-          x="200"
-          y="100"
-          width="100"
-          height="100"
-          transform="matrix(1,0,0,1,200,100)"
-        >
+        <g id="g-svg-53" fill="none" transform="matrix(1,0,0,1,200,100)">
           <g transform="matrix(1,0,0,1,90,70)">
             <path
               id="g-svg-55"
@@ -3016,15 +2952,7 @@
             stroke="rgba(255,165,0,1)"
           />
         </g>
-        <g
-          id="g-svg-59"
-          fill="none"
-          x="300"
-          y="100"
-          width="100"
-          height="100"
-          transform="matrix(1,0,0,1,300,100)"
-        >
+        <g id="g-svg-59" fill="none" transform="matrix(1,0,0,1,300,100)">
           <g>
             <path
               id="g-svg-61"
@@ -3092,15 +3020,7 @@
             stroke="rgba(255,165,0,1)"
           />
         </g>
-        <g
-          id="g-svg-65"
-          fill="none"
-          x="400"
-          y="100"
-          width="100"
-          height="100"
-          transform="matrix(1,0,0,1,400,100)"
-        >
+        <g id="g-svg-65" fill="none" transform="matrix(1,0,0,1,400,100)">
           <g transform="matrix(1,0,0,1,0,45)">
             <path
               id="g-svg-67"
@@ -3168,15 +3088,7 @@
             stroke="rgba(255,165,0,1)"
           />
         </g>
-        <g
-          id="g-svg-71"
-          fill="none"
-          x="500"
-          y="100"
-          width="100"
-          height="100"
-          transform="matrix(1,0,0,1,500,100)"
-        >
+        <g id="g-svg-71" fill="none" transform="matrix(1,0,0,1,500,100)">
           <g transform="matrix(1,0,0,1,0,90)">
             <path
               id="g-svg-73"
@@ -3244,15 +3156,7 @@
             stroke="rgba(255,165,0,1)"
           />
         </g>
-        <g
-          id="g-svg-77"
-          fill="none"
-          x="0"
-          y="200"
-          width="100"
-          height="100"
-          transform="matrix(1,0,0,1,0,200)"
-        >
+        <g id="g-svg-77" fill="none" transform="matrix(1,0,0,1,0,200)">
           <g transform="matrix(1,0,0,1,35,0)">
             <path
               id="g-svg-79"
@@ -3320,15 +3224,7 @@
             stroke="rgba(255,165,0,1)"
           />
         </g>
-        <g
-          id="g-svg-83"
-          fill="none"
-          x="100"
-          y="200"
-          width="100"
-          height="100"
-          transform="matrix(1,0,0,1,100,200)"
-        >
+        <g id="g-svg-83" fill="none" transform="matrix(1,0,0,1,100,200)">
           <g transform="matrix(1,0,0,1,35,45)">
             <path
               id="g-svg-85"
@@ -3396,15 +3292,7 @@
             stroke="rgba(255,165,0,1)"
           />
         </g>
-        <g
-          id="g-svg-89"
-          fill="none"
-          x="200"
-          y="200"
-          width="100"
-          height="100"
-          transform="matrix(1,0,0,1,200,200)"
-        >
+        <g id="g-svg-89" fill="none" transform="matrix(1,0,0,1,200,200)">
           <g transform="matrix(1,0,0,1,35,90)">
             <path
               id="g-svg-91"
@@ -3472,15 +3360,7 @@
             stroke="rgba(255,165,0,1)"
           />
         </g>
-        <g
-          id="g-svg-95"
-          fill="none"
-          x="300"
-          y="200"
-          width="100"
-          height="100"
-          transform="matrix(1,0,0,1,300,200)"
-        >
+        <g id="g-svg-95" fill="none" transform="matrix(1,0,0,1,300,200)">
           <g transform="matrix(1,0,0,1,70,0)">
             <path
               id="g-svg-97"
@@ -3548,15 +3428,7 @@
             stroke="rgba(255,165,0,1)"
           />
         </g>
-        <g
-          id="g-svg-101"
-          fill="none"
-          x="400"
-          y="200"
-          width="100"
-          height="100"
-          transform="matrix(1,0,0,1,400,200)"
-        >
+        <g id="g-svg-101" fill="none" transform="matrix(1,0,0,1,400,200)">
           <g transform="matrix(1,0,0,1,70,45)">
             <path
               id="g-svg-103"
@@ -3624,15 +3496,7 @@
             stroke="rgba(255,165,0,1)"
           />
         </g>
-        <g
-          id="g-svg-107"
-          fill="none"
-          x="500"
-          y="200"
-          width="100"
-          height="100"
-          transform="matrix(1,0,0,1,500,200)"
-        >
+        <g id="g-svg-107" fill="none" transform="matrix(1,0,0,1,500,200)">
           <g transform="matrix(1,0,0,1,70,90)">
             <path
               id="g-svg-109"

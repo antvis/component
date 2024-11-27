@@ -145,7 +145,7 @@
   </defs>
   <g id="g-svg-camera">
     <g id="g-root" fill="none">
-      <g id="g-svg-0" fill="none" width="410" height="210">
+      <g id="g-svg-0" fill="none">
         <g id="g-svg-1" fill="none">
           <g id="g-svg-1" fill="none" class="ribbon-background-group">
             <g>
@@ -176,13 +176,7 @@
             </g>
           </g>
         </g>
-        <g
-          id="g-svg-2"
-          fill="none"
-          x="0"
-          y="30"
-          transform="matrix(1,0,0,1,0,30)"
-        >
+        <g id="g-svg-2" fill="none" transform="matrix(1,0,0,1,0,30)">
           <g id="g-svg-6" fill="none" class="ribbon-background-group">
             <g>
               <path
@@ -212,13 +206,7 @@
             </g>
           </g>
         </g>
-        <g
-          id="g-svg-3"
-          fill="none"
-          x="0"
-          y="60"
-          transform="matrix(1,0,0,1,0,60)"
-        >
+        <g id="g-svg-3" fill="none" transform="matrix(1,0,0,1,0,60)">
           <g id="g-svg-11" fill="none" class="ribbon-background-group">
             <g>
               <path
@@ -248,13 +236,7 @@
             </g>
           </g>
         </g>
-        <g
-          id="g-svg-4"
-          fill="none"
-          x="0"
-          y="90"
-          transform="matrix(1,0,0,1,0,90)"
-        >
+        <g id="g-svg-4" fill="none" transform="matrix(1,0,0,1,0,90)">
           <g id="g-svg-16" fill="none" class="ribbon-background-group">
             <g>
               <path
@@ -284,13 +266,7 @@
             </g>
           </g>
         </g>
-        <g
-          id="g-svg-5"
-          fill="none"
-          x="0"
-          y="120"
-          transform="matrix(1,0,0,1,0,120)"
-        >
+        <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,0,120)">
           <g id="g-svg-21" fill="none" class="ribbon-background-group">
             <g>
               <path
@@ -320,13 +296,7 @@
             </g>
           </g>
         </g>
-        <g
-          id="g-svg-6"
-          fill="none"
-          x="0"
-          y="150"
-          transform="matrix(1,0,0,1,0,150)"
-        >
+        <g id="g-svg-6" fill="none" transform="matrix(1,0,0,1,0,150)">
           <g id="g-svg-26" fill="none" class="ribbon-background-group">
             <g>
               <path
@@ -356,13 +326,7 @@
             </g>
           </g>
         </g>
-        <g
-          id="g-svg-7"
-          fill="none"
-          x="0"
-          y="180"
-          transform="matrix(1,0,0,1,0,180)"
-        >
+        <g id="g-svg-7" fill="none" transform="matrix(1,0,0,1,0,180)">
           <g id="g-svg-31" fill="none" class="ribbon-background-group">
             <g>
               <path
@@ -392,13 +356,7 @@
             </g>
           </g>
         </g>
-        <g
-          id="g-svg-8"
-          fill="none"
-          x="200"
-          y="0"
-          transform="matrix(1,0,0,1,200,0)"
-        >
+        <g id="g-svg-8" fill="none" transform="matrix(1,0,0,1,200,0)">
           <g id="g-svg-36" fill="none" class="ribbon-background-group">
             <g>
               <path
@@ -428,13 +386,7 @@
             </g>
           </g>
         </g>
-        <g
-          id="g-svg-9"
-          fill="none"
-          x="230"
-          y="0"
-          transform="matrix(1,0,0,1,230,0)"
-        >
+        <g id="g-svg-9" fill="none" transform="matrix(1,0,0,1,230,0)">
           <g id="g-svg-41" fill="none" class="ribbon-background-group">
             <g>
               <path
@@ -464,13 +416,7 @@
             </g>
           </g>
         </g>
-        <g
-          id="g-svg-10"
-          fill="none"
-          x="260"
-          y="0"
-          transform="matrix(1,0,0,1,260,0)"
-        >
+        <g id="g-svg-10" fill="none" transform="matrix(1,0,0,1,260,0)">
           <g id="g-svg-46" fill="none" class="ribbon-background-group">
             <g>
               <path
@@ -500,13 +446,7 @@
             </g>
           </g>
         </g>
-        <g
-          id="g-svg-11"
-          fill="none"
-          x="290"
-          y="0"
-          transform="matrix(1,0,0,1,290,0)"
-        >
+        <g id="g-svg-11" fill="none" transform="matrix(1,0,0,1,290,0)">
           <g id="g-svg-51" fill="none" class="ribbon-background-group">
             <g>
               <path
@@ -536,13 +476,7 @@
             </g>
           </g>
         </g>
-        <g
-          id="g-svg-12"
-          fill="none"
-          x="320"
-          y="0"
-          transform="matrix(1,0,0,1,320,0)"
-        >
+        <g id="g-svg-12" fill="none" transform="matrix(1,0,0,1,320,0)">
           <g id="g-svg-56" fill="none" class="ribbon-background-group">
             <g>
               <path
@@ -572,13 +506,7 @@
             </g>
           </g>
         </g>
-        <g
-          id="g-svg-13"
-          fill="none"
-          x="350"
-          y="0"
-          transform="matrix(1,0,0,1,350,0)"
-        >
+        <g id="g-svg-13" fill="none" transform="matrix(1,0,0,1,350,0)">
           <g id="g-svg-61" fill="none" class="ribbon-background-group">
             <g>
               <path
@@ -608,13 +536,7 @@
             </g>
           </g>
         </g>
-        <g
-          id="g-svg-14"
-          fill="none"
-          x="380"
-          y="0"
-          transform="matrix(1,0,0,1,380,0)"
-        >
+        <g id="g-svg-14" fill="none" transform="matrix(1,0,0,1,380,0)">
           <g id="g-svg-66" fill="none" class="ribbon-background-group">
             <g>
               <path
