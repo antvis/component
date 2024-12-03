@@ -8,7 +8,7 @@
   <defs />
   <g id="g-svg-camera">
     <g id="g-root" fill="none">
-      <g id="g-svg-0" fill="none" width="650" height="150">
+      <g id="g-svg-0" fill="none">
         <g id="g-svg-1" fill="none">
           <g id="g-svg-4" fill="none" class="axis-grid-group">
             <g id="g-svg-5" fill="none" class="axis-grid">
@@ -1177,7 +1177,7 @@
           </g>
           <g id="g-svg-82" fill="none" class="axis-title-group" />
         </g>
-        <g id="g-svg-2" fill="none" x="50" y="100">
+        <g id="g-svg-2" fill="none">
           <g>
             <path
               id="g-svg-74"
@@ -1192,7 +1192,7 @@
               y="100"
             />
           </g>
-          <g id="g-svg-72" fill="none" class="marker" x="60" y="115" />
+          <g id="g-svg-72" fill="none" class="marker" />
           <g>
             <text
               id="g-svg-73"
@@ -1210,7 +1210,7 @@
             </text>
           </g>
         </g>
-        <g id="g-svg-3" fill="none" x="150" y="100">
+        <g id="g-svg-3" fill="none">
           <g>
             <path
               id="g-svg-77"
@@ -1225,7 +1225,7 @@
               y="100"
             />
           </g>
-          <g id="g-svg-75" fill="none" class="marker" x="160" y="115" />
+          <g id="g-svg-75" fill="none" class="marker" />
           <g>
             <text
               id="g-svg-76"

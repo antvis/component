@@ -9,8 +9,8 @@
   <g id="g-svg-camera">
     <g id="g-root" fill="none">
       <g id="g-svg-0" fill="none">
-        <g id="g-svg-1" fill="none" x="20" y="20">
-          <g id="g-svg-1" fill="none" x="20" y="20" class="scrollbar">
+        <g id="g-svg-1" fill="none">
+          <g id="g-svg-1" fill="none" class="scrollbar">
             <g>
               <path
                 id="g-svg-2"
@@ -25,15 +25,7 @@
               />
             </g>
             <g id="g-svg-3" fill="none" class="slider-sparkline-group">
-              <g
-                id="g-svg-4"
-                fill="none"
-                x="20"
-                y="20"
-                width="296"
-                height="6"
-                class="slider-sparkline"
-              >
+              <g id="g-svg-4" fill="none" class="slider-sparkline">
                 <g>
                   <path id="g-svg-5" fill="none" class="container" />
                 </g>
@@ -41,8 +33,6 @@
                   id="g-svg-6"
                   fill="none"
                   class="spark sparkline"
-                  x="20"
-                  y="20"
                   transform="matrix(1,0,0,1,20,20)"
                 >
                   <g id="g-svg-7" fill="none" />

@@ -14,15 +14,9 @@
     <g id="g-root" fill="none">
       <g id="g-svg-0" fill="none">
         <g id="g-svg-1" fill="none">
-          <g id="g-svg-2" fill="none" width="455" height="50">
+          <g id="g-svg-2" fill="none">
             <g id="g-svg-1" fill="none" class="legend-title-group">
-              <g
-                id="g-svg-2"
-                fill="none"
-                width="455"
-                height="50"
-                class="legend-title"
-              >
+              <g id="g-svg-2" fill="none" class="legend-title">
                 <g>
                   <text
                     id="g-svg-3"
@@ -50,16 +44,8 @@
               transform="matrix(1,0,0,1,0,27)"
               class="legend-items-group"
             >
-              <g
-                id="g-svg-5"
-                fill="none"
-                width="455"
-                height="23"
-                x="0"
-                y="0"
-                class="legend-items"
-              >
-                <g id="g-svg-6" fill="none" x="0" y="0" class="items-navigator">
+              <g id="g-svg-5" fill="none" class="legend-items">
+                <g id="g-svg-6" fill="none" class="items-navigator">
                   <g
                     id="g-svg-7"
                     fill="none"
@@ -68,15 +54,7 @@
                   >
                     <g id="g-svg-8" fill="none" class="navigator-play-window">
                       <g id="g-svg-20" fill="none" class="items-item-page">
-                        <g
-                          id="g-svg-10"
-                          fill="none"
-                          class="items-item"
-                          x="0"
-                          y="0"
-                          width="113.75"
-                          height="23"
-                        >
+                        <g id="g-svg-10" fill="none" class="items-item">
                           <g
                             id="g-svg-18"
                             fill="none"

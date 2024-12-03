@@ -30,14 +30,8 @@
   </defs>
   <g id="g-svg-camera">
     <g id="g-root" fill="none">
-      <g id="g-svg-0" fill="none" width="810" height="350">
-        <g
-          id="g-svg-1"
-          fill="none"
-          x="100"
-          y="100"
-          transform="matrix(1,0,0,1,100,100)"
-        >
+      <g id="g-svg-0" fill="none">
+        <g id="g-svg-1" fill="none" transform="matrix(1,0,0,1,100,100)">
           <g
             id="g-svg-2"
             fill="none"
@@ -286,13 +280,7 @@
             </g>
           </g>
         </g>
-        <g
-          id="g-svg-19"
-          fill="none"
-          x="300"
-          y="100"
-          transform="matrix(1,0,0,1,300,100)"
-        >
+        <g id="g-svg-19" fill="none" transform="matrix(1,0,0,1,300,100)">
           <g
             id="g-svg-20"
             fill="none"
@@ -541,13 +529,7 @@
             </g>
           </g>
         </g>
-        <g
-          id="g-svg-37"
-          fill="none"
-          x="450"
-          y="100"
-          transform="matrix(1,0,0,1,450,100)"
-        >
+        <g id="g-svg-37" fill="none" transform="matrix(1,0,0,1,450,100)">
           <g
             id="g-svg-38"
             fill="none"
@@ -796,13 +778,7 @@
             </g>
           </g>
         </g>
-        <g
-          id="g-svg-55"
-          fill="none"
-          x="650"
-          y="100"
-          transform="matrix(1,0,0,1,650,100)"
-        >
+        <g id="g-svg-55" fill="none" transform="matrix(1,0,0,1,650,100)">
           <g
             id="g-svg-56"
             fill="none"
@@ -1056,13 +1032,7 @@
             </g>
           </g>
         </g>
-        <g
-          id="g-svg-73"
-          fill="none"
-          x="100"
-          y="250"
-          transform="matrix(1,0,0,1,100,250)"
-        >
+        <g id="g-svg-73" fill="none" transform="matrix(1,0,0,1,100,250)">
           <g
             id="g-svg-74"
             fill="none"
@@ -1316,13 +1286,7 @@
             </g>
           </g>
         </g>
-        <g
-          id="g-svg-91"
-          fill="none"
-          x="300"
-          y="250"
-          transform="matrix(1,0,0,1,300,250)"
-        >
+        <g id="g-svg-91" fill="none" transform="matrix(1,0,0,1,300,250)">
           <g
             id="g-svg-92"
             fill="none"
@@ -2086,13 +2050,7 @@
             </g>
           </g>
         </g>
-        <g
-          id="g-svg-154"
-          fill="none"
-          x="500"
-          y="250"
-          transform="matrix(1,0,0,1,500,250)"
-        >
+        <g id="g-svg-154" fill="none" transform="matrix(1,0,0,1,500,250)">
           <g
             id="g-svg-155"
             fill="none"

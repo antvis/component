@@ -20,19 +20,11 @@
             stroke-width="1"
           />
         </g>
-        <g
-          id="g-svg-2"
-          fill="none"
-          x="0"
-          y="0"
-          width="300"
-          height="50"
-          transform="matrix(1,0,0,1,10,10)"
-        >
+        <g id="g-svg-2" fill="none" transform="matrix(1,0,0,1,10,10)">
           <g>
             <path id="g-svg-1" fill="none" class="container" />
           </g>
-          <g id="g-svg-2" fill="none" class="spark sparkline" x="0" y="0">
+          <g id="g-svg-2" fill="none" class="spark sparkline">
             <g id="g-svg-3" fill="none">
               <g>
                 <path
@@ -109,19 +101,11 @@
             stroke-width="1"
           />
         </g>
-        <g
-          id="g-svg-4"
-          fill="none"
-          x="0"
-          y="0"
-          width="300"
-          height="50"
-          transform="matrix(1,0,0,1,10,70)"
-        >
+        <g id="g-svg-4" fill="none" transform="matrix(1,0,0,1,10,70)">
           <g>
             <path id="g-svg-11" fill="none" class="container" />
           </g>
-          <g id="g-svg-12" fill="none" class="spark sparkline" x="0" y="0">
+          <g id="g-svg-12" fill="none" class="spark sparkline">
             <g id="g-svg-13" fill="none">
               <g>
                 <path

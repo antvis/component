@@ -1751,7 +1751,7 @@
             r="2"
           />
         </g>
-        <g id="g-svg-5" fill="none" x="50" y="50">
+        <g id="g-svg-5" fill="none">
           <g id="g-svg-6" fill="none" transform="matrix(1,0,0,1,19.111797,50)">
             <g>
               <path
@@ -1789,7 +1789,7 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-8" fill="none" x="50" y="80">
+        <g id="g-svg-8" fill="none">
           <g id="g-svg-9" fill="none" transform="matrix(1,0,0,1,1.831797,80)">
             <g>
               <path
@@ -1827,7 +1827,7 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-11" fill="none" x="50" y="110">
+        <g id="g-svg-11" fill="none">
           <g id="g-svg-12" fill="none" transform="matrix(1,0,0,1,1.831797,110)">
             <g>
               <path
@@ -1865,7 +1865,7 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-14" fill="none" x="50" y="140">
+        <g id="g-svg-14" fill="none">
           <g id="g-svg-15" fill="none" transform="matrix(1,0,0,1,5.191797,140)">
             <g>
               <path
@@ -1913,7 +1913,7 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-18" fill="none" x="50" y="170">
+        <g id="g-svg-18" fill="none">
           <g
             id="g-svg-19"
             fill="none"
@@ -1955,7 +1955,7 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-21" fill="none" x="50" y="200">
+        <g id="g-svg-21" fill="none">
           <g
             id="g-svg-22"
             fill="none"
@@ -1997,7 +1997,7 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-24" fill="none" x="50" y="230">
+        <g id="g-svg-24" fill="none">
           <g
             id="g-svg-25"
             fill="none"
@@ -2039,7 +2039,7 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-27" fill="none" x="50" y="260">
+        <g id="g-svg-27" fill="none">
           <g
             id="g-svg-28"
             fill="none"
@@ -2091,7 +2091,7 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-31" fill="none" x="150" y="50">
+        <g id="g-svg-31" fill="none">
           <g
             id="g-svg-32"
             fill="none"
@@ -2133,7 +2133,7 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-34" fill="none" x="150" y="80">
+        <g id="g-svg-34" fill="none">
           <g
             id="g-svg-35"
             fill="none"
@@ -2175,7 +2175,7 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-37" fill="none" x="150" y="110">
+        <g id="g-svg-37" fill="none">
           <g
             id="g-svg-38"
             fill="none"
@@ -2217,7 +2217,7 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-40" fill="none" x="150" y="140">
+        <g id="g-svg-40" fill="none">
           <g
             id="g-svg-41"
             fill="none"
@@ -2269,7 +2269,7 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-44" fill="none" x="150" y="180">
+        <g id="g-svg-44" fill="none">
           <g
             id="g-svg-45"
             fill="none"
@@ -2311,7 +2311,7 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-47" fill="none" x="150" y="220">
+        <g id="g-svg-47" fill="none">
           <g
             id="g-svg-48"
             fill="none"
@@ -2353,7 +2353,7 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-50" fill="none" x="150" y="250">
+        <g id="g-svg-50" fill="none">
           <g
             id="g-svg-51"
             fill="none"
@@ -2395,7 +2395,7 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-53" fill="none" x="150" y="290">
+        <g id="g-svg-53" fill="none">
           <g
             id="g-svg-54"
             fill="none"
@@ -2447,7 +2447,7 @@
             </g>
           </g>
         </g>
-        <g id="g-svg-64" fill="none" x="250" y="100">
+        <g id="g-svg-64" fill="none">
           <g
             id="g-svg-65"
             fill="none"

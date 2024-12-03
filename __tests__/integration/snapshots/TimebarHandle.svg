@@ -8,7 +8,7 @@
   <defs />
   <g id="g-svg-camera">
     <g id="g-root" fill="none">
-      <g id="g-svg-0" fill="none" width="50" height="80">
+      <g id="g-svg-0" fill="none">
         <g>
           <path
             id="g-svg-1"
@@ -30,7 +30,7 @@
             cy="10"
           />
         </g>
-        <g id="g-svg-3" fill="none" x="10" y="50" width="10" height="50">
+        <g id="g-svg-3" fill="none">
           <g>
             <path
               id="g-svg-1"
@@ -84,7 +84,7 @@
             />
           </g>
         </g>
-        <g id="g-svg-4" fill="none" x="25" y="50" width="10" height="50">
+        <g id="g-svg-4" fill="none">
           <g>
             <path
               id="g-svg-5"
@@ -138,7 +138,7 @@
             />
           </g>
         </g>
-        <g id="g-svg-5" fill="none" x="40" y="50" width="10" height="50">
+        <g id="g-svg-5" fill="none">
           <g>
             <path
               id="g-svg-9"
