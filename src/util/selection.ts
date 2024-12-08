@@ -1,5 +1,6 @@
 // @ts-nocheck
 import type { IAnimation, IDocument } from '@antv/g';
+import { flatten } from '@antv/util';
 import type { AnimationResult } from '../animation';
 import type { BaseStyleProps as BP, DisplayObject } from '../shapes';
 import { Circle, Ellipse, Group, HTML, Image, Line, Path, Polygon, Polyline, Rect, Text } from '../shapes';
@@ -356,11 +357,14 @@ export class Selection<T = any> {
     });
   }
 
-  transition(callback?: (datum: T, index: number) => (null | IAnimation) | (null | IAnimation)[]): Selection<T> {
+  transition(callback?: (datum: T, index: number) => AnimationResult | AnimationResult[]): Selection<T> {
     const { _transitions: T } = this;
-    return this.each(function (d, i) {
-      T[i] = callback.call(this, d, i);
+    const newTransitions = new Array<ReturnType<Exclude<typeof callback, undefined>>>(this._elements.length);
+    this.each(function (d, i) {
+      newTransitions[i] = callback.call(this, d, i);
     });
+    this._transitions = flatten(newTransitions);
+    return this;
   }
 
   on(event: string, handler: any) {
