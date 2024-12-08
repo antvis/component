@@ -56,6 +56,9 @@ export type SliderStyleProps = GroupStyleProps &
     /** 是否可滑动 */
     slidable?: boolean;
 
+    /** 左右滑块可交换位置 */
+    enableHandleSwap?: boolean;
+
     /** 轨道长度 */
     trackLength?: number;
 

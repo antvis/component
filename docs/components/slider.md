@@ -18,6 +18,7 @@ import { Slider } from '@antv/component';
 | brushable          | `boolean`                            | 是否支持刷选                                         | `true`       |
 | slidable           | `boolean`                            | 是否支持拖动                                         | `true`       |
 | scrollable         | `boolean`                            | 是否支持滚动                                         | `true`       |
+| enableHandleSwap   | `boolean`                            | 左右滑块可交换位置                                    | `false`      |
 | padding            | `number` &#124; `number[]`           | 内边距                                               | `0`          |
 | `selection{Style}` | `StyleProps`                         | 选区样式                                             | `-`          |
 | selectionType    | `select` &#124; `invert`             | 选区类型，中间选取/两端反选                          |              |

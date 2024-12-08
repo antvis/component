@@ -567,7 +567,7 @@ export class Slider extends Component<SliderStyleProps> {
   };
 
   private onDragging = (e: any) => {
-    const { slidable, brushable, type } = this.attributes;
+    const { slidable, brushable, type, enableHandleSwap } = this.attributes;
     e.stopPropagation();
 
     const currPos = this.getOrientVal(getEventPos(e));
@@ -575,13 +575,27 @@ export class Slider extends Component<SliderStyleProps> {
 
     if (!diffPos) return;
     const deltaVal = this.getRatio(diffPos);
-
+    const [startVal, endVal] = this.getValues() || [];
     switch (this.target) {
       case 'start':
-        if (slidable) this.setValuesOffset(deltaVal);
+        if (slidable) {
+          if (enableHandleSwap && startVal + deltaVal >= endVal) {
+            this.setValuesOffset(endVal - startVal, 0);
+            this.target = 'end';
+          } else {
+            this.setValuesOffset(deltaVal);
+          }
+        }
         break;
       case 'end':
-        if (slidable) this.setValuesOffset(0, deltaVal);
+        if (slidable) {
+          if (enableHandleSwap && endVal + deltaVal <= startVal) {
+            this.setValuesOffset(0, startVal - endVal);
+            this.target = 'start';
+          } else {
+            this.setValuesOffset(0, deltaVal);
+          }
+        }
         break;
       case 'selection':
         if (slidable) this.setValuesOffset(deltaVal, deltaVal);
