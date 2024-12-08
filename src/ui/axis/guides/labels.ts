@@ -260,14 +260,9 @@ export function renderLabels(
       }
     )
     .transitions();
-  // check overlapping eagerly
-  overlapHandler.call(container, attr);
-  if (transitions.length) {
-    // check again due to some nodes have been removed
-    // or their positions have changed after transitions finished
-    onAnimatesFinished(transitions, () => {
-      overlapHandler.call(container, attr);
-    });
-  }
+  // handle overlapping after transitions finished
+  onAnimatesFinished(transitions, () => {
+    overlapHandler.call(container, attr);
+  });
   return transitions;
 }
