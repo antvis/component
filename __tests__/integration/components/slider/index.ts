@@ -16,3 +16,4 @@ export { Handle2 } from './handle-2';
 export { HandleUpdate } from './handle-update';
 export { SliderValueType } from './slider-value-type';
 export { SliderTimebar } from './slider-timebar';
+export { SliderSwapHandle } from './slider-swap-handle';
