@@ -1,5 +1,5 @@
 import type { IAnimation } from '@antv/g';
-import { get, isFunction } from '@antv/util';
+import { flatten, get, isFunction } from '@antv/util';
 import type { StandardAnimationOption } from '../../../animation';
 import { fadeOut, onAnimateFinished, onAnimatesFinished, transition, transitionShape } from '../../../animation';
 import type { DisplayObject, TextStyleProps } from '../../../shapes';
@@ -223,7 +223,8 @@ export function renderLabels(
 ) {
   const finalData = filterExec(data, attr.labelFilter);
   const style = subStyleProps<AxisLabelStyleProps>(attr, 'label');
-  return container
+  let _exit!: Selection<AxisDatum>;
+  const transitions = container
     .selectAll(CLASS_NAMES.label.class)
     .data(finalData, (d, i) => i)
     .join(
@@ -237,33 +238,31 @@ export function renderLabels(
             // .axis-label
             this.style.transform = `translate(${x}, ${y})`;
             return null;
-          })
-          .call(() => {
-            overlapHandler.call(container, attr);
           }),
       (update) =>
-        update
-          .transition(function (datum) {
-            const prevLabel = this.querySelector(CLASS_NAMES.labelItem.class);
-            const label = renderLabel(this, datum, data, style, attr);
-            const shapeAnimation = transitionShape(prevLabel, label, animate.update);
-            const { x, y } = getLabelPos(datum, data, attr);
-            const animation = transition(this, { transform: `translate(${x}, ${y})` }, animate.update);
-            return [...shapeAnimation, animation];
-            // return [animation];
-          })
-          .call((selection) => {
-            const transitions = get(selection, '_transitions').flat().filter(defined) as IAnimation[];
-            onAnimatesFinished(transitions, () => {
-              overlapHandler.call(container, attr);
-            });
-          }),
-      (exit) =>
+        update.transition(function (datum) {
+          const prevLabel = this.querySelector(CLASS_NAMES.labelItem.class);
+          const label = renderLabel(this, datum, data, style, attr);
+          const shapeAnimation = transitionShape(prevLabel, label, animate.update);
+          const { x, y } = getLabelPos(datum, data, attr);
+          const animation = transition(this, { transform: `translate(${x}, ${y})` }, animate.update);
+          return [...shapeAnimation, animation];
+          // return [animation];
+        }),
+      (exit) => {
+        _exit = exit;
         exit.transition(function () {
           const animation = fadeOut(this.childNodes[0], animate.exit);
           onAnimateFinished(animation, () => select(this).remove());
           return animation;
-        })
+        });
+        return _exit;
+      }
     )
     .transitions();
+  // handle overlapping after transitions finished
+  onAnimatesFinished(transitions, () => {
+    overlapHandler.call(container, attr);
+  });
+  return transitions;
 }
