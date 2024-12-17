@@ -37,12 +37,13 @@ export const CHECKBOX_RECT_STYLE = {
 
 const CHECKED_SHAPE_PATH = [
   ['M', 3, 6],
-  ['L', '5', '8.5'],
-  ['L', '8.5', '4'],
-] as any;
+  ['L', 5, 8.5],
+  ['L', 8.5, 4],
+];
 
 export const CHECKED_SHAPE_STYLE = {
   d: CHECKED_SHAPE_PATH,
   lineWidth: 1,
   cursor: 'pointer',
+  fill: 'none',
 };

@@ -67,4 +67,4 @@ export const AxisAnimationDisable = () => {
   return group;
 };
 
-AxisAnimationDisable.tags = ['坐标轴', '动画', '更新'];
+AxisAnimationDisable.tags = ['Axis', 'Animation', 'Update'];
