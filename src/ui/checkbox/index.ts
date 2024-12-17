@@ -38,6 +38,8 @@ export class Checkbox extends Component<CheckboxStyleProps> {
       ...boxStyle,
     };
 
+    const checkboxBoxCheckedStyle = { ...CHECKED_SHAPE_STYLE, ...checkedStyle };
+
     // Create the box first
     this.checkboxBoxShape = maybeAppend(group, '.checkbox-box', 'rect')
       .styles({
@@ -52,7 +54,8 @@ export class Checkbox extends Component<CheckboxStyleProps> {
         className: 'checkbox-box-checked',
         stroke: '#fff',
         ...CHECKED_SHAPE_STYLE,
-        zIndex: 1, // Ensure it's drawn above the box
+        ...checkboxBoxCheckedStyle,
+        zIndex: 9, // Ensure it's drawn above the box
       });
     }
 
