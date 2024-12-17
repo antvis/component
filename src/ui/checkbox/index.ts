@@ -5,9 +5,13 @@ import type { CheckboxOptions, CheckboxStyleProps } from './types';
 
 import { CHECKBOX_RECT_STYLE, CHECKED_SHAPE_STYLE, LABEL_TEXT_STYLE } from './constant';
 
+export type { CheckboxOptions };
+
 export class Checkbox extends Component<CheckboxStyleProps> {
   public static tag = 'checkbox';
+
   private checkboxBoxShape!: Rect;
+
   private checked!: boolean;
 
   constructor(options: CheckboxOptions) {
@@ -23,9 +27,7 @@ export class Checkbox extends Component<CheckboxStyleProps> {
     const { checked, spacing } = attributes;
     this.checked = !!checked;
 
-    const group = maybeAppend(container, '.checkbox-content', 'g')
-      .attr('className', 'checkbox-content')
-      .node();
+    const group = maybeAppend(container, '.checkbox-content', 'g').attr('className', 'checkbox-content').node();
 
     const boxStyle = subStyleProps(attributes, 'box');
     const checkedStyle = subStyleProps(attributes, 'checked');
@@ -46,13 +48,12 @@ export class Checkbox extends Component<CheckboxStyleProps> {
 
     // Only draw the checkmark if checked
     if (this.checked) {
-      maybeAppend(group, '.checkbox-box-checked', 'path')
-        .styles({
-          className: 'checkbox-box-checked',
-          stroke: '#fff',
-          ...CHECKED_SHAPE_STYLE,
-          zIndex: 1, // Ensure it's drawn above the box
-        });
+      maybeAppend(group, '.checkbox-box-checked', 'path').styles({
+        className: 'checkbox-box-checked',
+        stroke: '#fff',
+        ...CHECKED_SHAPE_STYLE,
+        zIndex: 1, // Ensure it's drawn above the box
+      });
     }
 
     const { x, y } = this.getLabelPosition(this.checkboxBoxShape, Number(spacing));
