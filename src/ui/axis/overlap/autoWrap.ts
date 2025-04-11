@@ -1,3 +1,4 @@
+import { parseSeriesAttr } from '../../../util';
 import type { Text } from '../../../shapes';
 import { isAxisHorizontal } from '../guides/line';
 import { AxisStyleProps, LinearAxisStyleProps, WrapOverlapCfg } from '../types';
@@ -9,6 +10,8 @@ export type Utils = {
 
 type WrapType = Parameters<Utils['wrap']>[1];
 
+const DEFAULT_WRAP_WIDTH = 50;
+
 function inferTextBaseline(attr: AxisStyleProps) {
   const { type, labelDirection } = attr;
   if (type === 'linear' && isAxisHorizontal(attr as Required<LinearAxisStyleProps>)) {
@@ -17,8 +20,22 @@ function inferTextBaseline(attr: AxisStyleProps) {
   return 'middle';
 }
 
+function inferWrapWidth(labels: Text[], margin: WrapOverlapCfg['margin'] = [0]) {
+  if (labels.length < 2) {
+    return DEFAULT_WRAP_WIDTH;
+  }
+  const [top, right, bottom, left] = parseSeriesAttr(margin);
+  const labelWidth = labels[1].getBBox().x - labels[0].getBBox().x - left - right;
+  return labelWidth <= 0 ? DEFAULT_WRAP_WIDTH : labelWidth;
+}
+
 export default function wrapLabels(labels: Text[], overlapCfg: WrapOverlapCfg, attr: AxisStyleProps, utils: Utils) {
-  const { wordWrapWidth = 50, maxLines = 3, recoverWhenFailed = true, margin = [0, 0, 0, 0] } = overlapCfg;
+  const {
+    wordWrapWidth = inferWrapWidth(labels, overlapCfg.margin),
+    maxLines = 3,
+    recoverWhenFailed = true,
+    margin = [0, 0, 0, 0],
+  } = overlapCfg;
 
   const defaultLines = labels.map((label) => label.attr('maxLines') || 1);
 

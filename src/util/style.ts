@@ -98,6 +98,7 @@ export function splitStyle(
     'offsetDistance',
     'draggable',
     'droppable',
+    'maxLines',
   ];
   const output: typeof style = {};
   const groupStyle: typeof style = {};
