@@ -1,141 +1,47 @@
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  width="400"
-  height="300"
-  style="background: transparent;"
-  color-interpolation-filters="sRGB"
->
-  <defs />
-  <g id="g-svg-camera">
-    <g id="g-root" fill="none">
-      <g id="g-svg-0" fill="none">
-        <g id="g-svg-1" fill="none">
-          <g id="g-svg-1" fill="none" class="switch-content">
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" color-interpolation-filters="sRGB" style="background: transparent;">
+  <g>
+    <g fill="none">
+      <g fill="none">
+        <g fill="none">
+          <g fill="none" class="switch-content">
             <g>
-              <path
-                id="g-svg-3"
-                fill="none"
-                class="switch-background-stroke"
-                d="M 11,0 l 22,0 a 11,11,0,0,1,11,11 l 0,0 a 11,11,0,0,1,-11,11 l -22,0 a 11,11,0,0,1,-11,-11 l 0,0 a 11,11,0,0,1,11,-11 z"
-                x="0"
-                y="0"
-                stroke="rgba(0,0,0,0.25098039215686274)"
-                stroke-width="0"
-                width="44"
-                height="22"
-              />
+              <path width="44" height="22" x="0" y="0" fill="none" stroke="rgba(0,0,0,0.25098039215686274)" stroke-width="0" d="m11 0 22 0a11 11 0 0 1 11 11l0 0a11 11 0 0 1-11 11l-22 0a11 11 0 0 1-11-11l0 0a11 11 0 0 1 11-11z" class="switch-background-stroke"/>
             </g>
             <g>
-              <path
-                id="g-svg-2"
-                fill="rgba(0,0,0,0.25098039215686274)"
-                class="switch-background"
-                d="M 11,0 l 22,0 a 11,11,0,0,1,11,11 l 0,0 a 11,11,0,0,1,-11,11 l -22,0 a 11,11,0,0,1,-11,-11 l 0,0 a 11,11,0,0,1,11,-11 z"
-                x="0"
-                y="0"
-                width="44"
-                height="22"
-              />
+              <path width="44" height="22" x="0" y="0" fill="rgba(0,0,0,0.25098039215686274)" d="m11 0 22 0a11 11 0 0 1 11 11l0 0a11 11 0 0 1-11 11l-22 0a11 11 0 0 1-11-11l0 0a11 11 0 0 1 11-11z" class="switch-background"/>
             </g>
             <g>
-              <path
-                id="g-svg-4"
-                fill="rgba(255,255,255,1)"
-                class="switch-handle"
-                d="M 11,2 l 0,0 a 9,9,0,0,1,9,9 l 0,0 a 9,9,0,0,1,-9,9 l 0,0 a 9,9,0,0,1,-9,-9 l 0,0 a 9,9,0,0,1,9,-9 z"
-                x="2"
-                y="2"
-                width="18"
-                height="18"
-              />
+              <path width="18" height="18" x="2" y="2" fill="rgba(255,255,255,1)" d="m11 2 0 0a9 9 0 0 1 9 9l0 0a9 9 0 0 1-9 9l0 0a9 9 0 0 1-9-9l0 0a9 9 0 0 1 9-9z" class="switch-handle"/>
             </g>
           </g>
         </g>
-        <g id="g-svg-2" fill="none" transform="matrix(1,0,0,1,0,40)">
-          <g id="g-svg-5" fill="none" class="switch-content">
+        <g fill="none" transform="matrix(1 0 0 1 0 40)">
+          <g fill="none" class="switch-content">
             <g>
-              <path
-                id="g-svg-7"
-                fill="none"
-                class="switch-background-stroke"
-                d="M 11,0 l 22,0 a 11,11,0,0,1,11,11 l 0,0 a 11,11,0,0,1,-11,11 l -22,0 a 11,11,0,0,1,-11,-11 l 0,0 a 11,11,0,0,1,11,-11 z"
-                x="0"
-                y="0"
-                stroke="rgba(24,144,255,1)"
-                stroke-width="0"
-                width="44"
-                height="22"
-              />
+              <path width="44" height="22" x="0" y="0" fill="none" stroke="rgba(24,144,255,1)" stroke-width="0" d="m11 0 22 0a11 11 0 0 1 11 11l0 0a11 11 0 0 1-11 11l-22 0a11 11 0 0 1-11-11l0 0a11 11 0 0 1 11-11z" class="switch-background-stroke"/>
             </g>
             <g>
-              <path
-                id="g-svg-6"
-                fill="rgba(24,144,255,1)"
-                class="switch-background"
-                d="M 11,0 l 22,0 a 11,11,0,0,1,11,11 l 0,0 a 11,11,0,0,1,-11,11 l -22,0 a 11,11,0,0,1,-11,-11 l 0,0 a 11,11,0,0,1,11,-11 z"
-                x="0"
-                y="0"
-                width="44"
-                height="22"
-              />
+              <path width="44" height="22" x="0" y="0" fill="rgba(24,144,255,1)" d="m11 0 22 0a11 11 0 0 1 11 11l0 0a11 11 0 0 1-11 11l-22 0a11 11 0 0 1-11-11l0 0a11 11 0 0 1 11-11z" class="switch-background"/>
             </g>
             <g>
-              <path
-                id="g-svg-8"
-                fill="rgba(255,255,255,1)"
-                class="switch-handle"
-                d="M 33,2 l 0,0 a 9,9,0,0,1,9,9 l 0,0 a 9,9,0,0,1,-9,9 l 0,0 a 9,9,0,0,1,-9,-9 l 0,0 a 9,9,0,0,1,9,-9 z"
-                x="24"
-                y="2"
-                width="18"
-                height="18"
-              />
+              <path width="18" height="18" x="24" y="2" fill="rgba(255,255,255,1)" d="m33 2 0 0a9 9 0 0 1 9 9l0 0a9 9 0 0 1-9 9l0 0a9 9 0 0 1-9-9l0 0a9 9 0 0 1 9-9z" class="switch-handle"/>
             </g>
           </g>
         </g>
-        <g id="g-svg-3" fill="none" transform="matrix(1,0,0,1,0,80)">
-          <g id="g-svg-9" fill="none" class="switch-content">
+        <g fill="none" transform="matrix(1 0 0 1 0 80)">
+          <g fill="none" class="switch-content">
             <g>
-              <path
-                id="g-svg-11"
-                fill="none"
-                class="switch-background-stroke"
-                d="M 11,0 l 22,0 a 11,11,0,0,1,11,11 l 0,0 a 11,11,0,0,1,-11,11 l -22,0 a 11,11,0,0,1,-11,-11 l 0,0 a 11,11,0,0,1,11,-11 z"
-                x="0"
-                y="0"
-                stroke="rgba(0,0,0,0.25098039215686274)"
-                stroke-width="0"
-                width="44"
-                height="22"
-              />
+              <path width="44" height="22" x="0" y="0" fill="none" stroke="rgba(0,0,0,0.25098039215686274)" stroke-width="0" d="m11 0 22 0a11 11 0 0 1 11 11l0 0a11 11 0 0 1-11 11l-22 0a11 11 0 0 1-11-11l0 0a11 11 0 0 1 11-11z" class="switch-background-stroke"/>
             </g>
             <g>
-              <path
-                id="g-svg-10"
-                fill="rgba(0,0,0,0.25098039215686274)"
-                class="switch-background"
-                d="M 11,0 l 22,0 a 11,11,0,0,1,11,11 l 0,0 a 11,11,0,0,1,-11,11 l -22,0 a 11,11,0,0,1,-11,-11 l 0,0 a 11,11,0,0,1,11,-11 z"
-                x="0"
-                y="0"
-                width="44"
-                height="22"
-              />
+              <path width="44" height="22" x="0" y="0" fill="rgba(0,0,0,0.25098039215686274)" d="m11 0 22 0a11 11 0 0 1 11 11l0 0a11 11 0 0 1-11 11l-22 0a11 11 0 0 1-11-11l0 0a11 11 0 0 1 11-11z" class="switch-background"/>
             </g>
             <g>
-              <path
-                id="g-svg-12"
-                fill="rgba(255,255,255,1)"
-                class="switch-handle"
-                d="M 11,2 l 0,0 a 9,9,0,0,1,9,9 l 0,0 a 9,9,0,0,1,-9,9 l 0,0 a 9,9,0,0,1,-9,-9 l 0,0 a 9,9,0,0,1,9,-9 z"
-                x="2"
-                y="2"
-                width="18"
-                height="18"
-              />
+              <path width="18" height="18" x="2" y="2" fill="rgba(255,255,255,1)" d="m11 2 0 0a9 9 0 0 1 9 9l0 0a9 9 0 0 1-9 9l0 0a9 9 0 0 1-9-9l0 0a9 9 0 0 1 9-9z" class="switch-handle"/>
             </g>
           </g>
         </g>
       </g>
     </g>
   </g>
-</svg>
+</svg

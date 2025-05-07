@@ -1,27 +1,13 @@
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  width="58"
-  height="58"
-  style="background: transparent;"
-  color-interpolation-filters="sRGB"
->
-  <defs />
-  <g id="g-svg-camera">
-    <g id="g-root" fill="none">
-      <g id="g-svg-0" fill="none">
-        <g id="g-svg-1" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" width="58" height="58" color-interpolation-filters="sRGB" style="background: transparent;">
+  <g>
+    <g fill="none">
+      <g fill="none">
+        <g fill="none">
           <g>
-            <path
-              id="g-svg-2"
-              fill="none"
-              d="M 42,42 L 58,42 L 58,58 L 42,58 Z"
-              class="marker path-marker"
-              stroke="rgba(0,0,255,1)"
-              stroke-width="2"
-            />
+            <path fill="none" stroke="rgba(0,0,255,1)" stroke-width="2" d="m42 42 16 0 0 16-16 0Z" class="marker path-marker"/>
           </g>
         </g>
       </g>
     </g>
   </g>
-</svg>
+</svg
