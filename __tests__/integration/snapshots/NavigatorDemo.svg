@@ -1,2112 +1,565 @@
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  width="810"
-  height="350"
-  style="background: transparent;"
-  color-interpolation-filters="sRGB"
->
+<svg xmlns="http://www.w3.org/2000/svg" width="810" height="350" color-interpolation-filters="sRGB" style="background: transparent;">
   <defs>
-    <clipPath transform="matrix(1,0,0,1,-100,-100)" id="clip-path-1-2">
-      <use href="#g-svg-1" transform="matrix(1,0,0,1,100,100)" />
+    <clipPath id="h" transform="matrix(1 0 0 1 -100 -100)">
+      <use href="#a" transform="matrix(1 0 0 1 100 100)"/>
     </clipPath>
-    <clipPath transform="matrix(1,0,0,1,-300,-100)" id="clip-path-9-20">
-      <use href="#g-svg-9" transform="matrix(1,0,0,1,300,100)" />
+    <clipPath id="i" transform="matrix(1 0 0 1 -300 -100)">
+      <use href="#b" transform="matrix(1 0 0 1 300 100)"/>
     </clipPath>
-    <clipPath transform="matrix(1,0,0,1,-450,-100)" id="clip-path-17-38">
-      <use href="#g-svg-17" transform="matrix(1,0,0,1,450,100)" />
+    <clipPath id="j" transform="matrix(1 0 0 1 -450 -100)">
+      <use href="#c" transform="matrix(1 0 0 1 450 100)"/>
     </clipPath>
-    <clipPath transform="matrix(1,0,0,1,-650,-100)" id="clip-path-25-56">
-      <use href="#g-svg-25" transform="matrix(1,0,0,1,650,100)" />
+    <clipPath id="k" transform="matrix(1 0 0 1 -650 -100)">
+      <use href="#d" transform="matrix(1 0 0 1 650 100)"/>
     </clipPath>
-    <clipPath transform="matrix(1,0,0,1,-100,-250)" id="clip-path-33-74">
-      <use href="#g-svg-33" transform="matrix(1,0,0,1,100,250)" />
+    <clipPath id="l" transform="matrix(1 0 0 1 -100 -250)">
+      <use href="#e" transform="matrix(1 0 0 1 100 250)"/>
     </clipPath>
-    <clipPath transform="matrix(1,0,0,1,-300,-250)" id="clip-path-41-92">
-      <use href="#g-svg-41" transform="matrix(1,0,0,1,300,250)" />
+    <clipPath id="m" transform="matrix(1 0 0 1 -300 -250)">
+      <use href="#f" transform="matrix(1 0 0 1 300 250)"/>
     </clipPath>
-    <clipPath transform="matrix(1,0,0,1,-500,-250)" id="clip-path-49-155">
-      <use href="#g-svg-49" transform="matrix(1,0,0,1,500,250)" />
+    <clipPath id="n" transform="matrix(1 0 0 1 -500 -250)">
+      <use href="#g" transform="matrix(1 0 0 1 500 250)"/>
     </clipPath>
   </defs>
-  <g id="g-svg-camera">
-    <g id="g-root" fill="none">
-      <g id="g-svg-0" fill="none">
-        <g id="g-svg-1" fill="none" transform="matrix(1,0,0,1,100,100)">
-          <g
-            id="g-svg-2"
-            fill="none"
-            class="navigator-content-group"
-            clip-path="url(#clip-path-1-2)"
-          >
-            <g id="g-svg-3" fill="none" class="navigator-play-window">
-              <g id="g-svg-4" fill="none">
+  <g>
+    <g fill="none">
+      <g fill="none">
+        <g id="a" fill="none" transform="matrix(1 0 0 1 100 100)">
+          <g fill="none" class="navigator-content-group" clip-path="url(#h)">
+            <g fill="none" class="navigator-play-window">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-5"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="visible"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="visible"/>
                   <g>
-                    <text
-                      id="g-svg-6"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="visible"
-                    >
-                      page - 1
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="visible">page - 1</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-7" fill="none">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-8"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-9"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 2
-                    </text>
+                    <text id="b" x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 2</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-10" fill="none">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-11"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-12"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 3
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 3</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-13" fill="none">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-14"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-15"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 4
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 4</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-16" fill="none">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-17"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path id="c" width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-18"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 5
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 5</text>
                   </g>
                 </g>
               </g>
             </g>
           </g>
           <g>
-            <path
-              id="g-svg-1"
-              fill="none"
-              d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-              class="navigator-clip-path"
-              width="100"
-              height="100"
-            />
+            <path width="100" height="100" fill="none" d="m0 0 100 0 0 100-100 0z" class="navigator-clip-path"/>
           </g>
-          <g
-            id="g-svg-2"
-            fill="none"
-            transform="matrix(1,0,0,1,105,50)"
-            class="navigator-controller"
-          >
-            <g
-              id="g-svg-3"
-              fill="none"
-              transform="matrix(-1,-0,0,-1,0,0)"
-              class="navigator-prev-btn-group"
-            >
+          <g fill="none" class="navigator-controller" transform="matrix(1 0 0 1 105 50)">
+            <g fill="none" class="navigator-prev-btn-group" transform="matrix(-1 0 0 -1 0 0)">
               <g>
-                <path
-                  id="g-svg-4"
-                  fill="rgba(0,0,0,1)"
-                  class="navigator-prev-btn"
-                  d="M -6,-6 L 6,0 L -6,6 Z"
-                />
+                <path fill="rgba(0,0,0,1)" d="m-6-6 12 6-12 6Z" class="navigator-prev-btn"/>
               </g>
             </g>
-            <g
-              id="g-svg-5"
-              fill="none"
-              transform="matrix(1,0,0,1,40.160000,0)"
-              class="navigator-next-btn-group"
-            >
+            <g fill="none" class="navigator-next-btn-group" transform="matrix(1 0 0 1 40.16 0)">
               <g>
-                <path
-                  id="g-svg-6"
-                  fill="rgba(0,0,0,1)"
-                  class="navigator-next-btn"
-                  d="M -6,-6 L 6,0 L -6,6 Z"
-                />
+                <path fill="rgba(0,0,0,1)" d="m-6-6 12 6-12 6Z" class="navigator-next-btn"/>
               </g>
             </g>
-            <g
-              id="g-svg-7"
-              fill="none"
-              transform="matrix(1,0,0,1,11,0)"
-              class="navigator-page-info-group"
-            >
+            <g fill="none" class="navigator-page-info-group" transform="matrix(1 0 0 1 11 0)">
               <g>
-                <text
-                  id="g-svg-8"
-                  fill="rgba(0,0,0,1)"
-                  class="navigator-page-info"
-                  dominant-baseline="central"
-                  paint-order="stroke"
-                  dx="0.5"
-                  font-size="12"
-                  text-anchor="left"
-                >
-                  1/5
-                </text>
+                <text fill="rgba(0,0,0,1)" class="navigator-page-info" dominant-baseline="central" dx=".5" dy="0" font-size="12" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">1/5</text>
               </g>
             </g>
           </g>
         </g>
-        <g id="g-svg-19" fill="none" transform="matrix(1,0,0,1,300,100)">
-          <g
-            id="g-svg-20"
-            fill="none"
-            class="navigator-content-group"
-            clip-path="url(#clip-path-9-20)"
-          >
-            <g id="g-svg-21" fill="none" class="navigator-play-window">
-              <g id="g-svg-22" fill="none">
+        <g fill="none" transform="matrix(1 0 0 1 300 100)">
+          <g fill="none" class="navigator-content-group" clip-path="url(#i)">
+            <g fill="none" class="navigator-play-window">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-23"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="visible"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="visible"/>
                   <g>
-                    <text
-                      id="g-svg-24"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="visible"
-                    >
-                      page - 1
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="visible">page - 1</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-25" fill="none">
+              <g id="d" fill="none">
                 <g>
-                  <path
-                    id="g-svg-26"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-27"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 2
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 2</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-28" fill="none">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-29"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-30"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 3
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 3</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-31" fill="none">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-32"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-33"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 4
-                    </text>
+                    <text id="e" x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 4</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-34" fill="none">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-35"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-36"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 5
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 5</text>
                   </g>
                 </g>
               </g>
             </g>
           </g>
           <g>
-            <path
-              id="g-svg-9"
-              fill="none"
-              d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-              class="navigator-clip-path"
-              width="100"
-              height="100"
-            />
+            <path width="100" height="100" fill="none" d="m0 0 100 0 0 100-100 0z" class="navigator-clip-path"/>
           </g>
-          <g
-            id="g-svg-10"
-            fill="none"
-            transform="matrix(1,0,0,1,105,50)"
-            class="navigator-controller"
-          >
-            <g
-              id="g-svg-11"
-              fill="none"
-              transform="matrix(0,-1,1,0,9.080000,-17)"
-              class="navigator-prev-btn-group"
-            >
+          <g fill="none" class="navigator-controller" transform="matrix(1 0 0 1 105 50)">
+            <g fill="none" class="navigator-prev-btn-group" transform="matrix(0 -1 1 0 9.08 -17)">
               <g>
-                <path
-                  id="g-svg-12"
-                  fill="rgba(0,0,0,1)"
-                  class="navigator-prev-btn"
-                  d="M -6,-6 L 6,0 L -6,6 Z"
-                />
+                <path fill="rgba(0,0,0,1)" d="m-6-6 12 6-12 6Z" class="navigator-prev-btn"/>
               </g>
             </g>
-            <g
-              id="g-svg-13"
-              fill="none"
-              transform="matrix(0,1,-1,0,9.080000,17)"
-              class="navigator-next-btn-group"
-            >
+            <g fill="none" class="navigator-next-btn-group" transform="matrix(0 1 -1 0 9.08 17)">
               <g>
-                <path
-                  id="g-svg-14"
-                  fill="rgba(0,0,0,1)"
-                  class="navigator-next-btn"
-                  d="M -6,-6 L 6,0 L -6,6 Z"
-                />
+                <path fill="rgba(0,0,0,1)" d="m-6-6 12 6-12 6Z" class="navigator-next-btn"/>
               </g>
             </g>
-            <g
-              id="g-svg-15"
-              fill="none"
-              transform="matrix(1,0,0,1,9.080000,0)"
-              class="navigator-page-info-group"
-            >
+            <g fill="none" class="navigator-page-info-group" transform="matrix(1 0 0 1 9.08 0)">
               <g>
-                <text
-                  id="g-svg-16"
-                  fill="rgba(0,0,0,1)"
-                  class="navigator-page-info"
-                  dominant-baseline="central"
-                  paint-order="stroke"
-                  dx="0.5"
-                  font-size="12"
-                  text-anchor="middle"
-                >
-                  1/5
-                </text>
+                <text fill="rgba(0,0,0,1)" class="navigator-page-info" dominant-baseline="central" dx=".5" dy="0" font-size="12" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">1/5</text>
               </g>
             </g>
           </g>
         </g>
-        <g id="g-svg-37" fill="none" transform="matrix(1,0,0,1,450,100)">
-          <g
-            id="g-svg-38"
-            fill="none"
-            class="navigator-content-group"
-            clip-path="url(#clip-path-17-38)"
-          >
-            <g id="g-svg-39" fill="none" class="navigator-play-window">
-              <g id="g-svg-40" fill="none">
+        <g fill="none" transform="matrix(1 0 0 1 450 100)">
+          <g fill="none" class="navigator-content-group" clip-path="url(#j)">
+            <g fill="none" class="navigator-play-window">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-41"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="visible"
-                  />
+                  <path id="f" width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="visible"/>
                   <g>
-                    <text
-                      id="g-svg-42"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="visible"
-                    >
-                      page - 1
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="visible">page - 1</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-43" fill="none">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-44"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-45"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 2
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 2</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-46" fill="none">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-47"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-48"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 3
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 3</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-49" fill="none">
+              <g id="g" fill="none">
                 <g>
-                  <path
-                    id="g-svg-50"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-51"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 4
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 4</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-52" fill="none">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-53"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-54"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 5
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 5</text>
                   </g>
                 </g>
               </g>
             </g>
           </g>
           <g>
-            <path
-              id="g-svg-17"
-              fill="none"
-              d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-              class="navigator-clip-path"
-              width="100"
-              height="100"
-            />
+            <path width="100" height="100" fill="none" d="m0 0 100 0 0 100-100 0z" class="navigator-clip-path"/>
           </g>
-          <g
-            id="g-svg-18"
-            fill="none"
-            transform="matrix(1,0,0,1,105,50)"
-            class="navigator-controller"
-          >
-            <g
-              id="g-svg-19"
-              fill="none"
-              transform="matrix(-1,-0,0,-1,0,0)"
-              class="navigator-prev-btn-group"
-            >
+          <g fill="none" class="navigator-controller" transform="matrix(1 0 0 1 105 50)">
+            <g fill="none" class="navigator-prev-btn-group" transform="matrix(-1 0 0 -1 0 0)">
               <g>
-                <path
-                  id="g-svg-20"
-                  fill="rgba(0,0,0,1)"
-                  class="navigator-prev-btn"
-                  d="M -6,-6 L 6,0 L -6,6 Z"
-                />
+                <path fill="rgba(0,0,0,1)" d="m-6-6 12 6-12 6Z" class="navigator-prev-btn"/>
               </g>
             </g>
-            <g
-              id="g-svg-21"
-              fill="none"
-              transform="matrix(1,0,0,1,40.160000,0)"
-              class="navigator-next-btn-group"
-            >
+            <g fill="none" class="navigator-next-btn-group" transform="matrix(1 0 0 1 40.16 0)">
               <g>
-                <path
-                  id="g-svg-22"
-                  fill="rgba(0,0,0,1)"
-                  class="navigator-next-btn"
-                  d="M -6,-6 L 6,0 L -6,6 Z"
-                />
+                <path fill="rgba(0,0,0,1)" d="m-6-6 12 6-12 6Z" class="navigator-next-btn"/>
               </g>
             </g>
-            <g
-              id="g-svg-23"
-              fill="none"
-              transform="matrix(1,0,0,1,11,0)"
-              class="navigator-page-info-group"
-            >
+            <g fill="none" class="navigator-page-info-group" transform="matrix(1 0 0 1 11 0)">
               <g>
-                <text
-                  id="g-svg-24"
-                  fill="rgba(0,0,0,1)"
-                  class="navigator-page-info"
-                  dominant-baseline="central"
-                  paint-order="stroke"
-                  dx="0.5"
-                  font-size="12"
-                  text-anchor="left"
-                >
-                  1/5
-                </text>
+                <text fill="rgba(0,0,0,1)" class="navigator-page-info" dominant-baseline="central" dx=".5" dy="0" font-size="12" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">1/5</text>
               </g>
             </g>
           </g>
         </g>
-        <g id="g-svg-55" fill="none" transform="matrix(1,0,0,1,650,100)">
-          <g
-            id="g-svg-56"
-            fill="none"
-            class="navigator-content-group"
-            clip-path="url(#clip-path-25-56)"
-          >
-            <g
-              id="g-svg-57"
-              fill="none"
-              class="navigator-play-window"
-              transform="matrix(1,0,0,1,0,-100)"
-            >
-              <g id="g-svg-58" fill="none">
+        <g fill="none" transform="matrix(1 0 0 1 650 100)">
+          <g fill="none" class="navigator-content-group" clip-path="url(#k)">
+            <g fill="none" class="navigator-play-window" transform="matrix(1 0 0 1 0 -100)">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-59"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-60"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 1
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 1</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-61" fill="none">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-62"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-63"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 2
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 2</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-64" fill="none">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-65"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-66"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 3
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 3</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-67" fill="none" transform="matrix(1,0,0,1,0,100)">
+              <g fill="none" transform="matrix(1 0 0 1 0 100)">
                 <g>
-                  <path
-                    id="g-svg-68"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="visible"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="visible"/>
                   <g>
-                    <text
-                      id="g-svg-69"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="visible"
-                    >
-                      page - 4
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="visible">page - 4</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-70" fill="none">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-71"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-72"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 5
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 5</text>
                   </g>
                 </g>
               </g>
             </g>
           </g>
           <g>
-            <path
-              id="g-svg-25"
-              fill="none"
-              d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-              class="navigator-clip-path"
-              width="100"
-              height="100"
-            />
+            <path width="100" height="100" fill="none" d="m0 0 100 0 0 100-100 0z" class="navigator-clip-path"/>
           </g>
-          <g
-            id="g-svg-26"
-            fill="none"
-            transform="matrix(1,0,0,1,105,50)"
-            class="navigator-controller"
-          >
-            <g
-              id="g-svg-27"
-              fill="none"
-              transform="matrix(0,-1,1,0,10.160000,-17)"
-              class="navigator-prev-btn-group"
-            >
+          <g fill="none" class="navigator-controller" transform="matrix(1 0 0 1 105 50)">
+            <g fill="none" class="navigator-prev-btn-group" transform="matrix(0 -1 1 0 10.16 -17)">
               <g>
-                <path
-                  id="g-svg-28"
-                  fill="rgba(0,0,0,1)"
-                  class="navigator-prev-btn"
-                  d="M -6,-6 L 6,0 L -6,6 Z"
-                />
+                <path fill="rgba(0,0,0,1)" d="m-6-6 12 6-12 6Z" class="navigator-prev-btn"/>
               </g>
             </g>
-            <g
-              id="g-svg-29"
-              fill="none"
-              transform="matrix(0,1,-1,0,10.160000,17)"
-              class="navigator-next-btn-group"
-            >
+            <g fill="none" class="navigator-next-btn-group" transform="matrix(0 1 -1 0 10.16 17)">
               <g>
-                <path
-                  id="g-svg-30"
-                  fill="rgba(0,0,0,1)"
-                  class="navigator-next-btn"
-                  d="M -6,-6 L 6,0 L -6,6 Z"
-                />
+                <path fill="rgba(0,0,0,1)" d="m-6-6 12 6-12 6Z" class="navigator-next-btn"/>
               </g>
             </g>
-            <g
-              id="g-svg-31"
-              fill="none"
-              transform="matrix(1,0,0,1,10.160000,0)"
-              class="navigator-page-info-group"
-            >
+            <g fill="none" class="navigator-page-info-group" transform="matrix(1 0 0 1 10.16 0)">
               <g>
-                <text
-                  id="g-svg-32"
-                  fill="rgba(0,0,0,1)"
-                  class="navigator-page-info"
-                  dominant-baseline="central"
-                  paint-order="stroke"
-                  dx="0.5"
-                  font-size="12"
-                  text-anchor="middle"
-                >
-                  4/5
-                </text>
+                <text fill="rgba(0,0,0,1)" class="navigator-page-info" dominant-baseline="central" dx=".5" dy="0" font-size="12" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">4/5</text>
               </g>
             </g>
           </g>
         </g>
-        <g id="g-svg-73" fill="none" transform="matrix(1,0,0,1,100,250)">
-          <g
-            id="g-svg-74"
-            fill="none"
-            class="navigator-content-group"
-            clip-path="url(#clip-path-33-74)"
-          >
-            <g
-              id="g-svg-75"
-              fill="none"
-              class="navigator-play-window"
-              transform="matrix(1,0,0,1,-100,0)"
-            >
-              <g id="g-svg-76" fill="none">
+        <g fill="none" transform="matrix(1 0 0 1 100 250)">
+          <g fill="none" class="navigator-content-group" clip-path="url(#l)">
+            <g fill="none" class="navigator-play-window" transform="matrix(1 0 0 1 -100 0)">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-77"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-78"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 1
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 1</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-79" fill="none">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-80"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-81"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 2
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 2</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-82" fill="none">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-83"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-84"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 3
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 3</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-85" fill="none" transform="matrix(1,0,0,1,100,0)">
+              <g fill="none" transform="matrix(1 0 0 1 100 0)">
                 <g>
-                  <path
-                    id="g-svg-86"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="visible"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="visible"/>
                   <g>
-                    <text
-                      id="g-svg-87"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="visible"
-                    >
-                      page - 4
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="visible">page - 4</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-88" fill="none">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-89"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-90"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 5
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 5</text>
                   </g>
                 </g>
               </g>
             </g>
           </g>
           <g>
-            <path
-              id="g-svg-33"
-              fill="none"
-              d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-              class="navigator-clip-path"
-              width="100"
-              height="100"
-            />
+            <path width="100" height="100" fill="none" d="m0 0 100 0 0 100-100 0z" class="navigator-clip-path"/>
           </g>
-          <g
-            id="g-svg-34"
-            fill="none"
-            transform="matrix(1,0,0,1,105,50)"
-            class="navigator-controller"
-          >
-            <g
-              id="g-svg-35"
-              fill="none"
-              transform="matrix(-1,-0,0,-1,0,0)"
-              class="navigator-prev-btn-group"
-            >
+          <g fill="none" class="navigator-controller" transform="matrix(1 0 0 1 105 50)">
+            <g fill="none" class="navigator-prev-btn-group" transform="matrix(-1 0 0 -1 0 0)">
               <g>
-                <path
-                  id="g-svg-36"
-                  fill="rgba(0,0,0,1)"
-                  class="navigator-prev-btn"
-                  d="M -6,-6 L 6,0 L -6,6 Z"
-                />
+                <path fill="rgba(0,0,0,1)" d="m-6-6 12 6-12 6Z" class="navigator-prev-btn"/>
               </g>
             </g>
-            <g
-              id="g-svg-37"
-              fill="none"
-              transform="matrix(1,0,0,1,42.320000,0)"
-              class="navigator-next-btn-group"
-            >
+            <g fill="none" class="navigator-next-btn-group" transform="matrix(1 0 0 1 42.32 0)">
               <g>
-                <path
-                  id="g-svg-38"
-                  fill="rgba(0,0,0,1)"
-                  class="navigator-next-btn"
-                  d="M -6,-6 L 6,0 L -6,6 Z"
-                />
+                <path fill="rgba(0,0,0,1)" d="m-6-6 12 6-12 6Z" class="navigator-next-btn"/>
               </g>
             </g>
-            <g
-              id="g-svg-39"
-              fill="none"
-              transform="matrix(1,0,0,1,11,0)"
-              class="navigator-page-info-group"
-            >
+            <g fill="none" class="navigator-page-info-group" transform="matrix(1 0 0 1 11 0)">
               <g>
-                <text
-                  id="g-svg-40"
-                  fill="rgba(0,0,0,1)"
-                  class="navigator-page-info"
-                  dominant-baseline="central"
-                  paint-order="stroke"
-                  dx="0.5"
-                  font-size="12"
-                  text-anchor="left"
-                >
-                  4/5
-                </text>
+                <text fill="rgba(0,0,0,1)" class="navigator-page-info" dominant-baseline="central" dx=".5" dy="0" font-size="12" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">4/5</text>
               </g>
             </g>
           </g>
         </g>
-        <g id="g-svg-91" fill="none" transform="matrix(1,0,0,1,300,250)">
-          <g
-            id="g-svg-92"
-            fill="none"
-            class="navigator-content-group"
-            clip-path="url(#clip-path-41-92)"
-          >
-            <g
-              id="g-svg-93"
-              fill="none"
-              class="navigator-play-window"
-              transform="matrix(1,0,0,1,-100,0)"
-            >
-              <g id="g-svg-94" fill="none">
+        <g fill="none" transform="matrix(1 0 0 1 300 250)">
+          <g fill="none" class="navigator-content-group" clip-path="url(#m)">
+            <g fill="none" class="navigator-play-window" transform="matrix(1 0 0 1 -100 0)">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-95"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-96"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 1
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 1</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-97" fill="none">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-98"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-99"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 2
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 2</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-100" fill="none">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-101"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-102"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 3
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 3</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-103" fill="none" transform="matrix(1,0,0,1,100,0)">
+              <g fill="none" transform="matrix(1 0 0 1 100 0)">
                 <g>
-                  <path
-                    id="g-svg-104"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="visible"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="visible"/>
                   <g>
-                    <text
-                      id="g-svg-105"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="visible"
-                    >
-                      page - 4
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="visible">page - 4</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-106" fill="none">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-107"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-108"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 5
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 5</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-109" fill="none">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-110"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-111"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 6
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 6</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-112" fill="none">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-113"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-114"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 7
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 7</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-115" fill="none">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-116"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-117"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 8
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 8</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-118" fill="none">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-119"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-120"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 9
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 9</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-121" fill="none">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-122"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-123"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 10
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 10</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-124" fill="none">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-125"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-126"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 11
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 11</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-127" fill="none">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-128"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-129"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 12
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 12</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-130" fill="none">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-131"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-132"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 13
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 13</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-133" fill="none">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-134"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-135"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 14
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 14</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-136" fill="none">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-137"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-138"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 15
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 15</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-139" fill="none">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-140"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-141"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 16
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 16</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-142" fill="none">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-143"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-144"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 17
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 17</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-145" fill="none">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-146"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-147"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 18
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 18</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-148" fill="none">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-149"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-150"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 19
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 19</text>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-151" fill="none">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-152"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="hidden"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text
-                      id="g-svg-153"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="hidden"
-                    >
-                      page - 20
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 20</text>
                   </g>
                 </g>
               </g>
             </g>
           </g>
           <g>
-            <path
-              id="g-svg-41"
-              fill="none"
-              d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-              class="navigator-clip-path"
-              width="100"
-              height="100"
-            />
+            <path width="100" height="100" fill="none" d="m0 0 100 0 0 100-100 0z" class="navigator-clip-path"/>
           </g>
-          <g
-            id="g-svg-42"
-            fill="none"
-            transform="matrix(1,0,0,1,105,50)"
-            class="navigator-controller"
-          >
-            <g
-              id="g-svg-43"
-              fill="none"
-              transform="matrix(-0.800000,-0,0,-0.800000,0,0)"
-              class="navigator-prev-btn-group"
-            >
-              <g transform="matrix(1.250000,0,0,1.250000,0,0)">
-                <path
-                  id="g-svg-44"
-                  fill="rgba(0,0,0,1)"
-                  class="navigator-prev-btn"
-                  d="M -6,-6 L 6,0 L -6,6 Z"
-                />
+          <g fill="none" class="navigator-controller" transform="matrix(1 0 0 1 105 50)">
+            <g fill="none" class="navigator-prev-btn-group" transform="matrix(-.8 0 0 -.8 0 0)">
+              <g transform="matrix(1.25 0 0 1.25 0 0)">
+                <path fill="rgba(0,0,0,1)" d="m-6-6 12 6-12 6Z" class="navigator-prev-btn"/>
               </g>
             </g>
-            <g
-              id="g-svg-45"
-              fill="none"
-              transform="matrix(0.800000,0,0,0.800000,54.360001,0)"
-              class="navigator-next-btn-group"
-            >
-              <g transform="matrix(1.250000,0,0,1.250000,0,0)">
-                <path
-                  id="g-svg-46"
-                  fill="rgba(0,0,0,1)"
-                  class="navigator-next-btn"
-                  d="M -6,-6 L 6,0 L -6,6 Z"
-                />
+            <g fill="none" class="navigator-next-btn-group" transform="matrix(.8 0 0 .8 54.36 0)">
+              <g transform="matrix(1.25 0 0 1.25 0 0)">
+                <path fill="rgba(0,0,0,1)" d="m-6-6 12 6-12 6Z" class="navigator-next-btn"/>
               </g>
             </g>
-            <g
-              id="g-svg-47"
-              fill="none"
-              transform="matrix(1,0,0,1,11,0)"
-              class="navigator-page-info-group"
-            >
+            <g fill="none" class="navigator-page-info-group" transform="matrix(1 0 0 1 11 0)">
               <g>
-                <text
-                  id="g-svg-48"
-                  fill="rgba(0,0,0,1)"
-                  class="navigator-page-info"
-                  dominant-baseline="central"
-                  paint-order="stroke"
-                  dx="0.5"
-                  font-size="14"
-                  text-anchor="left"
-                >
-                  4/20
-                </text>
+                <text fill="rgba(0,0,0,1)" class="navigator-page-info" dominant-baseline="central" dx=".5" dy="0" font-size="14" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">4/20</text>
               </g>
             </g>
           </g>
         </g>
-        <g id="g-svg-154" fill="none" transform="matrix(1,0,0,1,500,250)">
-          <g
-            id="g-svg-155"
-            fill="none"
-            class="navigator-content-group"
-            clip-path="url(#clip-path-49-155)"
-          >
-            <g id="g-svg-156" fill="none" class="navigator-play-window">
-              <g id="g-svg-157" fill="none">
+        <g fill="none" transform="matrix(1 0 0 1 500 250)">
+          <g fill="none" class="navigator-content-group" clip-path="url(#n)">
+            <g fill="none" class="navigator-play-window">
+              <g fill="none">
                 <g>
-                  <path
-                    id="g-svg-158"
-                    fill="rgba(247,247,247,1)"
-                    d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-                    width="100"
-                    height="100"
-                    stroke="rgba(255,0,0,1)"
-                    visibility="visible"
-                  />
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="visible"/>
                   <g>
-                    <text
-                      id="g-svg-159"
-                      fill="rgba(0,0,0,1)"
-                      dominant-baseline="central"
-                      paint-order="stroke"
-                      x="50"
-                      y="50"
-                      dx="0.5"
-                      font-family="sans-serif"
-                      font-size="16"
-                      font-style="normal"
-                      font-variant="normal"
-                      font-weight="normal"
-                      stroke-width="1"
-                      text-anchor="middle"
-                      visibility="visible"
-                    >
-                      page - 1
-                    </text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="visible">page - 1</text>
                   </g>
                 </g>
               </g>
             </g>
           </g>
           <g>
-            <path
-              id="g-svg-49"
-              fill="none"
-              d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-              class="navigator-clip-path"
-              width="100"
-              height="100"
-            />
+            <path width="100" height="100" fill="none" d="m0 0 100 0 0 100-100 0z" class="navigator-clip-path"/>
           </g>
-          <g id="g-svg-50" fill="none" class="navigator-controller" />
+          <g fill="none" class="navigator-controller"/>
         </g>
       </g>
     </g>
   </g>
-</svg>
+</svg
