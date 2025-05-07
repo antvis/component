@@ -1,198 +1,56 @@
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  width="50"
-  height="80"
-  style="background: transparent;"
-  color-interpolation-filters="sRGB"
->
-  <defs />
-  <g id="g-svg-camera">
-    <g id="g-root" fill="none">
-      <g id="g-svg-0" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" width="50" height="80" color-interpolation-filters="sRGB" style="background: transparent;">
+  <g>
+    <g fill="none">
+      <g fill="none">
         <g>
-          <path
-            id="g-svg-1"
-            fill="rgba(114,205,246,1)"
-            d="M 0,0 l 50,0 l 0,80 l-50 0 z"
-            width="50"
-            height="80"
-          />
+          <path width="50" height="80" fill="rgba(114,205,246,1)" d="m0 0 50 0 0 80-50 0z"/>
         </g>
         <g>
-          <circle
-            id="g-svg-2"
-            fill="rgba(63,124,247,1)"
-            r="5"
-            stroke-width="0"
-            stroke="rgba(63,124,247,1)"
-            stroke-opacity="0.5"
-            cx="10"
-            cy="10"
-          />
+          <circle cx="10" cy="10" r="5" fill="rgba(63,124,247,1)" stroke="rgba(63,124,247,1)" stroke-opacity=".5" stroke-width="0"/>
         </g>
-        <g id="g-svg-3" fill="none">
+        <g fill="none">
           <g>
-            <path
-              id="g-svg-1"
-              fill="rgba(255,255,255,1)"
-              class="background"
-              d="M 5,25 l 10,0 l 0,50 l-10 0 z"
-              x="5"
-              y="25"
-              width="10"
-              height="50"
-              fill-opacity="0.5"
-            />
+            <path width="10" height="50" x="5" y="25" fill="rgba(255,255,255,1)" fill-opacity=".5" d="m5 25 10 0 0 50-10 0z" class="background"/>
           </g>
           <g>
-            <line
-              id="g-svg-2"
-              fill="none"
-              x1="9"
-              y1="45"
-              x2="9"
-              y2="55"
-              class="icon-left-line"
-              stroke="rgba(154,154,154,1)"
-              stroke-width="1"
-            />
+            <line x1="9" x2="9" y1="45" y2="55" fill="none" stroke="rgba(154,154,154,1)" stroke-width="1" class="icon-left-line"/>
           </g>
           <g>
-            <line
-              id="g-svg-3"
-              fill="none"
-              x1="11"
-              y1="45"
-              x2="11"
-              y2="55"
-              class="icon-right-line"
-              stroke="rgba(154,154,154,1)"
-              stroke-width="1"
-            />
+            <line x1="11" x2="11" y1="45" y2="55" fill="none" stroke="rgba(154,154,154,1)" stroke-width="1" class="icon-right-line"/>
           </g>
           <g>
-            <line
-              id="g-svg-4"
-              fill="none"
-              x1="15"
-              y1="25"
-              x2="15"
-              y2="75"
-              class="border"
-              stroke="rgba(232,232,232,1)"
-              stroke-width="1"
-            />
+            <line x1="15" x2="15" y1="25" y2="75" fill="none" stroke="rgba(232,232,232,1)" stroke-width="1" class="border"/>
           </g>
         </g>
-        <g id="g-svg-4" fill="none">
+        <g fill="none">
           <g>
-            <path
-              id="g-svg-5"
-              fill="rgba(255,255,255,1)"
-              class="background"
-              d="M 20,25 l 10,0 l 0,50 l-10 0 z"
-              x="20"
-              y="25"
-              width="10"
-              height="50"
-              fill-opacity="0.5"
-            />
+            <path width="10" height="50" x="20" y="25" fill="rgba(255,255,255,1)" fill-opacity=".5" d="m20 25 10 0 0 50-10 0z" class="background"/>
           </g>
           <g>
-            <line
-              id="g-svg-6"
-              fill="none"
-              x1="24"
-              y1="45"
-              x2="24"
-              y2="55"
-              class="icon-left-line"
-              stroke="rgba(154,154,154,1)"
-              stroke-width="1"
-            />
+            <line x1="24" x2="24" y1="45" y2="55" fill="none" stroke="rgba(154,154,154,1)" stroke-width="1" class="icon-left-line"/>
           </g>
           <g>
-            <line
-              id="g-svg-7"
-              fill="none"
-              x1="26"
-              y1="45"
-              x2="26"
-              y2="55"
-              class="icon-right-line"
-              stroke="rgba(154,154,154,1)"
-              stroke-width="1"
-            />
+            <line x1="26" x2="26" y1="45" y2="55" fill="none" stroke="rgba(154,154,154,1)" stroke-width="1" class="icon-right-line"/>
           </g>
           <g>
-            <line
-              id="g-svg-8"
-              fill="none"
-              x1="20"
-              y1="25"
-              x2="20"
-              y2="75"
-              class="border"
-              stroke="rgba(232,232,232,1)"
-              stroke-width="1"
-            />
+            <line x1="20" x2="20" y1="25" y2="75" fill="none" stroke="rgba(232,232,232,1)" stroke-width="1" class="border"/>
           </g>
         </g>
-        <g id="g-svg-5" fill="none">
+        <g fill="none">
           <g>
-            <path
-              id="g-svg-9"
-              fill="rgba(255,255,255,1)"
-              class="background"
-              d="M 35,25 l 10,0 l 0,50 l-10 0 z"
-              x="35"
-              y="25"
-              width="10"
-              height="50"
-              fill-opacity="0.5"
-            />
+            <path width="10" height="50" x="35" y="25" fill="rgba(255,255,255,1)" fill-opacity=".5" d="m35 25 10 0 0 50-10 0z" class="background"/>
           </g>
           <g>
-            <line
-              id="g-svg-10"
-              fill="none"
-              x1="39"
-              y1="40"
-              x2="39"
-              y2="60"
-              class="icon-left-line"
-              stroke="rgba(154,154,154,1)"
-              stroke-width="1"
-            />
+            <line x1="39" x2="39" y1="40" y2="60" fill="none" stroke="rgba(154,154,154,1)" stroke-width="1" class="icon-left-line"/>
           </g>
           <g>
-            <line
-              id="g-svg-11"
-              fill="none"
-              x1="41"
-              y1="40"
-              x2="41"
-              y2="60"
-              class="icon-right-line"
-              stroke="rgba(154,154,154,1)"
-              stroke-width="1"
-            />
+            <line x1="41" x2="41" y1="40" y2="60" fill="none" stroke="rgba(154,154,154,1)" stroke-width="1" class="icon-right-line"/>
           </g>
           <g>
-            <line
-              id="g-svg-12"
-              fill="none"
-              x1="35"
-              y1="25"
-              x2="35"
-              y2="75"
-              class="border"
-              stroke="rgba(232,232,232,1)"
-              stroke-width="1"
-            />
+            <line x1="35" x2="35" y1="25" y2="75" fill="none" stroke="rgba(232,232,232,1)" stroke-width="1" class="border"/>
           </g>
         </g>
       </g>
     </g>
   </g>
-</svg>
+</svg

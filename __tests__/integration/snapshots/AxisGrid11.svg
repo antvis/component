@@ -1,96 +1,41 @@
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  width="350"
-  height="400"
-  style="background: transparent;"
-  color-interpolation-filters="sRGB"
->
-  <defs />
-  <g id="g-svg-camera">
-    <g id="g-root" fill="none">
-      <g id="g-svg-0" fill="none">
-        <g id="g-svg-1" fill="none">
-          <g id="g-svg-1" fill="none" class="axis-grid-group">
-            <g id="g-svg-2" fill="none" class="axis-grid">
-              <g id="g-svg-3" fill="none" class="grid-line-group">
+<svg xmlns="http://www.w3.org/2000/svg" width="350" height="400" color-interpolation-filters="sRGB" style="background: transparent;">
+  <g>
+    <g fill="none">
+      <g fill="none">
+        <g fill="none">
+          <g fill="none" class="axis-grid-group">
+            <g fill="none" class="axis-grid">
+              <g fill="none" class="grid-line-group">
                 <g>
-                  <path
-                    id="g-svg-5"
-                    fill="none"
-                    class="grid-line"
-                    stroke="rgba(0,0,0,0.5)"
-                    stroke-width="1"
-                    stroke-dasharray="4,4"
-                    d="M 150,50 L 225,70.0961894323342 L 279.9038105676658,124.99999999999999 L 300,200 L 279.9038105676658,275 L 225,329.9038105676658 L 150.00000000000003,350 L 74.99999999999999,329.9038105676658 L 20.096189432334228,275.00000000000006 L 0,200.00000000000003 L 20.0961894323342,124.99999999999999 L 74.99999999999993,70.09618943233426 L 149.99999999999997,50 L 150,50"
-                  />
+                  <path fill="none" stroke="rgba(0,0,0,0.5)" stroke-dasharray="4,4" stroke-width="1" d="m150 50 75 20.0962 54.9038 54.9038 20.0962 75-20.0962 75-54.9038 54.9038-75 20.0962-75-20.0962-54.9038-54.9038-20.0962-75 20.0962-75 54.9038-54.9038 75-20.0962 0 0" class="grid-line"/>
                 </g>
                 <g>
-                  <path
-                    id="g-svg-6"
-                    fill="none"
-                    class="grid-line"
-                    stroke="rgba(0,0,0,0.5)"
-                    stroke-width="1"
-                    stroke-dasharray="4,4"
-                    d="M 150,75 L 212.5,91.74682452694516 L 258.25317547305485,137.5 L 275,200 L 258.25317547305485,262.5 L 212.5,308.25317547305485 L 150.00000000000003,325 L 87.49999999999999,308.25317547305485 L 41.74682452694519,262.50000000000006 L 25,200.00000000000003 L 41.746824526945176,137.5 L 87.49999999999994,91.7468245269452 L 149.99999999999997,75 L 150,75"
-                  />
+                  <path fill="none" stroke="rgba(0,0,0,0.5)" stroke-dasharray="4,4" stroke-width="1" d="m150 75 62.5 16.7468 45.7532 45.7532 16.7468 62.5-16.7468 62.5-45.7532 45.7532-62.5 16.7468-62.5-16.7468-45.7532-45.7532-16.7468-62.5 16.7468-62.5 45.7532-45.7532 62.5-16.7468 0 0" class="grid-line"/>
                 </g>
                 <g>
-                  <path
-                    id="g-svg-7"
-                    fill="none"
-                    class="grid-line"
-                    stroke="rgba(0,0,0,0.5)"
-                    stroke-width="1"
-                    stroke-dasharray="4,4"
-                    d="M 150,100 L 200,113.39745962155612 L 236.60254037844385,150 L 250,200 L 236.60254037844388,249.99999999999997 L 200,286.6025403784439 L 150,300 L 99.99999999999999,286.60254037844385 L 63.39745962155615,250.00000000000006 L 50,200.00000000000003 L 63.39745962155614,150 L 99.99999999999996,113.39745962155617 L 149.99999999999997,100 L 150,100"
-                  />
+                  <path fill="none" stroke="rgba(0,0,0,0.5)" stroke-dasharray="4,4" stroke-width="1" d="m150 100 50 13.3975 36.6025 36.6025 13.3975 50-13.3975 50-36.6025 36.6025-50 13.3975-50-13.3975-36.6025-36.6025-13.3975-50 13.3975-50 36.6025-36.6025 50-13.3975 0 0" class="grid-line"/>
                 </g>
                 <g>
-                  <path
-                    id="g-svg-8"
-                    fill="none"
-                    class="grid-line"
-                    stroke="rgba(0,0,0,0.5)"
-                    stroke-width="1"
-                    stroke-dasharray="4,4"
-                    d="M 150,125 L 187.5,135.0480947161671 L 214.9519052838329,162.5 L 225,200 L 214.9519052838329,237.5 L 187.5,264.9519052838329 L 150,275 L 112.5,264.9519052838329 L 85.04809471616711,237.50000000000003 L 75,200 L 85.0480947161671,162.5 L 112.49999999999997,135.04809471616713 L 149.99999999999997,125 L 150,125"
-                  />
+                  <path fill="none" stroke="rgba(0,0,0,0.5)" stroke-dasharray="4,4" stroke-width="1" d="m150 125 37.5 10.048 27.452 27.452 10.048 37.5-10.048 37.5-27.452 27.452-37.5 10.048-37.5-10.048-27.452-27.452-10.048-37.5 10.048-37.5 27.452-27.452 37.5-10.048 0 0" class="grid-line"/>
                 </g>
                 <g>
-                  <path
-                    id="g-svg-9"
-                    fill="none"
-                    class="grid-line"
-                    stroke="rgba(0,0,0,0.5)"
-                    stroke-width="1"
-                    stroke-dasharray="4,4"
-                    d="M 150,150 L 175,156.69872981077805 L 193.30127018922192,175 L 200,200 L 193.30127018922195,225 L 175,243.30127018922195 L 150,250 L 125,243.30127018922192 L 106.69872981077808,225.00000000000003 L 100,200 L 106.69872981077808,175 L 124.99999999999997,156.69872981077808 L 150,150 L 150,150"
-                  />
+                  <path fill="none" stroke="rgba(0,0,0,0.5)" stroke-dasharray="4,4" stroke-width="1" d="m150 150 25 6.6987 18.3013 18.3013 6.6987 25-6.6987 25-18.3013 18.3013-25 6.6987-25-6.6987-18.3013-18.3013-6.6987-25 6.6987-25 18.3013-18.3013 25-6.6987 0 0" class="grid-line"/>
                 </g>
                 <g>
-                  <path
-                    id="g-svg-10"
-                    fill="none"
-                    class="grid-line"
-                    stroke="rgba(0,0,0,0.5)"
-                    stroke-width="1"
-                    stroke-dasharray="4,4"
-                    d="M 150,175 L 162.5,178.34936490538902 L 171.65063509461098,187.5 L 175,200 L 171.65063509461098,212.5 L 162.5,221.65063509461098 L 150,225 L 137.5,221.65063509461098 L 128.34936490538905,212.5 L 125,200 L 128.34936490538902,187.5 L 137.5,178.34936490538905 L 150,175 L 150,175"
-                  />
+                  <path fill="none" stroke="rgba(0,0,0,0.5)" stroke-dasharray="4,4" stroke-width="1" d="m150 175 12.5 3.3494 9.1506 9.1506 3.3494 12.5-3.3494 12.5-9.1506 9.1506-12.5 3.3494-12.5-3.3494-9.1506-9.1506-3.3494-12.5 3.3494-12.5 9.1506-9.1506 12.5-3.3494 0 0" class="grid-line"/>
                 </g>
               </g>
-              <g id="g-svg-4" fill="none" class="grid-region-group" />
+              <g fill="none" class="grid-region-group"/>
             </g>
           </g>
-          <g id="g-svg-11" fill="none" class="axis-main-group">
-            <g id="g-svg-12" fill="none" class="axis-line-group" />
-            <g id="g-svg-13" fill="none" class="axis-tick-group" />
-            <g id="g-svg-14" fill="none" class="axis-label-group" />
+          <g fill="none" class="axis-main-group">
+            <g fill="none" class="axis-line-group"/>
+            <g fill="none" class="axis-tick-group"/>
+            <g fill="none" class="axis-label-group"/>
           </g>
-          <g id="g-svg-15" fill="none" class="axis-title-group" />
+          <g fill="none" class="axis-title-group"/>
         </g>
       </g>
     </g>
   </g>
-</svg>
+</svg

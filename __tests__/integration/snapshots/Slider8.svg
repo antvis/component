@@ -1,150 +1,57 @@
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  width="400"
-  height="300"
-  style="background: transparent;"
-  color-interpolation-filters="sRGB"
->
-  <defs />
-  <g id="g-svg-camera">
-    <g id="g-root" fill="none">
-      <g id="g-svg-0" fill="none">
-        <g id="g-svg-1" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" color-interpolation-filters="sRGB" style="background: transparent;">
+  <g>
+    <g fill="none">
+      <g fill="none">
+        <g fill="none">
           <g>
-            <path
-              id="g-svg-1"
-              fill="rgba(65,97,128,1)"
-              class="slider-track"
-              d="M 10,10 l 300,0 l 0,50 l-300 0 z"
-              x="10"
-              y="10"
-              width="300"
-              height="50"
-              opacity="0.05"
-            />
+            <path width="300" height="50" x="10" y="10" fill="rgba(65,97,128,1)" d="m10 10 300 0 0 50-300 0z" class="slider-track" opacity=".05"/>
           </g>
-          <g id="g-svg-2" fill="none" class="slider-sparkline-group">
-            <g id="g-svg-3" fill="none" class="slider-sparkline">
+          <g fill="none" class="slider-sparkline-group">
+            <g fill="none" class="slider-sparkline">
               <g>
-                <path id="g-svg-4" fill="none" class="container" />
+                <path fill="none" class="container"/>
               </g>
-              <g
-                id="g-svg-5"
-                fill="none"
-                class="spark sparkline"
-                transform="matrix(1,0,0,1,10,10)"
-              >
-                <g id="g-svg-6" fill="none">
+              <g fill="none" class="spark sparkline" transform="matrix(1 0 0 1 10 10)">
+                <g fill="none">
                   <g>
-                    <path
-                      id="g-svg-14"
-                      fill="none"
-                      class="line"
-                      stroke="rgba(131,218,173,1)"
-                      d="M 0,37.5 L 33.33333333333333,47.5 L 66.66666666666666,46.25 L 100,45 L 133.33333333333331,31.25 L 166.66666666666669,37.5 L 200,43.75 L 233.33333333333334,50 L 266.66666666666663,46.25 L 300,48.75"
-                      stroke-width="1"
-                    />
+                    <path fill="none" stroke="rgba(131,218,173,1)" stroke-width="1" d="m0 37.5 33.3333 10 33.3334-1.25 33.3333-1.25 33.3333-13.75 33.3334 6.25 33.3333 6.25 33.3333 6.25 33.3334-3.75 33.3333 2.5" class="line"/>
                   </g>
                   <g>
-                    <path
-                      id="g-svg-15"
-                      fill="none"
-                      class="line"
-                      stroke="rgba(237,191,69,1)"
-                      d="M 0,31.25 L 33.33333333333333,38.75 L 66.66666666666666,33.75 L 100,41.25 L 133.33333333333331,18.75 L 166.66666666666669,30 L 200,31.25 L 233.33333333333334,48.75 L 266.66666666666663,40 L 300,48.75"
-                      stroke-width="1"
-                    />
+                    <path fill="none" stroke="rgba(237,191,69,1)" stroke-width="1" d="m0 31.25 33.3333 7.5 33.3334-5 33.3333 7.5 33.3333-22.5 33.3334 11.25 33.3333 1.25 33.3333 17.5 33.3334-8.75 33.3333 8.75" class="line"/>
                   </g>
                   <g>
-                    <path
-                      id="g-svg-16"
-                      fill="none"
-                      class="line"
-                      stroke="rgba(210,206,249,1)"
-                      d="M 0,30 L 33.33333333333333,35 L 66.66666666666666,28.749999999999996 L 100,28.749999999999996 L 133.33333333333331,0 L 166.66666666666669,13.750000000000002 L 200,27.500000000000004 L 233.33333333333334,45 L 266.66666666666663,27.500000000000004 L 300,33.75"
-                      stroke-width="1"
-                    />
+                    <path fill="none" stroke="rgba(210,206,249,1)" stroke-width="1" d="m0 30 33.3333 5 33.3334-6.25 33.3333 0 33.3333-28.75 33.3334 13.75 33.3333 13.75 33.3333 17.5 33.3334-17.5 33.3333 6.25" class="line"/>
                   </g>
                   <g>
-                    <path
-                      id="g-svg-17"
-                      fill="rgba(131,218,173,1)"
-                      class="area"
-                      d="M 0,30 L 33.33333333333333,35 L 66.66666666666666,28.749999999999996 L 100,28.749999999999996 L 133.33333333333331,0 L 166.66666666666669,13.750000000000002 L 200,27.500000000000004 L 233.33333333333334,45 L 266.66666666666663,27.500000000000004 L 300,33.75 L 300,48.75 L 266.66666666666663,40 L 233.33333333333334,48.75 L 200,31.25 L 166.66666666666669,30 L 133.33333333333331,18.75 L 100,41.25 L 66.66666666666666,33.75 L 33.33333333333333,38.75 L 0,31.25 Z"
-                      opacity="0"
-                    />
+                    <path fill="rgba(131,218,173,1)" d="m0 30 33.3333 5 33.3334-6.25 33.3333 0 33.3333-28.75 33.3334 13.75 33.3333 13.75 33.3333 17.5 33.3334-17.5 33.3333 6.25 0 15-33.3333-8.75-33.3334 8.75-33.3333-17.5-33.3333-1.25-33.3334-11.25-33.3333 22.5-33.3333-7.5-33.3334 5-33.3333-7.5Z" class="area" opacity="0"/>
                   </g>
                   <g>
-                    <path
-                      id="g-svg-18"
-                      fill="rgba(237,191,69,1)"
-                      class="area"
-                      d="M 0,31.25 L 33.33333333333333,38.75 L 66.66666666666666,33.75 L 100,41.25 L 133.33333333333331,18.75 L 166.66666666666669,30 L 200,31.25 L 233.33333333333334,48.75 L 266.66666666666663,40 L 300,48.75 L 300,48.75 L 266.66666666666663,46.25 L 233.33333333333334,50 L 200,43.75 L 166.66666666666669,37.5 L 133.33333333333331,31.25 L 100,45 L 66.66666666666666,46.25 L 33.33333333333333,47.5 L 0,37.5 Z"
-                      opacity="0"
-                    />
+                    <path fill="rgba(237,191,69,1)" d="m0 31.25 33.3333 7.5 33.3334-5 33.3333 7.5 33.3333-22.5 33.3334 11.25 33.3333 1.25 33.3333 17.5 33.3334-8.75 33.3333 8.75 0 0-33.3333-2.5-33.3334 3.75-33.3333-6.25-33.3333-6.25-33.3334-6.25-33.3333 13.75-33.3333 1.25-33.3334 1.25-33.3333-10Z" class="area" opacity="0"/>
                   </g>
                   <g>
-                    <path
-                      id="g-svg-19"
-                      fill="rgba(210,206,249,1)"
-                      class="area"
-                      d="M 0,37.5 L 33.33333333333333,47.5 L 66.66666666666666,46.25 L 100,45 L 133.33333333333331,31.25 L 166.66666666666669,37.5 L 200,43.75 L 233.33333333333334,50 L 266.66666666666663,46.25 L 300,48.75 L 300,50 L 0,50 Z"
-                      opacity="0"
-                    />
+                    <path fill="rgba(210,206,249,1)" d="m0 37.5 33.3333 10 33.3334-1.25 33.3333-1.25 33.3333-13.75 33.3334 6.25 33.3333 6.25 33.3333 6.25 33.3334-3.75 33.3333 2.5 0 1.25-300 0Z" class="area" opacity="0"/>
                   </g>
                 </g>
-                <g id="g-svg-7" fill="none" />
+                <g fill="none"/>
               </g>
             </g>
           </g>
           <g>
-            <path
-              id="g-svg-20"
-              fill="rgba(0,0,0,0)"
-              class="slider-brush-area"
-              d="M 10,10 l 300,0 l 0,50 l-300 0 z"
-              x="10"
-              y="10"
-              width="300"
-              height="50"
-            />
+            <path width="300" height="50" x="10" y="10" fill="rgba(0,0,0,0)" d="m10 10 300 0 0 50-300 0z" class="slider-brush-area"/>
           </g>
-          <g id="g-svg-21" fill="none" class="slider-foreground">
-            <g transform="matrix(1,0,0,1,10,10)">
-              <path
-                id="g-svg-22"
-                fill="rgba(91,143,249,1)"
-                class="slider-selection"
-                visibility="hidden"
-                fill-opacity="0.45"
-                height="50"
-              />
+          <g fill="none" class="slider-foreground">
+            <g transform="matrix(1 0 0 1 10 10)">
+              <path height="50" fill="rgba(91,143,249,1)" fill-opacity=".45" class="slider-selection" visibility="hidden"/>
             </g>
-            <g transform="matrix(1,0,0,1,10,10)">
-              <path
-                id="g-svg-23"
-                fill="rgba(91,143,249,1)"
-                class="slider-selection"
-                visibility="visible"
-                fill-opacity="0.45"
-                height="50"
-              />
+            <g transform="matrix(1 0 0 1 10 10)">
+              <path height="50" fill="rgba(91,143,249,1)" fill-opacity=".45" class="slider-selection" visibility="visible"/>
             </g>
-            <g transform="matrix(1,0,0,1,10,10)">
-              <path
-                id="g-svg-24"
-                fill="rgba(91,143,249,1)"
-                class="slider-selection"
-                visibility="hidden"
-                fill-opacity="0.45"
-                d="M 0,0 l 300,0 l 0,50 l-300 0 z"
-                height="50"
-                width="300"
-              />
+            <g transform="matrix(1 0 0 1 10 10)">
+              <path width="300" height="50" fill="rgba(91,143,249,1)" fill-opacity=".45" d="m0 0 300 0 0 50-300 0z" class="slider-selection" visibility="hidden"/>
             </g>
           </g>
         </g>
       </g>
     </g>
   </g>
-</svg>
+</svg

@@ -1,11 +1,67 @@
 /* eslint-disable no-restricted-syntax */
 import * as fs from 'fs';
 import { Canvas, resetEntityCounter } from '@antv/g';
-import { format } from 'prettier';
-import xmlserializer from 'xmlserializer';
+import { serializeToString } from 'xmlserializer';
+import { optimize } from 'svgo';
 import * as tests from './components';
 import { renderCanvas, sleep } from './canvas';
 import { fetch } from './fetch';
+
+const format = (svg: SVGElement) => {
+  return optimize(serializeToString(svg as any), {
+    js2svg: {
+      pretty: true,
+      indent: 2,
+    },
+    plugins: [
+      'cleanupIds',
+      'cleanupAttrs',
+      'sortAttrs',
+      'sortDefsChildren',
+      'removeUselessDefs',
+      {
+        name: 'convertPathData',
+        params: {
+          floatPrecision: 4,
+          forceAbsolutePath: true,
+
+          applyTransforms: false,
+          applyTransformsStroked: false,
+          straightCurves: false,
+          convertToQ: false,
+          lineShorthands: false,
+          convertToZ: false,
+          curveSmoothShorthands: false,
+          smartArcRounding: false,
+          removeUseless: false,
+          collapseRepeated: false,
+          utilizeAbsolute: false,
+          negativeExtraSpace: false,
+        },
+      },
+      {
+        name: 'convertTransform',
+        params: {
+          floatPrecision: 4,
+
+          convertToShorts: false,
+          matrixToTransform: false,
+          shortTranslate: false,
+          shortScale: false,
+          shortRotate: false,
+          removeUseless: false,
+          collapseIntoOne: false,
+        },
+      },
+      {
+        name: 'cleanupNumericValues',
+        params: {
+          floatPrecision: 4,
+        },
+      },
+    ],
+  }).data;
+};
 
 // @ts-ignore
 global.fetch = fetch;
@@ -39,9 +95,7 @@ describe('integration', () => {
           const container = canvas.getConfig().container as HTMLElement;
           const dom = container.querySelector('svg');
 
-          actual = format(xmlserializer.serializeToString(dom as any), {
-            parser: 'babel',
-          });
+          actual = format(dom as SVGElement);
 
           // Remove ';' after format by babel.
           if (actual !== 'null') actual = actual.slice(0, -2);
