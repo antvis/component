@@ -16,7 +16,7 @@ jobs:
           node-version: '16'
       - name: Run ci
         run: |
-          npm install
+          npm install --legacy-peer-deps
           npm run ci
 
       - name: Upload blob report to GitHub Actions Artifacts
