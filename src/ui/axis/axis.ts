@@ -46,7 +46,7 @@ function renderAxisMain(
   const labelGroup = container.maybeAppendByClassName(CLASS_NAMES.labelGroup, 'g');
   const labelTransitions =
     ifShow(showLabel!, labelGroup, (group) => {
-      return renderLabels(group, data, attributes, animation);
+      return renderLabels(group, data, attributes, animation, container.node());
     }) || [];
 
   return [...lineTransitions, ...tickTransitions, ...labelTransitions].filter((t) => !!t);

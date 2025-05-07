@@ -1,4 +1,5 @@
-import type { Text } from '../../../shapes';
+import { getCallbackValue } from '../../../util';
+import type { DisplayObject, Text } from '../../../shapes';
 import { isAxisHorizontal } from '../guides/line';
 import { AxisStyleProps, LinearAxisStyleProps, WrapOverlapCfg } from '../types';
 import { boundTest } from '../utils/test';
@@ -17,9 +18,15 @@ function inferTextBaseline(attr: AxisStyleProps) {
   return 'middle';
 }
 
-export default function wrapLabels(labels: Text[], overlapCfg: WrapOverlapCfg, attr: AxisStyleProps, utils: Utils) {
-  const { wordWrapWidth = 50, maxLines = 3, recoverWhenFailed = true, margin = [0, 0, 0, 0] } = overlapCfg;
-
+export default function wrapLabels(
+  labels: Text[],
+  overlapCfg: WrapOverlapCfg,
+  attr: AxisStyleProps,
+  utils: Utils,
+  main: DisplayObject
+) {
+  const { maxLines = 3, recoverWhenFailed = true, margin = [0, 0, 0, 0] } = overlapCfg;
+  const wordWrapWidth = getCallbackValue(overlapCfg.wordWrapWidth || 50, [main]);
   const defaultLines = labels.map((label) => label.attr('maxLines') || 1);
 
   const minLines = Math.min(...defaultLines);

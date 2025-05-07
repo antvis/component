@@ -170,8 +170,8 @@ function applyTextStyle(node: DisplayObject, style: Partial<TextStyleProps>) {
   if (node.nodeName === 'text') node.attr(style);
 }
 
-function overlapHandler(attr: Required<AxisStyleProps>) {
-  processOverlap(this.node().childNodes as DisplayObject[], attr, {
+function overlapHandler(attr: Required<AxisStyleProps>, main: DisplayObject) {
+  processOverlap(this.node().childNodes as DisplayObject[], attr, main, {
     hide,
     show,
     rotate: (label, angle) => {
@@ -219,7 +219,8 @@ export function renderLabels(
   container: Selection,
   data: AxisDatum[],
   attr: Required<AxisStyleProps>,
-  animate: StandardAnimationOption
+  animate: StandardAnimationOption,
+  main: DisplayObject
 ) {
   const finalData = filterExec(data, attr.labelFilter);
   const style = subStyleProps<AxisLabelStyleProps>(attr, 'label');
@@ -262,7 +263,7 @@ export function renderLabels(
     .transitions();
   // handle overlapping after transitions finished
   onAnimatesFinished(transitions, () => {
-    overlapHandler.call(container, attr);
+    overlapHandler.call(container, attr, main);
   });
   return transitions;
 }
