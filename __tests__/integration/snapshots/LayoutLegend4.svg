@@ -1,584 +1,162 @@
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  width="500"
-  height="500"
-  style="background: transparent;"
-  color-interpolation-filters="sRGB"
->
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" color-interpolation-filters="sRGB" style="background: transparent;">
   <defs>
-    <clipPath transform="matrix(1,0,0,1,-150.399994,-50)" id="clip-path-81-7">
-      <use href="#g-svg-81" transform="matrix(1,0,0,1,150.399994,50)" />
+    <clipPath id="b" transform="matrix(1 0 0 1 -150.4 -50)">
+      <use href="#a" transform="matrix(1 0 0 1 150.4 50)"/>
     </clipPath>
   </defs>
-  <g id="g-svg-camera">
-    <g id="g-root" fill="none">
-      <g id="g-svg-0" fill="none">
+  <g>
+    <g fill="none">
+      <g fill="none">
         <g>
-          <path
-            id="g-svg-1"
-            fill="none"
-            d="M 0,0 l 500,0 l 0,500 l-500 0 z"
-            width="500"
-            height="500"
-            stroke="rgba(255,0,0,1)"
-          />
+          <path width="500" height="500" fill="none" stroke="rgba(255,0,0,1)" d="m0 0 500 0 0 500-500 0z"/>
         </g>
-        <g id="g-svg-2" fill="none">
-          <g id="g-svg-3" fill="none" transform="matrix(1,0,0,1,150.399994,0)">
-            <g id="g-svg-1" fill="none" class="legend-title-group">
-              <g id="g-svg-2" fill="none" class="legend-title">
+        <g fill="none">
+          <g fill="none" transform="matrix(1 0 0 1 150.4 0)">
+            <g fill="none" class="legend-title-group">
+              <g fill="none" class="legend-title">
                 <g>
-                  <text
-                    id="g-svg-3"
-                    fill="rgba(44,53,66,1)"
-                    class="title-text"
-                    dominant-baseline="hanging"
-                    paint-order="stroke"
-                    font-weight="bold"
-                    font-size="12"
-                    font-family="sans-serif"
-                    x="0"
-                    y="0"
-                    text-anchor="left"
-                  >
-                    <tspan x="0" dx="0.5" dy="0">
-                      center
-                    </tspan>
-                    <tspan x="0" dx="0.5" dy="23">
-                      flex-start
-                    </tspan>
-                  </text>
+                  <text x="0" y="0" fill="rgba(44,53,66,1)" class="title-text" dominant-baseline="hanging" font-family="sans-serif" font-size="12" font-weight="bold" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left"><tspan x="0" dx=".5" dy="0">center</tspan><tspan x="0" dx=".5" dy="23">flex-start</tspan></text>
                 </g>
               </g>
             </g>
-            <g
-              id="g-svg-4"
-              fill="none"
-              transform="matrix(1,0,0,1,0,50)"
-              class="legend-items-group"
-            >
-              <g id="g-svg-5" fill="none" class="legend-items">
-                <g id="g-svg-6" fill="none" class="items-navigator">
-                  <g
-                    id="g-svg-7"
-                    fill="none"
-                    class="navigator-content-group"
-                    clip-path="url(#clip-path-81-7)"
-                  >
-                    <g id="g-svg-8" fill="none" class="navigator-play-window">
-                      <g id="g-svg-66" fill="none" class="items-item-page">
-                        <g id="g-svg-10" fill="none" class="items-item">
-                          <g
-                            id="g-svg-16"
-                            fill="none"
-                            class="legend-category-item-background-group"
-                          >
+            <g fill="none" class="legend-items-group" transform="matrix(1 0 0 1 0 50)">
+              <g fill="none" class="legend-items">
+                <g fill="none" class="items-navigator">
+                  <g fill="none" class="navigator-content-group" clip-path="url(#b)">
+                    <g fill="none" class="navigator-play-window">
+                      <g fill="none" class="items-item-page">
+                        <g fill="none" class="items-item">
+                          <g fill="none" class="legend-category-item-background-group">
                             <g>
-                              <path
-                                id="g-svg-17"
-                                fill="none"
-                                class="legend-category-item-background"
-                                d="M 0,0 l 93.79999999999995,0 l 0,23 l-93.79999999999995 0 z"
-                                width="93.79999999999995"
-                                height="23"
-                                visibility="visible"
-                              />
+                              <path width="93.8" height="23" fill="none" d="m0 0 93.8 0 0 23-93.8 0z" class="legend-category-item-background" visibility="visible"/>
                             </g>
                           </g>
-                          <g
-                            id="g-svg-11"
-                            fill="none"
-                            transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
-                            class="legend-category-item-marker-group"
-                          >
+                          <g fill="none" class="legend-category-item-marker-group" transform="matrix(.83333 0 0 .83333 5 11.5)">
                             <g>
-                              <circle
-                                id="g-svg-12"
-                                fill="rgba(160,174,198,1)"
-                                r="6"
-                                class="legend-category-item-marker"
-                                visibility="visible"
-                              />
+                              <circle r="6" fill="rgba(160,174,198,1)" class="legend-category-item-marker" visibility="visible"/>
                             </g>
                           </g>
-                          <g
-                            id="g-svg-13"
-                            fill="none"
-                            transform="matrix(1,0,0,1,10,11.500000)"
-                            class="legend-category-item-label-group"
-                          >
+                          <g fill="none" class="legend-category-item-label-group" transform="matrix(1 0 0 1 10 11.5)">
                             <g>
-                              <text
-                                id="g-svg-14"
-                                fill="rgba(100,100,100,1)"
-                                dominant-baseline="central"
-                                paint-order="stroke"
-                                dx="0.5"
-                                font-family="sans-serif"
-                                font-size="12"
-                                font-style="normal"
-                                font-variant="normal"
-                                font-weight="normal"
-                                stroke-width="1"
-                                text-anchor="left"
-                                class="legend-category-item-label"
-                                visibility="visible"
-                              >
-                                Under 5 Years
-                              </text>
+                              <text fill="rgba(100,100,100,1)" stroke-width="1" class="legend-category-item-label" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="12" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left" visibility="visible">Under 5 Years</text>
                             </g>
                           </g>
-                          <g
-                            id="g-svg-15"
-                            fill="none"
-                            class="legend-category-item-value-group"
-                          />
+                          <g fill="none" class="legend-category-item-value-group"/>
                         </g>
-                        <g
-                          id="g-svg-18"
-                          fill="none"
-                          transform="matrix(1,0,0,1,98.800003,0)"
-                          class="items-item"
-                        >
-                          <g
-                            id="g-svg-24"
-                            fill="none"
-                            class="legend-category-item-background-group"
-                          >
+                        <g fill="none" class="items-item" transform="matrix(1 0 0 1 98.8 0)">
+                          <g fill="none" class="legend-category-item-background-group">
                             <g>
-                              <path
-                                id="g-svg-25"
-                                fill="none"
-                                class="legend-category-item-background"
-                                d="M 0,0 l 87.08000000000004,0 l 0,23 l-87.08000000000004 0 z"
-                                width="87.08000000000004"
-                                height="23"
-                                visibility="visible"
-                              />
+                              <path width="87.08" height="23" fill="none" d="m0 0 87.08 0 0 23-87.08 0z" class="legend-category-item-background" visibility="visible"/>
                             </g>
                           </g>
-                          <g
-                            id="g-svg-19"
-                            fill="none"
-                            transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
-                            class="legend-category-item-marker-group"
-                          >
+                          <g fill="none" class="legend-category-item-marker-group" transform="matrix(.83333 0 0 .83333 5 11.5)">
                             <g>
-                              <circle
-                                id="g-svg-20"
-                                fill="rgba(144,143,169,1)"
-                                r="6"
-                                class="legend-category-item-marker"
-                                visibility="visible"
-                              />
+                              <circle r="6" fill="rgba(144,143,169,1)" class="legend-category-item-marker" visibility="visible"/>
                             </g>
                           </g>
-                          <g
-                            id="g-svg-21"
-                            fill="none"
-                            transform="matrix(1,0,0,1,10,11.500000)"
-                            class="legend-category-item-label-group"
-                          >
+                          <g fill="none" class="legend-category-item-label-group" transform="matrix(1 0 0 1 10 11.5)">
                             <g>
-                              <text
-                                id="g-svg-22"
-                                fill="rgba(100,100,100,1)"
-                                dominant-baseline="central"
-                                paint-order="stroke"
-                                dx="0.5"
-                                font-family="sans-serif"
-                                font-size="12"
-                                font-style="normal"
-                                font-variant="normal"
-                                font-weight="normal"
-                                stroke-width="1"
-                                text-anchor="left"
-                                class="legend-category-item-label"
-                                visibility="visible"
-                              >
-                                5 to 13 Years
-                              </text>
+                              <text fill="rgba(100,100,100,1)" stroke-width="1" class="legend-category-item-label" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="12" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left" visibility="visible">5 to 13 Years</text>
                             </g>
                           </g>
-                          <g
-                            id="g-svg-23"
-                            fill="none"
-                            class="legend-category-item-value-group"
-                          />
+                          <g fill="none" class="legend-category-item-value-group"/>
                         </g>
-                        <g
-                          id="g-svg-26"
-                          fill="none"
-                          transform="matrix(1,0,0,1,0,23)"
-                          class="items-item"
-                        >
-                          <g
-                            id="g-svg-32"
-                            fill="none"
-                            class="legend-category-item-background-group"
-                          >
+                        <g fill="none" class="items-item" transform="matrix(1 0 0 1 0 23)">
+                          <g fill="none" class="legend-category-item-background-group">
                             <g>
-                              <path
-                                id="g-svg-33"
-                                fill="none"
-                                class="legend-category-item-background"
-                                d="M 0,0 l 92.48000000000002,0 l 0,23 l-92.48000000000002 0 z"
-                                width="92.48000000000002"
-                                height="23"
-                                visibility="visible"
-                              />
+                              <path width="92.48" height="23" fill="none" d="m0 0 92.48 0 0 23-92.48 0z" class="legend-category-item-background" visibility="visible"/>
                             </g>
                           </g>
-                          <g
-                            id="g-svg-27"
-                            fill="none"
-                            transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
-                            class="legend-category-item-marker-group"
-                          >
+                          <g fill="none" class="legend-category-item-marker-group" transform="matrix(.83333 0 0 .83333 5 11.5)">
                             <g>
-                              <circle
-                                id="g-svg-28"
-                                fill="rgba(127,113,140,1)"
-                                r="6"
-                                class="legend-category-item-marker"
-                                visibility="visible"
-                              />
+                              <circle r="6" fill="rgba(127,113,140,1)" class="legend-category-item-marker" visibility="visible"/>
                             </g>
                           </g>
-                          <g
-                            id="g-svg-29"
-                            fill="none"
-                            transform="matrix(1,0,0,1,10,11.500000)"
-                            class="legend-category-item-label-group"
-                          >
+                          <g fill="none" class="legend-category-item-label-group" transform="matrix(1 0 0 1 10 11.5)">
                             <g>
-                              <text
-                                id="g-svg-30"
-                                fill="rgba(100,100,100,1)"
-                                dominant-baseline="central"
-                                paint-order="stroke"
-                                dx="0.5"
-                                font-family="sans-serif"
-                                font-size="12"
-                                font-style="normal"
-                                font-variant="normal"
-                                font-weight="normal"
-                                stroke-width="1"
-                                text-anchor="left"
-                                class="legend-category-item-label"
-                                visibility="visible"
-                              >
-                                14 to 17 Years
-                              </text>
+                              <text fill="rgba(100,100,100,1)" stroke-width="1" class="legend-category-item-label" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="12" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left" visibility="visible">14 to 17 Years</text>
                             </g>
                           </g>
-                          <g
-                            id="g-svg-31"
-                            fill="none"
-                            class="legend-category-item-value-group"
-                          />
+                          <g fill="none" class="legend-category-item-value-group"/>
                         </g>
-                        <g
-                          id="g-svg-34"
-                          fill="none"
-                          transform="matrix(1,0,0,1,97.480003,23)"
-                          class="items-item"
-                        >
-                          <g
-                            id="g-svg-40"
-                            fill="none"
-                            class="legend-category-item-background-group"
-                          >
+                        <g fill="none" class="items-item" transform="matrix(1 0 0 1 97.48 23)">
+                          <g fill="none" class="legend-category-item-background-group">
                             <g>
-                              <path
-                                id="g-svg-41"
-                                fill="none"
-                                class="legend-category-item-background"
-                                d="M 0,0 l 95,0 l 0,23 l-95 0 z"
-                                width="95"
-                                height="23"
-                                visibility="visible"
-                              />
+                              <path width="95" height="23" fill="none" d="m0 0 95 0 0 23-95 0z" class="legend-category-item-background" visibility="visible"/>
                             </g>
                           </g>
-                          <g
-                            id="g-svg-35"
-                            fill="none"
-                            transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
-                            class="legend-category-item-marker-group"
-                          >
+                          <g fill="none" class="legend-category-item-marker-group" transform="matrix(.83333 0 0 .83333 5 11.5)">
                             <g>
-                              <circle
-                                id="g-svg-36"
-                                fill="rgba(110,82,113,1)"
-                                r="6"
-                                class="legend-category-item-marker"
-                                visibility="visible"
-                              />
+                              <circle r="6" fill="rgba(110,82,113,1)" class="legend-category-item-marker" visibility="visible"/>
                             </g>
                           </g>
-                          <g
-                            id="g-svg-37"
-                            fill="none"
-                            transform="matrix(1,0,0,1,10,11.500000)"
-                            class="legend-category-item-label-group"
-                          >
+                          <g fill="none" class="legend-category-item-label-group" transform="matrix(1 0 0 1 10 11.5)">
                             <g>
-                              <text
-                                id="g-svg-38"
-                                fill="rgba(100,100,100,1)"
-                                dominant-baseline="central"
-                                paint-order="stroke"
-                                dx="0.5"
-                                font-family="sans-serif"
-                                font-size="12"
-                                font-style="normal"
-                                font-variant="normal"
-                                font-weight="normal"
-                                stroke-width="1"
-                                text-anchor="left"
-                                class="legend-category-item-label"
-                                visibility="visible"
-                              >
-                                18 to 24 Years
-                              </text>
+                              <text fill="rgba(100,100,100,1)" stroke-width="1" class="legend-category-item-label" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="12" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left" visibility="visible">18 to 24 Years</text>
                             </g>
                           </g>
-                          <g
-                            id="g-svg-39"
-                            fill="none"
-                            class="legend-category-item-value-group"
-                          />
+                          <g fill="none" class="legend-category-item-value-group"/>
                         </g>
-                        <g
-                          id="g-svg-42"
-                          fill="none"
-                          transform="matrix(1,0,0,1,0,46)"
-                          class="items-item"
-                        >
-                          <g
-                            id="g-svg-48"
-                            fill="none"
-                            class="legend-category-item-background-group"
-                          >
+                        <g fill="none" class="items-item" transform="matrix(1 0 0 1 0 46)">
+                          <g fill="none" class="legend-category-item-background-group">
                             <g>
-                              <path
-                                id="g-svg-49"
-                                fill="none"
-                                class="legend-category-item-background"
-                                d="M 0,0 l 96.91999999999996,0 l 0,23 l-96.91999999999996 0 z"
-                                width="96.91999999999996"
-                                height="23"
-                                visibility="visible"
-                              />
+                              <path width="96.92" height="23" fill="none" d="m0 0 96.92 0 0 23-96.92 0z" class="legend-category-item-background" visibility="visible"/>
                             </g>
                           </g>
-                          <g
-                            id="g-svg-43"
-                            fill="none"
-                            transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
-                            class="legend-category-item-marker-group"
-                          >
+                          <g fill="none" class="legend-category-item-marker-group" transform="matrix(.83333 0 0 .83333 5 11.5)">
                             <g>
-                              <circle
-                                id="g-svg-44"
-                                fill="rgba(156,104,97,1)"
-                                r="6"
-                                class="legend-category-item-marker"
-                                visibility="visible"
-                              />
+                              <circle r="6" fill="rgba(156,104,97,1)" class="legend-category-item-marker" visibility="visible"/>
                             </g>
                           </g>
-                          <g
-                            id="g-svg-45"
-                            fill="none"
-                            transform="matrix(1,0,0,1,10,11.500000)"
-                            class="legend-category-item-label-group"
-                          >
+                          <g fill="none" class="legend-category-item-label-group" transform="matrix(1 0 0 1 10 11.5)">
                             <g>
-                              <text
-                                id="g-svg-46"
-                                fill="rgba(100,100,100,1)"
-                                dominant-baseline="central"
-                                paint-order="stroke"
-                                dx="0.5"
-                                font-family="sans-serif"
-                                font-size="12"
-                                font-style="normal"
-                                font-variant="normal"
-                                font-weight="normal"
-                                stroke-width="1"
-                                text-anchor="left"
-                                class="legend-category-item-label"
-                                visibility="visible"
-                              >
-                                25 to 44 Years
-                              </text>
+                              <text fill="rgba(100,100,100,1)" stroke-width="1" class="legend-category-item-label" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="12" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left" visibility="visible">25 to 44 Years</text>
                             </g>
                           </g>
-                          <g
-                            id="g-svg-47"
-                            fill="none"
-                            class="legend-category-item-value-group"
-                          />
+                          <g fill="none" class="legend-category-item-value-group"/>
                         </g>
-                        <g
-                          id="g-svg-50"
-                          fill="none"
-                          transform="matrix(1,0,0,1,101.919998,46)"
-                          class="items-item"
-                        >
-                          <g
-                            id="g-svg-56"
-                            fill="none"
-                            class="legend-category-item-background-group"
-                          >
+                        <g fill="none" class="items-item" transform="matrix(1 0 0 1 101.92 46)">
+                          <g fill="none" class="legend-category-item-background-group">
                             <g>
-                              <path
-                                id="g-svg-57"
-                                fill="none"
-                                class="legend-category-item-background"
-                                d="M 0,0 l 97.27999999999997,0 l 0,23 l-97.27999999999997 0 z"
-                                width="97.27999999999997"
-                                height="23"
-                                visibility="visible"
-                              />
+                              <path width="97.28" height="23" fill="none" d="m0 0 97.28 0 0 23-97.28 0z" class="legend-category-item-background" visibility="visible"/>
                             </g>
                           </g>
-                          <g
-                            id="g-svg-51"
-                            fill="none"
-                            transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
-                            class="legend-category-item-marker-group"
-                          >
+                          <g fill="none" class="legend-category-item-marker-group" transform="matrix(.83333 0 0 .83333 5 11.5)">
                             <g>
-                              <circle
-                                id="g-svg-52"
-                                fill="rgba(198,127,81,1)"
-                                r="6"
-                                class="legend-category-item-marker"
-                                visibility="visible"
-                              />
+                              <circle r="6" fill="rgba(198,127,81,1)" class="legend-category-item-marker" visibility="visible"/>
                             </g>
                           </g>
-                          <g
-                            id="g-svg-53"
-                            fill="none"
-                            transform="matrix(1,0,0,1,10,11.500000)"
-                            class="legend-category-item-label-group"
-                          >
+                          <g fill="none" class="legend-category-item-label-group" transform="matrix(1 0 0 1 10 11.5)">
                             <g>
-                              <text
-                                id="g-svg-54"
-                                fill="rgba(100,100,100,1)"
-                                dominant-baseline="central"
-                                paint-order="stroke"
-                                dx="0.5"
-                                font-family="sans-serif"
-                                font-size="12"
-                                font-style="normal"
-                                font-variant="normal"
-                                font-weight="normal"
-                                stroke-width="1"
-                                text-anchor="left"
-                                class="legend-category-item-label"
-                                visibility="visible"
-                              >
-                                45 to 64 Years
-                              </text>
+                              <text fill="rgba(100,100,100,1)" stroke-width="1" class="legend-category-item-label" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="12" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left" visibility="visible">45 to 64 Years</text>
                             </g>
                           </g>
-                          <g
-                            id="g-svg-55"
-                            fill="none"
-                            class="legend-category-item-value-group"
-                          />
+                          <g fill="none" class="legend-category-item-value-group"/>
                         </g>
-                        <g
-                          id="g-svg-58"
-                          fill="none"
-                          transform="matrix(1,0,0,1,0,69)"
-                          class="items-item"
-                        >
-                          <g
-                            id="g-svg-64"
-                            fill="none"
-                            class="legend-category-item-background-group"
-                          >
+                        <g fill="none" class="items-item" transform="matrix(1 0 0 1 0 69)">
+                          <g fill="none" class="legend-category-item-background-group">
                             <g>
-                              <path
-                                id="g-svg-65"
-                                fill="none"
-                                class="legend-category-item-background"
-                                d="M 0,0 l 118.75999999999999,0 l 0,23 l-118.75999999999999 0 z"
-                                width="118.75999999999999"
-                                height="23"
-                                visibility="visible"
-                              />
+                              <path width="118.76" height="23" fill="none" d="m0 0 118.76 0 0 23-118.76 0z" class="legend-category-item-background" visibility="visible"/>
                             </g>
                           </g>
-                          <g
-                            id="g-svg-59"
-                            fill="none"
-                            transform="matrix(0.833333,0,0,0.833333,5,11.500000)"
-                            class="legend-category-item-marker-group"
-                          >
+                          <g fill="none" class="legend-category-item-marker-group" transform="matrix(.83333 0 0 .83333 5 11.5)">
                             <g>
-                              <circle
-                                id="g-svg-60"
-                                fill="rgba(240,151,64,1)"
-                                r="6"
-                                class="legend-category-item-marker"
-                                visibility="visible"
-                              />
+                              <circle r="6" fill="rgba(240,151,64,1)" class="legend-category-item-marker" visibility="visible"/>
                             </g>
                           </g>
-                          <g
-                            id="g-svg-61"
-                            fill="none"
-                            transform="matrix(1,0,0,1,10,11.500000)"
-                            class="legend-category-item-label-group"
-                          >
+                          <g fill="none" class="legend-category-item-label-group" transform="matrix(1 0 0 1 10 11.5)">
                             <g>
-                              <text
-                                id="g-svg-62"
-                                fill="rgba(100,100,100,1)"
-                                dominant-baseline="central"
-                                paint-order="stroke"
-                                dx="0.5"
-                                font-family="sans-serif"
-                                font-size="12"
-                                font-style="normal"
-                                font-variant="normal"
-                                font-weight="normal"
-                                stroke-width="1"
-                                text-anchor="left"
-                                class="legend-category-item-label"
-                                visibility="visible"
-                              >
-                                65 Years and Over
-                              </text>
+                              <text fill="rgba(100,100,100,1)" stroke-width="1" class="legend-category-item-label" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="12" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left" visibility="visible">65 Years and Over</text>
                             </g>
                           </g>
-                          <g
-                            id="g-svg-63"
-                            fill="none"
-                            class="legend-category-item-value-group"
-                          />
+                          <g fill="none" class="legend-category-item-value-group"/>
                         </g>
                       </g>
                     </g>
                   </g>
-                  <g id="g-svg-9" fill="none" class="navigator-controller" />
+                  <g fill="none" class="navigator-controller"/>
                   <g>
-                    <path
-                      id="g-svg-81"
-                      fill="none"
-                      d="M 0,0 l 199.19999816894529,0 l 0,92 l-199.19999816894529 0 z"
-                      class="navigator-clip-path"
-                      width="199.19999816894529"
-                      height="92"
-                    />
+                    <path id="a" width="199.2" height="92" fill="none" d="m0 0 199.2 0 0 92-199.2 0z" class="navigator-clip-path"/>
                   </g>
                 </g>
               </g>
@@ -588,4 +166,4 @@
       </g>
     </g>
   </g>
-</svg>
+</svg
