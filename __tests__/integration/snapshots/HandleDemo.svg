@@ -1,136 +1,60 @@
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  width="400"
-  height="300"
-  style="background: transparent;"
-  color-interpolation-filters="sRGB"
->
-  <defs />
-  <g id="g-svg-camera">
-    <g id="g-root" fill="none">
-      <g id="g-svg-0" fill="none">
-        <g id="g-svg-1" fill="none" transform="matrix(1,0,0,1,100,100)">
-          <g id="g-svg-1" fill="none" class="handle-marker-group">
-            <g id="g-svg-2" fill="none" class="handle-marker">
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" color-interpolation-filters="sRGB" style="background: transparent;">
+  <g>
+    <g fill="none">
+      <g fill="none">
+        <g fill="none" transform="matrix(1 0 0 1 100 100)">
+          <g fill="none" class="handle-marker-group">
+            <g fill="none" class="handle-marker">
               <g>
-                <path
-                  id="g-svg-3"
-                  fill="rgba(255,255,255,1)"
-                  class="marker path-marker"
-                  d="M 0,0 L -6.25,7 L -6.25,17.5 L 6.25,17.5 L 6.25,7 Z M -2.0833333333333335,7 L -2.0833333333333335,15.5 M 2.0833333333333335,7 L 2.0833333333333335,15.5"
-                  stroke="rgba(197,197,197,1)"
-                  stroke-width="1"
-                />
+                <path fill="rgba(255,255,255,1)" stroke="rgba(197,197,197,1)" stroke-width="1" d="m0 0-6.25 7 0 10.5 12.5 0 0-10.5Zm-2.0833 7 0 8.5m4.1666-8.5 0 8.5" class="marker path-marker"/>
               </g>
             </g>
           </g>
-          <g id="g-svg-4" fill="none" class="handle-label-group" />
+          <g fill="none" class="handle-label-group"/>
         </g>
-        <g id="g-svg-2" fill="none" transform="matrix(1,0,0,1,100,150)">
-          <g id="g-svg-5" fill="none" class="handle-marker-group">
-            <g id="g-svg-6" fill="none" class="handle-marker">
+        <g fill="none" transform="matrix(1 0 0 1 100 150)">
+          <g fill="none" class="handle-marker-group">
+            <g fill="none" class="handle-marker">
               <g>
-                <path
-                  id="g-svg-7"
-                  fill="rgba(255,255,255,1)"
-                  class="marker path-marker"
-                  d="M 0,0 L 7,6.25 L 17.5,6.25 L 17.5,-6.25 L 7,-6.25 Z M 7,2.0833333333333335 L 15.5,2.0833333333333335 M 7,-2.0833333333333335 L 15.5,-2.0833333333333335"
-                  stroke="rgba(197,197,197,1)"
-                  stroke-width="1"
-                />
+                <path fill="rgba(255,255,255,1)" stroke="rgba(197,197,197,1)" stroke-width="1" d="m0 0 7 6.25 10.5 0 0-12.5-10.5 0Zm7 2.0833 8.5 0m-8.5-4.1666 8.5 0" class="marker path-marker"/>
               </g>
             </g>
           </g>
-          <g id="g-svg-8" fill="none" class="handle-label-group">
+          <g fill="none" class="handle-label-group">
             <g>
-              <text
-                id="g-svg-9"
-                fill="rgba(197,197,197,1)"
-                class="handle-label"
-                dominant-baseline="central"
-                paint-order="stroke"
-                x="17.5"
-                dx="0.5"
-                font-size="12"
-                y="0"
-                text-anchor="left"
-              >
-                labelText
-              </text>
+              <text x="17.5" y="0" fill="rgba(197,197,197,1)" class="handle-label" dominant-baseline="central" dx=".5" dy="0" font-size="12" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">labelText</text>
             </g>
           </g>
         </g>
-        <g id="g-svg-3" fill="none" transform="matrix(1,0,0,1,100,200)">
-          <g id="g-svg-10" fill="none" class="handle-marker-group">
-            <g id="g-svg-11" fill="none" class="handle-marker">
+        <g fill="none" transform="matrix(1 0 0 1 100 200)">
+          <g fill="none" class="handle-marker-group">
+            <g fill="none" class="handle-marker">
               <g>
-                <path
-                  id="g-svg-12"
-                  fill="rgba(255,255,255,1)"
-                  class="marker path-marker"
-                  d="M 0,0 L -6.25,7 L -6.25,17.5 L 6.25,17.5 L 6.25,7 Z M -2.0833333333333335,7 L -2.0833333333333335,15.5 M 2.0833333333333335,7 L 2.0833333333333335,15.5"
-                  stroke="rgba(197,197,197,1)"
-                  stroke-width="1"
-                />
+                <path fill="rgba(255,255,255,1)" stroke="rgba(197,197,197,1)" stroke-width="1" d="m0 0-6.25 7 0 10.5 12.5 0 0-10.5Zm-2.0833 7 0 8.5m4.1666-8.5 0 8.5" class="marker path-marker"/>
               </g>
             </g>
           </g>
-          <g id="g-svg-13" fill="none" class="handle-label-group">
+          <g fill="none" class="handle-label-group">
             <g>
-              <text
-                id="g-svg-14"
-                fill="rgba(197,197,197,1)"
-                class="handle-label"
-                dominant-baseline="central"
-                paint-order="stroke"
-                y="27.5"
-                dx="0.5"
-                dy="11.5px"
-                font-size="12"
-                x="0"
-                text-anchor="middle"
-              >
-                formatted text - labelText
-              </text>
+              <text x="0" y="27.5" fill="rgba(197,197,197,1)" class="handle-label" dominant-baseline="central" dx=".5" dy="11.5" font-size="12" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">formatted text - labelText</text>
             </g>
           </g>
         </g>
-        <g id="g-svg-4" fill="none" transform="matrix(1,0,0,1,100,250)">
-          <g id="g-svg-15" fill="none" class="handle-marker-group">
-            <g id="g-svg-16" fill="none" class="handle-marker">
+        <g fill="none" transform="matrix(1 0 0 1 100 250)">
+          <g fill="none" class="handle-marker-group">
+            <g fill="none" class="handle-marker">
               <g>
-                <path
-                  id="g-svg-17"
-                  fill="rgba(193,56,54,1)"
-                  class="marker path-marker"
-                  d="M 0,0 L -10,11.200000000000001 L -10,28 L 10,28 L 10,11.200000000000001 Z M -3.3333333333333335,11.200000000000001 L -3.3333333333333335,26 M 3.3333333333333335,11.200000000000001 L 3.3333333333333335,26"
-                  stroke="rgba(253,241,240,1)"
-                  stroke-width="1"
-                />
+                <path fill="rgba(193,56,54,1)" stroke="rgba(253,241,240,1)" stroke-width="1" d="m0 0-10 11.2 0 16.8 20 0 0-16.8Zm-3.3333 11.2 0 14.8m6.6666-14.8 0 14.8" class="marker path-marker"/>
               </g>
             </g>
           </g>
-          <g id="g-svg-18" fill="none" class="handle-label-group">
+          <g fill="none" class="handle-label-group">
             <g>
-              <text
-                id="g-svg-19"
-                fill="rgba(197,197,197,1)"
-                class="handle-label"
-                dominant-baseline="central"
-                paint-order="stroke"
-                y="38"
-                dx="0.5"
-                dy="11.5px"
-                font-size="12"
-                x="0"
-                text-anchor="middle"
-              >
-                labelText
-              </text>
+              <text x="0" y="38" fill="rgba(197,197,197,1)" class="handle-label" dominant-baseline="central" dx=".5" dy="11.5" font-size="12" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">labelText</text>
             </g>
           </g>
         </g>
       </g>
     </g>
   </g>
-</svg>
+</svg

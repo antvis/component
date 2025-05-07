@@ -36,9 +36,16 @@ export default function wrapLabels(labels: Text[], overlapCfg: WrapOverlapCfg, a
 
   if (minLines > maxLines) return;
 
-  for (let lines = minLines; lines <= maxLines; lines++) {
-    setLabelsWrap(lines);
-    if (runAndPassed()) return;
+  if (attr.type === 'linear' && isAxisHorizontal(attr as Required<LinearAxisStyleProps>)) {
+    setLabelsWrap(maxLines);
+    if (runAndPassed()) {
+      return;
+    }
+  } else {
+    for (let lines = minLines; lines <= maxLines; lines++) {
+      setLabelsWrap(lines);
+      if (runAndPassed()) return;
+    }
   }
 
   if (recoverWhenFailed) {

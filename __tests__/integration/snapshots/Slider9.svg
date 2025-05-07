@@ -1,134 +1,54 @@
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  width="400"
-  height="300"
-  style="background: transparent;"
-  color-interpolation-filters="sRGB"
->
-  <defs />
-  <g id="g-svg-camera">
-    <g id="g-root" fill="none">
-      <g id="g-svg-0" fill="none">
-        <g id="g-svg-1" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" color-interpolation-filters="sRGB" style="background: transparent;">
+  <g>
+    <g fill="none">
+      <g fill="none">
+        <g fill="none">
           <g>
-            <path
-              id="g-svg-1"
-              fill="rgba(216,232,251,1)"
-              class="slider-track"
-              d="M 15,10 l 290,0 a 5,5,0,0,1,5,5 l 0,0 a 5,5,0,0,1,-5,5 l -290,0 a 5,5,0,0,1,-5,-5 l 0,0 a 5,5,0,0,1,5,-5 z"
-              x="10"
-              y="10"
-              width="300"
-              height="10"
-              opacity="0.5"
-            />
+            <path width="300" height="10" x="10" y="10" fill="rgba(216,232,251,1)" d="m15 10 290 0a5 5 0 0 1 5 5l0 0a5 5 0 0 1-5 5l-290 0a5 5 0 0 1-5-5l0 0a5 5 0 0 1 5-5z" class="slider-track" opacity=".5"/>
           </g>
-          <g id="g-svg-2" fill="none" class="slider-sparkline-group">
-            <g id="g-svg-3" fill="none" class="slider-sparkline">
+          <g fill="none" class="slider-sparkline-group">
+            <g fill="none" class="slider-sparkline">
               <g>
-                <path id="g-svg-4" fill="none" class="container" />
+                <path fill="none" class="container"/>
               </g>
-              <g
-                id="g-svg-5"
-                fill="none"
-                class="spark sparkline"
-                transform="matrix(1,0,0,1,10,10)"
-              >
-                <g id="g-svg-6" fill="none" />
-                <g id="g-svg-7" fill="none" />
+              <g fill="none" class="spark sparkline" transform="matrix(1 0 0 1 10 10)">
+                <g fill="none"/>
+                <g fill="none"/>
               </g>
             </g>
           </g>
           <g>
-            <path
-              id="g-svg-8"
-              fill="rgba(0,0,0,0)"
-              class="slider-brush-area"
-              d="M 10,10 l 300,0 l 0,10 l-300 0 z"
-              x="10"
-              y="10"
-              width="300"
-              height="10"
-            />
+            <path width="300" height="10" x="10" y="10" fill="rgba(0,0,0,0)" d="m10 10 300 0 0 10-300 0z" class="slider-brush-area"/>
           </g>
-          <g id="g-svg-9" fill="none" class="slider-foreground">
-            <g transform="matrix(1,0,0,1,10,10)">
-              <path
-                id="g-svg-10"
-                fill="rgba(91,143,249,1)"
-                class="slider-selection"
-                visibility="hidden"
-                fill-opacity="0.45"
-                d="M 0,0 l 75,0 l 0,10 l-75 0 z"
-                height="10"
-                width="75"
-              />
+          <g fill="none" class="slider-foreground">
+            <g transform="matrix(1 0 0 1 10 10)">
+              <path width="75" height="10" fill="rgba(91,143,249,1)" fill-opacity=".45" d="m0 0 75 0 0 10-75 0z" class="slider-selection" visibility="hidden"/>
             </g>
-            <g transform="matrix(1,0,0,1,10,10)">
-              <path
-                id="g-svg-11"
-                fill="rgba(91,143,249,1)"
-                class="slider-selection"
-                visibility="visible"
-                fill-opacity="0.45"
-                d="M 75,0 l 150,0 l 0,10 l-150 0 z"
-                height="10"
-                x="75"
-                width="150"
-              />
+            <g transform="matrix(1 0 0 1 10 10)">
+              <path width="150" height="10" x="75" fill="rgba(91,143,249,1)" fill-opacity=".45" d="m75 0 150 0 0 10-150 0z" class="slider-selection" visibility="visible"/>
             </g>
-            <g transform="matrix(1,0,0,1,10,10)">
-              <path
-                id="g-svg-12"
-                fill="rgba(91,143,249,1)"
-                class="slider-selection"
-                visibility="hidden"
-                fill-opacity="0.45"
-                d="M 225,0 l 75,0 l 0,10 l-75 0 z"
-                height="10"
-                x="225"
-                width="75"
-              />
+            <g transform="matrix(1 0 0 1 10 10)">
+              <path width="75" height="10" x="225" fill="rgba(91,143,249,1)" fill-opacity=".45" d="m225 0 75 0 0 10-75 0z" class="slider-selection" visibility="hidden"/>
             </g>
-            <g
-              id="g-svg-15"
-              fill="none"
-              transform="matrix(1,0,0,1,85,15)"
-              class="slider-handle start-handle"
-            >
-              <g id="g-svg-16" fill="none" class="handle-icon-group">
+            <g fill="none" class="slider-handle start-handle" transform="matrix(1 0 0 1 85 15)">
+              <g fill="none" class="handle-icon-group">
                 <g>
-                  <circle
-                    id="g-svg-17"
-                    fill="rgba(78,118,177,1)"
-                    r="5"
-                    class="handle-icon"
-                  />
+                  <circle r="5" fill="rgba(78,118,177,1)" class="handle-icon"/>
                 </g>
               </g>
-              <g id="g-svg-18" fill="none" class="handle-label-group" />
+              <g fill="none" class="handle-label-group"/>
             </g>
-            <g
-              id="g-svg-21"
-              fill="none"
-              transform="matrix(1,0,0,1,235,15)"
-              class="slider-handle end-handle"
-            >
-              <g id="g-svg-22" fill="none" class="handle-icon-group">
+            <g fill="none" class="slider-handle end-handle" transform="matrix(1 0 0 1 235 15)">
+              <g fill="none" class="handle-icon-group">
                 <g>
-                  <circle
-                    id="g-svg-23"
-                    fill="rgba(78,118,177,1)"
-                    r="5"
-                    class="handle-icon"
-                  />
+                  <circle r="5" fill="rgba(78,118,177,1)" class="handle-icon"/>
                 </g>
               </g>
-              <g id="g-svg-24" fill="none" class="handle-label-group" />
+              <g fill="none" class="handle-label-group"/>
             </g>
           </g>
         </g>
       </g>
     </g>
   </g>
-</svg>
+</svg

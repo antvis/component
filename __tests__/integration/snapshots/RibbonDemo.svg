@@ -1,530 +1,310 @@
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  width="750"
-  height="400"
-  style="background: transparent;"
-  color-interpolation-filters="sRGB"
->
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="400" color-interpolation-filters="sRGB" style="background: transparent;">
   <defs>
-    <clipPath transform="matrix(1,0,0,1,-350,-350)" id="clip-path-16-15">
-      <use href="#g-svg-16" transform="matrix(1,0,0,1,350,350)" />
+    <clipPath id="B" transform="matrix(1 0 0 1 -350 -350)">
+      <use href="#a" transform="matrix(1 0 0 1 350 350)"/>
     </clipPath>
-    <linearGradient
-      gradientUnits="userSpaceOnUse"
-      id="g-pattern-1"
-      x1="0"
-      y1="15"
-      x2="200"
-      y2="15"
-    >
-      <stop offset="0" stop-color="rgba(255,255,255,1)" />
-      <stop offset="1" stop-color="rgba(0,0,0,1)" />
+    <clipPath id="l" transform="matrix(1 0 0 1 -100 -100)">
+      <use href="#b" transform="matrix(1 0 0 1 100 100)"/>
+    </clipPath>
+    <clipPath id="n" transform="matrix(1 0 0 1 -100 -150)">
+      <use href="#c" transform="matrix(1 0 0 1 100 150)"/>
+    </clipPath>
+    <clipPath id="o" transform="matrix(1 0 0 1 -100 -200)">
+      <use href="#d" transform="matrix(1 0 0 1 100 200)"/>
+    </clipPath>
+    <clipPath id="q" transform="matrix(1 0 0 1 -150 -200)">
+      <use href="#e" transform="matrix(1 0 0 1 150 200)"/>
+    </clipPath>
+    <clipPath id="s" transform="matrix(1 0 0 1 -300 -200)">
+      <use href="#f" transform="matrix(1 0 0 1 300 200)"/>
+    </clipPath>
+    <clipPath id="u" transform="matrix(1 0 0 1 -350 -100)">
+      <use href="#g" transform="matrix(1 0 0 1 350 100)"/>
+    </clipPath>
+    <clipPath id="w" transform="matrix(1 0 0 1 -350 -150)">
+      <use href="#h" transform="matrix(1 0 0 1 350 150)"/>
+    </clipPath>
+    <clipPath id="y" transform="matrix(1 0 0 1 -350 -200)">
+      <use href="#i" transform="matrix(1 0 0 1 350 200)"/>
+    </clipPath>
+    <clipPath id="z" transform="matrix(1 0 0 1 -350 -250)">
+      <use href="#j" transform="matrix(1 0 0 1 350 250)"/>
+    </clipPath>
+    <clipPath id="A" transform="matrix(1 0 0 1 -350 -300)">
+      <use href="#k" transform="matrix(1 0 0 1 350 300)"/>
+    </clipPath>
+    <linearGradient id="m" x1="0" x2="200" y1="15" y2="15" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="rgba(255,255,255,1)"/>
+      <stop offset="1" stop-color="rgba(0,0,0,1)"/>
     </linearGradient>
-    <linearGradient
-      gradientUnits="userSpaceOnUse"
-      id="g-pattern-5"
-      x1="0"
-      y1="15"
-      x2="400"
-      y2="15"
-    >
-      <stop offset="0" stop-color="rgba(208,227,250,1)" />
-      <stop offset="0.1111111111111111" stop-color="rgba(172,199,246,1)" />
-      <stop offset="0.2222222222222222" stop-color="rgba(141,170,242,1)" />
-      <stop offset="0.33333333333333326" stop-color="rgba(109,142,234,1)" />
-      <stop offset="0.4444444444444444" stop-color="rgba(77,115,205,1)" />
-      <stop offset="0.5555555555555556" stop-color="rgba(50,91,177,1)" />
-      <stop offset="0.6666666666666665" stop-color="rgba(90,62,117,1)" />
-      <stop offset="0.7777777777777779" stop-color="rgba(140,60,121,1)" />
-      <stop offset="0.8888888888888888" stop-color="rgba(226,52,85,1)" />
-      <stop offset="1" stop-color="rgba(231,101,91,1)" />
+    <linearGradient id="v" x1="0" x2="400" y1="15" y2="15" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="rgba(208,227,250,1)"/>
+      <stop offset=".1111" stop-color="rgba(172,199,246,1)"/>
+      <stop offset=".2222" stop-color="rgba(141,170,242,1)"/>
+      <stop offset=".3333" stop-color="rgba(109,142,234,1)"/>
+      <stop offset=".4444" stop-color="rgba(77,115,205,1)"/>
+      <stop offset=".5556" stop-color="rgba(50,91,177,1)"/>
+      <stop offset=".6667" stop-color="rgba(90,62,117,1)"/>
+      <stop offset=".7778" stop-color="rgba(140,60,121,1)"/>
+      <stop offset=".8889" stop-color="rgba(226,52,85,1)"/>
+      <stop offset="1" stop-color="rgba(231,101,91,1)"/>
     </linearGradient>
-    <linearGradient
-      gradientUnits="userSpaceOnUse"
-      id="g-pattern-6"
-      x1="0"
-      y1="15"
-      x2="400"
-      y2="15"
-    >
-      <stop offset="0" stop-color="rgba(208,227,250,1)" />
-      <stop offset="0.1" stop-color="rgba(208,227,250,1)" />
-      <stop offset="0.1" stop-color="rgba(172,199,246,1)" />
-      <stop offset="0.2" stop-color="rgba(172,199,246,1)" />
-      <stop offset="0.2" stop-color="rgba(141,170,242,1)" />
-      <stop offset="0.3" stop-color="rgba(141,170,242,1)" />
-      <stop offset="0.3" stop-color="rgba(109,142,234,1)" />
-      <stop offset="0.4" stop-color="rgba(109,142,234,1)" />
-      <stop offset="0.4" stop-color="rgba(77,115,205,1)" />
-      <stop offset="0.5" stop-color="rgba(77,115,205,1)" />
-      <stop offset="0.5" stop-color="rgba(50,91,177,1)" />
-      <stop offset="0.6" stop-color="rgba(50,91,177,1)" />
-      <stop offset="0.6" stop-color="rgba(90,62,117,1)" />
-      <stop offset="0.7" stop-color="rgba(90,62,117,1)" />
-      <stop offset="0.7" stop-color="rgba(140,60,121,1)" />
-      <stop offset="0.8" stop-color="rgba(140,60,121,1)" />
-      <stop offset="0.8" stop-color="rgba(226,52,85,1)" />
-      <stop offset="0.9" stop-color="rgba(226,52,85,1)" />
-      <stop offset="0.9" stop-color="rgba(231,101,91,1)" />
-      <stop offset="1" stop-color="rgba(231,101,91,1)" />
-      <stop offset="1" stop-color="rgba(208,227,250,1)" />
+    <linearGradient id="x" x1="0" x2="400" y1="15" y2="15" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="rgba(208,227,250,1)"/>
+      <stop offset=".1" stop-color="rgba(208,227,250,1)"/>
+      <stop offset=".1" stop-color="rgba(172,199,246,1)"/>
+      <stop offset=".2" stop-color="rgba(172,199,246,1)"/>
+      <stop offset=".2" stop-color="rgba(141,170,242,1)"/>
+      <stop offset=".3" stop-color="rgba(141,170,242,1)"/>
+      <stop offset=".3" stop-color="rgba(109,142,234,1)"/>
+      <stop offset=".4" stop-color="rgba(109,142,234,1)"/>
+      <stop offset=".4" stop-color="rgba(77,115,205,1)"/>
+      <stop offset=".5" stop-color="rgba(77,115,205,1)"/>
+      <stop offset=".5" stop-color="rgba(50,91,177,1)"/>
+      <stop offset=".6" stop-color="rgba(50,91,177,1)"/>
+      <stop offset=".6" stop-color="rgba(90,62,117,1)"/>
+      <stop offset=".7" stop-color="rgba(90,62,117,1)"/>
+      <stop offset=".7" stop-color="rgba(140,60,121,1)"/>
+      <stop offset=".8" stop-color="rgba(140,60,121,1)"/>
+      <stop offset=".8" stop-color="rgba(226,52,85,1)"/>
+      <stop offset=".9" stop-color="rgba(226,52,85,1)"/>
+      <stop offset=".9" stop-color="rgba(231,101,91,1)"/>
+      <stop offset="1" stop-color="rgba(231,101,91,1)"/>
+      <stop offset="1" stop-color="rgba(208,227,250,1)"/>
     </linearGradient>
-    <linearGradient
-      gradientUnits="userSpaceOnUse"
-      id="g-pattern-0"
-      x1="0"
-      y1="15"
-      x2="400"
-      y2="15"
-    >
-      <stop offset="0" stop-color="rgba(208,227,250,1)" />
-      <stop offset="0.1111111111111111" stop-color="rgba(208,227,250,1)" />
-      <stop offset="0.1111111111111111" stop-color="rgba(172,199,246,1)" />
-      <stop offset="0.2222222222222222" stop-color="rgba(172,199,246,1)" />
-      <stop offset="0.2222222222222222" stop-color="rgba(141,170,242,1)" />
-      <stop offset="0.33333333333333326" stop-color="rgba(141,170,242,1)" />
-      <stop offset="0.33333333333333326" stop-color="rgba(109,142,234,1)" />
-      <stop offset="0.4444444444444444" stop-color="rgba(109,142,234,1)" />
-      <stop offset="0.4444444444444444" stop-color="rgba(77,115,205,1)" />
-      <stop offset="0.5555555555555556" stop-color="rgba(77,115,205,1)" />
-      <stop offset="0.5555555555555556" stop-color="rgba(50,91,177,1)" />
-      <stop offset="0.6666666666666665" stop-color="rgba(50,91,177,1)" />
-      <stop offset="0.6666666666666665" stop-color="rgba(90,62,117,1)" />
-      <stop offset="0.7777777777777779" stop-color="rgba(90,62,117,1)" />
-      <stop offset="0.7777777777777779" stop-color="rgba(140,60,121,1)" />
-      <stop offset="0.8888888888888888" stop-color="rgba(140,60,121,1)" />
-      <stop offset="0.8888888888888888" stop-color="rgba(226,52,85,1)" />
-      <stop offset="1" stop-color="rgba(226,52,85,1)" />
-      <stop offset="1" stop-color="rgba(231,101,91,1)" />
+    <linearGradient id="C" x1="0" x2="400" y1="15" y2="15" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="rgba(208,227,250,1)"/>
+      <stop offset=".1111" stop-color="rgba(208,227,250,1)"/>
+      <stop offset=".1111" stop-color="rgba(172,199,246,1)"/>
+      <stop offset=".2222" stop-color="rgba(172,199,246,1)"/>
+      <stop offset=".2222" stop-color="rgba(141,170,242,1)"/>
+      <stop offset=".3333" stop-color="rgba(141,170,242,1)"/>
+      <stop offset=".3333" stop-color="rgba(109,142,234,1)"/>
+      <stop offset=".4444" stop-color="rgba(109,142,234,1)"/>
+      <stop offset=".4444" stop-color="rgba(77,115,205,1)"/>
+      <stop offset=".5556" stop-color="rgba(77,115,205,1)"/>
+      <stop offset=".5556" stop-color="rgba(50,91,177,1)"/>
+      <stop offset=".6667" stop-color="rgba(50,91,177,1)"/>
+      <stop offset=".6667" stop-color="rgba(90,62,117,1)"/>
+      <stop offset=".7778" stop-color="rgba(90,62,117,1)"/>
+      <stop offset=".7778" stop-color="rgba(140,60,121,1)"/>
+      <stop offset=".8889" stop-color="rgba(140,60,121,1)"/>
+      <stop offset=".8889" stop-color="rgba(226,52,85,1)"/>
+      <stop offset="1" stop-color="rgba(226,52,85,1)"/>
+      <stop offset="1" stop-color="rgba(231,101,91,1)"/>
     </linearGradient>
-    <clipPath transform="matrix(1,0,0,1,-100,-100)" id="clip-path-5-4">
-      <use href="#g-svg-5" transform="matrix(1,0,0,1,100,100)" />
-    </clipPath>
-    <clipPath transform="matrix(1,0,0,1,-100,-150)" id="clip-path-10-9">
-      <use href="#g-svg-10" transform="matrix(1,0,0,1,100,150)" />
-    </clipPath>
-    <linearGradient
-      gradientUnits="userSpaceOnUse"
-      id="g-pattern-2"
-      x1="15.000000000000018"
-      y1="200"
-      x2="14.999999999999982"
-      y2="0"
-    >
-      <stop offset="0" stop-color="rgba(208,227,250,1)" />
-      <stop offset="0.1111111111111111" stop-color="rgba(172,199,246,1)" />
-      <stop offset="0.2222222222222222" stop-color="rgba(141,170,242,1)" />
-      <stop offset="0.33333333333333326" stop-color="rgba(109,142,234,1)" />
-      <stop offset="0.4444444444444444" stop-color="rgba(77,115,205,1)" />
-      <stop offset="0.5555555555555556" stop-color="rgba(50,91,177,1)" />
-      <stop offset="0.6666666666666665" stop-color="rgba(90,62,117,1)" />
-      <stop offset="0.7777777777777779" stop-color="rgba(140,60,121,1)" />
-      <stop offset="0.8888888888888888" stop-color="rgba(226,52,85,1)" />
-      <stop offset="1" stop-color="rgba(231,101,91,1)" />
+    <linearGradient id="p" x1="15" x2="15" y1="200" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="rgba(208,227,250,1)"/>
+      <stop offset=".1111" stop-color="rgba(172,199,246,1)"/>
+      <stop offset=".2222" stop-color="rgba(141,170,242,1)"/>
+      <stop offset=".3333" stop-color="rgba(109,142,234,1)"/>
+      <stop offset=".4444" stop-color="rgba(77,115,205,1)"/>
+      <stop offset=".5556" stop-color="rgba(50,91,177,1)"/>
+      <stop offset=".6667" stop-color="rgba(90,62,117,1)"/>
+      <stop offset=".7778" stop-color="rgba(140,60,121,1)"/>
+      <stop offset=".8889" stop-color="rgba(226,52,85,1)"/>
+      <stop offset="1" stop-color="rgba(231,101,91,1)"/>
     </linearGradient>
-    <clipPath transform="matrix(1,0,0,1,-100,-200)" id="clip-path-15-14">
-      <use href="#g-svg-15" transform="matrix(1,0,0,1,100,200)" />
-    </clipPath>
-    <linearGradient
-      gradientUnits="userSpaceOnUse"
-      id="g-pattern-3"
-      x1="15.000000000000018"
-      y1="200"
-      x2="14.999999999999982"
-      y2="0"
-    >
-      <stop offset="0" stop-color="rgba(208,227,250,1)" />
-      <stop offset="0.05263157894736842" stop-color="rgba(208,227,250,1)" />
-      <stop offset="0.10526315789473684" stop-color="rgba(172,199,246,1)" />
-      <stop offset="0.15789473684210525" stop-color="rgba(172,199,246,1)" />
-      <stop offset="0.21052631578947367" stop-color="rgba(141,170,242,1)" />
-      <stop offset="0.2631578947368421" stop-color="rgba(141,170,242,1)" />
-      <stop offset="0.3157894736842105" stop-color="rgba(109,142,234,1)" />
-      <stop offset="0.3684210526315789" stop-color="rgba(109,142,234,1)" />
-      <stop offset="0.42105263157894735" stop-color="rgba(77,115,205,1)" />
-      <stop offset="0.47368421052631576" stop-color="rgba(77,115,205,1)" />
-      <stop offset="0.5263157894736842" stop-color="rgba(50,91,177,1)" />
-      <stop offset="0.5789473684210527" stop-color="rgba(50,91,177,1)" />
-      <stop offset="0.631578947368421" stop-color="rgba(90,62,117,1)" />
-      <stop offset="0.6842105263157895" stop-color="rgba(90,62,117,1)" />
-      <stop offset="0.7368421052631579" stop-color="rgba(140,60,121,1)" />
-      <stop offset="0.7894736842105263" stop-color="rgba(140,60,121,1)" />
-      <stop offset="0.8421052631578947" stop-color="rgba(226,52,85,1)" />
-      <stop offset="0.8947368421052632" stop-color="rgba(226,52,85,1)" />
-      <stop offset="0.9473684210526315" stop-color="rgba(231,101,91,1)" />
-      <stop offset="1" stop-color="rgba(231,101,91,1)" />
+    <linearGradient id="r" x1="15" x2="15" y1="200" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="rgba(208,227,250,1)"/>
+      <stop offset=".0526" stop-color="rgba(208,227,250,1)"/>
+      <stop offset=".1053" stop-color="rgba(172,199,246,1)"/>
+      <stop offset=".1579" stop-color="rgba(172,199,246,1)"/>
+      <stop offset=".2105" stop-color="rgba(141,170,242,1)"/>
+      <stop offset=".2632" stop-color="rgba(141,170,242,1)"/>
+      <stop offset=".3158" stop-color="rgba(109,142,234,1)"/>
+      <stop offset=".3684" stop-color="rgba(109,142,234,1)"/>
+      <stop offset=".4211" stop-color="rgba(77,115,205,1)"/>
+      <stop offset=".4737" stop-color="rgba(77,115,205,1)"/>
+      <stop offset=".5263" stop-color="rgba(50,91,177,1)"/>
+      <stop offset=".5789" stop-color="rgba(50,91,177,1)"/>
+      <stop offset=".6316" stop-color="rgba(90,62,117,1)"/>
+      <stop offset=".6842" stop-color="rgba(90,62,117,1)"/>
+      <stop offset=".7368" stop-color="rgba(140,60,121,1)"/>
+      <stop offset=".7895" stop-color="rgba(140,60,121,1)"/>
+      <stop offset=".8421" stop-color="rgba(226,52,85,1)"/>
+      <stop offset=".8947" stop-color="rgba(226,52,85,1)"/>
+      <stop offset=".9474" stop-color="rgba(231,101,91,1)"/>
+      <stop offset="1" stop-color="rgba(231,101,91,1)"/>
     </linearGradient>
-    <clipPath transform="matrix(1,0,0,1,-150,-200)" id="clip-path-20-19">
-      <use href="#g-svg-20" transform="matrix(1,0,0,1,150,200)" />
-    </clipPath>
-    <linearGradient
-      gradientUnits="userSpaceOnUse"
-      id="g-pattern-4"
-      x1="15.000000000000018"
-      y1="200"
-      x2="14.999999999999982"
-      y2="0"
-    >
-      <stop offset="0" stop-color="rgba(77,115,205,1)" />
-      <stop offset="0.2" stop-color="rgba(77,115,205,1)" />
-      <stop offset="0.2" stop-color="rgba(50,91,177,1)" />
-      <stop offset="0.4" stop-color="rgba(50,91,177,1)" />
-      <stop offset="0.4" stop-color="rgba(90,62,117,1)" />
-      <stop offset="0.6" stop-color="rgba(90,62,117,1)" />
-      <stop offset="0.6" stop-color="rgba(140,60,121,1)" />
-      <stop offset="0.8" stop-color="rgba(140,60,121,1)" />
-      <stop offset="0.8" stop-color="rgba(226,52,85,1)" />
-      <stop offset="1" stop-color="rgba(226,52,85,1)" />
-      <stop offset="1" stop-color="rgba(231,101,91,1)" />
+    <linearGradient id="t" x1="15" x2="15" y1="200" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="rgba(77,115,205,1)"/>
+      <stop offset=".2" stop-color="rgba(77,115,205,1)"/>
+      <stop offset=".2" stop-color="rgba(50,91,177,1)"/>
+      <stop offset=".4" stop-color="rgba(50,91,177,1)"/>
+      <stop offset=".4" stop-color="rgba(90,62,117,1)"/>
+      <stop offset=".6" stop-color="rgba(90,62,117,1)"/>
+      <stop offset=".6" stop-color="rgba(140,60,121,1)"/>
+      <stop offset=".8" stop-color="rgba(140,60,121,1)"/>
+      <stop offset=".8" stop-color="rgba(226,52,85,1)"/>
+      <stop offset="1" stop-color="rgba(226,52,85,1)"/>
+      <stop offset="1" stop-color="rgba(231,101,91,1)"/>
     </linearGradient>
-    <clipPath transform="matrix(1,0,0,1,-300,-200)" id="clip-path-25-24">
-      <use href="#g-svg-25" transform="matrix(1,0,0,1,300,200)" />
-    </clipPath>
-    <clipPath transform="matrix(1,0,0,1,-350,-100)" id="clip-path-30-29">
-      <use href="#g-svg-30" transform="matrix(1,0,0,1,350,100)" />
-    </clipPath>
-    <clipPath transform="matrix(1,0,0,1,-350,-150)" id="clip-path-35-34">
-      <use href="#g-svg-35" transform="matrix(1,0,0,1,350,150)" />
-    </clipPath>
-    <clipPath transform="matrix(1,0,0,1,-350,-200)" id="clip-path-40-39">
-      <use href="#g-svg-40" transform="matrix(1,0,0,1,350,200)" />
-    </clipPath>
-    <clipPath transform="matrix(1,0,0,1,-350,-250)" id="clip-path-45-44">
-      <use href="#g-svg-45" transform="matrix(1,0,0,1,350,250)" />
-    </clipPath>
-    <clipPath transform="matrix(1,0,0,1,-350,-300)" id="clip-path-50-49">
-      <use href="#g-svg-50" transform="matrix(1,0,0,1,350,300)" />
-    </clipPath>
   </defs>
-  <g id="g-svg-camera">
-    <g id="g-root" fill="none">
-      <g id="g-svg-0" fill="none">
-        <g id="g-svg-1" fill="none" transform="matrix(1,0,0,1,100,100)">
-          <g id="g-svg-1" fill="none" class="ribbon-background-group">
+  <g>
+    <g fill="none">
+      <g fill="none">
+        <g fill="none" transform="matrix(1 0 0 1 100 100)">
+          <g fill="none" class="ribbon-background-group">
             <g>
-              <path
-                id="g-svg-2"
-                fill="rgba(229,229,229,1)"
-                class="ribbon-background"
-                d="M 0,30 L 0,0 L 200,0 L 200,30 Z"
-              />
+              <path fill="rgba(229,229,229,1)" d="m0 30 0-30 200 0 0 30Z" class="ribbon-background"/>
             </g>
           </g>
-          <g id="g-svg-3" fill="none" class="ribbon-ribbon-group">
-            <g clip-path="url(#clip-path-5-4)">
-              <path
-                id="g-svg-4"
-                fill="url(#g-pattern-1)"
-                class="ribbon-ribbon"
-                d="M 0,30 L 0,0 L 200,0 L 200,30 Z"
-              />
+          <g fill="none" class="ribbon-ribbon-group">
+            <g clip-path="url(#l)">
+              <path fill="url(#m)" d="m0 30 0-30 200 0 0 30Z" class="ribbon-ribbon"/>
               <g>
-                <path
-                  id="g-svg-5"
-                  fill="none"
-                  d="M 0,0 L 0,30 L 200,30 L 200,0 Z"
-                  class="ribbon-clip-path"
-                />
+                <path id="b" fill="none" d="m0 0 0 30 200 0 0-30Z" class="ribbon-clip-path"/>
               </g>
             </g>
           </g>
         </g>
-        <g id="g-svg-2" fill="none" transform="matrix(1,0,0,1,100,150)">
-          <g id="g-svg-6" fill="none" class="ribbon-background-group">
+        <g fill="none" transform="matrix(1 0 0 1 100 150)">
+          <g fill="none" class="ribbon-background-group">
             <g>
-              <path
-                id="g-svg-7"
-                fill="rgba(229,229,229,1)"
-                class="ribbon-background"
-                d="M 0,30 L 200,0 L 200,30 Z"
-              />
+              <path fill="rgba(229,229,229,1)" d="m0 30 200-30 0 30Z" class="ribbon-background"/>
             </g>
           </g>
-          <g id="g-svg-8" fill="none" class="ribbon-ribbon-group">
-            <g clip-path="url(#clip-path-10-9)">
-              <path
-                id="g-svg-9"
-                fill="url(#g-pattern-1)"
-                class="ribbon-ribbon"
-                d="M 0,30 L 200,0 L 200,30 Z"
-              />
+          <g fill="none" class="ribbon-ribbon-group">
+            <g clip-path="url(#n)">
+              <path fill="url(#m)" d="m0 30 200-30 0 30Z" class="ribbon-ribbon"/>
               <g>
-                <path
-                  id="g-svg-10"
-                  fill="none"
-                  d="M 0,0 L 0,30 L 200,30 L 200,0 Z"
-                  class="ribbon-clip-path"
-                />
+                <path id="c" fill="none" d="m0 0 0 30 200 0 0-30Z" class="ribbon-clip-path"/>
               </g>
             </g>
           </g>
         </g>
-        <g id="g-svg-3" fill="none" transform="matrix(1,0,0,1,100,200)">
-          <g id="g-svg-11" fill="none" class="ribbon-background-group">
+        <g fill="none" transform="matrix(1 0 0 1 100 200)">
+          <g fill="none" class="ribbon-background-group">
             <g>
-              <path
-                id="g-svg-12"
-                fill="rgba(229,229,229,1)"
-                class="ribbon-background"
-                d="M 0,200 L 0,0 L 30,0 L 30,200 Z"
-              />
+              <path fill="rgba(229,229,229,1)" d="m0 200 0-200 30 0 0 200Z" class="ribbon-background"/>
             </g>
           </g>
-          <g id="g-svg-13" fill="none" class="ribbon-ribbon-group">
-            <g clip-path="url(#clip-path-15-14)">
-              <path
-                id="g-svg-14"
-                fill="url(#g-pattern-2)"
-                class="ribbon-ribbon"
-                d="M 0,200 L 0,0 L 30,0 L 30,200 Z"
-              />
+          <g fill="none" class="ribbon-ribbon-group">
+            <g clip-path="url(#o)">
+              <path fill="url(#p)" d="m0 200 0-200 30 0 0 200Z" class="ribbon-ribbon"/>
               <g>
-                <path
-                  id="g-svg-15"
-                  fill="none"
-                  d="M 0,0 L 0,200 L 30,200 L 30,0 Z"
-                  class="ribbon-clip-path"
-                />
+                <path id="d" fill="none" d="m0 0 0 200 30 0 0-200Z" class="ribbon-clip-path"/>
               </g>
             </g>
           </g>
         </g>
-        <g id="g-svg-4" fill="none" transform="matrix(1,0,0,1,150,200)">
-          <g id="g-svg-16" fill="none" class="ribbon-background-group">
+        <g fill="none" transform="matrix(1 0 0 1 150 200)">
+          <g id="a" fill="none" class="ribbon-background-group">
             <g>
-              <path
-                id="g-svg-17"
-                fill="rgba(229,229,229,1)"
-                class="ribbon-background"
-                d="M 0,200 L 30,0 L 30,200 Z"
-              />
+              <path fill="rgba(229,229,229,1)" d="m0 200 30-200 0 200Z" class="ribbon-background"/>
             </g>
           </g>
-          <g id="g-svg-18" fill="none" class="ribbon-ribbon-group">
-            <g clip-path="url(#clip-path-20-19)">
-              <path
-                id="g-svg-19"
-                fill="url(#g-pattern-3)"
-                class="ribbon-ribbon"
-                d="M 0,200 L 30,0 L 30,200 Z"
-              />
+          <g fill="none" class="ribbon-ribbon-group">
+            <g clip-path="url(#q)">
+              <path fill="url(#r)" d="m0 200 30-200 0 200Z" class="ribbon-ribbon"/>
               <g>
-                <path
-                  id="g-svg-20"
-                  fill="none"
-                  d="M 0,40 L 0,160 L 30,160 L 30,40 Z"
-                  class="ribbon-clip-path"
-                />
+                <path id="e" fill="none" d="m0 40 0 120 30 0 0-120Z" class="ribbon-clip-path"/>
               </g>
             </g>
           </g>
         </g>
-        <g id="g-svg-5" fill="none" transform="matrix(1,0,0,1,300,200)">
-          <g id="g-svg-21" fill="none" class="ribbon-background-group">
+        <g fill="none" transform="matrix(1 0 0 1 300 200)">
+          <g fill="none" class="ribbon-background-group">
             <g>
-              <path
-                id="g-svg-22"
-                fill="rgba(229,229,229,1)"
-                class="ribbon-background"
-                d="M 0,200 L 30,0 L 30,200 Z"
-              />
+              <path fill="rgba(229,229,229,1)" d="m0 200 30-200 0 200Z" class="ribbon-background"/>
             </g>
           </g>
-          <g id="g-svg-23" fill="none" class="ribbon-ribbon-group">
-            <g clip-path="url(#clip-path-25-24)">
-              <path
-                id="g-svg-24"
-                fill="url(#g-pattern-4)"
-                class="ribbon-ribbon"
-                d="M 0,200 L 30,0 L 30,200 Z"
-              />
+          <g fill="none" class="ribbon-ribbon-group">
+            <g clip-path="url(#s)">
+              <path fill="url(#t)" d="m0 200 30-200 0 200Z" class="ribbon-ribbon"/>
               <g>
-                <path
-                  id="g-svg-25"
-                  fill="none"
-                  d="M 0,40 L 0,160 L 30,160 L 30,40 Z"
-                  class="ribbon-clip-path"
-                />
+                <path id="f" fill="none" d="m0 40 0 120 30 0 0-120Z" class="ribbon-clip-path"/>
               </g>
             </g>
           </g>
         </g>
-        <g id="g-svg-6" fill="none" transform="matrix(1,0,0,1,350,100)">
-          <g id="g-svg-26" fill="none" class="ribbon-background-group">
+        <g fill="none" transform="matrix(1 0 0 1 350 100)">
+          <g fill="none" class="ribbon-background-group">
             <g>
-              <path
-                id="g-svg-27"
-                fill="rgba(229,229,229,1)"
-                class="ribbon-background"
-                d="M 0,30 L 0,0 L 400,0 L 400,30 Z"
-              />
+              <path fill="rgba(229,229,229,1)" d="m0 30 0-30 400 0 0 30Z" class="ribbon-background"/>
             </g>
           </g>
-          <g id="g-svg-28" fill="none" class="ribbon-ribbon-group">
-            <g clip-path="url(#clip-path-30-29)">
-              <path
-                id="g-svg-29"
-                fill="url(#g-pattern-5)"
-                class="ribbon-ribbon"
-                d="M 0,30 L 0,0 L 400,0 L 400,30 Z"
-              />
+          <g fill="none" class="ribbon-ribbon-group">
+            <g clip-path="url(#u)">
+              <path fill="url(#v)" d="m0 30 0-30 400 0 0 30Z" class="ribbon-ribbon"/>
               <g>
-                <path
-                  id="g-svg-30"
-                  fill="none"
-                  d="M 0,0 L 0,30 L 400,30 L 400,0 Z"
-                  class="ribbon-clip-path"
-                />
+                <path id="g" fill="none" d="m0 0 0 30 400 0 0-30Z" class="ribbon-clip-path"/>
               </g>
             </g>
           </g>
         </g>
-        <g id="g-svg-7" fill="none" transform="matrix(1,0,0,1,350,150)">
-          <g id="g-svg-31" fill="none" class="ribbon-background-group">
+        <g fill="none" transform="matrix(1 0 0 1 350 150)">
+          <g fill="none" class="ribbon-background-group">
             <g>
-              <path
-                id="g-svg-32"
-                fill="rgba(229,229,229,1)"
-                class="ribbon-background"
-                d="M 0,30 L 0,0 L 400,0 L 400,30 Z"
-              />
+              <path fill="rgba(229,229,229,1)" d="m0 30 0-30 400 0 0 30Z" class="ribbon-background"/>
             </g>
           </g>
-          <g id="g-svg-33" fill="none" class="ribbon-ribbon-group">
-            <g clip-path="url(#clip-path-35-34)">
-              <path
-                id="g-svg-34"
-                fill="url(#g-pattern-6)"
-                class="ribbon-ribbon"
-                d="M 0,30 L 0,0 L 400,0 L 400,30 Z"
-              />
+          <g fill="none" class="ribbon-ribbon-group">
+            <g clip-path="url(#w)">
+              <path fill="url(#x)" d="m0 30 0-30 400 0 0 30Z" class="ribbon-ribbon"/>
               <g>
-                <path
-                  id="g-svg-35"
-                  fill="none"
-                  d="M 0,0 L 0,30 L 400,30 L 400,0 Z"
-                  class="ribbon-clip-path"
-                />
+                <path id="h" fill="none" d="m0 0 0 30 400 0 0-30Z" class="ribbon-clip-path"/>
               </g>
             </g>
           </g>
         </g>
-        <g id="g-svg-8" fill="none" transform="matrix(1,0,0,1,350,200)">
-          <g id="g-svg-36" fill="none" class="ribbon-background-group">
+        <g fill="none" transform="matrix(1 0 0 1 350 200)">
+          <g fill="none" class="ribbon-background-group">
             <g>
-              <path
-                id="g-svg-37"
-                fill="rgba(229,229,229,1)"
-                class="ribbon-background"
-                d="M 0,30 L 400,0 L 400,30 Z"
-              />
+              <path fill="rgba(229,229,229,1)" d="m0 30 400-30 0 30Z" class="ribbon-background"/>
             </g>
           </g>
-          <g id="g-svg-38" fill="none" class="ribbon-ribbon-group">
-            <g clip-path="url(#clip-path-40-39)">
-              <path
-                id="g-svg-39"
-                fill="url(#g-pattern-5)"
-                class="ribbon-ribbon"
-                d="M 0,30 L 400,0 L 400,30 Z"
-              />
+          <g fill="none" class="ribbon-ribbon-group">
+            <g clip-path="url(#y)">
+              <path fill="url(#v)" d="m0 30 400-30 0 30Z" class="ribbon-ribbon"/>
               <g>
-                <path
-                  id="g-svg-40"
-                  fill="none"
-                  d="M 0,0 L 0,30 L 400,30 L 400,0 Z"
-                  class="ribbon-clip-path"
-                />
+                <path id="i" fill="none" d="m0 0 0 30 400 0 0-30Z" class="ribbon-clip-path"/>
               </g>
             </g>
           </g>
         </g>
-        <g id="g-svg-9" fill="none" transform="matrix(1,0,0,1,350,250)">
-          <g id="g-svg-41" fill="none" class="ribbon-background-group">
+        <g fill="none" transform="matrix(1 0 0 1 350 250)">
+          <g fill="none" class="ribbon-background-group">
             <g>
-              <path
-                id="g-svg-42"
-                fill="rgba(229,229,229,1)"
-                class="ribbon-background"
-                d="M 0,30 L 400,0 L 400,30 Z"
-              />
+              <path fill="rgba(229,229,229,1)" d="m0 30 400-30 0 30Z" class="ribbon-background"/>
             </g>
           </g>
-          <g id="g-svg-43" fill="none" class="ribbon-ribbon-group">
-            <g clip-path="url(#clip-path-45-44)">
-              <path
-                id="g-svg-44"
-                fill="url(#g-pattern-6)"
-                class="ribbon-ribbon"
-                d="M 0,30 L 400,0 L 400,30 Z"
-              />
+          <g fill="none" class="ribbon-ribbon-group">
+            <g clip-path="url(#z)">
+              <path fill="url(#x)" d="m0 30 400-30 0 30Z" class="ribbon-ribbon"/>
               <g>
-                <path
-                  id="g-svg-45"
-                  fill="none"
-                  d="M 0,0 L 0,30 L 400,30 L 400,0 Z"
-                  class="ribbon-clip-path"
-                />
+                <path id="j" fill="none" d="m0 0 0 30 400 0 0-30Z" class="ribbon-clip-path"/>
               </g>
             </g>
           </g>
         </g>
-        <g id="g-svg-10" fill="none" transform="matrix(1,0,0,1,350,300)">
-          <g id="g-svg-46" fill="none" class="ribbon-background-group">
+        <g fill="none" transform="matrix(1 0 0 1 350 300)">
+          <g fill="none" class="ribbon-background-group">
             <g>
-              <path
-                id="g-svg-47"
-                fill="rgba(229,229,229,1)"
-                class="ribbon-background"
-                d="M 0,30 L 0,0 L 400,0 L 400,30 Z"
-              />
+              <path fill="rgba(229,229,229,1)" d="m0 30 0-30 400 0 0 30Z" class="ribbon-background"/>
             </g>
           </g>
-          <g id="g-svg-48" fill="none" class="ribbon-ribbon-group">
-            <g clip-path="url(#clip-path-50-49)">
-              <path
-                id="g-svg-49"
-                fill="url(#g-pattern-5)"
-                class="ribbon-ribbon"
-                d="M 0,30 L 0,0 L 400,0 L 400,30 Z"
-              />
+          <g fill="none" class="ribbon-ribbon-group">
+            <g clip-path="url(#A)">
+              <path fill="url(#v)" d="m0 30 0-30 400 0 0 30Z" class="ribbon-ribbon"/>
               <g>
-                <path
-                  id="g-svg-50"
-                  fill="none"
-                  d="M 80,0 L 80,30 L 320,30 L 320,0 Z"
-                  class="ribbon-clip-path"
-                />
+                <path id="k" fill="none" d="m80 0 0 30 240 0 0-30Z" class="ribbon-clip-path"/>
               </g>
             </g>
           </g>
         </g>
-        <g id="g-svg-11" fill="none" transform="matrix(1,0,0,1,350,350)">
-          <g id="g-svg-12" fill="none" class="ribbon-background-group">
+        <g fill="none" transform="matrix(1 0 0 1 350 350)">
+          <g fill="none" class="ribbon-background-group">
             <g>
-              <path
-                id="g-svg-13"
-                fill="rgba(229,229,229,1)"
-                d="M 0,30 L 0,0 L 400,0 L 400,30 Z"
-                class="ribbon-background"
-              />
+              <path fill="rgba(229,229,229,1)" d="m0 30 0-30 400 0 0 30Z" class="ribbon-background"/>
             </g>
           </g>
-          <g id="g-svg-14" fill="none" class="ribbon-ribbon-group">
-            <g clip-path="url(#clip-path-16-15)">
-              <path
-                id="g-svg-15"
-                fill="url(#g-pattern-0)"
-                d="M 0,30 L 0,0 L 400,0 L 400,30 Z"
-                class="ribbon-ribbon"
-              />
+          <g fill="none" class="ribbon-ribbon-group">
+            <g clip-path="url(#B)">
+              <path fill="url(#C)" d="m0 30 0-30 400 0 0 30Z" class="ribbon-ribbon"/>
               <g>
-                <path
-                  id="g-svg-16"
-                  fill="none"
-                  d="M 160,0 L 160,30 L 320,30 L 320,0 Z"
-                  class="ribbon-clip-path"
-                />
+                <path fill="none" d="m160 0 0 30 160 0 0-30Z" class="ribbon-clip-path"/>
               </g>
             </g>
           </g>
@@ -532,4 +312,4 @@
       </g>
     </g>
   </g>
-</svg>
+</svg

@@ -1,84 +1,25 @@
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  width="400"
-  height="300"
-  style="background: transparent;"
-  color-interpolation-filters="sRGB"
->
-  <defs />
-  <g id="g-svg-camera">
-    <g id="g-root" fill="none">
-      <g id="g-svg-0" fill="none">
-        <g id="g-svg-1" fill="none">
-          <g id="g-svg-1" fill="none" class="scrollbar">
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" color-interpolation-filters="sRGB" style="background: transparent;">
+  <g>
+    <g fill="none">
+      <g fill="none">
+        <g fill="none">
+          <g fill="none" class="scrollbar">
             <g>
-              <path
-                id="g-svg-2"
-                fill="rgba(65,97,128,1)"
-                class="slider-track"
-                d="M 20,20 l 10,0 l 0,300 l-10 0 z"
-                x="20"
-                y="20"
-                width="10"
-                height="300"
-                opacity="0.05"
-              />
+              <path width="10" height="300" x="20" y="20" fill="rgba(65,97,128,1)" d="m20 20 10 0 0 300-10 0z" class="slider-track" opacity=".05"/>
             </g>
-            <g id="g-svg-3" fill="none" class="slider-sparkline-group" />
+            <g fill="none" class="slider-sparkline-group"/>
             <g>
-              <path
-                id="g-svg-4"
-                fill="rgba(0,0,0,0)"
-                class="slider-brush-area"
-                d="M 20,20 l 10,0 l 0,300 l-10 0 z"
-                x="20"
-                y="20"
-                width="10"
-                height="300"
-              />
+              <path width="10" height="300" x="20" y="20" fill="rgba(0,0,0,0)" d="m20 20 10 0 0 300-10 0z" class="slider-brush-area"/>
             </g>
-            <g id="g-svg-5" fill="none" class="slider-foreground">
-              <g transform="matrix(1,0,0,1,20,20)">
-                <path
-                  id="g-svg-6"
-                  fill="rgba(91,143,249,1)"
-                  class="slider-selection"
-                  visibility="hidden"
-                  fill-opacity="0.45"
-                  d="M 2,2 l 6,0 l 0,103.6 l-6 0 z"
-                  x="2"
-                  width="6"
-                  y="2"
-                  height="103.6"
-                />
+            <g fill="none" class="slider-foreground">
+              <g transform="matrix(1 0 0 1 20 20)">
+                <path width="6" height="103.6" x="2" y="2" fill="rgba(91,143,249,1)" fill-opacity=".45" d="m2 2 6 0 0 103.6-6 0z" class="slider-selection" visibility="hidden"/>
               </g>
-              <g transform="matrix(1,0,0,1,20,20)">
-                <path
-                  id="g-svg-7"
-                  fill="rgba(91,143,249,1)"
-                  class="slider-selection"
-                  visibility="visible"
-                  fill-opacity="0.45"
-                  d="M 2,105.6 l 6,0 l 0,88.80000000000001 l-6 0 z"
-                  x="2"
-                  width="6"
-                  y="105.6"
-                  height="88.80000000000001"
-                />
+              <g transform="matrix(1 0 0 1 20 20)">
+                <path width="6" height="88.8" x="2" y="105.6" fill="rgba(91,143,249,1)" fill-opacity=".45" d="m2 105.6 6 0 0 88.8-6 0z" class="slider-selection" visibility="visible"/>
               </g>
-              <g transform="matrix(1,0,0,1,20,20)">
-                <path
-                  id="g-svg-8"
-                  fill="rgba(91,143,249,1)"
-                  class="slider-selection"
-                  visibility="hidden"
-                  fill-opacity="0.45"
-                  d="M 2,192.4 l 6,0 l 0,103.6 l-6 0 z"
-                  x="2"
-                  width="6"
-                  y="192.4"
-                  height="103.6"
-                />
+              <g transform="matrix(1 0 0 1 20 20)">
+                <path width="6" height="103.6" x="2" y="192.4" fill="rgba(91,143,249,1)" fill-opacity=".45" d="m2 192.4 6 0 0 103.6-6 0z" class="slider-selection" visibility="hidden"/>
               </g>
             </g>
           </g>
@@ -86,4 +27,4 @@
       </g>
     </g>
   </g>
-</svg>
+</svg

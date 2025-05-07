@@ -1,99 +1,35 @@
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  width="400"
-  height="300"
-  style="background: transparent;"
-  color-interpolation-filters="sRGB"
->
-  <defs />
-  <g id="g-svg-camera">
-    <g id="g-root" fill="none">
-      <g id="g-svg-0" fill="none">
-        <g id="g-svg-1" fill="none">
-          <g id="g-svg-1" fill="none" class="scrollbar">
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" color-interpolation-filters="sRGB" style="background: transparent;">
+  <g>
+    <g fill="none">
+      <g fill="none">
+        <g fill="none">
+          <g fill="none" class="scrollbar">
             <g>
-              <path
-                id="g-svg-2"
-                fill="rgba(65,97,128,1)"
-                class="slider-track"
-                d="M 25,20 l 290,0 a 5,5,0,0,1,5,5 l 0,0 a 5,5,0,0,1,-5,5 l -290,0 a 5,5,0,0,1,-5,-5 l 0,0 a 5,5,0,0,1,5,-5 z"
-                x="20"
-                y="20"
-                width="300"
-                height="10"
-                opacity="0.05"
-              />
+              <path width="300" height="10" x="20" y="20" fill="rgba(65,97,128,1)" d="m25 20 290 0a5 5 0 0 1 5 5l0 0a5 5 0 0 1-5 5l-290 0a5 5 0 0 1-5-5l0 0a5 5 0 0 1 5-5z" class="slider-track" opacity=".05"/>
             </g>
-            <g id="g-svg-3" fill="none" class="slider-sparkline-group">
-              <g id="g-svg-4" fill="none" class="slider-sparkline">
+            <g fill="none" class="slider-sparkline-group">
+              <g fill="none" class="slider-sparkline">
                 <g>
-                  <path id="g-svg-5" fill="none" class="container" />
+                  <path fill="none" class="container"/>
                 </g>
-                <g
-                  id="g-svg-6"
-                  fill="none"
-                  class="spark sparkline"
-                  transform="matrix(1,0,0,1,20,20)"
-                >
-                  <g id="g-svg-7" fill="none" />
-                  <g id="g-svg-8" fill="none" />
+                <g fill="none" class="spark sparkline" transform="matrix(1 0 0 1 20 20)">
+                  <g fill="none"/>
+                  <g fill="none"/>
                 </g>
               </g>
             </g>
             <g>
-              <path
-                id="g-svg-9"
-                fill="rgba(0,0,0,0)"
-                class="slider-brush-area"
-                d="M 20,20 l 300,0 l 0,10 l-300 0 z"
-                x="20"
-                y="20"
-                width="300"
-                height="10"
-              />
+              <path width="300" height="10" x="20" y="20" fill="rgba(0,0,0,0)" d="m20 20 300 0 0 10-300 0z" class="slider-brush-area"/>
             </g>
-            <g id="g-svg-10" fill="none" class="slider-foreground">
-              <g transform="matrix(1,0,0,1,20,20)">
-                <path
-                  id="g-svg-11"
-                  fill="rgba(91,143,249,1)"
-                  class="slider-selection"
-                  visibility="hidden"
-                  fill-opacity="0.45"
-                  d="M 5,2 l 97.6,0 a 3,3,0,0,1,3,3 l 0,0 a 3,3,0,0,1,-3,3 l -97.6,0 a 3,3,0,0,1,-3,-3 l 0,0 a 3,3,0,0,1,3,-3 z"
-                  y="2"
-                  height="6"
-                  x="2"
-                  width="103.6"
-                />
+            <g fill="none" class="slider-foreground">
+              <g transform="matrix(1 0 0 1 20 20)">
+                <path width="103.6" height="6" x="2" y="2" fill="rgba(91,143,249,1)" fill-opacity=".45" d="m5 2 97.6 0a3 3 0 0 1 3 3l0 0a3 3 0 0 1-3 3l-97.6 0a3 3 0 0 1-3-3l0 0a3 3 0 0 1 3-3z" class="slider-selection" visibility="hidden"/>
               </g>
-              <g transform="matrix(1,0,0,1,20,20)">
-                <path
-                  id="g-svg-12"
-                  fill="rgba(91,143,249,1)"
-                  class="slider-selection"
-                  visibility="visible"
-                  fill-opacity="0.45"
-                  d="M 108.6,2 l 82.80000000000001,0 a 3,3,0,0,1,3,3 l 0,0 a 3,3,0,0,1,-3,3 l -82.80000000000001,0 a 3,3,0,0,1,-3,-3 l 0,0 a 3,3,0,0,1,3,-3 z"
-                  y="2"
-                  height="6"
-                  x="105.6"
-                  width="88.80000000000001"
-                />
+              <g transform="matrix(1 0 0 1 20 20)">
+                <path width="88.8" height="6" x="105.6" y="2" fill="rgba(91,143,249,1)" fill-opacity=".45" d="m108.6 2 82.8 0a3 3 0 0 1 3 3l0 0a3 3 0 0 1-3 3l-82.8 0a3 3 0 0 1-3-3l0 0a3 3 0 0 1 3-3z" class="slider-selection" visibility="visible"/>
               </g>
-              <g transform="matrix(1,0,0,1,20,20)">
-                <path
-                  id="g-svg-13"
-                  fill="rgba(91,143,249,1)"
-                  class="slider-selection"
-                  visibility="hidden"
-                  fill-opacity="0.45"
-                  d="M 195.4,2 l 97.6,0 a 3,3,0,0,1,3,3 l 0,0 a 3,3,0,0,1,-3,3 l -97.6,0 a 3,3,0,0,1,-3,-3 l 0,0 a 3,3,0,0,1,3,-3 z"
-                  y="2"
-                  height="6"
-                  x="192.4"
-                  width="103.6"
-                />
+              <g transform="matrix(1 0 0 1 20 20)">
+                <path width="103.6" height="6" x="192.4" y="2" fill="rgba(91,143,249,1)" fill-opacity=".45" d="m195.4 2 97.6 0a3 3 0 0 1 3 3l0 0a3 3 0 0 1-3 3l-97.6 0a3 3 0 0 1-3-3l0 0a3 3 0 0 1 3-3z" class="slider-selection" visibility="hidden"/>
               </g>
             </g>
           </g>
@@ -101,4 +37,4 @@
       </g>
     </g>
   </g>
-</svg>
+</svg
