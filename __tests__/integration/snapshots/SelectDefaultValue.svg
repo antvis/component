@@ -1,221 +1,61 @@
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  width="400"
-  height="300"
-  style="background: transparent;"
-  color-interpolation-filters="sRGB"
->
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" color-interpolation-filters="sRGB" style="background: transparent;">
   <defs>
-    <filter
-      data-type="outer"
-      id="g-filter-dropshadow-3"
-      filterUnits="userSpaceOnUse"
-    >
-      <feDropShadow
-        dx="0"
-        dy="0"
-        stdDeviation="1"
-        flood-color="rgba(0,0,0,0.08)"
-      />
+    <filter id="a" data-type="outer" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="0" flood-color="rgba(0,0,0,0.08)" stdDeviation="1"/>
     </filter>
   </defs>
-  <g id="g-svg-camera">
-    <g id="g-root" fill="none">
-      <g id="g-svg-0" fill="none">
-        <g id="g-svg-1" fill="none">
+  <g>
+    <g fill="none">
+      <g fill="none">
+        <g fill="none">
           <g>
-            <path
-              id="g-svg-2"
-              fill="rgba(255,255,255,1)"
-              d="M 18,10 l 124,0 a 8,8,0,0,1,8,8 l 0,16 a 8,8,0,0,1,-8,8 l -124,0 a 8,8,0,0,1,-8,-8 l 0,-16 a 8,8,0,0,1,8,-8 z"
-              class="select"
-              width="140"
-              height="32"
-              x="10"
-              y="10"
-              stroke="rgba(217,217,217,1)"
-            />
-            <g transform="matrix(1,0,0,1,124,26)">
-              <path
-                id="g-svg-1"
-                fill="none"
-                d="M -5,-3.5 L 0,3.5 L 5,-3.5"
-                stroke-width="1"
-                stroke="rgba(217,217,217,1)"
-              />
+            <path width="140" height="32" x="10" y="10" fill="rgba(255,255,255,1)" stroke="rgba(217,217,217,1)" d="m18 10 124 0a8 8 0 0 1 8 8l0 16a8 8 0 0 1-8 8l-124 0a8 8 0 0 1-8-8l0-16a8 8 0 0 1 8-8z" class="select"/>
+            <g transform="matrix(1 0 0 1 124 26)">
+              <path fill="none" stroke="rgba(217,217,217,1)" stroke-width="1" d="m-5-3.5 5 7 5-7"/>
             </g>
             <g>
-              <text
-                id="g-svg-2"
-                fill="rgba(0,0,0,1)"
-                dominant-baseline="central"
-                paint-order="stroke"
-                dx="0.5"
-                font-family="sans-serif"
-                font-size="12"
-                font-style="normal"
-                font-variant="normal"
-                font-weight="normal"
-                stroke-width="1"
-                text-anchor="left"
-                class="value"
-                x="18"
-                y="14.5"
-                dy="11.5px"
-              >
-                选项2
-              </text>
+              <text x="18" y="14.5" fill="rgba(0,0,0,1)" stroke-width="1" class="value" dominant-baseline="central" dx=".5" dy="11.5" font-family="sans-serif" font-size="12" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left">选项2</text>
             </g>
           </g>
-          <g transform="matrix(1,0,0,1,10,52)">
-            <path
-              id="g-svg-3"
-              fill="rgba(255,255,255,1)"
-              class="dropdown"
-              d="M 8,0 l 124,0 a 8,8,0,0,1,8,8 l 0,170 a 8,8,0,0,1,-8,8 l -124,0 a 8,8,0,0,1,-8,-8 l 0,-170 a 8,8,0,0,1,8,-8 z"
-              width="140"
-              height="186"
-              stroke="rgba(217,217,217,1)"
-              filter="url(#g-filter-dropshadow-3)"
-              visibility="hidden"
-            />
-            <g id="g-svg-3" fill="none" class="dropdown-container">
-              <g
-                id="g-svg-4"
-                fill="none"
-                class="dropdown-item"
-                transform="matrix(1,0,0,1,8,8)"
-              >
+          <g transform="matrix(1 0 0 1 10 52)">
+            <path width="140" height="186" fill="rgba(255,255,255,1)" stroke="rgba(217,217,217,1)" d="m8 0 124 0a8 8 0 0 1 8 8l0 170a8 8 0 0 1-8 8l-124 0a8 8 0 0 1-8-8l0-170a8 8 0 0 1 8-8z" class="dropdown" filter="url(#a)" visibility="hidden"/>
+            <g fill="none" class="dropdown-container">
+              <g fill="none" class="dropdown-item" transform="matrix(1 0 0 1 8 8)">
                 <g>
-                  <path
-                    id="g-svg-5"
-                    fill="rgba(255,255,255,1)"
-                    d="M 4,0 l 116,0 a 4,4,0,0,1,4,4 l 0,31 a 4,4,0,0,1,-4,4 l -116,0 a 4,4,0,0,1,-4,-4 l 0,-31 a 4,4,0,0,1,4,-4 z"
-                    width="124"
-                    height="39"
-                    visibility="hidden"
-                  />
-                  <g id="g-svg-6" fill="none" transform="matrix(1,0,0,1,12,8)">
+                  <path width="124" height="39" fill="rgba(255,255,255,1)" d="m4 0 116 0a4 4 0 0 1 4 4l0 31a4 4 0 0 1-4 4l-116 0a4 4 0 0 1-4-4l0-31a4 4 0 0 1 4-4z" visibility="hidden"/>
+                  <g fill="none" transform="matrix(1 0 0 1 12 8)">
                     <g>
-                      <text
-                        id="g-svg-7"
-                        fill="rgba(0,0,0,1)"
-                        dominant-baseline="central"
-                        paint-order="stroke"
-                        dx="0.5"
-                        font-family="sans-serif"
-                        font-size="12"
-                        font-style="normal"
-                        font-variant="normal"
-                        font-weight="normal"
-                        stroke-width="1"
-                        text-anchor="left"
-                        class="label"
-                        dy="11.5px"
-                        visibility="hidden"
-                      >
-                        选项1
-                      </text>
+                      <text fill="rgba(0,0,0,1)" stroke-width="1" class="label" dominant-baseline="central" dx=".5" dy="11.5" font-family="sans-serif" font-size="12" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left" visibility="hidden">选项1</text>
                     </g>
                   </g>
                 </g>
               </g>
-              <g
-                id="g-svg-8"
-                fill="none"
-                class="dropdown-item"
-                transform="matrix(1,0,0,1,8,47)"
-              >
+              <g fill="none" class="dropdown-item" transform="matrix(1 0 0 1 8 47)">
                 <g>
-                  <path
-                    id="g-svg-9"
-                    fill="rgba(230,247,255,1)"
-                    d="M 4,0 l 116,0 a 4,4,0,0,1,4,4 l 0,31 a 4,4,0,0,1,-4,4 l -116,0 a 4,4,0,0,1,-4,-4 l 0,-31 a 4,4,0,0,1,4,-4 z"
-                    width="124"
-                    height="39"
-                    visibility="hidden"
-                  />
-                  <g id="g-svg-10" fill="none" transform="matrix(1,0,0,1,12,8)">
+                  <path width="124" height="39" fill="rgba(230,247,255,1)" d="m4 0 116 0a4 4 0 0 1 4 4l0 31a4 4 0 0 1-4 4l-116 0a4 4 0 0 1-4-4l0-31a4 4 0 0 1 4-4z" visibility="hidden"/>
+                  <g fill="none" transform="matrix(1 0 0 1 12 8)">
                     <g>
-                      <text
-                        id="g-svg-11"
-                        fill="rgba(0,0,0,1)"
-                        dominant-baseline="central"
-                        paint-order="stroke"
-                        dx="0.5"
-                        font-family="sans-serif"
-                        font-size="12"
-                        font-style="normal"
-                        font-variant="normal"
-                        font-weight="normal"
-                        stroke-width="1"
-                        text-anchor="left"
-                        class="label"
-                        dy="11.5px"
-                        visibility="hidden"
-                      >
-                        选项2
-                      </text>
+                      <text fill="rgba(0,0,0,1)" stroke-width="1" class="label" dominant-baseline="central" dx=".5" dy="11.5" font-family="sans-serif" font-size="12" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left" visibility="hidden">选项2</text>
                     </g>
                   </g>
                 </g>
               </g>
-              <g
-                id="g-svg-12"
-                fill="none"
-                class="dropdown-item"
-                transform="matrix(1,0,0,1,8,86)"
-              >
+              <g fill="none" class="dropdown-item" transform="matrix(1 0 0 1 8 86)">
                 <g>
-                  <path
-                    id="g-svg-13"
-                    fill="rgba(255,255,255,1)"
-                    d="M 4,0 l 116,0 a 4,4,0,0,1,4,4 l 0,48 a 4,4,0,0,1,-4,4 l -116,0 a 4,4,0,0,1,-4,-4 l 0,-48 a 4,4,0,0,1,4,-4 z"
-                    width="124"
-                    height="56"
-                    visibility="hidden"
-                  />
-                  <g id="g-svg-14" fill="none" transform="matrix(1,0,0,1,12,8)">
+                  <path width="124" height="56" fill="rgba(255,255,255,1)" d="m4 0 116 0a4 4 0 0 1 4 4l0 48a4 4 0 0 1-4 4l-116 0a4 4 0 0 1-4-4l0-48a4 4 0 0 1 4-4z" visibility="hidden"/>
+                  <g fill="none" transform="matrix(1 0 0 1 12 8)">
                     <g>
-                      <path
-                        id="g-svg-15"
-                        fill="rgba(247,84,97,1)"
-                        d="M 0,0 l 100,0 l 0,40 l-100 0 z"
-                        width="100"
-                        height="40"
-                        class="label"
-                        visibility="hidden"
-                      />
+                      <path width="100" height="40" fill="rgba(247,84,97,1)" d="m0 0 100 0 0 40-100 0z" class="label" visibility="hidden"/>
                     </g>
                   </g>
                 </g>
               </g>
-              <g
-                id="g-svg-16"
-                fill="none"
-                class="dropdown-item"
-                transform="matrix(1,0,0,1,8,142)"
-              >
+              <g fill="none" class="dropdown-item" transform="matrix(1 0 0 1 8 142)">
                 <g>
-                  <path
-                    id="g-svg-17"
-                    fill="rgba(255,255,255,1)"
-                    d="M 4,0 l 116,0 a 4,4,0,0,1,4,4 l 0,28 a 4,4,0,0,1,-4,4 l -116,0 a 4,4,0,0,1,-4,-4 l 0,-28 a 4,4,0,0,1,4,-4 z"
-                    width="124"
-                    height="36"
-                    visibility="hidden"
-                  />
-                  <g id="g-svg-18" fill="none" transform="matrix(1,0,0,1,12,8)">
+                  <path width="124" height="36" fill="rgba(255,255,255,1)" d="m4 0 116 0a4 4 0 0 1 4 4l0 28a4 4 0 0 1-4 4l-116 0a4 4 0 0 1-4-4l0-28a4 4 0 0 1 4-4z" visibility="hidden"/>
+                  <g fill="none" transform="matrix(1 0 0 1 12 8)">
                     <g>
-                      <path
-                        id="g-svg-19"
-                        fill="rgba(15,88,218,1)"
-                        d="M 0,0 l 100,0 l 0,20 l-100 0 z"
-                        width="100"
-                        height="20"
-                        class="label"
-                        visibility="hidden"
-                      />
+                      <path width="100" height="20" fill="rgba(15,88,218,1)" d="m0 0 100 0 0 20-100 0z" class="label" visibility="hidden"/>
                     </g>
                   </g>
                 </g>
@@ -226,4 +66,4 @@
       </g>
     </g>
   </g>
-</svg>
+</svg

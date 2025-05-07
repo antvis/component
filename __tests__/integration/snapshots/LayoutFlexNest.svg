@@ -1,517 +1,150 @@
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  width="100"
-  height="100"
-  style="background: transparent;"
-  color-interpolation-filters="sRGB"
->
-  <defs />
-  <g id="g-svg-camera">
-    <g id="g-root" fill="none">
-      <g id="g-svg-0" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" color-interpolation-filters="sRGB" style="background: transparent;">
+  <g>
+    <g fill="none">
+      <g fill="none">
         <g>
-          <path
-            id="g-svg-1"
-            fill="rgba(255,255,255,1)"
-            d="M 0,0 l 100,0 l 0,100 l-100 0 z"
-            width="100"
-            height="100"
-          />
+          <path width="100" height="100" fill="rgba(255,255,255,1)" d="m0 0 100 0 0 100-100 0z"/>
         </g>
-        <g id="g-svg-2" fill="none">
-          <g id="g-svg-1" fill="none" class="axis-grid-group">
-            <g id="g-svg-2" fill="none" class="axis-grid">
-              <g id="g-svg-3" fill="none" class="grid-line-group">
+        <g fill="none">
+          <g fill="none" class="axis-grid-group">
+            <g fill="none" class="axis-grid">
+              <g fill="none" class="grid-line-group">
                 <g>
-                  <path
-                    id="g-svg-5"
-                    fill="none"
-                    class="grid-line"
-                    stroke="rgba(211,211,211,1)"
-                    stroke-width="1"
-                    stroke-dasharray="4,4"
-                    d="M 0,0 L 100,0"
-                  />
+                  <path fill="none" stroke="rgba(211,211,211,1)" stroke-dasharray="4,4" stroke-width="1" d="m0 0 100 0" class="grid-line"/>
                 </g>
                 <g>
-                  <path
-                    id="g-svg-6"
-                    fill="none"
-                    class="grid-line"
-                    stroke="rgba(211,211,211,1)"
-                    stroke-width="1"
-                    stroke-dasharray="4,4"
-                    d="M 0,20 L 100,20"
-                  />
+                  <path fill="none" stroke="rgba(211,211,211,1)" stroke-dasharray="4,4" stroke-width="1" d="m0 20 100 0" class="grid-line"/>
                 </g>
                 <g>
-                  <path
-                    id="g-svg-7"
-                    fill="none"
-                    class="grid-line"
-                    stroke="rgba(211,211,211,1)"
-                    stroke-width="1"
-                    stroke-dasharray="4,4"
-                    d="M 0,40 L 100,40"
-                  />
+                  <path fill="none" stroke="rgba(211,211,211,1)" stroke-dasharray="4,4" stroke-width="1" d="m0 40 100 0" class="grid-line"/>
                 </g>
                 <g>
-                  <path
-                    id="g-svg-8"
-                    fill="none"
-                    class="grid-line"
-                    stroke="rgba(211,211,211,1)"
-                    stroke-width="1"
-                    stroke-dasharray="4,4"
-                    d="M 0,60.00000000000001 L 100,60.00000000000001"
-                  />
+                  <path fill="none" stroke="rgba(211,211,211,1)" stroke-dasharray="4,4" stroke-width="1" d="m0 60 100 0" class="grid-line"/>
                 </g>
                 <g>
-                  <path
-                    id="g-svg-9"
-                    fill="none"
-                    class="grid-line"
-                    stroke="rgba(211,211,211,1)"
-                    stroke-width="1"
-                    stroke-dasharray="4,4"
-                    d="M 0,80 L 100,80"
-                  />
+                  <path fill="none" stroke="rgba(211,211,211,1)" stroke-dasharray="4,4" stroke-width="1" d="m0 80 100 0" class="grid-line"/>
                 </g>
               </g>
-              <g id="g-svg-4" fill="none" class="grid-region-group" />
+              <g fill="none" class="grid-region-group"/>
             </g>
           </g>
-          <g id="g-svg-10" fill="none" class="axis-main-group">
-            <g id="g-svg-11" fill="none" class="axis-line-group">
+          <g fill="none" class="axis-main-group">
+            <g fill="none" class="axis-line-group">
               <g>
-                <line
-                  id="g-svg-12"
-                  fill="none"
-                  x1="0"
-                  y1="0"
-                  x2="0"
-                  y2="100"
-                  class="axis-line axis-line"
-                  stroke-width="0"
-                  stroke="rgba(0,0,0,1)"
-                />
+                <line x1="0" x2="0" y1="0" y2="100" fill="none" stroke="rgba(0,0,0,1)" stroke-width="0" class="axis-line axis-line"/>
               </g>
             </g>
-            <g id="g-svg-13" fill="none" class="axis-tick-group" />
-            <g id="g-svg-14" fill="none" class="axis-label-group">
-              <g
-                id="g-svg-15"
-                fill="none"
-                transform="matrix(1,0,0,1,-10,0)"
-                class="axis-label"
-              >
-                <g transform="matrix(-0,-1,1,-0,0,0)">
-                  <text
-                    id="g-svg-20"
-                    fill="rgba(0,0,0,1)"
-                    dominant-baseline="central"
-                    paint-order="stroke"
-                    dx="0.5"
-                    font-family="sans-serif"
-                    font-size="12"
-                    font-style="normal"
-                    font-variant="normal"
-                    font-weight="normal"
-                    stroke-width="1"
-                    text-anchor="middle"
-                    class="axis-label-item"
-                  >
-                    0
-                  </text>
+            <g fill="none" class="axis-tick-group"/>
+            <g fill="none" class="axis-label-group">
+              <g fill="none" class="axis-label" transform="matrix(1 0 0 1 -10 0)">
+                <g transform="matrix(0 -1 1 0 0 0)">
+                  <text fill="rgba(0,0,0,1)" stroke-width="1" class="axis-label-item" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="12" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">0</text>
                 </g>
               </g>
-              <g
-                id="g-svg-16"
-                fill="none"
-                transform="matrix(1,0,0,1,-10,20)"
-                class="axis-label"
-              >
-                <g transform="matrix(-0,-1,1,-0,0,0)">
-                  <text
-                    id="g-svg-21"
-                    fill="rgba(0,0,0,1)"
-                    dominant-baseline="central"
-                    paint-order="stroke"
-                    dx="0.5"
-                    font-family="sans-serif"
-                    font-size="12"
-                    font-style="normal"
-                    font-variant="normal"
-                    font-weight="normal"
-                    stroke-width="1"
-                    text-anchor="middle"
-                    class="axis-label-item"
-                  >
-                    2
-                  </text>
+              <g fill="none" class="axis-label" transform="matrix(1 0 0 1 -10 20)">
+                <g transform="matrix(0 -1 1 0 0 0)">
+                  <text fill="rgba(0,0,0,1)" stroke-width="1" class="axis-label-item" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="12" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">2</text>
                 </g>
               </g>
-              <g
-                id="g-svg-17"
-                fill="none"
-                transform="matrix(1,0,0,1,-10,40)"
-                class="axis-label"
-              >
-                <g transform="matrix(-0,-1,1,-0,0,0)">
-                  <text
-                    id="g-svg-22"
-                    fill="rgba(0,0,0,1)"
-                    dominant-baseline="central"
-                    paint-order="stroke"
-                    dx="0.5"
-                    font-family="sans-serif"
-                    font-size="12"
-                    font-style="normal"
-                    font-variant="normal"
-                    font-weight="normal"
-                    stroke-width="1"
-                    text-anchor="middle"
-                    class="axis-label-item"
-                  >
-                    4
-                  </text>
+              <g fill="none" class="axis-label" transform="matrix(1 0 0 1 -10 40)">
+                <g transform="matrix(0 -1 1 0 0 0)">
+                  <text fill="rgba(0,0,0,1)" stroke-width="1" class="axis-label-item" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="12" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">4</text>
                 </g>
               </g>
-              <g
-                id="g-svg-18"
-                fill="none"
-                transform="matrix(1,0,0,1,-10,60)"
-                class="axis-label"
-              >
-                <g transform="matrix(-0,-1,1,-0,0,0)">
-                  <text
-                    id="g-svg-23"
-                    fill="rgba(0,0,0,1)"
-                    dominant-baseline="central"
-                    paint-order="stroke"
-                    dx="0.5"
-                    font-family="sans-serif"
-                    font-size="12"
-                    font-style="normal"
-                    font-variant="normal"
-                    font-weight="normal"
-                    stroke-width="1"
-                    text-anchor="middle"
-                    class="axis-label-item"
-                  >
-                    6
-                  </text>
+              <g fill="none" class="axis-label" transform="matrix(1 0 0 1 -10 60)">
+                <g transform="matrix(0 -1 1 0 0 0)">
+                  <text fill="rgba(0,0,0,1)" stroke-width="1" class="axis-label-item" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="12" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">6</text>
                 </g>
               </g>
-              <g
-                id="g-svg-19"
-                fill="none"
-                transform="matrix(1,0,0,1,-10,80)"
-                class="axis-label"
-              >
-                <g transform="matrix(-0,-1,1,-0,0,0)">
-                  <text
-                    id="g-svg-24"
-                    fill="rgba(0,0,0,1)"
-                    dominant-baseline="central"
-                    paint-order="stroke"
-                    dx="0.5"
-                    font-family="sans-serif"
-                    font-size="12"
-                    font-style="normal"
-                    font-variant="normal"
-                    font-weight="normal"
-                    stroke-width="1"
-                    text-anchor="middle"
-                    class="axis-label-item"
-                  >
-                    8
-                  </text>
+              <g fill="none" class="axis-label" transform="matrix(1 0 0 1 -10 80)">
+                <g transform="matrix(0 -1 1 0 0 0)">
+                  <text fill="rgba(0,0,0,1)" stroke-width="1" class="axis-label-item" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="12" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">8</text>
                 </g>
               </g>
             </g>
           </g>
-          <g id="g-svg-25" fill="none" class="axis-title-group" />
+          <g fill="none" class="axis-title-group"/>
         </g>
-        <g id="g-svg-3" fill="none">
-          <g id="g-svg-26" fill="none" class="axis-grid-group">
-            <g id="g-svg-27" fill="none" class="axis-grid">
-              <g id="g-svg-28" fill="none" class="grid-line-group">
+        <g fill="none">
+          <g fill="none" class="axis-grid-group">
+            <g fill="none" class="axis-grid">
+              <g fill="none" class="grid-line-group">
                 <g>
-                  <path
-                    id="g-svg-30"
-                    fill="none"
-                    class="grid-line"
-                    stroke="rgba(211,211,211,1)"
-                    stroke-width="1"
-                    stroke-dasharray="4,4"
-                    d="M 0,0 L 0,100"
-                  />
+                  <path fill="none" stroke="rgba(211,211,211,1)" stroke-dasharray="4,4" stroke-width="1" d="m0 0 0 100" class="grid-line"/>
                 </g>
                 <g>
-                  <path
-                    id="g-svg-31"
-                    fill="none"
-                    class="grid-line"
-                    stroke="rgba(211,211,211,1)"
-                    stroke-width="1"
-                    stroke-dasharray="4,4"
-                    d="M 20,0 L 20,100"
-                  />
+                  <path fill="none" stroke="rgba(211,211,211,1)" stroke-dasharray="4,4" stroke-width="1" d="m20 0 0 100" class="grid-line"/>
                 </g>
                 <g>
-                  <path
-                    id="g-svg-32"
-                    fill="none"
-                    class="grid-line"
-                    stroke="rgba(211,211,211,1)"
-                    stroke-width="1"
-                    stroke-dasharray="4,4"
-                    d="M 40,0 L 40,100"
-                  />
+                  <path fill="none" stroke="rgba(211,211,211,1)" stroke-dasharray="4,4" stroke-width="1" d="m40 0 0 100" class="grid-line"/>
                 </g>
                 <g>
-                  <path
-                    id="g-svg-33"
-                    fill="none"
-                    class="grid-line"
-                    stroke="rgba(211,211,211,1)"
-                    stroke-width="1"
-                    stroke-dasharray="4,4"
-                    d="M 60.00000000000001,0 L 60.00000000000001,100"
-                  />
+                  <path fill="none" stroke="rgba(211,211,211,1)" stroke-dasharray="4,4" stroke-width="1" d="m60 0 0 100" class="grid-line"/>
                 </g>
                 <g>
-                  <path
-                    id="g-svg-34"
-                    fill="none"
-                    class="grid-line"
-                    stroke="rgba(211,211,211,1)"
-                    stroke-width="1"
-                    stroke-dasharray="4,4"
-                    d="M 80,0 L 80,100"
-                  />
+                  <path fill="none" stroke="rgba(211,211,211,1)" stroke-dasharray="4,4" stroke-width="1" d="m80 0 0 100" class="grid-line"/>
                 </g>
               </g>
-              <g id="g-svg-29" fill="none" class="grid-region-group" />
+              <g fill="none" class="grid-region-group"/>
             </g>
           </g>
-          <g id="g-svg-35" fill="none" class="axis-main-group">
-            <g id="g-svg-36" fill="none" class="axis-line-group">
+          <g fill="none" class="axis-main-group">
+            <g fill="none" class="axis-line-group">
               <g>
-                <line
-                  id="g-svg-37"
-                  fill="none"
-                  x1="0"
-                  y1="0"
-                  x2="100"
-                  y2="0"
-                  class="axis-line axis-line"
-                  stroke-width="0"
-                  stroke="rgba(0,0,0,1)"
-                />
+                <line x1="0" x2="100" y1="0" y2="0" fill="none" stroke="rgba(0,0,0,1)" stroke-width="0" class="axis-line axis-line"/>
               </g>
             </g>
-            <g id="g-svg-38" fill="none" class="axis-tick-group" />
-            <g id="g-svg-39" fill="none" class="axis-label-group">
-              <g
-                id="g-svg-40"
-                fill="none"
-                transform="matrix(1,0,0,1,0,-10)"
-                class="axis-label"
-              >
+            <g fill="none" class="axis-tick-group"/>
+            <g fill="none" class="axis-label-group">
+              <g fill="none" class="axis-label" transform="matrix(1 0 0 1 0 -10)">
                 <g>
-                  <text
-                    id="g-svg-45"
-                    fill="rgba(0,0,0,1)"
-                    dominant-baseline="central"
-                    paint-order="stroke"
-                    dx="0.5"
-                    font-family="sans-serif"
-                    font-size="12"
-                    font-style="normal"
-                    font-variant="normal"
-                    font-weight="normal"
-                    stroke-width="1"
-                    text-anchor="middle"
-                    class="axis-label-item"
-                    dy="-11.5px"
-                  >
-                    0
-                  </text>
+                  <text fill="rgba(0,0,0,1)" stroke-width="1" class="axis-label-item" dominant-baseline="central" dx=".5" dy="-11.5" font-family="sans-serif" font-size="12" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">0</text>
                 </g>
               </g>
-              <g
-                id="g-svg-41"
-                fill="none"
-                transform="matrix(1,0,0,1,20,-10)"
-                class="axis-label"
-              >
+              <g fill="none" class="axis-label" transform="matrix(1 0 0 1 20 -10)">
                 <g>
-                  <text
-                    id="g-svg-46"
-                    fill="rgba(0,0,0,1)"
-                    dominant-baseline="central"
-                    paint-order="stroke"
-                    dx="0.5"
-                    font-family="sans-serif"
-                    font-size="12"
-                    font-style="normal"
-                    font-variant="normal"
-                    font-weight="normal"
-                    stroke-width="1"
-                    text-anchor="middle"
-                    class="axis-label-item"
-                    dy="-11.5px"
-                  >
-                    2
-                  </text>
+                  <text fill="rgba(0,0,0,1)" stroke-width="1" class="axis-label-item" dominant-baseline="central" dx=".5" dy="-11.5" font-family="sans-serif" font-size="12" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">2</text>
                 </g>
               </g>
-              <g
-                id="g-svg-42"
-                fill="none"
-                transform="matrix(1,0,0,1,40,-10)"
-                class="axis-label"
-              >
+              <g fill="none" class="axis-label" transform="matrix(1 0 0 1 40 -10)">
                 <g>
-                  <text
-                    id="g-svg-47"
-                    fill="rgba(0,0,0,1)"
-                    dominant-baseline="central"
-                    paint-order="stroke"
-                    dx="0.5"
-                    font-family="sans-serif"
-                    font-size="12"
-                    font-style="normal"
-                    font-variant="normal"
-                    font-weight="normal"
-                    stroke-width="1"
-                    text-anchor="middle"
-                    class="axis-label-item"
-                    dy="-11.5px"
-                  >
-                    4
-                  </text>
+                  <text fill="rgba(0,0,0,1)" stroke-width="1" class="axis-label-item" dominant-baseline="central" dx=".5" dy="-11.5" font-family="sans-serif" font-size="12" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">4</text>
                 </g>
               </g>
-              <g
-                id="g-svg-43"
-                fill="none"
-                transform="matrix(1,0,0,1,60,-10)"
-                class="axis-label"
-              >
+              <g fill="none" class="axis-label" transform="matrix(1 0 0 1 60 -10)">
                 <g>
-                  <text
-                    id="g-svg-48"
-                    fill="rgba(0,0,0,1)"
-                    dominant-baseline="central"
-                    paint-order="stroke"
-                    dx="0.5"
-                    font-family="sans-serif"
-                    font-size="12"
-                    font-style="normal"
-                    font-variant="normal"
-                    font-weight="normal"
-                    stroke-width="1"
-                    text-anchor="middle"
-                    class="axis-label-item"
-                    dy="-11.5px"
-                  >
-                    6
-                  </text>
+                  <text fill="rgba(0,0,0,1)" stroke-width="1" class="axis-label-item" dominant-baseline="central" dx=".5" dy="-11.5" font-family="sans-serif" font-size="12" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">6</text>
                 </g>
               </g>
-              <g
-                id="g-svg-44"
-                fill="none"
-                transform="matrix(1,0,0,1,80,-10)"
-                class="axis-label"
-              >
+              <g fill="none" class="axis-label" transform="matrix(1 0 0 1 80 -10)">
                 <g>
-                  <text
-                    id="g-svg-49"
-                    fill="rgba(0,0,0,1)"
-                    dominant-baseline="central"
-                    paint-order="stroke"
-                    dx="0.5"
-                    font-family="sans-serif"
-                    font-size="12"
-                    font-style="normal"
-                    font-variant="normal"
-                    font-weight="normal"
-                    stroke-width="1"
-                    text-anchor="middle"
-                    class="axis-label-item"
-                    dy="-11.5px"
-                  >
-                    8
-                  </text>
+                  <text fill="rgba(0,0,0,1)" stroke-width="1" class="axis-label-item" dominant-baseline="central" dx=".5" dy="-11.5" font-family="sans-serif" font-size="12" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">8</text>
                 </g>
               </g>
             </g>
           </g>
-          <g id="g-svg-50" fill="none" class="axis-title-group" />
+          <g fill="none" class="axis-title-group"/>
         </g>
-        <g id="g-svg-4" fill="none">
-          <g id="g-svg-8" fill="none">
-            <g transform="matrix(1,0,0,1,15,20)">
-              <path
-                id="g-svg-9"
-                fill="rgba(255,0,0,1)"
-                d="M 0,0 l 10,0 l 0,10 l-10 0 z"
-                width="10"
-                height="10"
-              />
+        <g fill="none">
+          <g fill="none">
+            <g transform="matrix(1 0 0 1 15 20)">
+              <path width="10" height="10" fill="rgba(255,0,0,1)" d="m0 0 10 0 0 10-10 0z"/>
             </g>
-            <g transform="matrix(1,0,0,1,25,20)">
-              <path
-                id="g-svg-10"
-                fill="rgba(0,128,0,1)"
-                d="M 0,0 l 10,0 l 0,10 l-10 0 z"
-                width="10"
-                height="10"
-              />
+            <g transform="matrix(1 0 0 1 25 20)">
+              <path width="10" height="10" fill="rgba(0,128,0,1)" d="m0 0 10 0 0 10-10 0z"/>
             </g>
           </g>
         </g>
         <g>
-          <path
-            id="g-svg-5"
-            fill="none"
-            d="M 50,0 l 50,0 l 0,50 l-50 0 z"
-            x="50"
-            y="0"
-            width="50"
-            height="50"
-            stroke="rgba(255,165,0,1)"
-          />
+          <path width="50" height="50" x="50" y="0" fill="none" stroke="rgba(255,165,0,1)" d="m50 0 50 0 0 50-50 0z"/>
         </g>
         <g>
-          <path
-            id="g-svg-6"
-            fill="none"
-            d="M 55,5 l 40,0 l 0,40 l-40 0 z"
-            x="55"
-            y="5"
-            width="40"
-            height="40"
-            stroke="rgba(255,0,0,1)"
-          />
+          <path width="40" height="40" x="55" y="5" fill="none" stroke="rgba(255,0,0,1)" d="m55 5 40 0 0 40-40 0z"/>
         </g>
         <g>
-          <path
-            id="g-svg-7"
-            fill="none"
-            d="M 60,10 l 30,0 l 0,30 l-30 0 z"
-            x="60"
-            y="10"
-            width="30"
-            height="30"
-            stroke="rgba(0,128,0,1)"
-          />
+          <path width="30" height="30" x="60" y="10" fill="none" stroke="rgba(0,128,0,1)" d="m60 10 30 0 0 30-30 0z"/>
         </g>
       </g>
     </g>
   </g>
-</svg>
+</svg

@@ -1,173 +1,63 @@
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  width="400"
-  height="300"
-  style="background: transparent;"
-  color-interpolation-filters="sRGB"
->
-  <defs />
-  <g id="g-svg-camera">
-    <g id="g-root" fill="none">
-      <g id="g-svg-0" fill="none">
-        <g id="g-svg-1" fill="none">
-          <g id="g-svg-1" fill="none" class="axis-grid-group">
-            <g id="g-svg-2" fill="none" class="axis-grid">
-              <g id="g-svg-3" fill="none" class="grid-line-group">
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" color-interpolation-filters="sRGB" style="background: transparent;">
+  <g>
+    <g fill="none">
+      <g fill="none">
+        <g fill="none">
+          <g fill="none" class="axis-grid-group">
+            <g fill="none" class="axis-grid">
+              <g fill="none" class="grid-line-group">
                 <g>
-                  <path
-                    id="g-svg-5"
-                    fill="none"
-                    class="grid-line"
-                    stroke="rgba(0,0,0,0.5)"
-                    stroke-width="1"
-                    stroke-dasharray="4,4"
-                    d="M 300,150 L 200,150"
-                  />
+                  <path fill="none" stroke="rgba(0,0,0,0.5)" stroke-dasharray="4,4" stroke-width="1" d="m300 150-100 0" class="grid-line"/>
                 </g>
                 <g>
-                  <path
-                    id="g-svg-6"
-                    fill="none"
-                    class="grid-line"
-                    stroke="rgba(0,0,0,0.5)"
-                    stroke-width="1"
-                    stroke-dasharray="4,4"
-                    d="M 286.6025403784439,200 L 200.00000000000003,150"
-                  />
+                  <path fill="none" stroke="rgba(0,0,0,0.5)" stroke-dasharray="4,4" stroke-width="1" d="m286.6025 200-86.6025-50" class="grid-line"/>
                 </g>
                 <g>
-                  <path
-                    id="g-svg-7"
-                    fill="none"
-                    class="grid-line"
-                    stroke="rgba(0,0,0,0.5)"
-                    stroke-width="1"
-                    stroke-dasharray="4,4"
-                    d="M 250,236.60254037844385 L 200,150"
-                  />
+                  <path fill="none" stroke="rgba(0,0,0,0.5)" stroke-dasharray="4,4" stroke-width="1" d="m250 236.6025-50-86.6025" class="grid-line"/>
                 </g>
                 <g>
-                  <path
-                    id="g-svg-8"
-                    fill="none"
-                    class="grid-line"
-                    stroke="rgba(0,0,0,0.5)"
-                    stroke-width="1"
-                    stroke-dasharray="4,4"
-                    d="M 200,250 L 200,150"
-                  />
+                  <path fill="none" stroke="rgba(0,0,0,0.5)" stroke-dasharray="4,4" stroke-width="1" d="m200 250 0-100" class="grid-line"/>
                 </g>
                 <g>
-                  <path
-                    id="g-svg-9"
-                    fill="none"
-                    class="grid-line"
-                    stroke="rgba(0,0,0,0.5)"
-                    stroke-width="1"
-                    stroke-dasharray="4,4"
-                    d="M 150.00000000000003,236.60254037844388 L 200,150"
-                  />
+                  <path fill="none" stroke="rgba(0,0,0,0.5)" stroke-dasharray="4,4" stroke-width="1" d="m150 236.6025 50-86.6025" class="grid-line"/>
                 </g>
                 <g>
-                  <path
-                    id="g-svg-10"
-                    fill="none"
-                    class="grid-line"
-                    stroke="rgba(0,0,0,0.5)"
-                    stroke-width="1"
-                    stroke-dasharray="4,4"
-                    d="M 113.39745962155612,200 L 200,150"
-                  />
+                  <path fill="none" stroke="rgba(0,0,0,0.5)" stroke-dasharray="4,4" stroke-width="1" d="m113.3975 200 86.6025-50" class="grid-line"/>
                 </g>
                 <g>
-                  <path
-                    id="g-svg-11"
-                    fill="none"
-                    class="grid-line"
-                    stroke="rgba(0,0,0,0.5)"
-                    stroke-width="1"
-                    stroke-dasharray="4,4"
-                    d="M 100,150 L 200,150"
-                  />
+                  <path fill="none" stroke="rgba(0,0,0,0.5)" stroke-dasharray="4,4" stroke-width="1" d="m100 150 100 0" class="grid-line"/>
                 </g>
                 <g>
-                  <path
-                    id="g-svg-12"
-                    fill="none"
-                    class="grid-line"
-                    stroke="rgba(0,0,0,0.5)"
-                    stroke-width="1"
-                    stroke-dasharray="4,4"
-                    d="M 113.3974596215561,100.00000000000006 L 200,150"
-                  />
+                  <path fill="none" stroke="rgba(0,0,0,0.5)" stroke-dasharray="4,4" stroke-width="1" d="m113.3975 100 86.6025 50" class="grid-line"/>
                 </g>
                 <g>
-                  <path
-                    id="g-svg-13"
-                    fill="none"
-                    class="grid-line"
-                    stroke="rgba(0,0,0,0.5)"
-                    stroke-width="1"
-                    stroke-dasharray="4,4"
-                    d="M 149.99999999999994,63.39745962155615 L 200,150"
-                  />
+                  <path fill="none" stroke="rgba(0,0,0,0.5)" stroke-dasharray="4,4" stroke-width="1" d="m150 63.3975 50 86.6025" class="grid-line"/>
                 </g>
                 <g>
-                  <path
-                    id="g-svg-14"
-                    fill="none"
-                    class="grid-line"
-                    stroke="rgba(0,0,0,0.5)"
-                    stroke-width="1"
-                    stroke-dasharray="4,4"
-                    d="M 199.99999999999997,50 L 200,150"
-                  />
+                  <path fill="none" stroke="rgba(0,0,0,0.5)" stroke-dasharray="4,4" stroke-width="1" d="m200 50 0 100" class="grid-line"/>
                 </g>
                 <g>
-                  <path
-                    id="g-svg-15"
-                    fill="none"
-                    class="grid-line"
-                    stroke="rgba(0,0,0,0.5)"
-                    stroke-width="1"
-                    stroke-dasharray="4,4"
-                    d="M 250,63.39745962155614 L 200,150"
-                  />
+                  <path fill="none" stroke="rgba(0,0,0,0.5)" stroke-dasharray="4,4" stroke-width="1" d="m250 63.3975-50 86.6025" class="grid-line"/>
                 </g>
                 <g>
-                  <path
-                    id="g-svg-16"
-                    fill="none"
-                    class="grid-line"
-                    stroke="rgba(0,0,0,0.5)"
-                    stroke-width="1"
-                    stroke-dasharray="4,4"
-                    d="M 286.60254037844385,99.99999999999996 L 200,150"
-                  />
+                  <path fill="none" stroke="rgba(0,0,0,0.5)" stroke-dasharray="4,4" stroke-width="1" d="m286.6025 100-86.6025 50" class="grid-line"/>
                 </g>
               </g>
-              <g id="g-svg-4" fill="none" class="grid-region-group" />
+              <g fill="none" class="grid-region-group"/>
             </g>
           </g>
-          <g id="g-svg-17" fill="none" class="axis-main-group">
-            <g id="g-svg-18" fill="none" class="axis-line-group">
+          <g fill="none" class="axis-main-group">
+            <g fill="none" class="axis-line-group">
               <g>
-                <path
-                  id="g-svg-19"
-                  fill="none"
-                  class="axis-line"
-                  d="M 300,150 A 100 100 0 1 0 100 150 A 100 100 0 1 0 300 149.99999999999997"
-                  stroke-width="1"
-                  stroke="rgba(0,0,0,1)"
-                />
+                <path fill="none" stroke="rgba(0,0,0,1)" stroke-width="1" d="M300 150a100 100 0 1 0-200 0 100 100 0 1 0 200 0" class="axis-line"/>
               </g>
             </g>
-            <g id="g-svg-21" fill="none" class="axis-tick-group" />
-            <g id="g-svg-22" fill="none" class="axis-label-group" />
+            <g fill="none" class="axis-tick-group"/>
+            <g fill="none" class="axis-label-group"/>
           </g>
-          <g id="g-svg-23" fill="none" class="axis-title-group" />
+          <g fill="none" class="axis-title-group"/>
         </g>
       </g>
     </g>
   </g>
-</svg>
+</svg

@@ -10,8 +10,8 @@ module.exports = {
     '^.+\\.[tj]s$': [
       'ts-jest',
       {
-        isolatedModules: true,
         tsconfig: {
+          isolatedModules: true,
           target: 'esnext', // Increase test coverage.
           allowJs: true,
           sourceMap: true,

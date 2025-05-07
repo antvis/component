@@ -1,268 +1,85 @@
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  width="320"
-  height="50"
-  style="background: transparent;"
-  color-interpolation-filters="sRGB"
->
-  <defs />
-  <g id="g-svg-camera">
-    <g id="g-root" fill="none">
-      <g id="g-svg-0" fill="none">
-        <g id="g-svg-1" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="50" color-interpolation-filters="sRGB" style="background: transparent;">
+  <g>
+    <g fill="none">
+      <g fill="none">
+        <g fill="none">
           <g>
-            <path
-              id="g-svg-1"
-              fill="rgba(65,97,128,1)"
-              class="slider-track"
-              d="M 10,10 l 300,0 l 0,50 l-300 0 z"
-              x="10"
-              y="10"
-              width="300"
-              height="50"
-              opacity="0.05"
-            />
+            <path width="300" height="50" x="10" y="10" fill="rgba(65,97,128,1)" d="m10 10 300 0 0 50-300 0z" class="slider-track" opacity=".05"/>
           </g>
-          <g id="g-svg-2" fill="none" class="slider-sparkline-group">
-            <g id="g-svg-3" fill="none" class="slider-sparkline">
+          <g fill="none" class="slider-sparkline-group">
+            <g fill="none" class="slider-sparkline">
               <g>
-                <path id="g-svg-4" fill="none" class="container" />
+                <path fill="none" class="container"/>
               </g>
-              <g
-                id="g-svg-5"
-                fill="none"
-                class="spark sparkline"
-                transform="matrix(1,0,0,1,10,10)"
-              >
-                <g id="g-svg-6" fill="none">
+              <g fill="none" class="spark sparkline" transform="matrix(1 0 0 1 10 10)">
+                <g fill="none">
                   <g>
-                    <path
-                      id="g-svg-10"
-                      fill="none"
-                      class="line"
-                      stroke="rgba(131,218,173,1)"
-                      d="M 0,16.666666666666668 C 0 16.666666666666668,18.39204416743676 43.333333333333336,33.33333333333333 43.333333333333336 C 45.05871083410342 43.333333333333336,53.33333333333332 41.333333333333336,66.66666666666666 40 C 80 38.666666666666664,89.24396846987035 40,100 36.66666666666667 C 115.91063513653701 31.735902908066567,118.11325038498515 0,133.33333333333331 0 C 144.77991705165184 0,153.33333333333331 9.999999999999995,166.66666666666669 16.666666666666668 C 180.00000000000003 23.333333333333332,186.66666666666666 26.66666666666667,200 33.333333333333336 C 213.33333333333334 40.00000000000001,219.54362549881253 50,233.33333333333334 50 C 246.2102921654792 50,253.1768172461297 40,266.66666666666663 40 C 279.84348391279633 40,300 46.666666666666664,300 46.666666666666664"
-                      stroke-width="1"
-                    />
+                    <path fill="none" stroke="rgba(131,218,173,1)" stroke-width="1" d="M0 16.6667c0 0 18.392 26.6666 33.3333 26.6666 11.7254 0 20-2 33.3334-3.3333 13.3333-1.3333 22.5773 0 33.3333-3.3333 15.9106-4.9308 18.1133-36.6667 33.3333-36.6667 11.4466 0 20 10 33.3334 16.6667 13.3333 6.6666 20 10 33.3333 16.6666 13.3333 6.6667 19.5436 16.6667 33.3333 16.6667 12.877 0 19.8435-10 33.3334-10 13.1768 0 33.3333 6.6667 33.3333 6.6667" class="line"/>
                   </g>
                   <g>
-                    <path
-                      id="g-svg-11"
-                      fill="rgba(214,228,253,1)"
-                      class="area"
-                      d="M 0,16.666666666666668 C 0 16.666666666666668,18.39204416743676 43.333333333333336,33.33333333333333 43.333333333333336 C 45.05871083410342 43.333333333333336,53.33333333333332 41.333333333333336,66.66666666666666 40 C 80 38.666666666666664,89.24396846987035 40,100 36.66666666666667 C 115.91063513653701 31.735902908066567,118.11325038498515 0,133.33333333333331 0 C 144.77991705165184 0,153.33333333333331 9.999999999999995,166.66666666666669 16.666666666666668 C 180.00000000000003 23.333333333333332,186.66666666666666 26.66666666666667,200 33.333333333333336 C 213.33333333333334 40.00000000000001,219.54362549881253 50,233.33333333333334 50 C 246.2102921654792 50,253.1768172461297 40,266.66666666666663 40 C 279.84348391279633 40,300 46.666666666666664,300 46.666666666666664 L 300,50 L 0,50 Z"
-                      stroke="rgba(214,228,253,1)"
-                    />
+                    <path fill="rgba(214,228,253,1)" stroke="rgba(214,228,253,1)" d="M0 16.6667c0 0 18.392 26.6666 33.3333 26.6666 11.7254 0 20-2 33.3334-3.3333 13.3333-1.3333 22.5773 0 33.3333-3.3333 15.9106-4.9308 18.1133-36.6667 33.3333-36.6667 11.4466 0 20 10 33.3334 16.6667 13.3333 6.6666 20 10 33.3333 16.6666 13.3333 6.6667 19.5436 16.6667 33.3333 16.6667 12.877 0 19.8435-10 33.3334-10 13.1768 0 33.3333 6.6667 33.3333 6.6667l0 3.3333-300 0Z" class="area"/>
                   </g>
                 </g>
-                <g id="g-svg-7" fill="none" />
+                <g fill="none"/>
               </g>
             </g>
           </g>
           <g>
-            <path
-              id="g-svg-12"
-              fill="rgba(0,0,0,0)"
-              class="slider-brush-area"
-              d="M 10,10 l 300,0 l 0,50 l-300 0 z"
-              x="10"
-              y="10"
-              width="300"
-              height="50"
-            />
+            <path width="300" height="50" x="10" y="10" fill="rgba(0,0,0,0)" d="m10 10 300 0 0 50-300 0z" class="slider-brush-area"/>
           </g>
-          <g id="g-svg-13" fill="none" class="slider-foreground">
-            <g transform="matrix(1,0,0,1,10,10)">
-              <path
-                id="g-svg-14"
-                fill="rgba(255,255,255,1)"
-                class="slider-selection"
-                visibility="visible"
-                fill-opacity="0.5"
-                d="M 0,0 l 75,0 l 0,50 l-75 0 z"
-                height="50"
-                width="75"
-              />
+          <g fill="none" class="slider-foreground">
+            <g transform="matrix(1 0 0 1 10 10)">
+              <path width="75" height="50" fill="rgba(255,255,255,1)" fill-opacity=".5" d="m0 0 75 0 0 50-75 0z" class="slider-selection" visibility="visible"/>
             </g>
-            <g transform="matrix(1,0,0,1,10,10)">
-              <path
-                id="g-svg-15"
-                fill="rgba(255,255,255,1)"
-                class="slider-selection"
-                visibility="hidden"
-                fill-opacity="0.5"
-                d="M 75,0 l 150,0 l 0,50 l-150 0 z"
-                height="50"
-                x="75"
-                width="150"
-              />
+            <g transform="matrix(1 0 0 1 10 10)">
+              <path width="150" height="50" x="75" fill="rgba(255,255,255,1)" fill-opacity=".5" d="m75 0 150 0 0 50-150 0z" class="slider-selection" visibility="hidden"/>
             </g>
-            <g transform="matrix(1,0,0,1,10,10)">
-              <path
-                id="g-svg-16"
-                fill="rgba(255,255,255,1)"
-                class="slider-selection"
-                visibility="visible"
-                fill-opacity="0.5"
-                d="M 225,0 l 75,0 l 0,50 l-75 0 z"
-                height="50"
-                x="225"
-                width="75"
-              />
+            <g transform="matrix(1 0 0 1 10 10)">
+              <path width="75" height="50" x="225" fill="rgba(255,255,255,1)" fill-opacity=".5" d="m225 0 75 0 0 50-75 0z" class="slider-selection" visibility="visible"/>
             </g>
-            <g
-              id="g-svg-19"
-              fill="none"
-              transform="matrix(1,0,0,1,80,35)"
-              class="slider-handle start-handle"
-            >
-              <g id="g-svg-20" fill="none" class="handle-icon-group">
-                <g id="g-svg-21" fill="none" class="handle-icon">
+            <g fill="none" class="slider-handle start-handle" transform="matrix(1 0 0 1 80 35)">
+              <g fill="none" class="handle-icon-group">
+                <g fill="none" class="handle-icon">
                   <g>
-                    <path
-                      id="g-svg-22"
-                      fill="rgba(255,255,255,1)"
-                      d="M -5,-25 l 10,0 l 0,50 l-10 0 z"
-                      x="-5"
-                      y="-25"
-                      width="10"
-                      height="50"
-                      fill-opacity="0.5"
-                    />
+                    <path width="10" height="50" x="-5" y="-25" fill="rgba(255,255,255,1)" fill-opacity=".5" d="m-5-25 10 0 0 50-10 0z"/>
                   </g>
                   <g>
-                    <line
-                      id="g-svg-23"
-                      fill="none"
-                      x1="-1"
-                      y1="-5"
-                      x2="-1"
-                      y2="5"
-                      stroke-width="1"
-                      stroke="rgba(154,154,154,1)"
-                    />
+                    <line x1="-1" x2="-1" y1="-5" y2="5" fill="none" stroke="rgba(154,154,154,1)" stroke-width="1"/>
                   </g>
                   <g>
-                    <line
-                      id="g-svg-24"
-                      fill="none"
-                      x1="1"
-                      y1="5"
-                      x2="1"
-                      y2="-5"
-                      stroke-width="1"
-                      stroke="rgba(154,154,154,1)"
-                    />
+                    <line x1="1" x2="1" y1="5" y2="-5" fill="none" stroke="rgba(154,154,154,1)" stroke-width="1"/>
                   </g>
                   <g>
-                    <line
-                      id="g-svg-25"
-                      fill="none"
-                      x1="5"
-                      y1="-25"
-                      x2="5"
-                      y2="25"
-                      stroke-width="1"
-                      stroke="rgba(232,232,232,1)"
-                    />
+                    <line x1="5" x2="5" y1="-25" y2="25" fill="none" stroke="rgba(232,232,232,1)" stroke-width="1"/>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-26" fill="none" class="handle-label-group">
+              <g fill="none" class="handle-label-group">
                 <g>
-                  <text
-                    id="g-svg-27"
-                    fill="rgba(0,0,0,1)"
-                    class="handle-label"
-                    fill-opacity="0.45"
-                    dominant-baseline="central"
-                    paint-order="stroke"
-                    x="-25.7"
-                    dx="0.5"
-                    font-size="12"
-                    text-anchor="middle"
-                    y="0"
-                  >
-                    0.25
-                  </text>
+                  <text x="-25.7" y="0" fill="rgba(0,0,0,1)" fill-opacity=".45" class="handle-label" dominant-baseline="central" dx=".5" dy="0" font-size="12" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">0.25</text>
                 </g>
               </g>
             </g>
-            <g
-              id="g-svg-30"
-              fill="none"
-              transform="matrix(1,0,0,1,240,35)"
-              class="slider-handle end-handle"
-            >
-              <g id="g-svg-31" fill="none" class="handle-icon-group">
-                <g id="g-svg-32" fill="none" class="handle-icon">
+            <g fill="none" class="slider-handle end-handle" transform="matrix(1 0 0 1 240 35)">
+              <g fill="none" class="handle-icon-group">
+                <g fill="none" class="handle-icon">
                   <g>
-                    <path
-                      id="g-svg-33"
-                      fill="rgba(255,255,255,1)"
-                      d="M -5,-25 l 10,0 l 0,50 l-10 0 z"
-                      x="-5"
-                      y="-25"
-                      width="10"
-                      height="50"
-                      fill-opacity="0.5"
-                    />
+                    <path width="10" height="50" x="-5" y="-25" fill="rgba(255,255,255,1)" fill-opacity=".5" d="m-5-25 10 0 0 50-10 0z"/>
                   </g>
                   <g>
-                    <line
-                      id="g-svg-34"
-                      fill="none"
-                      x1="-1"
-                      y1="-5"
-                      x2="-1"
-                      y2="5"
-                      stroke-width="1"
-                      stroke="rgba(154,154,154,1)"
-                    />
+                    <line x1="-1" x2="-1" y1="-5" y2="5" fill="none" stroke="rgba(154,154,154,1)" stroke-width="1"/>
                   </g>
                   <g>
-                    <line
-                      id="g-svg-35"
-                      fill="none"
-                      x1="1"
-                      y1="5"
-                      x2="1"
-                      y2="-5"
-                      stroke-width="1"
-                      stroke="rgba(154,154,154,1)"
-                    />
+                    <line x1="1" x2="1" y1="5" y2="-5" fill="none" stroke="rgba(154,154,154,1)" stroke-width="1"/>
                   </g>
                   <g>
-                    <line
-                      id="g-svg-36"
-                      fill="none"
-                      x1="-5"
-                      y1="-25"
-                      x2="-5"
-                      y2="25"
-                      stroke-width="1"
-                      stroke="rgba(232,232,232,1)"
-                    />
+                    <line x1="-5" x2="-5" y1="-25" y2="25" fill="none" stroke="rgba(232,232,232,1)" stroke-width="1"/>
                   </g>
                 </g>
               </g>
-              <g id="g-svg-37" fill="none" class="handle-label-group">
+              <g fill="none" class="handle-label-group">
                 <g>
-                  <text
-                    id="g-svg-38"
-                    fill="rgba(0,0,0,1)"
-                    class="handle-label"
-                    fill-opacity="0.45"
-                    dominant-baseline="central"
-                    paint-order="stroke"
-                    x="25.46"
-                    dx="0.5"
-                    font-size="12"
-                    text-anchor="middle"
-                    y="0"
-                  >
-                    0.75
-                  </text>
+                  <text x="25.46" y="0" fill="rgba(0,0,0,1)" fill-opacity=".45" class="handle-label" dominant-baseline="central" dx=".5" dy="0" font-size="12" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle">0.75</text>
                 </g>
               </g>
             </g>
@@ -271,4 +88,4 @@
       </g>
     </g>
   </g>
-</svg>
+</svg
