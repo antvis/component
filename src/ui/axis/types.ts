@@ -44,7 +44,7 @@ export interface HideOverlapCfg extends Overlap {
 }
 export interface WrapOverlapCfg extends Overlap {
   type: 'wrap';
-  wordWrapWidth?: number;
+  wordWrapWidth?: Callable<number, [DisplayObject]>;
   maxLines?: number;
   recoverWhenFailed?: boolean;
 }

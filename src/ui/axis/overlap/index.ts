@@ -34,12 +34,17 @@ export function canProcessOverlap(
   return true;
 }
 
-export function processOverlap(labels: DisplayObject[], attr: Required<AxisStyleProps>, utils: OverlapUtilsType) {
+export function processOverlap(
+  labels: DisplayObject[],
+  attr: Required<AxisStyleProps>,
+  main: DisplayObject,
+  utils: OverlapUtilsType
+) {
   const { labelOverlap = [] } = attr;
   if (!labelOverlap.length) return;
   labelOverlap.forEach((overlapCfg) => {
     const { type } = overlapCfg;
     const util = OverlapUtils.get(type);
-    if (canProcessOverlap(labels, attr, type)) util?.(labels as any[], overlapCfg, attr, utils);
+    if (canProcessOverlap(labels, attr, type)) util?.(labels as any[], overlapCfg, attr, utils, main);
   });
 }
