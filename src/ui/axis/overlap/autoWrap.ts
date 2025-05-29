@@ -26,7 +26,7 @@ export default function wrapLabels(
   main: DisplayObject
 ) {
   const { maxLines = 3, recoverWhenFailed = true, margin = [0, 0, 0, 0] } = overlapCfg;
-  const wordWrapWidth = getCallbackValue(overlapCfg.wordWrapWidth || 50, [main]);
+  const wordWrapWidth = getCallbackValue(overlapCfg.wordWrapWidth ?? 50, [main]);
   const defaultLines = labels.map((label) => label.attr('maxLines') || 1);
 
   const minLines = Math.min(...defaultLines);
