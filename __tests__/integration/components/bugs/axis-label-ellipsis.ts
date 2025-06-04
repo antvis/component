@@ -7,10 +7,12 @@ export const BugAxisLabelEllipsis = () => {
     style: { width: 1000, height: 300 },
   });
 
+  const limitedData = mockData.slice(0, 1);
+
   group.appendChild(
     new Axis({
       style: {
-        data: mockData,
+        data: limitedData,
         labelOverlap: [
           {
             type: 'ellipsis',
