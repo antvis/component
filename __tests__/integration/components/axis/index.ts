@@ -24,6 +24,7 @@ export { AxisLinearLabelAlign11 } from './axis-linear-label-align-11';
 export { AxisLinearLabelRotate } from './axis-linear-label-rotate';
 export { AxisLinearLabelOverlap } from './axis-linear-label-overlap';
 export { AxisLinearLabelOverlapWrap } from './axis-linear-label-overlap-wrap';
+export { AxisLinearLabelOverlapWrapAuto } from './axis-linear-label-overlap-wrap-auto';
 export { AxisLinearLabelOverlapWrapVertical } from './axis-linear-label-overlap-wrap-vertical';
 export { AxisLinearLabelOverlapCrossSize } from './axis-linear-label-overlap-cross-size';
 export { AxisLinearLabelOverlapCrossSizeVertical } from './axis-linear-label-overlap-cross-size-vertical';
