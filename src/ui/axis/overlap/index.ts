@@ -30,7 +30,7 @@ export function canProcessOverlap(
   if (attr.labelOverlap.length < 1) return false;
   if (type === 'hide') return !isInOffscreenGroup(labels[0]);
   if (type === 'rotate') return !labels.some((label) => !!label.attr('transform')?.includes('rotate'));
-  if (type === 'ellipsis' || type === 'wrap') return labels.filter((item) => item.querySelector('text')).length > 1;
+  if (type === 'ellipsis' || type === 'wrap') return labels.filter((item) => item.querySelector('text')).length >= 1;
   return true;
 }
 
