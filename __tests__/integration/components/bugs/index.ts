@@ -1,5 +1,6 @@
 export { BugAxisTitlePosition } from './axis-title-position';
 export { BugAxisLabelPosition } from './axis-label-position';
+export { BugAxisLabelEllipsis } from './axis-label-ellipsis';
 export { BugAxisLabelWrap } from './axis-label-wrap';
 export { BugAxisLabelRotate } from './axis-label-rotate';
 export { AxisLabelOverlapUpdate } from './axis-label-overlap-update';

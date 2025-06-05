@@ -22,7 +22,7 @@ export default function ellipseLabels(
   attr: AxisStyleProps,
   utils: Utils
 ) {
-  if (labels.length <= 1) return;
+  if (labels.length <= 0) return;
   const {
     suffix = '...',
     minLength,
