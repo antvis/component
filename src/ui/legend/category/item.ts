@@ -24,7 +24,11 @@ import {
   scaleToPixel,
   select,
   subStyleProps,
+  deepAssign,
 } from '../../../util';
+import { Poptip } from '../../poptip';
+import type { PoptipStyleProps } from '../../poptip/types';
+import type { PoptipRender } from './items';
 
 type ItemMarkerStyle = { size?: number } & PathStyleProps;
 type ItemTextStyle = Omit<TextStyleProps, 'text'>;
@@ -45,6 +49,7 @@ export type CategoryItemStyleProps = GroupStyleProps &
     width?: number;
     x?: number;
     y?: number;
+    poptip?: PoptipStyleProps & PoptipRender;
   };
 
 export type CategoryItemOptions = ComponentOptions<CategoryItemStyleProps>;
@@ -63,6 +68,25 @@ const CLASS_NAMES = classNames(
   },
   'legend-category-item'
 );
+
+const DEFAULT_POPTIP_PROPS: PoptipStyleProps = {
+  offset: [0, 20],
+  domStyles: {
+    '.component-poptip': {
+      opacity: '1',
+      padding: '8px 12px',
+      background: '#fff',
+      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+    },
+    '.component-poptip-arrow': {
+      display: 'none',
+    },
+    '.component-poptip-text': {
+      color: '#000',
+      lineHeight: '20px',
+    },
+  },
+};
 
 function styleOfMarker(group: Group): BaseStyleProps {
   const marker = group.querySelector(CLASS_NAMES.marker.class);
@@ -84,6 +108,8 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
       valueTextBaseline: 'middle',
     });
   }
+
+  private poptipGroup!: Poptip;
 
   private markerGroup!: Selection<Group>;
 
@@ -224,6 +250,48 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
     });
   }
 
+  private createPoptip() {
+    const { poptip } = this.attributes;
+    const { render, ...poptipStyle } = poptip || {};
+    const poptipGroup = new Poptip({ style: deepAssign(DEFAULT_POPTIP_PROPS, poptipStyle) });
+    this.poptipGroup = poptipGroup;
+    return poptipGroup;
+  }
+
+  private bindPoptip(node: DisplayObject) {
+    const { poptip } = this.attributes;
+    if (!poptip) return;
+    const poptipGroup = this.poptipGroup || this.createPoptip();
+    poptipGroup.bind(node, () => {
+      const { labelText, valueText, markerFill } = this.attributes;
+      const label = typeof labelText === 'string' ? labelText : (labelText as DisplayObject)?.attr('text');
+      const value = typeof valueText === 'string' ? valueText : (valueText as DisplayObject)?.attr('text');
+      if (typeof poptip.render === 'function') {
+        return { html: poptip.render({ label, value, color: markerFill as string }) };
+      }
+      let html = '';
+      if (typeof label === 'string' || typeof label === 'number') {
+        html += `<div class="component-poptip-label">${label}</div>`;
+      }
+      if (typeof value === 'string' || typeof value === 'number') {
+        html += `<div class="component-poptip-value">${value}</div>`;
+      }
+      return { html };
+    });
+  }
+
+  private renderPoptip(ctn: Selection) {
+    const { poptip } = this.attributes;
+    if (!poptip) return;
+    const valueNode = ctn.maybeAppendByClassName(CLASS_NAMES.value, 'g').node();
+    const labelNode = ctn.maybeAppendByClassName(CLASS_NAMES.label, 'g').node();
+    [valueNode, labelNode].forEach((node) => {
+      if (node) {
+        this.bindPoptip(node);
+      }
+    });
+  }
+
   private renderBackground(container: Selection) {
     const { width, height } = this.shape;
     const style = subStyleProps(this.attributes, 'background');
@@ -264,6 +332,7 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
     this.renderLabel(ctn);
     this.renderValue(ctn);
     this.renderBackground(ctn);
+    this.renderPoptip(ctn);
     this.adjustLayout();
   }
 }

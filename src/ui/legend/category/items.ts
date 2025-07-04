@@ -20,6 +20,7 @@ import { Navigator } from '../../navigator';
 import { ifHorizontal } from '../utils';
 import type { CategoryItemStyleProps } from './item';
 import { CategoryItem } from './item';
+import type { PoptipStyleProps } from '../../poptip/types';
 
 interface CategoryItemsDatum {
   [keys: string]: any;
@@ -29,6 +30,10 @@ type CallableItemStyle = CallableStyleProps<
   Omit<CategoryItemStyleProps, 'width' | 'height'>,
   CallbackParameter<CategoryItemsDatum>
 >;
+
+export type PoptipRender = {
+  render?: (params: { label: string | number; value: string | number; color?: string }) => string;
+};
 
 export type CategoryItemsStyleProps = GroupStyleProps &
   PrefixStyleProps<CallableItemStyle, 'item'> &
@@ -49,6 +54,7 @@ export type CategoryItemsStyleProps = GroupStyleProps &
     click?: (el: Selection) => void;
     mouseenter?: (el: Selection) => void;
     mouseleave?: (el: Selection) => void;
+    poptip?: PoptipStyleProps & PoptipRender;
   };
 
 export type CategoryItemsOptions = ComponentOptions<CategoryItemsStyleProps>;
@@ -123,7 +129,7 @@ export class CategoryItems extends Component<CategoryItemsStyleProps> {
   }
 
   private get renderData() {
-    const { data, layout } = this.attributes;
+    const { data, layout, poptip } = this.attributes;
     const style = subStyleProps<CategoryItemStyleProps>(this.attributes, 'item');
 
     const d = data.map((datum, index) => {
@@ -135,6 +141,7 @@ export class CategoryItems extends Component<CategoryItemsStyleProps> {
           layout,
           labelText,
           valueText,
+          poptip,
           ...Object.fromEntries(
             Object.entries(style).map(([key, val]) => [key, getCallbackValue(val, [datum, index, data])])
           ),
