@@ -62,7 +62,7 @@
     "@types/jest": "^29.5.14",
     "@types/jsdom": "^21.1.7",
     "@types/prettier": "^2.7.3",
-    "@types/react": "^16.14.62",
+    "@types/react": "^18.0.0",
     "@types/react-dom": "^18.3.1",
     "@types/svg-path-parser": "^1.1.6",
     "@types/xmlserializer": "^0.6.6",

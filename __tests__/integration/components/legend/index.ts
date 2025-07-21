@@ -70,3 +70,8 @@ export { ContinuousD3ColorLegend } from './continuous-d3-color-legend';
 export { RibbonDemo } from './ribbon';
 export { RibbonColor } from './ribbon-color';
 export { HandleDemo } from './handle';
+export { CategoryItemsPoptip1 } from './category-items-poptip-1';
+export { CategoryItemsPoptip2 } from './category-items-poptip-2';
+export { CategoryItemsPoptip3 } from './category-items-poptip-3';
+export { CategoryItemsPoptip4 } from './category-items-poptip-4';
+export { CategoryItemsPoptip5 } from './category-items-poptip-5';

@@ -6,24 +6,45 @@ jobs:
   build:
     runs-on: macos-latest
 
+    strategy:
+      matrix:
+        node-version: [22.17.0]
+
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.3.4
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check macOS version
+        run: sw_vers
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v2.1.5
+        uses: actions/setup-node@v4
         with:
-          node-version: '16'
-      - name: Run ci
-        run: |
-          npm install --legacy-peer-deps
-          npm run ci
+          node-version: ${{ matrix.node-version }}
 
-      - name: Upload blob report to GitHub Actions Artifacts
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run CI tasks
+        run: npm run ci
+
+      - name: Upload test coverage
+        if: success() && matrix.node-version == 20
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 7
+
+      - name: Upload snapshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: snapshots
+          name: snapshots-node-${{ matrix.node-version }}
           path: |
             __tests__/integration/snapshots/*-actual.svg
-          retention-days: 1
+            __tests__/integration/snapshots/*-diff.svg
+          retention-days: 3
+          if-no-files-found: ignore

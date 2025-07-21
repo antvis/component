@@ -1,0 +1,160 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" color-interpolation-filters="sRGB" style="background: transparent;">
+  <defs>
+    <clipPath id="b">
+      <use href="#a"/>
+    </clipPath>
+  </defs>
+  <g>
+    <g fill="none">
+      <g fill="none">
+        <g fill="none">
+          <g fill="none" class="items-navigator">
+            <g fill="none" class="navigator-content-group" clip-path="url(#b)">
+              <g fill="none" class="navigator-play-window">
+                <g fill="none" class="items-item-page">
+                  <g fill="none" class="items-item">
+                    <g fill="none" class="legend-category-item-background-group">
+                      <g>
+                        <path width="78.56" height="23" fill="none" d="m0 0 78.56 0 0 23-78.56 0z" class="legend-category-item-background" visibility="visible"/>
+                      </g>
+                    </g>
+                    <g fill="none" class="legend-category-item-marker-group" transform="matrix(.83333 0 0 .83333 5 11.5)">
+                      <g>
+                        <circle r="6" fill="rgba(255,0,0,1)" class="legend-category-item-marker" visibility="visible"/>
+                      </g>
+                    </g>
+                    <g fill="none" class="legend-category-item-label-group" transform="matrix(1 0 0 1 10 11.5)">
+                      <g>
+                        <text fill="rgba(255,0,0,1)" stroke-width="1" class="legend-category-item-label" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="12" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left" visibility="visible">Middle East</text>
+                      </g>
+                    </g>
+                    <g fill="none" class="legend-category-item-value-group"/>
+                    <g fill="none" class="legend-category-item-value"/>
+                  </g>
+                  <g fill="none" class="items-item" transform="matrix(1 0 0 1 88.56 0)">
+                    <g fill="none" class="legend-category-item-background-group">
+                      <g>
+                        <path width="73.04" height="23" fill="none" d="m0 0 73.04 0 0 23-73.04 0z" class="legend-category-item-background" visibility="visible"/>
+                      </g>
+                    </g>
+                    <g fill="none" class="legend-category-item-marker-group" transform="matrix(.83333 0 0 .83333 5 11.5)">
+                      <g>
+                        <circle r="6" fill="rgba(255,165,0,1)" class="legend-category-item-marker" visibility="visible"/>
+                      </g>
+                    </g>
+                    <g fill="none" class="legend-category-item-label-group" transform="matrix(1 0 0 1 10 11.5)">
+                      <g>
+                        <text fill="rgba(255,0,0,1)" stroke-width="1" class="legend-category-item-label" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="12" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left" visibility="visible">South Asia</text>
+                      </g>
+                    </g>
+                    <g fill="none" class="legend-category-item-value-group"/>
+                    <g fill="none" class="legend-category-item-value"/>
+                  </g>
+                  <g fill="none" class="items-item" transform="matrix(1 0 0 1 171.6 0)">
+                    <g fill="none" class="legend-category-item-background-group">
+                      <g>
+                        <path width="64.16" height="23" fill="none" d="m0 0 64.16 0 0 23-64.16 0z" class="legend-category-item-background" visibility="visible"/>
+                      </g>
+                    </g>
+                    <g fill="none" class="legend-category-item-marker-group" transform="matrix(.83333 0 0 .83333 5 11.5)">
+                      <g>
+                        <circle r="6" fill="rgba(0,128,0,1)" class="legend-category-item-marker" visibility="visible"/>
+                      </g>
+                    </g>
+                    <g fill="none" class="legend-category-item-label-group" transform="matrix(1 0 0 1 10 11.5)">
+                      <g>
+                        <text fill="rgba(255,0,0,1)" stroke-width="1" class="legend-category-item-label" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="12" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left" visibility="visible">East Asia</text>
+                      </g>
+                    </g>
+                    <g fill="none" class="legend-category-item-value-group"/>
+                    <g fill="none" class="legend-category-item-value"/>
+                  </g>
+                  <g fill="none" class="items-item" transform="matrix(1 0 0 1 245.76 0)">
+                    <g fill="none" class="legend-category-item-background-group">
+                      <g>
+                        <path width="189.32" height="23" fill="none" d="m0 0 189.32 0 0 23-189.32 0z" class="legend-category-item-background" visibility="visible"/>
+                      </g>
+                    </g>
+                    <g fill="none" class="legend-category-item-marker-group" transform="matrix(.83333 0 0 .83333 5 11.5)">
+                      <g>
+                        <circle r="6" fill="rgba(0,0,255,1)" class="legend-category-item-marker" visibility="visible"/>
+                      </g>
+                    </g>
+                    <g fill="none" class="legend-category-item-label-group" transform="matrix(1 0 0 1 10 11.5)">
+                      <g>
+                        <text fill="rgba(255,0,0,1)" stroke-width="1" class="legend-category-item-label" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="12" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left" visibility="visible">Europe(and colonial offshoots)</text>
+                      </g>
+                    </g>
+                    <g fill="none" class="legend-category-item-value-group"/>
+                    <g fill="none" class="legend-category-item-value"/>
+                  </g>
+                  <g fill="none" class="items-item" transform="matrix(1 0 0 1 445.08 0)">
+                    <g fill="none" class="legend-category-item-background-group">
+                      <g>
+                        <path width="123.92" height="23" fill="none" d="m0 0 123.92 0 0 23-123.92 0z" class="legend-category-item-background" visibility="visible"/>
+                      </g>
+                    </g>
+                    <g fill="none" class="legend-category-item-marker-group" transform="matrix(.83333 0 0 .83333 5 11.5)">
+                      <g>
+                        <circle r="6" fill="rgba(128,0,128,1)" class="legend-category-item-marker" visibility="visible"/>
+                      </g>
+                    </g>
+                    <g fill="none" class="legend-category-item-label-group" transform="matrix(1 0 0 1 10 11.5)">
+                      <g>
+                        <text fill="rgba(255,0,0,1)" stroke-width="1" class="legend-category-item-label" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="12" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left" visibility="visible">Sub-Saharan Africa</text>
+                      </g>
+                    </g>
+                    <g fill="none" class="legend-category-item-value-group"/>
+                    <g fill="none" class="legend-category-item-value"/>
+                  </g>
+                  <g fill="none" class="items-item" transform="matrix(1 0 0 1 0 23)">
+                    <g fill="none" class="legend-category-item-background-group">
+                      <g>
+                        <path width="137.48" height="23" fill="none" d="m0 0 137.48 0 0 23-137.48 0z" class="legend-category-item-background" visibility="visible"/>
+                      </g>
+                    </g>
+                    <g fill="none" class="legend-category-item-marker-group" transform="matrix(.83333 0 0 .83333 5 11.5)">
+                      <g>
+                        <circle r="6" fill="rgba(255,0,0,1)" class="legend-category-item-marker" visibility="visible"/>
+                      </g>
+                    </g>
+                    <g fill="none" class="legend-category-item-label-group" transform="matrix(1 0 0 1 10 11.5)">
+                      <g>
+                        <text fill="rgba(255,0,0,1)" stroke-width="1" class="legend-category-item-label" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="12" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left" visibility="visible">pre-colonial Americas</text>
+                      </g>
+                    </g>
+                    <g fill="none" class="legend-category-item-value-group"/>
+                    <g fill="none" class="legend-category-item-value"/>
+                  </g>
+                  <g fill="none" class="items-item" transform="matrix(1 0 0 1 147.48 23)">
+                    <g fill="none" class="legend-category-item-background-group">
+                      <g>
+                        <path width="80.84" height="23" fill="none" d="m0 0 80.84 0 0 23-80.84 0z" class="legend-category-item-background" visibility="visible"/>
+                      </g>
+                    </g>
+                    <g fill="none" class="legend-category-item-marker-group" transform="matrix(.83333 0 0 .83333 5 11.5)">
+                      <g>
+                        <circle r="6" fill="rgba(255,165,0,1)" class="legend-category-item-marker" visibility="visible"/>
+                      </g>
+                    </g>
+                    <g fill="none" class="legend-category-item-label-group" transform="matrix(1 0 0 1 10 11.5)">
+                      <g>
+                        <text fill="rgba(255,0,0,1)" stroke-width="1" class="legend-category-item-label" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="12" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="left" visibility="visible">the Steppes</text>
+                      </g>
+                    </g>
+                    <g fill="none" class="legend-category-item-value-group"/>
+                    <g fill="none" class="legend-category-item-value"/>
+                  </g>
+                </g>
+              </g>
+            </g>
+            <g fill="none" class="navigator-controller"/>
+            <g>
+              <path id="a" width="569" height="46" fill="none" d="m0 0 569 0 0 46-569 0z" class="navigator-clip-path"/>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg
