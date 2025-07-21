@@ -8,13 +8,16 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [22]
+        node-version: [22.17.0]
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Check macOS version
+        run: sw_vers
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
