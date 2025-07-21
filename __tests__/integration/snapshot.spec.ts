@@ -97,9 +97,6 @@ describe('integration', () => {
 
           actual = format(dom as SVGElement);
 
-          // Remove ';' after format by babel.
-          if (actual !== 'null') actual = actual.slice(0, -2);
-
           // Generate golden png if not exists.
           if (!fs.existsSync(expectedPath)) {
             if (process.env.CI === 'true') {
