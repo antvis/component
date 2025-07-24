@@ -4,6 +4,7 @@ import type { DisplayObject } from '../../../shapes';
 import type { Selection } from '../../../util';
 import {
   normalize,
+  parsePosition,
   parseSeriesAttr,
   percentTransform,
   renderExtDo,
@@ -12,7 +13,6 @@ import {
   splitStyle,
   subStyleProps,
 } from '../../../util';
-import { parsePosition } from '../../title';
 import { CLASS_NAMES } from '../constant';
 import type { RequiredAxisStyleProps } from '../types';
 

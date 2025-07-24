@@ -1,7 +1,7 @@
-import { Component } from '../../core';
-import type { Group } from '../../shapes';
-import { DisplayObject, Text } from '../../shapes';
-import { BBox, Selection, classNames, ifShow, parseSeriesAttr, select, splitStyle } from '../../util';
+import { Component } from '../../../core';
+import type { Group } from '../../../shapes';
+import { DisplayObject, Text } from '../../../shapes';
+import { BBox, Selection, classNames, ifShow, parsePosition, parseSeriesAttr, select, splitStyle } from '../../../util';
 import type { TitleOptions, TitleStyleProps } from './types';
 
 export type { TitleOptions, TitleStyleProps };
@@ -12,19 +12,6 @@ const CLASS_NAMES = classNames(
   },
   'title'
 );
-
-/**
- * @example
- * lt -> ['l', 't']
- * left-top -> ['l', 't']
- * inner -> i
- */
-export function parsePosition(position: string): string[] {
-  if (!/\S+-\S+/g.test(position)) return position.length > 2 ? [position[0]] : position.split('');
-  return position.split('-').map((str) => {
-    return str[0];
-  });
-}
 
 /**
  * calculate the actual bbox of the element with title

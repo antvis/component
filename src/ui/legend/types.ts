@@ -2,7 +2,7 @@ import type { ComponentOptions, PrefixStyleProps } from '../../core';
 import type { GroupStyleProps, LineStyleProps, PathStyleProps, RectStyleProps, TextStyleProps } from '../../shapes';
 import type { ExtendDisplayObject } from '../../types';
 import type { SeriesAttr } from '../../util';
-import type { TitleStyleProps } from '../title';
+import type { TitleStyleProps } from './title';
 import type { CategoryItemsStyleProps } from './category/items';
 import type { HandleStyleProps } from './continuous/handle';
 import type { RibbonStyleProps } from './continuous/ribbon';
