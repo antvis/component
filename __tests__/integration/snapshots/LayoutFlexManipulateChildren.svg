@@ -126,13 +126,13 @@
           <g fill="none" class="axis-title-group"/>
         </g>
         <g fill="none">
-          <g transform="matrix(1 0 0 1 0 60)">
-            <path width="20" height="40" x="30" fill="rgba(255,0,0,1)" d="m30 0 20 0 0 40-20 0z"/>
+          <g transform="matrix(1 0 0 1 0 90)">
+            <path width="10" height="10" fill="rgba(255,0,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g transform="matrix(1 0 0 1 20 80)">
+          <g transform="matrix(1 0 0 1 10 80)">
             <path width="20" height="20" fill="rgba(0,128,0,1)" d="m0 0 20 0 0 20-20 0z"/>
           </g>
-          <g transform="matrix(1 0 0 1 40 85)">
+          <g transform="matrix(1 0 0 1 30 85)">
             <path width="15" height="15" fill="rgba(0,0,255,1)" d="m0 0 15 0 0 15-15 0z"/>
           </g>
         </g>
