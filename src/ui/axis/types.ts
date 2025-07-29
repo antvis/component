@@ -3,7 +3,7 @@ import type { ComponentOptions, PrefixStyleProps } from '../../core/types';
 import { DisplayObject, LineStyleProps, TextStyleProps } from '../../shapes';
 import type { CallbackParameter, Callable, ExtendDisplayObject, Vector2 } from '../../types';
 import type { GridStyleProps } from '../grid/types';
-import type { TitleStyleProps } from '../title';
+import type { TitleStyleProps } from '../legend/title';
 
 export type AxisType = 'linear' | 'arc' | 'helix';
 

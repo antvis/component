@@ -24,7 +24,7 @@ import { CLASS_NAMES as AXIS_CLASS_NAMES } from '../axis/constant';
 import type { IndicatorStyleProps } from '../indicator';
 import { Indicator } from '../indicator';
 import { Handle as SliderHandle } from '../slider/handle';
-import { Title } from '../title';
+import { Title } from './title';
 import { CLASS_NAMES, CONTINUOUS_DEFAULT_OPTIONS, STEP_RATIO } from './constant';
 import type { HandleStyleProps, HandleType } from './continuous/handle';
 import { Handle } from './continuous/handle';

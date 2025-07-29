@@ -1,5 +1,5 @@
 import { Group, Rect } from '@antv/g';
-import { Title } from '../../../../src/ui/title';
+import { Title } from '../../../../src/ui/legend/title';
 
 export const TitleDemo = () => {
   const group = new Group({});
