@@ -50,6 +50,7 @@ export type CategoryItemStyleProps = GroupStyleProps &
     x?: number;
     y?: number;
     poptip?: PoptipStyleProps & PoptipRender;
+    focus?: boolean;
   };
 
 export type CategoryItemOptions = ComponentOptions<CategoryItemStyleProps>;
@@ -62,6 +63,8 @@ const CLASS_NAMES = classNames(
     labelGroup: 'label-group',
     label: 'label',
     valueGroup: 'value-group',
+    focusGroup: 'focus-group',
+    focus: 'focus',
     value: 'value',
     backgroundGroup: 'background-group',
     background: 'background',
@@ -106,10 +109,13 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
       valueFontSize: 12,
       labelTextBaseline: 'middle',
       valueTextBaseline: 'middle',
+      focus: false,
     });
   }
 
   private poptipGroup!: Poptip;
+
+  private focusGroup!: Selection<Group>;
 
   private markerGroup!: Selection<Group>;
 
@@ -130,13 +136,17 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
   private get actualSpace() {
     const label = this.labelGroup;
     const value = this.valueGroup;
-    const { markerSize } = this.attributes;
+    const { markerSize, focus } = this.attributes;
     const { width: labelWidth, height: labelHeight } = label.node().getBBox();
     const { width: valueWidth, height: valueHeight } = value.node().getBBox();
+
+    const focusWidth = focus ? 12 : 0;
+
     return {
       markerWidth: markerSize,
       labelWidth,
       valueWidth,
+      focusWidth,
       height: Math.max(markerSize, labelHeight, valueHeight),
     };
   }
@@ -150,21 +160,26 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
     return [span1 / basis, span2 / basis];
   }
 
+  setAttribute(n: any, v: any) {
+    super.setAttribute(n, v);
+  }
+
   private get shape() {
     const { markerSize, width: fullWidth } = this.attributes;
     const actualSpace = this.actualSpace;
-    const { markerWidth, height } = actualSpace;
+    const { markerWidth, focusWidth, height } = actualSpace;
     let { labelWidth, valueWidth } = this.actualSpace;
     const [spacing1, spacing2] = this.spacing;
+    // Object.freeze(this.attributes)
 
     if (fullWidth) {
-      const width = fullWidth - markerSize - spacing1 - spacing2;
+      const width = fullWidth - markerSize - spacing1 - spacing2 - focusWidth;
       const [span1, span2] = this.span;
       [labelWidth, valueWidth] = [span1 * width, span2 * width];
     }
 
-    const width = markerWidth + labelWidth + valueWidth + spacing1 + spacing2;
-    return { width, height, markerWidth, labelWidth, valueWidth };
+    const width = markerWidth + labelWidth + valueWidth + spacing1 + spacing2 + focusWidth;
+    return { width, height, markerWidth, labelWidth, valueWidth, focusWidth };
   }
 
   private get spacing() {
@@ -176,15 +191,22 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
   }
 
   private get layout() {
-    const { markerWidth, labelWidth, valueWidth, width, height } = this.shape;
+    const { markerWidth, labelWidth, valueWidth, focusWidth, width, height } = this.shape;
     const [spacing1, spacing2] = this.spacing;
+    const focusSpacing = 6; // focus标记与其他元素的间距
     return {
       height,
       width,
       markerWidth,
       labelWidth,
       valueWidth,
-      position: [markerWidth / 2, markerWidth + spacing1, markerWidth + labelWidth + spacing1 + spacing2],
+      focusWidth,
+      position: [
+        markerWidth / 2,
+        markerWidth + spacing1,
+        markerWidth + labelWidth + spacing1 + spacing2,
+        markerWidth + labelWidth + valueWidth + spacing1 + spacing2 + (focusWidth > 0 ? focusSpacing : 0),
+      ],
     };
   }
 
@@ -280,6 +302,44 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
     });
   }
 
+  // private bindFocus(node: DisplayObject) {
+  //   const { focus } = this.attributes;
+  //   if (!focus) return;
+  //   const focusGroup = this.focusGroup;
+
+  //   focusGroup.bind(node);
+  // }
+
+  private renderFocus(ctn: Selection) {
+    const { focus } = this.attributes;
+    const defaultOptions = {
+      x: 0,
+      y: 0,
+      size: 12,
+      opacity: 1,
+      symbol: 'focus',
+      stroke: '#aaaaaa',
+      lineWidth: 1,
+    };
+
+    // console.log('cls', CLASS_NAMES.focusGroup);
+    this.focusGroup = ctn.maybeAppendByClassName<Group>(CLASS_NAMES.focusGroup, 'g').style('zIndex', 0);
+    if (!focus) return;
+    const parent = this.focusGroup.node();
+    const oldMarker = parent.childNodes?.[0] as DisplayObject | undefined;
+    if (!oldMarker) {
+      const newMarker = parent.appendChild(
+        new Marker({
+          style: {
+            ...defaultOptions,
+            symbol: 'focus',
+            opacity: 0.6,
+          },
+        })
+      );
+    }
+  }
+
   private renderPoptip(ctn: Selection) {
     const { poptip } = this.attributes;
     if (!poptip) return;
@@ -305,7 +365,7 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
         labelWidth,
         valueWidth,
         height,
-        position: [markerX, labelX, valueX],
+        position: [markerX, labelX, valueX, focusX],
       },
     } = this;
     const halfHeight = height / 2;
@@ -316,6 +376,7 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
       transform: `translate(${markerX}, ${halfHeight})${this.markerGroup.node().style._transform}`,
     });
     this.labelGroup.styles({ transform: `translate(${labelX}, ${halfHeight})` });
+    this.focusGroup.styles({ transform: `translate(${focusX}, ${halfHeight})` });
 
     ellipsisIt(this.labelGroup.select(CLASS_NAMES.label.class).node(), Math.ceil(labelWidth));
     if (this.showValue) {
@@ -333,6 +394,7 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
     this.renderValue(ctn);
     this.renderBackground(ctn);
     this.renderPoptip(ctn);
+    this.renderFocus(ctn);
     this.adjustLayout();
   }
 }

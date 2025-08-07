@@ -9,6 +9,7 @@ import {
   dash,
   diamond,
   dot,
+  focus,
   hexagon,
   hv,
   hvh,
@@ -122,3 +123,4 @@ Marker.registerSymbol('hv', hv);
 Marker.registerSymbol('vh', vh);
 Marker.registerSymbol('hvh', hvh);
 Marker.registerSymbol('vhv', vhv);
+Marker.registerSymbol('focus', focus);

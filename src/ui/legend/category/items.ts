@@ -142,6 +142,7 @@ export class CategoryItems extends Component<CategoryItemsStyleProps> {
           labelText,
           valueText,
           poptip,
+          focus: (this.attributes as any).focus,
           ...Object.fromEntries(
             Object.entries(style).map(([key, val]) => [key, getCallbackValue(val, [datum, index, data])])
           ),
