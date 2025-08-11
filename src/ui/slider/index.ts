@@ -511,13 +511,12 @@ export class Slider extends Component<SliderStyleProps> {
     return orientation === 'horizontal' ? x : y;
   }
 
-  private setValuesOffset(stOffset: number, endOffset: number = 0, animate: boolean = false) {
+  private setValuesOffset(stOffset: number, endOffset: number = 0) {
     const { type } = this.attributes;
     const [oldStartVal, oldEndVal] = this.getValues();
     const internalStartOffset = type === 'range' ? stOffset : 0;
     const values = [oldStartVal + internalStartOffset, oldEndVal + endOffset].sort() as [number, number];
-    if (animate) this.setValues(values);
-    else this.innerSetValues(values, true);
+    this.innerSetValues(values, true);
   }
 
   private getRatio(val: number) {
@@ -550,7 +549,7 @@ export class Slider extends Component<SliderStyleProps> {
       const offset = deltaY || deltaX;
       const deltaVal = this.getRatio(offset);
 
-      this.setValuesOffset(deltaVal, deltaVal, true);
+      this.setValuesOffset(deltaVal, deltaVal);
     }
   }
 
