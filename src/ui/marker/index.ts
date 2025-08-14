@@ -12,6 +12,7 @@ import {
   hexagon,
   hv,
   hvh,
+  focus,
   hyphen,
   line,
   plus,
@@ -122,3 +123,4 @@ Marker.registerSymbol('hv', hv);
 Marker.registerSymbol('vh', vh);
 Marker.registerSymbol('hvh', hvh);
 Marker.registerSymbol('vhv', vhv);
+Marker.registerSymbol('focus', focus);

@@ -195,3 +195,27 @@ export function vhv(x: number, y: number) {
 export const button: SymbolFactor = (x, y, r) => {
   return [['M', x - r, y - r], ['L', x + r, y], ['L', x - r, y + r], ['Z']];
 };
+
+export const focus: SymbolFactor = (x, y, r) => {
+  const outerRadius = r;
+  const innerRadius = r * 0.2;
+  const crossLength = r * 0.7;
+
+  return [
+    // 外圆
+    ['M', x - outerRadius, y],
+    ['A', outerRadius, outerRadius, 0, 1, 0, x + outerRadius, y],
+    ['A', outerRadius, outerRadius, 0, 1, 0, x - outerRadius, y],
+    ['Z'],
+    // 水平十字线 (简单线条)
+    ['M', x - crossLength, y],
+    ['L', x - innerRadius, y],
+    ['M', x + innerRadius, y],
+    ['L', x + crossLength, y],
+    // 垂直十字线 (简单线条)
+    ['M', x, y - crossLength],
+    ['L', x, y - innerRadius],
+    ['M', x, y + innerRadius],
+    ['L', x, y + crossLength],
+  ];
+};

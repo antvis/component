@@ -55,6 +55,8 @@ export type CategoryItemsStyleProps = GroupStyleProps &
     mouseenter?: (el: Selection) => void;
     mouseleave?: (el: Selection) => void;
     poptip?: PoptipStyleProps & PoptipRender;
+    focus?: boolean;
+    focusMarkerSize?: number;
   };
 
 export type CategoryItemsOptions = ComponentOptions<CategoryItemsStyleProps>;
@@ -129,7 +131,7 @@ export class CategoryItems extends Component<CategoryItemsStyleProps> {
   }
 
   private get renderData() {
-    const { data, layout, poptip } = this.attributes;
+    const { data, layout, poptip, focus, focusMarkerSize } = this.attributes;
     const style = subStyleProps<CategoryItemStyleProps>(this.attributes, 'item');
 
     const d = data.map((datum, index) => {
@@ -142,6 +144,8 @@ export class CategoryItems extends Component<CategoryItemsStyleProps> {
           labelText,
           valueText,
           poptip,
+          focus,
+          focusMarkerSize,
           ...Object.fromEntries(
             Object.entries(style).map(([key, val]) => [key, getCallbackValue(val, [datum, index, data])])
           ),
