@@ -25,8 +25,8 @@
   <g>
     <g fill="none">
       <g fill="none">
-        <g fill="none" transform="matrix(1 0 0 1 100 100)">
-          <g id="a" fill="none" class="navigator-content-group" clip-path="url(#h)">
+        <g id="a" fill="none" transform="matrix(1 0 0 1 100 100)">
+          <g fill="none" class="navigator-content-group" clip-path="url(#h)">
             <g fill="none" class="navigator-play-window">
               <g fill="none">
                 <g>
@@ -40,11 +40,11 @@
                 <g>
                   <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 2</text>
+                    <text id="b" x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 2</text>
                   </g>
                 </g>
               </g>
-              <g id="b" fill="none">
+              <g fill="none">
                 <g>
                   <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
@@ -62,9 +62,9 @@
               </g>
               <g fill="none">
                 <g>
-                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
+                  <path id="c" width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text id="c" x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 5</text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 5</text>
                   </g>
                 </g>
               </g>
@@ -102,9 +102,9 @@
                   </g>
                 </g>
               </g>
-              <g fill="none">
+              <g id="d" fill="none">
                 <g>
-                  <path id="d" width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
                     <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 2</text>
                   </g>
@@ -122,11 +122,11 @@
                 <g>
                   <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
-                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 4</text>
+                    <text id="e" x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 4</text>
                   </g>
                 </g>
               </g>
-              <g id="e" fill="none">
+              <g fill="none">
                 <g>
                   <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
@@ -162,9 +162,9 @@
             <g fill="none" class="navigator-play-window">
               <g fill="none">
                 <g>
-                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="visible"/>
+                  <path id="f" width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="visible"/>
                   <g>
-                    <text id="f" x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="visible">page - 1</text>
+                    <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="visible">page - 1</text>
                   </g>
                 </g>
               </g>
@@ -184,9 +184,9 @@
                   </g>
                 </g>
               </g>
-              <g fill="none">
+              <g id="g" fill="none">
                 <g>
-                  <path id="g" width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
+                  <path width="100" height="100" fill="rgba(247,247,247,1)" stroke="rgba(255,0,0,1)" d="m0 0 100 0 0 100-100 0z" visibility="hidden"/>
                   <g>
                     <text x="50" y="50" fill="rgba(0,0,0,1)" stroke-width="1" dominant-baseline="central" dx=".5" dy="0" font-family="sans-serif" font-size="16" font-style="normal" font-variant="normal" font-weight="normal" paint-order="stroke" style="transform:translate(0px, 0px);" text-anchor="middle" visibility="hidden">page - 4</text>
                   </g>
