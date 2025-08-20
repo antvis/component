@@ -111,7 +111,6 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
       valueFontSize: 12,
       labelTextBaseline: 'middle',
       valueTextBaseline: 'middle',
-      focus: false,
     });
   }
 

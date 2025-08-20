@@ -104,17 +104,22 @@
         </g>
         <g fill="none" transform="matrix(.7071 .7071 -.7071 .7071 182.6346 59.0812)">
           <g>
-            <path fill="none" stroke="rgba(0,0,255,1)" stroke-width="2" d="m12 238.8 16 0 0 22.4-16 0Z" class="marker path-marker"/>
+            <path fill="none" stroke="rgba(0,0,255,1)" stroke-width="2" d="M12 250a8 8 0 1 0 16 0 8 8 0 1 0-16 0Zm2.4 0 4 0m3.2 0 4 0m-5.6-5.6 0 4m0 3.2 0 4" class="marker path-marker"/>
           </g>
         </g>
         <g fill="none" transform="matrix(.7071 .7071 -.7071 .7071 197.2792 23.7258)">
           <g>
-            <path fill="none" stroke="rgba(0,0,255,1)" stroke-width="2" d="m70 250 4.48 4 6.72 0 0-8-6.72 0Zm4.48 1.3333 4.72 0m-4.72-2.6666 4.72 0" class="marker path-marker"/>
+            <path fill="none" stroke="rgba(0,0,255,1)" stroke-width="2" d="m62 238.8 16 0 0 22.4-16 0Z" class="marker path-marker"/>
           </g>
         </g>
         <g fill="none" transform="matrix(.7071 .7071 -.7071 .7071 211.9239 -11.6295)">
           <g>
-            <path fill="none" stroke="rgba(0,0,255,1)" stroke-width="2" d="m120 250-4 4.48 0 6.72 8 0 0-6.72Zm-1.3333 4.48 0 4.72m2.6666-4.72 0 4.72" class="marker path-marker"/>
+            <path fill="none" stroke="rgba(0,0,255,1)" stroke-width="2" d="m120 250 4.48 4 6.72 0 0-8-6.72 0Zm4.48 1.3333 4.72 0m-4.72-2.6666 4.72 0" class="marker path-marker"/>
+          </g>
+        </g>
+        <g fill="none" transform="matrix(.7071 .7071 -.7071 .7071 226.5685 -46.9848)">
+          <g>
+            <path fill="none" stroke="rgba(0,0,255,1)" stroke-width="2" d="m170 250-4 4.48 0 6.72 8 0 0-6.72Zm-1.3333 4.48 0 4.72m2.6666-4.72 0 4.72" class="marker path-marker"/>
           </g>
         </g>
       </g>
