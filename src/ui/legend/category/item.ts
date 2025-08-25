@@ -306,7 +306,7 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
       x: 0,
       y: 0,
       size: focusMarkerSize,
-      opacity: 1,
+      opacity: 0.6,
       symbol: 'focus',
       stroke: '#aaaaaa',
       lineWidth: 1,
@@ -320,7 +320,6 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
         style: {
           ...defaultOptions,
           symbol: 'focus',
-          opacity: 0.6,
         },
       });
       const interactiveCircle = new Circle({
