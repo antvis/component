@@ -29,6 +29,8 @@ import { Category, Continuous } from '@antv/component';
 | gridCol      | `number`               | 每列显示的图例项个数                                    | `-`        |
 | rowPadding   | `number`               | 图例项之间的行间距                                      | `0`        |
 | colPadding   | `number`               | 图例项之间的列间距                                      | `0`        |
+| focus   | `boolean`               | 是否开启聚焦                                      | `-`        |
+| focusMarkerSize   | `number`               | 聚焦图标尺寸                                      | `12`        |
 | click        | `ClickEvent`           | 点击事件                                                | `-`        |
 | mouseenter   | `MouseEnterEvent`      | 鼠标移入事件                                            | `-`        |
 | mouseleave   | `MouseLeaveEvent`      | 鼠标移出事件                                            | `-`        |

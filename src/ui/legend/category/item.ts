@@ -8,6 +8,7 @@ import {
   RectStyleProps,
   TextStyleProps,
 } from '@antv/g';
+import { isUndefined } from '@antv/util';
 import { Marker } from '../../marker';
 import type { ComponentOptions } from '../../../core';
 import { Component } from '../../../core';
@@ -50,6 +51,8 @@ export type CategoryItemStyleProps = GroupStyleProps &
     x?: number;
     y?: number;
     poptip?: PoptipStyleProps & PoptipRender;
+    focus?: boolean;
+    focusMarkerSize?: number;
   };
 
 export type CategoryItemOptions = ComponentOptions<CategoryItemStyleProps>;
@@ -62,6 +65,8 @@ const CLASS_NAMES = classNames(
     labelGroup: 'label-group',
     label: 'label',
     valueGroup: 'value-group',
+    focusGroup: 'focus-group',
+    focus: 'focus',
     value: 'value',
     backgroundGroup: 'background-group',
     background: 'background',
@@ -111,6 +116,8 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
 
   private poptipGroup!: Poptip;
 
+  private focusGroup!: Selection<Group>;
+
   private markerGroup!: Selection<Group>;
 
   private labelGroup!: Selection<Group>;
@@ -130,13 +137,17 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
   private get actualSpace() {
     const label = this.labelGroup;
     const value = this.valueGroup;
-    const { markerSize } = this.attributes;
+    const { markerSize, focus, focusMarkerSize } = this.attributes;
     const { width: labelWidth, height: labelHeight } = label.node().getBBox();
     const { width: valueWidth, height: valueHeight } = value.node().getBBox();
+
+    const focusWidth = focus ? focusMarkerSize ?? 12 : 0;
+
     return {
       markerWidth: markerSize,
       labelWidth,
       valueWidth,
+      focusWidth,
       height: Math.max(markerSize, labelHeight, valueHeight),
     };
   }
@@ -150,41 +161,50 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
     return [span1 / basis, span2 / basis];
   }
 
+  setAttribute(n: any, v: any) {
+    super.setAttribute(n, v);
+  }
+
   private get shape() {
     const { markerSize, width: fullWidth } = this.attributes;
     const actualSpace = this.actualSpace;
-    const { markerWidth, height } = actualSpace;
+    const { markerWidth, focusWidth, height } = actualSpace;
     let { labelWidth, valueWidth } = this.actualSpace;
-    const [spacing1, spacing2] = this.spacing;
+    const [spacing1, spacing2, spacing3] = this.spacing;
 
     if (fullWidth) {
-      const width = fullWidth - markerSize - spacing1 - spacing2;
+      const width = fullWidth - markerSize - spacing1 - spacing2 - focusWidth - spacing3;
       const [span1, span2] = this.span;
       [labelWidth, valueWidth] = [span1 * width, span2 * width];
     }
 
-    const width = markerWidth + labelWidth + valueWidth + spacing1 + spacing2;
-    return { width, height, markerWidth, labelWidth, valueWidth };
+    const width = markerWidth + labelWidth + valueWidth + spacing1 + spacing2 + focusWidth + spacing3;
+    return { width, height, markerWidth, labelWidth, valueWidth, focusWidth };
   }
 
   private get spacing() {
-    const { spacing } = this.attributes;
-    if (!spacing) return [0, 0];
-    const [spacing1, spacing2] = parseSeriesAttr(spacing);
-    if (this.showValue) return [spacing1, spacing2];
-    return [spacing1, 0];
+    const { spacing, focus } = this.attributes;
+    if (!spacing) return [0, 0, 0];
+    const [spacing1, spacing2, spacing3] = parseSeriesAttr(spacing);
+    return [spacing1, this.showValue ? spacing2 : 0, focus ? spacing3 : 0];
   }
 
   private get layout() {
-    const { markerWidth, labelWidth, valueWidth, width, height } = this.shape;
-    const [spacing1, spacing2] = this.spacing;
+    const { markerWidth, labelWidth, valueWidth, focusWidth, width, height } = this.shape;
+    const [spacing1, spacing2, spacing3] = this.spacing;
     return {
       height,
       width,
       markerWidth,
       labelWidth,
       valueWidth,
-      position: [markerWidth / 2, markerWidth + spacing1, markerWidth + labelWidth + spacing1 + spacing2],
+      focusWidth,
+      position: [
+        markerWidth / 2,
+        markerWidth + spacing1,
+        markerWidth + labelWidth + spacing1 + spacing2,
+        markerWidth + labelWidth + valueWidth + spacing1 + spacing2 + spacing3 + focusWidth / 2,
+      ],
     };
   }
 
@@ -280,6 +300,49 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
     });
   }
 
+  private renderFocus(ctn: Selection) {
+    const { focus, focusMarkerSize } = this.attributes;
+    const defaultOptions = {
+      x: 0,
+      y: 0,
+      size: focusMarkerSize,
+      opacity: 0.6,
+      symbol: 'focus',
+      stroke: '#aaaaaa',
+      lineWidth: 1,
+    };
+
+    if (isUndefined(focus)) return;
+
+    this.focusGroup = ctn.maybeAppendByClassName<Group>(CLASS_NAMES.focusGroup, 'g').style('zIndex', 0);
+    ifShow(focus, this.focusGroup, () => {
+      const marker = new Marker({
+        style: {
+          ...defaultOptions,
+          symbol: 'focus',
+        },
+      });
+      const interactiveCircle = new Circle({
+        style: {
+          r: defaultOptions.size / 2,
+          fill: 'transparent',
+        },
+      });
+
+      const container = this.focusGroup.node();
+      container.appendChild(interactiveCircle);
+      container.appendChild(marker);
+      marker.update({ opacity: 0 });
+
+      ctn.node().addEventListener('pointerenter', () => {
+        marker.update({ opacity: 1 });
+      });
+      ctn.node().addEventListener('pointerleave', () => {
+        marker.update({ opacity: 0 });
+      });
+    });
+  }
+
   private renderPoptip(ctn: Selection) {
     const { poptip } = this.attributes;
     if (!poptip) return;
@@ -305,7 +368,7 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
         labelWidth,
         valueWidth,
         height,
-        position: [markerX, labelX, valueX],
+        position: [markerX, labelX, valueX, focusX],
       },
     } = this;
     const halfHeight = height / 2;
@@ -316,6 +379,7 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
       transform: `translate(${markerX}, ${halfHeight})${this.markerGroup.node().style._transform}`,
     });
     this.labelGroup.styles({ transform: `translate(${labelX}, ${halfHeight})` });
+    if (this.focusGroup) this.focusGroup.styles({ transform: `translate(${focusX}, ${halfHeight})` });
 
     ellipsisIt(this.labelGroup.select(CLASS_NAMES.label.class).node(), Math.ceil(labelWidth));
     if (this.showValue) {
@@ -333,6 +397,7 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
     this.renderValue(ctn);
     this.renderBackground(ctn);
     this.renderPoptip(ctn);
+    this.renderFocus(ctn);
     this.adjustLayout();
   }
 }
