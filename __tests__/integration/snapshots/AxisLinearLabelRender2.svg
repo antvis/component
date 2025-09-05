@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="550" height="150" color-interpolation-filters="sRGB" style="background: transparent;">
+  <g>
+    <g fill="none">
+      <g fill="none">
+        <g fill="none">
+          <g fill="none" class="axis-grid-group">
+            <g fill="none" class="axis-grid">
+              <g fill="none" class="grid-line-group">
+                <g>
+                  <path fill="none" stroke="rgba(217,217,217,1)" stroke-dasharray="4,4" stroke-width="1" d="m50 50 0 0" class="grid-line"/>
+                </g>
+                <g>
+                  <path fill="none" stroke="rgba(217,217,217,1)" stroke-dasharray="4,4" stroke-width="1" d="m162.5 50 0 0" class="grid-line"/>
+                </g>
+                <g>
+                  <path fill="none" stroke="rgba(217,217,217,1)" stroke-dasharray="4,4" stroke-width="1" d="m275 50 0 0" class="grid-line"/>
+                </g>
+                <g>
+                  <path fill="none" stroke="rgba(217,217,217,1)" stroke-dasharray="4,4" stroke-width="1" d="m387.5 50 0 0" class="grid-line"/>
+                </g>
+              </g>
+              <g fill="none" class="grid-region-group"/>
+            </g>
+          </g>
+          <g fill="none" class="axis-main-group">
+            <g fill="none" class="axis-line-group">
+              <g>
+                <line x1="50" x2="515" y1="50" y2="50" fill="none" stroke="rgba(0,0,0,1)" stroke-width="5" class="axis-line axis-line"/>
+                <g transform="matrix(-.5 0 0 -.5 515 50)">
+                  <path fill="rgba(0,0,0,1)" stroke="rgba(0,0,0,1)" stroke-width="5" d="m10 10-20-10 20-10-10 10 10 10Z"/>
+                </g>
+              </g>
+            </g>
+            <g fill="none" class="axis-tick-group">
+              <g fill="none" class="axis-tick" transform="matrix(1 0 0 1 50 50)">
+                <g>
+                  <line x1="0" x2="0" y1="0" y2="-10" fill="none" stroke="rgba(0,0,0,1)" stroke-width="5" class="axis-tick-item"/>
+                </g>
+              </g>
+              <g fill="none" class="axis-tick" transform="matrix(1 0 0 1 162.5 50)">
+                <g>
+                  <line x1="0" x2="0" y1="0" y2="-10" fill="none" stroke="rgba(0,0,0,1)" stroke-width="5" class="axis-tick-item"/>
+                </g>
+              </g>
+              <g fill="none" class="axis-tick" transform="matrix(1 0 0 1 275 50)">
+                <g>
+                  <line x1="0" x2="0" y1="0" y2="-10" fill="none" stroke="rgba(0,0,0,1)" stroke-width="5" class="axis-tick-item"/>
+                </g>
+              </g>
+              <g fill="none" class="axis-tick" transform="matrix(1 0 0 1 387.5 50)">
+                <g>
+                  <line x1="0" x2="0" y1="0" y2="-10" fill="none" stroke="rgba(0,0,0,1)" stroke-width="5" class="axis-tick-item"/>
+                </g>
+              </g>
+            </g>
+            <g fill="none" class="axis-label-group">
+              <g fill="none" class="axis-label" transform="matrix(1 0 0 1 50 55)">
+                <g>
+                  <foreignObject width="112.5" height="32" class="axis-label-item" style="text-align: center; direction: positive;">
+                    <div xmlns="http://www.w3.org/1999/xhtml">
+                      <div class="custom-label" style="font-size:12px; line-height: 1.5; border: 1px solid #ccc; padding: 6px; cursor: pointer;">
+                        Tick 0
+                      </div>
+                    </div>
+                  </foreignObject>
+                </g>
+              </g>
+              <g fill="none" class="axis-label" transform="matrix(1 0 0 1 162.5 55)">
+                <g>
+                  <foreignObject width="112.5" height="32" class="axis-label-item" style="text-align: center; direction: positive;">
+                    <div xmlns="http://www.w3.org/1999/xhtml">
+                      <div class="custom-label" style="font-size:12px; line-height: 1.5; border: 1px solid #ccc; padding: 6px; cursor: pointer;">
+                        Tick 1
+                      </div>
+                    </div>
+                  </foreignObject>
+                </g>
+              </g>
+              <g fill="none" class="axis-label" transform="matrix(1 0 0 1 275 55)">
+                <g>
+                  <foreignObject width="112.5" height="32" class="axis-label-item" style="text-align: center; direction: positive;">
+                    <div xmlns="http://www.w3.org/1999/xhtml">
+                      <div class="custom-label" style="font-size:12px; line-height: 1.5; border: 1px solid #ccc; padding: 6px; cursor: pointer;">
+                        Tick 2
+                      </div>
+                    </div>
+                  </foreignObject>
+                </g>
+              </g>
+              <g fill="none" class="axis-label" transform="matrix(1 0 0 1 387.5 55)">
+                <g>
+                  <foreignObject width="112.5" height="32" class="axis-label-item" style="text-align: center; direction: positive;">
+                    <div xmlns="http://www.w3.org/1999/xhtml">
+                      <div class="custom-label" style="font-size:12px; line-height: 1.5; border: 1px solid #ccc; padding: 6px; cursor: pointer;">
+                        Tick 3
+                      </div>
+                    </div>
+                  </foreignObject>
+                </g>
+              </g>
+            </g>
+          </g>
+          <g fill="none" class="axis-title-group"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -40,3 +40,4 @@ export * from './traverse';
 export * from './visibility';
 export * from './replace-children';
 export * from './pase-position';
+export * from './parse-height-from-html';
