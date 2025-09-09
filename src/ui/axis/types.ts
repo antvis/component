@@ -133,6 +133,11 @@ export type AxisLabelStyleProps = {
    * transform label by using ellipsis, hide and rotate to avoid overlap
    */
   overlap: LabelOverlapCfg[];
+  /**
+   * render label by HTML or g shape
+   * when using a callback form, the argument will additional returns the label vector
+   */
+  render?: Callable<ExtendDisplayObject, CallbackParameter<AxisDatum, [Vector2]>>;
 } & {
   [key in keyof TextStyleProps]?: Callable<TextStyleProps[key], AxisDatumCP>;
 };

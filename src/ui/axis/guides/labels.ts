@@ -1,5 +1,4 @@
-import type { IAnimation } from '@antv/g';
-import { flatten, get, isFunction } from '@antv/util';
+import { get, isFunction } from '@antv/util';
 import type { StandardAnimationOption } from '../../../animation';
 import { fadeOut, onAnimateFinished, onAnimatesFinished, transition, transitionShape } from '../../../animation';
 import type { DisplayObject, TextStyleProps } from '../../../shapes';
@@ -22,6 +21,8 @@ import {
   splitStyle,
   subStyleProps,
   wrapIt,
+  renderHtmlExtDo,
+  parseHeightFromHTML,
 } from '../../../util';
 import { CLASS_NAMES } from '../constant';
 import { processOverlap } from '../overlap';
@@ -166,8 +167,22 @@ function formatter(datum: AxisDatum, index: number, data: AxisDatum[], attr: Req
   return element;
 }
 
+function renderHTMLLabel(datum: AxisDatum, index: number, data: AxisDatum[], attr: Required<AxisStyleProps>) {
+  const { labelRender } = attr;
+  const elementWidth = (get(attr, 'endPos.0', 400) - get(attr, 'startPos.0', 0)) / data.length;
+  const elStr = isFunction(labelRender)
+    ? getCallbackValue(labelRender, [datum, index, data, getLabelVector(datum.value, attr)])
+    : datum.label || '';
+  const elementHeight = parseHeightFromHTML(elStr) || 30;
+  return () =>
+    renderHtmlExtDo(elStr, {
+      width: elementWidth,
+      height: elementHeight,
+    });
+}
+
 function applyTextStyle(node: DisplayObject, style: Partial<TextStyleProps>) {
-  if (node.nodeName === 'text') node.attr(style);
+  if (['text', 'html'].includes(node.nodeName)) node.attr(style);
 }
 
 function overlapHandler(attr: Required<AxisStyleProps>, main: DisplayObject) {
@@ -195,8 +210,9 @@ function renderLabel(
   attr: Required<AxisStyleProps>
 ): DisplayObject {
   const index = data.indexOf(datum);
+  const { labelRender } = attr;
   const label = select(container)
-    .append(formatter(datum, index, data, attr))
+    .append(labelRender ? renderHTMLLabel(datum, index, data, attr) : formatter(datum, index, data, attr))
     .attr('className', CLASS_NAMES.labelItem.name)
     .node();
   const [labelStyle, { transform, ...groupStyle }] = splitStyle(getCallbackStyle(style, [datum, index, data]));
