@@ -272,7 +272,7 @@ export class Navigator extends Component<NavigatorStyleProps> {
   }
 
   private renderController(container: Selection) {
-    const { controllerSpacing: spacing } = this.attributes;
+    const { controllerSpacing: spacing, classNamePrefix = '' } = this.attributes;
     const { pageWidth, pageHeight } = this.pageShape;
     const visible = this.pageViews.length >= 2;
 
@@ -291,9 +291,23 @@ export class Navigator extends Component<NavigatorStyleProps> {
     this.prevBtnGroup = prevBtnGroup.node();
     const prevBtn = prevBtnGroup.maybeAppendByClassName(CLASS_NAMES.prevBtn, 'path');
 
+    if (classNamePrefix) {
+      const node = prevBtn.node();
+      const currentClass = node.getAttribute('class') || '';
+      const newClass = `${currentClass} ${classNamePrefix}legend-prev-btn`;
+      node.setAttribute('class', newClass);
+    }
+
     const nextBtnGroup = group.maybeAppendByClassName(CLASS_NAMES.nextBtnGroup, 'g').styles(groupStyle);
     this.nextBtnGroup = nextBtnGroup.node();
     const nextBtn = nextBtnGroup.maybeAppendByClassName(CLASS_NAMES.nextBtn, 'path');
+
+    if (classNamePrefix) {
+      const node = nextBtn.node();
+      const currentClass = node.getAttribute('class') || '';
+      const newClass = `${currentClass} ${classNamePrefix}legend-next-btn`;
+      node.setAttribute('class', newClass);
+    }
 
     [prevBtn, nextBtn].forEach((btn) => {
       btn.styles({ ...pathStyle, transformOrigin: 'center' });
@@ -303,7 +317,15 @@ export class Navigator extends Component<NavigatorStyleProps> {
     const pageInfoGroup = group.maybeAppendByClassName(CLASS_NAMES.pageInfoGroup, 'g');
     this.pageInfoGroup = pageInfoGroup.node();
 
-    pageInfoGroup.maybeAppendByClassName(CLASS_NAMES.pageInfo, 'text').styles(textStyle);
+    const pageInfoElement = pageInfoGroup.maybeAppendByClassName(CLASS_NAMES.pageInfo, 'text');
+    pageInfoElement.styles(textStyle);
+
+    if (classNamePrefix) {
+      const node = pageInfoElement.node();
+      const currentClass = node.getAttribute('class') || '';
+      const newClass = `${currentClass} ${classNamePrefix}legend-page-info`;
+      node.setAttribute('class', newClass);
+    }
 
     this.updatePageInfo();
 

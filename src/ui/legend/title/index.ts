@@ -2,6 +2,8 @@ import { Component } from '../../../core';
 import type { Group } from '../../../shapes';
 import { DisplayObject, Text } from '../../../shapes';
 import { BBox, Selection, classNames, ifShow, parsePosition, parseSeriesAttr, select, splitStyle } from '../../../util';
+import { getLegendClassName } from '../utils/classname';
+import { CLASSNAME_SUFFIX_MAP } from '../constant';
 import type { TitleOptions, TitleStyleProps } from './types';
 
 export type { TitleOptions, TitleStyleProps };
@@ -144,14 +146,16 @@ export class Title extends Component<TitleStyleProps> {
   }
 
   public render(attributes: Required<TitleStyleProps>, container: Group) {
-    const { width, height, position, spacing, ...restStyle } = attributes;
+    const { width, height, position, spacing, classNamePrefix, ...restStyle } = attributes;
 
     const [titleStyle] = splitStyle(restStyle);
     const { x, y, textAlign, textBaseline } = getTitleLayout(attributes);
 
     ifShow(!!restStyle.text, select(container), (group) => {
+      const titleClassName = getLegendClassName(CLASS_NAMES.text.name, CLASSNAME_SUFFIX_MAP.title, classNamePrefix);
       this.title = group
         .maybeAppendByClassName(CLASS_NAMES.text, 'text')
+        .attr('className', titleClassName)
         .styles(titleStyle)
         .call(mayApplyStyle, { x, y, textAlign, textBaseline })
         .node();

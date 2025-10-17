@@ -41,6 +41,7 @@ export type LegendBaseStyleProps = GroupStyleProps &
     padding?: SeriesAttr;
     showTitle?: boolean;
     // type?: 'category' | 'continuous';
+    classNamePrefix?: string;
   };
 
 export type LegendBaseOptions = ComponentOptions<LegendBaseStyleProps>;

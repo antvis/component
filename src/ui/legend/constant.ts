@@ -2,6 +2,8 @@ import { classNames, deepAssign, superStyleProps } from '../../util';
 import { DEFAULT_HANDLE_CFG } from './continuous/handle';
 import type { LegendBaseStyleProps } from './types';
 
+export { CLASSNAME_SUFFIX_MAP, type ClassNameSuffix } from './classname-map';
+
 export const LEGEND_BASE_DEFAULT_OPTIONS: Partial<LegendBaseStyleProps> = {
   showTitle: true,
   padding: 0,

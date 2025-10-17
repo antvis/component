@@ -25,7 +25,8 @@ import type { IndicatorStyleProps } from '../indicator';
 import { Indicator } from '../indicator';
 import { Handle as SliderHandle } from '../slider/handle';
 import { Title } from './title';
-import { CLASS_NAMES, CONTINUOUS_DEFAULT_OPTIONS, STEP_RATIO } from './constant';
+import { CLASS_NAMES, CLASSNAME_SUFFIX_MAP, CONTINUOUS_DEFAULT_OPTIONS, STEP_RATIO } from './constant';
+import { getLegendClassName } from './utils/classname';
 import type { HandleStyleProps, HandleType } from './continuous/handle';
 import { Handle } from './continuous/handle';
 import type { RibbonStyleProps } from './continuous/ribbon';
@@ -153,9 +154,9 @@ export class Continuous extends Component<ContinuousStyleProps> {
   }
 
   private renderTitle(container: Selection) {
-    const { showTitle, titleText, width, height } = this.attributes;
+    const { showTitle, titleText, width, height, classNamePrefix } = this.attributes;
     const style = subStyleProps<TextStyleProps>(this.attributes, 'title');
-    const finalTitleStyle = { ...style, width, height, text: titleText };
+    const finalTitleStyle = { ...style, width, height, text: titleText, classNamePrefix };
     const that = this;
     container
       .selectAll(CLASS_NAMES.title.class)
@@ -263,7 +264,7 @@ export class Continuous extends Component<ContinuousStyleProps> {
   }
 
   private renderRibbon(container: Selection) {
-    const { data, type, orientation, color, block } = this.attributes;
+    const { data, type, orientation, color, block, classNamePrefix } = this.attributes;
     const ribbonStyle = subStyleProps(this.attributes, 'ribbon');
     const { min, max } = this.range;
     const { x, y } = this.ribbonBBox;
@@ -279,11 +280,22 @@ export class Continuous extends Component<ContinuousStyleProps> {
         block,
         partition: data.map((d) => (d.value - min) / (max - min)),
         range: this.ribbonRange,
+        classNamePrefix,
       },
       ribbonStyle
     );
 
-    this.ribbon = container.maybeAppendByClassName(CLASS_NAMES.ribbon, () => new Ribbon({ style })).update(style);
+    const ribbonClassName = getLegendClassName(CLASS_NAMES.ribbon.name, CLASSNAME_SUFFIX_MAP.ribbon, classNamePrefix);
+    this.ribbon = container
+      .maybeAppendByClassName(
+        CLASS_NAMES.ribbon,
+        () =>
+          new Ribbon({
+            style,
+            className: ribbonClassName,
+          })
+      )
+      .update(style);
   }
 
   private getHandleClassName(type: HandleType) {
@@ -292,14 +304,19 @@ export class Continuous extends Component<ContinuousStyleProps> {
   }
 
   private renderHandles() {
-    const { showHandle, orientation } = this.attributes;
+    const { showHandle, orientation, classNamePrefix } = this.attributes;
     const handleStyle = subStyleProps<HandleStyleProps>(this.attributes, 'handle');
     const [min, max] = this.selection;
-    const style = { ...handleStyle, orientation };
+    const style = { ...handleStyle, orientation, classNamePrefix };
     const { shape = 'slider' } = handleStyle;
     const HandleCtor = shape === 'basic' ? Handle : SliderHandle;
 
     const that = this;
+    const baseHandleClassName = getLegendClassName(
+      CLASS_NAMES.handle.name,
+      CLASSNAME_SUFFIX_MAP.handle,
+      classNamePrefix
+    );
     this.handlesGroup
       .selectAll(CLASS_NAMES.handle.class)
       .data(
@@ -314,10 +331,11 @@ export class Continuous extends Component<ContinuousStyleProps> {
       .join(
         (enter) =>
           enter
-            .append(() => new HandleCtor({ style }))
+            .append(() => new HandleCtor({ style, className: baseHandleClassName }))
             .attr(
               'className',
-              ({ type }: any) => `${CLASS_NAMES.handle} ${that.getHandleClassName(type as HandleType)}`
+              ({ type }: any) =>
+                `${CLASS_NAMES.handle} ${that.getHandleClassName(type as HandleType)} ${baseHandleClassName}`
             )
             .each(function ({ type, value: labelText }) {
               this.update({ labelText });
@@ -380,8 +398,23 @@ export class Continuous extends Component<ContinuousStyleProps> {
   }
 
   private renderIndicator(container: Selection) {
+    const { classNamePrefix } = this.attributes;
     const style = subStyleProps<IndicatorStyleProps>(this.attributes, 'indicator');
-    this.indicator = container.maybeAppendByClassName(CLASS_NAMES.indicator, () => new Indicator({})).update(style);
+    const indicatorClassName = getLegendClassName(
+      CLASS_NAMES.indicator.name,
+      CLASSNAME_SUFFIX_MAP.indicator,
+      classNamePrefix
+    );
+    this.indicator = container
+      .maybeAppendByClassName(
+        CLASS_NAMES.indicator,
+        () =>
+          new Indicator({
+            style,
+            className: indicatorClassName,
+          })
+      )
+      .update(style);
     // this.hideIndicator();
   }
 
