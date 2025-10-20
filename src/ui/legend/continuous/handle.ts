@@ -92,6 +92,17 @@ export class Handle extends Component<HandleStyleProps> {
             })
         )
         .update(markerStyle);
+
+      // Update Marker's child element className (Marker component overrides className internally)
+      if (classNamePrefix) {
+        const markerElement = this.marker.node().querySelector('.marker');
+        if (markerElement) {
+          const currentClass = markerElement.getAttribute('class') || '';
+          const baseClass = currentClass.split(' ')[0]; // e.g., 'marker'
+          const legendClassName = getLegendClassName(baseClass, CLASSNAME_SUFFIX_MAP.handleMarker, classNamePrefix);
+          markerElement.setAttribute('class', legendClassName);
+        }
+      }
     });
   }
 

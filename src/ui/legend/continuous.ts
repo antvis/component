@@ -361,6 +361,51 @@ export class Continuous extends Component<ContinuousStyleProps> {
     const [min, max] = this.selection;
     this.setHandlePosition('start', min);
     this.setHandlePosition('end', max);
+
+    // Update SliderHandle sub-elements className after rendering
+    const { classNamePrefix, showHandle } = this.attributes;
+    const { shape = 'slider' } = subStyleProps<HandleStyleProps>(this.attributes, 'handle');
+    if (showHandle && shape === 'slider' && classNamePrefix) {
+      if (this.startHandle) this.updateSliderHandleClassNames(this.startHandle, classNamePrefix);
+      if (this.endHandle) this.updateSliderHandleClassNames(this.endHandle, classNamePrefix);
+    }
+  }
+
+  /**
+   * Update SliderHandle sub-elements className to use legend prefix
+   * SliderHandle generates: handle-icon-rect, handle-icon-line, handle-label
+   * Should add legend className: g2-legend-handle-marker, g2-legend-handle-label
+   */
+  private updateSliderHandleClassNames(handle: any, classNamePrefix: string) {
+    // Get the actual DOM node from the component
+    const container = handle.container || handle;
+
+    // Update icon elements (rect and lines) to use handleMarker suffix
+    const iconRect = container.querySelector('.handle-icon-rect');
+    if (iconRect) {
+      const markerClassName = getLegendClassName(
+        'handle-icon-rect',
+        CLASSNAME_SUFFIX_MAP.handleMarker,
+        classNamePrefix
+      );
+      iconRect.setAttribute('class', markerClassName);
+
+      // Line elements are children of rect element
+      const iconLines = iconRect.querySelectorAll('line');
+      iconLines.forEach((line: any) => {
+        const currentClass = line.getAttribute('class') || '';
+        const baseClass = currentClass.split(' ')[0]; // e.g., 'handle-icon-line-1'
+        const markerClassName = getLegendClassName(baseClass, CLASSNAME_SUFFIX_MAP.handleMarker, classNamePrefix);
+        line.setAttribute('class', markerClassName);
+      });
+    }
+
+    // Update label element to use handleLabel suffix
+    const label = container.querySelector('.handle-label');
+    if (label) {
+      const labelClassName = getLegendClassName('handle-label', CLASSNAME_SUFFIX_MAP.handleLabel, classNamePrefix);
+      label.setAttribute('class', labelClassName);
+    }
   }
 
   private cacheHandleBBox: DOMRect | null = null;

@@ -19,6 +19,8 @@ import {
 } from '../../util';
 import { button } from '../marker/symbol';
 import type { NavigatorOptions, NavigatorStyleProps } from './types';
+import { CLASSNAME_SUFFIX_MAP } from '../legend/classname-map';
+import { getLegendClassName } from '../legend/utils/classname';
 
 export type { NavigatorOptions, NavigatorStyleProps };
 
@@ -292,10 +294,12 @@ export class Navigator extends Component<NavigatorStyleProps> {
     const prevBtn = prevBtnGroup.maybeAppendByClassName(CLASS_NAMES.prevBtn, 'path');
 
     if (classNamePrefix) {
-      const node = prevBtn.node();
-      const currentClass = node.getAttribute('class') || '';
-      const newClass = `${currentClass} ${classNamePrefix}legend-prev-btn`;
-      node.setAttribute('class', newClass);
+      const prevBtnClassName = getLegendClassName(
+        CLASS_NAMES.prevBtn.name,
+        CLASSNAME_SUFFIX_MAP.prevBtn,
+        classNamePrefix
+      );
+      prevBtn.node().setAttribute('class', prevBtnClassName);
     }
 
     const nextBtnGroup = group.maybeAppendByClassName(CLASS_NAMES.nextBtnGroup, 'g').styles(groupStyle);
@@ -303,10 +307,12 @@ export class Navigator extends Component<NavigatorStyleProps> {
     const nextBtn = nextBtnGroup.maybeAppendByClassName(CLASS_NAMES.nextBtn, 'path');
 
     if (classNamePrefix) {
-      const node = nextBtn.node();
-      const currentClass = node.getAttribute('class') || '';
-      const newClass = `${currentClass} ${classNamePrefix}legend-next-btn`;
-      node.setAttribute('class', newClass);
+      const nextBtnClassName = getLegendClassName(
+        CLASS_NAMES.nextBtn.name,
+        CLASSNAME_SUFFIX_MAP.nextBtn,
+        classNamePrefix
+      );
+      nextBtn.node().setAttribute('class', nextBtnClassName);
     }
 
     [prevBtn, nextBtn].forEach((btn) => {
@@ -321,10 +327,12 @@ export class Navigator extends Component<NavigatorStyleProps> {
     pageInfoElement.styles(textStyle);
 
     if (classNamePrefix) {
-      const node = pageInfoElement.node();
-      const currentClass = node.getAttribute('class') || '';
-      const newClass = `${currentClass} ${classNamePrefix}legend-page-info`;
-      node.setAttribute('class', newClass);
+      const pageInfoClassName = getLegendClassName(
+        CLASS_NAMES.pageInfo.name,
+        CLASSNAME_SUFFIX_MAP.pageInfo,
+        classNamePrefix
+      );
+      pageInfoElement.node().setAttribute('class', pageInfoClassName);
     }
 
     this.updatePageInfo();

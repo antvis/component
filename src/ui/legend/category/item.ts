@@ -240,8 +240,12 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
         if (!(newMarker instanceof Marker)) {
           const { classNamePrefix = '' } = this.attributes;
           if (classNamePrefix) {
-            const currentClass = CLASS_NAMES.marker.name;
-            (newMarker as any).className = `${currentClass} ${classNamePrefix}legend-marker`;
+            const markerClassName = getLegendClassName(
+              CLASS_NAMES.marker.name,
+              CLASSNAME_SUFFIX_MAP.marker,
+              classNamePrefix
+            );
+            (newMarker as any).className = markerClassName;
           }
           select(newMarker).styles(style);
         }
@@ -257,8 +261,12 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
         if (!(newMarker instanceof Marker)) {
           const { classNamePrefix = '' } = this.attributes;
           if (classNamePrefix) {
-            const currentClass = CLASS_NAMES.marker.name;
-            (newMarker as any).className = `${currentClass} ${classNamePrefix}legend-marker`;
+            const markerClassName = getLegendClassName(
+              CLASS_NAMES.marker.name,
+              CLASSNAME_SUFFIX_MAP.marker,
+              classNamePrefix
+            );
+            (newMarker as any).className = markerClassName;
           }
         }
         select(newMarker).styles(style);
@@ -394,10 +402,12 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
 
     const { classNamePrefix = '' } = this.attributes;
     if (classNamePrefix) {
-      const node = backgroundElement.node();
-      const currentClass = node.getAttribute('class') || '';
-      const newClass = `${currentClass} ${classNamePrefix}legend-background`;
-      node.setAttribute('class', newClass);
+      const backgroundClassName = getLegendClassName(
+        CLASS_NAMES.background.name,
+        CLASSNAME_SUFFIX_MAP.background,
+        classNamePrefix
+      );
+      backgroundElement.node().setAttribute('class', backgroundClassName);
     }
   }
 
