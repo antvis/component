@@ -334,8 +334,7 @@ export class Continuous extends Component<ContinuousStyleProps> {
             .append(() => new HandleCtor({ style, className: baseHandleClassName }))
             .attr(
               'className',
-              ({ type }: any) =>
-                `${CLASS_NAMES.handle} ${that.getHandleClassName(type as HandleType)} ${baseHandleClassName}`
+              ({ type }: any) => `${baseHandleClassName} ${that.getHandleClassName(type as HandleType)}`
             )
             .each(function ({ type, value: labelText }) {
               this.update({ labelText });

@@ -238,15 +238,12 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
 
       if (!oldMarker) {
         if (!(newMarker instanceof Marker)) {
-          const { classNamePrefix = '' } = this.attributes;
-          if (classNamePrefix) {
-            const markerClassName = getLegendClassName(
-              CLASS_NAMES.marker.name,
-              CLASSNAME_SUFFIX_MAP.marker,
-              classNamePrefix
-            );
-            (newMarker as any).className = markerClassName;
-          }
+          const markerClassName = getLegendClassName(
+            CLASS_NAMES.marker.name,
+            CLASSNAME_SUFFIX_MAP.marker,
+            classNamePrefix
+          );
+          (newMarker as any).className = markerClassName;
           select(newMarker).styles(style);
         }
         parent.appendChild(newMarker);
@@ -259,15 +256,12 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
       } else {
         oldMarker.remove();
         if (!(newMarker instanceof Marker)) {
-          const { classNamePrefix = '' } = this.attributes;
-          if (classNamePrefix) {
-            const markerClassName = getLegendClassName(
-              CLASS_NAMES.marker.name,
-              CLASSNAME_SUFFIX_MAP.marker,
-              classNamePrefix
-            );
-            (newMarker as any).className = markerClassName;
-          }
+          const markerClassName = getLegendClassName(
+            CLASS_NAMES.marker.name,
+            CLASSNAME_SUFFIX_MAP.marker,
+            classNamePrefix
+          );
+          (newMarker as any).className = markerClassName;
         }
         select(newMarker).styles(style);
         parent.appendChild(newMarker);
