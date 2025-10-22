@@ -100,7 +100,10 @@ function styleOfMarker(group: Group): BaseStyleProps {
 }
 
 export class CategoryItem extends Component<CategoryItemStyleProps> {
-  constructor(options: CategoryItemOptions) {
+  // Key fields, used to pass extra info like id, index for poptip rendering
+  public keyFields: object = {};
+
+  constructor(options: CategoryItemOptions, keyFields?: Omit<CategoryItemOptions, 'style'>) {
     super(options, {
       span: [1, 1],
       marker: () => new Circle({ style: { r: 6 } }),
@@ -112,6 +115,7 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
       labelTextBaseline: 'middle',
       valueTextBaseline: 'middle',
     });
+    this.keyFields = keyFields || {};
   }
 
   private poptipGroup!: Poptip;
@@ -287,7 +291,7 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
       const label = typeof labelText === 'string' ? labelText : (labelText as DisplayObject)?.attr('text');
       const value = typeof valueText === 'string' ? valueText : (valueText as DisplayObject)?.attr('text');
       if (typeof poptip.render === 'function') {
-        return { html: poptip.render({ label, value, color: markerFill as string }) };
+        return { html: poptip.render({ ...this.keyFields, label, value, color: markerFill as string }) };
       }
       let html = '';
       if (typeof label === 'string' || typeof label === 'number') {

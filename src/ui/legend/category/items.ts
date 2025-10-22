@@ -32,7 +32,12 @@ type CallableItemStyle = CallableStyleProps<
 >;
 
 export type PoptipRender = {
-  render?: (params: { label: string | number; value: string | number; color?: string }) => string;
+  render?: (params: {
+    label: string | number;
+    value: string | number;
+    color?: string;
+    [key: string]: unknown;
+  }) => string;
 };
 
 export type CategoryItemsStyleProps = GroupStyleProps &
@@ -259,7 +264,7 @@ export class CategoryItems extends Component<CategoryItemsStyleProps> {
       .join(
         (enter) =>
           enter
-            .append(({ style }) => new CategoryItem({ style }))
+            .append(({ style, ...rest }) => new CategoryItem({ style }, rest))
             .attr('className', CLASS_NAMES.item.name)
             .on('click', function () {
               click?.(this);
