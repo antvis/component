@@ -25,6 +25,7 @@ export type TitleStyleProps = GroupStyleProps &
       | 'right-bottom'
       | 'bottom-right'
       | 'inner';
+    classNamePrefix?: string;
   };
 
 export type TitleOptions = ComponentOptions<TitleStyleProps>;

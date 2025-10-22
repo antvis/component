@@ -21,6 +21,8 @@ import { ifHorizontal } from '../utils';
 import type { CategoryItemStyleProps } from './item';
 import { CategoryItem } from './item';
 import type { PoptipStyleProps } from '../../poptip/types';
+import { getLegendClassName } from '../utils/classname';
+import { CLASSNAME_SUFFIX_MAP } from '../constant';
 
 interface CategoryItemsDatum {
   [keys: string]: any;
@@ -57,6 +59,7 @@ export type CategoryItemsStyleProps = GroupStyleProps &
     poptip?: PoptipStyleProps & PoptipRender;
     focus?: boolean;
     focusMarkerSize?: number;
+    classNamePrefix?: string;
   };
 
 export type CategoryItemsOptions = ComponentOptions<CategoryItemsStyleProps>;
@@ -131,7 +134,7 @@ export class CategoryItems extends Component<CategoryItemsStyleProps> {
   }
 
   private get renderData() {
-    const { data, layout, poptip, focus, focusMarkerSize } = this.attributes;
+    const { data, layout, poptip, focus, focusMarkerSize, classNamePrefix } = this.attributes;
     const style = subStyleProps<CategoryItemStyleProps>(this.attributes, 'item');
 
     const d = data.map((datum, index) => {
@@ -146,6 +149,7 @@ export class CategoryItems extends Component<CategoryItemsStyleProps> {
           poptip,
           focus,
           focusMarkerSize,
+          classNamePrefix,
           ...Object.fromEntries(
             Object.entries(style).map(([key, val]) => [key, getCallbackValue(val, [datum, index, data])])
           ),
@@ -250,9 +254,10 @@ export class CategoryItems extends Component<CategoryItemsStyleProps> {
   }
 
   private renderItems(container: Group) {
-    const { click, mouseenter, mouseleave } = this.attributes;
+    const { click, mouseenter, mouseleave, classNamePrefix } = this.attributes;
     this.flattenPage(container);
     const dispatchCustomEvent = this.dispatchCustomEvent.bind(this);
+    const itemClassName = getLegendClassName(CLASS_NAMES.item.name, CLASSNAME_SUFFIX_MAP.item, classNamePrefix);
     select(container)
       .selectAll(CLASS_NAMES.item.class)
       .data(this.renderData, (d) => d.id)
@@ -260,7 +265,7 @@ export class CategoryItems extends Component<CategoryItemsStyleProps> {
         (enter) =>
           enter
             .append(({ style }) => new CategoryItem({ style }))
-            .attr('className', CLASS_NAMES.item.name)
+            .attr('className', itemClassName)
             .on('click', function () {
               click?.(this);
               dispatchCustomEvent('itemClick', { item: this });
@@ -311,9 +316,9 @@ export class CategoryItems extends Component<CategoryItemsStyleProps> {
   }
 
   private renderNavigator(container: Selection) {
-    const { orientation } = this.attributes;
+    const { orientation, classNamePrefix } = this.attributes;
     const navStyle = subStyleProps(this.attributes, 'nav');
-    const style = deepAssign({ orientation }, navStyle);
+    const style = deepAssign({ orientation, classNamePrefix }, navStyle);
     const that = this;
     container
       .selectAll(CLASS_NAMES.navigator.class)

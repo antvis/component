@@ -23,13 +23,13 @@ export class Category extends Component<CategoryStyleProps> {
   private items!: Selection<CategoryItems>;
 
   private renderTitle(container: Selection, width: number, height: number) {
-    const { showTitle, titleText } = this.attributes;
+    const { showTitle, titleText, classNamePrefix } = this.attributes;
     const style = subStyleProps<TitleStyleProps>(this.attributes, 'title');
     const [titleStyle, groupStyle] = splitStyle(style);
 
     this.titleGroup = container.maybeAppendByClassName<Group>(CLASS_NAMES.titleGroup, 'g').styles(groupStyle);
 
-    const finalTitleStyle = { width, height, ...titleStyle, text: showTitle ? titleText : '' };
+    const finalTitleStyle = { width, height, ...titleStyle, text: showTitle ? titleText : '', classNamePrefix };
     this.title = this.titleGroup
       .maybeAppendByClassName(CLASS_NAMES.title, () => new Title({ style: finalTitleStyle as TitleStyleProps }))
       .update(finalTitleStyle) as Selection<Title>;
