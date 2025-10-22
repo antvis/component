@@ -5,6 +5,8 @@ import { Component } from '../../../core';
 import type { GroupStyleProps, PathStyleProps, RectStyleProps } from '../../../shapes';
 import { Group } from '../../../shapes';
 import { classNames, select, Selection, subStyleProps } from '../../../util';
+import { CLASSNAME_SUFFIX_MAP } from '../constant';
+import { getLegendClassName } from '../utils/classname';
 import { ifHorizontal } from '../utils';
 import { getBlockColor } from './utils';
 
@@ -23,6 +25,7 @@ export type RibbonStyleProps = GroupStyleProps &
     range?: [number, number];
     size: number;
     type?: 'size' | 'color';
+    classNamePrefix?: string;
   };
 
 export type RibbonOptions = ComponentOptions<RibbonStyleProps>;
@@ -93,15 +96,28 @@ function getClipPath(attr: RequiredRibbonStyleProps): any[] {
 
 function renderTrack(container: Selection, attr: RequiredRibbonStyleProps) {
   const style = subStyleProps(attr, 'track');
-  container.maybeAppendByClassName(CLASS_NAMES.track, 'path').styles({ d: getTrackPath(attr), ...style });
+  const { classNamePrefix } = attr;
+  const trackClassName = getLegendClassName(CLASS_NAMES.track.name, CLASSNAME_SUFFIX_MAP.track, classNamePrefix);
+
+  container
+    .maybeAppendByClassName(CLASS_NAMES.track, 'path')
+    .attr('className', trackClassName)
+    .styles({ d: getTrackPath(attr), ...style });
 }
 
 function renderSelection(container: Selection, attr: RequiredRibbonStyleProps) {
   const style = subStyleProps(attr, 'selection');
   const fill = getColor(attr);
+  const { classNamePrefix } = attr;
+  const selectionClassName = getLegendClassName(
+    CLASS_NAMES.selection.name,
+    CLASSNAME_SUFFIX_MAP.selection,
+    classNamePrefix
+  );
 
   const ribbon = container
     .maybeAppendByClassName(CLASS_NAMES.selection, 'path')
+    .attr('className', selectionClassName)
     .styles({ d: getSelectionPath(attr), fill, ...style });
   const clipPath = ribbon
     .maybeAppendByClassName(CLASS_NAMES.clipPath, 'path')

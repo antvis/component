@@ -21,6 +21,7 @@ export type NavigatorStyleProps = Omit<RectStyleProps, 'width' | 'height'> &
     pageWidth?: number;
     /** infer to pageWidth */
     pageHeight?: number;
+    classNamePrefix?: string;
   };
 
 export type NavigatorOptions = ComponentOptions<NavigatorStyleProps>;

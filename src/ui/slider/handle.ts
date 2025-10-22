@@ -14,6 +14,7 @@ export type IconStyleProps = PathStyleProps & {
   radius?: number;
   shape?: string | ((type: HandleType) => DisplayObject);
   orientation?: 'horizontal' | 'vertical';
+  classNamePrefix?: string;
 };
 
 export type LabelStyleProps = Partial<TextStyleProps>;
@@ -27,6 +28,7 @@ export type HandleStyleProps = GroupStyleProps &
     showLabel?: boolean;
     spacing?: number;
     type?: HandleType;
+    classNamePrefix?: string;
   };
 
 export type HandleOptions = ComponentOptions<HandleStyleProps>;
@@ -45,13 +47,23 @@ const CLASS_NAMES = classNames(
 
 class HandleIcon extends Component<IconStyleProps> {
   render(attributes: Required<IconStyleProps>, container: DisplayObject) {
-    const { x, y, size = 10, radius = size / 4, orientation, ...iconStyle } = attributes;
-    // 默认手柄
+    const { x, y, size = 10, radius = size / 4, orientation, classNamePrefix, ...iconStyle } = attributes;
+    // default handle
     const width = size!;
     const height = width * 2.4;
 
+    const rectClassName = classNamePrefix
+      ? `${CLASS_NAMES.iconRect.name} ${classNamePrefix}handle-icon-rect`
+      : CLASS_NAMES.iconRect.name;
+
+    const lineClassName = (index: number) =>
+      classNamePrefix
+        ? `${CLASS_NAMES.iconLine}-${index} ${classNamePrefix}handle-icon-line`
+        : `${CLASS_NAMES.iconLine}-${index}`;
+
     const rect = select(container)
       .maybeAppendByClassName(CLASS_NAMES.iconRect, 'rect')
+      .attr('className', rectClassName)
       .styles({
         ...iconStyle,
         width,
@@ -67,8 +79,27 @@ class HandleIcon extends Component<IconStyleProps> {
     const y1 = y + (1 / 4) * height - height / 2;
     const y2 = y + (3 / 4) * height - height / 2;
 
-    rect.maybeAppendByClassName(`${CLASS_NAMES.iconLine}-1`, 'line').styles({ x1, x2: x1, y1, y2, ...iconStyle });
-    rect.maybeAppendByClassName(`${CLASS_NAMES.iconLine}-2`, 'line').styles({ x1: x2, x2, y1, y2, ...iconStyle });
+    rect
+      .maybeAppendByClassName(`${CLASS_NAMES.iconLine}-1`, 'line')
+      .attr('className', lineClassName(1))
+      .styles({
+        x1,
+        x2: x1,
+        y1,
+        y2,
+        ...iconStyle,
+      });
+
+    rect
+      .maybeAppendByClassName(`${CLASS_NAMES.iconLine}-2`, 'line')
+      .attr('className', lineClassName(2))
+      .styles({
+        x1: x2,
+        x2,
+        y1,
+        y2,
+        ...iconStyle,
+      });
 
     if (orientation === 'vertical') rect.node().style.transform = 'rotate(90)';
   }
@@ -119,8 +150,15 @@ export class Handle extends Component<HandleStyleProps> {
   }
 
   private renderIcon(container: Group) {
-    const { x, y, orientation, type } = this.attributes;
-    const iconStyle = { x, y, orientation, ...HANDLE_ICON_DEFAULT_CFG, ...subStyleProps(this.attributes, 'icon') };
+    const { x, y, orientation, type, classNamePrefix } = this.attributes;
+    const iconStyle = {
+      x,
+      y,
+      orientation,
+      classNamePrefix,
+      ...HANDLE_ICON_DEFAULT_CFG,
+      ...subStyleProps(this.attributes, 'icon'),
+    };
     const { iconShape = () => new HandleIcon({ style: iconStyle }) } = this.attributes;
     const iconGroup = select(container).maybeAppendByClassName(CLASS_NAMES.iconGroup, 'g');
     iconGroup

@@ -30,6 +30,8 @@ import {
 import { Poptip } from '../../poptip';
 import type { PoptipStyleProps } from '../../poptip/types';
 import type { PoptipRender } from './items';
+import { getLegendClassName } from '../utils/classname';
+import { CLASSNAME_SUFFIX_MAP } from '../constant';
 
 type ItemMarkerStyle = { size?: number } & PathStyleProps;
 type ItemTextStyle = Omit<TextStyleProps, 'text'>;
@@ -53,6 +55,7 @@ export type CategoryItemStyleProps = GroupStyleProps &
     poptip?: PoptipStyleProps & PoptipRender;
     focus?: boolean;
     focusMarkerSize?: number;
+    classNamePrefix?: string;
   };
 
 export type CategoryItemOptions = ComponentOptions<CategoryItemStyleProps>;
@@ -227,19 +230,26 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
   }
 
   private renderMarker(container: Selection) {
-    const { marker } = this.attributes;
+    const { marker, classNamePrefix } = this.attributes;
     const style = subStyleProps(this.attributes, 'marker');
     this.markerGroup = container.maybeAppendByClassName(CLASS_NAMES.markerGroup, 'g').style('zIndex', 0);
     ifShow(!!marker, this.markerGroup, () => {
       const parent = this.markerGroup.node();
       const oldMarker = parent.childNodes?.[0] as DisplayObject | undefined;
+      const markerClassName = getLegendClassName(CLASS_NAMES.marker.name, CLASSNAME_SUFFIX_MAP.marker, classNamePrefix);
       const newMarker =
-        typeof marker === 'string'
-          ? new Marker({ style: { symbol: marker }, className: CLASS_NAMES.marker.name })
-          : marker();
+        typeof marker === 'string' ? new Marker({ style: { symbol: marker }, className: markerClassName }) : marker();
 
       if (!oldMarker) {
-        if (!(newMarker instanceof Marker)) select(newMarker).attr('className', CLASS_NAMES.marker.name).styles(style);
+        if (!(newMarker instanceof Marker)) {
+          const markerClassName = getLegendClassName(
+            CLASS_NAMES.marker.name,
+            CLASSNAME_SUFFIX_MAP.marker,
+            classNamePrefix
+          );
+          (newMarker as any).className = markerClassName;
+          select(newMarker).styles(style);
+        }
         parent.appendChild(newMarker);
       } else if (newMarker.nodeName === oldMarker.nodeName) {
         if (oldMarker instanceof Marker) oldMarker.update({ ...style, symbol: marker });
@@ -249,7 +259,15 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
         }
       } else {
         oldMarker.remove();
-        select(newMarker).attr('className', CLASS_NAMES.marker.name).styles(style);
+        if (!(newMarker instanceof Marker)) {
+          const markerClassName = getLegendClassName(
+            CLASS_NAMES.marker.name,
+            CLASSNAME_SUFFIX_MAP.marker,
+            classNamePrefix
+          );
+          (newMarker as any).className = markerClassName;
+        }
+        select(newMarker).styles(style);
         parent.appendChild(newMarker);
       }
 
@@ -262,15 +280,23 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
 
   private renderLabel(container: Selection) {
     const { text: label, ...style } = subStyleProps(this.attributes, 'label');
+    const { classNamePrefix } = this.attributes;
     this.labelGroup = container.maybeAppendByClassName<Group>(CLASS_NAMES.labelGroup, 'g').style('zIndex', 0);
-    this.labelGroup.maybeAppendByClassName(CLASS_NAMES.label, () => renderExtDo(label)).styles(style);
+    const labelClassName = getLegendClassName(CLASS_NAMES.label.name, CLASSNAME_SUFFIX_MAP.label, classNamePrefix);
+    const labelElement = this.labelGroup.maybeAppendByClassName(CLASS_NAMES.label, () => renderExtDo(label));
+    labelElement.node().setAttribute('class', labelClassName);
+    labelElement.styles(style);
   }
 
   private renderValue(container: Selection) {
     const { text: value, ...style } = subStyleProps(this.attributes, 'value');
+    const { classNamePrefix } = this.attributes;
     this.valueGroup = container.maybeAppendByClassName(CLASS_NAMES.valueGroup, 'g').style('zIndex', 0);
     ifShow(this.showValue, this.valueGroup, () => {
-      this.valueGroup.maybeAppendByClassName(CLASS_NAMES.value, () => renderExtDo(value)).styles(style);
+      const valueClassName = getLegendClassName(CLASS_NAMES.value.name, CLASSNAME_SUFFIX_MAP.value, classNamePrefix);
+      const valueElement = this.valueGroup.maybeAppendByClassName(CLASS_NAMES.value, () => renderExtDo(value));
+      valueElement.node().setAttribute('class', valueClassName);
+      valueElement.styles(style);
     });
   }
 
@@ -305,7 +331,7 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
   }
 
   private renderFocus(ctn: Selection) {
-    const { focus, focusMarkerSize } = this.attributes;
+    const { focus, focusMarkerSize, classNamePrefix } = this.attributes;
     const defaultOptions = {
       x: 0,
       y: 0,
@@ -320,11 +346,17 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
 
     this.focusGroup = ctn.maybeAppendByClassName<Group>(CLASS_NAMES.focusGroup, 'g').style('zIndex', 0);
     ifShow(focus, this.focusGroup, () => {
+      const focusClassName = getLegendClassName(
+        CLASS_NAMES.focus.name,
+        CLASSNAME_SUFFIX_MAP.focusIcon,
+        classNamePrefix
+      );
       const marker = new Marker({
         style: {
           ...defaultOptions,
           symbol: 'focus',
         },
+        className: focusClassName,
       });
       const interactiveCircle = new Circle({
         style: {
@@ -363,7 +395,18 @@ export class CategoryItem extends Component<CategoryItemStyleProps> {
     const { width, height } = this.shape;
     const style = subStyleProps(this.attributes, 'background');
     this.background = container.maybeAppendByClassName(CLASS_NAMES.backgroundGroup, 'g').style('zIndex', -1);
-    this.background.maybeAppendByClassName(CLASS_NAMES.background, 'rect').styles({ width, height, ...style });
+    const backgroundElement = this.background.maybeAppendByClassName(CLASS_NAMES.background, 'rect');
+    backgroundElement.styles({ width, height, ...style });
+
+    const { classNamePrefix = '' } = this.attributes;
+    if (classNamePrefix) {
+      const backgroundClassName = getLegendClassName(
+        CLASS_NAMES.background.name,
+        CLASSNAME_SUFFIX_MAP.background,
+        classNamePrefix
+      );
+      backgroundElement.node().setAttribute('class', backgroundClassName);
+    }
   }
 
   private adjustLayout() {

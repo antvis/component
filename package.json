@@ -118,7 +118,7 @@
     },
     {
       "path": "dist/component.min.js",
-      "limit": "250 Kb"
+      "limit": "260 Kb"
     }
   ],
   "author": {

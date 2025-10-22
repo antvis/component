@@ -19,6 +19,8 @@ import {
 } from '../../util';
 import { button } from '../marker/symbol';
 import type { NavigatorOptions, NavigatorStyleProps } from './types';
+import { CLASSNAME_SUFFIX_MAP } from '../legend/classname-map';
+import { getLegendClassName } from '../legend/utils/classname';
 
 export type { NavigatorOptions, NavigatorStyleProps };
 
@@ -272,7 +274,7 @@ export class Navigator extends Component<NavigatorStyleProps> {
   }
 
   private renderController(container: Selection) {
-    const { controllerSpacing: spacing } = this.attributes;
+    const { controllerSpacing: spacing, classNamePrefix = '' } = this.attributes;
     const { pageWidth, pageHeight } = this.pageShape;
     const visible = this.pageViews.length >= 2;
 
@@ -291,9 +293,27 @@ export class Navigator extends Component<NavigatorStyleProps> {
     this.prevBtnGroup = prevBtnGroup.node();
     const prevBtn = prevBtnGroup.maybeAppendByClassName(CLASS_NAMES.prevBtn, 'path');
 
+    if (classNamePrefix) {
+      const prevBtnClassName = getLegendClassName(
+        CLASS_NAMES.prevBtn.name,
+        CLASSNAME_SUFFIX_MAP.prevBtn,
+        classNamePrefix
+      );
+      prevBtn.node().setAttribute('class', prevBtnClassName);
+    }
+
     const nextBtnGroup = group.maybeAppendByClassName(CLASS_NAMES.nextBtnGroup, 'g').styles(groupStyle);
     this.nextBtnGroup = nextBtnGroup.node();
     const nextBtn = nextBtnGroup.maybeAppendByClassName(CLASS_NAMES.nextBtn, 'path');
+
+    if (classNamePrefix) {
+      const nextBtnClassName = getLegendClassName(
+        CLASS_NAMES.nextBtn.name,
+        CLASSNAME_SUFFIX_MAP.nextBtn,
+        classNamePrefix
+      );
+      nextBtn.node().setAttribute('class', nextBtnClassName);
+    }
 
     [prevBtn, nextBtn].forEach((btn) => {
       btn.styles({ ...pathStyle, transformOrigin: 'center' });
@@ -303,7 +323,17 @@ export class Navigator extends Component<NavigatorStyleProps> {
     const pageInfoGroup = group.maybeAppendByClassName(CLASS_NAMES.pageInfoGroup, 'g');
     this.pageInfoGroup = pageInfoGroup.node();
 
-    pageInfoGroup.maybeAppendByClassName(CLASS_NAMES.pageInfo, 'text').styles(textStyle);
+    const pageInfoElement = pageInfoGroup.maybeAppendByClassName(CLASS_NAMES.pageInfo, 'text');
+    pageInfoElement.styles(textStyle);
+
+    if (classNamePrefix) {
+      const pageInfoClassName = getLegendClassName(
+        CLASS_NAMES.pageInfo.name,
+        CLASSNAME_SUFFIX_MAP.pageInfo,
+        classNamePrefix
+      );
+      pageInfoElement.node().setAttribute('class', pageInfoClassName);
+    }
 
     this.updatePageInfo();
 
