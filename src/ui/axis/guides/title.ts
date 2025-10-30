@@ -15,6 +15,8 @@ import {
 } from '../../../util';
 import { CLASS_NAMES } from '../constant';
 import type { RequiredAxisStyleProps } from '../types';
+import { applyClassName } from '../utils/classname';
+import { CLASSNAME_SUFFIX_MAP } from '../classname-map';
 
 function getTitlePosition(
   mainGroup: Selection,
@@ -101,7 +103,8 @@ export function renderTitle(
   attr: RequiredAxisStyleProps,
   animate: StandardAnimationOption
 ) {
-  const { titleText } = attr;
+  const { titleText, classNamePrefix } = attr;
+
   return container
     .selectAll(CLASS_NAMES.title.class)
     .data(
@@ -109,13 +112,16 @@ export function renderTitle(
       (d, i) => d.title
     )
     .join(
-      (enter) =>
-        enter
+      (enter) => {
+        const titles = enter
           .append(() => renderExtDo(titleText))
           .attr('className', CLASS_NAMES.title.name)
           .transition(function () {
             return applyTitleStyle(select(this), container, axis, attr, animate.enter);
-          }),
+          });
+        applyClassName(titles, CLASS_NAMES.title, CLASSNAME_SUFFIX_MAP.title, classNamePrefix);
+        return titles;
+      },
       (update) =>
         update.transition(function () {
           return applyTitleStyle(select(this), container, axis, attr, animate.update);

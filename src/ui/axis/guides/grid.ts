@@ -7,6 +7,8 @@ import { CLASS_NAMES } from '../constant';
 import type { AxisDatum, AxisGridStyleProps, AxisStyleProps } from '../types';
 import { getValuePos } from './line';
 import { filterExec, getDirectionVector } from './utils';
+import { applyClassName } from '../utils/classname';
+import { CLASSNAME_SUFFIX_MAP } from '../classname-map';
 
 function getGridVector(value: number, attr: Required<AxisStyleProps>) {
   return getDirectionVector(value, attr.gridDirection, attr);
@@ -63,6 +65,7 @@ export function renderGrid(
   attr: Required<AxisStyleProps>,
   animate: StandardAnimationOption
 ) {
+  const { classNamePrefix } = attr;
   const gridAttr = subStyleProps<Required<AxisGridStyleProps>>(attr, 'grid');
   const { type, areaFill } = gridAttr;
   const center = getGridCenter(attr);
@@ -83,7 +86,11 @@ export function renderGrid(
     .selectAll(CLASS_NAMES.grid.class)
     .data([1])
     .join(
-      (enter) => enter.append(() => new Grid({ style })).attr('className', CLASS_NAMES.grid.name),
+      (enter) => {
+        const grid = enter.append(() => new Grid({ style })).attr('className', CLASS_NAMES.grid.name);
+        applyClassName(grid, CLASS_NAMES.grid, CLASSNAME_SUFFIX_MAP.grid, classNamePrefix);
+        return grid;
+      },
       (update) =>
         update.transition(function () {
           return this.update(style);
