@@ -79,10 +79,11 @@ export class Continuous extends Component<ContinuousStyleProps> {
   public render(attributes: Required<ContinuousStyleProps>, container: Group) {
     // Set root container className
     const { classNamePrefix } = attributes;
+    const baseClassName = container.className || 'legend-continuous';
     if (classNamePrefix) {
-      container.className = `legend-continuous ${classNamePrefix}legend`;
-    } else {
-      container.className = 'legend-continuous';
+      container.attr('className', `${baseClassName} ${classNamePrefix}legend`);
+    } else if (!container.className) {
+      container.attr('className', 'legend-continuous');
     }
 
     // 渲染顺序

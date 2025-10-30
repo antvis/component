@@ -88,10 +88,11 @@ export class Category extends Component<CategoryStyleProps> {
     const ctn = select(container);
 
     // Set root container className
+    const baseClassName = container.className || 'legend-category';
     if (classNamePrefix) {
-      container.className = `legend-category ${classNamePrefix}legend`;
-    } else {
-      container.className = 'legend-category';
+      container.attr('className', `${baseClassName} ${classNamePrefix}legend`);
+    } else if (!container.className) {
+      container.attr('className', 'legend-category');
     }
 
     container.style.transform = `translate(${x}, ${y})`;

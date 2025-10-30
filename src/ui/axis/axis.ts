@@ -66,10 +66,11 @@ export class Axis extends Component<AxisStyleProps> {
     const { titleText, data, animate, showTitle, showGrid, dataThreshold, truncRange, classNamePrefix } = attributes;
 
     // Set root container className
+    const baseClassName = container.className || 'axis';
     if (classNamePrefix) {
-      container.className = `axis ${classNamePrefix}axis`;
-    } else {
-      container.className = 'axis';
+      container.attr('className', `${baseClassName} ${classNamePrefix}axis`);
+    } else if (!container.className) {
+      container.attr('className', 'axis');
     }
 
     const sampledData = sampling(data, dataThreshold).filter(({ value }) => {
