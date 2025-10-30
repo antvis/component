@@ -64,6 +64,14 @@ export class Axis extends Component<AxisStyleProps> {
 
   render(attributes: RequiredAxisStyleProps, container: Group, specificAnimation?: GenericAnimation) {
     const { titleText, data, animate, showTitle, showGrid, dataThreshold, truncRange, classNamePrefix } = attributes;
+
+    // Set root container className
+    if (classNamePrefix) {
+      container.className = `axis ${classNamePrefix}axis`;
+    } else {
+      container.className = 'axis';
+    }
+
     const sampledData = sampling(data, dataThreshold).filter(({ value }) => {
       if (truncRange && value > truncRange[0] && value < truncRange[1]) return false;
       return true;

@@ -84,8 +84,16 @@ export class Category extends Component<CategoryStyleProps> {
   }
 
   render(attributes: Required<CategoryStyleProps>, container: Group) {
-    const { width, height, x = 0, y = 0 } = this.attributes;
+    const { width, height, x = 0, y = 0, classNamePrefix } = this.attributes;
     const ctn = select(container);
+
+    // Set root container className
+    if (classNamePrefix) {
+      container.className = `legend-category ${classNamePrefix}legend`;
+    } else {
+      container.className = 'legend-category';
+    }
+
     container.style.transform = `translate(${x}, ${y})`;
 
     this.renderTitle(ctn, width!, height!);
