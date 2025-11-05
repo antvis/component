@@ -30,6 +30,8 @@ import type { AxisDatum, AxisLabelStyleProps, AxisStyleProps } from '../types';
 import { getFactor } from '../utils';
 import { getValuePos } from './line';
 import { filterExec, getCallbackStyle, getLabelVector, getLineTangentVector } from './utils';
+import { applyClassName } from '../utils/classname';
+import { CLASSNAME_SUFFIX_MAP } from '../classname-map';
 
 function angleNormalizer(angle: number) {
   let normalizedAngle = angle;
@@ -198,7 +200,9 @@ function overlapHandler(attr: Required<AxisStyleProps>, main: DisplayObject) {
     wrap: (label, width, lines) => {
       label && wrapIt(label, width, lines);
     },
-    getTextShape: (label) => label.querySelector<DisplayObject>('text') as Text,
+    getTextShape: (label) => {
+      return label.querySelector<DisplayObject>(CLASS_NAMES.labelItem.class) as Text;
+    },
   });
 }
 
@@ -210,11 +214,13 @@ function renderLabel(
   attr: Required<AxisStyleProps>
 ): DisplayObject {
   const index = data.indexOf(datum);
-  const { labelRender } = attr;
+  const { labelRender, classNamePrefix } = attr;
+
   const label = select(container)
     .append(labelRender ? renderHTMLLabel(datum, index, data, attr) : formatter(datum, index, data, attr))
     .attr('className', CLASS_NAMES.labelItem.name)
     .node();
+  applyClassName(select(label), CLASS_NAMES.labelItem, CLASSNAME_SUFFIX_MAP.labelItem, classNamePrefix);
   const [labelStyle, { transform, ...groupStyle }] = splitStyle(getCallbackStyle(style, [datum, index, data]));
 
   percentTransform(label, transform);
@@ -238,24 +244,28 @@ export function renderLabels(
   animate: StandardAnimationOption,
   main: DisplayObject
 ) {
+  const { classNamePrefix } = attr;
   const finalData = filterExec(data, attr.labelFilter);
   const style = subStyleProps<AxisLabelStyleProps>(attr, 'label');
+
   let _exit!: Selection<AxisDatum>;
   const transitions = container
     .selectAll(CLASS_NAMES.label.class)
     .data(finalData, (d, i) => i)
     .join(
-      (enter) =>
-        enter
+      (enter) => {
+        const labels = enter
           .append('g')
           .attr('className', CLASS_NAMES.label.name)
           .transition(function (datum) {
             renderLabel(this, datum, data, style, attr);
             const { x, y } = getLabelPos(datum, data, attr);
-            // .axis-label
             this.style.transform = `translate(${x}, ${y})`;
             return null;
-          }),
+          });
+        applyClassName(labels, CLASS_NAMES.label, CLASSNAME_SUFFIX_MAP.label, classNamePrefix);
+        return labels;
+      },
       (update) =>
         update.transition(function (datum) {
           const prevLabel = this.querySelector(CLASS_NAMES.labelItem.class);

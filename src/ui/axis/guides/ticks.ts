@@ -8,6 +8,8 @@ import { CLASS_NAMES } from '../constant';
 import type { AxisDatum, AxisTickStyleProps, RequiredAxisStyleProps } from '../types';
 import { getValuePos } from './line';
 import { filterExec, getCallbackStyle, getDirectionVector } from './utils';
+import { applyClassName } from '../utils/classname';
+import { CLASSNAME_SUFFIX_MAP } from '../classname-map';
 
 type RequiredAxisTickStyleProps = Required<AxisTickStyleProps>;
 
@@ -42,11 +44,14 @@ function createTickEl(
   data: AxisDatum[],
   attr: RequiredAxisStyleProps
 ) {
-  const { tickFormatter: formatter } = attr;
+  const { tickFormatter: formatter, classNamePrefix } = attr;
   const tickVector = getTickVector(datum.value, attr);
   let el: any = 'line';
   if (isFunction(formatter)) el = () => getCallbackValue(formatter, [datum, index, data, tickVector]);
-  return container.append(el).attr('className', CLASS_NAMES.tickItem.name);
+
+  const tick = container.append(el).attr('className', CLASS_NAMES.tickItem.name);
+  applyClassName(tick, CLASS_NAMES.tickItem, CLASSNAME_SUFFIX_MAP.tickItem, classNamePrefix);
+  return tick;
 }
 
 function applyTickStyle(
@@ -86,19 +91,24 @@ export function renderTicks(
   attr: RequiredAxisStyleProps,
   animate: StandardAnimationOption
 ) {
+  const { classNamePrefix } = attr;
   const finalData = filterExec(axisData, attr.tickFilter);
   const tickAttr = subStyleProps<RequiredAxisTickStyleProps>(attr, 'tick');
+
   return container
     .selectAll(CLASS_NAMES.tick.class)
     .data(finalData, (d) => d.id || d.label)
     .join(
-      (enter) =>
-        enter
+      (enter) => {
+        const ticks = enter
           .append('g')
           .attr('className', CLASS_NAMES.tick.name)
           .transition(function (datum: AxisDatum, index: number) {
             return createTick.call(this, datum, index, finalData, attr, tickAttr, false);
-          }),
+          });
+        applyClassName(ticks, CLASS_NAMES.tick, CLASSNAME_SUFFIX_MAP.tick, classNamePrefix);
+        return ticks;
+      },
       (update) =>
         update.transition(function (datum: AxisDatum, index: number) {
           this.removeChildren();

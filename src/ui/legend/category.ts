@@ -84,8 +84,17 @@ export class Category extends Component<CategoryStyleProps> {
   }
 
   render(attributes: Required<CategoryStyleProps>, container: Group) {
-    const { width, height, x = 0, y = 0 } = this.attributes;
+    const { width, height, x = 0, y = 0, classNamePrefix } = this.attributes;
     const ctn = select(container);
+
+    // Set root container className
+    const baseClassName = container.className || 'legend-category';
+    if (classNamePrefix) {
+      container.attr('className', `${baseClassName} ${classNamePrefix}legend`);
+    } else if (!container.className) {
+      container.attr('className', 'legend-category');
+    }
+
     container.style.transform = `translate(${x}, ${y})`;
 
     this.renderTitle(ctn, width!, height!);
