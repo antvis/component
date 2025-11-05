@@ -1,5 +1,5 @@
 import { Component } from '../../core';
-import type { Group } from '../../shapes';
+import { HTML, type Group } from '../../shapes';
 import { BBox, select, Selection, splitStyle, subStyleProps } from '../../util';
 import type { TitleStyleProps } from './title';
 import { getBBox, Title } from './title';
@@ -8,6 +8,12 @@ import { CATEGORY_DEFAULT_OPTIONS, CLASS_NAMES } from './constant';
 import type { CategoryOptions, CategoryStyleProps } from './types';
 
 export type { CategoryOptions, CategoryStyleProps };
+
+class HtmlLegend extends HTML {
+  update(options: any) {
+    this.attr(options);
+  }
+}
 
 export class Category extends Component<CategoryStyleProps> {
   constructor(options: CategoryOptions) {
@@ -33,6 +39,26 @@ export class Category extends Component<CategoryStyleProps> {
     this.title = this.titleGroup
       .maybeAppendByClassName(CLASS_NAMES.title, () => new Title({ style: finalTitleStyle as TitleStyleProps }))
       .update(finalTitleStyle) as Selection<Title>;
+  }
+
+  private renderCustom(container: Selection) {
+    const { data } = this.attributes;
+
+    const style = {
+      innerHTML: this.attributes.render(data),
+      pointerEvents: 'auto' as const,
+    };
+
+    container
+      .maybeAppendByClassName(
+        CLASS_NAMES.html,
+        () =>
+          new HtmlLegend({
+            className: CLASS_NAMES.html.name,
+            style,
+          })
+      )
+      .update(style);
   }
 
   private renderItems(container: Selection, bbox: DOMRect) {
@@ -84,7 +110,7 @@ export class Category extends Component<CategoryStyleProps> {
   }
 
   render(attributes: Required<CategoryStyleProps>, container: Group) {
-    const { width, height, x = 0, y = 0, classNamePrefix } = this.attributes;
+    const { width, height, x = 0, y = 0, classNamePrefix, render } = this.attributes;
     const ctn = select(container);
 
     // Set root container className
@@ -97,10 +123,14 @@ export class Category extends Component<CategoryStyleProps> {
 
     container.style.transform = `translate(${x}, ${y})`;
 
-    this.renderTitle(ctn, width!, height!);
+    if (render as CategoryStyleProps['render']) {
+      this.renderCustom(ctn);
+    } else {
+      this.renderTitle(ctn, width!, height!);
 
-    this.renderItems(ctn, this.availableSpace);
+      this.renderItems(ctn, this.availableSpace);
 
-    this.adjustLayout();
+      this.adjustLayout();
+    }
   }
 }
