@@ -62,6 +62,7 @@ export const NAME_VALUE_RATIO = 0.5;
 export const CLASS_NAMES = classNames(
   {
     title: 'title',
+    html: 'html',
     titleGroup: 'title-group',
     items: 'items',
     itemsGroup: 'items-group',

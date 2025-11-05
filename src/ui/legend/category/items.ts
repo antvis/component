@@ -60,6 +60,7 @@ export type CategoryItemsStyleProps = GroupStyleProps &
     focus?: boolean;
     focusMarkerSize?: number;
     classNamePrefix?: string;
+    render?: (data: CategoryItemsDatum[]) => string | HTMLElement;
   };
 
 export type CategoryItemsOptions = ComponentOptions<CategoryItemsStyleProps>;
