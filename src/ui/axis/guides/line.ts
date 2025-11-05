@@ -15,6 +15,8 @@ import {
 import { CLASS_NAMES } from '../constant';
 import type { RequiredArcAxisStyleProps, RequiredAxisStyleProps, RequiredLinearAxisStyleProps } from '../types';
 import { getLineAngle, getLineTangentVector } from './utils';
+import { applyClassName, getAxisClassName } from '../utils/classname';
+import { CLASSNAME_SUFFIX_MAP } from '../classname-map';
 
 type LineDatum = {
   line: [Vector2, Vector2];
@@ -97,18 +99,21 @@ function renderArc(
   style: RequiredArcAxisStyleProps,
   animate: StandardAnimationOption
 ) {
-  const { startAngle, endAngle, center, radius } = attr;
+  const { startAngle, endAngle, center, radius, classNamePrefix } = attr;
 
   return container
     .selectAll(CLASS_NAMES.line.class)
     .data([{ d: getArcPath(startAngle, endAngle, ...center, radius) }], (d, i) => i)
     .join(
-      (enter) =>
-        enter
+      (enter) => {
+        const line = enter
           .append('path')
           .attr('className', CLASS_NAMES.line.name)
           .styles(attr)
-          .styles({ d: (d: any) => d.d }),
+          .styles({ d: (d: any) => d.d });
+        applyClassName(line, CLASS_NAMES.line, CLASSNAME_SUFFIX_MAP.line, classNamePrefix);
+        return line;
+      },
       (update) =>
         update
           .transition(function () {
@@ -158,7 +163,7 @@ function renderLinear(
   style: RequiredLinearAxisStyleProps,
   animate: StandardAnimationOption
 ) {
-  const { showTrunc, startPos, endPos, truncRange, lineExtension } = attr;
+  const { showTrunc, startPos, endPos, truncRange, lineExtension, classNamePrefix } = attr;
   const [[x1, y1], [x2, y2]] = [startPos, endPos];
   const [ox1, oy1, ox2, oy2] = lineExtension ? extendLine(startPos, endPos, lineExtension) : new Array(4).fill(0);
   const renderLine = (data: LineDatum[]) => {
@@ -166,14 +171,43 @@ function renderLinear(
       .selectAll(CLASS_NAMES.line.class)
       .data(data, (d, i) => i)
       .join(
-        (enter) =>
-          enter
+        (enter) => {
+          const lines = enter
             .append('line')
-            .attr('className', (d: LineDatum) => `${CLASS_NAMES.line.name} ${d.className}`)
             .styles(style)
             .transition(function (d: LineDatum) {
               return transition(this, getLinePath(d.line), false);
-            }),
+            });
+          // Set className with appropriate logic for line elements
+          lines.attr('className', (d: LineDatum) => {
+            if (!classNamePrefix) {
+              return `${CLASS_NAMES.line.name} ${d.className}`;
+            }
+            const baseLineClassName = getAxisClassName(
+              CLASS_NAMES.line.name,
+              CLASSNAME_SUFFIX_MAP.line,
+              classNamePrefix
+            );
+            if (d.className === CLASS_NAMES.lineFirst.name) {
+              const specificClassName = getAxisClassName(
+                CLASS_NAMES.lineFirst.name,
+                CLASSNAME_SUFFIX_MAP.lineFirst,
+                classNamePrefix
+              );
+              return `${baseLineClassName} ${specificClassName}`;
+            }
+            if (d.className === CLASS_NAMES.lineSecond.name) {
+              const specificClassName = getAxisClassName(
+                CLASS_NAMES.lineSecond.name,
+                CLASSNAME_SUFFIX_MAP.lineSecond,
+                classNamePrefix
+              );
+              return `${baseLineClassName} ${specificClassName}`;
+            }
+            return baseLineClassName;
+          });
+          return lines;
+        },
         (update) =>
           update.styles(style).transition(function ({ line }: LineDatum) {
             return transition(this, getLinePath(line), animate.update);
@@ -228,9 +262,13 @@ function renderAxisArrow(
   const { showArrow, showTrunc, lineArrow, lineArrowOffset, lineArrowSize } = attr;
 
   let shapeToAddArrow: Selection;
-  if (type === 'arc') shapeToAddArrow = container.select(CLASS_NAMES.line.class);
-  else if (showTrunc) shapeToAddArrow = container.select(CLASS_NAMES.lineSecond.class);
-  else shapeToAddArrow = container.select(CLASS_NAMES.line.class);
+  if (type === 'arc') {
+    shapeToAddArrow = container.select(CLASS_NAMES.line.class);
+  } else if (showTrunc) {
+    shapeToAddArrow = container.select(CLASS_NAMES.lineSecond.class);
+  } else {
+    shapeToAddArrow = container.select(CLASS_NAMES.line.class);
+  }
   if (!showArrow || !lineArrow || (attr.type === 'arc' && isCircle(attr.startAngle, attr.endAngle))) {
     const node = shapeToAddArrow.node<Line>();
     if (node) node.style.markerEnd = undefined;

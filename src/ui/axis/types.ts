@@ -183,6 +183,7 @@ export type AxisBaseStyleProps = PrefixStyleProps<Partial<AxisTitleStyleProps>, 
     showTick?: boolean;
     showTitle?: boolean;
     showTrunc?: boolean;
+    classNamePrefix?: string;
   };
 
 export type LinearAxisStyleProps = AxisBaseStyleProps & { type: 'linear'; startPos: Vector2; endPos: Vector2 };
