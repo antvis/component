@@ -62,6 +62,11 @@ export class Slider extends Component<SliderStyleProps> {
   private prevPos: number;
 
   /**
+   * 记录当次 drag 事件发生时，最开始的 dom target
+   */
+  private draggingDomTarget: EventTarget | null = null;
+
+  /**
    * drag事件当前选中的对象
    */
   private target: string;
@@ -565,9 +570,12 @@ export class Slider extends Component<SliderStyleProps> {
     document.addEventListener('pointerup', this.onDragEnd);
   };
 
-  private onDragging = (e: any) => {
+  private onDragging = (e: PointerEvent) => {
     const { slidable, brushable, type } = this.attributes;
     e.stopPropagation();
+
+    if (this.draggingDomTarget && this.draggingDomTarget !== e.target) return;
+    this.draggingDomTarget = e.target;
 
     const currPos = this.getOrientVal(getEventPos(e));
     const diffPos = currPos - this.prevPos;
@@ -609,6 +617,7 @@ export class Slider extends Component<SliderStyleProps> {
     document.removeEventListener('pointermove', this.onDragging);
     document.removeEventListener('pointerup', this.onDragEnd);
     this.target = '';
+    this.draggingDomTarget = null;
     // 更新 handle 状态
     this.updateHandlesPosition(false);
   };
