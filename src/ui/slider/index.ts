@@ -6,7 +6,15 @@ import { transition } from '../../animation';
 import { Component } from '../../core';
 import { Group, Rect, Text } from '../../shapes';
 import type { Selection } from '../../util';
-import { getEventPos, ifShow, parseSeriesAttr, select, subStyleProps, superStyleProps, toPrecision } from '../../util';
+import {
+  getEventViewportPos,
+  ifShow,
+  parseSeriesAttr,
+  select,
+  subStyleProps,
+  superStyleProps,
+  toPrecision,
+} from '../../util';
 import type { SparklineStyleProps } from '../sparkline';
 import { Sparkline } from '../sparkline';
 import { CLASS_NAMES, HANDLE_DEFAULT_CFG, HANDLE_ICON_DEFAULT_CFG, HANDLE_LABEL_DEFAULT_CFG } from './constant';
@@ -556,7 +564,7 @@ export class Slider extends Component<SliderStyleProps> {
   private onDragStart = (target: string) => (e: any) => {
     e.stopPropagation();
     this.target = target;
-    this.prevPos = this.getOrientVal(getEventPos(e));
+    this.prevPos = this.getOrientVal(getEventViewportPos(e));
     const { x, y } = this.availableSpace;
     const { x: X, y: Y } = this.getBBox();
     this.selectionStartPos = this.getRatio(this.prevPos - this.getOrientVal([x, y]) - this.getOrientVal([+X!, +Y!]));
@@ -565,11 +573,11 @@ export class Slider extends Component<SliderStyleProps> {
     document.addEventListener('pointerup', this.onDragEnd);
   };
 
-  private onDragging = (e: any) => {
+  private onDragging = (e: PointerEvent) => {
     const { slidable, brushable, type } = this.attributes;
     e.stopPropagation();
 
-    const currPos = this.getOrientVal(getEventPos(e));
+    const currPos = this.getOrientVal(getEventViewportPos(e));
     const diffPos = currPos - this.prevPos;
 
     if (!diffPos) return;
