@@ -614,7 +614,6 @@ export class Slider extends Component<SliderStyleProps> {
 
   private onDragEnd = () => {
     document.removeEventListener('pointermove', this.onDragging);
-    document.removeEventListener('pointermove', this.onDragging);
     document.removeEventListener('pointerup', this.onDragEnd);
     this.target = '';
     // 更新 handle 状态
