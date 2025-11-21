@@ -56,7 +56,7 @@
             <g fill="none" class="axis-label-group">
               <g fill="none" class="axis-label" transform="matrix(1 0 0 1 50 65)">
                 <g>
-                  <foreignObject width="112.5" height="30" class="axis-label-item" style="text-align: center; direction: positive;">
+                  <foreignObject width="112.5" height="30" x="-56.25" class="axis-label-item" style="pointer-events: auto; text-align: center; direction: positive;">
                     <div xmlns="http://www.w3.org/1999/xhtml">
                       <div class="custom-label" style="box-sizing: border-box; height: 30px; text-align: left; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
                         Tick text is very long 0
@@ -67,7 +67,7 @@
               </g>
               <g fill="none" class="axis-label" transform="matrix(1 0 0 1 162.5 65)">
                 <g>
-                  <foreignObject width="112.5" height="30" class="axis-label-item" style="text-align: center; direction: positive;">
+                  <foreignObject width="112.5" height="30" x="-56.25" class="axis-label-item" style="pointer-events: auto; text-align: center; direction: positive;">
                     <div xmlns="http://www.w3.org/1999/xhtml">
                       <div class="custom-label" style="box-sizing: border-box; height: 30px; text-align: left; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
                         Tick text is very long 1
@@ -78,7 +78,7 @@
               </g>
               <g fill="none" class="axis-label" transform="matrix(1 0 0 1 275 65)">
                 <g>
-                  <foreignObject width="112.5" height="30" class="axis-label-item" style="text-align: center; direction: positive;">
+                  <foreignObject width="112.5" height="30" x="-56.25" class="axis-label-item" style="pointer-events: auto; text-align: center; direction: positive;">
                     <div xmlns="http://www.w3.org/1999/xhtml">
                       <div class="custom-label" style="box-sizing: border-box; height: 30px; text-align: left; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
                         Tick text is very long 2
@@ -89,7 +89,7 @@
               </g>
               <g fill="none" class="axis-label" transform="matrix(1 0 0 1 387.5 65)">
                 <g>
-                  <foreignObject width="112.5" height="30" class="axis-label-item" style="text-align: center; direction: positive;">
+                  <foreignObject width="112.5" height="30" x="-56.25" class="axis-label-item" style="pointer-events: auto; text-align: center; direction: positive;">
                     <div xmlns="http://www.w3.org/1999/xhtml">
                       <div class="custom-label" style="box-sizing: border-box; height: 30px; text-align: left; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
                         Tick text is very long 3

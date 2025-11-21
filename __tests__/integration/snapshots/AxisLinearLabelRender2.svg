@@ -56,7 +56,7 @@
             <g fill="none" class="axis-label-group">
               <g fill="none" class="axis-label" transform="matrix(1 0 0 1 50 55)">
                 <g>
-                  <foreignObject width="112.5" height="32" class="axis-label-item" style="text-align: center; direction: positive;">
+                  <foreignObject width="112.5" height="32" x="-56.25" class="axis-label-item" style="pointer-events: auto; text-align: center; direction: positive;">
                     <div xmlns="http://www.w3.org/1999/xhtml">
                       <div class="custom-label" style="font-size:12px; line-height: 1.5; border: 1px solid #ccc; padding: 6px; cursor: pointer;">
                         Tick 0
@@ -67,7 +67,7 @@
               </g>
               <g fill="none" class="axis-label" transform="matrix(1 0 0 1 162.5 55)">
                 <g>
-                  <foreignObject width="112.5" height="32" class="axis-label-item" style="text-align: center; direction: positive;">
+                  <foreignObject width="112.5" height="32" x="-56.25" class="axis-label-item" style="pointer-events: auto; text-align: center; direction: positive;">
                     <div xmlns="http://www.w3.org/1999/xhtml">
                       <div class="custom-label" style="font-size:12px; line-height: 1.5; border: 1px solid #ccc; padding: 6px; cursor: pointer;">
                         Tick 1
@@ -78,7 +78,7 @@
               </g>
               <g fill="none" class="axis-label" transform="matrix(1 0 0 1 275 55)">
                 <g>
-                  <foreignObject width="112.5" height="32" class="axis-label-item" style="text-align: center; direction: positive;">
+                  <foreignObject width="112.5" height="32" x="-56.25" class="axis-label-item" style="pointer-events: auto; text-align: center; direction: positive;">
                     <div xmlns="http://www.w3.org/1999/xhtml">
                       <div class="custom-label" style="font-size:12px; line-height: 1.5; border: 1px solid #ccc; padding: 6px; cursor: pointer;">
                         Tick 2
@@ -89,7 +89,7 @@
               </g>
               <g fill="none" class="axis-label" transform="matrix(1 0 0 1 387.5 55)">
                 <g>
-                  <foreignObject width="112.5" height="32" class="axis-label-item" style="text-align: center; direction: positive;">
+                  <foreignObject width="112.5" height="32" x="-56.25" class="axis-label-item" style="pointer-events: auto; text-align: center; direction: positive;">
                     <div xmlns="http://www.w3.org/1999/xhtml">
                       <div class="custom-label" style="font-size:12px; line-height: 1.5; border: 1px solid #ccc; padding: 6px; cursor: pointer;">
                         Tick 3
