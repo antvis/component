@@ -23,6 +23,7 @@ import {
   wrapIt,
   renderHtmlExtDo,
   parseHeightFromHTML,
+  omit,
 } from '../../../util';
 import { CLASS_NAMES } from '../constant';
 import { processOverlap } from '../overlap';
@@ -183,8 +184,14 @@ function renderHTMLLabel(datum: AxisDatum, index: number, data: AxisDatum[], att
     });
 }
 
+const STYLE_OMIT_MAP = {
+  html: ['fill'],
+  text: [],
+};
+
 function applyTextStyle(node: DisplayObject, style: Partial<TextStyleProps>) {
-  if (['text', 'html'].includes(node.nodeName)) node.attr(style);
+  if (['text', 'html'].includes(node.nodeName))
+    node.attr(omit(style, STYLE_OMIT_MAP[node.nodeName as keyof typeof STYLE_OMIT_MAP]));
 }
 
 function overlapHandler(attr: Required<AxisStyleProps>, main: DisplayObject) {
@@ -233,6 +240,14 @@ function renderLabel(
     ...getLabelStyle(datum.value, rotate, attr),
     ...labelStyle,
   });
+
+  // For HTML labels, adjust x position to center align.
+  if (label.nodeName === 'html') {
+    const bbox = label.getBBox();
+    const currentX = label.style.x || 0;
+    label.attr('x', currentX - bbox.width / 2);
+  }
+
   container.attr(groupStyle);
   return label;
 }
