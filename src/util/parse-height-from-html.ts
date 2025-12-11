@@ -3,7 +3,6 @@ export const parseHeightFromHTML = (html: string): number => {
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, 'text/html');
   const el = doc.body.firstElementChild;
-  console.log(el?.getClientRects(), 11);
 
   if (!el) return 0;
 
