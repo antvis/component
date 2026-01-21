@@ -97,8 +97,8 @@ export class Category extends Component<CategoryStyleProps> {
   }
 
   private get availableSpace(): DOMRect {
-    const { showTitle, width, height } = this.attributes;
-    if (!showTitle) return new BBox(0, 0, width!, height!);
+    const { showTitle, width, height, dx = 0, dy = 0 } = this.attributes;
+    if (!showTitle) return new BBox(dx, dy, width!, height!);
     return (this.title.node() as Title).getAvailableSpace();
   }
 
