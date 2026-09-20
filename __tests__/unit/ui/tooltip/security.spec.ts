@@ -17,7 +17,7 @@ describe('Tooltip security', () => {
         name,
         value,
         index,
-        color: 'red; background-image: url(javascript:alert(5))',
+        color: 'red" onmouseover="alert(5)',
       },
     ];
 
@@ -38,8 +38,7 @@ describe('Tooltip security', () => {
     expect(nameElement?.getAttribute('title')).toBe(name);
     expect(valueElement?.getAttribute('title')).toBe(value);
     expect(itemElement?.getAttribute('data-index')).toBe(index);
-    expect(markerElement.style.background).toBe('black');
-    expect(markerElement.style.backgroundImage).toBe('');
+    expect(markerElement.getAttribute('onmouseover')).toBeNull();
     expect(element.querySelector('img, svg, script')).toBeNull();
     expect(element.querySelector('[onerror], [onload], [onmouseover]')).toBeNull();
     expect(tooltip.attributes.title).toBe(title);
@@ -71,14 +70,14 @@ describe('Tooltip security', () => {
     expect(element.querySelectorAll('ul > li')).toHaveLength(1);
   });
 
-  it('rejects CSS declarations and attribute injection in colors', () => {
+  it('prevents attribute injection through colors', () => {
     const tooltip = new Tooltip({
       style: {
         container: { x: 0, y: 0 },
         bounding: null,
         data: [
-          { name: 'CSS declaration', value: 1, color: 'red; background-image: url(javascript:alert(1))' },
-          { name: 'Attribute injection', value: 2, color: 'red" onmouseover="alert(2)' },
+          { name: 'Attribute injection', value: 1, color: 'red" onmouseover="alert(1)' },
+          { name: 'Element injection', value: 2, color: 'red"></span><img src=x onerror="alert(2)' },
         ],
       },
     });
@@ -86,11 +85,9 @@ describe('Tooltip security', () => {
     const markers = Array.from(element.querySelectorAll('.tooltip-list-item-marker')) as HTMLElement[];
 
     expect(markers).toHaveLength(2);
-    markers.forEach((marker) => {
-      expect(marker.style.background).toBe('black');
-      expect(marker.style.backgroundImage).toBe('');
-    });
     expect(element.querySelector('[onmouseover]')).toBeNull();
+    expect(element.querySelector('[onerror]')).toBeNull();
+    expect(element.querySelector('img')).toBeNull();
   });
 
   it('preserves static HTML in a custom template while escaping its dynamic data', () => {

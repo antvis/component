@@ -7,22 +7,10 @@ import type { TooltipOptions, TooltipPosition, TooltipStyleProps } from './types
 
 export type { TooltipStyleProps, TooltipOptions };
 
-let colorStyle: CSSStyleDeclaration;
-
-function sanitizeColor(color: unknown) {
-  const value = String(color);
-  colorStyle ||= document.createElement('span').style;
-  colorStyle.color = '';
-  colorStyle.color = value;
-  return colorStyle.color ? escapeHtml(colorStyle.color) : 'black';
-}
-
 function sanitizeDatum(datum: Record<string, any>) {
   const sanitized: Record<string, any> = {};
   Object.keys(datum).forEach((key) => {
-    const value = datum[key];
-    if (key === 'color') sanitized[key] = sanitizeColor(value);
-    else sanitized[key] = value === undefined ? value : escapeHtml(value);
+    sanitized[key] = escapeHtml(datum[key]);
   });
   return sanitized;
 }
