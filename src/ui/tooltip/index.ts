@@ -166,7 +166,7 @@ export class Tooltip extends Component<TooltipStyleProps> {
     else {
       if (title) {
         container.innerHTML = template.title!;
-        container.getElementsByClassName(CLASS_NAME.TITLE)[0].textContent = String(title);
+        container.getElementsByClassName(CLASS_NAME.TITLE)[0].innerHTML = escapeHtml(title);
       } else container.getElementsByClassName(CLASS_NAME.TITLE)?.[0]?.remove();
       const itemsElements = this.HTMLTooltipItemsElements;
       const ul = document.createElement('ul');
