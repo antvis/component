@@ -146,7 +146,7 @@ export class Navigator extends Component<NavigatorStyleProps> {
     );
 
     onAnimateFinished(animation, () => {
-      animation.cancel();
+      animation?.cancel();
       this.innerCurrPage = pageNum;
       this.playState = 'idle';
       this.setVisiblePages([pageNum]);
