@@ -1,6 +1,16 @@
-import { toUppercaseFirstLetter, toLowercaseFirstLetter, addPrefix, removePrefix } from '../../../src/util/string';
+import {
+  escapeHtml,
+  toUppercaseFirstLetter,
+  toLowercaseFirstLetter,
+  addPrefix,
+  removePrefix,
+} from '../../../src/util/string';
 
 describe('string', () => {
+  it('escapeHtml', () => {
+    expect(escapeHtml(`<img title="'&">`)).toBe('&lt;img title=&quot;&#39;&amp;&quot;&gt;');
+  });
+
   it('toUppercaseFirstLetter', () => {
     expect(toUppercaseFirstLetter('hello')).toBe('Hello');
     expect(toUppercaseFirstLetter('')).toBe('');
