@@ -126,7 +126,7 @@
           <g fill="none" class="axis-title-group"/>
         </g>
         <g fill="none">
-          <g transform="matrix(1 0 0 1 90 0)">
+          <g>
             <path width="10" height="10" fill="rgba(255,0,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
         </g>

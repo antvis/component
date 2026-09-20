@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" color-interpolation-filters="sRGB" style="background: transparent;">
   <defs>
-    <clipPath id="b" transform="matrix(1 0 0 1 -300.8 -404)">
-      <use href="#a" transform="matrix(1 0 0 1 300.8 404)"/>
+    <clipPath id="b" transform="matrix(1 0 0 1 -300.8 -408)">
+      <use href="#a" transform="matrix(1 0 0 1 300.8 408)"/>
     </clipPath>
   </defs>
   <g>
@@ -11,7 +11,7 @@
           <path width="500" height="500" fill="none" stroke="rgba(255,0,0,1)" d="m0 0 500 0 0 500-500 0z"/>
         </g>
         <g fill="none">
-          <g fill="none" transform="matrix(1 0 0 1 300.8 354)">
+          <g fill="none" transform="matrix(1 0 0 1 300.8 358)">
             <g fill="none" class="legend-title-group">
               <g fill="none" class="legend-title">
                 <g>

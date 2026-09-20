@@ -127,10 +127,10 @@
         </g>
         <g fill="none">
           <g fill="none">
-            <g transform="matrix(1 0 0 1 15 20)">
+            <g>
               <path width="10" height="10" fill="rgba(255,0,0,1)" d="m0 0 10 0 0 10-10 0z"/>
             </g>
-            <g transform="matrix(1 0 0 1 25 20)">
+            <g>
               <path width="10" height="10" fill="rgba(0,128,0,1)" d="m0 0 10 0 0 10-10 0z"/>
             </g>
           </g>
