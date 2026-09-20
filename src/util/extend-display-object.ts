@@ -11,5 +11,13 @@ export function renderExtDo(el: ExtendDisplayObject): DisplayObject {
 
 export function renderHtmlExtDo(el: ExtendDisplayObject, style: Partial<HTMLStyleProps>): DisplayObject {
   if (typeof el === 'function') return el();
-  return isString(el) || isNumber(el) ? new HTML({ style: { ...style, innerHTML: String(el) } }) : el;
+  return isString(el) || isNumber(el)
+    ? new HTML({
+        style: {
+          pointerEvents: 'auto',
+          ...style,
+          innerHTML: el as string | HTMLElement,
+        },
+      })
+    : el;
 }

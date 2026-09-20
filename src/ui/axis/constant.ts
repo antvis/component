@@ -3,6 +3,8 @@ import { Path } from '../../shapes';
 import { classNames } from '../../util';
 import type { AxisBaseStyleProps } from './types';
 
+import { CLASSNAME_SUFFIX_MAP } from './classname-map';
+
 export const AXIS_BASE_DEFAULT_ATTR: Partial<AxisBaseStyleProps> = {
   data: [],
   animate: {
@@ -76,21 +78,21 @@ export const HELIX_DEFAULT_OPTIONS = deepMix({}, AXIS_BASE_DEFAULT_ATTR, {
 
 export const CLASS_NAMES = classNames(
   {
-    mainGroup: 'main-group',
-    gridGroup: 'grid-group',
-    grid: 'grid',
-    lineGroup: 'line-group',
-    line: 'line',
-    tickGroup: 'tick-group',
-    tick: 'tick',
-    tickItem: 'tick-item',
-    labelGroup: 'label-group',
-    label: 'label',
-    labelItem: 'label-item',
-    titleGroup: 'title-group',
-    title: 'title',
-    lineFirst: 'line-first',
-    lineSecond: 'line-second',
+    mainGroup: CLASSNAME_SUFFIX_MAP.mainGroup,
+    gridGroup: CLASSNAME_SUFFIX_MAP.gridGroup,
+    grid: CLASSNAME_SUFFIX_MAP.grid,
+    lineGroup: CLASSNAME_SUFFIX_MAP.lineGroup,
+    line: CLASSNAME_SUFFIX_MAP.line,
+    tickGroup: CLASSNAME_SUFFIX_MAP.tickGroup,
+    tick: CLASSNAME_SUFFIX_MAP.tick,
+    tickItem: CLASSNAME_SUFFIX_MAP.tickItem,
+    labelGroup: CLASSNAME_SUFFIX_MAP.labelGroup,
+    label: CLASSNAME_SUFFIX_MAP.label,
+    labelItem: CLASSNAME_SUFFIX_MAP.labelItem,
+    titleGroup: CLASSNAME_SUFFIX_MAP.titleGroup,
+    title: CLASSNAME_SUFFIX_MAP.title,
+    lineFirst: CLASSNAME_SUFFIX_MAP.lineFirst,
+    lineSecond: CLASSNAME_SUFFIX_MAP.lineSecond,
   },
   'axis'
 );

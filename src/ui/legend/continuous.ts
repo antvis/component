@@ -77,6 +77,15 @@ export class Continuous extends Component<ContinuousStyleProps> {
   }
 
   public render(attributes: Required<ContinuousStyleProps>, container: Group) {
+    // Set root container className
+    const { classNamePrefix } = attributes;
+    const baseClassName = container.className || 'legend-continuous';
+    if (classNamePrefix) {
+      container.attr('className', `${baseClassName} ${classNamePrefix}legend`);
+    } else if (!container.className) {
+      container.attr('className', 'legend-continuous');
+    }
+
     // 渲染顺序
     // 1. 绘制 title, 获得可用空间
     // 2. 绘制 label, handle
