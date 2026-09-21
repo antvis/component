@@ -129,16 +129,16 @@
           <g>
             <path width="10" height="10" fill="rgba(255,0,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 10 0)">
             <path width="10" height="10" fill="rgba(0,128,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 20 0)">
             <path width="10" height="10" fill="rgba(0,0,255,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 30 0)">
             <path width="10" height="10" fill="rgba(255,255,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 40 0)">
             <path width="10" height="10" fill="rgba(255,192,203,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
         </g>

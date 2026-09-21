@@ -129,31 +129,31 @@
           <g>
             <path width="10" height="10" fill="rgba(255,0,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 0 10)">
             <path width="10" height="10" fill="rgba(0,128,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 0 20)">
             <path width="10" height="10" fill="rgba(0,0,255,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 0 30)">
             <path width="10" height="10" fill="rgba(255,255,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 0 40)">
             <path width="10" height="10" fill="rgba(255,192,203,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 0 50)">
             <path width="10" height="10" fill="rgba(255,165,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 0 60)">
             <path width="10" height="10" fill="rgba(128,0,128,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 0 70)">
             <path width="10" height="10" fill="rgba(0,255,255,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 0 80)">
             <path width="10" height="10" fill="rgba(255,0,255,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 0 90)">
             <path width="10" height="10" fill="rgba(165,42,42,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
         </g>

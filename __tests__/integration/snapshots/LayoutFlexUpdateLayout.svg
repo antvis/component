@@ -532,10 +532,10 @@
           <g>
             <path width="10" height="10" fill="rgba(255,0,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 0 10)">
             <path width="10" height="10" fill="rgba(0,128,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 0 20)">
             <path width="10" height="10" fill="rgba(0,0,255,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
         </g>
@@ -545,14 +545,14 @@
         <g>
           <path width="100" height="100" x="100" y="0" fill="none" stroke="rgba(255,165,0,1)" d="m100 0 100 0 0 100-100 0z"/>
         </g>
-        <g fill="none">
-          <g>
+        <g fill="none" transform="matrix(1 0 0 1 100 0)">
+          <g transform="matrix(1 0 0 1 45 0)">
             <path width="10" height="10" fill="rgba(255,0,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 45 10)">
             <path width="10" height="10" fill="rgba(0,128,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 45 20)">
             <path width="10" height="10" fill="rgba(0,0,255,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
         </g>
@@ -562,14 +562,14 @@
         <g>
           <path width="100" height="100" x="200" y="0" fill="none" stroke="rgba(255,165,0,1)" d="m200 0 100 0 0 100-100 0z"/>
         </g>
-        <g fill="none">
-          <g>
+        <g fill="none" transform="matrix(1 0 0 1 200 0)">
+          <g transform="matrix(1 0 0 1 90 0)">
             <path width="10" height="10" fill="rgba(255,0,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 90 10)">
             <path width="10" height="10" fill="rgba(0,128,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 90 20)">
             <path width="10" height="10" fill="rgba(0,0,255,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
         </g>
@@ -579,14 +579,14 @@
         <g>
           <path width="100" height="100" x="300" y="0" fill="none" stroke="rgba(255,165,0,1)" d="m300 0 100 0 0 100-100 0z"/>
         </g>
-        <g fill="none">
-          <g>
+        <g fill="none" transform="matrix(1 0 0 1 300 0)">
+          <g transform="matrix(1 0 0 1 0 35)">
             <path width="10" height="10" fill="rgba(255,0,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 0 45)">
             <path width="10" height="10" fill="rgba(0,128,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 0 55)">
             <path width="10" height="10" fill="rgba(0,0,255,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
         </g>
@@ -596,14 +596,14 @@
         <g>
           <path width="100" height="100" x="400" y="0" fill="none" stroke="rgba(255,165,0,1)" d="m400 0 100 0 0 100-100 0z"/>
         </g>
-        <g fill="none">
-          <g>
+        <g fill="none" transform="matrix(1 0 0 1 400 0)">
+          <g transform="matrix(1 0 0 1 45 35)">
             <path width="10" height="10" fill="rgba(255,0,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 45 45)">
             <path width="10" height="10" fill="rgba(0,128,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 45 55)">
             <path width="10" height="10" fill="rgba(0,0,255,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
         </g>
@@ -613,14 +613,14 @@
         <g>
           <path width="100" height="100" x="500" y="0" fill="none" stroke="rgba(255,165,0,1)" d="m500 0 100 0 0 100-100 0z"/>
         </g>
-        <g fill="none">
-          <g>
+        <g fill="none" transform="matrix(1 0 0 1 500 0)">
+          <g transform="matrix(1 0 0 1 90 35)">
             <path width="10" height="10" fill="rgba(255,0,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 90 45)">
             <path width="10" height="10" fill="rgba(0,128,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 90 55)">
             <path width="10" height="10" fill="rgba(0,0,255,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
         </g>
@@ -630,14 +630,14 @@
         <g>
           <path width="100" height="100" x="0" y="100" fill="none" stroke="rgba(255,165,0,1)" d="m0 100 100 0 0 100-100 0z"/>
         </g>
-        <g fill="none">
-          <g>
+        <g fill="none" transform="matrix(1 0 0 1 0 100)">
+          <g transform="matrix(1 0 0 1 0 70)">
             <path width="10" height="10" fill="rgba(255,0,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 0 80)">
             <path width="10" height="10" fill="rgba(0,128,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 0 90)">
             <path width="10" height="10" fill="rgba(0,0,255,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
         </g>
@@ -647,14 +647,14 @@
         <g>
           <path width="100" height="100" x="100" y="100" fill="none" stroke="rgba(255,165,0,1)" d="m100 100 100 0 0 100-100 0z"/>
         </g>
-        <g fill="none">
-          <g>
+        <g fill="none" transform="matrix(1 0 0 1 100 100)">
+          <g transform="matrix(1 0 0 1 45 70)">
             <path width="10" height="10" fill="rgba(255,0,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 45 80)">
             <path width="10" height="10" fill="rgba(0,128,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 45 90)">
             <path width="10" height="10" fill="rgba(0,0,255,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
         </g>
@@ -664,14 +664,14 @@
         <g>
           <path width="100" height="100" x="200" y="100" fill="none" stroke="rgba(255,165,0,1)" d="m200 100 100 0 0 100-100 0z"/>
         </g>
-        <g fill="none">
-          <g>
+        <g fill="none" transform="matrix(1 0 0 1 200 100)">
+          <g transform="matrix(1 0 0 1 90 70)">
             <path width="10" height="10" fill="rgba(255,0,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 90 80)">
             <path width="10" height="10" fill="rgba(0,128,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 90 90)">
             <path width="10" height="10" fill="rgba(0,0,255,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
         </g>
@@ -681,14 +681,14 @@
         <g>
           <path width="100" height="100" x="300" y="100" fill="none" stroke="rgba(255,165,0,1)" d="m300 100 100 0 0 100-100 0z"/>
         </g>
-        <g fill="none">
+        <g fill="none" transform="matrix(1 0 0 1 300 100)">
           <g>
             <path width="10" height="10" fill="rgba(255,0,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 10 0)">
             <path width="10" height="10" fill="rgba(0,128,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 20 0)">
             <path width="10" height="10" fill="rgba(0,0,255,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
         </g>
@@ -698,14 +698,14 @@
         <g>
           <path width="100" height="100" x="400" y="100" fill="none" stroke="rgba(255,165,0,1)" d="m400 100 100 0 0 100-100 0z"/>
         </g>
-        <g fill="none">
-          <g>
+        <g fill="none" transform="matrix(1 0 0 1 400 100)">
+          <g transform="matrix(1 0 0 1 0 45)">
             <path width="10" height="10" fill="rgba(255,0,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 10 45)">
             <path width="10" height="10" fill="rgba(0,128,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 20 45)">
             <path width="10" height="10" fill="rgba(0,0,255,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
         </g>
@@ -715,14 +715,14 @@
         <g>
           <path width="100" height="100" x="500" y="100" fill="none" stroke="rgba(255,165,0,1)" d="m500 100 100 0 0 100-100 0z"/>
         </g>
-        <g fill="none">
-          <g>
+        <g fill="none" transform="matrix(1 0 0 1 500 100)">
+          <g transform="matrix(1 0 0 1 0 90)">
             <path width="10" height="10" fill="rgba(255,0,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 10 90)">
             <path width="10" height="10" fill="rgba(0,128,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 20 90)">
             <path width="10" height="10" fill="rgba(0,0,255,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
         </g>
@@ -732,14 +732,14 @@
         <g>
           <path width="100" height="100" x="0" y="200" fill="none" stroke="rgba(255,165,0,1)" d="m0 200 100 0 0 100-100 0z"/>
         </g>
-        <g fill="none">
-          <g>
+        <g fill="none" transform="matrix(1 0 0 1 0 200)">
+          <g transform="matrix(1 0 0 1 35 0)">
             <path width="10" height="10" fill="rgba(255,0,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 45 0)">
             <path width="10" height="10" fill="rgba(0,128,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 55 0)">
             <path width="10" height="10" fill="rgba(0,0,255,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
         </g>
@@ -749,14 +749,14 @@
         <g>
           <path width="100" height="100" x="100" y="200" fill="none" stroke="rgba(255,165,0,1)" d="m100 200 100 0 0 100-100 0z"/>
         </g>
-        <g fill="none">
-          <g>
+        <g fill="none" transform="matrix(1 0 0 1 100 200)">
+          <g transform="matrix(1 0 0 1 35 45)">
             <path width="10" height="10" fill="rgba(255,0,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 45 45)">
             <path width="10" height="10" fill="rgba(0,128,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 55 45)">
             <path width="10" height="10" fill="rgba(0,0,255,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
         </g>
@@ -766,14 +766,14 @@
         <g>
           <path width="100" height="100" x="200" y="200" fill="none" stroke="rgba(255,165,0,1)" d="m200 200 100 0 0 100-100 0z"/>
         </g>
-        <g fill="none">
-          <g>
+        <g fill="none" transform="matrix(1 0 0 1 200 200)">
+          <g transform="matrix(1 0 0 1 35 90)">
             <path width="10" height="10" fill="rgba(255,0,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 45 90)">
             <path width="10" height="10" fill="rgba(0,128,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 55 90)">
             <path width="10" height="10" fill="rgba(0,0,255,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
         </g>
@@ -783,14 +783,14 @@
         <g>
           <path width="100" height="100" x="300" y="200" fill="none" stroke="rgba(255,165,0,1)" d="m300 200 100 0 0 100-100 0z"/>
         </g>
-        <g fill="none">
-          <g>
+        <g fill="none" transform="matrix(1 0 0 1 300 200)">
+          <g transform="matrix(1 0 0 1 70 0)">
             <path width="10" height="10" fill="rgba(255,0,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 80 0)">
             <path width="10" height="10" fill="rgba(0,128,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 90 0)">
             <path width="10" height="10" fill="rgba(0,0,255,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
         </g>
@@ -800,14 +800,14 @@
         <g>
           <path width="100" height="100" x="400" y="200" fill="none" stroke="rgba(255,165,0,1)" d="m400 200 100 0 0 100-100 0z"/>
         </g>
-        <g fill="none">
-          <g>
+        <g fill="none" transform="matrix(1 0 0 1 400 200)">
+          <g transform="matrix(1 0 0 1 70 45)">
             <path width="10" height="10" fill="rgba(255,0,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 80 45)">
             <path width="10" height="10" fill="rgba(0,128,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 90 45)">
             <path width="10" height="10" fill="rgba(0,0,255,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
         </g>
@@ -817,14 +817,14 @@
         <g>
           <path width="100" height="100" x="500" y="200" fill="none" stroke="rgba(255,165,0,1)" d="m500 200 100 0 0 100-100 0z"/>
         </g>
-        <g fill="none">
-          <g>
+        <g fill="none" transform="matrix(1 0 0 1 500 200)">
+          <g transform="matrix(1 0 0 1 70 90)">
             <path width="10" height="10" fill="rgba(255,0,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 80 90)">
             <path width="10" height="10" fill="rgba(0,128,0,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
-          <g>
+          <g transform="matrix(1 0 0 1 90 90)">
             <path width="10" height="10" fill="rgba(0,0,255,1)" d="m0 0 10 0 0 10-10 0z"/>
           </g>
         </g>
