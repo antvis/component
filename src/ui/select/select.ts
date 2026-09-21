@@ -165,7 +165,7 @@ export class Select extends Component<SelectStyleProps> {
                     onClick: (value, option, item) => {
                       this.setValue(value);
                       onSelect?.(value, option, item);
-                      this.dispatchEvent(new CustomEvent('change', { detail: { value, option, item } }));
+                      this.dispatchEvent(new CustomEvent('change', { detail: { value, option, item } }) as any);
                       hide(this.dropdown);
                     },
                   },

@@ -1,11 +1,19 @@
 import { substitute, createDOM } from '@antv/util';
 import { Component } from '../../core';
 import { Group } from '../../shapes';
-import { BBox, applyStyleSheet, replaceChildren } from '../../util';
+import { BBox, applyStyleSheet, escapeHtml, replaceChildren } from '../../util';
 import { getClassNames, getDefaultTooltipStyle } from './constant';
 import type { TooltipOptions, TooltipPosition, TooltipStyleProps } from './types';
 
 export type { TooltipStyleProps, TooltipOptions };
+
+function sanitizeDatum(datum: Record<string, any>) {
+  const sanitized: Record<string, any> = {};
+  Object.keys(datum).forEach((key) => {
+    sanitized[key] = escapeHtml(datum[key]);
+  });
+  return sanitized;
+}
 
 export class Tooltip extends Component<TooltipStyleProps> {
   public static tag = 'tooltip';
@@ -30,7 +38,7 @@ export class Tooltip extends Component<TooltipStyleProps> {
     const { data, template } = this.attributes;
     return data.map(({ name = '', color = 'black', index, ...rest }, idx) => {
       const datum = { name, color, index: index ?? idx, ...rest };
-      return createDOM(substitute(template.item!, datum)) as HTMLElement;
+      return createDOM(substitute(template.item!, sanitizeDatum(datum))) as HTMLElement;
     });
   }
 
@@ -57,7 +65,7 @@ export class Tooltip extends Component<TooltipStyleProps> {
         prefixCls: '',
         container: `<div class="${CLASS_NAME.CONTAINER}"></div>`,
         title: `<div class="${CLASS_NAME.TITLE}"></div>`,
-        item: `<li class="${CLASS_NAME.LIST_ITEM}" data-index={index}>
+        item: `<li class="${CLASS_NAME.LIST_ITEM}" data-index="{index}">
         <span class="${CLASS_NAME.NAME}">
           <span class="${CLASS_NAME.MARKER}" style="background:{color}"></span>
           <span class="${CLASS_NAME.NAME_LABEL}" title="{name}">{name}</span>
@@ -146,7 +154,7 @@ export class Tooltip extends Component<TooltipStyleProps> {
     else {
       if (title) {
         container.innerHTML = template.title!;
-        container.getElementsByClassName(CLASS_NAME.TITLE)[0].innerHTML = title;
+        container.getElementsByClassName(CLASS_NAME.TITLE)[0].innerHTML = escapeHtml(title);
       } else container.getElementsByClassName(CLASS_NAME.TITLE)?.[0]?.remove();
       const itemsElements = this.HTMLTooltipItemsElements;
       const ul = document.createElement('ul');
