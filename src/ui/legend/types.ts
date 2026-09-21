@@ -67,5 +67,9 @@ export type ContinuousStyleProps = LegendBaseStyleProps &
 
 export type ContinuousOptions = ComponentOptions<ContinuousStyleProps>;
 
-export type CategoryStyleProps = LegendBaseStyleProps & CategoryItemsStyleProps;
+export type CategoryStyleProps = LegendBaseStyleProps &
+  CategoryItemsStyleProps & {
+    dx?: number;
+    dy?: number;
+  };
 export type CategoryOptions = ComponentOptions<CategoryStyleProps>;

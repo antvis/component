@@ -535,7 +535,7 @@ export class Slider extends Component<SliderStyleProps> {
   private dispatchCustomEvent(target: Selection, event: string, name: string) {
     target.on(event, (e: MouseEvent) => {
       e.stopPropagation();
-      this.dispatchEvent(new CustomEvent(name, { detail: e }));
+      this.dispatchEvent(new CustomEvent(name, { detail: e }) as any);
     });
   }
 
@@ -627,7 +627,7 @@ export class Slider extends Component<SliderStyleProps> {
     const evt = new CustomEvent('valuechange', {
       detail: { oldValue: internalOldValue, value },
     });
-    this.dispatchEvent(evt);
+    this.dispatchEvent(evt as any);
     onChange?.(value);
   };
 }

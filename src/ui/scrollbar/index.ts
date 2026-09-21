@@ -148,8 +148,8 @@ export class Scrollbar extends Component<ScrollbarStyleProps> {
         value: newValue,
       },
     };
-    this.dispatchEvent(new CustomEvent('scroll', evtVal));
-    this.dispatchEvent(new CustomEvent('valuechange', evtVal));
+    this.dispatchEvent(new CustomEvent('scroll', evtVal) as any);
+    this.dispatchEvent(new CustomEvent('valuechange', evtVal) as any);
   };
 
   public bindEvents() {
@@ -194,18 +194,18 @@ export class Scrollbar extends Component<ScrollbarStyleProps> {
   }
 
   private onThumbMouseenter = (e: CustomEvent) => {
-    this.dispatchEvent(new CustomEvent('thumbMouseenter', { detail: e.detail }));
+    this.dispatchEvent(new CustomEvent('thumbMouseenter', { detail: e.detail }) as any);
   };
 
   private onTrackMouseenter = (e: CustomEvent) => {
-    this.dispatchEvent(new CustomEvent('trackMouseenter', { detail: e.detail }));
+    this.dispatchEvent(new CustomEvent('trackMouseenter', { detail: e.detail }) as any);
   };
 
   private onThumbMouseleave = (e: CustomEvent) => {
-    this.dispatchEvent(new CustomEvent('thumbMouseleave', { detail: e.detail }));
+    this.dispatchEvent(new CustomEvent('thumbMouseleave', { detail: e.detail }) as any);
   };
 
   private onTrackMouseleave = (e: CustomEvent) => {
-    this.dispatchEvent(new CustomEvent('trackMouseleave', { detail: e.detail }));
+    this.dispatchEvent(new CustomEvent('trackMouseleave', { detail: e.detail }) as any);
   };
 }
