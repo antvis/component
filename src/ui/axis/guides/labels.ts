@@ -241,13 +241,6 @@ function renderLabel(
     ...labelStyle,
   });
 
-  // For HTML labels, adjust x position to center align.
-  if (label.nodeName === 'html') {
-    const bbox = label.getBBox();
-    const currentX = label.style.x || 0;
-    label.attr('x', currentX - bbox.width / 2);
-  }
-
   container.attr(groupStyle);
   return label;
 }
